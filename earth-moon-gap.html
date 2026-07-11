@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — The Planets Almost Fit Between Earth and the Moon</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --warn: #c1442d;
+    --warn-soft: rgba(193,68,45,0.12);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 980px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 980px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.4rem, 3.6vw, 2rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 68ch; }
+  #diagram-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.2rem 1rem 0.6rem;
+    overflow-x: auto;
+  }
+  #diagram { display: block; margin: 0 auto; min-width: 720px; }
+  .body-circle { }
+  .leader { stroke: var(--line); stroke-width: 1; }
+  .label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    fill: var(--ink-soft);
+  }
+  .label.endpoint { fill: var(--ink); font-weight: 600; }
+  .scale-note {
+    font-family: ui-monospace, monospace;
+    font-size: 11px;
+    fill: var(--ink-soft);
+  }
+  .overlap-tag {
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    fill: var(--warn);
+  }
+  .overlap-tag.fits { fill: var(--accent); }
+  .overlap-bracket { stroke: var(--warn); stroke-width: 1.5; fill: none; }
+  .overlap-bracket.fits { stroke: var(--accent); }
+
+  .toggle-row { display: flex; gap: 0.6rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .toggle-row button {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .toggle-row button:hover { border-color: var(--accent); }
+  .toggle-row button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .result-line {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .result-line.fits { color: var(--accent); }
+  .result-line.no-fit { color: var(--warn); }
+
+  .legend {
+    display: flex;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>The planets almost fit between Earth and the Moon</h1>
+  <p class="sub">You've probably seen the claim that every other planet in the solar system could fit in the gap between Earth and the Moon. Here it is drawn to a single consistent scale — both the planets and the gap itself. The Moon's distance isn't fixed, though, so try all three points in its orbit.</p>
+
+  <div class="toggle-row" id="toggle-row">
+    <button data-dist="363300">Closest — 363,300 km</button>
+    <button data-dist="384400" class="active">Average — 384,400 km</button>
+    <button data-dist="405500">Farthest — 405,500 km</button>
+  </div>
+
+  <div id="diagram-wrap">
+    <svg id="diagram"></svg>
+  </div>
+  <div id="result-line" class="result-line"></div>
+
+  <div class="caption">
+    <p><strong>At the Moon's average distance (384,400 km center to center), this doesn't quite work.</strong> The seven other planets, lined up edge to edge, add up to about 380,010 km. Subtract Earth's and the Moon's own radii from the gap — since planets obviously can't overlap either one — and there's only about 376,292 km of clear space. Neptune ends up roughly 3,718 km, less than 1%, too big to fit.</p>
+    <p>The claim isn't simply wrong, though — it depends on where the Moon happens to be that day. The Moon's orbit isn't a perfect circle: at its closest (perigee, ~363,300 km) the planets fall well short, but at its farthest (apogee, ~405,500 km) there's about 17,000 km to spare, comfortably true. A "well known fact" that's actually a coin flip depending on the date is about as on-brand as it gets for this site.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+  const PLANETS = [
+    { name: "Mercury", diam: 4879,   color: "#9c9184" },
+    { name: "Venus",   diam: 12104,  color: "#d9b978" },
+    { name: "Mars",    diam: 6779,   color: "#c1442d" },
+    { name: "Jupiter", diam: 139820, color: "#c98a4b" },
+    { name: "Saturn",  diam: 116460, color: "#d8c48a" },
+    { name: "Uranus",  diam: 50724,  color: "#8fc4c9" },
+    { name: "Neptune", diam: 49244,  color: "#3d6ea5" },
+  ];
+  const EARTH_DIAM = 12742;
+  const MOON_DIAM = 3474.8;
+
+  function render(distKm) {
+    const W = 1300; // px representing the full center-to-center distance
+    const scale = W / distKm;
+    const kmToPx = km => km * scale;
+
+    const earthR = kmToPx(EARTH_DIAM / 2);
+    const moonR = kmToPx(MOON_DIAM / 2);
+    const earthCx = earthR; // Earth's left edge sits at x=0
+    const moonCx = earthCx + W; // correctly offset from Earth's center, not from x=0
+
+    // Lay planets edge-to-edge starting right at Earth's surface.
+    let cursor = earthCx + earthR;
+    const placed = PLANETS.map(p => {
+      const r = kmToPx(p.diam / 2);
+      const cx = cursor + r;
+      cursor += r * 2;
+      return { ...p, cx, r };
+    });
+
+    const totalWidth = moonCx + moonR + 40;
+    const centerY = 260;
+    const bottomJupiter = centerY + Math.max(...placed.map(p => p.r));
+    const tickTopY = bottomJupiter + 20;
+    const labelY = tickTopY + 20;
+    const height = labelY + 90; // extra headroom for the callout text above
+
+    const svg = d3.select("#diagram");
+    svg.selectAll("*").remove();
+    svg.attr("viewBox", `0 0 ${totalWidth} ${height}`)
+      .attr("width", totalWidth)
+      .attr("height", height);
+
+    svg.append("line")
+      .attr("x1", 0).attr("x2", totalWidth)
+      .attr("y1", centerY).attr("y2", centerY)
+      .attr("stroke", "var(--line)");
+
+    function addBody(cx, r, color, name, isEndpoint) {
+      svg.append("circle")
+        .attr("class", "body-circle")
+        .attr("cx", cx).attr("cy", centerY).attr("r", r)
+        .attr("fill", color);
+      svg.append("line")
+        .attr("class", "leader")
+        .attr("x1", cx).attr("x2", cx)
+        .attr("y1", tickTopY).attr("y2", tickTopY + 8);
+      const label = svg.append("text")
+        .attr("class", isEndpoint ? "label endpoint" : "label")
+        .attr("x", 0).attr("y", 0)
+        .attr("text-anchor", "end")
+        .text(name);
+      label.attr("transform", `translate(${cx},${labelY}) rotate(-40)`);
+    }
+
+    addBody(earthCx, earthR, "#0e7c86", "Earth", true);
+    placed.forEach(p => addBody(p.cx, p.r, p.color, p.name, false));
+    addBody(moonCx, moonR, "#b9c0b2", "Moon", true);
+    // Give the Moon a crisp outline — at this scale it's often only ~10-25px
+    // across and can sit almost entirely inside Neptune's much larger
+    // circle, so it needs a stroke to stay visible against Neptune's fill.
+    svg.select("circle:last-of-type").attr("stroke", "var(--ink)").attr("stroke-width", 1);
+
+    const neptune = placed[placed.length - 1];
+    const neptuneRightEdge = neptune.cx + neptune.r;
+    const moonLeftEdge = moonCx - moonR;
+    const spareKm = Math.round((moonLeftEdge - neptuneRightEdge) / scale);
+    const fits = spareKm >= 0;
+
+    if (fits) {
+      // Real breathing room here (tens of thousands of km), so a plain
+      // bracket across the visible gap reads clearly on its own.
+      const y = centerY - Math.max(neptune.r, moonR) - 22;
+      svg.append("path")
+        .attr("class", "overlap-bracket fits")
+        .attr("d", `M${neptuneRightEdge},${y+8} L${neptuneRightEdge},${y} L${moonLeftEdge},${y} L${moonLeftEdge},${y+8}`);
+      // Anchored to grow leftward from the Moon's edge, like the no-fit
+      // callout below — a gap this size can sit near the canvas's right
+      // edge, and centered text risks clipping past the SVG boundary.
+      svg.append("text")
+        .attr("class", "overlap-tag fits")
+        .attr("x", moonLeftEdge)
+        .attr("y", y - 8)
+        .attr("text-anchor", "end")
+        .text(`${spareKm.toLocaleString()} km to spare — it fits`);
+    } else {
+      // The shortfall can be too small to see directly (sometimes only a
+      // few pixels), so mark the Moon's near edge with a guide line and
+      // explain the miss in a text callout placed in the clear space above,
+      // rather than trying to bracket a gap that may be barely visible.
+      const guideTopY = centerY - Math.max(neptune.r, moonR) - 70;
+      svg.append("line")
+        .attr("class", "overlap-bracket")
+        .attr("x1", moonLeftEdge).attr("x2", moonLeftEdge)
+        .attr("y1", guideTopY).attr("y2", tickTopY)
+        .attr("stroke-dasharray", "3 3");
+      const overlapKm = Math.abs(spareKm).toLocaleString();
+      const textLines = ["Moon's near edge →", `Neptune's far edge lands ${overlapKm} km`, "past this line — it doesn't fit"];
+      textLines.forEach((line, i) => {
+        svg.append("text")
+          .attr("class", "overlap-tag")
+          .attr("x", moonLeftEdge)
+          .attr("y", guideTopY - 10 - (textLines.length - 1 - i) * 15)
+          .attr("text-anchor", "end")
+          .text(line);
+      });
+    }
+
+    svg.append("text")
+      .attr("class", "scale-note")
+      .attr("x", totalWidth / 2).attr("y", height - 6)
+      .attr("text-anchor", "middle")
+      .text("Same scale throughout: planet sizes and the Earth–Moon gap are both to scale, in kilometers.");
+
+    const resultEl = document.getElementById("result-line");
+    resultEl.className = "result-line " + (fits ? "fits" : "no-fit");
+    resultEl.textContent = fits
+      ? `Result: fits, with ${spareKm.toLocaleString()} km to spare.`
+      : `Result: doesn't fit — short by ${Math.abs(spareKm).toLocaleString()} km.`;
+  }
+
+  render(384400);
+
+  document.querySelectorAll("#toggle-row button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#toggle-row button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      render(Number(btn.dataset.dist));
+    });
+  });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Africa Is Bigger Than You Think</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --africa: #d6dbd0;
+    --africa-line: #b9c0b2;
+    --usa: #1f6f8b;
+    --china: #c1442d;
+    --india: #d9a441;
+    --japan: #5b4a8a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 940px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 940px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 62ch; }
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  #map { width: 100%; max-width: 640px; height: auto; display: block; }
+  .africa { fill: var(--africa); stroke: var(--africa-line); stroke-width: 0.6; }
+  .overlay { fill-opacity: 0.82; stroke: #fff; stroke-width: 1; }
+  .overlay-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 14px;
+    font-weight: 700;
+    fill: #fff;
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: rgba(28,39,51,0.45);
+    stroke-width: 3px;
+  }
+  .tally {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.2rem;
+    font-size: 0.9rem;
+  }
+  .tally td { padding: 0.5rem 0.8rem 0.5rem 0; border-bottom: 1px solid var(--line); }
+  .tally td:last-child { text-align: right; font-family: ui-monospace, monospace; }
+  .tally .swatch { display: inline-block; width: 10px; height: 10px; margin-right: 0.5rem; }
+  .tally tr.total td { font-weight: 700; border-bottom: none; }
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>Africa is bigger than you think</h1>
+  <p class="sub">The United States, China, and Japan — every shape drawn at true, equal-area scale — all placed inside Africa at once. And there's still room for India, most of Europe, Mexico, and Alaska in the space left over.</p>
+
+  <div id="map-wrap">
+    <svg id="map" viewBox="0 0 760 820"></svg>
+  </div>
+
+  <table class="tally">
+    <tr><td><span class="swatch" style="background:var(--usa)"></span>United States (lower 48 states)</td><td>8.1M km²</td></tr>
+    <tr><td><span class="swatch" style="background:var(--china)"></span>China</td><td>9.6M km²</td></tr>
+    <tr><td><span class="swatch" style="background:var(--japan)"></span>Japan</td><td>0.4M km²</td></tr>
+    <tr><td>Room still left inside Africa — enough for India (≈3.3M), most of Europe (≈5.2M), Mexico (≈2.0M), and Alaska (≈1.7M)</td><td>≈12.3M km²</td></tr>
+    <tr class="total"><td>Africa</td><td>30.4M km²</td></tr>
+  </table>
+
+  <div class="caption">
+    <p><strong>Why does this feel wrong?</strong> Because the world map most people grew up with — the Mercator projection — inflates land the farther it is from the equator. The US, China, Europe, and Japan all sit well north, so they get stretched; Africa sits on the equator, so it doesn't. On a Mercator map, Africa and Greenland look comparable. In reality, Africa is about 14 times larger than Greenland.</p>
+    <p>Every shape on this map is drawn with an equal-area projection, which is the whole point: same rules for everyone, no latitude bonus.</p>
+    <p class="source">Land areas: CIA World Factbook, rounded. Country shapes: Natural Earth. Each shape is projected with its own equal-area projection centered on that country, all at identical scale — so shapes appear as they do in an atlas of their own region, and areas are directly comparable.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  const width = 760, height = 820;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+
+  const feats = COUNTRIES_GEOJSON.features;
+  const byIso = iso => feats.find(f => f.properties.ISO_A3 === iso);
+  const africaFeats = feats.filter(f => f.properties.CONTINENT === "Africa");
+
+  // The full US shape spans ~half the globe east-west (the Aleutian chain
+  // reaches nearly to Asia), so drawn whole it's physically wider than
+  // Africa and can't be overlaid as one piece. We show the lower 48 and
+  // account for Alaska honestly in the tally instead.
+  function lower48(usFeature) {
+    const polys = usFeature.geometry.coordinates.filter(poly => {
+      const [lon, lat] = poly[0][0];
+      return lon > -130 && lat < 50;
+    });
+    return {
+      type: "Feature",
+      properties: usFeature.properties,
+      geometry: { type: "MultiPolygon", coordinates: polys },
+    };
+  }
+
+  // Base projection: equal-area, fitted to Africa. Its scale is the one
+  // true scale for the whole page — every overlay reuses it, which is
+  // what makes the size comparison honest.
+  const base = d3.geoAzimuthalEqualArea()
+    .rotate([-17, -1.5])
+    .fitSize([width, height], { type: "FeatureCollection", features: africaFeats });
+  const SCALE = base.scale();
+  const basePath = d3.geoPath(base);
+
+  svg.append("g")
+    .selectAll("path")
+    .data(africaFeats)
+    .join("path")
+    .attr("class", "africa")
+    .attr("d", basePath);
+
+  // Each overlay country gets its own equal-area projection centered on
+  // itself (so its shape looks like it does in an atlas of its region),
+  // at the SAME scale as the Africa projection, hand-placed via translate.
+  const OVERLAYS = [
+    { iso: "USA", label: "United States", color: "var(--usa)",   pos: [330, 190], rotateTo: [98, -39] },
+    { iso: "CHN", label: "China",         color: "var(--china)", pos: [430, 500], rotateTo: [-104, -36] },
+    { iso: "JPN", label: "Japan",         color: "var(--japan)", pos: [424, 748], rotateTo: [-138, -37, -50] },
+  ];
+
+  OVERLAYS.forEach(o => {
+    const feat = o.iso === "USA" ? lower48(byIso(o.iso)) : byIso(o.iso);
+    const proj = d3.geoAzimuthalEqualArea()
+      .rotate(o.rotateTo)
+      .scale(SCALE)
+      .translate(o.pos);
+    const p = d3.geoPath(proj);
+    svg.append("path")
+      .datum(feat)
+      .attr("class", "overlay")
+      .attr("fill", o.color)
+      .attr("d", p);
+    svg.append("text")
+      .attr("class", "overlay-label")
+      .attr("x", o.pos[0])
+      .attr("y", o.pos[1] + 5)
+      .text(o.label);
+  });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

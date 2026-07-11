@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — The 2026 World Cup, Round by Round</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --alive: #0e7c86;
+    --alive-soft: #7fb5bc;
+    --out: #c1442d;
+    --out-soft: #e0b4aa;
+    --gone: #d6dbd0;
+    --gone-line: #c3c9bd;
+    --pending: #d9a441;
+    --gold: #b8860b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 1000px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.2rem; max-width: 66ch; }
+  .updated {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+  }
+
+  .tabs { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1rem; }
+  .tabs button {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .tabs button:hover { border-color: var(--accent); }
+  .tabs button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+    position: relative;
+  }
+  #map { width: 100%; height: auto; display: block; }
+  .country { stroke-width: 0.4; cursor: pointer; }
+  .marker { stroke: #fff; stroke-width: 1; cursor: pointer; }
+  .cinderella-ring { fill: none; stroke: var(--gold); stroke-width: 2; pointer-events: none; }
+
+  #tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: 3px;
+    max-width: 240px;
+    display: none;
+    z-index: 5;
+    line-height: 1.4;
+  }
+  #tooltip .flag { font-size: 1.05rem; margin-right: 0.3rem; }
+  #tooltip .pop { color: #b9c5cf; font-size: 0.72rem; }
+  #tooltip .status { color: #8fd4da; font-size: 0.72rem; }
+
+  .legend {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    margin-top: 0.9rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+  .legend .key { display: inline-block; width: 11px; height: 11px; margin-right: 0.35rem; vertical-align: middle; }
+  .legend .ring { border: 2px solid var(--gold); background: transparent; border-radius: 50%; }
+
+  .stage-note {
+    margin-top: 1.2rem;
+    padding: 1rem 1.2rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+  .stage-note strong { color: var(--ink); }
+  .stage-note p { margin: 0 0 0.5rem; }
+  .stage-note p:last-child { margin-bottom: 0; }
+
+  .source {
+    margin-top: 1rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>The 2026 World Cup, round by round</h1>
+  <p class="sub">Start with every country and territory on Earth that's allowed to dream about the World Cup, then watch the map empty out, round by round — with the upsets and Cinderella runs marked in gold.</p>
+  <div class="updated">Tournament in progress — updated through the morning of July 11, 2026 (two quarterfinals play today).</div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div id="map-wrap">
+    <svg id="map" viewBox="0 0 960 500"></svg>
+    <div id="tooltip"></div>
+  </div>
+  <div class="legend" id="legend"></div>
+
+  <div class="stage-note" id="stage-note"></div>
+
+  <div class="source">Populations: Natural Earth estimates (approximate, 2019) — hover any country. Results: FIFA / ESPN / Yahoo Sports match reports. The United Kingdom competes as four separate FIFA teams; England's run colors the UK shape, Scotland is the marked dot. Cape Verde and Curaçao are drawn as dots — too small for this map scale, which for Curaçao is rather the point.</div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  // ---- Tournament data (edit here as results come in) ----
+  // reached: how far the team got. 1 = out in groups, 2 = out in round of 32,
+  // 3 = out in round of 16, 4 = out in quarterfinals, 4.5 = in a quarterfinal
+  // being played today, 5 = in the semifinals.
+  const TEAMS = {
+    // Semifinalists
+    FRA: { name: "France", reached: 5 },
+    ESP: { name: "Spain", reached: 5 },
+    // Quarterfinals — decided
+    MAR: { name: "Morocco", reached: 4, cinderella: "Beat the Netherlands on penalties, crushed co-host Canada 3–0" },
+    BEL: { name: "Belgium", reached: 4 },
+    // Quarterfinals — playing today (July 11)
+    NOR: { name: "Norway", reached: 4.5, cinderella: "First World Cup since 1998 — knocked out Brazil 2–1" },
+    ENG: { name: "England", reached: 4.5 },
+    ARG: { name: "Argentina", reached: 4.5 },
+    CHE: { name: "Switzerland", reached: 4.5 },
+    // Out in round of 16
+    CAN: { name: "Canada", reached: 3 }, PRY: { name: "Paraguay", reached: 3, cinderella: "Knocked out Germany on penalties" },
+    BRA: { name: "Brazil", reached: 3 }, MEX: { name: "Mexico", reached: 3 },
+    PRT: { name: "Portugal", reached: 3 }, USA: { name: "United States", reached: 3 },
+    EGY: { name: "Egypt", reached: 3 }, COL: { name: "Colombia", reached: 3 },
+    // Out in round of 32
+    ZAF: { name: "South Africa", reached: 2 }, JPN: { name: "Japan", reached: 2 },
+    DEU: { name: "Germany", reached: 2 }, NLD: { name: "Netherlands", reached: 2 },
+    CIV: { name: "Côte d'Ivoire", reached: 2 }, SWE: { name: "Sweden", reached: 2 },
+    ECU: { name: "Ecuador", reached: 2 }, COD: { name: "DR Congo", reached: 2 },
+    SEN: { name: "Senegal", reached: 2 }, BIH: { name: "Bosnia & Herzegovina", reached: 2 },
+    AUT: { name: "Austria", reached: 2 }, HRV: { name: "Croatia", reached: 2 },
+    DZA: { name: "Algeria", reached: 2 }, AUS: { name: "Australia", reached: 2 },
+    CPV: { name: "Cape Verde", reached: 2, cinderella: "First World Cup ever — held Spain in the groups, took Argentina to extra time" },
+    GHA: { name: "Ghana", reached: 2 },
+    // Out in group stage
+    IRQ: { name: "Iraq", reached: 1 }, IRN: { name: "Iran", reached: 1 },
+    JOR: { name: "Jordan", reached: 1, cinderella: "First World Cup ever" },
+    KOR: { name: "South Korea", reached: 1 }, QAT: { name: "Qatar", reached: 1 },
+    SAU: { name: "Saudi Arabia", reached: 1 },
+    UZB: { name: "Uzbekistan", reached: 1, cinderella: "First World Cup ever" },
+    TUN: { name: "Tunisia", reached: 1 },
+    CUW: { name: "Curaçao", reached: 1, cinderella: "Smallest nation ever at a World Cup — about 156,000 people" },
+    HTI: { name: "Haiti", reached: 1 }, PAN: { name: "Panama", reached: 1 },
+    URY: { name: "Uruguay", reached: 1 }, NZL: { name: "New Zealand", reached: 1 },
+    CZE: { name: "Czechia", reached: 1 }, SCO: { name: "Scotland", reached: 1 },
+    TUR: { name: "Türkiye", reached: 1 },
+  };
+
+  // Small or sub-national teams that need their own dot on the map.
+  const MARKERS = [
+    { code: "CPV", lon: -23.6, lat: 15.1, flag: "🇨🇻", pop: "≈600,000" },
+    { code: "CUW", lon: -69.0, lat: 12.2, flag: "🇨🇼", pop: "≈156,000" },
+    { code: "SCO", lon: -4.2, lat: 57.3, flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", pop: "≈5.5 million" },
+  ];
+
+  // Natural Earth polygons that are NOT FIFA members (everything else on
+  // the map is). ISO_A2 fixes cover Natural Earth's "-99" data quirks.
+  const NON_FIFA = new Set(["GRL", "SAH", "ATA", "ATF", "FLK", "CYN", "SOL", "KAS"]);
+  const ISO2_FIX = { FRA: "FR", NOR: "NO", ESP: "ES", GBR: "GB" };
+
+  const STAGES = [
+    { id: 0, label: "Everyone eligible", legendAlive: "FIFA member (eligible to enter)" },
+    { id: 1, label: "The 48 qualifiers", legendAlive: "Qualified for the tournament" },
+    { id: 2, label: "Knockout 32", legendAlive: "Reached the knockout rounds", legendOut: "Out in the group stage" },
+    { id: 3, label: "Round of 16", legendAlive: "Reached the round of 16", legendOut: "Out in the round of 32" },
+    { id: 4, label: "Quarterfinals", legendAlive: "Reached the quarterfinals", legendOut: "Out in the round of 16" },
+    { id: 5, label: "Semifinals", legendAlive: "Through to the semifinals", legendOut: "Out in the quarterfinals" },
+  ];
+
+  const NOTES = [
+    `<p><strong>211 members, one trophy.</strong> FIFA has more members than the United Nations (193) — because you don't have to be a country. England, Scotland, Wales, and Northern Ireland enter separately; so do territories like Curaçao, Puerto Rico, and Hong Kong. Hover any country for its flag and population — eligibility spans from India (1.4 billion people) to members smaller than a mid-size town.</p>`,
+    `<p><strong>48 teams — the biggest World Cup ever</strong> (up from 32 in 2022). Four teams marked in gold made it for the first time in their history: Jordan, Uzbekistan, Cape Verde, and Curaçao — the smallest nation ever to reach a World Cup, with fewer people than Springfield, Missouri.</p>`,
+    `<p><strong>32 teams survived the groups.</strong> The shock of the round: <strong>Uruguay</strong> — two-time champions — went out on a goalkeeping error against Spain. Meanwhile Cape Verde held Spain to a draw and Curaçao took a point off Ecuador. All three co-hosts (USA, Canada, Mexico) advanced.</p>`,
+    `<p><strong>The round of 32 was a bloodbath for former champions.</strong> <strong>Germany</strong> fell to Paraguay on penalties — extending a 12-year run without a World Cup knockout win. The <strong>Netherlands</strong> lost a shootout to Morocco. Cape Verde twice pulled level with champions Argentina before losing in the 111th minute.</p>`,
+    `<p><strong>Eight remained — and Brazil wasn't one of them.</strong> The upset of the tournament so far: <strong>Norway 2–1 Brazil</strong>, in Norway's first World Cup since 1998. Morocco thrashed co-host Canada 3–0, Belgium put four past the US, and England edged Mexico 3–2.</p>`,
+    `<p><strong>France and Spain are through.</strong> France beat Morocco 2–0 (a rematch of the 2022 semifinal), and Spain ended Belgium's run. The last two semifinal spots are being decided <strong>today, July 11</strong>: Norway–England and Argentina–Switzerland. If Norway wins, one of the great Cinderella runs in World Cup history rolls on.</p>`,
+  ];
+
+  // ---- Rendering ----
+  const width = 960, height = 500;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+  const projection = d3.geoEqualEarth().fitSize([width, height], { type: "Sphere" });
+  const path = d3.geoPath(projection);
+  const tooltip = document.getElementById("tooltip");
+
+  const flagOf = p => {
+    const iso2 = ISO2_FIX[p.ADM0_A3] || p.ISO_A2;
+    if (!iso2 || iso2 === "-99") return "";
+    return iso2.toUpperCase().replace(/./g, ch => String.fromCodePoint(127397 + ch.charCodeAt(0)));
+  };
+  const fmtPop = n => n >= 1e9 ? (n / 1e9).toFixed(2) + " billion" : n >= 1e6 ? (n / 1e6).toFixed(1) + " million" : Math.round(n / 1000) + ",000";
+
+  function statusText(code, stage) {
+    const t = TEAMS[code];
+    if (!t) return stage === 0 ? "FIFA member — did not qualify this time" : "Did not qualify";
+    if (t.reached >= 5) return "Semifinalist";
+    if (t.reached === 4.5) return "In the quarterfinals — playing today";
+    if (t.reached === 4) return "Eliminated in the quarterfinals";
+    if (t.reached === 3) return "Eliminated in the round of 16";
+    if (t.reached === 2) return "Eliminated in the round of 32";
+    return "Eliminated in the group stage";
+  }
+
+  function colorFor(code, isFifa, stage) {
+    const t = TEAMS[code];
+    if (stage === 0) return isFifa ? "var(--alive-soft)" : "var(--gone)";
+    if (!t) return "var(--gone)";
+    if (stage === 1) return "var(--alive)";
+    const threshold = stage;
+    if (t.reached === 4.5 && stage === 5) return "var(--pending)";
+    if (t.reached >= threshold) return "var(--alive)";
+    if (t.reached >= threshold - 1) return "var(--out-soft)";
+    return "var(--gone)";
+  }
+
+  let currentStage = 0;
+  const countryPaths = svg.append("g");
+  const markerGroup = svg.append("g");
+
+  function showCountryTip(event, d) {
+    const p = d.properties;
+    const code = p.ADM0_A3;
+    const isFifa = !NON_FIFA.has(code);
+    let name = p.NAME, extra = "";
+    if (code === "GBR") {
+      name = "United Kingdom";
+      extra = "<div class='status'>Enters as 4 teams — England reached the quarterfinals; Scotland (dot) exited in groups</div>";
+    }
+    const teamCode = code === "GBR" ? "ENG" : code;
+    tooltip.style.display = "block";
+    tooltip.innerHTML = `<span class="flag">${flagOf(p)}</span><strong>${name}</strong>
+      <div class="pop">Population ≈ ${fmtPop(p.POP_EST)}</div>
+      ${extra || `<div class="status">${isFifa ? statusText(teamCode, currentStage) : "Not a FIFA member"}</div>`}`;
+    const wrap = document.getElementById("map-wrap").getBoundingClientRect();
+    tooltip.style.left = Math.min(event.clientX - wrap.left + 14, wrap.width - 250) + "px";
+    tooltip.style.top = (event.clientY - wrap.top + 14) + "px";
+  }
+
+  countryPaths.selectAll("path")
+    .data(COUNTRIES_GEOJSON.features.filter(f => f.properties.ADM0_A3 !== "ATA"))
+    .join("path")
+    .attr("class", "country")
+    .attr("d", path)
+    .attr("stroke", "var(--paper-raised)")
+    .on("mousemove", showCountryTip)
+    .on("click", showCountryTip) // touch devices have no hover — tap works instead
+    .on("mouseleave", () => { tooltip.style.display = "none"; });
+
+  function renderStage(stage) {
+    currentStage = stage;
+
+    countryPaths.selectAll("path")
+      .attr("fill", d => {
+        const code = d.properties.ADM0_A3;
+        const teamCode = code === "GBR" ? "ENG" : code;
+        return colorFor(teamCode, !NON_FIFA.has(code), stage);
+      });
+
+    // Markers (Cape Verde, Curaçao, Scotland) + Cinderella rings
+    markerGroup.selectAll("*").remove();
+    if (stage >= 1) {
+      MARKERS.forEach(m => {
+        const [x, y] = projection([m.lon, m.lat]);
+        const fill = colorFor(m.code, true, stage);
+        const circ = markerGroup.append("circle")
+          .attr("class", "marker")
+          .attr("cx", x).attr("cy", y).attr("r", 5)
+          .attr("fill", fill);
+        const showMarkerTip = event => {
+          const t = TEAMS[m.code];
+          tooltip.style.display = "block";
+          tooltip.innerHTML = `<span class="flag">${m.flag}</span><strong>${t.name}</strong>
+            <div class="pop">Population ${m.pop}</div>
+            <div class="status">${statusText(m.code, stage)}</div>
+            ${t.cinderella ? `<div class="status">★ ${t.cinderella}</div>` : ""}`;
+          const wrap = document.getElementById("map-wrap").getBoundingClientRect();
+          tooltip.style.left = Math.min(event.clientX - wrap.left + 14, wrap.width - 250) + "px";
+          tooltip.style.top = (event.clientY - wrap.top + 14) + "px";
+        };
+        circ
+          .on("mousemove", showMarkerTip)
+          .on("click", showMarkerTip)
+          .on("mouseleave", () => { tooltip.style.display = "none"; });
+      });
+
+      // Gold rings on Cinderella stories (visible while they're on the board)
+      Object.entries(TEAMS).forEach(([code, t]) => {
+        if (!t.cinderella) return;
+        if (stage >= 2 && t.reached < stage - 1) return; // long gone at this stage
+        let x, y;
+        const m = MARKERS.find(mm => mm.code === code);
+        if (m) { [x, y] = projection([m.lon, m.lat]); }
+        else {
+          const feat = COUNTRIES_GEOJSON.features.find(f => f.properties.ADM0_A3 === code);
+          if (!feat) return;
+          [x, y] = path.centroid(feat);
+        }
+        markerGroup.append("circle")
+          .attr("class", "cinderella-ring")
+          .attr("cx", x).attr("cy", y).attr("r", 11);
+      });
+    }
+
+    // Legend
+    const s = STAGES[stage];
+    let legendHtml = `<div><span class="key" style="background:${stage === 0 ? "var(--alive-soft)" : "var(--alive)"}"></span>${s.legendAlive}</div>`;
+    if (s.legendOut) legendHtml += `<div><span class="key" style="background:var(--out-soft)"></span>${s.legendOut}</div>`;
+    if (stage === 5) legendHtml += `<div><span class="key" style="background:var(--pending)"></span>Quarterfinal being played today</div>`;
+    if (stage >= 1) legendHtml += `<div><span class="key ring"></span>Cinderella story (hover for why)</div>`;
+    legendHtml += `<div><span class="key" style="background:var(--gone)"></span>${stage === 0 ? "Not a FIFA member" : stage === 1 ? "Did not qualify" : "Out in earlier rounds / did not qualify"}</div>`;
+    document.getElementById("legend").innerHTML = legendHtml;
+
+    document.getElementById("stage-note").innerHTML = NOTES[stage];
+    document.querySelectorAll("#tabs button").forEach((b, i) => b.classList.toggle("active", i === stage));
+  }
+
+  const tabsEl = document.getElementById("tabs");
+  STAGES.forEach(s => {
+    const b = document.createElement("button");
+    b.textContent = s.label;
+    b.addEventListener("click", () => renderStage(s.id));
+    tabsEl.appendChild(b);
+  });
+
+  renderStage(0);
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

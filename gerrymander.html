@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Same Voters, Three Different Winners</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --blue: #1f6f8b;
+    --blue-soft: #cfe3e8;
+    --red: #c1442d;
+    --red-soft: #f0d9d2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 980px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 980px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1rem; max-width: 68ch; }
+
+  .tally {
+    display: flex;
+    gap: 1.6rem;
+    align-items: center;
+    flex-wrap: wrap;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 0.9rem 1.2rem;
+    margin: 1rem 0 2rem;
+    font-size: 0.92rem;
+  }
+  .tally b { font-family: ui-monospace, monospace; }
+  .tally .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:0.4rem; vertical-align:middle; }
+
+  .maps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.6rem;
+  }
+  @media (max-width: 760px) {
+    .maps { grid-template-columns: 1fr; }
+  }
+  .map-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+  }
+  .map-card h2 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 650;
+    margin: 0 0 0.15rem;
+  }
+  .map-card .map-note {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin: 0 0 0.8rem;
+  }
+  .grid6 {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    aspect-ratio: 1;
+    width: 100%;
+  }
+  .cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: ui-monospace, monospace;
+    font-size: 9px;
+  }
+  .cell.B { background: var(--blue-soft); color: var(--blue); }
+  .cell.R { background: var(--red-soft); color: var(--red); }
+
+  .result {
+    margin-top: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    font-family: ui-monospace, monospace;
+    font-size: 0.85rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--line);
+  }
+  .result .seats-b, .result .seats-r { font-weight: 600; }
+  .result .win { text-decoration: underline; text-underline-offset: 3px; }
+
+  .caption {
+    margin-top: 2rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>Same 36 voters. Three elections. Three different winners.</h1>
+  <p class="sub">Every cell below is a fixed, unchanging voter. Nobody moves, nobody changes their mind. The only thing that changes between these three maps is where the district lines are drawn.</p>
+
+  <div class="tally">
+    <div><span class="dot" style="background:var(--blue)"></span><b>20 Blue voters</b> — 55.6% of the vote</div>
+    <div><span class="dot" style="background:var(--red)"></span><b>16 Red voters</b> — 44.4% of the vote</div>
+  </div>
+
+  <div class="maps" id="maps"></div>
+
+  <div class="caption">
+    <p><strong>Notice how misshapen Maps B and C are</strong> compared to Map A's clean squares. That's not an accident — in real redistricting, oddly-shaped, snaking districts are usually the tell that lines were drawn to engineer an outcome rather than to group nearby voters together.</p>
+    <p>Map B shows the more extreme version of this: Red, with only 44% of the vote, wins 75% of the seats. That's not a hypothetical — deliberately drawing districts to lock in a result like this, using exactly this kind of packing and cracking, is a real and common practice.</p>
+  </div>
+</main>
+
+<script>
+  const DATA = {
+    party: [
+      ["B","B","B","R","R","R"],
+      ["B","B","B","R","R","B"],
+      ["B","B","R","R","B","B"],
+      ["R","R","B","B","B","B"],
+      ["R","R","R","B","B","B"],
+      ["R","R","R","R","B","B"],
+    ],
+    maps: [
+      {
+        label: "Map A",
+        note: "Compact square districts",
+        districts: [[0,0,0,1,1,1],[0,0,0,1,1,1],[0,0,0,1,1,1],[2,2,2,3,3,3],[2,2,2,3,3,3],[2,2,2,3,3,3]],
+      },
+      {
+        label: "Map B",
+        note: "Drawn to favor Red",
+        districts: [[2,0,0,0,0,3],[2,0,0,0,0,3],[2,2,1,0,3,3],[2,1,1,3,3,3],[2,2,1,1,1,3],[2,2,1,1,1,3]],
+      },
+      {
+        label: "Map C",
+        note: "Drawn to favor Blue",
+        districts: [[3,0,0,0,0,0],[3,3,1,1,0,0],[3,3,1,1,1,0],[3,1,1,1,1,0],[3,2,2,2,2,2],[3,3,2,2,2,2]],
+      },
+    ],
+  };
+
+  const ROWS = 6, COLS = 6;
+  const THICK = "2.5px solid var(--ink)";
+  const THIN = "1px solid rgba(255,255,255,0.5)";
+
+  function districtIdAt(districtGrid, r, c) {
+    if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return null;
+    return districtGrid[r][c];
+  }
+
+  function seatResults(districtGrid) {
+    const tally = {}; // districtId -> {B,R}
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        const d = districtGrid[r][c];
+        const p = DATA.party[r][c];
+        tally[d] = tally[d] || { B: 0, R: 0 };
+        tally[d][p]++;
+      }
+    }
+    let bSeats = 0, rSeats = 0;
+    Object.values(tally).forEach(t => { t.B > t.R ? bSeats++ : rSeats++; });
+    return { bSeats, rSeats };
+  }
+
+  const mapsEl = document.getElementById("maps");
+
+  DATA.maps.forEach(map => {
+    const card = document.createElement("div");
+    card.className = "map-card";
+
+    const h2 = document.createElement("h2");
+    h2.textContent = map.label;
+    const noteEl = document.createElement("div");
+    noteEl.className = "map-note";
+    noteEl.textContent = map.note;
+
+    const gridEl = document.createElement("div");
+    gridEl.className = "grid6";
+
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        const party = DATA.party[r][c];
+        const myDistrict = map.districts[r][c];
+        const cell = document.createElement("div");
+        cell.className = `cell ${party}`;
+        cell.textContent = party;
+        cell.style.borderTop = districtIdAt(map.districts, r - 1, c) === myDistrict ? THIN : THICK;
+        cell.style.borderBottom = districtIdAt(map.districts, r + 1, c) === myDistrict ? THIN : THICK;
+        cell.style.borderLeft = districtIdAt(map.districts, r, c - 1) === myDistrict ? THIN : THICK;
+        cell.style.borderRight = districtIdAt(map.districts, r, c + 1) === myDistrict ? THIN : THICK;
+        gridEl.appendChild(cell);
+      }
+    }
+
+    const { bSeats, rSeats } = seatResults(map.districts);
+    const result = document.createElement("div");
+    result.className = "result";
+    result.innerHTML = `
+      <span class="seats-b" style="color:var(--blue)">Blue ${bSeats}${bSeats > rSeats ? ' <span class="win">wins</span>' : ''}</span>
+      <span class="seats-r" style="color:var(--red)">Red ${rSeats}${rSeats > bSeats ? ' <span class="win">wins</span>' : ''}</span>
+    `;
+
+    card.append(h2, noteEl, gridEl, result);
+    mapsEl.appendChild(card);
+  });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Closer to the Space Station Than to Anyone on Earth</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --land: #d6dbd0;
+    --land-line: #b9c0b2;
+    --ring-iss: #c1442d;
+    --ring-land: #0e7c86;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 900px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 900px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 60ch; }
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  #map { width: 100%; max-width: 640px; height: auto; display: block; }
+  .sphere { fill: var(--paper); }
+  .graticule { fill: none; stroke: var(--line); stroke-width: 0.5; }
+  .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.5; }
+  .land-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    fill: var(--ink-soft);
+    text-anchor: middle;
+  }
+  .outline { fill: none; stroke: var(--ink); stroke-width: 1; opacity: 0.25; }
+  .ring { fill: none; stroke-width: 2; stroke-dasharray: 4 3; }
+  .ring.iss { stroke: var(--ring-iss); }
+  .ring.land { stroke: var(--ring-land); }
+  .ring-label { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; text-anchor: middle; }
+  .ring-label.iss { fill: var(--ring-iss); }
+  .ring-label.land { fill: var(--ring-land); }
+  .marker circle { fill: var(--ink); stroke: var(--paper-raised); stroke-width: 2; }
+  .marker text { font-family: ui-monospace, monospace; font-size: 11px; fill: var(--ink); }
+  .legend {
+    display: flex;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .legend span.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 0.4rem; vertical-align: middle; }
+  .caption {
+    margin-top: 1.2rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>At Point Nemo, the closest people are usually in orbit</h1>
+  <p class="sub">This map is centered on Point Nemo and drawn so that distance from the center is true to scale in every direction — the two rings below are the same rings you'd draw with a compass on a globe.</p>
+
+  <div id="map-wrap">
+    <svg id="map" viewBox="0 0 700 700"></svg>
+  </div>
+
+  <div class="legend">
+    <div><span class="swatch" style="background:var(--ring-iss)"></span>International Space Station altitude — 408 km straight up</div>
+    <div><span class="swatch" style="background:var(--ring-land)"></span>Nearest other humans — ~2,688 km by ship</div>
+  </div>
+
+  <div class="caption">
+    <p><strong>Point Nemo</strong> is the spot in the ocean farthest from any land — the "oceanic pole of inaccessibility." The nearest inhabited land is roughly 2,688 km away, days by boat. But the International Space Station orbits only about 408 km up, and its path regularly crosses directly overhead.</p>
+    <p>Those are two different kinds of distance — one along the Earth's surface, one straight up — which isn't a fair apples-to-apples comparison. It's shown to scale here anyway, because that's exactly what makes it stick: for a person standing at Point Nemo, the closest fellow humans are, quite often, six astronauts moving at 28,000 km/h a few hundred kilometers overhead.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  const POINT_NEMO = { lon: -123.3933, lat: -48.8767, name: "Point Nemo" };
+  const NEAREST_LAND_KM = 2688;
+  const ISS_ALTITUDE_KM = 408;
+  const EARTH_RADIUS_KM = 6371;
+
+  const width = 700, height = 700;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+
+  // Azimuthal equidistant: unlike the recentered map we built for Kiritimati,
+  // this projection makes straight-line distance from the center exactly
+  // proportional to true real-world distance — which is what lets us draw
+  // the ISS-altitude and nearest-land rings accurately below.
+  //
+  // We deliberately zoom in tight around Point Nemo (rather than fitting the
+  // whole globe) so the 2,688 km ring fills most of the frame — that's what
+  // makes the tiny ISS ring inside it actually read as dramatically small,
+  // instead of both rings shrinking into invisibility at whole-world scale.
+  const VIEW_KM = 7200;
+  const viewRadiusPx = Math.min(width, height) / 2 * 0.94;
+  const scale = viewRadiusPx / (VIEW_KM / EARTH_RADIUS_KM);
+
+  const projection = d3.geoAzimuthalEquidistant()
+    .rotate([-POINT_NEMO.lon, -POINT_NEMO.lat])
+    .scale(scale)
+    .translate([width / 2, height / 2]);
+
+  const path = d3.geoPath(projection);
+  const graticule = d3.geoGraticule10();
+  const kmToPx = km => scale * (km / EARTH_RADIUS_KM);
+  const [cx, cy] = projection([POINT_NEMO.lon, POINT_NEMO.lat]);
+
+  svg.append("path").datum({ type: "Sphere" }).attr("class", "sphere").attr("d", path);
+  svg.append("path").datum(graticule).attr("class", "graticule").attr("d", path);
+
+  // COUNTRIES_GEOJSON comes from data/countries.js (loaded via <script> above).
+  // We use a plain <script> tag instead of fetching the file, because browsers
+  // block that kind of fetch when a page is opened directly from disk.
+  svg.append("g")
+    .selectAll("path")
+    .data(COUNTRIES_GEOJSON.features)
+    .join("path")
+    .attr("class", "land")
+    .attr("d", path);
+
+  svg.append("path").datum({ type: "Sphere" }).attr("class", "outline").attr("d", path);
+
+  // Label the Antarctic coastline directly — it's the only land close enough
+  // to appear at this zoom, and most people won't recognize its silhouette
+  // on sight the way they would South America or New Zealand.
+  const LAND_LABELS = [
+    { name: "Antarctica", lon: -108, lat: -73 },
+    { name: "Chile", lon: -74, lat: -46 },
+    { name: "Australia", lon: 147, lat: -42.5 },
+  ];
+  LAND_LABELS.forEach(({ name, lon, lat }) => {
+    const [x, y] = projection([lon, lat]);
+    svg.append("text")
+      .attr("class", "land-label")
+      .attr("x", x)
+      .attr("y", y)
+      .text(name);
+  });
+
+  const ringsGroup = svg.append("g");
+
+  const landR = kmToPx(NEAREST_LAND_KM);
+  ringsGroup.append("circle").attr("class", "ring land").attr("cx", cx).attr("cy", cy).attr("r", landR);
+  ringsGroup.append("text").attr("class", "ring-label land")
+    .attr("x", cx).attr("y", cy - landR - 8)
+    .text("2,688 km — nearest land");
+
+  const issR = kmToPx(ISS_ALTITUDE_KM);
+  ringsGroup.append("circle").attr("class", "ring iss").attr("cx", cx).attr("cy", cy).attr("r", issR);
+  ringsGroup.append("text").attr("class", "ring-label iss")
+    .attr("x", cx).attr("y", cy - issR - 8)
+    .text("408 km — International Space Station");
+
+  const marker = svg.append("g").attr("class", "marker").attr("transform", `translate(${cx},${cy})`);
+  marker.append("circle").attr("r", 4);
+  marker.append("text")
+    .attr("text-anchor", "middle")
+    .attr("x", 0).attr("y", issR + 16)
+    .text(POINT_NEMO.name);
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

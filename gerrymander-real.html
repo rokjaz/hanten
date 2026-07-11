@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — These Districts Are Real</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --district: #c1442d;
+    --district-soft: rgba(193,68,45,0.15);
+    --state-line: #b9c0b2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 1000px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 66ch; }
+  .sub a { color: var(--accent); }
+
+  .panels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+  }
+  @media (max-width: 860px) { .panels { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.1rem 1.2rem;
+  }
+  .panel h2 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    margin: 0 0 0.1rem;
+  }
+  .panel .years {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.7rem;
+  }
+  .panel svg { width: 100%; height: auto; display: block; background: #fbfcfa; border: 1px solid var(--line); }
+  .state-ctx { fill: none; stroke: var(--state-line); stroke-width: 0.8; }
+  .district { fill: var(--district-soft); stroke: var(--district); stroke-width: 1.4; }
+  .panel .story {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin-top: 0.8rem;
+  }
+  .panel .story strong { color: var(--ink); }
+
+  .caption {
+    margin-top: 1.6rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 1rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>These districts are real</h1>
+  <p class="sub">Our <a href="gerrymander.html">gerrymandering explainer</a> uses an invented 36-voter grid. These three shapes are not invented — they're actual U.S. congressional districts, drawn to their real boundaries.</p>
+
+  <div class="panels">
+    <div class="panel">
+      <h2>Illinois 4th — "The Earmuffs"</h2>
+      <div class="years">As drawn for 2013–2023 · Chicago</div>
+      <svg id="map-IL4" viewBox="0 0 300 300"></svg>
+      <p class="story">Two separate arcs of Chicago — one largely Puerto Rican, one heavily Mexican-American — packed into a single district, connected only by a <strong>strip of Interstate 294</strong>: the highway is in the district; the neighborhoods around it are not.</p>
+    </div>
+    <div class="panel">
+      <h2>Maryland 3rd</h2>
+      <div class="years">As drawn for 2013–2023 · Baltimore area</div>
+      <svg id="map-MD3" viewBox="0 0 300 300"></svg>
+      <p class="story">Rated the <strong>third-least-compact district in America</strong> in 2012; the Washington Post called it the nation's second-most gerrymandered. A Democratic gerrymander, redrawn into a normal shape only after 2020.</p>
+    </div>
+    <div class="panel">
+      <h2>North Carolina 12th</h2>
+      <div class="years">As drawn for 2013–2016 · I-85 corridor</div>
+      <svg id="map-NC12" viewBox="0 0 300 300"></svg>
+      <p class="story">Descendant of the infamous 1992 original that traced Interstate 85 so tightly a legislator joked that driving it <strong>"with both car doors open… you'd kill most of the people in the district."</strong> This version was struck down by the Supreme Court in <em>Cooper v. Harris</em> (2017) — the district's fifth trip to that Court.</p>
+    </div>
+  </div>
+
+  <div class="caption">
+    <p><strong>The tell is always the shape.</strong> In our toy example, the rigged maps were the ones with snaking, contorted districts — and that's exactly what these look like. When a district's outline follows a highway median for miles or sprouts tendrils across half a state, someone drew it to choose their voters, rather than the other way around.</p>
+    <p><strong>But here's the counterintuitive part:</strong> not all of these were drawn to steal seats. Illinois's 4th and North Carolina's 12th were <em>majority-minority</em> districts — drawn (under the Voting Rights Act) to guarantee Black and Hispanic communities representation they'd historically been denied. Same tool, opposite intents — packing voters can disenfranchise a community or empower one, and courts have spent thirty years drawing that line case by case.</p>
+    <p class="source">Boundaries: official 113th-Congress district shapes (U.S. Census via the unitedstates/districts open-data project). Background: state boundaries, U.S. Census. Histories: congressional records via Wikipedia, <em>Shaw v. Reno</em> (1993), <em>Cooper v. Harris</em> (2017).</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="data/us-counties-10m.js"></script>
+<script src="data/districts2012.js"></script>
+<script>
+  const statesMesh = topojson.mesh(US_COUNTIES_TOPOLOGY, US_COUNTIES_TOPOLOGY.objects.states);
+
+  function drawPanel(id, feature, padFactor) {
+    const size = 300;
+    const svg = d3.select("#map-" + id);
+    // Fit the district, then zoom out slightly so surrounding state
+    // borders give geographic context.
+    const proj = d3.geoAlbers().rotate([0, 0]);
+    const tmp = d3.geoAlbers();
+    tmp.fitExtent([[size * padFactor, size * padFactor], [size * (1 - padFactor), size * (1 - padFactor)]], feature);
+    const path = d3.geoPath(tmp);
+    svg.append("path").datum(statesMesh).attr("class", "state-ctx").attr("d", path);
+    svg.append("path").datum(feature).attr("class", "district").attr("d", path);
+  }
+
+  drawPanel("IL4", GERRY_DISTRICTS.IL4, 0.18);
+  drawPanel("MD3", GERRY_DISTRICTS.MD3, 0.15);
+  drawPanel("NC12", GERRY_DISTRICTS.NC12, 0.12);
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

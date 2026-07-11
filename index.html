@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Maps That Flip How You See the World</title>
+<meta name="description" content="Counterintuitive maps and statistics. Same facts, different lines — one surprising truth per map.">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --warn: #c1442d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+  }
+  header {
+    padding: 3.2rem 1.5rem 2.4rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .wordmark {
+    font-family: ui-serif, Georgia, serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    margin-bottom: 1.6rem;
+  }
+  .wordmark .kanji { color: var(--accent); margin-left: 0.4rem; font-weight: 400; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    line-height: 1.15;
+    margin: 0 0 0.6rem;
+    max-width: 20ch;
+  }
+  .lede {
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+    max-width: 54ch;
+    margin: 0;
+  }
+  main { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.6rem; }
+  .filters button {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem;
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .filters button:hover { border-color: var(--accent); }
+  .filters button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem;
+  }
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+  a.card.hidden { display: none; }
+  a.card {
+    display: block;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.4rem 1.5rem;
+    text-decoration: none;
+    color: var(--ink);
+    transition: border-color 0.15s ease;
+  }
+  a.card:hover { border-color: var(--accent); }
+  a.card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .card .tag {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .card h2 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    margin: 0.4rem 0 0.4rem;
+  }
+  .card p {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  footer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+  footer .rule { border-top: 1px solid var(--line); padding-top: 1.2rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">Hanten<span class="kanji">反転</span></div>
+  <h1>The shape you draw around the truth decides what story it tells.</h1>
+  <p class="lede">Maps and statistics that are completely accurate — and still manage to surprise you. Same facts, different lines. One honest "wait, really?" per page.</p>
+</header>
+
+<main>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid">
+    <a class="card" data-cat="population" href="empty-america.html">
+      <div class="tag">United States</div>
+      <h2>Nearly half of America is almost empty</h2>
+      <p>46% of the land holds 1.3% of the people. The frontier never really closed.</p>
+    </a>
+    <a class="card" data-cat="population" href="density-extremes.html">
+      <div class="tag">United States</div>
+      <h2>From nearly empty to packed tight</h2>
+      <p>The same 3,144 counties at three density cutoffs — and three completely different countries appear.</p>
+    </a>
+    <a class="card" data-cat="politics" href="gerrymander.html">
+      <div class="tag">Maps + Statistics</div>
+      <h2>Same 36 voters. Three different winners.</h2>
+      <p>Nobody moves. Nobody changes their mind. Only the district lines change — and with them, who wins.</p>
+    </a>
+    <a class="card" data-cat="politics" href="gerrymander-real.html">
+      <div class="tag">United States</div>
+      <h2>These districts are real</h2>
+      <p>The Earmuffs. The I-85 snake. Actual congressional districts, drawn to their true boundaries — with the court battles they caused.</p>
+    </a>
+    <a class="card" data-cat="population" href="equal-fifty.html">
+      <div class="tag">United States</div>
+      <h2>America redrawn: 50 states of equal population</h2>
+      <p>Every region holds ~6.7 million people. The Northeast shatters into slivers; one region swallows most of four states.</p>
+    </a>
+    <a class="card" data-cat="distances" href="point-nemo.html">
+      <div class="tag">Pacific Ocean</div>
+      <h2>At Point Nemo, the closest people are usually in orbit</h2>
+      <p>The middle of the ocean is closer to the Space Station than to any inhabited land — drawn to scale.</p>
+    </a>
+    <a class="card" data-cat="distances" href="earth-moon-gap.html">
+      <div class="tag">Solar System</div>
+      <h2>The planets almost fit between Earth and the Moon</h2>
+      <p>A famous "fact" that turns out to be true or false depending on the day — try all three orbit positions.</p>
+    </a>
+    <a class="card" data-cat="sports" href="worldcup-2026.html">
+      <div class="tag">Live — World Cup 2026</div>
+      <h2>The World Cup, round by round</h2>
+      <p>From all 211 eligible nations down to the final four — flags, populations, upsets, and Cinderella runs, updated as the tournament unfolds.</p>
+    </a>
+    <a class="card" data-cat="distances" href="true-size-africa.html">
+      <div class="tag">Projections</div>
+      <h2>Africa is bigger than you think</h2>
+      <p>The US, China, and Japan fit inside Africa at once — with room left for India, most of Europe, Mexico, and Alaska.</p>
+    </a>
+    <a class="card" data-cat="population" href="population-circle.html">
+      <div class="tag">World</div>
+      <h2>More people live inside this circle than outside it</h2>
+      <p>One 4,000 km circle over Asia outweighs the Americas, Europe, Africa, Oceania, and the Middle East combined.</p>
+    </a>
+    <a class="card" data-cat="statistics" href="ford-trucks.html">
+      <div class="tag">United States</div>
+      <h2>Wyoming buys the most F-150s per person. Texas buys the most, period.</h2>
+      <p>Same real data, two honest rankings that barely overlap — because per capita and overall are answering different questions.</p>
+    </a>
+    <a class="card" data-cat="statistics" href="mean-median.html">
+      <div class="tag">Statistics</div>
+      <h2>The average person at this BBQ makes $45 million</h2>
+      <p>One rich guest walks in, and "the average" explodes 527× — while the median barely moves. Both are telling the truth.</p>
+    </a>
+    <a class="card" data-cat="statistics" href="axis-truncation.html">
+      <div class="tag">Statistics</div>
+      <h2>The same two numbers, told two ways</h2>
+      <p>A 1.8-point gap becomes a landslide, just by moving where the axis starts. Drag it yourself.</p>
+    </a>
+    <a class="card" data-cat="distances" href="kiritimati.html">
+      <div class="tag">Pacific Ocean</div>
+      <h2>The world, centered on Kiritimati</h2>
+      <p>Same coastlines, same borders — just rotated so the planet's most obscure inhabited island is the middle of everything.</p>
+    </a>
+  </div>
+</main>
+
+<footer>
+  <div class="rule">
+    Hanten (反転): Japanese for "flip / invert." Every map here uses public, verifiable data — sources are cited on each page.
+  </div>
+</footer>
+
+<script>
+  const CATEGORIES = [
+    { id: "all", label: "All" },
+    { id: "population", label: "Population" },
+    { id: "distances", label: "Distances & Scale" },
+    { id: "politics", label: "Politics" },
+    { id: "statistics", label: "Statistics" },
+    { id: "sports", label: "Sports" },
+  ];
+  const filtersEl = document.getElementById("filters");
+  const cards = [...document.querySelectorAll("#grid .card")];
+
+  function applyFilter(cat) {
+    cards.forEach(c => {
+      c.classList.toggle("hidden", cat !== "all" && c.dataset.cat !== cat);
+    });
+    document.querySelectorAll("#filters button").forEach(b => {
+      b.classList.toggle("active", b.dataset.cat === cat);
+    });
+  }
+
+  CATEGORIES.forEach(cat => {
+    const b = document.createElement("button");
+    b.textContent = cat.label;
+    b.dataset.cat = cat.id;
+    b.addEventListener("click", () => applyFilter(cat.id));
+    filtersEl.appendChild(b);
+  });
+  applyFilter("all");
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — The Average Person at This BBQ Makes $45 Million</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --warn: #c1442d;
+    --bar: #7ca6b8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 900px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 900px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 62ch; }
+
+  .stage {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.4rem;
+  }
+  .btn-row { margin-bottom: 1.2rem; }
+  button.toggle {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.85rem;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+  }
+  button.toggle.leave { background: var(--paper-raised); color: var(--accent); }
+
+  .readouts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 1.2rem;
+  }
+  .readout { background: var(--paper-raised); padding: 0.9rem 1.1rem; }
+  .readout .label { font-size: 0.75rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.07em; font-family: ui-monospace, monospace; }
+  .readout .value { font-family: ui-monospace, monospace; font-size: 1.5rem; font-weight: 700; margin-top: 0.2rem; }
+  .readout .value.median { color: var(--accent); }
+  .readout .value.mean { color: var(--warn); }
+  .readout .delta { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.15rem; min-height: 1.1em; }
+
+  .people {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    height: 240px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0;
+  }
+  .person { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
+  .person .bar { width: 100%; background: var(--bar); transition: height 0.5s ease; }
+  .person.billionaire .bar { background: var(--warn); }
+  .person .who { font-size: 0.68rem; font-family: ui-monospace, monospace; color: var(--ink-soft); margin-top: 0.35rem; white-space: nowrap; }
+  .person .amt { font-size: 0.62rem; font-family: ui-monospace, monospace; color: var(--ink-soft); }
+  .note-under {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    min-height: 1.2em;
+  }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>The average person at this BBQ makes $45 million</h1>
+  <p class="sub">Ten neighbors at a backyard BBQ, with ordinary incomes. Watch what happens to the "average income at this party" when one very rich guest walks in — and what doesn't happen to the median.</p>
+
+  <div class="stage">
+    <div class="btn-row">
+      <button class="toggle" id="toggle">A CEO earning $500M/yr joins the party →</button>
+    </div>
+
+    <div class="readouts">
+      <div class="readout">
+        <div class="label">Median income</div>
+        <div class="value median" id="median-val">$80,500</div>
+        <div class="delta" id="median-delta"></div>
+      </div>
+      <div class="readout">
+        <div class="label">Mean ("average") income</div>
+        <div class="value mean" id="mean-val">$86,400</div>
+        <div class="delta" id="mean-delta"></div>
+      </div>
+    </div>
+
+    <div class="people" id="people"></div>
+    <div class="note-under" id="scale-note">Bar heights: income, linear scale.</div>
+  </div>
+
+  <div class="caption">
+    <p><strong>Both numbers are legitimately "the average."</strong> The mean adds everything up and divides; the median is the middle person. With ordinary data they agree. Add one extreme value and the mean follows the outlier — a 500-fold jump — while the median moves from $80,500 to $87,000.</p>
+    <p>So when a headline says "average income rose," check which average. A rising mean can describe a town where one person got rich and everyone else got nothing. Incomes, house prices, net worth — anything with a few enormous values at the top — are exactly where the two averages tell completely different stories, and where the choice of which to report is itself a framing decision.</p>
+    <p>The ten BBQ incomes here are invented for a clean example (the real U.S. median household income was $80,610 in 2023, per the Census Bureau) — but the arithmetic is exact: these ten numbers plus one $500M outlier really do produce a $45.5M mean and an $87,000 median.</p>
+  </div>
+</main>
+
+<script>
+  const INCOMES = [28000, 41000, 52000, 61000, 74000, 87000, 95000, 112000, 134000, 180000];
+  const CEO = 500000000;
+
+  const fmt = n => "$" + Math.round(n).toLocaleString();
+  const fmtShort = n => n >= 1e6 ? "$" + (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : "$" + Math.round(n / 1000) + "k";
+
+  function median(arr) {
+    const s = [...arr].sort((a, b) => a - b);
+    const mid = Math.floor(s.length / 2);
+    return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+  }
+  const mean = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+
+  let ceoIn = false;
+  const peopleEl = document.getElementById("people");
+  const toggleBtn = document.getElementById("toggle");
+
+  function render() {
+    const crowd = ceoIn ? [...INCOMES, CEO] : [...INCOMES];
+    const max = Math.max(...crowd);
+
+    peopleEl.innerHTML = "";
+    crowd.forEach((inc, i) => {
+      const div = document.createElement("div");
+      div.className = "person" + (inc === CEO ? " billionaire" : "");
+      // Linear scale on purpose: when the CEO joins, everyone else's bar
+      // flattens to almost nothing — that collapse IS the point, so we
+      // annotate it rather than "fixing" it with a log scale.
+      const h = Math.max(2, (inc / max) * 200);
+      div.innerHTML = `<div class="bar" style="height:${h}px"></div>
+        <div class="who">${inc === CEO ? "CEO" : "#" + (i + 1)}</div>
+        <div class="amt">${fmtShort(inc)}</div>`;
+      peopleEl.appendChild(div);
+    });
+
+    document.getElementById("median-val").textContent = fmt(median(crowd));
+    document.getElementById("mean-val").textContent = fmt(mean(crowd));
+    document.getElementById("median-delta").textContent = ceoIn ? "was $80,500 — barely moved" : "";
+    document.getElementById("mean-delta").textContent = ceoIn ? "was $86,400 — up 527×" : "";
+    document.getElementById("scale-note").textContent = ceoIn
+      ? "Bar heights: income, linear scale. Everyone else's bar just flattened — that collapse is the outlier doing to the picture what it does to the mean."
+      : "Bar heights: income, linear scale.";
+    toggleBtn.textContent = ceoIn ? "← The CEO leaves" : "A CEO earning $500M/yr joins the party →";
+    toggleBtn.className = "toggle" + (ceoIn ? " leave" : "");
+  }
+
+  toggleBtn.addEventListener("click", () => { ceoIn = !ceoIn; render(); });
+  render();
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

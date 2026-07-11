@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — More People Live Inside This Circle Than Outside It</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --land: #d6dbd0;
+    --land-line: #b9c0b2;
+    --circle: #c1442d;
+    --circle-fill: rgba(193,68,45,0.10);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 940px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 940px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 62ch; }
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+  }
+  #map { width: 100%; height: auto; display: block; }
+  .sphere { fill: var(--paper); }
+  .graticule { fill: none; stroke: var(--line); stroke-width: 0.5; }
+  .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.5; }
+  .circle {
+    fill: var(--circle-fill);
+    stroke: var(--circle);
+    stroke-width: 2;
+    stroke-dasharray: 6 4;
+  }
+  .big-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    fill: var(--circle);
+    font-weight: 700;
+    text-anchor: middle;
+  }
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 1.2rem;
+  }
+  .stat { background: var(--paper-raised); padding: 1rem 1.2rem; }
+  .stat .num { font-family: ui-monospace, monospace; font-size: 1.5rem; font-weight: 700; }
+  .stat .num.in { color: var(--circle); }
+  .stat .label { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.2rem; }
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>More people live inside this circle than outside it</h1>
+  <p class="sub">One circle, 4,000 km in radius, centered over southern China. Everyone on Earth is on one side of this line or the other — and the inside wins.</p>
+
+  <div id="map-wrap">
+    <svg id="map" viewBox="0 0 960 520"></svg>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="num in">~4.25 billion</div>
+      <div class="label">people inside the circle — about 52% of humanity</div>
+    </div>
+    <div class="stat">
+      <div class="num">~3.85 billion</div>
+      <div class="label">people in the entire rest of the world: all of the Americas, Europe, Africa, Oceania, and the Middle East combined</div>
+    </div>
+  </div>
+
+  <div class="caption">
+    <p><strong>The circle contains China, India, Indonesia, Pakistan, Bangladesh, Japan, and all of Southeast Asia</strong> — 22 countries whose combined population is about 4.25 billion of the world's 8.1 billion people. It also contains some of the emptiest places on the planet: the Himalayas, the Gobi Desert, Mongolia, and a lot of open ocean. Even carrying all that emptiness, the inside still outweighs the entire rest of the world.</p>
+    <p>This is the same lesson as our nearly-empty-America map, at planetary scale: humanity isn't spread across the Earth — it's piled up, astonishingly, in one corner of one continent.</p>
+    <p class="source">Method: countries counted as inside when their population-weighted location falls within 4,000 km of 26.6°N, 106.6°E (a version of the "Valeriepieris circle"). Populations: UN World Population Prospects 2024 estimates. Border-straddling effects roughly cancel: the circle's edge cuts off fringes of member countries (eastern Indonesia, northern Japan) but also captures fringes of non-members it clips.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  const width = 960, height = 520;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+
+  // Rotate the world so the circle sits center-frame instead of being
+  // split across the map's edges (the same recentering trick as the
+  // Kiritimati map, reused for a different reason).
+  const projection = d3.geoEqualEarth()
+    .rotate([-95, 0])
+    .fitSize([width, height], { type: "Sphere" });
+  const path = d3.geoPath(projection);
+
+  svg.append("path").datum({ type: "Sphere" }).attr("class", "sphere").attr("d", path);
+  svg.append("path").datum(d3.geoGraticule10()).attr("class", "graticule").attr("d", path);
+
+  svg.append("g")
+    .selectAll("path")
+    .data(COUNTRIES_GEOJSON.features)
+    .join("path")
+    .attr("class", "land")
+    .attr("d", path);
+
+  // 4,000 km on a sphere of radius 6,371 km = 35.97 degrees of arc.
+  const circle = d3.geoCircle().center([106.6, 26.6]).radius(4000 / 6371 * 180 / Math.PI);
+  svg.append("path").datum(circle()).attr("class", "circle").attr("d", path);
+
+  const [lx, ly] = projection([106.6, 26.6]);
+  svg.append("text")
+    .attr("class", "big-label")
+    .attr("x", lx).attr("y", ly + 5)
+    .attr("style", "font-size: 22px")
+    .text("4.25 billion people");
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

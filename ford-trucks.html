@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Wyoming vs. Texas: Two Ways to Win at Trucks</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --ford-lo: #f0e0d3;
+    --ford-hi: #9a3e1f;
+    --other: #d6dbd0;
+    --other-line: #b9c0b2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 1000px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.4rem, 3.8vw, 2rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.2rem; max-width: 64ch; }
+
+  .tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .tabs button {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .tabs button:hover { border-color: var(--accent); }
+  .tabs button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .layout { display: grid; grid-template-columns: 2fr 1fr; gap: 1.2rem; }
+  @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } }
+
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+    position: relative;
+  }
+  #map { width: 100%; height: auto; display: block; }
+  .state { stroke: #fff; stroke-width: 0.6; cursor: pointer; }
+  .state.other { fill: var(--other); stroke: var(--other-line); }
+
+  #tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: 3px;
+    max-width: 230px;
+    display: none;
+    z-index: 5;
+    line-height: 1.45;
+  }
+  #tooltip .stat { color: #8fd4da; font-size: 0.75rem; }
+
+  .top10 {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem 1.1rem;
+  }
+  .top10 h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: ui-monospace, monospace;
+    color: var(--ink-soft);
+    margin: 0 0 0.7rem;
+  }
+  .top10 ol { margin: 0; padding-left: 1.3rem; font-size: 0.88rem; }
+  .top10 li { margin-bottom: 0.45rem; }
+  .top10 .val { font-family: ui-monospace, monospace; color: var(--accent); font-weight: 600; }
+
+  .legend {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.9rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+  .legend .bar {
+    width: 120px; height: 10px;
+    background: linear-gradient(to right, var(--ford-lo), var(--ford-hi));
+  }
+  .legend .swatch { width: 11px; height: 11px; display: inline-block; background: var(--other); border: 1px solid var(--other-line); margin-right: 0.3rem; }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>Wyoming buys the most F-150s per person. Texas buys the most, period.</h1>
+  <p class="sub">Same real data, two honest rankings that barely overlap — because "most per capita" and "most overall" are answering different questions, and the gap between them is mostly just population size.</p>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="layout">
+    <div id="map-wrap">
+      <svg id="map" viewBox="0 0 975 610"></svg>
+      <div id="tooltip"></div>
+    </div>
+    <div class="top10">
+      <h3 id="top10-title">Top 10</h3>
+      <ol id="top10-list"></ol>
+    </div>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="caption">
+    <p><strong>Wyoming is #1 by share — 7.2% of all used-vehicle sales are F-150s, the highest rate anywhere.</strong> But Wyoming has only 584,000 people, so that rate translates to a small number of actual trucks. Texas's rate (3.8%) doesn't even crack the per-capita top 15 — but with 30.5 million people behind it, Texas produces an estimated <strong>1.16 million F-150 owners, more than the next three states combined.</strong></p>
+    <p><strong>The "overall" numbers on this page are estimates</strong> (state population × F-150's reported market share), not directly measured sales counts — no source publishes exact per-state unit totals, since that's proprietary registration data. Treat the ranking as a reasonable approximation, not a precise count.</p>
+    <p><strong>17 states aren't Ford-truck country at all.</strong> In grey states, a different vehicle outsold the F-150 — Honda Civic in California, Chevrolet Equinox across much of the Midwest, Toyota Tacoma in the Pacific Northwest. F-150's actual share in those states wasn't reported, so they're excluded from both rankings rather than guessed at.</p>
+    <p class="source">Vehicle popularity and market share: iSeeCars.com used-vehicle study (1–5 year old vehicles). State populations: U.S. Census Bureau Vintage 2023 estimates. "Estimated total owners" is population × reported share, not a measured figure.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="data/us-counties-10m.js"></script>
+<script src="data/ford-f150.js"></script>
+<script>
+  const width = 975, height = 610;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+  const tooltip = document.getElementById("tooltip");
+
+  const statesFeatures = topojson.feature(US_COUNTIES_TOPOLOGY, US_COUNTIES_TOPOLOGY.objects.states).features
+    .filter(f => FORD_F150[f.properties.name]);
+  const projection = d3.geoAlbersUsa().fitSize([width, height], { type: "FeatureCollection", features: statesFeatures });
+  const path = d3.geoPath(projection);
+
+  const leaders = Object.entries(FORD_F150).filter(([, d]) => d.isLeader);
+  const shareExtent = d3.extent(leaders, ([, d]) => d.share);
+  const estExtent = d3.extent(leaders, ([, d]) => d.est);
+  // d3's color interpolator needs real color values — it can't resolve
+  // CSS custom properties like var(--ford-lo), so we mirror them here as
+  // plain hex (keep these in sync with the CSS variables above).
+  const colorShare = d3.scaleLinear().domain(shareExtent).range(["#f0e0d3", "#9a3e1f"]).interpolate(d3.interpolateRgb);
+  const colorEst = d3.scaleLinear().domain(estExtent).range(["#f0e0d3", "#9a3e1f"]).interpolate(d3.interpolateRgb);
+
+  const TABS = [
+    { id: "share", label: "Per capita (market share)" },
+    { id: "est", label: "Estimated total owners" },
+  ];
+  let currentTab = "share";
+
+  function showStateTip(event, f) {
+    const d = FORD_F150[f.properties.name];
+    let html;
+    if (d.isLeader) {
+      html = `<strong>${f.properties.name}</strong>
+        <div class="stat">F-150 share: ${d.share}% of used-vehicle sales (#1 vehicle here)</div>
+        <div class="stat">Population: ${d.pop.toLocaleString()}</div>
+        <div class="stat">Estimated F-150 owners: ~${d.est.toLocaleString()}</div>`;
+    } else {
+      html = `<strong>${f.properties.name}</strong>
+        <div class="stat">Most popular vehicle: ${d.other}, not F-150</div>
+        <div class="stat">Population: ${d.pop.toLocaleString()}</div>
+        <div class="stat">F-150 share not reported here</div>`;
+    }
+    tooltip.style.display = "block";
+    tooltip.innerHTML = html;
+    const wrap = document.getElementById("map-wrap").getBoundingClientRect();
+    tooltip.style.left = Math.min(event.clientX - wrap.left + 14, wrap.width - 240) + "px";
+    tooltip.style.top = (event.clientY - wrap.top + 14) + "px";
+  }
+
+  const group = svg.append("g")
+    .selectAll("path")
+    .data(statesFeatures)
+    .join("path")
+    .attr("class", "state")
+    .attr("stroke", "#fff")
+    .attr("d", path)
+    .on("mousemove", showStateTip)
+    .on("click", showStateTip) // touch devices have no hover — tap works instead
+    .on("mouseleave", () => { tooltip.style.display = "none"; });
+
+  function render(tab) {
+    currentTab = tab;
+    const scale = tab === "share" ? colorShare : colorEst;
+    group
+      .attr("class", f => "state" + (FORD_F150[f.properties.name].isLeader ? "" : " other"))
+      .attr("fill", f => {
+        const d = FORD_F150[f.properties.name];
+        return d.isLeader ? scale(tab === "share" ? d.share : d.est) : "var(--other)";
+      });
+
+    const ranked = leaders
+      .slice()
+      .sort((a, b) => b[1][tab] - a[1][tab])
+      .slice(0, 10);
+    const listEl = document.getElementById("top10-list");
+    listEl.innerHTML = "";
+    ranked.forEach(([name, d]) => {
+      const li = document.createElement("li");
+      const val = tab === "share" ? d.share + "%" : "~" + d.est.toLocaleString();
+      li.innerHTML = `${name} <span class="val">${val}</span>`;
+      listEl.appendChild(li);
+    });
+    document.getElementById("top10-title").textContent =
+      tab === "share" ? "Top 10 — by per-capita share" : "Top 10 — by estimated total owners";
+
+    document.getElementById("legend").innerHTML = `
+      <span>Low</span><span class="bar"></span><span>High (F-150 states)</span>
+      <span style="margin-left:1rem"><span class="swatch"></span>Different vehicle is #1</span>`;
+
+    document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+  }
+
+  const tabsEl = document.getElementById("tabs");
+  TABS.forEach(t => {
+    const b = document.createElement("button");
+    b.textContent = t.label;
+    b.dataset.tab = t.id;
+    b.addEventListener("click", () => render(t.id));
+    tabsEl.appendChild(b);
+  });
+
+  render("share");
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

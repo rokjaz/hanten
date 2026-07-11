@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — America Redrawn as 50 Equal-Population States</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --r0: #8fb7bd;
+    --r1: #d9a862;
+    --r2: #c98a7a;
+    --r3: #93a97e;
+    --r4: #a292c0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 1000px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 64ch; }
+
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+  }
+  #map { width: 100%; height: auto; display: block; }
+  .county { stroke: rgba(255,255,255,0.35); stroke-width: 0.2; }
+  .state-borders { fill: none; stroke: var(--ink); stroke-width: 0.5; opacity: 0.28; }
+  .region-borders { fill: none; stroke: #ffffff; stroke-width: 1.1; }
+  .city-dot { fill: var(--ink); stroke: #fff; stroke-width: 1.2; }
+  .city-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 11px;
+    fill: var(--ink);
+    paint-order: stroke;
+    stroke: rgba(255,255,255,0.85);
+    stroke-width: 3px;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 1.2rem;
+  }
+  @media (max-width: 640px) { .stat-row { grid-template-columns: 1fr; } }
+  .stat { background: var(--paper-raised); padding: 0.9rem 1.1rem; }
+  .stat .num { font-family: ui-monospace, monospace; font-size: 1.35rem; font-weight: 700; color: var(--accent); }
+  .stat .label { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.15rem; }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>America redrawn: 50 states of equal population</h1>
+  <p class="sub">Every region below holds roughly 6.7 million people — one fiftieth of the country. The faint lines are the real state borders. Notice how many "states" the Northeast corridor needs, and how few fit in the entire Mountain West.</p>
+
+  <div id="map-wrap">
+    <svg id="map" viewBox="0 0 975 610"></svg>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="num">≈ 6.7M</div>
+      <div class="label">people per region — 38 of the 49 divisible regions land within ±5% of the target, 44 within ±8%</div>
+    </div>
+    <div class="stat">
+      <div class="num">1 county</div>
+      <div class="label">is a whole "state" by itself: Los Angeles County (9.7M) — indivisible, and 44% over the target on its own</div>
+    </div>
+    <div class="stat">
+      <div class="num">11 states'</div>
+      <div class="label">worth of land (the Mountain West + Great Plains) collapses into just a handful of regions</div>
+    </div>
+  </div>
+
+  <div class="caption">
+    <p><strong>The real 50 states range from 0.6 million people (Wyoming) to 39 million (California)</strong> — a 67-fold difference in how much your state-level representation "weighs." Drawn with equal population instead, New York City needs to be carved into multiple regions, while a single region swallows most of Montana, Wyoming, Idaho, and the Dakotas.</p>
+    <p><strong>Honest limits of this map:</strong> regions are built from whole counties, which sets a floor on equality — Los Angeles County alone exceeds the 6.7M target by 44% and can't be split, and the Brooklyn–Queens–Long Island region runs +15% for the same reason. Hawaii (bridged to the San Diego region) and Alaska (bridged to the Pacific Northwest) can't be land-contiguous with anything, so they join their nearest coastal neighbors.</p>
+    <p>Same country, same people — just lines drawn by population instead of history.</p>
+    <p class="source">Populations: U.S. Census Bureau Vintage 2023 county estimates (Connecticut: 2020 census counties). Boundaries: U.S. Census via us-atlas. Method: recursive geographic bisection of 3,142 counties into contiguous regions, refined by border-county swaps. City labels: the 10 largest cities by city-proper population.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="data/us-counties-10m.js"></script>
+<script src="data/equal50.js"></script>
+<script>
+  const width = 975, height = 610;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+
+  const counties = topojson.feature(US_COUNTIES_TOPOLOGY, US_COUNTIES_TOPOLOGY.objects.counties);
+  const statesMesh = topojson.mesh(US_COUNTIES_TOPOLOGY, US_COUNTIES_TOPOLOGY.objects.states, (a, b) => a !== b);
+  // White seams between regions: county borders where the two sides belong
+  // to different regions.
+  const regionMesh = topojson.mesh(US_COUNTIES_TOPOLOGY, US_COUNTIES_TOPOLOGY.objects.counties,
+    (a, b) => a !== b && EQUAL50.assign[a.id] !== undefined && EQUAL50.assign[b.id] !== undefined
+              && EQUAL50.assign[a.id] !== EQUAL50.assign[b.id]);
+
+  const projection = d3.geoAlbersUsa().fitSize([width, height], counties);
+  const path = d3.geoPath(projection);
+  const PALETTE = ["var(--r0)", "var(--r1)", "var(--r2)", "var(--r3)", "var(--r4)"];
+
+  svg.append("g")
+    .selectAll("path")
+    .data(counties.features.filter(f => EQUAL50.assign[f.id] !== undefined))
+    .join("path")
+    .attr("class", "county")
+    .attr("fill", f => PALETTE[EQUAL50.color[EQUAL50.assign[f.id]] % PALETTE.length])
+    .attr("d", path);
+
+  svg.append("path").datum(regionMesh).attr("class", "region-borders").attr("d", path);
+  svg.append("path").datum(statesMesh).attr("class", "state-borders").attr("d", path);
+
+  // 10 largest cities by city-proper population (2023 estimates)
+  const CITIES = [
+    { name: "New York", lat: 40.71, lon: -74.01, dx: 8, dy: -4 },
+    { name: "Los Angeles", lat: 34.05, lon: -118.24, dx: -8, dy: 12, anchor: "end" },
+    { name: "Chicago", lat: 41.88, lon: -87.63, dx: 8, dy: -4 },
+    { name: "Houston", lat: 29.76, lon: -95.37, dx: 8, dy: 10 },
+    { name: "Phoenix", lat: 33.45, lon: -112.07, dx: 8, dy: -4 },
+    { name: "Philadelphia", lat: 39.95, lon: -75.17, dx: 8, dy: 10 },
+    { name: "San Antonio", lat: 29.42, lon: -98.49, dx: -8, dy: 4, anchor: "end" },
+    { name: "San Diego", lat: 32.72, lon: -117.16, dx: -8, dy: 12, anchor: "end" },
+    { name: "Dallas", lat: 32.78, lon: -96.80, dx: 8, dy: -4 },
+    { name: "Jacksonville", lat: 30.33, lon: -81.66, dx: 8, dy: -2 },
+  ];
+  CITIES.forEach(c => {
+    const pt = projection([c.lon, c.lat]);
+    if (!pt) return;
+    svg.append("circle").attr("class", "city-dot").attr("cx", pt[0]).attr("cy", pt[1]).attr("r", 3.2);
+    svg.append("text").attr("class", "city-label")
+      .attr("x", pt[0] + c.dx).attr("y", pt[1] + c.dy)
+      .attr("text-anchor", c.anchor || "start")
+      .text(c.name);
+  });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
