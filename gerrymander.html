@@ -123,6 +123,7 @@
 <main>
   <h1>Same 36 voters. Three elections. Three different winners.</h1>
   <p class="sub">Every cell below is a fixed, unchanging voter. Nobody moves, nobody changes their mind. The only thing that changes between these three maps is where the district lines are drawn.</p>
+  <div id="save-image-slot"></div>
 
   <div class="tally">
     <div><span class="dot" style="background:var(--blue)"></span><b>20 Blue voters</b> — 55.6% of the vote</div>
@@ -231,6 +232,12 @@
     card.append(h2, noteEl, gridEl, result);
     mapsEl.appendChild(card);
   });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#maps", title: "Same 36 voters. Three elections. Three different winners.", filename: "hanten-gerrymander.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

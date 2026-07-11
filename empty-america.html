@@ -94,6 +94,7 @@
 <main>
   <h1>Nearly half of America is almost empty</h1>
   <p class="sub">Every county below with fewer than 10 people per square mile — about the density of one house every 60 acres — is shaded in.</p>
+  <div id="save-image-slot"></div>
 
   <div class="stat-row">
     <div class="stat">
@@ -150,6 +151,12 @@
     .datum(states)
     .attr("class", "state-outline")
     .attr("d", path);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "Nearly half of America is almost empty", filename: "hanten-empty-america.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

@@ -84,6 +84,7 @@
 <main>
   <h1>The world, centered on Kiritimati</h1>
   <p class="sub">Same coastlines, same borders, same everything — just rotated so the world's most obscure inhabited island sits in the middle.</p>
+  <div id="save-image-slot"></div>
 
   <div id="map-wrap">
     <svg id="map" viewBox="0 0 960 500"></svg>
@@ -131,6 +132,12 @@
   const marker = svg.append("g").attr("class", "marker").attr("transform", `translate(${x},${y})`);
   marker.append("circle").attr("r", 5);
   marker.append("text").attr("x", 9).attr("y", 4).text(KIRITIMATI.name);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "The world, centered on Kiritimati", filename: "hanten-kiritimati.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

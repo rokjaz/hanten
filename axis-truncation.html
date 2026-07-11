@@ -102,6 +102,7 @@
 <main>
   <h1>The same two numbers, told two ways</h1>
   <p class="sub">Two candidates polled at 50.9% and 49.1% — a 1.8-point gap. Both charts below show exactly those numbers. Only the starting point of the vertical axis differs.</p>
+  <div id="save-image-slot"></div>
 
   <div class="charts">
     <div class="chart-card">
@@ -209,6 +210,12 @@
   }
   slider.addEventListener("input", updateCrime);
   updateCrime();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: ".charts", title: "The same two numbers, told two ways", filename: "hanten-axis-truncation.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

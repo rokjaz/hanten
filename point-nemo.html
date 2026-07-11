@@ -90,6 +90,7 @@
 <main>
   <h1>At Point Nemo, the closest people are usually in orbit</h1>
   <p class="sub">This map is centered on Point Nemo and drawn so that distance from the center is true to scale in every direction — the two rings below are the same rings you'd draw with a compass on a globe.</p>
+  <div id="save-image-slot"></div>
 
   <div id="map-wrap">
     <svg id="map" viewBox="0 0 700 700"></svg>
@@ -192,6 +193,12 @@
     .attr("text-anchor", "middle")
     .attr("x", 0).attr("y", issR + 16)
     .text(POINT_NEMO.name);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "At Point Nemo, the closest people are usually in orbit", filename: "hanten-point-nemo.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

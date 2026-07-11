@@ -125,6 +125,7 @@
 <main>
   <h1>The 2026 World Cup, round by round</h1>
   <p class="sub">Start with every country and territory on Earth that's allowed to dream about the World Cup, then watch the map empty out, round by round — with the upsets and Cinderella runs marked in gold.</p>
+  <div id="save-image-slot"></div>
   <div class="updated">Tournament in progress — updated through the morning of July 11, 2026 (two quarterfinals play today).</div>
 
   <div class="tabs" id="tabs"></div>
@@ -365,6 +366,12 @@
   });
 
   renderStage(0);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "The 2026 World Cup, round by round", filename: "hanten-worldcup-2026.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

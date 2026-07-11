@@ -102,6 +102,7 @@
 <main>
   <h1>From nearly empty to packed tight</h1>
   <p class="sub">The same 3,144 counties, redrawn at three different population-density cutoffs. Watch how little land it takes to hold most of the country — and how much land holds almost no one.</p>
+  <div id="save-image-slot"></div>
 
   <div class="panels" id="panels"></div>
 
@@ -197,6 +198,12 @@
       .attr("class", "state-outline")
       .attr("d", path);
   });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#panels", title: "From nearly empty to packed tight", filename: "hanten-density-extremes.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

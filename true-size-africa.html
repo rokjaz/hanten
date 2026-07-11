@@ -93,6 +93,7 @@
 <main>
   <h1>Africa is bigger than you think</h1>
   <p class="sub">The United States, China, and Japan — every shape drawn at true, equal-area scale — all placed inside Africa at once. And there's still room for India, most of Europe, Mexico, and Alaska in the space left over.</p>
+  <div id="save-image-slot"></div>
 
   <div id="map-wrap">
     <svg id="map" viewBox="0 0 760 820"></svg>
@@ -182,6 +183,12 @@
       .attr("y", o.pos[1] + 5)
       .text(o.label);
   });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "Africa is bigger than you think", filename: "hanten-true-size-africa.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

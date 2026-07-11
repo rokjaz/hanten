@@ -95,6 +95,7 @@
 <main>
   <h1>America redrawn: 50 states of equal population</h1>
   <p class="sub">Every region below holds roughly 6.7 million people — one fiftieth of the country. The faint lines are the real state borders. Notice how many "states" the Northeast corridor needs, and how few fit in the entire Mountain West.</p>
+  <div id="save-image-slot"></div>
 
   <div id="map-wrap">
     <svg id="map" viewBox="0 0 975 610"></svg>
@@ -176,6 +177,12 @@
       .attr("text-anchor", c.anchor || "start")
       .text(c.name);
   });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "America redrawn: 50 states of equal population", filename: "hanten-equal-fifty.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

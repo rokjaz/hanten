@@ -112,6 +112,7 @@
 <main>
   <h1>The planets almost fit between Earth and the Moon</h1>
   <p class="sub">You've probably seen the claim that every other planet in the solar system could fit in the gap between Earth and the Moon. Here it is drawn to a single consistent scale — both the planets and the gap itself. The Moon's distance isn't fixed, though, so try all three points in its orbit.</p>
+  <div id="save-image-slot"></div>
 
   <div class="toggle-row" id="toggle-row">
     <button data-dist="363300">Closest — 363,300 km</button>
@@ -273,6 +274,12 @@
       render(Number(btn.dataset.dist));
     });
   });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#diagram-wrap", title: "The planets almost fit between Earth and the Moon", filename: "hanten-earth-moon-gap.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

@@ -107,6 +107,7 @@
 <main>
   <h1>The average person at this BBQ makes $45 million</h1>
   <p class="sub">Ten neighbors at a backyard BBQ, with ordinary incomes. Watch what happens to the "average income at this party" when one very rich guest walks in — and what doesn't happen to the median.</p>
+  <div id="save-image-slot"></div>
 
   <div class="stage">
     <div class="btn-row">
@@ -186,6 +187,12 @@
 
   toggleBtn.addEventListener("click", () => { ceoIn = !ceoIn; render(); });
   render();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: ".stage", title: "The average person at this BBQ makes $45 million", filename: "hanten-mean-median.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

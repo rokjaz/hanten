@@ -134,6 +134,7 @@
 <main>
   <h1>Wyoming buys the most F-150s per person. Texas buys the most, period.</h1>
   <p class="sub">Same real data, two honest rankings that barely overlap — because "most per capita" and "most overall" are answering different questions, and the gap between them is mostly just population size.</p>
+  <div id="save-image-slot"></div>
 
   <div class="tabs" id="tabs"></div>
 
@@ -261,6 +262,12 @@
   });
 
   render("share");
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: ".layout", title: "Wyoming buys the most F-150s per person. Texas buys the most, period.", filename: "hanten-ford-trucks.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

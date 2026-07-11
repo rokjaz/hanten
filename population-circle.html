@@ -94,6 +94,7 @@
 <main>
   <h1>More people live inside this circle than outside it</h1>
   <p class="sub">One circle, 4,000 km in radius, centered over southern China. Everyone on Earth is on one side of this line or the other — and the inside wins.</p>
+  <div id="save-image-slot"></div>
 
   <div id="map-wrap">
     <svg id="map" viewBox="0 0 960 520"></svg>
@@ -151,6 +152,12 @@
     .attr("x", lx).attr("y", ly + 5)
     .attr("style", "font-size: 22px")
     .text("4.25 billion people");
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "More people live inside this circle than outside it", filename: "hanten-population-circle.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

@@ -95,6 +95,7 @@
 <main>
   <h1>These districts are real</h1>
   <p class="sub">Our <a href="gerrymander.html">gerrymandering explainer</a> uses an invented 36-voter grid. These three shapes are not invented — they're actual U.S. congressional districts, drawn to their real boundaries.</p>
+  <div id="save-image-slot"></div>
 
   <div class="panels">
     <div class="panel">
@@ -147,6 +148,12 @@
   drawPanel("IL4", GERRY_DISTRICTS.IL4, 0.18);
   drawPanel("MD3", GERRY_DISTRICTS.MD3, 0.15);
   drawPanel("NC12", GERRY_DISTRICTS.NC12, 0.12);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: ".panels", title: "These districts are real", filename: "hanten-gerrymander-real.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>
