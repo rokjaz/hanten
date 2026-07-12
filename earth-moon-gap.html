@@ -37,9 +37,8 @@
     background: var(--paper-raised);
     border: 1px solid var(--line);
     padding: 1.2rem 1rem 0.6rem;
-    overflow-x: auto;
   }
-  #diagram { display: block; margin: 0 auto; min-width: 720px; }
+  #diagram { display: block; margin: 0 auto; width: 100%; height: auto; }
   .body-circle { }
   .leader { stroke: var(--line); stroke-width: 1; }
   .label {
@@ -152,7 +151,11 @@
 
     const earthR = kmToPx(EARTH_DIAM / 2);
     const moonR = kmToPx(MOON_DIAM / 2);
-    const earthCx = earthR; // Earth's left edge sits at x=0
+    // Earth's label is rotated -40° anchored at its own center, so it grows
+    // up and to the LEFT — without this padding it gets clipped by the
+    // SVG's left edge, since Earth sits right at x=0.
+    const LEFT_PAD = 44;
+    const earthCx = earthR + LEFT_PAD;
     const moonCx = earthCx + W; // correctly offset from Earth's center, not from x=0
 
     // Lay planets edge-to-edge starting right at Earth's surface.

@@ -201,6 +201,15 @@
   const NON_FIFA = new Set(["GRL", "SAH", "ATA", "ATF", "FLK", "CYN", "SOL", "KAS"]);
   const ISO2_FIX = { FRA: "FR", NOR: "NO", ESP: "ES", GBR: "GB" };
 
+  // Explicit mainland coordinates for cinderella-ring placement. Needed
+  // because Norway's Natural Earth shape bundles in Svalbard (way up at
+  // 77-80°N), which drags the area centroid roughly 12° of latitude north
+  // of mainland Norway — landing the ring near Sweden instead.
+  const RING_POS = {
+    NOR: { lon: 8.5, lat: 61 },
+    MAR: { lon: -6, lat: 32 },
+  };
+
   const STAGES = [
     { id: 0, label: "Everyone eligible", legendAlive: "FIFA member (eligible to enter)" },
     { id: 1, label: "The 48 qualifiers", legendAlive: "Qualified for the tournament" },
@@ -333,6 +342,7 @@
         let x, y;
         const m = MARKERS.find(mm => mm.code === code);
         if (m) { [x, y] = projection([m.lon, m.lat]); }
+        else if (RING_POS[code]) { [x, y] = projection([RING_POS[code].lon, RING_POS[code].lat]); }
         else {
           const feat = COUNTRIES_GEOJSON.features.find(f => f.properties.ADM0_A3 === code);
           if (!feat) return;

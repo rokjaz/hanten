@@ -39,17 +39,18 @@
     border: 1px solid var(--line);
     padding: 1.4rem;
   }
-  .btn-row { margin-bottom: 1.2rem; }
-  button.toggle {
+  .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+  .tabs button {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     padding: 0.6rem 1.1rem;
-    border: 1px solid var(--accent);
-    background: var(--accent);
-    color: #fff;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
     cursor: pointer;
   }
-  button.toggle.leave { background: var(--paper-raised); color: var(--accent); }
+  .tabs button:hover { border-color: var(--accent); }
+  .tabs button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
   .readouts {
     display: grid;
@@ -74,11 +75,21 @@
     border-bottom: 1px solid var(--line);
     padding-bottom: 0;
   }
-  .person { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
+  /* min-width:0 overrides flexbox's default min-width:auto, which would
+     otherwise refuse to shrink a bar narrower than its "$180k" label text
+     — without it, 11 bars silently overflow off the right edge on phones
+     instead of compressing to fit. */
+  .person { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
   .person .bar { width: 100%; background: var(--bar); transition: height 0.5s ease; }
   .person.billionaire .bar { background: var(--warn); }
-  .person .who { font-size: 0.68rem; font-family: ui-monospace, monospace; color: var(--ink-soft); margin-top: 0.35rem; white-space: nowrap; }
-  .person .amt { font-size: 0.62rem; font-family: ui-monospace, monospace; color: var(--ink-soft); }
+  .person .who { font-size: 0.68rem; font-family: ui-monospace, monospace; color: var(--ink-soft); margin-top: 0.35rem; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+  .person .amt { font-size: 0.62rem; font-family: ui-monospace, monospace; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: clip; }
+  @media (max-width: 480px) {
+    .people { gap: 0.2rem; }
+    .person .who { font-size: 0.52rem; margin-top: 0.2rem; }
+    .person .amt { font-size: 0.46rem; }
+    .stage { padding: 1rem 0.9rem; }
+  }
   .note-under {
     font-size: 0.78rem;
     color: var(--ink-soft);
@@ -110,8 +121,9 @@
   <div id="save-image-slot"></div>
 
   <div class="stage">
-    <div class="btn-row">
-      <button class="toggle" id="toggle">A CEO earning $500M/yr joins the party →</button>
+    <div class="tabs" id="tabs">
+      <button class="active" data-ceo="0">Without the CEO</button>
+      <button data-ceo="1">With a $500M/yr CEO</button>
     </div>
 
     <div class="readouts">
@@ -154,7 +166,7 @@
 
   let ceoIn = false;
   const peopleEl = document.getElementById("people");
-  const toggleBtn = document.getElementById("toggle");
+  const tabButtons = document.querySelectorAll("#tabs button");
 
   function render() {
     const crowd = ceoIn ? [...INCOMES, CEO] : [...INCOMES];
@@ -181,11 +193,18 @@
     document.getElementById("scale-note").textContent = ceoIn
       ? "Bar heights: income, linear scale. Everyone else's bar just flattened — that collapse is the outlier doing to the picture what it does to the mean."
       : "Bar heights: income, linear scale.";
-    toggleBtn.textContent = ceoIn ? "← The CEO leaves" : "A CEO earning $500M/yr joins the party →";
-    toggleBtn.className = "toggle" + (ceoIn ? " leave" : "");
+    tabButtons.forEach(b => b.classList.toggle("active", (b.dataset.ceo === "1") === ceoIn));
   }
 
-  toggleBtn.addEventListener("click", () => { ceoIn = !ceoIn; render(); });
+  tabButtons.forEach(b => {
+    b.addEventListener("click", () => {
+      ceoIn = b.dataset.ceo === "1";
+      render();
+      // On a phone, switching tabs changes bars that can sit below the
+      // fold — scroll them into view so the change is never invisible.
+      peopleEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  });
   render();
 </script>
 
