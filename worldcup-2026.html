@@ -80,7 +80,6 @@
   #map { width: 100%; height: auto; display: block; }
   .country { stroke-width: 0.4; cursor: pointer; }
   .marker { stroke: #fff; stroke-width: 1; cursor: pointer; }
-  .cinderella-ring { fill: none; stroke: var(--gold); stroke-width: 2; pointer-events: none; }
 
   #tooltip {
     position: absolute;
@@ -108,7 +107,6 @@
     color: var(--ink-soft);
   }
   .legend .key { display: inline-block; width: 11px; height: 11px; margin-right: 0.35rem; vertical-align: middle; }
-  .legend .ring { border: 2px solid var(--gold); background: transparent; border-radius: 50%; }
 
   .stage-note {
     margin-top: 1.2rem;
@@ -173,7 +171,7 @@
 
 <main>
   <h1>The 2026 World Cup, round by round</h1>
-  <p class="sub">Start with every country and territory on Earth that's allowed to dream about the World Cup, then watch the map empty out, round by round — with the upsets and Cinderella runs marked in gold.</p>
+  <p class="sub">Start with every country and territory on Earth that's allowed to dream about the World Cup, then watch the map empty out, round by round — with the upsets and Cinderella runs called out below.</p>
   <div id="save-image-slot"></div>
   <div class="updated">Tournament in progress — updated through July 12, 2026. All four semifinalists are set: France, Spain, England, and Argentina. Semifinals: France–Spain on July 14, England–Argentina on July 15.</div>
 
@@ -274,15 +272,6 @@
   const NON_FIFA = new Set(["GRL", "SAH", "ATA", "ATF", "FLK", "CYN", "SOL", "KAS"]);
   const ISO2_FIX = { FRA: "FR", NOR: "NO", ESP: "ES", GBR: "GB" };
 
-  // Explicit mainland coordinates for cinderella-ring placement. Needed
-  // because Norway's Natural Earth shape bundles in Svalbard (way up at
-  // 77-80°N), which drags the area centroid roughly 12° of latitude north
-  // of mainland Norway — landing the ring near Sweden instead.
-  const RING_POS = {
-    NOR: { lon: 8.5, lat: 61 },
-    MAR: { lon: -6, lat: 32 },
-  };
-
   const STAGES = [
     { id: 0, label: "Everyone eligible", legendAlive: "FIFA member (eligible to enter)" },
     { id: 1, label: "The 48 qualifiers", legendAlive: "Qualified for the tournament" },
@@ -294,7 +283,7 @@
 
   const NOTES = [
     `<p><strong>211 members, one trophy.</strong> FIFA has more members than the United Nations (193) — because you don't have to be a country. England, Scotland, Wales, and Northern Ireland enter separately; so do territories like Curaçao, Puerto Rico, and Hong Kong. Hover any country for its flag and population — eligibility spans from India (1.4 billion people) to members smaller than a mid-size town.</p>`,
-    `<p><strong>48 teams — the biggest World Cup ever</strong> (up from 32 in 2022). Four teams marked in gold made it for the first time in their history: Jordan, Uzbekistan, Cape Verde, and Curaçao — the smallest nation ever to reach a World Cup, with fewer people than Springfield, Missouri.</p>`,
+    `<p><strong>48 teams — the biggest World Cup ever</strong> (up from 32 in 2022). Four teams made it for the first time in their history: Jordan, Uzbekistan, Cape Verde, and Curaçao — the smallest nation ever to reach a World Cup, with fewer people than Springfield, Missouri.</p>`,
     `<p><strong>32 teams survived the groups.</strong> The shock of the round: <strong>Uruguay</strong> — two-time champions — went out on a goalkeeping error against Spain. Meanwhile Cape Verde held Spain to a draw and Curaçao took a point off Ecuador. All three co-hosts (USA, Canada, Mexico) advanced.</p>`,
     `<p><strong>The round of 32 was a bloodbath for former champions.</strong> <strong>Germany</strong> fell to Paraguay on penalties — extending a 12-year run without a World Cup knockout win. The <strong>Netherlands</strong> lost a shootout to Morocco. Cape Verde twice pulled level with champions Argentina before losing in the 111th minute.</p>`,
     `<p><strong>Eight remained — and Brazil wasn't one of them.</strong> The upset of the tournament so far: <strong>Norway 2–1 Brazil</strong>, in Norway's first World Cup since 1998. Morocco thrashed co-host Canada 3–0, Belgium put four past the US, and England edged Mexico 3–2.</p>`,
@@ -408,24 +397,6 @@
           .on("click", showMarkerTip)
           .on("mouseleave", () => { tooltip.style.display = "none"; });
       });
-
-      // Gold rings on Cinderella stories (visible while they're on the board)
-      Object.entries(TEAMS).forEach(([code, t]) => {
-        if (!t.cinderella) return;
-        if (stage >= 2 && t.reached < stage - 1) return; // long gone at this stage
-        let x, y;
-        const m = MARKERS.find(mm => mm.code === code);
-        if (m) { [x, y] = projection([m.lon, m.lat]); }
-        else if (RING_POS[code]) { [x, y] = projection([RING_POS[code].lon, RING_POS[code].lat]); }
-        else {
-          const feat = COUNTRIES_GEOJSON.features.find(f => f.properties.ADM0_A3 === code);
-          if (!feat) return;
-          [x, y] = path.centroid(feat);
-        }
-        markerGroup.append("circle")
-          .attr("class", "cinderella-ring")
-          .attr("cx", x).attr("cy", y).attr("r", 11);
-      });
     }
 
     // Legend
@@ -433,7 +404,6 @@
     let legendHtml = `<div><span class="key" style="background:${stage === 0 ? "var(--alive-soft)" : "var(--alive)"}"></span>${s.legendAlive}</div>`;
     if (s.legendOut) legendHtml += `<div><span class="key" style="background:var(--out-soft)"></span>${s.legendOut}</div>`;
     if (stage === 5 && Object.values(TEAMS).some(t => t.reached === 4.5)) legendHtml += `<div><span class="key" style="background:var(--pending)"></span>Quarterfinal being played today</div>`;
-    if (stage >= 1) legendHtml += `<div><span class="key ring"></span>Cinderella story (hover for why)</div>`;
     legendHtml += `<div><span class="key" style="background:var(--gone)"></span>${stage === 0 ? "Not a FIFA member" : stage === 1 ? "Did not qualify" : "Out in earlier rounds / did not qualify"}</div>`;
     document.getElementById("legend").innerHTML = legendHtml;
 
