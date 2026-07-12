@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Two Perfect Spare Games, 80 Pins Apart</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --a-color: #c1442d;
+    --a-soft: #f0d9d2;
+    --b-color: #0e7c86;
+    --b-soft: #cfe3e2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 1000px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.4rem, 3.8vw, 2rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 66ch; }
+
+  .scorecard-wrap { overflow-x: auto; }
+  .scorecard {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem 1.1rem;
+    margin-bottom: 1.1rem;
+    min-width: 640px;
+  }
+  .scorecard .who {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+  }
+  .scorecard .who h2 {
+    font-size: 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    margin: 0;
+  }
+  .scorecard.a .who h2 { color: var(--a-color); }
+  .scorecard.b .who h2 { color: var(--b-color); }
+  .scorecard .final {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  .frames { display: flex; gap: 3px; }
+  .frame {
+    flex: 1;
+    border: 1px solid var(--line);
+    min-width: 56px;
+  }
+  .frame.tenth { flex: 1.5; min-width: 84px; }
+  .frame .rolls {
+    display: flex;
+    border-bottom: 1px solid var(--line);
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+  }
+  .frame .rolls span {
+    flex: 1;
+    text-align: center;
+    padding: 0.3rem 0;
+    border-left: 1px solid var(--line);
+  }
+  .frame .rolls span:first-child { border-left: none; }
+  .frame .cum {
+    text-align: center;
+    font-family: ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 0.35rem 0;
+  }
+  .scorecard.a .frame .cum { color: var(--a-color); }
+  .scorecard.b .frame .cum { color: var(--b-color); }
+  .frame .num { font-size: 0.68rem; color: var(--ink-soft); text-align: center; padding-top: 0.15rem; }
+
+  #chart-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.2rem 1rem 0.8rem;
+    margin-top: 1.4rem;
+  }
+  #chart { width: 100%; height: auto; display: block; }
+  .chart-legend {
+    display: flex;
+    gap: 1.4rem;
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .chart-legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 0.4rem; vertical-align: middle; }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source { margin-top: 0.8rem; font-family: ui-monospace, monospace; font-size: 0.75rem; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>Two bowlers get a spare in every single frame. The scores aren't close.</h1>
+  <p class="sub">Bowler A always knocks down 1 pin, then 9 — a spare, every frame. Bowler B always knocks down 9, then 1 — also a spare, every frame. Same ten frames, same "spare every time." One finishes with 110. The other finishes with 190.</p>
+
+  <div id="save-image-slot"></div>
+
+  <div class="scorecard-wrap">
+    <div class="scorecard a">
+      <div class="who"><h2>Bowler A — always 1, then 9</h2><div class="final" id="final-a"></div></div>
+      <div class="frames" id="frames-a"></div>
+    </div>
+    <div class="scorecard b">
+      <div class="who"><h2>Bowler B — always 9, then 1</h2><div class="final" id="final-b"></div></div>
+      <div class="frames" id="frames-b"></div>
+    </div>
+  </div>
+
+  <div id="chart-wrap">
+    <svg id="chart" viewBox="0 0 700 260"></svg>
+    <div class="chart-legend">
+      <div><span class="dot" style="background:var(--b-color)"></span>Bowler B — running total</div>
+      <div><span class="dot" style="background:var(--a-color)"></span>Bowler A — running total</div>
+    </div>
+  </div>
+
+  <div class="caption">
+    <p><strong>The bonus is the whole story.</strong> In bowling, a spare's bonus is whatever you knock down on your very next ball — not your next frame's total, just that one single roll. Bowler B always opens a frame with a 9, so every one of his spare bonuses is a fat 9. Bowler A always opens with a 1, so every one of his bonuses is a measly 1. Same "spare" on the page, completely different value in the rule that actually scores it — and the gap compounds every single frame.</p>
+    <p>Both games are entirely legal, real bowling scores under standard ten-pin rules — this is an invented, deliberately extreme example (like our <a href="gerrymander.html">gerrymandering grid</a>), but the scoring math is exact, not simulated. The final-frame bonus ball for each bowler is assumed to continue their own pattern (a 1 for Bowler A, a 9 for Bowler B), the natural extension of "always open with this number."</p>
+    <p class="source">Scoring verified against standard ten-pin rules, including a perfect 12-strike game (300) and an all-gutter game (0) as sanity checks.</p>
+  </div>
+</main>
+
+<script>
+  const A_LABEL = "a", B_LABEL = "b";
+  // Bowler A: 1 then 9 every frame (spare); 10th frame bonus ball = 1
+  const rollsA = [];
+  for (let i = 0; i < 9; i++) rollsA.push(1, 9);
+  rollsA.push(1, 9, 1);
+  // Bowler B: 9 then 1 every frame (spare); 10th frame bonus ball = 9
+  const rollsB = [];
+  for (let i = 0; i < 9; i++) rollsB.push(9, 1);
+  rollsB.push(9, 1, 9);
+
+  function scoreGame(rolls) {
+    const frameScores = [];
+    const running = [];
+    const frameRolls = [];
+    let i = 0, total = 0;
+    for (let frame = 0; frame < 10; frame++) {
+      let frameScore, used;
+      if (frame < 9) {
+        if (rolls[i] === 10) {
+          frameScore = 10 + rolls[i + 1] + rolls[i + 2];
+          used = [rolls[i]];
+          i += 1;
+        } else if (rolls[i] + rolls[i + 1] === 10) {
+          frameScore = 10 + rolls[i + 2];
+          used = [rolls[i], rolls[i + 1]];
+          i += 2;
+        } else {
+          frameScore = rolls[i] + rolls[i + 1];
+          used = [rolls[i], rolls[i + 1]];
+          i += 2;
+        }
+      } else {
+        used = [rolls[i], rolls[i + 1], rolls[i + 2]];
+        frameScore = used[0] + used[1] + used[2];
+      }
+      total += frameScore;
+      frameScores.push(frameScore);
+      running.push(total);
+      frameRolls.push(used);
+    }
+    return { frameScores, running, frameRolls, total };
+  }
+
+  function notate(used, isTenth) {
+    // Convert raw pin counts into standard bowling scorecard marks.
+    const marks = [];
+    if (!isTenth) {
+      if (used[0] === 10) { marks.push("X"); return marks; }
+      marks.push(used[0] === 0 ? "-" : String(used[0]));
+      marks.push(used[0] + used[1] === 10 ? "/" : (used[1] === 0 ? "-" : String(used[1])));
+      return marks;
+    }
+    // 10th frame: up to three rolls, spares/strikes marked per-pair.
+    for (let k = 0; k < used.length; k++) {
+      const v = used[k];
+      const prev = k > 0 ? used[k - 1] : null;
+      if (v === 10) { marks.push("X"); continue; }
+      if (prev !== null && prev !== 10 && prev + v === 10) { marks.push("/"); continue; }
+      marks.push(v === 0 ? "-" : String(v));
+    }
+    return marks;
+  }
+
+  function renderScorecard(containerId, finalId, rolls) {
+    const { frameScores, running, frameRolls, total } = scoreGame(rolls);
+    const el = document.getElementById(containerId);
+    for (let f = 0; f < 10; f++) {
+      const div = document.createElement("div");
+      div.className = "frame" + (f === 9 ? " tenth" : "");
+      const marks = notate(frameRolls[f], f === 9);
+      const rollsHtml = marks.map(m => `<span>${m}</span>`).join("");
+      div.innerHTML = `<div class="rolls">${rollsHtml}</div><div class="cum">${running[f]}</div><div class="num">frame ${f + 1}</div>`;
+      el.appendChild(div);
+    }
+    document.getElementById(finalId).textContent = total;
+    return { frameScores, running, total };
+  }
+
+  const resultA = renderScorecard("frames-a", "final-a", rollsA);
+  const resultB = renderScorecard("frames-b", "final-b", rollsB);
+
+  // Running-total comparison chart
+  (function drawChart() {
+    const svg = document.getElementById("chart");
+    const W = 700, H = 260, M = { top: 16, right: 16, bottom: 28, left: 38 };
+    const plotW = W - M.left - M.right, plotH = H - M.top - M.bottom;
+    const maxY = Math.max(...resultB.running) * 1.08;
+    const x = i => M.left + (i / 9) * plotW;
+    const y = v => M.top + plotH - (v / maxY) * plotH;
+
+    const ns = "http://www.w3.org/2000/svg";
+    function el(tag, attrs) {
+      const e = document.createElementNS(ns, tag);
+      for (const k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+
+    // gridlines
+    for (let g = 0; g <= 4; g++) {
+      const v = Math.round((maxY / 4) * g / 10) * 10;
+      const gy = y(v);
+      svg.appendChild(el("line", { x1: M.left, x2: W - M.right, y1: gy, y2: gy, stroke: "rgba(28,39,51,0.10)" }));
+      const label = el("text", { x: M.left - 8, y: gy + 4, "text-anchor": "end", style: "font:10px ui-monospace,monospace; fill:#4a5a6b" });
+      label.textContent = v;
+      svg.appendChild(label);
+    }
+    for (let i = 0; i < 10; i++) {
+      const label = el("text", { x: x(i), y: H - 8, "text-anchor": "middle", style: "font:10px ui-monospace,monospace; fill:#4a5a6b" });
+      label.textContent = i + 1;
+      svg.appendChild(label);
+    }
+
+    function polyline(running, color) {
+      const pts = running.map((v, i) => `${x(i)},${y(v)}`).join(" ");
+      svg.appendChild(el("polyline", { points: pts, fill: "none", stroke: color, "stroke-width": 2.5 }));
+      running.forEach((v, i) => {
+        svg.appendChild(el("circle", { cx: x(i), cy: y(v), r: 3, fill: color }));
+      });
+    }
+    polyline(resultA.running, "var(--a-color)");
+    polyline(resultB.running, "var(--b-color)");
+  })();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: ".scorecard-wrap", title: "Two bowlers get a spare every frame. The scores aren't close.", filename: "hanten-bowling-spares.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
