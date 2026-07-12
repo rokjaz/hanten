@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Hits Are Like the Popular Vote. Runs Are Like the Electoral College.</title>
+<meta name="description" content="A team can get more hits and still lose the game. A candidate can get more votes and still lose the presidency. Same mechanism, verified both ways.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/hits-vs-runs.html">
+<meta property="og:title" content="Hanten — Hits are like the popular vote. Runs are like the Electoral College.">
+<meta property="og:description" content="A team can get more hits and still lose the game. A candidate can get more votes and still lose the presidency. Same mechanism, verified both ways.">
+<meta property="og:image" content="https://hanten.app/data/og/hits-vs-runs.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — Hits are like the popular vote. Runs are like the Electoral College.">
+<meta name="twitter:description" content="A team can get more hits and still lose the game. A candidate can get more votes and still lose the presidency. Same mechanism, verified both ways.">
+<meta name="twitter:image" content="https://hanten.app/data/og/hits-vs-runs.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --pirates: #b8860b;
+    --yankees: #1e3a5f;
+    --rep: #a3453a;
+    --dem: #2d5f8a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 1000px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.4rem, 3.8vw, 2rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 70ch; }
+
+  .panel {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.1rem 1.2rem 1.3rem;
+    margin-bottom: 1.4rem;
+  }
+  .panel h2 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.1rem;
+    margin: 0 0 0.9rem;
+  }
+
+  .scoreboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 560px) { .scoreboard { grid-template-columns: 1fr; } }
+  .scoreboard .cell { background: var(--paper-raised); padding: 0.9rem 1.1rem; }
+  .scoreboard .cell h3 {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    margin: 0 0 0.6rem;
+  }
+  .scoreboard .row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem; }
+  .scoreboard .row:last-child { margin-bottom: 0; }
+  .scoreboard .team { font-weight: 700; }
+  .scoreboard .team.pirates { color: var(--pirates); }
+  .scoreboard .team.yankees { color: var(--yankees); }
+  .scoreboard .val { font-family: ui-monospace, monospace; font-size: 1.1rem; font-weight: 700; }
+
+  .slopes { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 640px) { .slopes { grid-template-columns: 1fr; } }
+  .slope-card { border: 1px solid var(--line); padding: 0.7rem 0.7rem 0.4rem; }
+  .slope-card svg { width: 100%; height: auto; display: block; }
+  .slope-title { font-family: ui-monospace, monospace; font-size: 0.78rem; font-weight: 700; text-align: center; margin-bottom: 0.3rem; }
+
+  table.elections {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.4rem;
+    font-size: 0.86rem;
+  }
+  table.elections th, table.elections td {
+    text-align: left;
+    padding: 0.55rem 0.7rem;
+    border-bottom: 1px solid var(--line);
+  }
+  table.elections th {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+  }
+  table.elections tr:last-child td { border-bottom: none; }
+  table.elections td.num { font-family: ui-monospace, monospace; }
+  table.elections .won { color: var(--accent); font-weight: 700; }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source { margin-top: 0.8rem; font-family: ui-monospace, monospace; font-size: 0.75rem; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>Hits are like the popular vote. Runs are like the Electoral College.</h1>
+  <p class="sub">In baseball, a team can rack up more hits than its opponent and still lose the game — hits only count if they turn into runs at the right moment. A presidential candidate can win more total votes nationwide and still lose the presidency — votes only count if they win states. Both things have really happened. Here's the mechanism, verified both ways.</p>
+
+  <div id="save-image-slot"></div>
+
+  <div id="capture-area">
+
+  <div class="panel">
+    <h2>The baseball version — Game 7, 1960 World Series</h2>
+    <div class="scoreboard">
+      <div class="cell">
+        <h3>&nbsp;</h3>
+        <div class="row"><span class="team pirates">Pirates</span></div>
+        <div class="row"><span class="team yankees">Yankees</span></div>
+      </div>
+      <div class="cell">
+        <h3>Hits</h3>
+        <div class="row"><span class="val" style="color:var(--pirates)">11</span></div>
+        <div class="row"><span class="val" style="color:var(--yankees)">13</span></div>
+      </div>
+      <div class="cell">
+        <h3>Runs — decides the game</h3>
+        <div class="row"><span class="val" style="color:var(--pirates)">10 — won</span></div>
+        <div class="row"><span class="val" style="color:var(--yankees)">9 — lost</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>The election version — 4 times the popular vote winner lost</h2>
+    <div class="slopes" id="slopes"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Every instance, in full</h2>
+    <table class="elections">
+      <thead>
+        <tr><th>Year</th><th>Won the popular vote</th><th>Won the presidency</th><th>Popular vote margin</th></tr>
+      </thead>
+      <tbody id="elections-body"></tbody>
+    </table>
+  </div>
+
+  </div>
+
+  <div class="caption">
+    <p><strong>Both sides of this page are decided by the same kind of mismatch.</strong> A base hit only produces a run if it's followed by more hits, or comes with runners already on base — an inning full of singles with nobody on can end scoreless. A popular vote only produces an electoral vote if it helps win a state — a landslide in a state you were always going to win, or always going to lose, adds to the national total without moving a single electoral vote.</p>
+    <p>1876 is the only case where the popular-vote winner had an outright majority (over 50%), not just a plurality — Samuel Tilden remains the only candidate in American history to lose the presidency after winning a majority of the popular vote. A fifth election, 1824, is often mentioned alongside these: Andrew Jackson won both the popular vote and the most electoral votes, but fell short of a majority, and the House of Representatives chose John Quincy Adams instead — a different mechanism than the other four, so it's kept separate here.</p>
+    <p>Same underlying shape as our <a href="1960-world-series.html">1960 World Series</a> page and the <a href="gerrymander.html">gerrymandering grid</a>: whenever a contest is decided by winning discrete units — innings, states, districts — rather than by adding up every point scored, the total and the winner can point in different directions.</p>
+    <p class="source">1960 World Series Game 7 box score: Baseball Almanac. Election results: National Archives Electoral College records and the American Presidency Project (UCSB). Popular vote percentages are of the national total vote, not of the two-candidate total.</p>
+  </div>
+</main>
+
+<script>
+  const ELECTIONS = [
+    { year: 1876, winner: "Hayes", winnerParty: "R", winnerPop: 4034142, winnerPct: 47.92, winnerEV: 185,
+      loser: "Tilden", loserParty: "D", loserPop: 4286808, loserPct: 50.92, loserEV: 184, totalEV: 369 },
+    { year: 1888, winner: "Harrison", winnerParty: "R", winnerPop: 5443633, winnerPct: 47.80, winnerEV: 233,
+      loser: "Cleveland", loserParty: "D", loserPop: 5538163, loserPct: 48.63, loserEV: 168, totalEV: 401 },
+    { year: 2000, winner: "Bush", winnerParty: "R", winnerPop: 50456002, winnerPct: 47.87, winnerEV: 271,
+      loser: "Gore", loserParty: "D", loserPop: 50999897, loserPct: 48.38, loserEV: 266, totalEV: 538 },
+    { year: 2016, winner: "Trump", winnerParty: "R", winnerPop: 62984828, winnerPct: 46.09, winnerEV: 304,
+      loser: "Clinton", loserParty: "D", loserPop: 65853514, loserPct: 48.18, loserEV: 227, totalEV: 538 },
+  ];
+
+  const ns = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent) {
+    const e = document.createElementNS(ns, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  const partyColor = p => p === "R" ? "var(--rep)" : "var(--dem)";
+
+  const slopesEl = document.getElementById("slopes");
+  ELECTIONS.forEach(e => {
+    const card = document.createElement("div");
+    card.className = "slope-card";
+    const title = document.createElement("div");
+    title.className = "slope-title";
+    title.textContent = e.year;
+    card.appendChild(title);
+
+    const svg = el("svg", { viewBox: "0 0 280 170" });
+    const M = { top: 14, bottom: 26, left: 8, right: 8 };
+    const plotH = 170 - M.top - M.bottom;
+    const xL = 70, xR = 210;
+    // Zoomed-in domain (35-65%) instead of 0-65% — these are all close elections
+    // by definition, so a full 0-65% scale crushes every point into a tight
+    // cluster. This gives real pixel separation between close percentages.
+    const DOMAIN_MIN = 35, DOMAIN_MAX = 65;
+    const y = pct => M.top + plotH - ((pct - DOMAIN_MIN) / (DOMAIN_MAX - DOMAIN_MIN)) * plotH;
+
+    [40, 50, 60].forEach(v => {
+      const gy = y(v);
+      el("line", { x1: xL, x2: xR, y1: gy, y2: gy, stroke: "rgba(28,39,51,0.08)" }, svg);
+    });
+
+    const winnerEVpct = e.winnerEV / e.totalEV * 100;
+    const loserEVpct = e.loserEV / e.totalEV * 100;
+    const winnerColor = partyColor(e.winnerParty), loserColor = partyColor(e.loserParty);
+
+    el("line", { x1: xL, x2: xR, y1: y(e.winnerPct), y2: y(winnerEVpct), stroke: winnerColor, "stroke-width": 2.5 }, svg);
+    el("line", { x1: xL, x2: xR, y1: y(e.loserPct), y2: y(loserEVpct), stroke: loserColor, "stroke-width": 2.5 }, svg);
+    el("circle", { cx: xL, cy: y(e.winnerPct), r: 3.5, fill: winnerColor }, svg);
+    el("circle", { cx: xR, cy: y(winnerEVpct), r: 3.5, fill: winnerColor }, svg);
+    el("circle", { cx: xL, cy: y(e.loserPct), r: 3.5, fill: loserColor }, svg);
+    el("circle", { cx: xR, cy: y(loserEVpct), r: 3.5, fill: loserColor }, svg);
+
+    // Label collision avoidance: when two points on the same side land within
+    // a few px of each other (common on the popular-vote side, since these
+    // are all close elections), nudge the labels apart instead of overlapping.
+    function placeLabels(yA, yB, colorA, colorB, textA, textB, x, anchor) {
+      const minGap = 11;
+      let posA = yA, posB = yB;
+      if (Math.abs(yA - yB) < minGap) {
+        const mid = (yA + yB) / 2;
+        if (yA <= yB) { posA = mid - minGap / 2; posB = mid + minGap / 2; }
+        else { posA = mid + minGap / 2; posB = mid - minGap / 2; }
+      }
+      const dx = anchor === "end" ? -6 : 6;
+      const tA = el("text", { x: x + dx, y: posA + 3, "text-anchor": anchor, style: `font:9px ui-monospace,monospace; fill:${colorA}; font-weight:700` }, svg);
+      tA.textContent = textA;
+      const tB = el("text", { x: x + dx, y: posB + 3, "text-anchor": anchor, style: `font:9px ui-monospace,monospace; fill:${colorB}; font-weight:700` }, svg);
+      tB.textContent = textB;
+    }
+
+    placeLabels(y(e.winnerPct), y(e.loserPct), winnerColor, loserColor, `${e.winnerPct}%`, `${e.loserPct}%`, xL, "end");
+    placeLabels(y(winnerEVpct), y(loserEVpct), winnerColor, loserColor, `${e.winnerEV} EV`, `${e.loserEV} EV`, xR, "start");
+
+    const capL = el("text", { x: xL, y: 170 - 6, "text-anchor": "middle", style: "font:9px ui-monospace,monospace; fill:#4a5a6b" }, svg);
+    capL.textContent = "Popular vote";
+    const capR = el("text", { x: xR, y: 170 - 6, "text-anchor": "middle", style: "font:9px ui-monospace,monospace; fill:#4a5a6b" }, svg);
+    capR.textContent = "Electoral vote";
+
+    card.appendChild(svg);
+
+    const names = document.createElement("div");
+    names.style.textAlign = "center";
+    names.style.fontSize = "0.72rem";
+    names.style.color = "var(--ink-soft)";
+    names.innerHTML = `<span style="color:${partyColor(e.loserParty)}; font-weight:700">${e.loser}</span> won more votes — <span style="color:${partyColor(e.winnerParty)}; font-weight:700">${e.winner}</span> won the presidency`;
+    card.appendChild(names);
+
+    slopesEl.appendChild(card);
+  });
+
+  const body = document.getElementById("elections-body");
+  ELECTIONS.forEach(e => {
+    const tr = document.createElement("tr");
+    const margin = e.loserPop - e.winnerPop;
+    tr.innerHTML = `<td class="num">${e.year}</td>
+      <td class="won">${e.loser} (${e.loserParty}) — ${e.loserPct}%, ${e.loserEV} EV</td>
+      <td class="won">${e.winner} (${e.winnerParty}) — ${e.winnerPct}%, ${e.winnerEV} EV</td>
+      <td class="num">+${margin.toLocaleString()}</td>`;
+    body.appendChild(tr);
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#capture-area", title: "Hits are like the popular vote. Runs are like the Electoral College.", filename: "hanten-hits-vs-runs.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
