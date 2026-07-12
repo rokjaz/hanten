@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — 13 Places Closer to the Space Station Than to Their Nearest Country</title>
+<meta name="description" content="New Zealand, Bermuda, Cabo Verde, and 10 more places where the nearest other country is farther away than the International Space Station flying overhead.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/closer-to-iss.html">
+<meta property="og:title" content="Hanten — 13 places closer to the Space Station than to their nearest country">
+<meta property="og:description" content="New Zealand, Bermuda, Cabo Verde, and 10 more places where the nearest other country is farther away than the International Space Station flying overhead.">
+<meta property="og:image" content="https://hanten.app/data/og/closer-to-iss.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — 13 places closer to the Space Station than to their nearest country">
+<meta name="twitter:description" content="New Zealand, Bermuda, Cabo Verde, and 10 more places where the nearest other country is farther away than the International Space Station flying overhead.">
+<meta name="twitter:image" content="https://hanten.app/data/og/closer-to-iss.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --gold: #b8860b;
+    --gold-soft: rgba(184,134,11,0.14);
+    --land: #d6dbd0;
+    --land-line: #b9c0b2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 1000px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.4rem, 3.8vw, 2rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.2rem; max-width: 66ch; }
+
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+    position: relative;
+  }
+  #map { width: 100%; height: auto; display: block; }
+  .sphere { fill: var(--paper); }
+  .graticule { fill: none; stroke: var(--line); stroke-width: 0.4; }
+  .country { fill: var(--land); stroke: #fff; stroke-width: 0.3; }
+  .country.winner { fill: var(--gold); cursor: pointer; }
+  .marker { fill: var(--gold); stroke: #fff; stroke-width: 1; cursor: pointer; }
+
+  #tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: 3px;
+    max-width: 250px;
+    display: none;
+    z-index: 5;
+    line-height: 1.45;
+  }
+  #tooltip .stat { color: #f0d98f; font-size: 0.75rem; }
+
+  .legend {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.9rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+  .legend .swatch { width: 11px; height: 11px; display: inline-block; border-radius: 50%; margin-right: 0.3rem; }
+
+  table.winners {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.4rem;
+    font-size: 0.88rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+  }
+  table.winners th, table.winners td {
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--line);
+  }
+  table.winners th {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+  }
+  table.winners tr:last-child td { border-bottom: none; }
+  table.winners td.num { font-family: ui-monospace, monospace; font-weight: 700; color: var(--gold); white-space: nowrap; }
+  table.winners td.pop { font-family: ui-monospace, monospace; color: var(--ink-soft); white-space: nowrap; }
+  table.winners .name { font-weight: 700; }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source { margin-top: 0.8rem; font-family: ui-monospace, monospace; font-size: 0.75rem; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>13 places on Earth are closer to the Space Station than to their nearest country</h1>
+  <p class="sub">The International Space Station orbits about 408 km up — closer to the ground than some countries are to their own nearest neighbor. New Zealand, Bermuda, and 11 smaller places all qualify: when the ISS passes directly overhead, it's the closest "other place" there is.</p>
+
+  <div id="save-image-slot"></div>
+
+  <div id="map-wrap">
+    <svg id="map" viewBox="0 0 960 500"></svg>
+    <div id="tooltip"></div>
+  </div>
+  <div class="legend">
+    <span class="swatch" style="background:var(--gold)"></span>Closer to the ISS than to any other country
+    <span class="swatch" style="background:var(--land); border:1px solid var(--land-line); margin-left:1rem"></span>Everywhere else
+  </div>
+
+  <table class="winners" id="winners-table">
+    <thead>
+      <tr><th>Place</th><th>Population</th><th>Nearest country</th><th>Distance to it</th></tr>
+    </thead>
+    <tbody id="winners-body"></tbody>
+  </table>
+
+  <div class="caption">
+    <p><strong>New Zealand is the headline here.</strong> Almost 5 million people live in a country whose nearest neighbor, Australia, is 616 km away at the closest point — 200 km farther than the ISS's altitude. When the station passes overhead, it's genuinely the closest "other place" to New Zealand there is.</p>
+    <p>"Nearest country" here means the closest point between two countries' actual coastlines or borders — not capital cities — measured against detailed boundary data. New Zealand's shape in this analysis excludes Tokelau, a distinct, distant New Zealand territory bundled into the same map shape by the source data; including it would have made the number meaningless (Tokelau sits far to the north, near Kiribati).</p>
+    <p>Several of these are barely inhabited — Heard Island and Clipperton Island have no permanent population at all, and South Georgia's ~30 residents are rotating government and science staff. British Indian Ocean Territory's population is entirely military and support staff; its native Chagossian residents were forcibly relocated by the UK in the late 1960s and early 1970s and none live there today.</p>
+    <p class="source">Distances computed as the closest point between each country's boundary and every other country's boundary, using Natural Earth's detailed (1:10m) admin-0 boundary data, converted to great-circle kilometers. ISS altitude: 408 km, the same figure used on our <a href="point-nemo.html">Point Nemo map</a>. Populations: Natural Earth estimates (approximate, 2019).</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  const ISS_ALTITUDE_KM = 408;
+
+  const WINNERS = [
+    { code: "SHN", name: "Saint Helena", pop: 4534, nearest: "Liberia", km: 1542.3, marker: [-5.7, -15.96] },
+    { code: "SGS", name: "South Georgia & South Sandwich Is.", pop: 30, nearest: "Falkland Islands", km: 1339.6, marker: [-36.49, -54.43] },
+    { code: "BMU", name: "Bermuda", pop: 63918, nearest: "United States", km: 1035.8, marker: [-64.73, 32.32] },
+    { code: "CPT", name: "Clipperton Island", pop: 0, nearest: "Mexico", km: 953.5, marker: [-109.22, 10.3] },
+    { code: "NFK", name: "Norfolk Island", pop: 2169, nearest: "New Zealand", km: 686.5, marker: [167.96, -29.04] },
+    { code: "NZL", name: "New Zealand", pop: 4917000, nearest: "Australia", km: 616.4, marker: null },
+    { code: "CPV", name: "Cabo Verde", pop: 549935, nearest: "Senegal", km: 569.6, marker: [-25.18, 17.06] },
+    { code: "IOT", name: "British Indian Ocean Territory", pop: 3000, nearest: "Maldives", km: 522.0, marker: [71.35, -6.19] },
+    { code: "PCN", name: "Pitcairn Islands", pop: 54, nearest: "French Polynesia", km: 437.4, marker: [-128.32, -24.37] },
+    { code: "PYF", name: "French Polynesia", pop: 279287, nearest: "Pitcairn Islands", km: 437.4, marker: [-139.01, -9.78] },
+    { code: "COK", name: "Cook Islands", pop: 17459, nearest: "Kiribati", km: 433.4, marker: [-159.79, -21.22] },
+    { code: "HMD", name: "Heard Island & McDonald Is.", pop: 0, nearest: "French Southern & Antarctic Lands", km: 421.3, marker: [73.52, -53.08] },
+    { code: "NIU", name: "Niue", pop: 1620, nearest: "Tonga", km: 420.3, marker: [-169.86, -19.06] },
+  ];
+
+  const width = 960, height = 500;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+  const tooltip = document.getElementById("tooltip");
+
+  const projection = d3.geoEqualEarth().fitSize([width, height], { type: "Sphere" });
+  const path = d3.geoPath(projection);
+
+  svg.append("path").datum({ type: "Sphere" }).attr("class", "sphere").attr("d", path);
+  svg.append("path").datum(d3.geoGraticule10()).attr("class", "graticule").attr("d", path);
+
+  const winnerCodes = new Set(WINNERS.map(w => w.code));
+
+  function fmtPop(n) {
+    if (n === 0) return "Uninhabited";
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + " million";
+    if (n >= 1000) return Math.round(n / 1000).toLocaleString() + ",000";
+    return n.toLocaleString();
+  }
+
+  function showTip(html, event) {
+    tooltip.style.display = "block";
+    tooltip.innerHTML = html;
+    const wrap = document.getElementById("map-wrap").getBoundingClientRect();
+    tooltip.style.left = Math.min(event.clientX - wrap.left + 14, wrap.width - 260) + "px";
+    tooltip.style.top = (event.clientY - wrap.top + 14) + "px";
+  }
+  function hideTip() { tooltip.style.display = "none"; }
+
+  svg.append("g")
+    .selectAll("path")
+    .data(COUNTRIES_GEOJSON.features.filter(f => f.properties.ADM0_A3 !== "ATA"))
+    .join("path")
+    .attr("class", f => "country" + (winnerCodes.has(f.properties.ADM0_A3) ? " winner" : ""))
+    .attr("d", path)
+    .on("mousemove", (event, f) => {
+      const w = WINNERS.find(w => w.code === f.properties.ADM0_A3);
+      if (!w) return;
+      showTip(`<strong>${w.name}</strong>
+        <div class="stat">Population: ${fmtPop(w.pop)}</div>
+        <div class="stat">${w.km.toLocaleString()} km from ${w.nearest} — its nearest country</div>
+        <div class="stat">The ISS overhead (408 km) is closer</div>`, event);
+    })
+    .on("click", (event, f) => {
+      const w = WINNERS.find(w => w.code === f.properties.ADM0_A3);
+      if (w) showTip(`<strong>${w.name}</strong>
+        <div class="stat">Population: ${fmtPop(w.pop)}</div>
+        <div class="stat">${w.km.toLocaleString()} km from ${w.nearest} — its nearest country</div>
+        <div class="stat">The ISS overhead (408 km) is closer</div>`, event);
+    })
+    .on("mouseleave", hideTip);
+
+  const markerGroup = svg.append("g");
+  WINNERS.filter(w => w.marker).forEach(w => {
+    const [lon, lat] = w.marker;
+    const [x, y] = projection([lon, lat]);
+    markerGroup.append("circle")
+      .attr("class", "marker")
+      .attr("cx", x).attr("cy", y).attr("r", 4.5)
+      .on("mousemove", event => showTip(`<strong>${w.name}</strong>
+        <div class="stat">Population: ${fmtPop(w.pop)}</div>
+        <div class="stat">${w.km.toLocaleString()} km from ${w.nearest} — its nearest country</div>
+        <div class="stat">The ISS overhead (408 km) is closer</div>`, event))
+      .on("click", event => showTip(`<strong>${w.name}</strong>
+        <div class="stat">Population: ${fmtPop(w.pop)}</div>
+        <div class="stat">${w.km.toLocaleString()} km from ${w.nearest} — its nearest country</div>
+        <div class="stat">The ISS overhead (408 km) is closer</div>`, event))
+      .on("mouseleave", hideTip);
+  });
+
+  // Always-visible ranked list — no hovering required
+  const body = document.getElementById("winners-body");
+  WINNERS.slice().sort((a, b) => b.km - a.km).forEach(w => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td class="name">${w.name}</td>
+      <td class="pop">${fmtPop(w.pop)}</td>
+      <td>${w.nearest}</td>
+      <td class="num">${w.km.toLocaleString()} km</td>`;
+    body.appendChild(tr);
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "13 places closer to the Space Station than to their nearest country", filename: "hanten-closer-to-iss.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
