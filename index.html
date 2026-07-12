@@ -96,23 +96,16 @@
   .filters button {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 0.78rem;
+    font-weight: 700;
     padding: 0.5rem 0.85rem;
-    border: 1px solid var(--line);
-    background: var(--paper-raised);
-    color: var(--ink-soft);
+    border: 1px solid transparent;
+    color: #fff;
     cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 0.15s ease, transform 0.1s ease;
   }
-  .filters button:hover { border-color: var(--accent); }
-  .filters button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .filters button .dot {
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    margin-right: 0.45rem;
-    vertical-align: middle;
-  }
-  .filters button.active .dot { background: #fff !important; }
+  .filters button:hover { opacity: 0.8; }
+  .filters button.active { opacity: 1; box-shadow: 0 0 0 2px var(--ink); }
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -144,23 +137,31 @@
     a.card:hover { transform: none; }
   }
   .card-icon {
-    width: 34px;
-    height: 34px;
-    color: var(--accent);
-    margin-bottom: 0.7rem;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: #fff;
+    margin-bottom: 0.8rem;
   }
-  .card-icon svg { width: 100%; height: 100%; display: block; }
-  .card[data-cat="population"] .card-icon, .card[data-cat="population"] .tag { color: var(--cat-population); }
-  .card[data-cat="distances"] .card-icon, .card[data-cat="distances"] .tag { color: var(--cat-distances); }
-  .card[data-cat="politics"] .card-icon, .card[data-cat="politics"] .tag { color: var(--cat-politics); }
-  .card[data-cat="statistics"] .card-icon, .card[data-cat="statistics"] .tag { color: var(--cat-statistics); }
-  .card[data-cat="sports"] .card-icon, .card[data-cat="sports"] .tag { color: var(--cat-sports); }
+  .card-icon svg { width: 26px; height: 26px; display: block; }
+  .card[data-cat="population"] .card-icon, .card[data-cat="population"] .tag { background: var(--cat-population); }
+  .card[data-cat="distances"] .card-icon, .card[data-cat="distances"] .tag { background: var(--cat-distances); }
+  .card[data-cat="politics"] .card-icon, .card[data-cat="politics"] .tag { background: var(--cat-politics); }
+  .card[data-cat="statistics"] .card-icon, .card[data-cat="statistics"] .tag { background: var(--cat-statistics); }
+  .card[data-cat="sports"] .card-icon, .card[data-cat="sports"] .tag { background: var(--cat-sports); }
   .card .tag {
+    display: inline-block;
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 0.68rem;
+    font-weight: 700;
     letter-spacing: 0.09em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
   }
   .card h2 {
     font-family: ui-serif, Georgia, serif;
@@ -487,12 +488,9 @@
 
   CATEGORIES.forEach(cat => {
     const b = document.createElement("button");
-    const dot = document.createElement("span");
-    dot.className = "dot";
-    dot.style.background = `var(--cat-${cat.id})`;
-    b.appendChild(dot);
-    b.appendChild(document.createTextNode(cat.label));
+    b.textContent = cat.label;
     b.dataset.cat = cat.id;
+    b.style.background = `var(--cat-${cat.id})`;
     b.addEventListener("click", () => {
       currentCat = currentCat === cat.id ? null : cat.id;
       render();
