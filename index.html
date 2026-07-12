@@ -147,11 +147,7 @@
     margin-bottom: 0.8rem;
   }
   .card-icon svg { width: 26px; height: 26px; display: block; }
-  .card[data-cat="population"] .card-icon, .card[data-cat="population"] .tag { background: var(--cat-population); }
-  .card[data-cat="distances"] .card-icon, .card[data-cat="distances"] .tag { background: var(--cat-distances); }
-  .card[data-cat="politics"] .card-icon, .card[data-cat="politics"] .tag { background: var(--cat-politics); }
-  .card[data-cat="statistics"] .card-icon, .card[data-cat="statistics"] .tag { background: var(--cat-statistics); }
-  .card[data-cat="sports"] .card-icon, .card[data-cat="sports"] .tag { background: var(--cat-sports); }
+  .card-icon, .card .tag { background: var(--card-color, var(--accent)); }
   .card .tag {
     display: inline-block;
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
@@ -453,7 +449,7 @@
       <h2>Only 23 people, and the odds already favor a shared birthday</h2>
       <p>Most people guess you'd need close to 183. It's 253 pairs of people, not 365 dates, that get you there.</p>
     </a>
-    <a class="card" data-cat="statistics" href="hits-vs-runs.html">
+    <a class="card" data-cat="statistics politics" href="hits-vs-runs.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <line x1="8" y1="12" x2="32" y2="28"/>
         <line x1="8" y1="28" x2="32" y2="12"/>
@@ -502,6 +498,20 @@
   let currentCat = null; // null = no category filter (show all categories)
   let currentQuery = "";
 
+  // data-cat can hold more than one space-separated category (e.g.
+  // data-cat="statistics politics") for maps that genuinely span two
+  // sections. The first one listed is the "primary" category — it decides
+  // the card's icon/tag color — but the card is filterable under any of them.
+  function cats(el) {
+    return (el.dataset.cat || "").trim().split(/\s+/);
+  }
+  function hasCat(el, cat) {
+    return cats(el).includes(cat);
+  }
+
+  // Set each card's accent color from its primary (first-listed) category.
+  cards.forEach(c => c.style.setProperty("--card-color", `var(--cat-${cats(c)[0]})`));
+
   function cardSearchText(card) {
     let text = card.textContent || "";
     const group = card.closest(".subgroup");
@@ -514,12 +524,12 @@
 
   function render() {
     cards.forEach(c => {
-      const catOk = currentCat === null || c.dataset.cat === currentCat;
+      const catOk = currentCat === null || hasCat(c, currentCat);
       const searchOk = !currentQuery || cardSearchText(c).includes(currentQuery);
       c.classList.toggle("hidden", !(catOk && searchOk));
     });
     subgroups.forEach(g => {
-      const catOk = currentCat === null || g.dataset.cat === currentCat;
+      const catOk = currentCat === null || hasCat(g, currentCat);
       const anyChildVisible = [...g.querySelectorAll(".card")].some(c => !c.classList.contains("hidden"));
       g.classList.toggle("hidden", !(catOk && anyChildVisible));
     });
