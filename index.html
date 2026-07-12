@@ -98,18 +98,26 @@
     color: var(--ink-soft);
     margin: 0;
   }
-  .subcat-heading {
+  .subgroup {
     grid-column: 1 / -1;
+    border: 1px solid var(--line);
+    padding: 1.1rem 1.2rem 1.3rem;
+  }
+  .subgroup.hidden { display: none; }
+  .subgroup-label {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 0.72rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-soft);
-    padding-bottom: 0.35rem;
-    border-bottom: 1px solid var(--line);
-    margin-top: 0.2rem;
+    margin-bottom: 0.9rem;
   }
-  .subcat-heading.hidden { display: none; }
+  .subgroup .subgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem;
+  }
+  @media (max-width: 700px) { .subgroup .subgrid { grid-template-columns: 1fr; } }
   footer {
     max-width: 900px;
     margin: 0 auto;
@@ -186,17 +194,21 @@
       <h2>More people live inside this circle than outside it</h2>
       <p>One 4,000 km circle over Asia outweighs the Americas, Europe, Africa, Oceania, and the Middle East combined.</p>
     </a>
-    <div class="subcat-heading" data-parent-cat="statistics">Bowling</div>
-    <a class="card" data-cat="statistics" data-subcat="bowling" href="bowling-spares.html">
-      <div class="tag">Statistics</div>
-      <h2>Two bowlers get a spare every frame. The scores aren't close.</h2>
-      <p>110 vs. 190 — same "spare every time," an 80-pin gap, because of one rule most people never notice.</p>
-    </a>
-    <a class="card" data-cat="statistics" data-subcat="bowling" href="bowling-strikes.html">
-      <div class="tag">Statistics</div>
-      <h2>Same 5 strikes, same 5 gutter frames. One score is double the other.</h2>
-      <p>50 vs. 120 — spreading strikes out wastes them, stacking them lets each one feed the next.</p>
-    </a>
+    <div class="subgroup" data-cat="statistics">
+      <div class="subgroup-label">Bowling</div>
+      <div class="subgrid">
+        <a class="card" data-cat="statistics" href="bowling-spares.html">
+          <div class="tag">Statistics</div>
+          <h2>Two bowlers get a spare every frame. The scores aren't close.</h2>
+          <p>110 vs. 190 — same "spare every time," an 80-pin gap, because of one rule most people never notice.</p>
+        </a>
+        <a class="card" data-cat="statistics" href="bowling-strikes.html">
+          <div class="tag">Statistics</div>
+          <h2>Same 5 strikes, same 5 gutter frames. One score is double the other.</h2>
+          <p>50 vs. 120 — spreading strikes out wastes them, stacking them lets each one feed the next.</p>
+        </a>
+      </div>
+    </div>
     <a class="card" data-cat="statistics" href="ford-trucks.html">
       <div class="tag">United States</div>
       <h2>Wyoming buys the most F-150s per person. Texas buys the most, period.</h2>
@@ -237,14 +249,14 @@
   ];
   const filtersEl = document.getElementById("filters");
   const cards = [...document.querySelectorAll("#grid .card")];
-  const subheadings = [...document.querySelectorAll("#grid .subcat-heading")];
+  const subgroups = [...document.querySelectorAll("#grid .subgroup")];
 
   function applyFilter(cat) {
     cards.forEach(c => {
       c.classList.toggle("hidden", cat !== "all" && c.dataset.cat !== cat);
     });
-    subheadings.forEach(h => {
-      h.classList.toggle("hidden", cat !== "all" && h.dataset.parentCat !== cat);
+    subgroups.forEach(g => {
+      g.classList.toggle("hidden", cat !== "all" && g.dataset.cat !== cat);
     });
     document.querySelectorAll("#filters button").forEach(b => {
       b.classList.toggle("active", b.dataset.cat === cat);
