@@ -93,6 +93,13 @@
   }
   a.card:hover { border-color: var(--accent); }
   a.card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .card-icon {
+    width: 34px;
+    height: 34px;
+    color: var(--accent);
+    margin-bottom: 0.7rem;
+  }
+  .card-icon svg { width: 100%; height: 100%; display: block; }
   .card .tag {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 0.68rem;
@@ -162,46 +169,98 @@
   <p class="no-results" id="no-results">No maps match that search.</p>
   <div class="grid" id="grid">
     <a class="card" data-cat="population" href="empty-america.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="5" y="8" width="30" height="24" rx="1"/>
+        <circle cx="12" cy="15" r="1.3" fill="currentColor" stroke="none"/>
+        <circle cx="27" cy="12" r="1.3" fill="currentColor" stroke="none"/>
+        <circle cx="30" cy="26" r="1.3" fill="currentColor" stroke="none"/>
+        <circle cx="14" cy="27" r="1.3" fill="currentColor" stroke="none"/>
+      </svg></div>
       <div class="tag">United States</div>
       <h2>Nearly half of America is almost empty</h2>
       <p>46% of the land holds 1.3% of the people. The frontier never really closed.</p>
     </a>
     <a class="card" data-cat="population" href="density-extremes.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="34" x2="36" y2="34"/>
+        <circle cx="9" cy="30" r="1.1" fill="currentColor" stroke="none"/>
+        <circle cx="19" cy="30" r="1.1" fill="currentColor" stroke="none"/><circle cx="19" cy="25" r="1.1" fill="currentColor" stroke="none"/>
+        <circle cx="30" cy="30" r="1.1" fill="currentColor" stroke="none"/><circle cx="30" cy="25" r="1.1" fill="currentColor" stroke="none"/><circle cx="30" cy="20" r="1.1" fill="currentColor" stroke="none"/><circle cx="34" cy="27" r="1.1" fill="currentColor" stroke="none"/><circle cx="34" cy="22" r="1.1" fill="currentColor" stroke="none"/>
+      </svg></div>
       <div class="tag">United States</div>
       <h2>From nearly empty to packed tight</h2>
       <p>The same 3,144 counties at three density cutoffs — and three completely different countries appear.</p>
     </a>
     <a class="card" data-cat="politics" href="gerrymander.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="5" y="5" width="30" height="30"/>
+        <path d="M5 16 C13 11,21 21,35 14"/>
+        <path d="M5 27 C15 21,23 33,35 25"/>
+      </svg></div>
       <div class="tag">Maps + Statistics</div>
       <h2>Same 36 voters. Three different winners.</h2>
       <p>Nobody moves. Nobody changes their mind. Only the district lines change — and with them, who wins.</p>
     </a>
     <a class="card" data-cat="politics" href="gerrymander-real.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M11 8 C19 4,29 8,31 15 C36 21,29 30,21 32 C13 34,6 27,8 19 C4 13,7 10,11 8 Z"/>
+      </svg></div>
       <div class="tag">United States</div>
       <h2>These districts are real</h2>
       <p>The Earmuffs. The I-85 snake. Actual congressional districts, drawn to their true boundaries — with the court battles they caused.</p>
     </a>
     <a class="card" data-cat="population" href="equal-fifty.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="4" width="32" height="32"/>
+        <path d="M4 15 L17 11 L36 17"/>
+        <path d="M15 4 L18 11 L14 36"/>
+        <path d="M4 27 L22 23 L36 29"/>
+      </svg></div>
       <div class="tag">United States</div>
       <h2>America redrawn: 50 states of equal population</h2>
       <p>Every region holds ~6.7 million people. The Northeast shatters into slivers; one region swallows most of four states.</p>
     </a>
     <a class="card" data-cat="distances" href="point-nemo.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 27 Q10 23 16 27 T28 27 T36 27"/>
+        <circle cx="20" cy="27" r="1.5" fill="currentColor" stroke="none"/>
+        <ellipse cx="22" cy="13" rx="11" ry="4.5"/>
+        <circle cx="31" cy="10" r="1.4" fill="currentColor" stroke="none"/>
+      </svg></div>
       <div class="tag">Pacific Ocean</div>
       <h2>At Point Nemo, the closest people are usually in orbit</h2>
       <p>The middle of the ocean is closer to the Space Station than to any inhabited land — drawn to scale.</p>
     </a>
     <a class="card" data-cat="distances" href="earth-moon-gap.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="20" r="6"/>
+        <circle cx="32" cy="20" r="3"/>
+        <circle cx="17" cy="20" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="21" cy="20" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="25" cy="20" r="1" fill="currentColor" stroke="none"/>
+      </svg></div>
       <div class="tag">Solar System</div>
       <h2>The planets almost fit between Earth and the Moon</h2>
       <p>A famous "fact" that turns out to be true or false depending on the day — try all three orbit positions.</p>
     </a>
     <a class="card" data-cat="sports" href="worldcup-2026.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 7 H26 V13 C26 19 22 21 20 21 C18 21 14 19 14 13 Z"/>
+        <path d="M14 9 C10 9 8 12 10 15 C11.5 17 13 17 14 16"/>
+        <path d="M26 9 C30 9 32 12 30 15 C28.5 17 27 17 26 16"/>
+        <path d="M20 21 V26 M15 30 H25 M17 26 H23 V30"/>
+      </svg></div>
       <div class="tag">Live — World Cup 2026</div>
       <h2>The World Cup, round by round</h2>
       <p>From all 211 eligible nations down to the final four — flags, populations, upsets, and Cinderella runs, updated as the tournament unfolds.</p>
     </a>
     <a class="card" data-cat="sports" href="disc-golf.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="12" cy="13" rx="8" ry="3"/>
+        <line x1="28" y1="7" x2="28" y2="31"/>
+        <path d="M22 25 H34 M22 21 H34 M22 17 H34"/>
+        <ellipse cx="28" cy="11" rx="5" ry="2"/>
+      </svg></div>
       <div class="tag">World</div>
       <h2>Iceland has more disc golf per person than anywhere on Earth</h2>
       <p>The U.S. has 65% of the world's 17,285 courses — but per capita, a completely different country wins.</p>
@@ -210,11 +269,19 @@
       <div class="subgroup-label">Bowling</div>
       <div class="subgrid">
         <a class="card" data-cat="sports" href="bowling-spares.html">
+          <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="27" r="6"/>
+            <path d="M25 7 C22 7,21 11,22 15 C20 17,20 23,22 27 C23 30,29 30,30 27 C32 23,32 17,30 15 C31 11,30 7,27 7 Z"/>
+          </svg></div>
           <div class="tag">Bowling</div>
           <h2>Two bowlers get a spare every frame. The scores aren't close.</h2>
           <p>110 vs. 190 — same "spare every time," an 80-pin gap, because of one rule most people never notice.</p>
         </a>
         <a class="card" data-cat="sports" href="bowling-strikes.html">
+          <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="27" r="6"/>
+            <path d="M25 7 C22 7,21 11,22 15 C20 17,20 23,22 27 C23 30,29 30,30 27 C32 23,32 17,30 15 C31 11,30 7,27 7 Z"/>
+          </svg></div>
           <div class="tag">Bowling</div>
           <h2>Same 5 strikes, same 5 gutter frames. One score is double the other.</h2>
           <p>50 vs. 120 — spreading strikes out wastes them, stacking them lets each one feed the next.</p>
@@ -222,36 +289,79 @@
       </div>
     </div>
     <a class="card" data-cat="distances" href="true-size-africa.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 7 C20 4,34 10,32 21 C30 31,16 33,8 27 C2 21,2 12,6 7 Z"/>
+        <rect x="9" y="13" width="10" height="8"/>
+        <rect x="17" y="19" width="9" height="7"/>
+      </svg></div>
       <div class="tag">Projections</div>
       <h2>Africa is bigger than you think</h2>
       <p>The US, China, and Japan fit inside Africa at once — with room left for India, most of Europe, Mexico, and Alaska.</p>
     </a>
     <a class="card" data-cat="population" href="population-circle.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="20" cy="20" r="15"/>
+        <circle cx="20" cy="20" r="8" stroke-dasharray="2,2"/>
+        <circle cx="14" cy="15" r="1.1" fill="currentColor" stroke="none"/>
+        <circle cx="25" cy="24" r="1.1" fill="currentColor" stroke="none"/>
+        <circle cx="26" cy="14" r="1.1" fill="currentColor" stroke="none"/>
+      </svg></div>
       <div class="tag">World</div>
       <h2>More people live inside this circle than outside it</h2>
       <p>One 4,000 km circle over Asia outweighs the Americas, Europe, Africa, Oceania, and the Middle East combined.</p>
     </a>
     <a class="card" data-cat="statistics" href="ford-trucks.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 25 H22 V13 H16 L12 19 H4 Z"/>
+        <path d="M22 25 H34 V19 H28 L22 13"/>
+        <circle cx="10" cy="27" r="2.4"/>
+        <circle cx="28" cy="27" r="2.4"/>
+      </svg></div>
       <div class="tag">United States</div>
       <h2>Wyoming buys the most F-150s per person. Texas buys the most, period.</h2>
       <p>Same real data, two honest rankings that barely overlap — because per capita and overall are answering different questions.</p>
     </a>
     <a class="card" data-cat="statistics" href="mean-median.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="29" x2="36" y2="29"/>
+        <circle cx="8" cy="27" r="1.3" fill="currentColor" stroke="none"/>
+        <circle cx="14" cy="26" r="1.3" fill="currentColor" stroke="none"/>
+        <circle cx="20" cy="27" r="1.3" fill="currentColor" stroke="none"/>
+        <circle cx="26" cy="26" r="1.3" fill="currentColor" stroke="none"/>
+        <line x1="32" y1="9" x2="32" y2="27" stroke-dasharray="2,2"/>
+        <circle cx="32" cy="7" r="1.8" fill="currentColor" stroke="none"/>
+      </svg></div>
       <div class="tag">Statistics</div>
       <h2>The average person at this BBQ makes $45 million</h2>
       <p>One rich guest walks in, and "the average" explodes 527× — while the median barely moves. Both are telling the truth.</p>
     </a>
     <a class="card" data-cat="statistics" href="axis-truncation.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 34 H36 M4 34 V21 M4 25 L7 23 L4 21"/>
+        <rect x="10" y="23" width="6" height="11"/>
+        <rect x="20" y="16" width="6" height="18"/>
+        <rect x="30" y="10" width="4" height="24"/>
+      </svg></div>
       <div class="tag">Statistics</div>
       <h2>The same two numbers, told two ways</h2>
       <p>A 1.8-point gap becomes a landslide, just by moving where the axis starts. Drag it yourself.</p>
     </a>
     <a class="card" data-cat="statistics" href="birthday-paradox.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 31 C10 31,12 27,16 19 C20 11,22 8,36 8"/>
+        <line x1="4" y1="19" x2="36" y2="19" stroke-dasharray="2,2"/>
+        <circle cx="17" cy="19" r="1.6" fill="currentColor" stroke="none"/>
+      </svg></div>
       <div class="tag">Statistics</div>
       <h2>Only 23 people, and the odds already favor a shared birthday</h2>
       <p>Most people guess you'd need close to 183. It's 253 pairs of people, not 365 dates, that get you there.</p>
     </a>
     <a class="card" data-cat="distances" href="kiritimati.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="20" cy="20" r="15"/>
+        <ellipse cx="20" cy="20" rx="15" ry="6" transform="rotate(25 20 20)"/>
+        <line x1="20" y1="5" x2="20" y2="35" transform="rotate(25 20 20)"/>
+      </svg></div>
       <div class="tag">Pacific Ocean</div>
       <h2>The world, centered on Kiritimati</h2>
       <p>Same coastlines, same borders — just rotated so the planet's most obscure inhabited island is the middle of everything.</p>
