@@ -12,7 +12,7 @@
   const INK = "#1c2733";
   const PAPER = "#eef1ec";
   const ACCENT = "#0e7c86";
-  const SITE_URL = "hanten-maps.vercel.app";
+  const SITE_URL = "hanten.app";
 
   const STYLE = `
     .save-image-btn {
