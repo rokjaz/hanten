@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Only 23 People, and the Odds Already Favor a Shared Birthday</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --warn: #c1442d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 1000px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.4rem, 3.8vw, 2rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 66ch; }
+
+  #panel {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.4rem 1.5rem;
+  }
+
+  .slider-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+  .slider-row .n-label { font-family: ui-monospace, monospace; color: var(--ink-soft); }
+  .slider-row .n-value { font-weight: 700; color: var(--ink); }
+  input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent);
+    margin-bottom: 1.1rem;
+  }
+
+  .readout {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .readout .pct {
+    font-family: ui-monospace, monospace;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .readout .desc { color: var(--ink-soft); font-size: 0.95rem; max-width: 40ch; }
+
+  .room {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 0.9rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    margin-bottom: 1.4rem;
+    min-height: 44px;
+  }
+  .room .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.85;
+  }
+
+  #chart-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.2rem 1rem 0.8rem;
+    margin-top: 1.4rem;
+  }
+  #chart { width: 100%; height: auto; display: block; }
+
+  table.thresholds {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.4rem;
+    font-size: 0.9rem;
+  }
+  table.thresholds th, table.thresholds td {
+    text-align: left;
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid var(--line);
+  }
+  table.thresholds th {
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+  }
+  table.thresholds td.num { font-family: ui-monospace, monospace; font-weight: 700; }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source { margin-top: 0.8rem; font-family: ui-monospace, monospace; font-size: 0.75rem; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>Put 23 people in a room, and the odds already favor a shared birthday</h1>
+  <p class="sub">Most people guess you'd need close to 183 — half of 365 — before it's a coin flip. The real number is 23, because you're not checking one date against one person. You're checking every pair of people against each other.</p>
+
+  <div id="panel">
+    <div class="slider-row">
+      <span class="n-label">People in the room</span>
+      <span class="n-value" id="n-value">23</span>
+    </div>
+    <input type="range" id="slider" min="1" max="70" value="23">
+
+    <div class="readout">
+      <div class="pct" id="pct-value">50.7%</div>
+      <div class="desc" id="pct-desc">chance at least two of them share a birthday</div>
+    </div>
+
+    <div class="room" id="room"></div>
+
+    <div id="chart-wrap">
+      <svg id="chart" viewBox="0 0 700 300"></svg>
+    </div>
+
+    <table class="thresholds">
+      <thead>
+        <tr><th>Odds of a shared birthday</th><th>People needed</th></tr>
+      </thead>
+      <tbody id="thresholds-body"></tbody>
+    </table>
+  </div>
+
+  <div id="save-image-slot"></div>
+
+  <div class="caption">
+    <p><strong>It's about pairs, not dates.</strong> With 23 people there are 23×22÷2 = 253 different pairs of people, and each pair has a small independent chance of matching. Add up 253 small chances and you cross 50% much faster than intuition expects — the number of pairs grows roughly with the square of the group size, not the group size itself.</p>
+    <p>This assumes birthdays are spread evenly across 365 days (no Feb 29, no accounting for real-world clustering like September birth spikes) — the standard simplification used in the classic version of this problem.</p>
+    <p class="source">P(shared) = 1 − (365 × 364 × … × (365−n+1)) / 365ⁿ, computed exactly for each n and cross-checked against the published birthday-paradox values (23 → 50.7%, 57 → 99.0%, 70 → 99.9%).</p>
+  </div>
+</main>
+
+<script>
+  const DAYS = 365;
+  const MAX_N = 70;
+
+  function probShared(n) {
+    let pNoMatch = 1;
+    for (let i = 0; i < n; i++) pNoMatch *= (DAYS - i) / DAYS;
+    return 1 - pNoMatch;
+  }
+
+  const probs = [];
+  for (let n = 0; n <= MAX_N; n++) probs.push(probShared(n));
+
+  // Thresholds table
+  const THRESHOLDS = [0.5, 0.7, 0.9, 0.99, 0.999];
+  const thresholdsBody = document.getElementById("thresholds-body");
+  THRESHOLDS.forEach(t => {
+    let n = 1;
+    while (probs[n] < t) n++;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${(t * 100).toFixed(t >= 0.99 ? 1 : 0)}%+</td><td class="num">${n} people</td>`;
+    thresholdsBody.appendChild(tr);
+  });
+
+  // Chart: probability curve, n=0..70
+  const svg = document.getElementById("chart");
+  const W = 700, H = 300, M = { top: 16, right: 16, bottom: 30, left: 42 };
+  const plotW = W - M.left - M.right, plotH = H - M.top - M.bottom;
+  const x = n => M.left + (n / MAX_N) * plotW;
+  const y = p => M.top + plotH - p * plotH;
+
+  const ns = "http://www.w3.org/2000/svg";
+  function el(tag, attrs) {
+    const e = document.createElementNS(ns, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  // gridlines + y labels (0-100%)
+  for (let g = 0; g <= 4; g++) {
+    const p = g / 4;
+    const gy = y(p);
+    svg.appendChild(el("line", { x1: M.left, x2: W - M.right, y1: gy, y2: gy, stroke: "rgba(28,39,51,0.10)" }));
+    const label = el("text", { x: M.left - 8, y: gy + 4, "text-anchor": "end", style: "font:10px ui-monospace,monospace; fill:#4a5a6b" });
+    label.textContent = Math.round(p * 100) + "%";
+    svg.appendChild(label);
+  }
+  // x labels every 10 people
+  for (let n = 0; n <= MAX_N; n += 10) {
+    const label = el("text", { x: x(n), y: H - 8, "text-anchor": "middle", style: "font:10px ui-monospace,monospace; fill:#4a5a6b" });
+    label.textContent = n;
+    svg.appendChild(label);
+  }
+
+  // 50% reference line
+  svg.appendChild(el("line", { x1: M.left, x2: W - M.right, y1: y(0.5), y2: y(0.5), stroke: "#c1442d", "stroke-width": 1, "stroke-dasharray": "4,3" }));
+  const fiftyLabel = el("text", { x: W - M.right, y: y(0.5) - 6, "text-anchor": "end", style: "font:11px ui-monospace,monospace; fill:#c1442d" });
+  fiftyLabel.textContent = "50%";
+  svg.appendChild(fiftyLabel);
+
+  // probability curve
+  const pts = probs.map((p, n) => `${x(n)},${y(p)}`).join(" ");
+  svg.appendChild(el("polyline", { points: pts, fill: "none", stroke: "var(--accent)", "stroke-width": 2.5 }));
+
+  // fixed marker at n=23
+  svg.appendChild(el("circle", { cx: x(23), cy: y(probs[23]), r: 4, fill: "#c1442d" }));
+  svg.appendChild(el("line", { x1: x(23), x2: x(23), y1: y(probs[23]), y2: H - M.bottom, stroke: "#c1442d", "stroke-width": 1, "stroke-dasharray": "3,3" }));
+  const label23 = el("text", { x: x(23) + 6, y: y(probs[23]) - 8, style: "font:11px ui-monospace,monospace; fill:#c1442d" });
+  label23.textContent = "23 → 50.7%";
+  svg.appendChild(label23);
+
+  // moving marker tied to slider
+  const currentDot = el("circle", { r: 5, fill: "var(--ink)", stroke: "#fff", "stroke-width": 1.5 });
+  svg.appendChild(currentDot);
+
+  // Room-of-dots + live readout
+  const slider = document.getElementById("slider");
+  const nValueEl = document.getElementById("n-value");
+  const pctValueEl = document.getElementById("pct-value");
+  const roomEl = document.getElementById("room");
+
+  function render(n) {
+    nValueEl.textContent = n;
+    const p = probs[n];
+    pctValueEl.textContent = (p * 100).toFixed(1) + "%";
+    currentDot.setAttribute("cx", x(n));
+    currentDot.setAttribute("cy", y(p));
+
+    roomEl.innerHTML = "";
+    for (let i = 0; i < n; i++) {
+      const dot = document.createElement("div");
+      dot.className = "dot";
+      roomEl.appendChild(dot);
+    }
+  }
+
+  slider.addEventListener("input", () => render(parseInt(slider.value, 10)));
+  render(23);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#panel", title: "Only 23 people, and the odds already favor a shared birthday", filename: "hanten-birthday-paradox.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
