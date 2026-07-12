@@ -515,6 +515,7 @@
 
   searchEl.addEventListener("input", () => {
     currentQuery = searchEl.value.trim().toLowerCase();
+    if (currentQuery) currentCat = null;
     render();
   });
 
