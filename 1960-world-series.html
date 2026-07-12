@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — The Yankees Outscored the Pirates by 28 Runs. They Still Lost.</title>
+<meta name="description" content="The 1960 World Series: New York scored more than twice as many runs as Pittsburgh across the series — and lost anyway, on a walk-off home run in Game 7.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/1960-world-series.html">
+<meta property="og:title" content="Hanten — The Yankees outscored the Pirates by 28 runs. They still lost.">
+<meta property="og:description" content="The 1960 World Series: New York scored more than twice as many runs as Pittsburgh across the series — and lost anyway, on a walk-off home run in Game 7.">
+<meta property="og:image" content="https://hanten.app/data/og/1960-world-series.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — The Yankees outscored the Pirates by 28 runs. They still lost.">
+<meta name="twitter:description" content="The 1960 World Series: New York scored more than twice as many runs as Pittsburgh across the series — and lost anyway, on a walk-off home run in Game 7.">
+<meta name="twitter:image" content="https://hanten.app/data/og/1960-world-series.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --pirates: #b8860b;
+    --pirates-soft: #ecdfb8;
+    --yankees: #1e3a5f;
+    --yankees-soft: #cdd7e1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 1000px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.4rem, 3.8vw, 2rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 68ch; }
+
+  .scoreboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 1.4rem;
+  }
+  @media (max-width: 600px) { .scoreboard { grid-template-columns: 1fr; } }
+  .scoreboard .cell {
+    background: var(--paper-raised);
+    padding: 1.1rem 1.3rem;
+  }
+  .scoreboard .cell h3 {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    margin: 0 0 0.6rem;
+  }
+  .scoreboard .row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem; }
+  .scoreboard .row:last-child { margin-bottom: 0; }
+  .scoreboard .team { font-weight: 700; }
+  .scoreboard .team.pirates { color: var(--pirates); }
+  .scoreboard .team.yankees { color: var(--yankees); }
+  .scoreboard .val { font-family: ui-monospace, monospace; font-size: 1.3rem; font-weight: 700; }
+
+  #chart-wrap, #line-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.2rem 1rem 0.8rem;
+    margin-bottom: 1.4rem;
+  }
+  #chart-wrap svg, #line-wrap svg { width: 100%; height: auto; display: block; }
+  .chart-title { font-family: ui-serif, Georgia, serif; font-size: 1rem; margin: 0 0 0.8rem; }
+  .chart-legend {
+    display: flex;
+    gap: 1.4rem;
+    margin-top: 0.7rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .chart-legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 0.4rem; vertical-align: middle; }
+  .chart-legend .dot.round { border-radius: 50%; }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source { margin-top: 0.8rem; font-family: ui-monospace, monospace; font-size: 0.75rem; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>The Yankees outscored the Pirates by 28 runs in the 1960 World Series. They still lost.</h1>
+  <p class="sub">New York won three games by a combined score of 38–3. Pittsburgh won four games by a combined score of 24–17. Baseball counts wins, not runs — so the team that got outscored more than two to one took home the championship.</p>
+
+  <div id="save-image-slot"></div>
+
+  <div id="capture-area">
+  <div class="scoreboard">
+    <div class="cell">
+      <h3>Series result</h3>
+      <div class="row"><span class="team pirates">Pittsburgh Pirates</span><span class="val" style="color:var(--pirates)">4 wins</span></div>
+      <div class="row"><span class="team yankees">New York Yankees</span><span class="val" style="color:var(--yankees)">3 wins</span></div>
+    </div>
+    <div class="cell">
+      <h3>Total runs scored</h3>
+      <div class="row"><span class="team yankees">New York Yankees</span><span class="val" style="color:var(--yankees)">55</span></div>
+      <div class="row"><span class="team pirates">Pittsburgh Pirates</span><span class="val" style="color:var(--pirates)">27</span></div>
+    </div>
+  </div>
+
+  <div id="chart-wrap">
+    <div class="chart-title">Runs scored, game by game</div>
+    <svg id="bar-chart" viewBox="0 0 700 320"></svg>
+    <div class="chart-legend">
+      <div><span class="dot" style="background:var(--pirates)"></span>Pittsburgh Pirates</div>
+      <div><span class="dot" style="background:var(--yankees)"></span>New York Yankees</div>
+    </div>
+  </div>
+
+  <div id="line-wrap">
+    <div class="chart-title">Cumulative runs across the series</div>
+    <svg id="line-chart" viewBox="0 0 700 260"></svg>
+    <div class="chart-legend">
+      <div><span class="dot round" style="background:var(--pirates)"></span>Pirates — 27 total, 4 wins</div>
+      <div><span class="dot round" style="background:var(--yankees)"></span>Yankees — 55 total, 3 wins</div>
+    </div>
+  </div>
+  </div>
+
+  <div class="caption">
+    <p><strong>The Pirates' run differential of −28 is the worst ever posted by a World Series winner.</strong> No team has won a title while getting outscored by more across the series. The Yankees won their three games by blowout margins (16–3, 10–0, 12–0); the Pirates won their four by 6–4, 3–2, 5–2, and a 10–9 walk-off in Game 7 — Bill Mazeroski's home run off Ralph Terry, still the only World Series ever to end on a Game 7 walk-off.</p>
+    <p>It gets stranger: Yankees second baseman <strong>Bobby Richardson was named the Series MVP</strong> — the only time in World Series history a player from the losing team has won it. He batted .367 and drove in a record 12 runs, most of them in New York's three blowout wins.</p>
+    <p>Same shape as our <a href="gerrymander.html">gerrymandering grid</a> and the <a href="bowling-strikes.html">bowling pages</a>: when a contest is decided by winning individual rounds rather than adding up every point scored, how your runs are distributed can matter more than how many you get.</p>
+    <p class="source">Scores, dates, and MVP result: Baseball Reference and the Baseball Hall of Fame's official 1960 World Series records. Run totals (55–27) and the −28 differential are computed directly from the seven official final scores below.</p>
+  </div>
+</main>
+
+<script>
+  const GAMES = [
+    { n: 1, date: "Oct 5", pirates: 6, yankees: 4, winner: "pirates" },
+    { n: 2, date: "Oct 6", pirates: 3, yankees: 16, winner: "yankees" },
+    { n: 3, date: "Oct 8", pirates: 0, yankees: 10, winner: "yankees" },
+    { n: 4, date: "Oct 9", pirates: 3, yankees: 2, winner: "pirates" },
+    { n: 5, date: "Oct 10", pirates: 5, yankees: 2, winner: "pirates" },
+    { n: 6, date: "Oct 12", pirates: 0, yankees: 12, winner: "yankees" },
+    { n: 7, date: "Oct 13", pirates: 10, yankees: 9, winner: "pirates" },
+  ];
+
+  const ns = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent) {
+    const e = document.createElementNS(ns, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  // ---- Bar chart: runs per game, paired bars ----
+  (function drawBars() {
+    const svg = document.getElementById("bar-chart");
+    const W = 700, H = 320, M = { top: 20, right: 16, bottom: 44, left: 34 };
+    const plotW = W - M.left - M.right, plotH = H - M.top - M.bottom;
+    const maxY = 16;
+    const groupW = plotW / GAMES.length;
+    const barW = groupW * 0.32;
+    const y = v => M.top + plotH - (v / maxY) * plotH;
+
+    for (let g = 0; g <= 4; g++) {
+      const v = Math.round((maxY / 4) * g);
+      const gy = y(v);
+      el("line", { x1: M.left, x2: W - M.right, y1: gy, y2: gy, stroke: "rgba(28,39,51,0.10)" }, svg);
+      const t = el("text", { x: M.left - 8, y: gy + 4, "text-anchor": "end", style: "font:10px ui-monospace,monospace; fill:#4a5a6b" }, svg);
+      t.textContent = v;
+    }
+
+    GAMES.forEach((g, i) => {
+      const cx = M.left + groupW * i + groupW / 2;
+      const px = cx - barW - 2, yx = cx + 2;
+
+      el("rect", { x: px, y: y(g.pirates), width: barW, height: plotH + M.top - y(g.pirates), fill: "var(--pirates)", opacity: g.winner === "pirates" ? 1 : 0.55 }, svg);
+      el("rect", { x: yx, y: y(g.yankees), width: barW, height: plotH + M.top - y(g.yankees), fill: "var(--yankees)", opacity: g.winner === "yankees" ? 1 : 0.55 }, svg);
+
+      const scoreLabel = el("text", { x: cx, y: Math.min(y(g.pirates), y(g.yankees)) - 8, "text-anchor": "middle", style: "font:700 10px ui-monospace,monospace; fill:#1c2733" }, svg);
+      scoreLabel.textContent = g.winner === "pirates" ? `${g.pirates}–${g.yankees}` : `${g.yankees}–${g.pirates}`;
+
+      const label = el("text", { x: cx, y: H - M.bottom + 18, "text-anchor": "middle", style: "font:700 11px ui-monospace,monospace; fill:#1c2733" }, svg);
+      label.textContent = "Game " + g.n;
+      const dateLabel = el("text", { x: cx, y: H - M.bottom + 32, "text-anchor": "middle", style: "font:10px ui-monospace,monospace; fill:#4a5a6b" }, svg);
+      dateLabel.textContent = g.date;
+    });
+  })();
+
+  // ---- Cumulative runs line chart ----
+  (function drawLine() {
+    const svg = document.getElementById("line-chart");
+    const W = 700, H = 260, M = { top: 16, right: 16, bottom: 28, left: 38 };
+    const plotW = W - M.left - M.right, plotH = H - M.top - M.bottom;
+    let pit = 0, yank = 0;
+    const pitRun = [0], yankRun = [0];
+    GAMES.forEach(g => { pit += g.pirates; yank += g.yankees; pitRun.push(pit); yankRun.push(yank); });
+    const maxY = Math.max(...pitRun, ...yankRun) * 1.08;
+    const x = i => M.left + (i / GAMES.length) * plotW;
+    const y = v => M.top + plotH - (v / maxY) * plotH;
+
+    for (let g = 0; g <= 4; g++) {
+      const v = Math.round((maxY / 4) * g / 5) * 5;
+      const gy = y(v);
+      el("line", { x1: M.left, x2: W - M.right, y1: gy, y2: gy, stroke: "rgba(28,39,51,0.10)" }, svg);
+      const t = el("text", { x: M.left - 8, y: gy + 4, "text-anchor": "end", style: "font:10px ui-monospace,monospace; fill:#4a5a6b" }, svg);
+      t.textContent = v;
+    }
+    for (let i = 0; i <= GAMES.length; i++) {
+      const label = el("text", { x: x(i), y: H - 8, "text-anchor": "middle", style: "font:10px ui-monospace,monospace; fill:#4a5a6b" }, svg);
+      label.textContent = i === 0 ? "Start" : "G" + i;
+    }
+
+    function polyline(run, color) {
+      const pts = run.map((v, i) => `${x(i)},${y(v)}`).join(" ");
+      el("polyline", { points: pts, fill: "none", stroke: color, "stroke-width": 2.5 }, svg);
+      run.forEach((v, i) => el("circle", { cx: x(i), cy: y(v), r: 3, fill: color }, svg));
+    }
+    polyline(pitRun, "var(--pirates)");
+    polyline(yankRun, "var(--yankees)");
+  })();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#capture-area", title: "The Yankees outscored the Pirates by 28 runs in the 1960 World Series. They still lost.", filename: "hanten-1960-world-series.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
