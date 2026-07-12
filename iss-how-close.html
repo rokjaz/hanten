@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — The ISS Is a 4-Hour Drive Straight Up</title>
+<meta name="description" content="If you could drive a car straight up at highway speed, you'd reach the ISS in under 4 hours. If Earth were the size of a basketball, it would orbit about as far out as the width of a pencil.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/iss-how-close.html">
+<meta property="og:title" content="Hanten — The ISS is a 4-hour drive straight up">
+<meta property="og:description" content="If you could drive a car straight up at highway speed, you'd reach the ISS in under 4 hours. If Earth were the size of a basketball, it would orbit about as far out as the width of a pencil.">
+<meta property="og:image" content="https://hanten.app/data/og/iss-how-close.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — The ISS is a 4-hour drive straight up">
+<meta name="twitter:description" content="If you could drive a car straight up at highway speed, you'd reach the ISS in under 4 hours. If Earth were the size of a basketball, it would orbit about as far out as the width of a pencil.">
+<meta name="twitter:image" content="https://hanten.app/data/og/iss-how-close.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --warn: #c1442d;
+    --ball: #d1782e;
+    --ball-line: #7a3f10;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 1000px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.4rem, 3.8vw, 2rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 68ch; }
+
+  .panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem;
+  }
+  @media (max-width: 700px) { .panels { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.1rem 1.2rem 1.3rem;
+  }
+  .panel h2 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.05rem;
+    margin: 0 0 0.2rem;
+  }
+  .panel .stat {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.7rem;
+  }
+  .panel svg { width: 100%; height: auto; display: block; }
+  .panel-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 10px;
+    fill: var(--ink-soft);
+  }
+  .panel-label.strong { fill: var(--ink); font-weight: 700; }
+  .panel-label.accent { fill: var(--accent); font-weight: 700; }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source { margin-top: 0.8rem; font-family: ui-monospace, monospace; font-size: 0.75rem; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>The ISS looks impossibly far away. It's a 4-hour drive straight up.</h1>
+  <p class="sub">Photos of the Space Station floating against pitch-black space make it look like it's out in deep space somewhere. It's not. It orbits about 408 km up — closer to the ground than some countries are to their own nearest neighbor.</p>
+
+  <div id="save-image-slot"></div>
+
+  <div class="panels">
+    <div class="panel" id="drive-panel">
+      <h2>Drive there, straight up</h2>
+      <div class="stat">3 hours 54 minutes</div>
+      <svg id="drive-svg" viewBox="0 0 560 620"></svg>
+    </div>
+    <div class="panel" id="ball-panel">
+      <h2>Earth, shrunk to a basketball</h2>
+      <div class="stat">7.6 mm away</div>
+      <svg id="ball-svg" viewBox="0 0 400 400"></svg>
+    </div>
+  </div>
+
+  <div class="caption">
+    <p><strong>Both of these are the same 408 km, just measured two different ways.</strong> At 65 mph — a normal US highway speed — a straight-up drive to the ISS takes 3 hours 54 minutes. That's less time than a flight from New York to Los Angeles.</p>
+    <p>Shrink Earth down to an official-size basketball (9.4 inches across) and the ISS's orbit sits about 7.6 mm above the surface — roughly the width of a pencil. Mount Everest and every commercial flight in the sky would fit inside a sliver thinner than a sheet of paper on that same ball.</p>
+    <p>The Kármán line — the internationally recognized "edge of space," 100 km up — is itself less than a quarter of the way to the ISS. Space starts a lot closer than orbit does.</p>
+    <p class="source">ISS altitude: 408 km, the same figure used on our <a href="point-nemo.html">Point Nemo</a> and <a href="closer-to-iss.html">closer-to-orbit</a> maps. Driving time assumes a constant 65 mph with no traffic, atmosphere, or physics getting in the way. Basketball diameter: official NBA/FIBA size (29.5 in circumference). Earth's mean diameter: 12,742 km.</p>
+  </div>
+</main>
+
+<script>
+  const ns = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent) {
+    const e = document.createElementNS(ns, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function text(x, y, str, cls, parent, anchor) {
+    const t = el("text", { x, y, class: "panel-label" + (cls ? " " + cls : ""), "text-anchor": anchor || "start" }, parent);
+    t.textContent = str;
+    return t;
+  }
+
+  // ---- Panel 1: vertical "drive straight up" scale, 0 to 408 km, linear ----
+  (function drawDrive() {
+    const svg = document.getElementById("drive-svg");
+    const W = 560, GROUND_Y = 580, TOP_Y = 40, BAR_X = 300;
+    const KM_MAX = 408;
+    const pxPerKm = (GROUND_Y - TOP_Y) / KM_MAX;
+    const yFor = km => GROUND_Y - km * pxPerKm;
+
+    // track
+    el("line", { x1: BAR_X, x2: BAR_X, y1: GROUND_Y, y2: TOP_Y, stroke: "var(--line)", "stroke-width": 10, "stroke-linecap": "round" }, svg);
+    el("line", { x1: BAR_X, x2: BAR_X, y1: GROUND_Y, y2: TOP_Y, stroke: "var(--accent-soft)", "stroke-width": 6, "stroke-linecap": "round" }, svg);
+
+    // ground
+    el("line", { x1: BAR_X - 40, x2: BAR_X + 40, y1: GROUND_Y, y2: GROUND_Y, stroke: "var(--ink)", "stroke-width": 2 }, svg);
+    text(BAR_X - 46, GROUND_Y + 4, "Ground", "strong", svg, "end");
+
+    // Kármán line marker (100 km, clearly visible on this scale)
+    const karmanY = yFor(100);
+    el("line", { x1: BAR_X - 30, x2: BAR_X + 30, y1: karmanY, y2: karmanY, stroke: "var(--warn)", "stroke-width": 2, "stroke-dasharray": "3,3" }, svg);
+    text(BAR_X + 38, karmanY + 4, "Kármán line — edge of space, 100 km", null, svg, "start");
+
+    // Everest + jet cruise cluster near the very bottom (too close together to
+    // label individually at this scale) — bracket them with a single callout.
+    const everestY = yFor(8.849);
+    const jetY = yFor(11);
+    el("line", { x1: BAR_X - 22, x2: BAR_X + 22, y1: everestY, y2: everestY, stroke: "var(--ink-soft)", "stroke-width": 1.5 }, svg);
+    el("line", { x1: BAR_X - 22, x2: BAR_X + 22, y1: jetY, y2: jetY, stroke: "var(--ink-soft)", "stroke-width": 1.5 }, svg);
+    el("path", { d: `M ${BAR_X - 46} ${everestY} L ${BAR_X - 60} ${everestY} L ${BAR_X - 60} ${jetY - 2} L ${BAR_X - 90} ${jetY - 30}`, fill: "none", stroke: "var(--ink-soft)", "stroke-width": 1 }, svg);
+    text(BAR_X - 94, jetY - 34, "Mt. Everest (8.8 km) and every", null, svg, "end");
+    text(BAR_X - 94, jetY - 22, "commercial flight (≈11 km) fit", null, svg, "end");
+    text(BAR_X - 94, jetY - 10, "inside this sliver", null, svg, "end");
+
+    // ISS at top
+    el("circle", { cx: BAR_X, cy: TOP_Y, r: 7, fill: "var(--accent)" }, svg);
+    text(BAR_X + 16, TOP_Y - 10, "ISS — 408 km", "accent", svg, "start");
+    text(BAR_X + 16, TOP_Y + 6, "3h 54m at 65 mph", null, svg, "start");
+
+    // car icon partway up the bar
+    const carY = yFor(150);
+    const car = el("g", { transform: `translate(${BAR_X - 11}, ${carY - 7})` }, svg);
+    el("rect", { x: 0, y: 4, width: 22, height: 8, rx: 2, fill: "var(--warn)" }, car);
+    el("rect", { x: 5, y: 0, width: 12, height: 6, rx: 1.5, fill: "var(--warn)" }, car);
+    el("circle", { cx: 5, cy: 13, r: 2.4, fill: "var(--ink)" }, car);
+    el("circle", { cx: 17, cy: 13, r: 2.4, fill: "var(--ink)" }, car);
+  })();
+
+  // ---- Panel 2: Earth as a basketball, ISS orbit ring to scale ----
+  (function drawBall() {
+    const svg = document.getElementById("ball-svg");
+    const cx = 175, cy = 200, R = 140; // basketball radius in px
+    const ISS_RING_R = R + 8.97; // scaled 7.64mm gap at this px/mm ratio
+
+    el("circle", { cx, cy, r: ISS_RING_R, fill: "none", stroke: "var(--accent)", "stroke-width": 2, "stroke-dasharray": "3,3" }, svg);
+
+    const ball = el("circle", { cx, cy, r: R, fill: "var(--ball)" }, svg);
+    // basketball seam lines
+    el("path", { d: `M ${cx} ${cy - R} A ${R} ${R} 0 0 1 ${cx} ${cy + R}`, fill: "none", stroke: "var(--ball-line)", "stroke-width": 2 }, svg);
+    el("path", { d: `M ${cx} ${cy - R} A ${R} ${R} 0 0 0 ${cx} ${cy + R}`, fill: "none", stroke: "var(--ball-line)", "stroke-width": 2 }, svg);
+    el("line", { x1: cx - R, x2: cx + R, y1: cy, y2: cy, stroke: "var(--ball-line)", "stroke-width": 2 }, svg);
+
+    // leader line + label for the ISS ring
+    const labelY = cy - ISS_RING_R - 14;
+    el("line", { x1: cx, x2: cx, y1: cy - ISS_RING_R, y2: labelY + 4, stroke: "var(--accent)", "stroke-width": 1 }, svg);
+    text(cx, labelY - 6, "ISS orbit — 7.6 mm out", "accent", svg, "middle");
+    text(cx, labelY + 8, "(about the width of a pencil)", null, svg, "middle");
+
+    text(cx, cy + R + 22, "Official-size basketball, 9.4 in across", "strong", svg, "middle");
+  })();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: ".panels", title: "The ISS looks impossibly far away. It's a 4-hour drive straight up.", filename: "hanten-iss-how-close.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
