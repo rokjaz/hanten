@@ -50,6 +50,19 @@
     margin: 0;
   }
   main { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+  .search {
+    display: block;
+    width: 100%;
+    font: inherit;
+    font-size: 0.95rem;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .search:focus { outline: none; border-color: var(--accent); }
+  .search::placeholder { color: var(--ink-soft); }
   .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.6rem; }
   .filters button {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
@@ -118,6 +131,13 @@
     gap: 1.4rem;
   }
   @media (max-width: 700px) { .subgroup .subgrid { grid-template-columns: 1fr; } }
+  .no-results {
+    display: none;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    padding: 2rem 0;
+  }
+  .no-results.show { display: block; }
   footer {
     max-width: 900px;
     margin: 0 auto;
@@ -137,7 +157,9 @@
 </header>
 
 <main>
+  <input class="search" id="search" type="text" placeholder="Search maps and stats…" autocomplete="off">
   <div class="filters" id="filters"></div>
+  <p class="no-results" id="no-results">No maps match that search.</p>
   <div class="grid" id="grid">
     <a class="card" data-cat="population" href="empty-america.html">
       <div class="tag">United States</div>
@@ -184,6 +206,21 @@
       <h2>Iceland has more disc golf per person than anywhere on Earth</h2>
       <p>The U.S. has 65% of the world's 17,285 courses — but per capita, a completely different country wins.</p>
     </a>
+    <div class="subgroup" data-cat="sports">
+      <div class="subgroup-label">Bowling</div>
+      <div class="subgrid">
+        <a class="card" data-cat="sports" href="bowling-spares.html">
+          <div class="tag">Bowling</div>
+          <h2>Two bowlers get a spare every frame. The scores aren't close.</h2>
+          <p>110 vs. 190 — same "spare every time," an 80-pin gap, because of one rule most people never notice.</p>
+        </a>
+        <a class="card" data-cat="sports" href="bowling-strikes.html">
+          <div class="tag">Bowling</div>
+          <h2>Same 5 strikes, same 5 gutter frames. One score is double the other.</h2>
+          <p>50 vs. 120 — spreading strikes out wastes them, stacking them lets each one feed the next.</p>
+        </a>
+      </div>
+    </div>
     <a class="card" data-cat="distances" href="true-size-africa.html">
       <div class="tag">Projections</div>
       <h2>Africa is bigger than you think</h2>
@@ -194,21 +231,6 @@
       <h2>More people live inside this circle than outside it</h2>
       <p>One 4,000 km circle over Asia outweighs the Americas, Europe, Africa, Oceania, and the Middle East combined.</p>
     </a>
-    <div class="subgroup" data-cat="statistics">
-      <div class="subgroup-label">Bowling</div>
-      <div class="subgrid">
-        <a class="card" data-cat="statistics" href="bowling-spares.html">
-          <div class="tag">Statistics</div>
-          <h2>Two bowlers get a spare every frame. The scores aren't close.</h2>
-          <p>110 vs. 190 — same "spare every time," an 80-pin gap, because of one rule most people never notice.</p>
-        </a>
-        <a class="card" data-cat="statistics" href="bowling-strikes.html">
-          <div class="tag">Statistics</div>
-          <h2>Same 5 strikes, same 5 gutter frames. One score is double the other.</h2>
-          <p>50 vs. 120 — spreading strikes out wastes them, stacking them lets each one feed the next.</p>
-        </a>
-      </div>
-    </div>
     <a class="card" data-cat="statistics" href="ford-trucks.html">
       <div class="tag">United States</div>
       <h2>Wyoming buys the most F-150s per person. Texas buys the most, period.</h2>
@@ -240,7 +262,6 @@
 
 <script>
   const CATEGORIES = [
-    { id: "all", label: "All" },
     { id: "population", label: "Population" },
     { id: "distances", label: "Distances & Scale" },
     { id: "politics", label: "Politics" },
@@ -248,29 +269,59 @@
     { id: "sports", label: "Sports" },
   ];
   const filtersEl = document.getElementById("filters");
+  const searchEl = document.getElementById("search");
+  const noResultsEl = document.getElementById("no-results");
   const cards = [...document.querySelectorAll("#grid .card")];
   const subgroups = [...document.querySelectorAll("#grid .subgroup")];
 
-  function applyFilter(cat) {
+  let currentCat = null; // null = no category filter (show all categories)
+  let currentQuery = "";
+
+  function cardSearchText(card) {
+    let text = card.textContent || "";
+    const group = card.closest(".subgroup");
+    if (group) {
+      const label = group.querySelector(".subgroup-label");
+      if (label) text += " " + label.textContent;
+    }
+    return text.toLowerCase();
+  }
+
+  function render() {
     cards.forEach(c => {
-      c.classList.toggle("hidden", cat !== "all" && c.dataset.cat !== cat);
+      const catOk = currentCat === null || c.dataset.cat === currentCat;
+      const searchOk = !currentQuery || cardSearchText(c).includes(currentQuery);
+      c.classList.toggle("hidden", !(catOk && searchOk));
     });
     subgroups.forEach(g => {
-      g.classList.toggle("hidden", cat !== "all" && g.dataset.cat !== cat);
+      const catOk = currentCat === null || g.dataset.cat === currentCat;
+      const anyChildVisible = [...g.querySelectorAll(".card")].some(c => !c.classList.contains("hidden"));
+      g.classList.toggle("hidden", !(catOk && anyChildVisible));
     });
     document.querySelectorAll("#filters button").forEach(b => {
-      b.classList.toggle("active", b.dataset.cat === cat);
+      b.classList.toggle("active", b.dataset.cat === currentCat);
     });
+    const anyVisible = cards.some(c => !c.classList.contains("hidden"));
+    noResultsEl.classList.toggle("show", !anyVisible);
   }
 
   CATEGORIES.forEach(cat => {
     const b = document.createElement("button");
     b.textContent = cat.label;
     b.dataset.cat = cat.id;
-    b.addEventListener("click", () => applyFilter(cat.id));
+    b.addEventListener("click", () => {
+      currentCat = currentCat === cat.id ? null : cat.id;
+      render();
+    });
     filtersEl.appendChild(b);
   });
-  applyFilter("all");
+
+  searchEl.addEventListener("input", () => {
+    currentQuery = searchEl.value.trim().toLowerCase();
+    render();
+  });
+
+  render();
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>
