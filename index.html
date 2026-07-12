@@ -15,6 +15,11 @@
     --accent: #0e7c86;
     --accent-soft: rgba(14,124,134,0.14);
     --warn: #c1442d;
+    --cat-population: #0e7c86;
+    --cat-distances: #3b6ea3;
+    --cat-politics: #c1442d;
+    --cat-statistics: #7c5cad;
+    --cat-sports: #b8860b;
   }
   * { box-sizing: border-box; }
   body {
@@ -25,10 +30,23 @@
     line-height: 1.55;
   }
   header {
+    position: relative;
+    overflow: hidden;
     padding: 3.2rem 1.5rem 2.4rem;
     max-width: 900px;
     margin: 0 auto;
   }
+  .header-deco {
+    position: absolute;
+    top: -50px;
+    right: -70px;
+    width: 340px;
+    height: 340px;
+    color: var(--ink);
+    opacity: 0.05;
+    pointer-events: none;
+  }
+  @media (max-width: 760px) { .header-deco { display: none; } }
   .wordmark {
     font-family: ui-serif, Georgia, serif;
     font-weight: 600;
@@ -75,6 +93,15 @@
   }
   .filters button:hover { border-color: var(--accent); }
   .filters button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .filters button .dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-right: 0.45rem;
+    vertical-align: middle;
+  }
+  .filters button.active .dot { background: #fff !important; }
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -89,10 +116,22 @@
     padding: 1.4rem 1.5rem;
     text-decoration: none;
     color: var(--ink);
-    transition: border-color 0.15s ease;
+    transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease, opacity 0.5s ease;
+    opacity: 0;
+    transform: translateY(10px);
   }
-  a.card:hover { border-color: var(--accent); }
+  a.card.in-view { opacity: 1; transform: translateY(0); }
+  a.card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(28,39,51,0.09);
+  }
+  a.card.in-view:hover { transform: translateY(-3px); }
   a.card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    a.card { opacity: 1; transform: none; transition: border-color 0.15s ease; }
+    a.card:hover { transform: none; }
+  }
   .card-icon {
     width: 34px;
     height: 34px;
@@ -100,6 +139,11 @@
     margin-bottom: 0.7rem;
   }
   .card-icon svg { width: 100%; height: 100%; display: block; }
+  .card[data-cat="population"] .card-icon, .card[data-cat="population"] .tag { color: var(--cat-population); }
+  .card[data-cat="distances"] .card-icon, .card[data-cat="distances"] .tag { color: var(--cat-distances); }
+  .card[data-cat="politics"] .card-icon, .card[data-cat="politics"] .tag { color: var(--cat-politics); }
+  .card[data-cat="statistics"] .card-icon, .card[data-cat="statistics"] .tag { color: var(--cat-statistics); }
+  .card[data-cat="sports"] .card-icon, .card[data-cat="sports"] .tag { color: var(--cat-sports); }
   .card .tag {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 0.68rem;
@@ -158,6 +202,16 @@
 <body>
 
 <header>
+  <svg class="header-deco" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1">
+    <circle cx="100" cy="100" r="90"/>
+    <circle cx="100" cy="100" r="60"/>
+    <circle cx="100" cy="100" r="30"/>
+    <ellipse cx="100" cy="100" rx="90" ry="34" transform="rotate(20 100 100)"/>
+    <ellipse cx="100" cy="100" rx="90" ry="34" transform="rotate(70 100 100)"/>
+    <ellipse cx="100" cy="100" rx="90" ry="34" transform="rotate(120 100 100)"/>
+    <line x1="10" y1="100" x2="190" y2="100"/>
+    <line x1="100" y1="10" x2="100" y2="190"/>
+  </svg>
   <div class="wordmark">Hanten<span class="kanji">反転</span></div>
   <h1>The shape you draw around the truth decides what story it tells.</h1>
   <p class="lede">Maps and statistics that are completely accurate — and still manage to surprise you. Same facts, different lines. One honest "wait, really?" per page.</p>
@@ -422,7 +476,11 @@
 
   CATEGORIES.forEach(cat => {
     const b = document.createElement("button");
-    b.textContent = cat.label;
+    const dot = document.createElement("span");
+    dot.className = "dot";
+    dot.style.background = `var(--cat-${cat.id})`;
+    b.appendChild(dot);
+    b.appendChild(document.createTextNode(cat.label));
     b.dataset.cat = cat.id;
     b.addEventListener("click", () => {
       currentCat = currentCat === cat.id ? null : cat.id;
@@ -430,6 +488,21 @@
     });
     filtersEl.appendChild(b);
   });
+
+  // Fade cards in as they scroll into view (one-time reveal per card).
+  if ("IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+    cards.forEach(c => revealObserver.observe(c));
+  } else {
+    cards.forEach(c => c.classList.add("in-view"));
+  }
 
   searchEl.addEventListener("input", () => {
     currentQuery = searchEl.value.trim().toLowerCase();
