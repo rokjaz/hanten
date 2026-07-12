@@ -128,6 +128,43 @@
     font-size: 0.75rem;
     color: var(--ink-soft);
   }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem;
+    margin-top: 1.4rem;
+  }
+  @media (max-width: 700px) { .story-grid { grid-template-columns: 1fr; } }
+  .story-heading {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    margin: 0 0 0.7rem;
+  }
+  .story-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.7rem;
+    font-size: 0.88rem;
+  }
+  .story-card.upset-card { border-left-color: var(--out); }
+  .story-card:last-child { margin-bottom: 0; }
+  .story-card .who { font-weight: 700; margin-bottom: 0.2rem; }
+  .story-card .who .flag { margin-right: 0.35rem; }
+  .story-card .status-tag {
+    font-family: ui-monospace, monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    margin-bottom: 0.3rem;
+  }
+  .story-card p { margin: 0; color: var(--ink-soft); }
 </style>
 </head>
 <body>
@@ -138,7 +175,7 @@
   <h1>The 2026 World Cup, round by round</h1>
   <p class="sub">Start with every country and territory on Earth that's allowed to dream about the World Cup, then watch the map empty out, round by round — with the upsets and Cinderella runs marked in gold.</p>
   <div id="save-image-slot"></div>
-  <div class="updated">Tournament in progress — updated through the morning of July 11, 2026 (two quarterfinals play today).</div>
+  <div class="updated">Tournament in progress — updated through July 12, 2026. All four semifinalists are set: France, Spain, England, and Argentina. Semifinals: France–Spain on July 14, England–Argentina on July 15.</div>
 
   <div class="tabs" id="tabs"></div>
 
@@ -149,6 +186,17 @@
   <div class="legend" id="legend"></div>
 
   <div class="stage-note" id="stage-note"></div>
+
+  <div class="story-grid">
+    <div>
+      <h3 class="story-heading">Cinderella runs</h3>
+      <div id="cinderella-list"></div>
+    </div>
+    <div>
+      <h3 class="story-heading">Notable upsets</h3>
+      <div id="upsets-list"></div>
+    </div>
+  </div>
 
   <div class="source">Populations: Natural Earth estimates (approximate, 2019) — hover any country. Results: FIFA / ESPN / Yahoo Sports match reports. The United Kingdom competes as four separate FIFA teams; England's run colors the UK shape, Scotland is the marked dot. Cape Verde and Curaçao are drawn as dots — too small for this map scale, which for Curaçao is rather the point.</div>
 </main>
@@ -167,11 +215,11 @@
     // Quarterfinals — decided
     MAR: { name: "Morocco", reached: 4, cinderella: "Beat the Netherlands on penalties, crushed co-host Canada 3–0" },
     BEL: { name: "Belgium", reached: 4 },
-    // Quarterfinals — playing today (July 11)
-    NOR: { name: "Norway", reached: 4.5, cinderella: "First World Cup since 1998 — knocked out Brazil 2–1" },
-    ENG: { name: "England", reached: 4.5 },
-    ARG: { name: "Argentina", reached: 4.5 },
-    CHE: { name: "Switzerland", reached: 4.5 },
+    // Quarterfinals — decided July 11
+    NOR: { name: "Norway", reached: 4, cinderella: "First World Cup since 1998 — knocked out Brazil 2–1, then lost 2–1 to England in extra time in the quarterfinals" },
+    ENG: { name: "England", reached: 5 },
+    ARG: { name: "Argentina", reached: 5 },
+    CHE: { name: "Switzerland", reached: 4 },
     // Out in round of 16
     CAN: { name: "Canada", reached: 3 }, PRY: { name: "Paraguay", reached: 3, cinderella: "Knocked out Germany on penalties" },
     BRA: { name: "Brazil", reached: 3 }, MEX: { name: "Mexico", reached: 3 },
@@ -200,6 +248,19 @@
     CZE: { name: "Czechia", reached: 1 }, SCO: { name: "Scotland", reached: 1 },
     TUR: { name: "Türkiye", reached: 1 },
   };
+
+  // Notable upsets — favorite eliminated by an unexpected result. (Distinct
+  // from Cinderella runs, which are about who's making the run, not who they beat.)
+  const UPSETS = [
+    { matchup: "Spain 1–0 Uruguay", round: "Group stage", note: "Two-time champions Uruguay went out at the group stage after a goalkeeping error gifted Spain the only goal." },
+    { matchup: "Paraguay eliminated Germany (penalties)", round: "Round of 32", note: "Germany fell on penalties, extending a 12-year run without a World Cup knockout win." },
+    { matchup: "Morocco eliminated Netherlands (penalties)", round: "Round of 32", note: "The Netherlands lost a shootout to Morocco, who went on to reach the quarterfinals." },
+    { matchup: "Norway 2–1 Brazil", round: "Quarterfinals", note: "The upset of the tournament — Brazil eliminated by a Norway team playing its first World Cup since 1998." },
+  ];
+
+  // Flag emoji for Cinderella teams not already covered by MARKERS or a
+  // normal map polygon lookup.
+  const FLAG_EMOJI = { MAR: "🇲🇦", NOR: "🇳🇴", CPV: "🇨🇻", JOR: "🇯🇴", UZB: "🇺🇿", CUW: "🇨🇼", PRY: "🇵🇾" };
 
   // Small or sub-national teams that need their own dot on the map.
   const MARKERS = [
@@ -237,7 +298,8 @@
     `<p><strong>32 teams survived the groups.</strong> The shock of the round: <strong>Uruguay</strong> — two-time champions — went out on a goalkeeping error against Spain. Meanwhile Cape Verde held Spain to a draw and Curaçao took a point off Ecuador. All three co-hosts (USA, Canada, Mexico) advanced.</p>`,
     `<p><strong>The round of 32 was a bloodbath for former champions.</strong> <strong>Germany</strong> fell to Paraguay on penalties — extending a 12-year run without a World Cup knockout win. The <strong>Netherlands</strong> lost a shootout to Morocco. Cape Verde twice pulled level with champions Argentina before losing in the 111th minute.</p>`,
     `<p><strong>Eight remained — and Brazil wasn't one of them.</strong> The upset of the tournament so far: <strong>Norway 2–1 Brazil</strong>, in Norway's first World Cup since 1998. Morocco thrashed co-host Canada 3–0, Belgium put four past the US, and England edged Mexico 3–2.</p>`,
-    `<p><strong>France and Spain are through.</strong> France beat Morocco 2–0 (a rematch of the 2022 semifinal), and Spain ended Belgium's run. The last two semifinal spots are being decided <strong>today, July 11</strong>: Norway–England and Argentina–Switzerland. If Norway wins, one of the great Cinderella runs in World Cup history rolls on.</p>`,
+    `<p><strong>All four semifinalists are set.</strong> France beat Morocco 2–0 (a rematch of the 2022 semifinal) and Spain ended Belgium's run to go through first. England then beat Norway 2–1 in extra time — Jude Bellingham scored both goals, the winner deep into extra time — ending Norway's Cinderella run one game short of the semifinals. Argentina needed extra time too, beating a 10-man Switzerland 3–1: Alexis Mac Allister's opener was cancelled out by Dan Ndoye, before Julián Álvarez and Lautaro Martínez struck late.</p>
+     <p><strong>Semifinals:</strong> France vs. Spain — Tuesday, July 14, in Arlington, Texas, the top two teams in FIFA's live rankings. England vs. Argentina — Wednesday, July 15, in Atlanta, a rematch of one of football's oldest rivalries. Winners meet in the final on July 19 at MetLife Stadium.</p>`,
   ];
 
   // ---- Rendering ----
@@ -370,7 +432,7 @@
     const s = STAGES[stage];
     let legendHtml = `<div><span class="key" style="background:${stage === 0 ? "var(--alive-soft)" : "var(--alive)"}"></span>${s.legendAlive}</div>`;
     if (s.legendOut) legendHtml += `<div><span class="key" style="background:var(--out-soft)"></span>${s.legendOut}</div>`;
-    if (stage === 5) legendHtml += `<div><span class="key" style="background:var(--pending)"></span>Quarterfinal being played today</div>`;
+    if (stage === 5 && Object.values(TEAMS).some(t => t.reached === 4.5)) legendHtml += `<div><span class="key" style="background:var(--pending)"></span>Quarterfinal being played today</div>`;
     if (stage >= 1) legendHtml += `<div><span class="key ring"></span>Cinderella story (hover for why)</div>`;
     legendHtml += `<div><span class="key" style="background:var(--gone)"></span>${stage === 0 ? "Not a FIFA member" : stage === 1 ? "Did not qualify" : "Out in earlier rounds / did not qualify"}</div>`;
     document.getElementById("legend").innerHTML = legendHtml;
@@ -387,7 +449,32 @@
     tabsEl.appendChild(b);
   });
 
+  // Always-visible Cinderella / upset recap — no hovering required.
+  function renderStoryLists() {
+    const FINAL_STAGE = 5;
+    const cinderellaEl = document.getElementById("cinderella-list");
+    Object.entries(TEAMS).filter(([, t]) => t.cinderella).forEach(([code, t]) => {
+      const div = document.createElement("div");
+      div.className = "story-card";
+      div.innerHTML = `<div class="who"><span class="flag">${FLAG_EMOJI[code] || ""}</span>${t.name}</div>
+        <div class="status-tag">${statusText(code, FINAL_STAGE)}</div>
+        <p>${t.cinderella}</p>`;
+      cinderellaEl.appendChild(div);
+    });
+
+    const upsetsEl = document.getElementById("upsets-list");
+    UPSETS.forEach(u => {
+      const div = document.createElement("div");
+      div.className = "story-card upset-card";
+      div.innerHTML = `<div class="who">${u.matchup}</div>
+        <div class="status-tag">${u.round}</div>
+        <p>${u.note}</p>`;
+      upsetsEl.appendChild(div);
+    });
+  }
+
   renderStage(0);
+  renderStoryLists();
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
