@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Africa Is 14 Greenlands Big</title>
+<meta name="description" content="On a Mercator map, Greenland looks as big as Africa. At true scale, it takes 14 Greenlands to cover it.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/africa-greenlands.html">
+<meta property="og:title" content="Hanten — Africa is 14 Greenlands big">
+<meta property="og:description" content="On a Mercator map, Greenland looks as big as Africa. At true scale, it takes 14 Greenlands to cover it.">
+<meta property="og:image" content="https://hanten.app/data/og/africa-greenlands.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — Africa is 14 Greenlands big">
+<meta name="twitter:description" content="On a Mercator map, Greenland looks as big as Africa. At true scale, it takes 14 Greenlands to cover it.">
+<meta name="twitter:image" content="https://hanten.app/data/og/africa-greenlands.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --africa: #d6dbd0;
+    --africa-line: #b9c0b2;
+    --green-a: #1f6f8b;
+    --green-b: #7fb5bc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 940px; margin: 0 auto; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  main { max-width: 940px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 64ch; }
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  #map { width: 100%; max-width: 640px; height: auto; display: block; }
+  .africa { fill: var(--africa); stroke: var(--africa-line); stroke-width: 0.6; }
+  .greenland { fill-opacity: 0.78; stroke: #fff; stroke-width: 1; }
+  .gl-num {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 15px;
+    font-weight: 700;
+    fill: #fff;
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: rgba(28,39,51,0.4);
+    stroke-width: 3px;
+  }
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header><div class="wordmark">Hanten</div></header>
+
+<main>
+  <h1>Africa is 14 Greenlands big</h1>
+  <p class="sub">On the Mercator world map, Greenland and Africa look about the same size. Here is Greenland at its true, equal-area scale — laid over Africa 14 times.</p>
+  <div id="save-image-slot"></div>
+
+  <div id="map-wrap">
+    <svg id="map" viewBox="0 0 760 820"></svg>
+  </div>
+
+  <div class="caption">
+    <p><strong>Greenland is the Mercator projection's biggest victim — or beneficiary.</strong> Sitting mostly above 60°N, it gets inflated more than almost any other landmass, until it looks like a rival to Africa. At true scale, Africa is about 14 times larger: 30.4M km² vs 2.17M km².</p>
+    <p>Each shape above is Greenland drawn with an equal-area projection at exactly the same scale as Africa — rotated freely, since only area is the claim, not orientation. The 14 shapes together cover 30.3M km², matching Africa almost exactly — and you can watch the fit get harder as the numbers climb: the first seven drop in cleanly, then the remaining pieces have to squeeze into whatever coastal slivers are left. Real coastlines can't tile perfectly, so wherever a Greenland overhangs the coast, an equal patch of Africa shows through somewhere else.</p>
+    <p>Companion to our <a href="true-size-africa.html">Africa vs. the US, China, India, and Europe</a> map — same projection, same scale, same lesson.</p>
+    <p class="source">Areas: CIA World Factbook (Africa ≈ 30.4M km², Greenland ≈ 2.17M km², ratio ≈ 14.0). Shapes: Natural Earth. Every Greenland uses its own azimuthal equal-area projection at the Africa map's scale, so all 15 shapes on this map are directly comparable.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  const width = 760, height = 820;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+
+  const feats = COUNTRIES_GEOJSON.features;
+  const africaFeats = feats.filter(f => f.properties.CONTINENT === "Africa");
+  const greenland = feats.find(f => f.properties.NAME === "Greenland");
+
+  // Base projection: equal-area, fitted to Africa — same as true-size-africa.
+  const base = d3.geoAzimuthalEqualArea()
+    .rotate([-17, -1.5])
+    .fitSize([width, height], { type: "FeatureCollection", features: africaFeats });
+  const SCALE = base.scale();
+
+  svg.append("g")
+    .selectAll("path")
+    .data(africaFeats)
+    .join("path")
+    .attr("class", "africa")
+    .attr("d", d3.geoPath(base));
+
+  // 14 Greenlands placed by an automated packing search (grid-sampled
+  // point-in-polygon masks, greedy placement over positions and 30°
+  // rotations, minimizing ocean spill and overlap). The first seven fit on
+  // land cleanly; after that only coastal slivers remain, so the later
+  // pieces increasingly straddle the coastline — Africa holds almost
+  // exactly 14 Greenlands and not one more.
+  const PLACEMENTS = [
+    [110, 220, 0], [230, 140, 0], [340, 280, 0], [390, 510, 0],
+    [460, 200, 0], [480, 670, 0], [530, 390, 0], [590, 520, 180],
+    [640, 300, 240], [200, 330, 150], [320, 670, 240], [580, 140, 240],
+    [630, 710, 300], [390, 60, 120],
+  ];
+  const gGroup = svg.append("g");
+  PLACEMENTS.forEach(([x, y, gamma], i) => {
+    const proj = d3.geoAzimuthalEqualArea()
+      .rotate([42, -72, gamma])
+      .scale(SCALE)
+      .translate([x, y]);
+    gGroup.append("path")
+      .datum(greenland)
+      .attr("class", "greenland")
+      .attr("fill", (i + 1) % 2 ? "var(--green-a)" : "var(--green-b)")
+      .attr("d", d3.geoPath(proj));
+    gGroup.append("text")
+      .attr("class", "gl-num")
+      .attr("x", x)
+      .attr("y", y + 5)
+      .text(i + 1);
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "Africa is 14 Greenlands big", filename: "hanten-africa-greenlands.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
