@@ -27,6 +27,7 @@
     --accent-soft: rgba(14,124,134,0.14);
     --land: #d6dbd0;
     --land-line: #b9c0b2;
+    --warn: #c1442d;
   }
   * { box-sizing: border-box; }
   body {
@@ -72,12 +73,27 @@
   .graticule { fill: none; stroke: var(--line); stroke-width: 0.5; }
   .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.5; }
   .outline { fill: none; stroke: var(--ink); stroke-width: 1; opacity: 0.35; }
+  .dateline { fill: none; stroke: var(--warn); stroke-width: 1.6; stroke-dasharray: 6 4; }
+  .dateline-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 11px;
+    fill: var(--warn);
+  }
   .marker circle { fill: var(--accent); stroke: var(--paper-raised); stroke-width: 2; }
   .marker text {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 11px;
     fill: var(--ink);
   }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 0.8rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+  .legend .swatch { display: inline-block; width: 16px; height: 2px; margin-right: 0.4rem; vertical-align: middle; }
   .caption {
     margin-top: 1.2rem;
     padding: 1.1rem 1.3rem;
@@ -101,9 +117,13 @@
   <div id="map-wrap">
     <svg id="map" viewBox="0 0 960 500"></svg>
   </div>
+  <div class="legend">
+    <div><span class="swatch" style="background:var(--warn); border-top: 2px dashed var(--warn); height:0;"></span>International Date Line</div>
+  </div>
 
   <div class="caption">
-    <strong>Kiritimati (Christmas Island), Kiribati</strong> — population around 7,400, largest coral atoll on Earth by land area, and almost nobody outside the Pacific has heard of it. In 1995, Kiribati redrew the International Date Line so this entire country would share one date instead of being split across two — making Kiritimati the first inhabited place on the planet to greet each new day.
+    <strong>Kiritimati (Christmas Island), Kiribati</strong> — population around 7,400, largest coral atoll on Earth by land area, and almost nobody outside the Pacific has heard of it. In 1995, Kiribati redrew the International Date Line so this entire country would share one date instead of being split across two — making Kiritimati the first inhabited place on the planet to greet each new day. That bulge, swinging the line out to almost 150°W to wrap around Kiribati's Line and Phoenix Islands, is drawn on the map above.
+    <p class="source" style="margin-top:0.7rem; font-family: ui-monospace, monospace; font-size: 0.78rem;">The Date Line's course through open water isn't fixed by any international treaty, so sources vary slightly on its exact path — this follows its commonly published route, including the Kiribati bulge and the smaller deviations near the Bering Strait and Samoa.</p>
   </div>
 </main>
 
@@ -139,6 +159,46 @@
     .attr("d", path);
 
   svg.append("path").datum({ type: "Sphere" }).attr("class", "outline").attr("d", path);
+
+  // International Date Line — not a straight meridian. It generally follows
+  // 180° but bends around political boundaries: east of Wrangel Island and
+  // through the Bering Strait to avoid splitting Siberia, west around the
+  // Aleutians to keep them with Alaska, and — the reason this page exists —
+  // a huge eastward bulge to almost 150°W so Kiribati's Line and Phoenix
+  // Islands (including Kiritimati) share one date with the rest of the
+  // country. A smaller notch near Samoa keeps Samoa and American Samoa on
+  // opposite sides. The line has no single treaty-defined path through open
+  // water, so this follows its commonly published route rather than a
+  // single official source.
+  const DATE_LINE = [
+    [180, 90],
+    [180, 71.5],     // east of Wrangel Island
+    [-168.9, 65.5],  // Bering Strait, between the Diomede Islands
+    [180, 52.5],     // back near 180° past the Aleutians / Commander Islands
+    [180, 6],
+    [-163, 6],        // start of the Kiribati bulge — clears Teraina, the
+                       // Line Islands' northernmost/westernmost island
+    [-150, 3],
+    [-150, -4],
+    [-163, -12],      // south edge of the Kiribati bulge
+    [180, -12],
+    [-171, -13],       // notch between Samoa and American Samoa
+    [-171, -15.5],
+    [180, -16],
+    [180, -90],
+  ];
+  svg.append("path")
+    .datum({ type: "LineString", coordinates: DATE_LINE })
+    .attr("class", "dateline")
+    .attr("d", path);
+
+  const [bulgeX, bulgeY] = projection([-163, -8]);
+  svg.append("text")
+    .attr("class", "dateline-label")
+    .attr("x", bulgeX - 8)
+    .attr("y", bulgeY)
+    .attr("text-anchor", "end")
+    .text("International Date Line");
 
   const [x, y] = projection([KIRITIMATI.lon, KIRITIMATI.lat]);
   const marker = svg.append("g").attr("class", "marker").attr("transform", `translate(${x},${y})`);
