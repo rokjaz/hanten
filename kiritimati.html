@@ -40,7 +40,21 @@
     padding: 1.4rem 1.5rem 0.6rem;
     max-width: 900px;
     margin: 0 auto;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
   header .wordmark {
     font-family: ui-serif, Georgia, serif;
     font-weight: 600;
@@ -110,7 +124,10 @@
 </head>
 <body>
 
-<header><a class="wordmark" href="index.html">Hanten</a></header>
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
 
 <main>
   <h1>The world, centered on Kiritimati</h1>
