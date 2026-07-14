@@ -172,8 +172,6 @@
   }
   .subgroup {
     grid-column: 1 / -1;
-    border: 1px solid var(--line);
-    padding: 1.1rem 1.2rem 1.3rem;
   }
   .subgroup.hidden { display: none; }
   .subgroup-label {
@@ -182,7 +180,9 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-soft);
-    margin-bottom: 0.9rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
   }
   .subgroup .subgrid {
     display: grid;
@@ -284,38 +284,43 @@
       <h2>America redrawn: 50 states of equal population</h2>
       <p>Every region holds ~6.7 million people. The Northeast shatters into slivers; one region swallows most of four states.</p>
     </a>
-    <a class="card" data-cat="distances" href="point-nemo.html">
-      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 27 Q10 23 16 27 T28 27 T36 27"/>
-        <circle cx="20" cy="27" r="1.5" fill="currentColor" stroke="none"/>
-        <ellipse cx="22" cy="13" rx="11" ry="4.5"/>
-        <circle cx="31" cy="10" r="1.4" fill="currentColor" stroke="none"/>
-      </svg></div>
-      <div class="tag">Pacific Ocean</div>
-      <h2>At Point Nemo, the closest people are usually in orbit</h2>
-      <p>The middle of the ocean is closer to the Space Station than to any inhabited land — drawn to scale.</p>
-    </a>
-    <a class="card" data-cat="distances" href="closer-to-iss.html">
-      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="14" cy="24" r="5"/>
-        <ellipse cx="14" cy="24" rx="16" ry="6" transform="rotate(-20 14 24)"/>
-        <circle cx="28.5" cy="16.4" r="1.5" fill="currentColor" stroke="none"/>
-      </svg></div>
-      <div class="tag">World</div>
-      <h2>13 places are closer to the Space Station than to their nearest country</h2>
-      <p>New Zealand's nearest neighbor, Australia, is 616 km away — 200 km farther than the ISS flying overhead.</p>
-    </a>
-    <a class="card" data-cat="distances" href="iss-how-close.html">
-      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="20" y1="34" x2="20" y2="8"/>
-        <circle cx="20" cy="8" r="2.2" fill="currentColor" stroke="none"/>
-        <rect x="15.5" y="21" width="9" height="5.5" rx="1.2"/>
-        <line x1="9" y1="34" x2="31" y2="34"/>
-      </svg></div>
-      <div class="tag">Space</div>
-      <h2>The ISS looks impossibly far away. It's a 4-hour drive straight up.</h2>
-      <p>At highway speed, straight up, you'd arrive in 3 hours 54 minutes — less time than a coast-to-coast flight.</p>
-    </a>
+    <div class="subgroup" data-cat="distances">
+      <div class="subgroup-label">ISS</div>
+      <div class="subgrid">
+        <a class="card" data-cat="distances" href="point-nemo.html">
+          <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 27 Q10 23 16 27 T28 27 T36 27"/>
+            <circle cx="20" cy="27" r="1.5" fill="currentColor" stroke="none"/>
+            <ellipse cx="22" cy="13" rx="11" ry="4.5"/>
+            <circle cx="31" cy="10" r="1.4" fill="currentColor" stroke="none"/>
+          </svg></div>
+          <div class="tag">Pacific Ocean</div>
+          <h2>At Point Nemo, the closest people are usually in orbit</h2>
+          <p>The middle of the ocean is closer to the Space Station than to any inhabited land — drawn to scale.</p>
+        </a>
+        <a class="card" data-cat="distances" href="closer-to-iss.html">
+          <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="14" cy="24" r="5"/>
+            <ellipse cx="14" cy="24" rx="16" ry="6" transform="rotate(-20 14 24)"/>
+            <circle cx="28.5" cy="16.4" r="1.5" fill="currentColor" stroke="none"/>
+          </svg></div>
+          <div class="tag">World</div>
+          <h2>13 places are closer to the Space Station than to their nearest country</h2>
+          <p>New Zealand's nearest neighbor, Australia, is 616 km away — 200 km farther than the ISS flying overhead.</p>
+        </a>
+        <a class="card" data-cat="distances" href="iss-how-close.html">
+          <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="20" y1="34" x2="20" y2="8"/>
+            <circle cx="20" cy="8" r="2.2" fill="currentColor" stroke="none"/>
+            <rect x="15.5" y="21" width="9" height="5.5" rx="1.2"/>
+            <line x1="9" y1="34" x2="31" y2="34"/>
+          </svg></div>
+          <div class="tag">Space</div>
+          <h2>The ISS looks impossibly far away. It's a 4-hour drive straight up.</h2>
+          <p>At highway speed, straight up, you'd arrive in 3 hours 54 minutes — less time than a coast-to-coast flight.</p>
+        </a>
+      </div>
+    </div>
     <a class="card" data-cat="distances" href="earth-moon-gap.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="9" cy="20" r="6"/>
