@@ -27,8 +27,7 @@
     --accent-soft: rgba(14,124,134,0.14);
     --africa: #d6dbd0;
     --africa-line: #b9c0b2;
-    --green-a: #1f6f8b;
-    --green-b: #7fb5bc;
+    --greenland: #1f6f8b;
   }
   * { box-sizing: border-box; }
   body {
@@ -164,7 +163,7 @@
     gGroup.append("path")
       .datum(greenland)
       .attr("class", "greenland")
-      .attr("fill", (i + 1) % 2 ? "var(--green-a)" : "var(--green-b)")
+      .attr("fill", "var(--greenland)")
       .attr("d", d3.geoPath(proj));
     gGroup.append("text")
       .attr("class", "gl-num")
