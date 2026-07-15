@@ -529,8 +529,10 @@
     cards.forEach(c => {
       const searchOk = !currentQuery || cardSearchText(c).includes(currentQuery);
       let catOk;
-      if (currentQuery || currentCat === null) {
-        catOk = true; // search and the unfiltered "All" view both show everything flat
+      if (currentQuery) {
+        catOk = true; // search flattens everything, including subgroup tiles
+      } else if (currentCat === null) {
+        catOk = !c.dataset.subgroup; // unfiltered "All" view: subgroup tiles wait for their category to be selected
       } else if (!hasCat(c, currentCat)) {
         catOk = false;
       } else if (currentSubgroup === null) {
