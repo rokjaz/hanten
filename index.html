@@ -108,6 +108,14 @@
   }
   .filters button:hover { opacity: 0.8; }
   .filters button.active { opacity: 1; box-shadow: 0 0 0 2px var(--ink); }
+  .filters button:disabled { cursor: default; pointer-events: none; }
+  .filters button.back-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    opacity: 1;
+  }
+  .filters button.back-btn:hover { border-color: var(--accent); color: var(--accent); }
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -496,8 +504,12 @@
   const noResultsEl = document.getElementById("no-results");
   const cards = [...document.querySelectorAll("#grid .card")];
 
-  let currentCat = null; // null = no category filter (show everything, flat)
-  let currentSubgroup = null; // only meaningful once currentCat is set
+  const initParams = new URLSearchParams(location.search);
+  const initCat = initParams.get("cat");
+  const initSub = initParams.get("sub");
+
+  let currentCat = CATEGORIES.some(c => c.id === initCat) ? initCat : null; // null = no category filter (show everything, flat)
+  let currentSubgroup = (currentCat && SUBGROUPS.some(s => s.id === initSub && s.parentCat === currentCat)) ? initSub : null; // only meaningful once currentCat is set
   let currentQuery = "";
 
   // data-cat can hold more than one space-separated category (e.g.
@@ -543,9 +555,34 @@
       c.classList.toggle("hidden", !(catOk && searchOk));
     });
 
-    document.querySelectorAll("#filters button").forEach(b => {
-      b.classList.toggle("active", b.dataset.cat === currentCat);
-    });
+    // Top row: the full category list when nothing's selected, or a single
+    // "back" control plus the active category's own label once a category
+    // is selected — the other categories disappear entirely, like a
+    // dedicated category page, rather than staying visible but dimmed.
+    filtersEl.innerHTML = "";
+    if (currentCat === null) {
+      CATEGORIES.forEach(cat => {
+        const b = document.createElement("button");
+        b.textContent = cat.label;
+        b.dataset.cat = cat.id;
+        b.style.background = `var(--cat-${cat.id})`;
+        b.addEventListener("click", () => goToCategory(cat.id));
+        filtersEl.appendChild(b);
+      });
+    } else {
+      const back = document.createElement("button");
+      back.textContent = "← All maps";
+      back.className = "back-btn";
+      back.addEventListener("click", goHome);
+      filtersEl.appendChild(back);
+
+      const label = document.createElement("button");
+      label.textContent = CATEGORIES.find(c => c.id === currentCat).label;
+      label.style.background = `var(--cat-${currentCat})`;
+      label.classList.add("active");
+      label.disabled = true;
+      filtersEl.appendChild(label);
+    }
 
     // Second-level button row: only the active category's own subgroups,
     // and only when we're not mid-search (search flattens everything).
@@ -556,10 +593,7 @@
         b.textContent = s.label;
         b.style.background = `var(--cat-${s.parentCat})`;
         b.classList.toggle("active", currentSubgroup === s.id);
-        b.addEventListener("click", () => {
-          currentSubgroup = currentSubgroup === s.id ? null : s.id;
-          render();
-        });
+        b.addEventListener("click", () => goToSubgroup(s.id));
         subfiltersEl.appendChild(b);
       });
     }
@@ -568,17 +602,49 @@
     noResultsEl.classList.toggle("show", !anyVisible);
   }
 
-  CATEGORIES.forEach(cat => {
-    const b = document.createElement("button");
-    b.textContent = cat.label;
-    b.dataset.cat = cat.id;
-    b.style.background = `var(--cat-${cat.id})`;
-    b.addEventListener("click", () => {
-      currentCat = currentCat === cat.id ? null : cat.id;
-      currentSubgroup = null; // switching top-level category resets any drill-down
-      render();
-    });
-    filtersEl.appendChild(b);
+  // Keeps the URL in sync with the current category/subgroup so a category
+  // "page" is bookmarkable/shareable and the browser back button works,
+  // even though it's all still one physical file.
+  function syncURL(push) {
+    const params = new URLSearchParams();
+    if (currentCat) params.set("cat", currentCat);
+    if (currentSubgroup) params.set("sub", currentSubgroup);
+    const qs = params.toString();
+    const url = qs ? `${location.pathname}?${qs}` : location.pathname;
+    history[push ? "pushState" : "replaceState"]({ cat: currentCat, sub: currentSubgroup }, "", url);
+  }
+
+  function goToCategory(id) {
+    currentCat = id;
+    currentSubgroup = null;
+    currentQuery = "";
+    searchEl.value = "";
+    render();
+    syncURL(true);
+  }
+
+  function goToSubgroup(id) {
+    currentSubgroup = currentSubgroup === id ? null : id;
+    render();
+    syncURL(true);
+  }
+
+  function goHome() {
+    currentCat = null;
+    currentSubgroup = null;
+    render();
+    syncURL(true);
+  }
+
+  window.addEventListener("popstate", () => {
+    const params = new URLSearchParams(location.search);
+    const cat = params.get("cat");
+    const sub = params.get("sub");
+    currentCat = CATEGORIES.some(c => c.id === cat) ? cat : null;
+    currentSubgroup = (currentCat && SUBGROUPS.some(s => s.id === sub && s.parentCat === currentCat)) ? sub : null;
+    currentQuery = "";
+    searchEl.value = "";
+    render();
   });
 
   // Fade cards in as they scroll into view (one-time reveal per card).
@@ -598,11 +664,16 @@
 
   searchEl.addEventListener("input", () => {
     currentQuery = searchEl.value.trim().toLowerCase();
-    if (currentQuery) { currentCat = null; currentSubgroup = null; }
+    if (currentQuery && (currentCat || currentSubgroup)) {
+      currentCat = null;
+      currentSubgroup = null;
+      syncURL(true);
+    }
     render();
   });
 
   render();
+  syncURL(false);
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>
