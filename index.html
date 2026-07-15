@@ -576,12 +576,16 @@
       back.addEventListener("click", goHome);
       filtersEl.appendChild(back);
 
-      const label = document.createElement("button");
-      label.textContent = CATEGORIES.find(c => c.id === currentCat).label;
-      label.style.background = `var(--cat-${currentCat})`;
-      label.classList.add("active");
-      label.disabled = true;
-      filtersEl.appendChild(label);
+      // Once a subgroup is selected, the subfilter row already shows
+      // "← <Category>", so the category label here would just repeat it.
+      if (currentSubgroup === null) {
+        const label = document.createElement("button");
+        label.textContent = CATEGORIES.find(c => c.id === currentCat).label;
+        label.style.background = `var(--cat-${currentCat})`;
+        label.classList.add("active");
+        label.disabled = true;
+        filtersEl.appendChild(label);
+      }
     }
 
     // Second-level button row: the active category's own subgroups, or —
