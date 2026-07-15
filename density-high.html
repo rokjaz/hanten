@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hanten — The Suburbs Punching Seven Times Above Their Weight</title>
-<meta name="description" content="2% of the land holds 14% of the people — the suburbs are pulling more than seven times their weight.">
+<title>Hanten — America's High-Density Counties</title>
+<meta name="description" content="500 to 999 people per square mile — high density, not to be confused with very-high-density. 2% of the land, 14% of the people.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://hanten.app/density-high.html">
-<meta property="og:title" content="Hanten — The suburbs punching seven times above their weight">
-<meta property="og:description" content="2% of the land holds 14% of the people — the suburbs are pulling more than seven times their weight.">
+<meta property="og:title" content="Hanten — America's high-density counties">
+<meta property="og:description" content="500 to 999 people per square mile — high density, not to be confused with very-high-density. 2% of the land, 14% of the people.">
 <meta property="og:image" content="https://hanten.app/data/og/density-high.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Hanten — The suburbs punching seven times above their weight">
-<meta name="twitter:description" content="2% of the land holds 14% of the people — the suburbs are pulling more than seven times their weight.">
+<meta name="twitter:title" content="Hanten — America's high-density counties">
+<meta name="twitter:description" content="500 to 999 people per square mile — high density, not to be confused with very-high-density. 2% of the land, 14% of the people.">
 <meta name="twitter:image" content="https://hanten.app/data/og/density-high.png">
 <style>
   :root {
@@ -25,8 +25,8 @@
     --line: rgba(28,39,51,0.14);
     --accent: #0e7c86;
     --accent-soft: rgba(14,124,134,0.14);
-    --dense: #1f6f8b;
-    --dense-soft: #bcd3da;
+    --dense: #c98a23;
+    --dense-soft: #e6cd9c;
     --filled: #d6dbd0;
     --filled-line: #b9c0b2;
   }
@@ -118,8 +118,8 @@
 </header>
 
 <main>
-  <h1>The suburbs punching seven times above their weight</h1>
-  <p class="sub">Every county below with 500 to 999 people per square mile — solid suburbs and small cities, short of big-city dense — is shaded in.</p>
+  <h1>America's high-density counties: seven times their share</h1>
+  <p class="sub">Every county below with 500 to 999 people per square mile — high density, but not the very-high-density tier — is shaded in.</p>
   <div id="save-image-slot"></div>
 
   <div class="stat-row">
@@ -143,8 +143,8 @@
   </div>
 
   <div class="caption">
-    <p><strong>Not quite the city, but far from empty.</strong> These 118 counties are solid suburbs and small metro areas — dense enough to feel urban, short of the skyline. On just 2% of the country's land, they hold more than seven times their proportional share of the population.</p>
-    <p>Stack this against the emptiest slice of the map — 46% of the land holding barely 1% of the people — and the contrast is stark. See <a href="density-extremes.html">all three density cutoffs side by side</a>.</p>
+    <p><strong>Not quite the city, but far from empty.</strong> These 118 counties are "high density" on the Census Bureau's scale — solid suburbs and small metro areas, dense enough to feel urban, but a full tier below the very-high-density counties. On just 2% of the country's land, they hold more than seven times their proportional share of the population.</p>
+    <p>Stack this against the emptiest slice of the map — 46% of the land holding barely 1% of the people — and the contrast is stark. See <a href="density-extremes.html">all three density cutoffs side by side</a>, including the <a href="density-veryhigh.html">very-high-density counties</a>.</p>
     <p class="source">Sources: U.S. Census Bureau, Vintage 2023 Population Estimates (county totals) and 2023 Gazetteer Files (land area). County boundaries: US Census via us-atlas. 118 of 3,144 counties (Puerto Rico excluded — not covered by this population estimates release).</p>
   </div>
 </main>
@@ -182,7 +182,7 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="data/save-image.js"></script>
 <script>
-  HantenSaveImage.init({ target: "#map-wrap", title: "The suburbs punching seven times above their weight", filename: "hanten-density-high.png" });
+  HantenSaveImage.init({ target: "#map-wrap", title: "America's high-density counties: seven times their share", filename: "hanten-density-high.png" });
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>
