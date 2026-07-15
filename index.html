@@ -584,18 +584,35 @@
       filtersEl.appendChild(label);
     }
 
-    // Second-level button row: only the active category's own subgroups,
-    // and only when we're not mid-search (search flattens everything).
+    // Second-level button row: the active category's own subgroups, or —
+    // once one is selected — a "back to category" control plus its label,
+    // same collapsing pattern as the top row, one level deeper. Skipped
+    // entirely while mid-search (search flattens everything).
     subfiltersEl.innerHTML = "";
     if (currentCat !== null && !currentQuery) {
-      SUBGROUPS.filter(s => s.parentCat === currentCat).forEach(s => {
-        const b = document.createElement("button");
-        b.textContent = s.label;
-        b.style.background = `var(--cat-${s.parentCat})`;
-        b.classList.toggle("active", currentSubgroup === s.id);
-        b.addEventListener("click", () => goToSubgroup(s.id));
-        subfiltersEl.appendChild(b);
-      });
+      if (currentSubgroup === null) {
+        SUBGROUPS.filter(s => s.parentCat === currentCat).forEach(s => {
+          const b = document.createElement("button");
+          b.textContent = s.label;
+          b.style.background = `var(--cat-${s.parentCat})`;
+          b.addEventListener("click", () => goToSubgroup(s.id));
+          subfiltersEl.appendChild(b);
+        });
+      } else {
+        const back = document.createElement("button");
+        back.textContent = `← ${CATEGORIES.find(c => c.id === currentCat).label}`;
+        back.className = "back-btn";
+        back.addEventListener("click", goBackToCategory);
+        subfiltersEl.appendChild(back);
+
+        const sg = SUBGROUPS.find(s => s.id === currentSubgroup);
+        const label = document.createElement("button");
+        label.textContent = sg.label;
+        label.style.background = `var(--cat-${sg.parentCat})`;
+        label.classList.add("active");
+        label.disabled = true;
+        subfiltersEl.appendChild(label);
+      }
     }
 
     const anyVisible = cards.some(c => !c.classList.contains("hidden"));
@@ -624,7 +641,13 @@
   }
 
   function goToSubgroup(id) {
-    currentSubgroup = currentSubgroup === id ? null : id;
+    currentSubgroup = id;
+    render();
+    syncURL(true);
+  }
+
+  function goBackToCategory() {
+    currentSubgroup = null;
     render();
     syncURL(true);
   }
