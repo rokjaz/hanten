@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — The Suburbs Punching Seven Times Above Their Weight</title>
+<meta name="description" content="2% of the land holds 14% of the people — the suburbs are pulling more than seven times their weight.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/density-high.html">
+<meta property="og:title" content="Hanten — The suburbs punching seven times above their weight">
+<meta property="og:description" content="2% of the land holds 14% of the people — the suburbs are pulling more than seven times their weight.">
+<meta property="og:image" content="https://hanten.app/data/og/density-high.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — The suburbs punching seven times above their weight">
+<meta name="twitter:description" content="2% of the land holds 14% of the people — the suburbs are pulling more than seven times their weight.">
+<meta name="twitter:image" content="https://hanten.app/data/og/density-high.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --dense: #1f6f8b;
+    --dense-soft: #bcd3da;
+    --filled: #d6dbd0;
+    --filled-line: #b9c0b2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 980px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  header .wordmark:hover { color: var(--accent); }
+  main { max-width: 980px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 62ch; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 1.4rem;
+  }
+  .stat-row .stat { background: var(--paper-raised); padding: 1rem 1.2rem; }
+  .stat .num { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 1.6rem; font-weight: 700; color: var(--dense); }
+  .stat .label { font-size: 0.82rem; color: var(--ink-soft); margin-top: 0.2rem; }
+
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+  }
+  #map { width: 100%; height: auto; display: block; }
+  .county.dense { fill: var(--dense); stroke: var(--dense-soft); stroke-width: 0.3; }
+  .county.filled { fill: var(--filled); stroke: var(--filled-line); stroke-width: 0.3; }
+  .state-outline { fill: none; stroke: var(--ink); stroke-width: 0.6; opacity: 0.5; }
+
+  .legend {
+    display: flex;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .legend .dot { display: inline-block; width: 10px; height: 10px; margin-right: 0.4rem; vertical-align: middle; }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .caption a { color: var(--accent); }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>The suburbs punching seven times above their weight</h1>
+  <p class="sub">Every county below with 500 to 999 people per square mile — solid suburbs and small cities, short of big-city dense — is shaded in.</p>
+  <div id="save-image-slot"></div>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="num">2.0%</div>
+      <div class="label">of the country's land area has 500–999 people per square mile</div>
+    </div>
+    <div class="stat">
+      <div class="num">14.5%</div>
+      <div class="label">of the population lives in that same area</div>
+    </div>
+  </div>
+
+  <div id="map-wrap">
+    <svg id="map" viewBox="0 0 975 610"></svg>
+  </div>
+
+  <div class="legend">
+    <div><span class="dot" style="background:var(--dense)"></span>500–999 people / sq mi (118 counties)</div>
+    <div><span class="dot" style="background:var(--filled)"></span>All other counties</div>
+  </div>
+
+  <div class="caption">
+    <p><strong>Not quite the city, but far from empty.</strong> These 118 counties are solid suburbs and small metro areas — dense enough to feel urban, short of the skyline. On just 2% of the country's land, they hold more than seven times their proportional share of the population.</p>
+    <p>Stack this against the emptiest slice of the map — 46% of the land holding barely 1% of the people — and the contrast is stark. See <a href="density-extremes.html">all three density cutoffs side by side</a>.</p>
+    <p class="source">Sources: U.S. Census Bureau, Vintage 2023 Population Estimates (county totals) and 2023 Gazetteer Files (land area). County boundaries: US Census via us-atlas. 118 of 3,144 counties (Puerto Rico excluded — not covered by this population estimates release).</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="data/us-counties-10m.js"></script>
+<script src="data/county-density.js"></script>
+<script>
+  const width = 975, height = 610;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+
+  const counties = topojson.feature(US_COUNTIES_TOPOLOGY, US_COUNTIES_TOPOLOGY.objects.counties);
+  const states = topojson.mesh(US_COUNTIES_TOPOLOGY, US_COUNTIES_TOPOLOGY.objects.states, (a, b) => a !== b);
+
+  const projection = d3.geoAlbersUsa().fitSize([width, height], counties);
+  const path = d3.geoPath(projection);
+
+  svg.append("g")
+    .selectAll("path")
+    .data(counties.features)
+    .join("path")
+    .attr("class", d => {
+      const density = COUNTY_DENSITY[d.id];
+      return "county " + (density !== undefined && density >= 500 && density < 1000 ? "dense" : "filled");
+    })
+    .attr("d", path);
+
+  svg.append("path")
+    .datum(states)
+    .attr("class", "state-outline")
+    .attr("d", path);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "The suburbs punching seven times above their weight", filename: "hanten-density-high.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
