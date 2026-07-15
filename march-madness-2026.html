@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — California has the most college basketball teams. Texas sent the most to March Madness.</title>
+<meta name="description" content="355 Division I programs, a 68-team tournament field, one champion — mapped state by state through every round of the 2026 NCAA tournament.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/march-madness-2026.html">
+<meta property="og:title" content="Hanten — California has the most college basketball teams. Texas sent the most to March Madness.">
+<meta property="og:description" content="355 Division I programs, a 68-team tournament field, one champion — mapped state by state through every round of the 2026 NCAA tournament.">
+<meta property="og:image" content="https://hanten.app/data/og/march-madness-2026.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — California has the most college basketball teams. Texas sent the most to March Madness.">
+<meta name="twitter:description" content="355 Division I programs, a 68-team tournament field, one champion — mapped state by state through every round of the 2026 NCAA tournament.">
+<meta name="twitter:image" content="https://hanten.app/data/og/march-madness-2026.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --mm-lo: #f6ddbb;
+    --mm-hi: #b3591b;
+    --zero: #d6dbd0;
+    --zero-line: #b9c0b2;
+    --gold: #b8860b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 1000px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  header .wordmark:hover { color: var(--accent); }
+  main { max-width: 1000px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.4rem, 3.6vw, 2rem);
+    line-height: 1.25;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.2rem; max-width: 66ch; }
+
+  .tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+  .tabs button {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .tabs button:hover { border-color: var(--accent); }
+  .tabs button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .layout { display: grid; grid-template-columns: 2fr 1fr; gap: 1.2rem; }
+  @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } }
+
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+    position: relative;
+  }
+  #map { width: 100%; height: auto; display: block; }
+  .state { stroke: #fff; stroke-width: 0.6; cursor: pointer; }
+  .state.zero { fill: var(--zero); stroke: var(--zero-line); }
+
+  #tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.78rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 3px;
+    max-width: 270px;
+    display: none;
+    z-index: 5;
+    line-height: 1.45;
+  }
+  #tooltip .stat { color: #8fd4da; font-size: 0.72rem; margin-top: 0.2rem; }
+  #tooltip ul { margin: 0.35rem 0 0; padding-left: 1rem; }
+  #tooltip li { margin-bottom: 0.15rem; }
+  #tooltip li.alive { color: #a8e0b0; }
+  #tooltip li.out-now { color: #e8b98f; }
+
+  .side {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem 1.1rem;
+  }
+  .side h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: ui-monospace, monospace;
+    color: var(--ink-soft);
+    margin: 0 0 0.7rem;
+  }
+  .side ol { margin: 0; padding-left: 1.3rem; font-size: 0.88rem; }
+  .side li { margin-bottom: 0.45rem; }
+  .side .val { font-family: ui-monospace, monospace; color: var(--accent); font-weight: 600; }
+  .side .empty { color: var(--ink-soft); font-size: 0.85rem; margin: 0; }
+
+  .legend {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.9rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+  .legend .bar {
+    width: 120px; height: 10px;
+    background: linear-gradient(to right, var(--mm-lo), var(--mm-hi));
+  }
+  .legend .swatch { width: 11px; height: 11px; display: inline-block; background: var(--zero); border: 1px solid var(--zero-line); margin-right: 0.3rem; }
+
+  .stage-note {
+    margin-top: 1.2rem;
+    padding: 1rem 1.2rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+  .stage-note strong { color: var(--ink); }
+  .stage-note p { margin: 0; }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>California has the most college basketball teams. Texas sent the most to March Madness.</h1>
+  <p class="sub">355 Division I programs, a 68-team tournament field, one champion — the same state doesn't win every stage of that funnel. Hover any state, or tap through the rounds below.</p>
+  <div id="save-image-slot"></div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="layout">
+    <div id="map-wrap">
+      <svg id="map" viewBox="0 0 975 610"></svg>
+      <div id="tooltip"></div>
+    </div>
+    <div class="side">
+      <h3 id="side-title">Most Division I programs</h3>
+      <ol id="side-list"></ol>
+      <p class="empty" id="side-empty" style="display:none;"></p>
+    </div>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="stage-note" id="stage-note"></div>
+
+  <div class="caption">
+    <p><strong>California has more Division I basketball programs than any other state — 26 of them.</strong> But it only landed four bids in the 68-team field, the same as Ohio, Florida, and New York. Texas, with fewer programs (22), sent seven teams to the Dance — more than anywhere else.</p>
+    <p><strong>Sending the most teams doesn't buy the deepest run, either.</strong> All seven of Texas's teams were gone by the Sweet 16. North Carolina sent five, including 1-seed Duke; only Duke made it past the first weekend, reaching the Elite Eight before a 73–72 loss to UConn. Michigan — a state with just seven Division I programs and two tournament bids — won the whole thing.</p>
+    <p class="source">Bracket results and scores: 2026 NCAA Division I men's basketball tournament (Wikipedia / box scores). Division I program counts by state: playcollegebasketball.org (an independent compilation, approximate — not an official NCAA total). Teams are assigned to their main campus's state.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="data/us-counties-10m.js"></script>
+<script src="data/marchmadness2026.js"></script>
+<script>
+  const width = 975, height = 610;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+  const tooltip = document.getElementById("tooltip");
+
+  // Group tournament teams by state once — reused by every stage's tooltip.
+  const STATE_TEAMS = {};
+  Object.entries(MM_TEAMS).forEach(([name, t]) => {
+    (STATE_TEAMS[t.state] = STATE_TEAMS[t.state] || []).push({ name, ...t });
+  });
+  Object.values(STATE_TEAMS).forEach(list => list.sort((a, b) => a.seed - b.seed));
+
+  const statesFeatures = topojson.feature(US_COUNTIES_TOPOLOGY, US_COUNTIES_TOPOLOGY.objects.states).features
+    .filter(f => Object.prototype.hasOwnProperty.call(D1_BY_STATE, f.properties.name));
+  const projection = d3.geoAlbersUsa().fitSize([width, height], { type: "FeatureCollection", features: statesFeatures });
+  const path = d3.geoPath(projection);
+
+  const ROUND_NAME = { 1: "the First Four", 2: "the Round of 64", 3: "the Round of 32", 4: "the Sweet 16", 5: "the Elite Eight", 6: "the Final Four", 7: "the Championship" };
+
+  const STAGES = [
+    { id: 0, label: "All Division I Teams", listTitle: "Most Division I programs", zeroLabel: "No Division I program",
+      note: `<p><strong>Every state gets a starting line.</strong> 355 Division I men's basketball programs nationwide (an approximate count) — before a single game tips off, this is pure potential. California leads with 26 programs, well ahead of Texas and New York (22 each) and North Carolina (18). Alaska is the only state with zero.</p>` },
+    { id: 1, label: "Qualified — Field of 68", listTitle: "Most teams in the field", zeroLabel: "No team in the field",
+      note: `<p><strong>Texas sent more teams to the 2026 tournament than any other state — seven</strong>, despite having four fewer Division I programs than California. California, the state with the most programs in the country, landed only four bids: the same as Ohio, Florida, and New York.</p>` },
+    { id: 2, label: "Round of 64", listTitle: "Most teams remaining", zeroLabel: "No team remaining",
+      note: `<p><strong>Four win-or-go-home games trim the field from 68 to 64:</strong> Howard 86, UMBC 83; Texas 68, NC State 66; Prairie View A&amp;M 67, Lehigh 55; Miami (Ohio) 89, SMU 79. Three of those four winners — Howard, Prairie View A&amp;M, Miami (Ohio) — lose their very next game. Only Texas keeps playing.</p>` },
+    { id: 3, label: "Round of 32", listTitle: "Most teams remaining", zeroLabel: "No team remaining",
+      note: `<p><strong>The Round of 64 delivers three real upsets:</strong> 12-seed High Point over 5-seed Wisconsin (83–82), 11-seed Texas — still riding its First Four win — over 6-seed BYU (79–71), and 11-seed VCU over 6-seed North Carolina in overtime (82–78). All three double-digit seeds keep playing.</p>` },
+    { id: 4, label: "Sweet 16", listTitle: "Most teams remaining", zeroLabel: "No team remaining",
+      note: `<p><strong>Florida, the South Region's 1-seed, is upset by 9-seed Iowa, 73–72.</strong> Texas's other Round-of-32 teams — TCU, Texas A&amp;M, Texas Tech — all lose this round too, cutting the state's seven original bids down to two: Houston and the University of Texas.</p>` },
+    { id: 5, label: "Elite Eight", listTitle: "Most teams remaining", zeroLabel: "No team remaining",
+      note: `<p><strong>Both remaining Texas teams go out in the Sweet 16</strong> — Houston to Illinois (65–55), Texas to Purdue in a 79–77 nail-biter — ending the state's tournament despite it sending more teams than anywhere else. North Carolina's five bids are down to a single survivor: 1-seed Duke, who beats St. John's 80–75.</p>` },
+    { id: 6, label: "Final Four", listTitle: "Still standing", zeroLabel: "No team remaining",
+      note: `<p><strong>Duke's run ends the way it stayed close all tournament:</strong> a 73–72 loss to UConn in the Elite Eight. Michigan routs Tennessee 95–62. Illinois outlasts 9-seed Iowa, 71–59. Arizona holds off Purdue, 79–64.</p>` },
+    { id: 7, label: "Championship", listTitle: "In the title game", zeroLabel: "No team remaining",
+      note: `<p><strong>Michigan 91, Arizona 73. UConn 71, Illinois 62.</strong> Every team left is a 1, 2, or 3 seed — the bracket's Cinderella runs are all over, down to four blue-blood programs from four different states.</p>` },
+    { id: 8, label: "Champion", listTitle: "Champion", zeroLabel: "",
+      note: `<p><strong>Michigan 69, UConn 63.</strong> Michigan's first national championship since 1989, and its first under second-year coach Dusty May — snapping a streak of four straight championship-game losses (two of which were later vacated). Michigan's home state fielded just two of the tournament's 68 teams.</p>` },
+  ];
+
+  function countForState(stateName, stage) {
+    if (stage === 0) return D1_BY_STATE[stateName] || 0;
+    const list = STATE_TEAMS[stateName] || [];
+    return list.filter(t => t.reached >= stage).length;
+  }
+
+  function teamStatus(t, stage) {
+    if (t.reached >= stage) return { cls: "alive", text: stage === 8 && t.reached === 8 ? "Champion" : "Still in" };
+    if (t.reached === stage - 1) return { cls: "out-now", text: `Out — ${t.note}` };
+    return { cls: "out-earlier", text: `Out earlier — lost in ${ROUND_NAME[t.reached] || "the First Four"}` };
+  }
+
+  let currentStage = 0;
+  const group = svg.append("g")
+    .selectAll("path")
+    .data(statesFeatures)
+    .join("path")
+    .attr("class", "state")
+    .attr("d", path);
+
+  function showStateTip(event, f) {
+    const name = f.properties.name;
+    const count = countForState(name, currentStage);
+    let html;
+    if (currentStage === 0) {
+      const qualified = countForState(name, 1);
+      html = `<strong>${name}</strong>
+        <div class="stat">${count} Division I program${count === 1 ? "" : "s"}</div>
+        <div class="stat">${qualified} reached the 2026 tournament field</div>`;
+    } else {
+      const list = (STATE_TEAMS[name] || []);
+      html = `<strong>${name}</strong>
+        <div class="stat">${count} team${count === 1 ? "" : "s"} at this stage</div>`;
+      if (list.length) {
+        html += "<ul>" + list.map(t => {
+          const s = teamStatus(t, currentStage);
+          return `<li class="${s.cls}">#${t.seed} ${t.name} — ${s.text}</li>`;
+        }).join("") + "</ul>";
+      }
+    }
+    tooltip.style.display = "block";
+    tooltip.innerHTML = html;
+    const wrap = document.getElementById("map-wrap").getBoundingClientRect();
+    tooltip.style.left = Math.min(event.clientX - wrap.left + 14, wrap.width - 280) + "px";
+    tooltip.style.top = (event.clientY - wrap.top + 14) + "px";
+  }
+
+  group
+    .on("mousemove", showStateTip)
+    .on("click", showStateTip) // touch devices have no hover — tap works instead
+    .on("mouseleave", () => { tooltip.style.display = "none"; });
+
+  function render(stage) {
+    currentStage = stage;
+    const s = STAGES[stage];
+
+    const counts = {};
+    statesFeatures.forEach(f => { counts[f.properties.name] = countForState(f.properties.name, stage); });
+    const maxVal = d3.max(Object.values(counts)) || 1;
+    // d3's color interpolator needs literal color values — it can't resolve
+    // CSS custom properties like var(--mm-hi), so the hex is repeated here.
+    const scale = d3.scaleLinear().domain([1, Math.max(2, maxVal)]).range(["#f6ddbb", "#b3591b"]).interpolate(d3.interpolateRgb);
+    const colorFor = v => v <= 0 ? "var(--zero)" : (maxVal <= 1 ? "#b3591b" : scale(v));
+
+    group
+      .attr("class", f => "state" + (counts[f.properties.name] <= 0 ? " zero" : ""))
+      .attr("fill", f => colorFor(counts[f.properties.name]));
+
+    const ranked = Object.entries(counts).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).slice(0, 15);
+    const listEl = document.getElementById("side-list");
+    const emptyEl = document.getElementById("side-empty");
+    listEl.innerHTML = "";
+    if (ranked.length) {
+      listEl.style.display = "";
+      emptyEl.style.display = "none";
+      ranked.forEach(([name, v]) => {
+        const li = document.createElement("li");
+        li.innerHTML = `${name} <span class="val">${v}</span>`;
+        listEl.appendChild(li);
+      });
+    } else {
+      listEl.style.display = "none";
+      emptyEl.style.display = "";
+      emptyEl.textContent = "No state has a team left.";
+    }
+    document.getElementById("side-title").textContent = s.listTitle;
+
+    document.getElementById("legend").innerHTML = `
+      <span>Fewer</span><span class="bar"></span><span>More</span>
+      <span style="margin-left:1rem"><span class="swatch"></span>${s.zeroLabel}</span>`;
+
+    document.getElementById("stage-note").innerHTML = s.note;
+    document.querySelectorAll("#tabs button").forEach((b, i) => b.classList.toggle("active", i === stage));
+  }
+
+  const tabsEl = document.getElementById("tabs");
+  STAGES.forEach(s => {
+    const b = document.createElement("button");
+    b.textContent = s.label;
+    b.addEventListener("click", () => render(s.id));
+    tabsEl.appendChild(b);
+  });
+
+  render(0);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: ".layout", title: "California has the most college basketball teams. Texas sent the most to March Madness.", filename: "hanten-march-madness-2026.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
