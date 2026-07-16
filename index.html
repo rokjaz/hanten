@@ -224,6 +224,16 @@
     padding: 2rem 0;
   }
   .no-results.show { display: block; }
+  .landing-hint {
+    display: none;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    padding: 2.5rem 0;
+    text-align: center;
+    border: 1px dashed var(--line);
+  }
+  .landing-hint.show { display: block; }
+  .grid.hidden { display: none; }
   footer {
     max-width: 900px;
     margin: 0 auto;
@@ -254,6 +264,7 @@
 <main>
   <input class="search" id="search" type="text" placeholder="Search maps and stats…" autocomplete="off">
   <div class="filters" id="filters"></div>
+  <p class="landing-hint" id="landing-hint">Pick a category above, or search — maps and stats will show up here.</p>
   <p class="no-results" id="no-results">No maps match that search.</p>
   <div class="grid" id="grid">
     <a class="card" data-cat="population" href="empty-america.html">
@@ -573,6 +584,8 @@
   const filtersEl = document.getElementById("filters");
   const searchEl = document.getElementById("search");
   const noResultsEl = document.getElementById("no-results");
+  const landingHintEl = document.getElementById("landing-hint");
+  const gridEl = document.getElementById("grid");
   const allMapsBtn = document.getElementById("all-maps-btn");
   const cards = [...document.querySelectorAll("#grid .card")];
 
@@ -581,6 +594,11 @@
 
   let currentCat = CATEGORIES.some(c => c.id === initCat) ? initCat : null; // null = no category filter, show everything
   let currentQuery = "";
+  // Landing = the pristine homepage, before any interaction: just the
+  // category links, no tiles, so picking a category is an obvious change
+  // rather than a subtle re-filter of an already-full grid. A direct link
+  // to a category (?cat=...) skips landing and opens straight into the grid.
+  let landing = !initCat;
 
   // data-cat can hold more than one space-separated category (e.g.
   // data-cat="statistics politics") for maps that genuinely span two
@@ -620,8 +638,11 @@
       filtersEl.appendChild(b);
     });
 
+    gridEl.classList.toggle("hidden", landing);
+    landingHintEl.classList.toggle("show", landing);
+
     const anyVisible = cards.some(c => !c.classList.contains("hidden"));
-    noResultsEl.classList.toggle("show", !anyVisible);
+    noResultsEl.classList.toggle("show", !landing && !anyVisible);
   }
 
   // Keeps the URL in sync with the current category so a category "page"
@@ -636,6 +657,7 @@
   }
 
   function toggleCategory(id) {
+    landing = false;
     currentCat = currentCat === id ? null : id;
     currentQuery = "";
     searchEl.value = "";
@@ -644,6 +666,7 @@
   }
 
   function goHome() {
+    landing = false;
     currentCat = null;
     currentQuery = "";
     searchEl.value = "";
@@ -671,6 +694,7 @@
   });
 
   window.addEventListener("popstate", () => {
+    landing = false; // popstate only fires after some prior interaction
     const params = new URLSearchParams(location.search);
     const cat = params.get("cat");
     currentCat = CATEGORIES.some(c => c.id === cat) ? cat : null;
@@ -695,6 +719,7 @@
   }
 
   searchEl.addEventListener("input", () => {
+    landing = false;
     currentQuery = searchEl.value.trim().toLowerCase();
     if (currentQuery && currentCat) {
       currentCat = null;
