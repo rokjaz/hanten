@@ -16,6 +16,9 @@
 <meta name="twitter:title" content="Hanten — Maps That Flip How You See the World">
 <meta name="twitter:description" content="Counterintuitive maps and statistics. Same facts, different lines — one surprising truth per map.">
 <meta name="twitter:image" content="https://hanten.app/data/og/home.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #1c2733;
@@ -86,17 +89,21 @@
   }
   @media (max-width: 760px) { .header-deco { display: none; } }
   .wordmark {
-    font-family: ui-serif, Georgia, serif;
-    font-weight: 700;
-    font-size: 1.65rem;
+    font-family: "Yuji Syuku", ui-serif, Georgia, serif;
+    font-weight: 400;
+    font-size: 1.8rem;
     background: none;
     border: none;
     padding: 0;
     color: inherit;
     cursor: pointer;
+    text-decoration: underline dashed;
+    text-decoration-color: var(--line);
+    text-underline-offset: 7px;
+    text-decoration-thickness: 1.5px;
   }
-  .wordmark:hover { color: var(--accent); }
-  .wordmark .kanji { color: var(--accent); margin-left: 0.35rem; font-weight: 400; }
+  .wordmark:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  .wordmark .kanji { color: var(--accent); margin-left: 0.35rem; }
   .tagline {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 0.8rem;
