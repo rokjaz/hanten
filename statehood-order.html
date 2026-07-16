@@ -83,6 +83,25 @@
   }
   #tooltip .stat { color: #8fd4da; font-size: 0.75rem; }
 
+  .controls { margin: 0 0 0.9rem; }
+  .toggle-btn {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .toggle-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .state-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-weight: 700;
+    pointer-events: none;
+  }
+
   .legend {
     display: flex;
     align-items: center;
@@ -127,6 +146,10 @@
   <p class="sub">Every state, shaded from the first admitted (Delaware, 1787, darkest) to the last (Hawaii, 1959, lightest). Hover a state for its exact date and admission number.</p>
   <div id="save-image-slot"></div>
 
+  <div class="controls">
+    <button class="toggle-btn" id="toggle-numbers" type="button">Show admission numbers</button>
+  </div>
+
   <div id="map-wrap">
     <svg id="map" viewBox="0 0 975 610"></svg>
     <div id="tooltip"></div>
@@ -140,6 +163,7 @@
     <p><strong>The original 13 states joined in under three years.</strong> Delaware became the first state on December 7, 1787; by Rhode Island's ratification on May 29, 1790, all 13 were in — about two and a half years. It then took another 169 years to add the remaining 37.</p>
     <p><strong>After Arizona became the 48th state in February 1912, nothing happened for 47 years.</strong> No territory became a state again until Alaska, on January 3, 1959 — and then Hawaii followed just seven and a half months later, on August 21, 1959, ending the longest gap in American statehood with two states in a single year.</p>
     <p><strong>North and South Dakota share an exact admission date</strong> — November 2, 1889 — and, as the story goes, deliberately so: President Benjamin Harrison reportedly had the papers shuffled before signing so that no one could ever say which territory became a state first. By convention the two are ordered alphabetically, North Dakota 39th and South Dakota 40th.</p>
+    <p><strong>West Virginia counts as the 35th state in 1863</strong> — even though its land had been part of Virginia, one of the original 13, since 1788. When Virginia seceded to join the Confederacy in 1861, its Unionist mountain counties refused to go along and set up a rival "Restored Government of Virginia" loyal to Washington. The Constitution requires a state's consent before a new state can be carved from it — so that breakaway government supplied its own consent, split itself in two, and Lincoln signed West Virginia into the Union on June 20, 1863. The map counts it by that admission date, not by how long the land itself had already been part of the country.</p>
     <p class="source">Source: dates of admission per the U.S. National Archives and the standard historical record of Congressional admission acts.</p>
   </div>
 </main>
@@ -190,6 +214,34 @@
     .on("mousemove", showTip)
     .on("click", showTip) // touch devices have no hover — tap works instead
     .on("mouseleave", () => { tooltip.style.display = "none"; });
+
+  // Number labels, toggled on demand. A white stroke halo (paint-order:
+  // stroke draws it behind the fill) keeps the number readable whether it
+  // lands on a dark-navy early state or a pale-blue late one.
+  const labelsGroup = svg.append("g").style("display", "none");
+  labelsGroup.selectAll("text")
+    .data(statesFeatures)
+    .join("text")
+    .attr("class", "state-label")
+    .attr("x", f => path.centroid(f)[0])
+    .attr("y", f => path.centroid(f)[1])
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "middle")
+    .attr("font-size", 10.5)
+    .attr("paint-order", "stroke")
+    .attr("stroke", "#fff")
+    .attr("stroke-width", 3)
+    .attr("fill", "#1c2733")
+    .text(f => STATEHOOD[f.properties.name].order);
+
+  const toggleBtn = document.getElementById("toggle-numbers");
+  let showNumbers = false;
+  toggleBtn.addEventListener("click", () => {
+    showNumbers = !showNumbers;
+    labelsGroup.style("display", showNumbers ? null : "none");
+    toggleBtn.classList.toggle("active", showNumbers);
+    toggleBtn.textContent = showNumbers ? "Hide admission numbers" : "Show admission numbers";
+  });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
