@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — The Lower 48 Is Almost Exactly 4 Greenlands</title>
+<meta name="description" content="On a Mercator map Greenland looks enormous. At true scale, the contiguous United States holds almost exactly four of them.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/continental-us-greenlands.html">
+<meta property="og:title" content="Hanten — The Lower 48 is almost exactly 4 Greenlands">
+<meta property="og:description" content="At true, equal-area scale, the contiguous United States holds almost exactly four Greenlands.">
+<meta property="og:image" content="https://hanten.app/data/og/continental-us-greenlands.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — The Lower 48 is almost exactly 4 Greenlands">
+<meta name="twitter:description" content="At true, equal-area scale, the contiguous United States holds almost exactly four Greenlands.">
+<meta name="twitter:image" content="https://hanten.app/data/og/continental-us-greenlands.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --us: #d6dbd0;
+    --us-line: #b9c0b2;
+    --greenland: #1f6f8b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 940px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
+  header .wordmark { font-family: "Yuji Syuku", ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  header .wordmark:hover { color: var(--accent); }
+  main { max-width: 940px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 64ch; }
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  #map { width: 100%; max-width: 760px; height: auto; display: block; }
+  .us { fill: var(--us); stroke: var(--us-line); stroke-width: 0.6; }
+  .greenland { fill-opacity: 0.78; stroke: #fff; stroke-width: 1; }
+  .gl-num {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 15px;
+    font-weight: 700;
+    fill: #fff;
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: rgba(28,39,51,0.4);
+    stroke-width: 3px;
+  }
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>The Lower 48 is almost exactly 4 Greenlands</h1>
+  <p class="sub">On the Mercator world map, Greenland looks close to continent-sized. Here it is at true, equal-area scale, laid over the contiguous United States.</p>
+  <div id="save-image-slot"></div>
+
+  <div id="map-wrap">
+    <svg id="map" viewBox="0 0 760 560"></svg>
+  </div>
+
+  <div class="caption">
+    <p><strong>The contiguous United States is about 3.7 Greenlands.</strong> At true scale: 8.08M km² for the Lower 48 versus 2.17M km² for Greenland. Mercator inflates anything far from the equator, and Greenland — sitting almost entirely above 60°N — is one of its biggest exaggerations.</p>
+    <p>Each shape here is Greenland, redrawn with an equal-area projection at exactly the same scale as the US map — rotated freely, since only the area is the claim, not the orientation. Three of them span the country side to side; the fourth exists only because 3.7 isn't a whole number, and it shows — wherever a Greenland spills past the coastline, an equal patch of the country goes uncovered somewhere else. The Pacific Northwest, New England, and Florida all peek through untouched.</p>
+    <p>Companion to our <a href="africa-greenlands.html">Africa is 14 Greenlands</a> map — same method, same scale logic, a very different number.</p>
+    <p class="source">Areas: CIA World Factbook (contiguous US ≈ 8.08M km², Greenland ≈ 2.17M km², ratio ≈ 3.7). Shapes: Natural Earth / US Census state boundaries. Every Greenland uses its own azimuthal equal-area projection at the US map's scale, so all shapes here are directly comparable.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="data/us-counties-10m.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  const width = 760, height = 560;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+
+  const EXCLUDE = new Set(["Alaska", "Hawaii", "Puerto Rico", "Guam", "American Samoa",
+    "United States Virgin Islands", "Commonwealth of the Northern Mariana Islands"]);
+  const stateGeoms = US_COUNTIES_TOPOLOGY.objects.states.geometries.filter(g => !EXCLUDE.has(g.properties.name));
+  const continentalUS = { type: "Feature", geometry: topojson.merge(US_COUNTIES_TOPOLOGY, stateGeoms) };
+  const greenland = COUNTRIES_GEOJSON.features.find(f => f.properties.NAME === "Greenland");
+
+  // Base projection: equal-area, fitted to the continental US.
+  const base = d3.geoAzimuthalEqualArea()
+    .rotate([98, -39.5])
+    .fitSize([width, height], continentalUS);
+  const SCALE = base.scale();
+
+  svg.append("path").datum(continentalUS).attr("class", "us").attr("d", d3.geoPath(base));
+
+  // Greenland placements: [x, y, gamma] in the same pixel/scale space as
+  // the base US projection. Chosen by eye to tile without much overlap;
+  // ~3.7 fit, so the last one necessarily overhangs.
+  const PLACEMENTS = [
+    [155, 275, 0],
+    [378, 270, 0],
+    [592, 275, 0],
+    [400, 455, 90],
+  ];
+  const gGroup = svg.append("g");
+  PLACEMENTS.forEach(([x, y, gamma], i) => {
+    const proj = d3.geoAzimuthalEqualArea()
+      .rotate([42, -72, gamma])
+      .scale(SCALE)
+      .translate([x, y]);
+    gGroup.append("path")
+      .datum(greenland)
+      .attr("class", "greenland")
+      .attr("fill", "var(--greenland)")
+      .attr("d", d3.geoPath(proj));
+    gGroup.append("text")
+      .attr("class", "gl-num")
+      .attr("x", x)
+      .attr("y", y + 5)
+      .text(i + 1);
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "The Lower 48 is almost exactly 4 Greenlands", filename: "hanten-continental-us-greenlands.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
