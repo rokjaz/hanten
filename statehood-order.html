@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — No New State for 47 Years, Then Two in One Year</title>
+<meta name="description" content="Every state, shaded from the first admitted (Delaware, 1787) to the last (Hawaii, 1959) — and the 47-year gap hiding in the middle.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/statehood-order.html">
+<meta property="og:title" content="Hanten — No new state for 47 years. Then two joined in the same year.">
+<meta property="og:description" content="Every state, shaded from the first admitted (Delaware, 1787) to the last (Hawaii, 1959).">
+<meta property="og:image" content="https://hanten.app/data/og/statehood-order.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — No new state for 47 years. Then two joined in the same year.">
+<meta name="twitter:description" content="Every state, shaded from the first admitted (Delaware, 1787) to the last (Hawaii, 1959).">
+<meta name="twitter:image" content="https://hanten.app/data/og/statehood-order.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --statehood-dark: #0b3d63;
+    --statehood-light: #d6ebf7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 980px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
+  header .wordmark { font-family: "Yuji Syuku", ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  header .wordmark:hover { color: var(--accent); }
+  main { max-width: 980px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 62ch; }
+
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+    position: relative;
+  }
+  #map { width: 100%; height: auto; display: block; }
+  .state { stroke: #fff; stroke-width: 0.6; cursor: pointer; }
+
+  #tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: 3px;
+    max-width: 220px;
+    display: none;
+    z-index: 5;
+    line-height: 1.45;
+  }
+  #tooltip .stat { color: #8fd4da; font-size: 0.75rem; }
+
+  .legend {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+  .legend .bar {
+    width: 160px; height: 10px;
+    background: linear-gradient(to right, var(--statehood-dark), var(--statehood-light));
+  }
+
+  .caption {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>No new state joined for 47 years. Then two joined in the same year.</h1>
+  <p class="sub">Every state, shaded from the first admitted (Delaware, 1787, darkest) to the last (Hawaii, 1959, lightest). Hover a state for its exact date and admission number.</p>
+  <div id="save-image-slot"></div>
+
+  <div id="map-wrap">
+    <svg id="map" viewBox="0 0 975 610"></svg>
+    <div id="tooltip"></div>
+  </div>
+
+  <div class="legend">
+    <span>1st — Delaware, 1787</span><span class="bar"></span><span>50th — Hawaii, 1959</span>
+  </div>
+
+  <div class="caption">
+    <p><strong>The original 13 states joined in under three years.</strong> Delaware became the first state on December 7, 1787; by Rhode Island's ratification on May 29, 1790, all 13 were in — about two and a half years. It then took another 169 years to add the remaining 37.</p>
+    <p><strong>After Arizona became the 48th state in February 1912, nothing happened for 47 years.</strong> No territory became a state again until Alaska, on January 3, 1959 — and then Hawaii followed just seven and a half months later, on August 21, 1959, ending the longest gap in American statehood with two states in a single year.</p>
+    <p><strong>North and South Dakota share an exact admission date</strong> — November 2, 1889 — and, as the story goes, deliberately so: President Benjamin Harrison reportedly had the papers shuffled before signing so that no one could ever say which territory became a state first. By convention the two are ordered alphabetically, North Dakota 39th and South Dakota 40th.</p>
+    <p class="source">Source: dates of admission per the U.S. National Archives and the standard historical record of Congressional admission acts.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="data/us-counties-10m.js"></script>
+<script src="data/statehood.js"></script>
+<script>
+  const width = 975, height = 610;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+  const tooltip = document.getElementById("tooltip");
+
+  const statesFeatures = topojson.feature(US_COUNTIES_TOPOLOGY, US_COUNTIES_TOPOLOGY.objects.states).features
+    .filter(f => STATEHOOD[f.properties.name]);
+  const projection = d3.geoAlbersUsa().fitSize([width, height], { type: "FeatureCollection", features: statesFeatures });
+  const path = d3.geoPath(projection);
+
+  // d3's color interpolator needs literal color values — it can't resolve
+  // CSS custom properties like var(--statehood-dark), so these are mirrored
+  // here as plain hex (keep in sync with the CSS variables above).
+  const color = d3.scaleLinear().domain([1, 50]).range(["#0b3d63", "#d6ebf7"]).interpolate(d3.interpolateRgb);
+
+  function ordinal(n) {
+    const s = ["th", "st", "nd", "rd"];
+    const v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+  }
+
+  function showTip(event, f) {
+    const d = STATEHOOD[f.properties.name];
+    tooltip.style.display = "block";
+    tooltip.innerHTML = `<strong>${f.properties.name}</strong>
+      <div class="stat">${ordinal(d.order)} state</div>
+      <div class="stat">Admitted ${d.display}</div>`;
+    const wrap = document.getElementById("map-wrap").getBoundingClientRect();
+    tooltip.style.left = Math.min(event.clientX - wrap.left + 14, wrap.width - 230) + "px";
+    tooltip.style.top = (event.clientY - wrap.top + 14) + "px";
+  }
+
+  svg.append("g")
+    .selectAll("path")
+    .data(statesFeatures)
+    .join("path")
+    .attr("class", "state")
+    .attr("fill", f => color(STATEHOOD[f.properties.name].order))
+    .attr("d", path)
+    .on("mousemove", showTip)
+    .on("click", showTip) // touch devices have no hover — tap works instead
+    .on("mouseleave", () => { tooltip.style.display = "none"; });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "No new state joined for 47 years. Then two joined in the same year.", filename: "hanten-statehood-order.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
