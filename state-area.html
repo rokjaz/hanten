@@ -60,6 +60,8 @@
   .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.2rem; max-width: 64ch; }
 
   .tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .tabs.subtabs { display: none; margin-top: -0.4rem; }
+  .tabs.subtabs button { font-size: 0.75rem; padding: 0.4rem 0.75rem; opacity: 0.85; }
   .tabs button {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 0.8rem;
@@ -161,6 +163,7 @@
   <div id="save-image-slot"></div>
 
   <div class="tabs" id="tabs"></div>
+  <div class="tabs subtabs" id="surface-subtabs"></div>
 
   <div class="layout">
     <div id="map-wrap">
@@ -198,18 +201,25 @@
   const path = d3.geoPath(projection);
 
   function fmt(n) { return Math.round(n).toLocaleString(); }
+  function fmtPct(n) { return (n >= 0 ? "+" : "") + n.toFixed(2) + "%"; }
+
+  // The surface tab has its own sub-toggle: rank/color by the total
+  // surface area (dominated by big states, same order as land area) or
+  // by the percent gained from terrain (the actually interesting number —
+  // surfaces Alaska/Washington/Idaho regardless of their raw size).
+  let surfaceMode = "absolute";
 
   const TABS = [
     {
       id: "total", label: "Total area",
       value: name => STATE_AREA[name].total,
-      unit: "sq mi",
+      format: fmt, unitLabel: "sq mi",
       tip: name => `<div class="stat">Total area: ${fmt(STATE_AREA[name].total)} sq mi</div>`,
     },
     {
       id: "land", label: "Land only (water removed)",
       value: name => STATE_AREA[name].land,
-      unit: "sq mi",
+      format: fmt, unitLabel: "sq mi",
       tip: name => {
         const d = STATE_AREA[name];
         const pct = (d.water / d.total * 100).toFixed(1);
@@ -218,13 +228,22 @@
     },
     {
       id: "surface", label: "Surface area (terrain unrolled)",
-      value: name => STATE_SURFACE_AREA[name] ? STATE_SURFACE_AREA[name].ratio * STATE_AREA[name].land : STATE_AREA[name].land,
-      unit: "sq mi",
+      value: name => {
+        const s = STATE_SURFACE_AREA[name];
+        const land = STATE_AREA[name].land;
+        if (!s) return surfaceMode === "percent" ? 0 : land;
+        return surfaceMode === "percent" ? (s.ratio - 1) * 100 : s.ratio * land;
+      },
+      format: n => surfaceMode === "percent" ? fmtPct(n) : fmt(n),
+      unitLabel: () => surfaceMode === "percent" ? "" : "sq mi",
       tip: name => {
         const s = STATE_SURFACE_AREA[name];
         if (!s) return `<div class="stat">No terrain data</div>`;
-        const extra = ((s.ratio - 1) * 100).toFixed(2);
-        return `<div class="stat">True surface area: ${fmt(s.ratio * STATE_AREA[name].land)} sq mi</div><div class="stat">+${extra}% vs. flat land area</div>`;
+        const land = STATE_AREA[name].land;
+        const surface = s.ratio * land;
+        const extraSqMi = surface - land;
+        const extraPct = (s.ratio - 1) * 100;
+        return `<div class="stat">True surface area: ${fmt(surface)} sq mi</div><div class="stat">+${fmt(extraSqMi)} sq mi (${fmtPct(extraPct)}) vs. flat land area</div>`;
       },
     },
   ];
@@ -250,6 +269,11 @@
     .on("click", showStateTip)
     .on("mouseleave", () => { tooltip.style.display = "none"; });
 
+  const SURFACE_MODES = [
+    { id: "absolute", label: "By surface area" },
+    { id: "percent", label: "By % gained from terrain" },
+  ];
+
   function render(tabId) {
     currentTab = tabId;
     const tab = TABS.find(t => t.id === tabId);
@@ -269,15 +293,31 @@
     listEl.innerHTML = "";
     ranked.forEach(([name, v]) => {
       const li = document.createElement("li");
-      li.innerHTML = `${name} <span class="val">${fmt(v)}</span>`;
+      li.innerHTML = `${name} <span class="val">${tab.format(v)}</span>`;
       listEl.appendChild(li);
     });
-    document.getElementById("top10-title").textContent = "Top 10 — " + tab.label;
+    const modeLabel = tabId === "surface" ? " — " + SURFACE_MODES.find(m => m.id === surfaceMode).label : "";
+    document.getElementById("top10-title").textContent = "Top 10 — " + tab.label + modeLabel;
 
-    document.getElementById("legend").innerHTML = `
-      <span>${fmt(extent[0])} sq mi</span><span class="bar"></span><span>${fmt(extent[1])} sq mi</span>`;
+    document.getElementById("legend").innerHTML =
+      `<span>${tab.format(extent[0])}</span><span class="bar"></span><span>${tab.format(extent[1])}</span>`;
 
     document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === tabId));
+
+    const subtabsEl = document.getElementById("surface-subtabs");
+    if (tabId === "surface") {
+      subtabsEl.style.display = "flex";
+      subtabsEl.innerHTML = "";
+      SURFACE_MODES.forEach(m => {
+        const b = document.createElement("button");
+        b.textContent = m.label;
+        b.classList.toggle("active", m.id === surfaceMode);
+        b.addEventListener("click", () => { surfaceMode = m.id; render("surface"); });
+        subtabsEl.appendChild(b);
+      });
+    } else {
+      subtabsEl.style.display = "none";
+    }
   }
 
   const tabsEl = document.getElementById("tabs");
