@@ -29,8 +29,10 @@
     --accent: #0e7c86;
     --accent-soft: rgba(14,124,134,0.14);
     --africa: #d6dbd0;
-    --africa-line: #b9c0b2;
+    --africa-line: #8f9a87;
     --greenland: #1f6f8b;
+    --ocean: #d7e3e0;
+    --graticule: rgba(28,39,51,0.10);
   }
   * { box-sizing: border-box; }
   body {
@@ -67,7 +69,9 @@
     justify-content: center;
   }
   #map { width: 100%; max-width: 640px; height: auto; display: block; }
-  .africa { fill: var(--africa); stroke: var(--africa-line); stroke-width: 0.6; }
+  .ocean { fill: var(--ocean); stroke: var(--line); stroke-width: 1; }
+  .graticule { fill: none; stroke: var(--graticule); stroke-width: 0.6; }
+  .africa { fill: var(--africa); stroke: var(--africa-line); stroke-width: 0.8; }
   .greenland { fill-opacity: 0.78; stroke: #fff; stroke-width: 1; }
   .gl-num {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
@@ -137,13 +141,19 @@
     .rotate([-17, -1.5])
     .fitSize([width, height], { type: "FeatureCollection", features: africaFeats });
   const SCALE = base.scale();
+  const path = d3.geoPath(base);
+
+  // Ocean + graticule give the map real cartographic texture instead of a
+  // flat gray landmass on blank paper.
+  svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+  svg.append("path").datum(d3.geoGraticule10()).attr("class", "graticule").attr("d", path);
 
   svg.append("g")
     .selectAll("path")
     .data(africaFeats)
     .join("path")
     .attr("class", "africa")
-    .attr("d", d3.geoPath(base));
+    .attr("d", path);
 
   // 14 Greenlands placed by an automated packing search (grid-sampled
   // point-in-polygon masks, greedy placement over positions and 30°
