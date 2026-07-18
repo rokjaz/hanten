@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Only Two African Countries Beat Greenland</title>
+<meta name="description" content="Algeria and DR Congo are the only African countries with more land area than Greenland — and the third- and fourth-largest, Sudan and Libya, fall short.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/africa-vs-greenland.html">
+<meta property="og:title" content="Hanten — Only two African countries beat Greenland">
+<meta property="og:description" content="Algeria and DR Congo are the only African countries with more land area than Greenland — and the third- and fourth-largest, Sudan and Libya, fall short.">
+<meta property="og:image" content="https://hanten.app/data/og/africa-vs-greenland.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — Only two African countries beat Greenland">
+<meta name="twitter:description" content="Algeria and DR Congo are the only African countries with more land area than Greenland — and the third- and fourth-largest, Sudan and Libya, fall short.">
+<meta name="twitter:image" content="https://hanten.app/data/og/africa-vs-greenland.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --gl-fill: #d6dbd0;
+    --gl-line: #8f9a87;
+    --algeria: #c98a23;
+    --congo: #2f7d5c;
+    --sudan: #c1442d;
+    --libya: #6b4fa0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 940px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  header .wordmark:hover { color: var(--accent); }
+  main { max-width: 940px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 66ch; }
+
+  .panels {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  @media (max-width: 640px) {
+    .panels { grid-template-columns: 1fr; }
+  }
+  .panel {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.1rem;
+  }
+  .panel h2 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 0.2rem;
+  }
+  .panel .threshold {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.6rem;
+  }
+  .panel svg { width: 100%; height: auto; display: block; }
+  .reference { fill: var(--gl-fill); stroke: var(--gl-line); stroke-width: 0.8; }
+  .overlay { fill-opacity: 0.82; stroke: #fff; stroke-width: 1.2; }
+
+  .tally {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.6rem;
+    font-size: 0.9rem;
+  }
+  .tally td { padding: 0.5rem 0.8rem 0.5rem 0; border-bottom: 1px solid var(--line); }
+  .tally td:nth-child(2), .tally td:nth-child(3) { text-align: right; font-family: ui-monospace, monospace; white-space: nowrap; }
+  .tally td:nth-child(3) { color: var(--ink-soft); font-size: 0.85rem; }
+  .tally .swatch { display: inline-block; width: 10px; height: 10px; margin-right: 0.5rem; }
+  .tally tr.reference td { font-weight: 700; }
+
+  .caption {
+    margin-top: 1.6rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .caption a { color: var(--accent); }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>Only two African countries are bigger than Greenland</h1>
+  <p class="sub">Greenland looks continent-sized on the Mercator map. At true, equal-area scale, only Algeria and DR Congo actually beat it — and the next two largest African countries, Sudan and Libya, fall short.</p>
+  <div id="save-image-slot"></div>
+
+  <div class="panels" id="panels"></div>
+
+  <table class="tally">
+    <tbody id="tally-body"></tbody>
+  </table>
+
+  <div class="caption">
+    <p><strong>Algeria and DR Congo barely clear the bar.</strong> Both are within about 10% of Greenland's true land area — drawn at equal-area scale, each nearly traces Greenland's own outline. Sudan and Libya, the third- and fourth-largest countries on the continent, fall meaningfully short: about 14% and 19% smaller.</p>
+    <p>This is the flip side of the <a href="africa-greenlands.html">14-Greenlands map</a>: Greenland only looks continent-sized because of the Mercator projection. At true scale it's closer in size to one large country than to Africa itself — it just happens to be a country-sized landmass that almost no African country can beat.</p>
+    <p class="source">Areas: CIA World Factbook. Country shapes: Natural Earth. Each shape above uses its own equal-area projection centered on itself, all at identical scale — the same method used across our <a href="true-size-africa.html">True Size of Africa</a> maps.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  const width = 400, height = 460;
+  const feats = COUNTRIES_GEOJSON.features;
+  const byName = name => feats.find(f => f.properties.NAME === name);
+  const greenland = byName("Greenland");
+  const glCentroid = d3.geoCentroid(greenland);
+
+  // Fit Greenland to ~72% of the panel so the slightly-larger comparison
+  // countries (Algeria, DR Congo) have room to spill past its outline —
+  // that overflow is the whole point of the top two panels.
+  const fitProj = d3.geoAzimuthalEqualArea()
+    .rotate([-glCentroid[0], -glCentroid[1]])
+    .fitSize([width * 0.72, height * 0.72], greenland);
+  const SCALE = fitProj.scale();
+
+  function projectionFor(feature) {
+    const c = d3.geoCentroid(feature);
+    return d3.geoAzimuthalEqualArea()
+      .rotate([-c[0], -c[1]])
+      .scale(SCALE)
+      .translate([width / 2, height / 2]);
+  }
+  const glProj = projectionFor(greenland);
+
+  const GREENLAND_AREA = 2166086; // CIA World Factbook, km²
+  const COUNTRIES = [
+    { name: "Algeria", label: "Algeria", area: 2381741, color: "var(--algeria)" },
+    { name: "Dem. Rep. Congo", label: "DR Congo", area: 2344858, color: "var(--congo)" },
+    { name: "Sudan", label: "Sudan", area: 1861484, color: "var(--sudan)" },
+    { name: "Libya", label: "Libya", area: 1759540, color: "var(--libya)" },
+  ];
+
+  const panelsEl = document.getElementById("panels");
+  COUNTRIES.forEach(c => {
+    const feat = byName(c.name);
+    const pct = Math.round((c.area / GREENLAND_AREA - 1) * 100);
+    const diffLabel = pct >= 0 ? `${pct}% bigger than Greenland` : `${Math.abs(pct)}% smaller than Greenland`;
+
+    const card = document.createElement("div");
+    card.className = "panel";
+    card.innerHTML = `
+      <h2>${c.label}</h2>
+      <div class="threshold">${(c.area / 1e6).toFixed(2)}M km² · ${diffLabel}</div>
+      <svg viewBox="0 0 ${width} ${height}"></svg>
+    `;
+    panelsEl.appendChild(card);
+
+    const svg = d3.select(card.querySelector("svg"));
+    svg.append("path").datum(greenland).attr("class", "reference").attr("d", d3.geoPath(glProj));
+    svg.append("path").datum(feat).attr("class", "overlay").attr("fill", c.color).attr("d", d3.geoPath(projectionFor(feat)));
+  });
+
+  const rows = [
+    { label: "Algeria", area: 2381741, color: "var(--algeria)" },
+    { label: "Dem. Rep. Congo", area: 2344858, color: "var(--congo)" },
+    { label: "Greenland", area: GREENLAND_AREA, color: "var(--gl-fill)", reference: true },
+    { label: "Sudan", area: 1861484, color: "var(--sudan)" },
+    { label: "Libya", area: 1759540, color: "var(--libya)" },
+  ];
+  const tbody = document.getElementById("tally-body");
+  rows.forEach(r => {
+    const pct = Math.round((r.area / GREENLAND_AREA - 1) * 100);
+    const diff = r.reference ? "reference" : (pct >= 0 ? `+${pct}%` : `${pct}%`);
+    const tr = document.createElement("tr");
+    if (r.reference) tr.className = "reference";
+    tr.innerHTML = `
+      <td><span class="swatch" style="background:${r.color}"></span>${r.label}</td>
+      <td>${(r.area / 1e6).toFixed(2)}M km²</td>
+      <td>${diff}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#panels", title: "Only two African countries are bigger than Greenland", filename: "hanten-africa-vs-greenland.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
