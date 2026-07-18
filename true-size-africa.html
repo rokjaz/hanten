@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hanten — Africa Is Bigger Than You Think</title>
-<meta name="description" content="The US, China, India, and Europe fit inside Africa at once — with room left for Mexico and Japan.">
+<meta name="description" content="The US, China, and India all fit inside Africa at once — with almost a third of the continent still left over.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://hanten.app/true-size-africa.html">
 <meta property="og:title" content="Hanten — Africa is bigger than you think">
-<meta property="og:description" content="The US, China, India, and Europe fit inside Africa at once — with room left for Mexico and Japan.">
+<meta property="og:description" content="The US, China, and India all fit inside Africa at once — with almost a third of the continent still left over.">
 <meta property="og:image" content="https://hanten.app/data/og/true-size-africa.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hanten — Africa is bigger than you think">
-<meta name="twitter:description" content="The US, China, India, and Europe fit inside Africa at once — with room left for Mexico and Japan.">
+<meta name="twitter:description" content="The US, China, and India all fit inside Africa at once — with almost a third of the continent still left over.">
 <meta name="twitter:image" content="https://hanten.app/data/og/true-size-africa.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,7 +33,6 @@
     --usa: #1f6f8b;
     --china: #c1442d;
     --india: #d9a441;
-    --europe: #5b4a8a;
   }
   * { box-sizing: border-box; }
   body {
@@ -74,7 +73,7 @@
   .overlay { fill-opacity: 0.82; stroke: #fff; stroke-width: 1; }
   .overlay-label {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     fill: #fff;
     text-anchor: middle;
@@ -82,7 +81,6 @@
     stroke: rgba(28,39,51,0.45);
     stroke-width: 3px;
   }
-  .overlay-label.small { font-size: 10px; stroke-width: 2.5px; }
   .tally {
     width: 100%;
     border-collapse: collapse;
@@ -121,7 +119,7 @@
 
 <main>
   <h1>Africa is bigger than you think</h1>
-  <p class="sub">The United States, China, India, and Europe — every shape drawn at true, equal-area scale — all placed inside Africa at once. And there's still room for Mexico and Japan in the space left over.</p>
+  <p class="sub">The United States, China, and India — every shape drawn at true, equal-area scale — all placed inside Africa at once. Even then, almost a third of the continent is still left over.</p>
   <div id="save-image-slot"></div>
 
   <div id="map-wrap">
@@ -132,14 +130,13 @@
     <tr><td><span class="swatch" style="background:var(--usa)"></span>United States (lower 48 states)</td><td>8.1M km²</td></tr>
     <tr><td><span class="swatch" style="background:var(--china)"></span>China</td><td>9.6M km²</td></tr>
     <tr><td><span class="swatch" style="background:var(--india)"></span>India</td><td>3.3M km²</td></tr>
-    <tr><td><span class="swatch" style="background:var(--europe)"></span>Europe, drawn as its regions (excluding Russia)</td><td>≈6.0M km²</td></tr>
-    <tr><td>Room still left inside Africa — enough for Mexico (≈2.0M) and Japan (≈0.4M), with almost a million km² to spare</td><td>≈3.4M km²</td></tr>
+    <tr><td>Room still left inside Africa</td><td>≈9.4M km²</td></tr>
     <tr class="total"><td>Africa</td><td>30.4M km²</td></tr>
   </table>
 
   <div class="caption">
-    <p><strong>Why does this feel wrong?</strong> Because the world map most people grew up with — the Mercator projection — inflates land the farther it is from the equator. The US, China, and Europe all sit well north, so they get stretched; Africa sits on the equator, so it doesn't. On a Mercator map, Africa and Greenland look comparable. In reality, Africa is about 14 times larger than Greenland — <a href="africa-greenlands.html">see for yourself</a>.</p>
-    <p>Every shape on this map is drawn with an equal-area projection, which is the whole point: same rules for everyone, no latitude bonus.</p>
+    <p><strong>Why does this feel wrong?</strong> Because the world map most people grew up with — the Mercator projection — inflates land the farther it is from the equator. The US and China both sit well north, so they get stretched; Africa sits on the equator, so it doesn't. On a Mercator map, Africa and Greenland look comparable. In reality, Africa is about 14 times larger than Greenland — <a href="africa-greenlands.html">see for yourself</a>.</p>
+    <p>Every shape on this map is drawn with an equal-area projection, which is the whole point: same rules for everyone, no latitude bonus. Three of the world's biggest countries fit inside Africa with room to spare.</p>
     <p class="source">Land areas: CIA World Factbook, rounded. Country shapes: Natural Earth. Each shape is projected with its own equal-area projection centered on that country, all at identical scale — so shapes appear as they do in an atlas of their own region, and areas are directly comparable.</p>
   </div>
 </main>
@@ -151,13 +148,11 @@
   const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
 
   const feats = COUNTRIES_GEOJSON.features;
-  const byIso = iso => feats.find(f => f.properties.ISO_A3 === iso);
   const africaFeats = feats.filter(f => f.properties.CONTINENT === "Africa");
 
   // The full US shape spans ~half the globe east-west (the Aleutian chain
   // reaches nearly to Asia), so drawn whole it's physically wider than
-  // Africa and can't be overlaid as one piece. We show the lower 48 and
-  // account for Alaska honestly in the tally instead.
+  // Africa and can't be overlaid as one piece. We show the lower 48.
   function lower48(usFeature) {
     const polys = usFeature.geometry.coordinates.filter(poly => {
       const [lon, lat] = poly[0][0];
@@ -186,53 +181,25 @@
     .attr("class", "africa")
     .attr("d", basePath);
 
-  // Europe is drawn as its member countries in regional pieces (like the
-  // classic "True Size of Africa" graphic) because as a single connected
-  // shape its seas and fjords make it impossible to fit without spilling
-  // into the ocean. Natural Earth files Russia under "Europe"; it is
-  // excluded — a 17M km² country that is mostly in Asia would wreck the
-  // comparison. Overseas fragments (French Guiana, the Canaries, Svalbard…)
-  // are trimmed with a metropolitan-Europe bounding box.
-  function euroFilter(poly) {
-    const [lon, lat] = poly[0][0];
-    return lon > -25 && lon < 45 && lat > 34 && lat < 72;
-  }
-  function pieceFeature(names, trimToEurope) {
-    const coords = [];
-    feats.filter(f => names.includes(f.properties.NAME)).forEach(f => {
-      const g = f.geometry;
-      const polys = g.type === "MultiPolygon" ? g.coordinates : [g.coordinates];
-      (trimToEurope ? polys.filter(euroFilter) : polys).forEach(p => coords.push(p));
-    });
-    return { type: "Feature", geometry: { type: "MultiPolygon", coordinates: coords } };
-  }
-
   // Each overlay gets its own equal-area projection centered on itself (so
   // its shape looks like it does in an atlas of its region) at the SAME
   // scale as the Africa projection. Positions and rotations come from an
-  // automated packing search (grid-sampled point-in-polygon masks, greedy
-  // placement over candidate anchor spots and 30° rotations) that minimized
-  // ocean spill and shape overlap — shapes are rotated freely, since only
-  // area is the claim, not orientation.
+  // automated packing search: a grid of candidate anchor points and
+  // rotations, scored by how much of each shape lands inside Africa's
+  // outline versus how much overlaps a piece already placed, largest
+  // pieces placed first. Shapes are rotated freely, since only area is
+  // the claim, not orientation. Kept to just three big pieces on purpose —
+  // fewer shapes, more of Africa's own outline left visible.
   const OVERLAYS = [
-    { names: ["United States of America"], lower48: true, label: "United States", color: "var(--usa)", pos: [440, 460], rotateTo: [98, -39, 120] },
-    { names: ["China"], label: "China", color: "var(--china)", pos: [260, 60], rotateTo: [-104, -36, 300] },
-    { names: ["India"], label: "India", color: "var(--india)", pos: [600, 280], rotateTo: [-80, -22, 90] },
-    { names: ["Norway","Sweden","Finland","Denmark","Iceland"], label: "Nordics", small: true, euro: true, color: "var(--europe)", pos: [120, 280], rotateTo: [-17, -64, 300] },
-    { names: ["Ukraine","Belarus","Moldova","Estonia","Latvia","Lithuania"], label: "Ukraine & Baltics", small: true, euro: true, color: "var(--europe)", pos: [420, 730], rotateTo: [-28, -52, 30] },
-    { names: ["Slovenia","Croatia","Bosnia and Herz.","Serbia","Montenegro","North Macedonia","Albania","Kosovo","Greece","Bulgaria","Romania"], label: "Balkans & Romania", small: true, euro: true, color: "var(--europe)", pos: [80, 210], rotateTo: [-22, -42, 60] },
-    { names: ["Germany","Netherlands","Belgium","Luxembourg","Switzerland","Austria","Czechia"], label: "Central Europe", small: true, euro: true, color: "var(--europe)", pos: [380, 240], rotateTo: [-10, -49, 0] },
-    { names: ["Spain","Portugal"], label: "Spain & Portugal", small: true, euro: true, color: "var(--europe)", pos: [610, 440], rotateTo: [4, -40, 0] },
-    { names: ["France"], label: "France", small: true, euro: true, color: "var(--europe)", pos: [610, 540], rotateTo: [-2.5, -46.5, 180] },
-    { names: ["Poland","Slovakia","Hungary"], label: "Poland +", small: true, euro: true, color: "var(--europe)", pos: [650, 380], rotateTo: [-19.5, -49, 270] },
-    { names: ["Italy"], label: "Italy", small: true, euro: true, color: "var(--europe)", pos: [490, 240], rotateTo: [-12.5, -42.5, 270] },
-    { names: ["United Kingdom","Ireland"], label: "UK & Ireland", small: true, euro: true, color: "var(--europe)", pos: [360, 610], rotateTo: [3, -54, 0] },
+    { names: ["United States of America"], lower48: true, label: "United States", color: "var(--usa)", pos: [490, 550], rotateTo: [98.73, -39.87, 240] },
+    { names: ["China"], label: "China", color: "var(--china)", pos: [310, 220], rotateTo: [-103.45, -36.68, 150] },
+    { names: ["India"], label: "India", color: "var(--india)", pos: [542, 146], rotateTo: [-79.54, -22.82, 20] },
   ];
 
   OVERLAYS.forEach(o => {
     const feat = o.lower48
       ? lower48(feats.find(f => f.properties.NAME === o.names[0]))
-      : pieceFeature(o.names, o.euro);
+      : feats.find(f => f.properties.NAME === o.names[0]);
     const proj = d3.geoAzimuthalEqualArea()
       .rotate(o.rotateTo)
       .scale(SCALE)
@@ -244,7 +211,7 @@
       .attr("fill", o.color)
       .attr("d", p);
     svg.append("text")
-      .attr("class", "overlay-label" + (o.small ? " small" : ""))
+      .attr("class", "overlay-label")
       .attr("x", o.pos[0])
       .attr("y", o.pos[1] + 5)
       .text(o.label);
