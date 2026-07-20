@@ -70,12 +70,22 @@
       });
 
       const PAD = 32;
-      const HEADER_H = 100;
       const FOOTER_H = 44;
       const scale = 2;
       const contentW = shot.width;
       const contentH = shot.height;
       const outW = contentW + PAD * 2 * scale;
+
+      // Measure title wrapping before sizing the canvas — a fixed header
+      // height let long titles either collide with the captured graphic
+      // (2 lines into a 1-line header) or get silently truncated (3+
+      // lines capped at 2). The header now grows to fit however many
+      // lines the title actually needs.
+      const measureCtx = document.createElement("canvas").getContext("2d");
+      measureCtx.font = `600 ${26 * scale}px Georgia, "Times New Roman", serif`;
+      const titleLines = wrapTitle(measureCtx, title, outW - PAD * 2 * scale);
+      const HEADER_H = 100 + (titleLines.length - 1) * 32;
+
       const outH = contentH + (HEADER_H + FOOTER_H + PAD * 2) * scale;
 
       const canvas = document.createElement("canvas");
@@ -92,10 +102,9 @@
 
       ctx.fillStyle = INK;
       ctx.font = `600 ${26 * scale}px Georgia, "Times New Roman", serif`;
-      const titleLines = wrapTitle(ctx, title, outW - PAD * 2 * scale);
       let ty = (PAD + 28) * scale;
       const lineH = 32 * scale;
-      titleLines.slice(0, 2).forEach(line => {
+      titleLines.forEach(line => {
         ctx.fillText(line, PAD * scale, ty);
         ty += lineH;
       });
