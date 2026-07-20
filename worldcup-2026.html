@@ -189,7 +189,7 @@
   <h1>The 2026 World Cup, round by round</h1>
   <p class="sub">Start with every country and territory on Earth that's allowed to dream about the World Cup, then watch the map empty out, round by round — with the upsets and Cinderella runs called out below.</p>
   <div id="save-image-slot"></div>
-  <div class="updated">Tournament in progress — updated through July 12, 2026. All four semifinalists are set: France, Spain, England, and Argentina. Semifinals: France–Spain on July 14, England–Argentina on July 15.</div>
+  <div class="updated">Tournament complete. Spain are 2026 World Cup champions, beating Argentina 1–0 in extra time on July 19 — their second title, and first since 2010.</div>
 
   <div class="tabs" id="tabs"></div>
 
@@ -221,18 +221,21 @@
   // ---- Tournament data (edit here as results come in) ----
   // reached: how far the team got. 1 = out in groups, 2 = out in round of 32,
   // 3 = out in round of 16, 4 = out in quarterfinals, 4.5 = in a quarterfinal
-  // being played today, 5 = in the semifinals.
+  // being played today, 5 = out in the semifinals, 6 = runner-up (lost the
+  // final), 7 = champion.
   const TEAMS = {
+    // Champion
+    ESP: { name: "Spain", reached: 7 },
+    // Runner-up
+    ARG: { name: "Argentina", reached: 6 },
     // Semifinalists
     FRA: { name: "France", reached: 5 },
-    ESP: { name: "Spain", reached: 5 },
+    ENG: { name: "England", reached: 5 },
     // Quarterfinals — decided
     MAR: { name: "Morocco", reached: 4, cinderella: "Beat the Netherlands on penalties, crushed co-host Canada 3–0" },
     BEL: { name: "Belgium", reached: 4 },
     // Quarterfinals — decided July 11
     NOR: { name: "Norway", reached: 4, cinderella: "First World Cup since 1998 — knocked out Brazil 2–1, then lost 2–1 to England in extra time in the quarterfinals" },
-    ENG: { name: "England", reached: 5 },
-    ARG: { name: "Argentina", reached: 5 },
     CHE: { name: "Switzerland", reached: 4 },
     // Out in round of 16
     CAN: { name: "Canada", reached: 3 }, PRY: { name: "Paraguay", reached: 3, cinderella: "Knocked out Germany on penalties" },
@@ -295,6 +298,7 @@
     { id: 3, label: "Round of 16", legendAlive: "Reached the round of 16", legendOut: "Out in the round of 32" },
     { id: 4, label: "Quarterfinals", legendAlive: "Reached the quarterfinals", legendOut: "Out in the round of 16" },
     { id: 5, label: "Semifinals", legendAlive: "Through to the semifinals", legendOut: "Out in the quarterfinals" },
+    { id: 6, label: "Champion", legendAlive: "2026 World Cup champion", legendOut: "Runner-up" },
   ];
 
   const NOTES = [
@@ -304,7 +308,9 @@
     `<p><strong>The round of 32 was a bloodbath for former champions.</strong> <strong>Germany</strong> fell to Paraguay on penalties — extending a 12-year run without a World Cup knockout win. The <strong>Netherlands</strong> lost a shootout to Morocco. Cape Verde twice pulled level with champions Argentina before losing in the 111th minute.</p>`,
     `<p><strong>Eight remained — and Brazil wasn't one of them.</strong> The upset of the tournament so far: <strong>Norway 2–1 Brazil</strong>, in Norway's first World Cup since 1998. Morocco thrashed co-host Canada 3–0, Belgium put four past the US, and England edged Mexico 3–2.</p>`,
     `<p><strong>All four semifinalists are set.</strong> France beat Morocco 2–0 (a rematch of the 2022 semifinal) and Spain ended Belgium's run to go through first. England then beat Norway 2–1 in extra time — Jude Bellingham scored both goals, the winner deep into extra time — ending Norway's Cinderella run one game short of the semifinals. Argentina needed extra time too, beating a 10-man Switzerland 3–1: Alexis Mac Allister's opener was cancelled out by Dan Ndoye, before Julián Álvarez and Lautaro Martínez struck late.</p>
-     <p><strong>Semifinals:</strong> France vs. Spain — Tuesday, July 14, in Arlington, Texas, the top two teams in FIFA's live rankings. England vs. Argentina — Wednesday, July 15, in Atlanta, a rematch of one of football's oldest rivalries. Winners meet in the final on July 19 at MetLife Stadium.</p>`,
+     <p><strong>Spain and Argentina reach the final.</strong> Spain beat France 2–0 in Arlington, Texas — the top two teams in FIFA's live rankings going in. Argentina outlasted England 2–1 in Atlanta, in a rematch of one of football's oldest rivalries. The final: July 19 at MetLife Stadium.</p>`,
+    `<p><strong>England closed out the tournament with the game of the round.</strong> In the third-place match in Miami Gardens, England raced to a stunning 4–0 first-half lead over France — Ezri Konsa and Declan Rice scored early, Bukayo Saka added a hat-trick — before France clawed back three through Kylian Mbappé (who became the World Cup's all-time leading scorer), Ousmane Dembélé, and Bradley Barcola. Jude Bellingham sealed it with a stoppage-time goal: England 6–4 France, the most goals in a World Cup match since 1982.</p>
+     <p><strong>Spain are world champions again.</strong> Ferran Torres scored in the 106th minute of extra time to beat Argentina 1–0 in the final at MetLife Stadium — Spain's second World Cup, their first since 2010, and the first time any nation has held the men's and women's titles at once.</p>`,
   ];
 
   // ---- Rendering ----
@@ -324,7 +330,9 @@
   function statusText(code, stage) {
     const t = TEAMS[code];
     if (!t) return stage === 0 ? "FIFA member — did not qualify this time" : "Did not qualify";
-    if (t.reached >= 5) return "Semifinalist";
+    if (t.reached === 7) return "🏆 2026 World Cup champion";
+    if (t.reached === 6) return "Runner-up — lost the final";
+    if (t.reached === 5) return "Eliminated in the semifinals";
     if (t.reached === 4.5) return "In the quarterfinals — playing today";
     if (t.reached === 4) return "Eliminated in the quarterfinals";
     if (t.reached === 3) return "Eliminated in the round of 16";
@@ -337,6 +345,14 @@
     if (stage === 0) return isFifa ? "var(--alive-soft)" : "var(--gone)";
     if (!t) return "var(--gone)";
     if (stage === 1) return "var(--alive)";
+    // The final stage isn't "still alive vs. eliminated" like the earlier
+    // rounds — it's champion vs. runner-up vs. everyone else — so it gets
+    // its own color mapping instead of the generic threshold math below.
+    if (stage === 6) {
+      if (t.reached === 7) return "var(--gold)";
+      if (t.reached === 6) return "var(--out-soft)";
+      return "var(--gone)";
+    }
     const threshold = stage;
     if (t.reached === 4.5 && stage === 5) return "var(--pending)";
     if (t.reached >= threshold) return "var(--alive)";
@@ -417,7 +433,8 @@
 
     // Legend
     const s = STAGES[stage];
-    let legendHtml = `<div><span class="key" style="background:${stage === 0 ? "var(--alive-soft)" : "var(--alive)"}"></span>${s.legendAlive}</div>`;
+    const aliveColor = stage === 0 ? "var(--alive-soft)" : stage === 6 ? "var(--gold)" : "var(--alive)";
+    let legendHtml = `<div><span class="key" style="background:${aliveColor}"></span>${s.legendAlive}</div>`;
     if (s.legendOut) legendHtml += `<div><span class="key" style="background:var(--out-soft)"></span>${s.legendOut}</div>`;
     if (stage === 5 && Object.values(TEAMS).some(t => t.reached === 4.5)) legendHtml += `<div><span class="key" style="background:var(--pending)"></span>Quarterfinal being played today</div>`;
     legendHtml += `<div><span class="key" style="background:var(--gone)"></span>${stage === 0 ? "Not a FIFA member" : stage === 1 ? "Did not qualify" : "Out in earlier rounds / did not qualify"}</div>`;
@@ -437,7 +454,7 @@
 
   // Always-visible Cinderella / upset recap — no hovering required.
   function renderStoryLists() {
-    const FINAL_STAGE = 5;
+    const FINAL_STAGE = 6;
     const cinderellaEl = document.getElementById("cinderella-list");
     Object.entries(TEAMS).filter(([, t]) => t.cinderella).forEach(([code, t]) => {
       const div = document.createElement("div");
