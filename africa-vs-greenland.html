@@ -25,8 +25,7 @@
     --line: rgba(28,39,51,0.14);
     --accent: #0e7c86;
     --accent-soft: rgba(14,124,134,0.14);
-    --gl-fill: #d6dbd0;
-    --gl-line: #8f9a87;
+    --greenland: #1f6f8b;
     --algeria: #c98a23;
     --congo: #2f7d5c;
     --sudan: #c1442d;
@@ -61,33 +60,35 @@
   .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 66ch; }
 
   .panels {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.2rem;
+    display: flex;
+    gap: 0.8rem;
+    overflow-x: auto;
+    padding-bottom: 0.3rem;
   }
-  @media (max-width: 640px) {
-    .panels { grid-template-columns: 1fr; }
-  }
-  .panel {
+  .col {
+    flex: 1 1 0;
+    min-width: 130px;
     background: var(--paper-raised);
     border: 1px solid var(--line);
-    padding: 1.1rem;
+    border-top: 3px solid transparent;
+    padding: 0.9rem 0.6rem;
+    text-align: center;
   }
-  .panel h2 {
+  .col.mid { border-top-color: var(--greenland); }
+  .col h2 {
     font-family: ui-serif, Georgia, serif;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
-    margin: 0 0 0.2rem;
+    margin: 0 0 0.6rem;
   }
-  .panel .threshold {
+  .col svg { width: 100%; height: auto; display: block; }
+  .col .stat {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     color: var(--ink-soft);
-    margin-bottom: 0.6rem;
+    margin-top: 0.6rem;
   }
-  .panel svg { width: 100%; height: auto; display: block; }
-  .reference { fill: var(--gl-fill); stroke: var(--gl-line); stroke-width: 0.8; }
-  .overlay { fill-opacity: 0.82; stroke: #fff; stroke-width: 1.2; }
+  .shape { stroke: #fff; stroke-width: 1; }
 
   .tally {
     width: 100%;
@@ -130,7 +131,7 @@
 
 <main>
   <h1>Greenland isn't just not the size of Africa — it's smaller than two African countries</h1>
-  <p class="sub">Algeria and DR Congo are each individually bigger than all of Greenland. And its lead over the next two largest African countries, Sudan and Libya, is thinner than Greenland's reputation would suggest.</p>
+  <p class="sub">Algeria, DR Congo, Greenland, Sudan, and Libya — all five drawn at the same true, equal-area scale, lined up in a row. Greenland lands right in the middle: barely smaller than the two African countries on one side, barely bigger than the two on the other.</p>
   <div id="save-image-slot"></div>
 
   <div class="panels" id="panels"></div>
@@ -140,8 +141,8 @@
   </table>
 
   <div class="caption">
-    <p><strong>Algeria and DR Congo aren't just bigger than Greenland — each one alone has more land area than the entire island.</strong> Greenland is famous for looking huge on the map, but it doesn't hold up against two individual African countries, let alone the whole continent. And its lead over the next two largest African countries isn't much either: Greenland is only about 16% bigger than Sudan and 23% bigger than Libya.</p>
-    <p>This is the flip side of the <a href="africa-greenlands.html">14-Greenlands map</a>: the same Mercator distortion that inflates Greenland to look Africa-sized is why it feels bigger than it really is next to individual African countries too.</p>
+    <p><strong>Algeria and DR Congo aren't just bigger than Greenland — each one alone has more land area than the entire island.</strong> Greenland is famous for looking huge on the map, but lined up at true scale it sits in the middle of this pack, not at the top. And its lead over Sudan and Libya isn't much either: Greenland is only about 16% bigger than Sudan and 23% bigger than Libya.</p>
+    <p>This is the flip side of the <a href="africa-greenlands.html">14-Greenlands map</a>: the same Mercator distortion that inflates Greenland to look Africa-sized is why it feels like an outlier here too — really, it's just another mid-sized landmass in this lineup.</p>
     <p class="source">Areas: CIA World Factbook. Country shapes: Natural Earth. Each shape above uses its own equal-area projection centered on itself, all at identical scale — the same method used across our <a href="true-size-africa.html">True Size of Africa</a> maps.</p>
   </div>
 </main>
@@ -149,19 +150,30 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="data/countries.js"></script>
 <script>
-  const width = 400, height = 460;
+  const width = 150, height = 210;
   const feats = COUNTRIES_GEOJSON.features;
   const byName = name => feats.find(f => f.properties.NAME === name);
-  const greenland = byName("Greenland");
-  const glCentroid = d3.geoCentroid(greenland);
 
-  // Fit Greenland to ~72% of the panel so the slightly-larger comparison
-  // countries (Algeria, DR Congo) have room to spill past its outline —
-  // that overflow is the whole point of the top two panels.
-  const fitProj = d3.geoAzimuthalEqualArea()
-    .rotate([-glCentroid[0], -glCentroid[1]])
-    .fitSize([width * 0.72, height * 0.72], greenland);
-  const SCALE = fitProj.scale();
+  const GREENLAND_AREA = 2166086; // CIA World Factbook, km²
+  // Ordered by real area, largest to smallest — Greenland's true rank
+  // already puts it in the middle of these five, no manual placement needed.
+  const ITEMS = [
+    { name: "Algeria", label: "Algeria", area: 2381741, color: "var(--algeria)" },
+    { name: "Dem. Rep. Congo", label: "DR Congo", area: 2344858, color: "var(--congo)" },
+    { name: "Greenland", label: "Greenland", area: GREENLAND_AREA, color: "var(--greenland)", mid: true },
+    { name: "Sudan", label: "Sudan", area: 1861484, color: "var(--sudan)" },
+    { name: "Libya", label: "Libya", area: 1759540, color: "var(--libya)" },
+  ];
+
+  // Fit the biggest shape (Algeria) to the column box, then reuse that
+  // same scale for every other shape — same honest-comparison method as
+  // the rest of the site's true-size maps.
+  const biggest = byName("Algeria");
+  const bc = d3.geoCentroid(biggest);
+  const SCALE = d3.geoAzimuthalEqualArea()
+    .rotate([-bc[0], -bc[1]])
+    .fitSize([width * 0.85, height * 0.85], biggest)
+    .scale();
 
   function projectionFor(feature) {
     const c = d3.geoCentroid(feature);
@@ -170,40 +182,34 @@
       .scale(SCALE)
       .translate([width / 2, height / 2]);
   }
-  const glProj = projectionFor(greenland);
-
-  const GREENLAND_AREA = 2166086; // CIA World Factbook, km²
-  const COUNTRIES = [
-    { name: "Algeria", label: "Algeria", area: 2381741, color: "var(--algeria)" },
-    { name: "Dem. Rep. Congo", label: "DR Congo", area: 2344858, color: "var(--congo)" },
-    { name: "Sudan", label: "Sudan", area: 1861484, color: "var(--sudan)" },
-    { name: "Libya", label: "Libya", area: 1759540, color: "var(--libya)" },
-  ];
 
   const panelsEl = document.getElementById("panels");
-  COUNTRIES.forEach(c => {
-    const feat = byName(c.name);
-    const pct = Math.round((c.area / GREENLAND_AREA - 1) * 100);
-    const diffLabel = pct >= 0 ? `${pct}% bigger than Greenland` : `${Math.abs(pct)}% smaller than Greenland`;
+  ITEMS.forEach(item => {
+    const feat = byName(item.name);
+    const stat = item.mid
+      ? `${(item.area / 1e6).toFixed(2)}M km²`
+      : (() => {
+          const pct = Math.round((item.area / GREENLAND_AREA - 1) * 100);
+          return `${(item.area / 1e6).toFixed(2)}M km² · ${pct >= 0 ? "+" + pct : pct}% vs. Greenland`;
+        })();
 
-    const card = document.createElement("div");
-    card.className = "panel";
-    card.innerHTML = `
-      <h2>${c.label}</h2>
-      <div class="threshold">${(c.area / 1e6).toFixed(2)}M km² · ${diffLabel}</div>
+    const col = document.createElement("div");
+    col.className = "col" + (item.mid ? " mid" : "");
+    col.innerHTML = `
+      <h2>${item.label}</h2>
       <svg viewBox="0 0 ${width} ${height}"></svg>
+      <div class="stat">${stat}</div>
     `;
-    panelsEl.appendChild(card);
+    panelsEl.appendChild(col);
 
-    const svg = d3.select(card.querySelector("svg"));
-    svg.append("path").datum(greenland).attr("class", "reference").attr("d", d3.geoPath(glProj));
-    svg.append("path").datum(feat).attr("class", "overlay").attr("fill", c.color).attr("d", d3.geoPath(projectionFor(feat)));
+    const svg = d3.select(col.querySelector("svg"));
+    svg.append("path").datum(feat).attr("class", "shape").attr("fill", item.color).attr("d", d3.geoPath(projectionFor(feat)));
   });
 
   const rows = [
     { label: "Algeria", area: 2381741, color: "var(--algeria)" },
     { label: "Dem. Rep. Congo", area: 2344858, color: "var(--congo)" },
-    { label: "Greenland", area: GREENLAND_AREA, color: "var(--gl-fill)", reference: true },
+    { label: "Greenland", area: GREENLAND_AREA, color: "var(--greenland)", reference: true },
     { label: "Sudan", area: 1861484, color: "var(--sudan)" },
     { label: "Libya", area: 1759540, color: "var(--libya)" },
   ];
