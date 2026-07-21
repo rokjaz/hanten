@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Sea of Japan, or East Sea?</title>
+<meta name="description" content="Japan's government calls it the Sea of Japan. South Korea's government calls it the East Sea. There's still no name both sides accept.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/sea-of-japan.html">
+<meta property="og:title" content="Hanten — Sea of Japan, or East Sea?">
+<meta property="og:description" content="Japan's government calls it the Sea of Japan. South Korea's government calls it the East Sea. There's still no name both sides accept.">
+<meta property="og:image" content="https://hanten.app/data/og/sea-of-japan.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — Sea of Japan, or East Sea?">
+<meta name="twitter:description" content="Japan's government calls it the Sea of Japan. South Korea's government calls it the East Sea. There's still no name both sides accept.">
+<meta name="twitter:image" content="https://hanten.app/data/og/sea-of-japan.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --land: #d6dbd0;
+    --land-line: #b9c0b2;
+    --ocean: #d7e3e0;
+    --japan: #c1442d;
+    --korea: #1f6f8b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 940px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  header .wordmark:hover { color: var(--accent); }
+  main { max-width: 940px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 66ch; }
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  #map { width: 100%; max-width: 600px; height: auto; display: block; }
+  .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.6; }
+  .marker-wedge { stroke: #fff; stroke-width: 1.5; }
+  .marker-ring { fill: none; stroke: #fff; stroke-width: 2; }
+
+  .names-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.4rem;
+  }
+  .name-card {
+    flex: 1;
+    min-width: 220px;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--card-color, var(--accent));
+    padding: 1.1rem 1.2rem;
+  }
+  .name-card .who {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-bottom: 0.4rem;
+  }
+  .name-card h2 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.3rem;
+    margin: 0 0 0.5rem;
+  }
+  .name-card p { font-size: 0.88rem; color: var(--ink-soft); margin: 0; }
+
+  .caption {
+    margin-top: 1.6rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>The sea between Japan and Korea has two official names</h1>
+  <p class="sub">Japan's government calls it the Sea of Japan. South Korea's government calls it the East Sea. Both names are in real, current, official use — and international mapmakers are stuck in the middle.</p>
+  <div id="save-image-slot"></div>
+
+  <div id="map-wrap">
+    <svg id="map" viewBox="0 0 700 580"></svg>
+  </div>
+
+  <div class="names-row">
+    <div class="name-card" style="--card-color: var(--japan)">
+      <div class="who">🇯🇵 Used by Japan</div>
+      <h2>Sea of Japan</h2>
+      <p>The name used in Japan's official government communications and the predominant name in international cartography since it became standard in Western maps in the 19th century.</p>
+    </div>
+    <div class="name-card" style="--card-color: var(--korea)">
+      <div class="who">🇰🇷 Used by South Korea</div>
+      <h2>East Sea</h2>
+      <p>South Korea argues "Sea of Japan" only became dominant during Japan's 1910–1945 colonial rule over Korea, when Korea had no voice internationally — and that "East Sea" was used for centuries before that. North Korea prefers "Korean East Sea."</p>
+    </div>
+  </div>
+
+  <div class="caption">
+    <p><strong>Neither government recognizes the other's name.</strong> South Korea has petitioned the International Hydrographic Organization — the body that sets global standards for naming seas — to adopt "East Sea" or both names together. Japan maintains "Sea of Japan" is the established, uncontested standard. No resolution both governments accept has been reached.</p>
+    <p>In practice, most international maps and atlases still default to "Sea of Japan," though some now print both names, and South Korean and North Korean sources use "East Sea" exclusively.</p>
+    <p class="source">Sources: Government position statements from Japan's Ministry of Foreign Affairs and South Korea's Ministry of Foreign Affairs; International Hydrographic Organization records. Country shapes: Natural Earth.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  const width = 700, height = 580;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+  const feats = COUNTRIES_GEOJSON.features;
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    // Winding matters to d3's spherical geometry — this order (not the
+    // more obvious lon0,lat0 -> lon1,lat0 -> ...) is what actually bounds
+    // the small rectangle instead of its complement covering the globe.
+    return {
+      type: "Feature",
+      geometry: { type: "Polygon", coordinates: [[[lon0, lat0], [lon0, lat1], [lon1, lat1], [lon1, lat0], [lon0, lat0]]] },
+    };
+  }
+
+  // Regional locator map — Mercator is fine here since this is about
+  // location, not area comparison.
+  const projection = d3.geoMercator().fitSize([width, height], bboxFeature(122, 29, 144, 46));
+  const path = d3.geoPath(projection);
+
+  svg.append("g")
+    .selectAll("path")
+    .data(feats)
+    .join("path")
+    .attr("class", "land")
+    .attr("d", path);
+
+  // A pin split into wedges — one color per name in dispute — placed at
+  // the feature itself. Reused across every page in this series.
+  function drawSplitMarker(lon, lat, r, colors) {
+    const [cx, cy] = projection([lon, lat]);
+    const g = svg.append("g");
+    const n = colors.length;
+    colors.forEach((color, i) => {
+      const a0 = (i / n) * 2 * Math.PI - Math.PI / 2;
+      const a1 = ((i + 1) / n) * 2 * Math.PI - Math.PI / 2;
+      const x0 = cx + r * Math.cos(a0), y0 = cy + r * Math.sin(a0);
+      const x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
+      const largeArc = (a1 - a0) > Math.PI ? 1 : 0;
+      g.append("path")
+        .attr("class", "marker-wedge")
+        .attr("fill", color)
+        .attr("d", `M${cx},${cy} L${x0},${y0} A${r},${r} 0 ${largeArc} 1 ${x1},${y1} Z`);
+    });
+    g.append("circle").attr("class", "marker-ring").attr("cx", cx).attr("cy", cy).attr("r", r);
+  }
+
+  drawSplitMarker(134.5, 40.2, 26, ["var(--japan)", "var(--korea)"]);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "The sea between Japan and Korea has two official names", filename: "hanten-sea-of-japan.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

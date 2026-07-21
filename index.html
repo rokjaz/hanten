@@ -128,6 +128,43 @@
     font-size: 1.1rem;
     margin: 0;
   }
+  .featured {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.6rem;
+    max-width: 34rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem 1.2rem;
+    text-decoration: none;
+    color: var(--ink);
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .featured:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .featured-icon {
+    flex: none;
+    width: 40px;
+    height: 40px;
+  }
+  .featured-icon svg { width: 100%; height: 100%; display: block; }
+  .featured-eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+  }
+  .featured h2 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.3;
+    margin: 0;
+  }
   main { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 4rem; }
   .search {
     display: block;
@@ -265,6 +302,7 @@
   <div class="hero" id="hero">
     <h1>The shape you draw around the truth decides what story it tells.</h1>
     <p class="lede">Maps and statistics that are completely accurate — and still manage to surprise you. Same facts, different lines. One honest "wait, really?" per page.</p>
+    <div id="featured-slot"></div>
   </div>
 </header>
 
@@ -600,6 +638,64 @@
       <h2>Hits are like the popular vote. Runs are like the Electoral College.</h2>
       <p>Same mechanism, verified twice: a 1960 World Series game, and four US elections.</p>
     </a>
+    <a class="card" data-cat="politics" data-sub="naming" href="sea-of-japan.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="20" cy="20" r="14"/>
+        <line x1="20" y1="6" x2="20" y2="34"/>
+      </svg></div>
+      <div class="tag">Naming Disputes</div>
+      <h2>The sea between Japan and Korea has two official names</h2>
+      <p>Sea of Japan, or East Sea? Both governments' names are in real, current, official use.</p>
+    </a>
+    <a class="card" data-cat="politics" data-sub="naming" href="persian-gulf.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="20" cy="20" r="14"/>
+        <line x1="20" y1="6" x2="20" y2="34"/>
+      </svg></div>
+      <div class="tag">Naming Disputes</div>
+      <h2>The gulf between Iran and Arabia has two names in active use</h2>
+      <p>Persian Gulf is the name used for millennia. Arabian Gulf is what Gulf Arab states call it.</p>
+    </a>
+    <a class="card" data-cat="politics" data-sub="naming" href="gulf-of-mexico.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="20" cy="20" r="14"/>
+        <line x1="20" y1="6" x2="20" y2="34"/>
+      </svg></div>
+      <div class="tag">Naming Disputes</div>
+      <h2>Depending where you open Google Maps, this gulf has a different name</h2>
+      <p>Gulf of Mexico since the 1500s. Gulf of America since a 2025 US executive order.</p>
+    </a>
+    <a class="card" data-cat="politics" data-sub="naming" href="senkaku-diaoyu.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="20" cy="20" r="14"/>
+        <line x1="20" y1="20" x2="20" y2="6"/>
+        <line x1="20" y1="20" x2="32.1" y2="27"/>
+        <line x1="20" y1="20" x2="7.9" y2="27"/>
+      </svg></div>
+      <div class="tag">Naming Disputes</div>
+      <h2>An uninhabited island group with three names and three claimants</h2>
+      <p>Administered by Japan, and claimed by both China and Taiwan — each under its own name.</p>
+    </a>
+    <a class="card" data-cat="politics" data-sub="naming" href="derry-londonderry.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="20" cy="20" r="14"/>
+        <line x1="20" y1="6" x2="20" y2="34"/>
+      </svg></div>
+      <div class="tag">Naming Disputes</div>
+      <h2>Northern Ireland's second-largest city has two names in daily use</h2>
+      <p>Londonderry by an 1613 royal charter. Derry to most people who actually live there.</p>
+    </a>
+    <a class="card" data-cat="politics" data-sub="naming" href="mount-everest.html">
+      <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="20" cy="20" r="14"/>
+        <line x1="20" y1="20" x2="20" y2="6"/>
+        <line x1="20" y1="20" x2="32.1" y2="27"/>
+        <line x1="20" y1="20" x2="7.9" y2="27"/>
+      </svg></div>
+      <div class="tag">Naming Disputes</div>
+      <h2>The world's tallest mountain has three names</h2>
+      <p>Chomolungma in Tibet, Sagarmatha in Nepal, Everest everywhere else — named after a man who objected to it.</p>
+    </a>
     <a class="card" data-cat="distances" data-sub="remote" href="kiritimati.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="20" cy="20" r="15"/>
@@ -659,6 +755,7 @@
       { id: "gerrymandering", label: "Gerrymandering" },
       { id: "statehood", label: "Statehood" },
       { id: "electoral", label: "Electoral College" },
+      { id: "naming", label: "Naming Disputes" },
     ],
   };
 
@@ -863,6 +960,53 @@
 
   render();
   syncURL(false);
+
+  // "Graphic of the day" — deterministic by calendar date (day-of-year
+  // modulo the pool size), so every visitor sees the same one on a given
+  // day with no backend or storage involved. Only shown on the pristine
+  // landing view, as a hook into the site.
+  (function renderFeatured() {
+    function wedgeIcon(colors) {
+      const cx = 20, cy = 20, r = 18;
+      const n = colors.length;
+      let paths = "";
+      colors.forEach((color, i) => {
+        const a0 = (i / n) * 2 * Math.PI - Math.PI / 2;
+        const a1 = ((i + 1) / n) * 2 * Math.PI - Math.PI / 2;
+        const x0 = cx + r * Math.cos(a0), y0 = cy + r * Math.sin(a0);
+        const x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
+        const largeArc = (a1 - a0) > Math.PI ? 1 : 0;
+        paths += `<path d="M${cx},${cy} L${x0},${y0} A${r},${r} 0 ${largeArc} 1 ${x1},${y1} Z" fill="${color}"/>`;
+      });
+      return `<svg viewBox="0 0 40 40">${paths}<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#fff" stroke-width="2"/></svg>`;
+    }
+
+    const FEATURED = [
+      { href: "sea-of-japan.html", title: "The sea between Japan and Korea has two official names", colors: ["#c1442d", "#1f6f8b"] },
+      { href: "persian-gulf.html", title: "The gulf between Iran and Arabia has two names in active use", colors: ["#6b4fa0", "#c98a23"] },
+      { href: "gulf-of-mexico.html", title: "Depending where you open Google Maps, this gulf has a different name", colors: ["#2f7d5c", "#3b6ea3"] },
+      { href: "senkaku-diaoyu.html", title: "An uninhabited island group with three names and three claimants", colors: ["#3b6ea3", "#c1442d", "#2f7d5c"] },
+      { href: "derry-londonderry.html", title: "Northern Ireland's second-largest city has two names in daily use", colors: ["#3b6ea3", "#2f7d5c"] },
+      { href: "mount-everest.html", title: "The world's tallest mountain has three names", colors: ["#c1442d", "#c98a23", "#6b4fa0"] },
+    ];
+
+    const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+    const pick = FEATURED[dayOfYear % FEATURED.length];
+
+    const slot = document.getElementById("featured-slot");
+    if (!slot) return;
+    const a = document.createElement("a");
+    a.className = "featured";
+    a.href = pick.href;
+    a.innerHTML = `
+      <div class="featured-icon">${wedgeIcon(pick.colors)}</div>
+      <div>
+        <div class="featured-eyebrow">&#10022; Graphic of the day</div>
+        <h2>${pick.title}</h2>
+      </div>
+    `;
+    slot.appendChild(a);
+  })();
 </script>
 
 <script defer src="/_vercel/insights/script.js"></script>

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Gulf of Mexico, or Gulf of America?</title>
+<meta name="description" content="A name used since the 1500s, and a 2025 U.S. renaming that only applies to U.S. federal waters. Google Maps now shows a different name depending where you're looking from.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/gulf-of-mexico.html">
+<meta property="og:title" content="Hanten — Gulf of Mexico, or Gulf of America?">
+<meta property="og:description" content="A name used since the 1500s, and a 2025 U.S. renaming that only applies to U.S. federal waters. Google Maps now shows a different name depending where you're looking from.">
+<meta property="og:image" content="https://hanten.app/data/og/gulf-of-mexico.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — Gulf of Mexico, or Gulf of America?">
+<meta name="twitter:description" content="A name used since the 1500s, and a 2025 U.S. renaming that only applies to U.S. federal waters. Google Maps now shows a different name depending where you're looking from.">
+<meta name="twitter:image" content="https://hanten.app/data/og/gulf-of-mexico.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --land: #d6dbd0;
+    --land-line: #b9c0b2;
+    --mexico: #2f7d5c;
+    --america: #3b6ea3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 940px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  header .wordmark:hover { color: var(--accent); }
+  main { max-width: 940px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 66ch; }
+  #map-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  #map { width: 100%; max-width: 600px; height: auto; display: block; }
+  .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.6; }
+  .marker-wedge { stroke: #fff; stroke-width: 1.5; }
+  .marker-ring { fill: none; stroke: #fff; stroke-width: 2; }
+
+  .names-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.4rem;
+  }
+  .name-card {
+    flex: 1;
+    min-width: 220px;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--card-color, var(--accent));
+    padding: 1.1rem 1.2rem;
+  }
+  .name-card .who {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-bottom: 0.4rem;
+  }
+  .name-card h2 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.3rem;
+    margin: 0 0 0.5rem;
+  }
+  .name-card p { font-size: 0.88rem; color: var(--ink-soft); margin: 0; }
+
+  .caption {
+    margin-top: 1.6rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>Depending where you open Google Maps, this gulf has a different name</h1>
+  <p class="sub">"Gulf of Mexico" has been the name in international use since Spanish colonial cartography in the 1500s. In 2025 the U.S. federal government adopted "Gulf of America" for its own use. Both names are now live, simultaneously, on the same map products.</p>
+  <div id="save-image-slot"></div>
+
+  <div id="map-wrap">
+    <svg id="map" viewBox="0 0 700 500"></svg>
+  </div>
+
+  <div class="names-row">
+    <div class="name-card" style="--card-color: var(--mexico)">
+      <div class="who">🇲🇽 Used by Mexico, and most of the world</div>
+      <h2>Gulf of Mexico</h2>
+      <p>The name in continuous international use since the 1500s ("Golfo de México"). Mexico's government rejected the 2025 U.S. renaming, and most countries outside the U.S. continue to use this name.</p>
+    </div>
+    <div class="name-card" style="--card-color: var(--america)">
+      <div class="who">🇺🇸 Used by the U.S. federal government</div>
+      <h2>Gulf of America</h2>
+      <p>Ordered by President Trump's Executive Order 14172, signed January 20, 2025 — his first day back in office. The order directs U.S. federal agencies to use the new name; it applies to the U.S. side of the gulf, not Mexico's or Cuba's waters.</p>
+    </div>
+  </div>
+
+  <div class="caption">
+    <p><strong>The clearest sign of the split: Google Maps itself.</strong> Since February 2025, Google Maps has shown "Gulf of America" to users located in the United States, "Gulf of Mexico" to users in Mexico, and "Gulf of Mexico (Gulf of America)" to everyone else — the same body of water, three different labels, depending on where the map is opened. Mexico's president said the country would pursue legal action against Google over the change.</p>
+    <p class="source">Sources: Executive Order 14172, whitehouse.gov (Jan. 20, 2025); U.S. Department of the Interior Order No. 3423; Google's public statements on location-based map labeling; Mexican government statements. Country shapes: Natural Earth.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  const width = 700, height = 500;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+  const feats = COUNTRIES_GEOJSON.features;
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    return {
+      type: "Feature",
+      geometry: { type: "Polygon", coordinates: [[[lon0, lat0], [lon0, lat1], [lon1, lat1], [lon1, lat0], [lon0, lat0]]] },
+    };
+  }
+
+  const projection = d3.geoMercator().fitSize([width, height], bboxFeature(-99, 16, -79, 31));
+  const path = d3.geoPath(projection);
+
+  svg.append("g")
+    .selectAll("path")
+    .data(feats)
+    .join("path")
+    .attr("class", "land")
+    .attr("d", path);
+
+  function drawSplitMarker(lon, lat, r, colors) {
+    const [cx, cy] = projection([lon, lat]);
+    const g = svg.append("g");
+    const n = colors.length;
+    colors.forEach((color, i) => {
+      const a0 = (i / n) * 2 * Math.PI - Math.PI / 2;
+      const a1 = ((i + 1) / n) * 2 * Math.PI - Math.PI / 2;
+      const x0 = cx + r * Math.cos(a0), y0 = cy + r * Math.sin(a0);
+      const x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
+      const largeArc = (a1 - a0) > Math.PI ? 1 : 0;
+      g.append("path")
+        .attr("class", "marker-wedge")
+        .attr("fill", color)
+        .attr("d", `M${cx},${cy} L${x0},${y0} A${r},${r} 0 ${largeArc} 1 ${x1},${y1} Z`);
+    });
+    g.append("circle").attr("class", "marker-ring").attr("cx", cx).attr("cy", cy).attr("r", r);
+  }
+
+  drawSplitMarker(-90.5, 25, 26, ["var(--mexico)", "var(--america)"]);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#map-wrap", title: "Depending where you open Google Maps, this gulf has a different name", filename: "hanten-gulf-of-mexico.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
