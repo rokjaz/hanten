@@ -27,9 +27,14 @@
     --accent-soft: rgba(14,124,134,0.14);
     --land: #d6dbd0;
     --land-line: #b9c0b2;
+    --ocean: #d7e3e0;
+    --graticule: rgba(28,39,51,0.10);
     --japan: #3b6ea3;
+    --japan-soft: #aac3dc;
     --china: #c1442d;
+    --china-soft: #e6bcae;
     --taiwan: #2f7d5c;
+    --taiwan-soft: #a9cdbb;
   }
   * { box-sizing: border-box; }
   body {
@@ -66,9 +71,32 @@
     justify-content: center;
   }
   #map { width: 100%; max-width: 600px; height: auto; display: block; }
+  .ocean { fill: var(--ocean); stroke: var(--line); stroke-width: 1; }
+  .graticule { fill: none; stroke: var(--graticule); stroke-width: 0.6; }
   .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.6; }
+  .land-japan { fill: var(--japan-soft); stroke: var(--japan); stroke-width: 0.7; }
+  .land-china { fill: var(--china-soft); stroke: var(--china); stroke-width: 0.7; }
+  .land-taiwan { fill: var(--taiwan-soft); stroke: var(--taiwan); stroke-width: 0.7; }
   .marker-wedge { stroke: #fff; stroke-width: 1.5; }
   .marker-ring { fill: none; stroke: #fff; stroke-width: 2; }
+  .country-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 13px;
+    font-weight: 700;
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+  }
+  .inset-box { fill: var(--paper-raised); stroke: var(--line); stroke-width: 1; }
+  .inset-land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.3; }
+  .inset-marker { fill: var(--china); stroke: #fff; stroke-width: 1; }
+  .inset-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 9px;
+    font-weight: 700;
+    fill: var(--ink-soft);
+  }
 
   .names-row {
     display: flex;
@@ -176,12 +204,29 @@
   const projection = d3.geoMercator().fitSize([width, height], bboxFeature(116, 20, 132, 33));
   const path = d3.geoPath(projection);
 
+  svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+  svg.append("path").datum(d3.geoGraticule10()).attr("class", "graticule").attr("d", path);
+
+  const LAND_CLASS = { Japan: "land-japan", China: "land-china", Taiwan: "land-taiwan" };
   svg.append("g")
     .selectAll("path")
     .data(feats)
     .join("path")
-    .attr("class", "land")
+    .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
     .attr("d", path);
+
+  // Country labels, placed on points chosen to fall on-screen within this
+  // particular crop rather than each country's true (often off-frame)
+  // centroid.
+  const COUNTRY_LABELS = [
+    { name: "CHINA", lon: 118.3, lat: 25.2 },
+    { name: "TAIWAN", lon: 120.9, lat: 23.6 },
+    { name: "JAPAN", lon: 130.6, lat: 32.3 },
+  ];
+  COUNTRY_LABELS.forEach(l => {
+    const [x, y] = projection([l.lon, l.lat]);
+    svg.append("text").attr("class", "country-label").attr("x", x).attr("y", y).text(l.name);
+  });
 
   function drawSplitMarker(lon, lat, r, colors) {
     const [cx, cy] = projection([lon, lat]);
@@ -205,6 +250,28 @@
   // is their real coordinate (Uotsuri-jima, the largest islet), marked as
   // a point rather than a shaded landmass.
   drawSplitMarker(123.48, 25.74, 20, ["var(--japan)", "var(--china)", "var(--taiwan)"]);
+
+  // World-context inset — where this whole crop sits on the globe, since
+  // the main map is zoomed in far enough that it's easy to lose that.
+  (function drawInset() {
+    const insetX = 18, insetY = 18, insetW = 168, insetH = 100;
+    const g = svg.append("g").attr("transform", `translate(${insetX},${insetY})`);
+    g.append("rect").attr("class", "inset-box").attr("width", insetW).attr("height", insetH);
+
+    const insetProjection = d3.geoEqualEarth().fitSize([insetW - 12, insetH - 12], { type: "Sphere" });
+    const insetPath = d3.geoPath(insetProjection);
+    const insetGroup = g.append("g").attr("transform", "translate(6,6)");
+    insetGroup.append("g")
+      .selectAll("path")
+      .data(feats)
+      .join("path")
+      .attr("class", "inset-land")
+      .attr("d", insetPath);
+
+    const [mx, my] = insetProjection([124, 26]);
+    insetGroup.append("circle").attr("class", "inset-marker").attr("cx", mx).attr("cy", my).attr("r", 4);
+    g.append("text").attr("class", "inset-label").attr("x", 6).attr("y", insetH - 6).text("Area shown above");
+  })();
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
