@@ -27,6 +27,12 @@
     --accent-soft: rgba(14,124,134,0.14);
     --land: #d6dbd0;
     --land-line: #b9c0b2;
+    --ocean: #d7e3e0;
+    --graticule: rgba(28,39,51,0.10);
+    --uk-fill: #b7c9dc;
+    --uk-line: #5f83a8;
+    --ireland-fill: #a9cdbb;
+    --ireland-line: #4c9370;
     --londonderry: #3b6ea3;
     --derry: #2f7d5c;
   }
@@ -64,10 +70,24 @@
     display: flex;
     justify-content: center;
   }
-  #map { width: 100%; max-width: 600px; height: auto; display: block; }
+  #map { width: 100%; max-width: 680px; height: auto; display: block; }
+  .ocean { fill: var(--ocean); stroke: var(--line); stroke-width: 1; }
+  .graticule { fill: none; stroke: var(--graticule); stroke-width: 0.6; }
   .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.6; }
+  .land-uk { fill: var(--uk-fill); stroke: var(--uk-line); stroke-width: 0.7; }
+  .land-ireland { fill: var(--ireland-fill); stroke: var(--ireland-line); stroke-width: 0.7; }
   .marker-wedge { stroke: #fff; stroke-width: 1.5; }
   .marker-ring { fill: none; stroke: #fff; stroke-width: 2; }
+  .city-dot { fill: var(--ink); stroke: #fff; stroke-width: 1; }
+  .city-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    fill: var(--ink);
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+  }
 
   .names-row {
     display: flex;
@@ -131,7 +151,7 @@
   <div id="save-image-slot"></div>
 
   <div id="map-wrap">
-    <svg id="map" viewBox="0 0 600 560"></svg>
+    <svg id="map" viewBox="0 0 680 480"></svg>
   </div>
 
   <div class="names-row">
@@ -156,7 +176,7 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="data/countries.js"></script>
 <script>
-  const width = 600, height = 560;
+  const width = 680, height = 480;
   const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
   const feats = COUNTRIES_GEOJSON.features;
 
@@ -167,15 +187,37 @@
     };
   }
 
-  const projection = d3.geoMercator().fitSize([width, height], bboxFeature(-10.5, 51.2, -5.3, 55.5));
+  // Zoomed to Northern Ireland and its immediate surroundings — Dublin,
+  // Belfast, and a bit of Scotland for context — rather than the whole of
+  // Ireland and Great Britain, so the coastline detail this dataset does
+  // have is actually visible instead of shrunk to a sliver.
+  const projection = d3.geoMercator().fitSize([width, height], bboxFeature(-9.0, 53.1, -5.0, 55.6));
   const path = d3.geoPath(projection);
 
+  svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+  svg.append("path").datum(d3.geoGraticule10()).attr("class", "graticule").attr("d", path);
+
+  const LAND_CLASS = { "United Kingdom": "land-uk", "Ireland": "land-ireland" };
   svg.append("g")
     .selectAll("path")
     .data(feats)
     .join("path")
-    .attr("class", "land")
+    .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
     .attr("d", path);
+
+  // Nearby cities for context — real coordinates, not the dispute itself,
+  // so they're marked as plain dots rather than split markers.
+  const CITIES = [
+    { name: "Belfast", lon: -5.9301, lat: 54.5973 },
+    { name: "Dublin", lon: -6.2603, lat: 53.3498 },
+    { name: "Coleraine", lon: -6.6672, lat: 55.1322 },
+    { name: "Strabane", lon: -7.4578, lat: 54.8271 },
+  ];
+  CITIES.forEach(c => {
+    const [x, y] = projection([c.lon, c.lat]);
+    svg.append("circle").attr("class", "city-dot").attr("cx", x).attr("cy", y).attr("r", 3.5);
+    svg.append("text").attr("class", "city-label").attr("x", x + 8).attr("y", y + 4).text(c.name);
+  });
 
   function drawSplitMarker(lon, lat, r, colors) {
     const [cx, cy] = projection([lon, lat]);
@@ -196,6 +238,10 @@
   }
 
   drawSplitMarker(-7.309, 54.997, 12, ["var(--londonderry)", "var(--derry)"]);
+  (function() {
+    const [x, y] = projection([-7.309, 54.997]);
+    svg.append("text").attr("class", "city-label").attr("x", x + 16).attr("y", y - 10).text("Derry / Londonderry");
+  })();
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
