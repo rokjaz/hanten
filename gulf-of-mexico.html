@@ -28,7 +28,9 @@
     --land: #d6dbd0;
     --land-line: #b9c0b2;
     --mexico: #2f7d5c;
+    --mexico-soft: #a9cdbb;
     --america: #3b6ea3;
+    --america-soft: #b7c9dc;
   }
   * { box-sizing: border-box; }
   body {
@@ -66,6 +68,17 @@
   }
   #map { width: 100%; max-width: 600px; height: auto; display: block; }
   .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.6; }
+  .land-mexico { fill: var(--mexico-soft); stroke: var(--mexico); stroke-width: 0.7; }
+  .land-america { fill: var(--america-soft); stroke: var(--america); stroke-width: 0.7; }
+  .country-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 13px;
+    font-weight: 700;
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+  }
   .marker-wedge { stroke: #fff; stroke-width: 1.5; }
   .marker-ring { fill: none; stroke: #fff; stroke-width: 2; }
 
@@ -170,12 +183,22 @@
   const projection = d3.geoMercator().fitSize([width, height], bboxFeature(-99, 16, -79, 31));
   const path = d3.geoPath(projection);
 
+  const LAND_CLASS = { Mexico: "land-mexico", "United States of America": "land-america" };
   svg.append("g")
     .selectAll("path")
     .data(feats)
     .join("path")
-    .attr("class", "land")
+    .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
     .attr("d", path);
+
+  const COUNTRY_LABELS = [
+    { name: "MEXICO", lon: -93, lat: 19.5 },
+    { name: "UNITED STATES", lon: -89, lat: 30.3 },
+  ];
+  COUNTRY_LABELS.forEach(l => {
+    const [x, y] = projection([l.lon, l.lat]);
+    svg.append("text").attr("class", "country-label").attr("x", x).attr("y", y).text(l.name);
+  });
 
   function drawSplitMarker(lon, lat, r, colors) {
     const [cx, cy] = projection([lon, lat]);

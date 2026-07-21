@@ -29,7 +29,9 @@
     --land-line: #b9c0b2;
     --everest: #6b4fa0;
     --sagarmatha: #c98a23;
+    --sagarmatha-soft: #e8d4ac;
     --chomolungma: #c1442d;
+    --chomolungma-soft: #e6bcae;
   }
   * { box-sizing: border-box; }
   body {
@@ -67,6 +69,17 @@
   }
   #map { width: 100%; max-width: 600px; height: auto; display: block; }
   .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.6; }
+  .land-nepal { fill: var(--sagarmatha-soft); stroke: var(--sagarmatha); stroke-width: 0.7; }
+  .land-china { fill: var(--chomolungma-soft); stroke: var(--chomolungma); stroke-width: 0.7; }
+  .country-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 13px;
+    font-weight: 700;
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+  }
   .marker-wedge { stroke: #fff; stroke-width: 1.5; }
   .marker-ring { fill: none; stroke: #fff; stroke-width: 2; }
 
@@ -177,12 +190,22 @@
   const projection = d3.geoMercator().fitSize([width, height], bboxFeature(82, 25, 90, 31));
   const path = d3.geoPath(projection);
 
+  const LAND_CLASS = { Nepal: "land-nepal", China: "land-china" };
   svg.append("g")
     .selectAll("path")
     .data(feats)
     .join("path")
-    .attr("class", "land")
+    .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
     .attr("d", path);
+
+  const COUNTRY_LABELS = [
+    { name: "NEPAL", lon: 84, lat: 27.7 },
+    { name: "CHINA", lon: 88, lat: 30.7 },
+  ];
+  COUNTRY_LABELS.forEach(l => {
+    const [x, y] = projection([l.lon, l.lat]);
+    svg.append("text").attr("class", "country-label").attr("x", x).attr("y", y).text(l.name);
+  });
 
   function drawSplitMarker(lon, lat, r, colors) {
     const [cx, cy] = projection([lon, lat]);

@@ -28,7 +28,9 @@
     --land: #d6dbd0;
     --land-line: #b9c0b2;
     --iran: #6b4fa0;
+    --iran-soft: #d0c3e2;
     --arab: #c98a23;
+    --arab-soft: #e8d4ac;
   }
   * { box-sizing: border-box; }
   body {
@@ -66,6 +68,17 @@
   }
   #map { width: 100%; max-width: 600px; height: auto; display: block; }
   .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.6; }
+  .land-iran { fill: var(--iran-soft); stroke: var(--iran); stroke-width: 0.7; }
+  .land-arab { fill: var(--arab-soft); stroke: var(--arab); stroke-width: 0.7; }
+  .country-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 13px;
+    font-weight: 700;
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+  }
   .marker-wedge { stroke: #fff; stroke-width: 1.5; }
   .marker-ring { fill: none; stroke: #fff; stroke-width: 2; }
 
@@ -171,12 +184,23 @@
   const projection = d3.geoMercator().fitSize([width, height], bboxFeature(44, 21, 60, 33));
   const path = d3.geoPath(projection);
 
+  const LAND_CLASS = { Iran: "land-iran", "Saudi Arabia": "land-arab", "United Arab Emirates": "land-arab", Kuwait: "land-arab", Qatar: "land-arab", Oman: "land-arab" };
   svg.append("g")
     .selectAll("path")
     .data(feats)
     .join("path")
-    .attr("class", "land")
+    .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
     .attr("d", path);
+
+  const COUNTRY_LABELS = [
+    { name: "IRAN", lon: 53.5, lat: 30 },
+    { name: "SAUDI ARABIA", lon: 45, lat: 24.5 },
+    { name: "UAE", lon: 54.3, lat: 23.9 },
+  ];
+  COUNTRY_LABELS.forEach(l => {
+    const [x, y] = projection([l.lon, l.lat]);
+    svg.append("text").attr("class", "country-label").attr("x", x).attr("y", y).text(l.name);
+  });
 
   function drawSplitMarker(lon, lat, r, colors) {
     const [cx, cy] = projection([lon, lat]);

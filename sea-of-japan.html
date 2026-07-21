@@ -29,7 +29,9 @@
     --land-line: #b9c0b2;
     --ocean: #d7e3e0;
     --japan: #c1442d;
+    --japan-soft: #e6bcae;
     --korea: #1f6f8b;
+    --korea-soft: #aac3dc;
   }
   * { box-sizing: border-box; }
   body {
@@ -67,6 +69,17 @@
   }
   #map { width: 100%; max-width: 600px; height: auto; display: block; }
   .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.6; }
+  .land-japan { fill: var(--japan-soft); stroke: var(--japan); stroke-width: 0.7; }
+  .land-korea { fill: var(--korea-soft); stroke: var(--korea); stroke-width: 0.7; }
+  .country-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 13px;
+    font-weight: 700;
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+  }
   .marker-wedge { stroke: #fff; stroke-width: 1.5; }
   .marker-ring { fill: none; stroke: #fff; stroke-width: 2; }
 
@@ -177,12 +190,23 @@
   const projection = d3.geoMercator().fitSize([width, height], bboxFeature(122, 29, 144, 46));
   const path = d3.geoPath(projection);
 
+  const LAND_CLASS = { Japan: "land-japan", "South Korea": "land-korea", "North Korea": "land-korea" };
   svg.append("g")
     .selectAll("path")
     .data(feats)
     .join("path")
-    .attr("class", "land")
+    .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
     .attr("d", path);
+
+  const COUNTRY_LABELS = [
+    { name: "JAPAN", lon: 138, lat: 36.5 },
+    { name: "SOUTH KOREA", lon: 127.8, lat: 36.3 },
+    { name: "NORTH KOREA", lon: 127.2, lat: 40.3 },
+  ];
+  COUNTRY_LABELS.forEach(l => {
+    const [x, y] = projection([l.lon, l.lat]);
+    svg.append("text").attr("class", "country-label").attr("x", x).attr("y", y).text(l.name);
+  });
 
   // A pin split into wedges — one color per name in dispute — placed at
   // the feature itself. Reused across every page in this series.
