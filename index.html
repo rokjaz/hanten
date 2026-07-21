@@ -143,7 +143,9 @@
   .search:focus { outline: none; border-color: var(--accent); }
   .search::placeholder { color: var(--ink-soft); }
   .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.6rem; }
-  .filters button {
+  .subfilters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: -0.8rem 0 1.6rem; }
+  .subfilters.hidden { display: none; }
+  .filters button, .subfilters button {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 0.78rem;
     font-weight: 700;
@@ -154,8 +156,8 @@
     opacity: 0.55;
     transition: opacity 0.15s ease, transform 0.1s ease;
   }
-  .filters button:hover { opacity: 0.8; }
-  .filters button.active { opacity: 1; box-shadow: 0 0 0 2px var(--ink); }
+  .filters button:hover, .subfilters button:hover { opacity: 0.8; }
+  .filters button.active, .subfilters button.active { opacity: 1; box-shadow: 0 0 0 2px var(--ink); }
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -269,10 +271,11 @@
 <main>
   <input class="search" id="search" type="text" placeholder="Search maps and stats…" autocomplete="off">
   <div class="filters" id="filters"></div>
+  <div class="subfilters hidden" id="subfilters"></div>
   <p class="landing-hint" id="landing-hint">Pick a category above, or search — maps and stats will show up here.</p>
   <p class="no-results" id="no-results">No maps match that search.</p>
   <div class="grid" id="grid">
-    <a class="card" data-cat="population" href="empty-america.html">
+    <a class="card" data-cat="population" data-sub="density" href="empty-america.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <rect x="5" y="8" width="30" height="24" rx="1"/>
         <circle cx="12" cy="15" r="1.3" fill="currentColor" stroke="none"/>
@@ -284,7 +287,7 @@
       <h2>Nearly half of America is almost empty</h2>
       <p>46% of the land holds 1.3% of the people. The frontier never really closed.</p>
     </a>
-    <a class="card" data-cat="population" href="density-high.html">
+    <a class="card" data-cat="population" data-sub="density" href="density-high.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <rect x="5" y="8" width="30" height="24" rx="1"/>
         <circle cx="12" cy="14" r="1.2" fill="currentColor" stroke="none"/>
@@ -301,7 +304,7 @@
       <h2>America's high-density counties: seven times their share</h2>
       <p>500–999 people per square mile — high density, not to be confused with very-high-density. 2% of the land, 14% of the people.</p>
     </a>
-    <a class="card" data-cat="population" href="density-veryhigh.html">
+    <a class="card" data-cat="population" data-sub="density" href="density-veryhigh.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <rect x="5" y="8" width="30" height="24" rx="1"/>
         <circle cx="9" cy="12" r="1.1" fill="currentColor" stroke="none"/>
@@ -321,7 +324,7 @@
       <h2>America's very-high-density counties: 40% of the people</h2>
       <p>1,000+ people per square mile — the most crowded slice of the map. Under 2% of the land, 40% of the people.</p>
     </a>
-    <a class="card" data-cat="population" href="density-extremes.html">
+    <a class="card" data-cat="population" data-sub="density" href="density-extremes.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <line x1="4" y1="34" x2="36" y2="34"/>
         <circle cx="9" cy="30" r="1.1" fill="currentColor" stroke="none"/>
@@ -332,7 +335,7 @@
       <h2>From nearly empty to packed tight</h2>
       <p>The same 3,144 counties at three density cutoffs — and three completely different countries appear.</p>
     </a>
-    <a class="card" data-cat="politics statistics" href="gerrymander.html">
+    <a class="card" data-cat="politics statistics" data-sub="gerrymandering" href="gerrymander.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <rect x="5" y="5" width="30" height="30"/>
         <path d="M5 16 C13 11,21 21,35 14"/>
@@ -342,7 +345,7 @@
       <h2>Same 36 voters. Three different winners.</h2>
       <p>Nobody moves. Nobody changes their mind. Only the district lines change — and with them, who wins.</p>
     </a>
-    <a class="card" data-cat="politics statistics" href="gerrymander-real.html">
+    <a class="card" data-cat="politics statistics" data-sub="gerrymandering" href="gerrymander-real.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M11 8 C19 4,29 8,31 15 C36 21,29 30,21 32 C13 34,6 27,8 19 C4 13,7 10,11 8 Z"/>
       </svg></div>
@@ -350,7 +353,7 @@
       <h2>These districts are real</h2>
       <p>The Earmuffs. The I-85 snake. Actual congressional districts, drawn to their true boundaries — with the court battles they caused.</p>
     </a>
-    <a class="card" data-cat="politics statistics" href="statehood-order.html">
+    <a class="card" data-cat="politics statistics" data-sub="statehood" href="statehood-order.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 5 L23.5 15.5 L34.5 15.5 L25.5 21.8 L29 32.5 L20 26 L11 32.5 L14.5 21.8 L5.5 15.5 L16.5 15.5 Z"/>
       </svg></div>
@@ -358,7 +361,7 @@
       <h2>No new state joined for 47 years. Then two joined in the same year.</h2>
       <p>Every state, shaded from the first admitted (Delaware, 1787) to the last (Hawaii, 1959) — and the gap hiding in the middle.</p>
     </a>
-    <a class="card" data-cat="population" href="equal-fifty.html">
+    <a class="card" data-cat="population" data-sub="equal" href="equal-fifty.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <rect x="4" y="4" width="32" height="32"/>
         <path d="M4 15 L17 11 L36 17"/>
@@ -369,7 +372,7 @@
       <h2>America redrawn: 50 states of equal population</h2>
       <p>Every region holds ~6.7 million people. The Northeast shatters into slivers; one region swallows most of four states.</p>
     </a>
-    <a class="card" data-cat="distances" href="point-nemo.html">
+    <a class="card" data-cat="distances" data-sub="remote" href="point-nemo.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 27 Q10 23 16 27 T28 27 T36 27"/>
         <circle cx="20" cy="27" r="1.5" fill="currentColor" stroke="none"/>
@@ -380,7 +383,7 @@
       <h2>At Point Nemo, the closest people are usually in orbit</h2>
       <p>The middle of the ocean is closer to the Space Station than to any inhabited land — drawn to scale.</p>
     </a>
-    <a class="card" data-cat="distances" href="closer-to-iss.html">
+    <a class="card" data-cat="distances" data-sub="iss" href="closer-to-iss.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="14" cy="24" r="5"/>
         <ellipse cx="14" cy="24" rx="16" ry="6" transform="rotate(-20 14 24)"/>
@@ -390,7 +393,7 @@
       <h2>13 places are closer to the Space Station than to their nearest country</h2>
       <p>New Zealand's nearest neighbor, Australia, is 616 km away — 200 km farther than the ISS flying overhead.</p>
     </a>
-    <a class="card" data-cat="distances" href="iss-how-close.html">
+    <a class="card" data-cat="distances" data-sub="iss" href="iss-how-close.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <line x1="20" y1="34" x2="20" y2="8"/>
         <circle cx="20" cy="8" r="2.2" fill="currentColor" stroke="none"/>
@@ -401,7 +404,7 @@
       <h2>The ISS looks impossibly far away. It's a 4-hour drive straight up.</h2>
       <p>At highway speed, straight up, you'd arrive in 3 hours 54 minutes — less time than a coast-to-coast flight.</p>
     </a>
-    <a class="card" data-cat="distances" href="earth-moon-gap.html">
+    <a class="card" data-cat="distances" data-sub="iss" href="earth-moon-gap.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="9" cy="20" r="6"/>
         <circle cx="32" cy="20" r="3"/>
@@ -413,7 +416,7 @@
       <h2>The planets almost fit between Earth and the Moon</h2>
       <p>A famous "fact" that turns out to be true or false depending on the day — try all three orbit positions.</p>
     </a>
-    <a class="card" data-cat="sports" href="worldcup-2026.html">
+    <a class="card" data-cat="sports" data-sub="soccer" href="worldcup-2026.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M14 7 H26 V13 C26 19 22 21 20 21 C18 21 14 19 14 13 Z"/>
         <path d="M14 9 C10 9 8 12 10 15 C11.5 17 13 17 14 16"/>
@@ -424,7 +427,7 @@
       <h2>The World Cup, round by round</h2>
       <p>From all 211 eligible nations down to the final four — flags, populations, upsets, and Cinderella runs, updated as the tournament unfolds.</p>
     </a>
-    <a class="card" data-cat="sports" href="disc-golf.html">
+    <a class="card" data-cat="sports" data-sub="discgolf" href="disc-golf.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <ellipse cx="12" cy="13" rx="8" ry="3"/>
         <line x1="28" y1="7" x2="28" y2="31"/>
@@ -435,7 +438,7 @@
       <h2>Iceland has more disc golf per person than anywhere on Earth</h2>
       <p>The U.S. has 65% of the world's 17,285 courses — but per capita, a completely different country wins.</p>
     </a>
-    <a class="card" data-cat="sports" href="bowling-spares.html">
+    <a class="card" data-cat="sports" data-sub="bowling" href="bowling-spares.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="27" r="6"/>
         <path d="M25 7 C22 7,21 11,22 15 C20 17,20 23,22 27 C23 30,29 30,30 27 C32 23,32 17,30 15 C31 11,30 7,27 7 Z"/>
@@ -444,7 +447,7 @@
       <h2>Two bowlers get a spare every frame. The scores aren't close.</h2>
       <p>110 vs. 190 — same "spare every time," an 80-pin gap, because of one rule most people never notice.</p>
     </a>
-    <a class="card" data-cat="sports" href="bowling-strikes.html">
+    <a class="card" data-cat="sports" data-sub="bowling" href="bowling-strikes.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="27" r="6"/>
         <path d="M25 7 C22 7,21 11,22 15 C20 17,20 23,22 27 C23 30,29 30,30 27 C32 23,32 17,30 15 C31 11,30 7,27 7 Z"/>
@@ -453,7 +456,7 @@
       <h2>Same 5 strikes, same 5 gutter frames. One score is double the other.</h2>
       <p>50 vs. 120 — spreading strikes out wastes them, stacking them lets each one feed the next.</p>
     </a>
-    <a class="card" data-cat="sports" href="march-madness-2026.html">
+    <a class="card" data-cat="sports" data-sub="basketball" href="march-madness-2026.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="20" cy="20" r="15"/>
         <path d="M20 5 V35 M5 20 H35"/>
@@ -464,7 +467,7 @@
       <h2>California has the most college basketball teams. Texas sent the most to March Madness.</h2>
       <p>355 Division I programs, a 68-team field, one champion — watch which states actually convert potential into tournament success, round by round.</p>
     </a>
-    <a class="card" data-cat="sports statistics" href="1960-world-series.html">
+    <a class="card" data-cat="sports statistics" data-sub="baseball" href="1960-world-series.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="20" cy="20" r="14"/>
         <path d="M10 10 C15 16,15 24,10 30"/>
@@ -474,7 +477,7 @@
       <h2>The Yankees outscored the Pirates by 28 runs in the 1960 World Series. They still lost.</h2>
       <p>New York won three games by a combined 38–3. Pittsburgh won the series.</p>
     </a>
-    <a class="card" data-cat="distances" href="true-size-africa.html">
+    <a class="card" data-cat="distances" data-sub="africa" href="true-size-africa.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M6 7 C20 4,34 10,32 21 C30 31,16 33,8 27 C2 21,2 12,6 7 Z"/>
         <rect x="9" y="13" width="10" height="8"/>
@@ -484,7 +487,7 @@
       <h2>Africa is bigger than you think</h2>
       <p>The US, China, and India all fit inside Africa at once — with almost a third of the continent still left over.</p>
     </a>
-    <a class="card" data-cat="distances" href="africa-greenlands.html">
+    <a class="card" data-cat="distances" data-sub="africa" href="africa-greenlands.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M8 6 C22 3,36 9,34 20 C32 30,18 34,10 28 C4 22,4 11,8 6 Z"/>
         <path d="M13 12 L19 10 L21 16 L15 19 Z"/>
@@ -495,7 +498,7 @@
       <h2>Africa is 14 Greenlands big</h2>
       <p>On a Mercator map they look like rivals. At true scale, it takes 14 Greenlands to cover Africa.</p>
     </a>
-    <a class="card" data-cat="distances" href="africa-vs-greenland.html">
+    <a class="card" data-cat="distances" data-sub="africa" href="africa-vs-greenland.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M8 6 C22 3,36 9,34 20 C32 30,18 34,10 28 C4 22,4 11,8 6 Z"/>
         <path d="M6 10 C18 6,30 10,29 19 C28 27,16 30,9 25 C4 21,3 14,6 10 Z"/>
@@ -504,7 +507,7 @@
       <h2>Greenland isn't just not the size of Africa — it's smaller than two African countries</h2>
       <p>Algeria and DR Congo each individually beat it. Even Sudan and Libya come close.</p>
     </a>
-    <a class="card" data-cat="distances" href="continental-us-greenlands.html">
+    <a class="card" data-cat="distances" data-sub="africa" href="continental-us-greenlands.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M8 6 C22 3,36 9,34 20 C32 30,18 34,10 28 C4 22,4 11,8 6 Z"/>
         <path d="M11 9 L16 7.5 L17.5 12.5 L12.5 14 Z"/>
@@ -516,7 +519,7 @@
       <h2>The Lower 48 is almost exactly 4 Greenlands</h2>
       <p>Same true-scale trick, a very different number: the contiguous US holds about 3.7 Greenlands.</p>
     </a>
-    <a class="card" data-cat="distances statistics" href="state-area.html">
+    <a class="card" data-cat="distances statistics" data-sub="statearea" href="state-area.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 30 L14 12 L20 20 L26 8 L36 30 Z"/>
         <path d="M9 24 H31" stroke-dasharray="2,2"/>
@@ -526,7 +529,7 @@
       <h2>Alaska's mountains add 11,000 square miles. Still under 2%.</h2>
       <p>Total area, land only, and true surface area if you ironed every slope flat — three honest answers per state, and they barely disagree.</p>
     </a>
-    <a class="card" data-cat="population" href="population-circle.html">
+    <a class="card" data-cat="population" data-sub="circle" href="population-circle.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="20" cy="20" r="15"/>
         <circle cx="20" cy="20" r="8" stroke-dasharray="2,2"/>
@@ -584,7 +587,7 @@
       <h2>Only 23 people, and the odds already favor a shared birthday</h2>
       <p>Most people guess you'd need close to 183. It's 253 pairs of people, not 365 dates, that get you there.</p>
     </a>
-    <a class="card" data-cat="statistics politics" href="hits-vs-runs.html">
+    <a class="card" data-cat="statistics politics" data-sub="electoral" href="hits-vs-runs.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <line x1="8" y1="12" x2="32" y2="28"/>
         <line x1="8" y1="28" x2="32" y2="12"/>
@@ -597,7 +600,7 @@
       <h2>Hits are like the popular vote. Runs are like the Electoral College.</h2>
       <p>Same mechanism, verified twice: a 1960 World Series game, and four US elections.</p>
     </a>
-    <a class="card" data-cat="distances" href="kiritimati.html">
+    <a class="card" data-cat="distances" data-sub="remote" href="kiritimati.html">
       <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="20" cy="20" r="15"/>
         <ellipse cx="20" cy="20" rx="15" ry="6" transform="rotate(25 20 20)"/>
@@ -625,7 +628,42 @@
     { id: "statistics", label: "Statistics" },
     { id: "sports", label: "Sports" },
   ];
+
+  // Subcategories are a links-only layer between a category and its maps:
+  // pick "Sports" and you see topic links (Bowling, Baseball, ...), not
+  // tiles yet — picking a topic is what reveals tiles. Statistics has no
+  // entry here on purpose: most of its cards already live primarily under
+  // another category (e.g. the 1960 World Series card is "sports
+  // statistics"), so its own page just shows its cards directly, like
+  // before.
+  const SUBCATEGORIES = {
+    sports: [
+      { id: "bowling", label: "Bowling" },
+      { id: "baseball", label: "Baseball" },
+      { id: "basketball", label: "Basketball" },
+      { id: "discgolf", label: "Disc Golf" },
+      { id: "soccer", label: "Soccer" },
+    ],
+    distances: [
+      { id: "africa", label: "Africa & Greenland" },
+      { id: "iss", label: "ISS & Space" },
+      { id: "remote", label: "Remote Places" },
+      { id: "statearea", label: "State Area" },
+    ],
+    population: [
+      { id: "density", label: "Population Density" },
+      { id: "equal", label: "Equal Population" },
+      { id: "circle", label: "Population Circle" },
+    ],
+    politics: [
+      { id: "gerrymandering", label: "Gerrymandering" },
+      { id: "statehood", label: "Statehood" },
+      { id: "electoral", label: "Electoral College" },
+    ],
+  };
+
   const filtersEl = document.getElementById("filters");
+  const subfiltersEl = document.getElementById("subfilters");
   const searchEl = document.getElementById("search");
   const noResultsEl = document.getElementById("no-results");
   const landingHintEl = document.getElementById("landing-hint");
@@ -637,8 +675,10 @@
 
   const initParams = new URLSearchParams(location.search);
   const initCat = initParams.get("cat");
+  const initSub = initParams.get("sub");
 
   let currentCat = CATEGORIES.some(c => c.id === initCat) ? initCat : null; // null = no category filter, show everything
+  let currentSub = (currentCat && SUBCATEGORIES[currentCat] && SUBCATEGORIES[currentCat].some(s => s.id === initSub)) ? initSub : null;
   let currentQuery = "";
   // Landing = the pristine homepage, before any interaction: just the
   // category links, no tiles, so picking a category is an obvious change
@@ -665,14 +705,21 @@
   }
 
   function render() {
+    const subs = currentCat && SUBCATEGORIES[currentCat];
+    // Picked a category that has subtopics, haven't picked one yet, and
+    // aren't searching (search flattens everything) — show topic links
+    // only, no tiles.
+    const subListMode = !!subs && currentSub === null && !currentQuery;
+
     cards.forEach(c => {
       const searchOk = !currentQuery || cardSearchText(c).includes(currentQuery);
       const catOk = currentQuery || currentCat === null || hasCat(c, currentCat);
-      c.classList.toggle("hidden", !(catOk && searchOk));
+      const subOk = currentQuery || currentSub === null || (c.dataset.sub || "") === currentSub;
+      c.classList.toggle("hidden", !(catOk && subOk && searchOk) || subListMode);
     });
 
     // All five category buttons stay visible as toggleable tabs — clicking
-    // the active one again clears the filter back to "All".
+    // the active one again steps back: tiles -> topic links -> all maps.
     filtersEl.innerHTML = "";
     CATEGORIES.forEach(cat => {
       const b = document.createElement("button");
@@ -684,13 +731,29 @@
       filtersEl.appendChild(b);
     });
 
-    gridEl.classList.toggle("hidden", landing);
-    landingHintEl.classList.toggle("show", landing);
+    subfiltersEl.innerHTML = "";
+    subfiltersEl.classList.toggle("hidden", !subs || !!currentQuery);
+    if (subs) {
+      subs.forEach(sub => {
+        const b = document.createElement("button");
+        b.textContent = sub.label;
+        b.style.background = `var(--cat-${currentCat})`;
+        b.classList.toggle("active", currentSub === sub.id);
+        b.addEventListener("click", () => toggleSub(sub.id));
+        subfiltersEl.appendChild(b);
+      });
+    }
+
+    gridEl.classList.toggle("hidden", landing || subListMode);
+    landingHintEl.textContent = subListMode
+      ? `Pick a topic above to see its ${CATEGORIES.find(c => c.id === currentCat).label.toLowerCase()} maps.`
+      : "Pick a category above, or search — maps and stats will show up here.";
+    landingHintEl.classList.toggle("show", landing || subListMode);
     heroEl.classList.toggle("hidden", !landing);
     headerEl.classList.toggle("browsing", !landing);
 
     const anyVisible = cards.some(c => !c.classList.contains("hidden"));
-    noResultsEl.classList.toggle("show", !landing && !anyVisible);
+    noResultsEl.classList.toggle("show", !landing && !subListMode && !anyVisible);
   }
 
   // Keeps the URL in sync with the current category so a category "page"
@@ -699,14 +762,32 @@
   function syncURL(push) {
     const params = new URLSearchParams();
     if (currentCat) params.set("cat", currentCat);
+    if (currentSub) params.set("sub", currentSub);
     const qs = params.toString();
     const url = qs ? `${location.pathname}?${qs}` : location.pathname;
-    history[push ? "pushState" : "replaceState"]({ cat: currentCat }, "", url);
+    history[push ? "pushState" : "replaceState"]({ cat: currentCat, sub: currentSub }, "", url);
   }
 
   function toggleCategory(id) {
     landing = false;
-    currentCat = currentCat === id ? null : id;
+    if (currentCat === id) {
+      // Re-clicking the active category steps back one level at a time:
+      // tiles -> topic links -> all maps — mirrors how you got there.
+      currentCat = currentSub !== null ? currentCat : null;
+      currentSub = null;
+    } else {
+      currentCat = id;
+      currentSub = null;
+    }
+    currentQuery = "";
+    searchEl.value = "";
+    render();
+    syncURL(true);
+  }
+
+  function toggleSub(id) {
+    landing = false;
+    currentSub = currentSub === id ? null : id;
     currentQuery = "";
     searchEl.value = "";
     render();
@@ -716,6 +797,7 @@
   function goHome() {
     landing = false;
     currentCat = null;
+    currentSub = null;
     currentQuery = "";
     searchEl.value = "";
     render();
@@ -745,7 +827,9 @@
     landing = false; // popstate only fires after some prior interaction
     const params = new URLSearchParams(location.search);
     const cat = params.get("cat");
+    const sub = params.get("sub");
     currentCat = CATEGORIES.some(c => c.id === cat) ? cat : null;
+    currentSub = (currentCat && SUBCATEGORIES[currentCat] && SUBCATEGORIES[currentCat].some(s => s.id === sub)) ? sub : null;
     currentQuery = "";
     searchEl.value = "";
     render();
@@ -771,6 +855,7 @@
     currentQuery = searchEl.value.trim().toLowerCase();
     if (currentQuery && currentCat) {
       currentCat = null;
+      currentSub = null;
       syncURL(true);
     }
     render();
