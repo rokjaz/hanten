@@ -77,6 +77,15 @@
   .land-uk { fill: var(--uk-fill); stroke: var(--uk-line); stroke-width: 0.7; }
   .land-ireland { fill: var(--ireland-fill); stroke: var(--ireland-line); stroke-width: 0.7; }
   .marker-dot { stroke: #fff; stroke-width: 1.5; }
+  .country-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 13px;
+    font-weight: 700;
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+  }
   .leader-line { stroke: var(--ink-soft); stroke-width: 1.2; }
   .leader-arrow { fill: var(--ink-soft); }
   .water-label {
@@ -241,6 +250,18 @@
     .join("path")
     .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
     .attr("d", smoothLandPath);
+
+  // Placed in Great Britain and central Ireland rather than Northern
+  // Ireland itself, since that pocket is already crowded with city dots,
+  // the marker, and the leader line back to it.
+  const COUNTRY_LABELS = [
+    { name: "UNITED KINGDOM", lon: -4.33, lat: 55.95 },
+    { name: "IRELAND", lon: -8.36, lat: 53.73 },
+  ];
+  COUNTRY_LABELS.forEach(l => {
+    const [x, y] = projection([l.lon, l.lat]);
+    svg.append("text").attr("class", "country-label").attr("x", x).attr("y", y).text(l.name);
+  });
 
   // Nearby cities for context — real coordinates, not the dispute itself,
   // so they're marked as plain dots rather than split markers. Coleraine
