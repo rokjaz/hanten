@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Kashmir looks different depending whose map you open</title>
+<meta name="description" content="Indian maps show all of Kashmir as India. Pakistani maps show it as heavily contested. Most of the world draws a dashed Line of Control instead of picking a side.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/kashmir.html">
+<meta property="og:title" content="Hanten — Kashmir looks different depending whose map you open">
+<meta property="og:description" content="Indian maps show all of Kashmir as India. Pakistani maps show it as heavily contested. Most of the world draws a dashed Line of Control instead of picking a side.">
+<meta property="og:image" content="https://hanten.app/data/og/kashmir.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — Kashmir looks different depending whose map you open">
+<meta name="twitter:description" content="Indian maps show all of Kashmir as India. Pakistani maps show it as heavily contested. Most of the world draws a dashed Line of Control instead of picking a side.">
+<meta name="twitter:image" content="https://hanten.app/data/og/kashmir.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --land: #d6dbd0;
+    --land-line: #b9c0b2;
+    --ocean: #cde3ee;
+    --india: #c9862c;
+    --india-soft: #e8d0a4;
+    --pakistan: #2f7d5c;
+    --pakistan-soft: #a9cdbb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 940px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  header .wordmark:hover { color: var(--accent); }
+  main { max-width: 940px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 66ch; }
+
+  #maps-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.2rem 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .mini-map-col { flex: 1 1 180px; max-width: 240px; text-align: center; }
+  .mini-map { width: 100%; height: auto; display: block; border: 1px solid var(--line); background: var(--paper); }
+  .mini-map-label {
+    margin-top: 0.6rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+  }
+  .ocean { fill: var(--ocean); stroke: var(--line); stroke-width: 0.7; }
+  .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.5; }
+  .land-india { fill: var(--india-soft); stroke: var(--india); stroke-width: 0.6; }
+  .land-pakistan { fill: var(--pakistan-soft); stroke: var(--pakistan); stroke-width: 0.6; }
+
+  .names-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.4rem;
+  }
+  .name-card {
+    flex: 1;
+    min-width: 220px;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--card-color, var(--accent));
+    padding: 1.1rem 1.2rem;
+  }
+  .name-card .who {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-bottom: 0.4rem;
+  }
+  .name-card h2 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem;
+  }
+  .name-card p { font-size: 0.88rem; color: var(--ink-soft); margin: 0; }
+
+  .caption {
+    margin-top: 1.6rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>The world's most militarized border looks different depending whose map you open</h1>
+  <p class="sub">India, Pakistan, and China each control part of the former princely state of Jammu and Kashmir, and each draws the boundary differently. There's no neutral way to render it — every map is a small political statement.</p>
+  <div id="save-image-slot"></div>
+
+  <div id="maps-wrap">
+    <div class="mini-map-col">
+      <svg class="mini-map" id="map-india" viewBox="0 0 220 210"></svg>
+      <div class="mini-map-label">As shown in India</div>
+    </div>
+    <div class="mini-map-col">
+      <svg class="mini-map" id="map-pakistan" viewBox="0 0 220 210"></svg>
+      <div class="mini-map-label">As shown in Pakistan</div>
+    </div>
+    <div class="mini-map-col">
+      <svg class="mini-map" id="map-global" viewBox="0 0 220 210"></svg>
+      <div class="mini-map-label">Viewed globally</div>
+    </div>
+  </div>
+
+  <div class="names-row">
+    <div class="name-card" style="--card-color: var(--india)">
+      <div class="who">🇮🇳 Viewed in India</div>
+      <h2>Entirely Indian</h2>
+      <p>Indian government maps show the whole of Jammu and Kashmir and Ladakh with a solid, undifferentiated border — India's constitution treats it as fully Indian territory, no exceptions shown.</p>
+    </div>
+    <div class="name-card" style="--card-color: var(--pakistan)">
+      <div class="who">🇵🇰 Viewed in Pakistan</div>
+      <h2>Marked contested</h2>
+      <p>Pakistani maps draw the region with a dotted boundary rather than a solid one — a deliberate cartographic signal that its status remains unsettled, not incorporated into either country.</p>
+    </div>
+    <div class="name-card" style="--card-color: var(--ink-soft)">
+      <div class="who">🌍 Viewed globally</div>
+      <h2>Dashed Line of Control</h2>
+      <p>Most international maps draw the 1972 Line of Control as a dashed border — the de facto military boundary, presented as a ceasefire line rather than a settled international one.</p>
+    </div>
+  </div>
+
+  <div class="caption">
+    <p><strong>Three countries currently administer pieces of the old princely state.</strong> India holds and governs the largest share (Jammu, the Kashmir Valley, and Ladakh); Pakistan administers Azad Kashmir and Gilgit-Baltistan in the west and north; China holds Aksai Chin in the east, ceded to it by Pakistan in a 1963 border agreement that India does not recognize. India and Pakistan have fought three wars substantially over the territory since 1947, and the current line dividing Indian- and Pakistani-administered areas — the Line of Control — was set by the 1972 Simla Agreement, not by either side's claimed border.</p>
+    <p>Indian law (the Cartography Act's 2011 rules) treats any map that shows Kashmir's boundary differently as illegal to sell or distribute in India — one reason global map providers often show one boundary style inside India and a different one everywhere else.</p>
+    <p class="source">Sources: 1972 Simla Agreement; 1963 Sino-Pakistan Boundary Agreement; Survey of India Cartography guidelines. Country shapes: Natural Earth. Kashmir boundary: dissolved from Jammu &amp; Kashmir and Ladakh union-territory district boundaries (india-maps-data, GADM-derived), simplified.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  const feats = COUNTRIES_GEOJSON.features;
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    return {
+      type: "Feature",
+      geometry: { type: "Polygon", coordinates: [[[lon0, lat0], [lon0, lat1], [lon1, lat1], [lon1, lat0], [lon0, lat0]]] },
+    };
+  }
+
+  // Not in the country-level dataset above (it's a sub-national region) —
+  // dissolved from Jammu & Kashmir + Ladakh union-territory district
+  // boundaries and simplified to roughly this dataset's coarseness.
+  const KASHMIR_RING = [[74.82,32.499],[74.715,32.476],[74.652,32.563],[74.705,32.842],[74.638,32.751],[74.353,32.763],[73.957,32.987],[73.786,32.965],[73.734,33.066],[73.627,33.089],[73.657,33.208],[73.558,33.368],[73.632,33.533],[73.56,33.621],[73.589,33.884],[73.478,34.29],[73.39,34.374],[73.447,34.574],[73.65,34.568],[73.749,34.787],[74.029,34.877],[74.107,35.019],[74.065,35.048],[74.147,35.097],[73.716,35.225],[73.699,35.358],[73.784,35.525],[73.272,35.629],[73.135,35.719],[73.153,35.841],[73.089,35.883],[72.691,35.832],[72.533,35.917],[72.595,36.262],[72.693,36.25],[72.879,36.443],[72.991,36.457],[73.112,36.609],[73.084,36.699],[73.441,36.744],[73.883,36.698],[73.899,36.749],[73.689,36.912],[74.055,36.806],[74.429,36.99],[74.577,36.948],[74.586,37.045],[74.708,37.077],[74.921,36.906],[75.343,37.052],[75.473,36.81],[75.615,36.761],[75.768,36.573],[76.643,36.183],[76.8,36.048],[76.721,35.953],[76.811,35.844],[77.357,35.717],[77.485,35.532],[77.319,35.532],[77.438,35.461],[77.722,35.475],[77.732,35.524],[77.981,35.455],[77.951,35.606],[78.136,35.539],[78.198,35.669],[78.254,35.645],[78.272,35.722],[78.422,35.785],[78.959,35.892],[79.131,35.836],[79.214,35.978],[79.377,35.995],[79.421,35.896],[79.736,35.801],[79.998,35.837],[80.106,35.681],[80.29,35.607],[80.326,35.469],[80.067,34.714],[79.774,34.627],[79.793,34.485],[79.507,34.474],[79.584,34.244],[79.425,34.017],[79.17,34.073],[78.904,33.976],[79.105,33.617],[78.913,33.627],[78.988,33.333],[79.454,33.258],[79.331,33.012],[79.625,32.739],[79.447,32.532],[79.319,32.592],[78.98,32.338],[78.826,32.439],[78.766,32.697],[78.327,32.472],[78.313,32.574],[78.405,32.62],[78.388,32.757],[78.016,32.62],[77.683,32.989],[77.339,32.817],[77.157,32.912],[77.15,32.978],[76.933,33.028],[76.799,33.256],[76.747,33.179],[76.41,33.187],[76.278,33.038],[76.112,33.006],[75.954,32.873],[75.85,32.93],[75.789,32.887],[75.926,32.745],[75.93,32.631],[75.535,32.279],[75.489,32.346],[75.332,32.327],[75.132,32.409],[75.108,32.474],[74.82,32.499]];
+
+  const LAND_CLASS = { India: "land-india", Pakistan: "land-pakistan" };
+  const CROP = [68, 27, 82, 38];
+  const smoothLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
+
+  // One shared drawing routine, called once per panel below with a
+  // different treatment for the Kashmir overlay each time — that overlay
+  // (fill + stroke style) is the entire point of this page.
+  function drawPanel(svgId, width, height, regionFill, regionStroke, regionDash) {
+    const svg = d3.select(svgId).attr("viewBox", `0 0 ${width} ${height}`);
+    const projection = d3.geoMercator().fitSize([width, height], bboxFeature(...CROP));
+    const path = d3.geoPath(projection);
+
+    svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+
+    function smoothLandPath(feature) {
+      const geom = feature.geometry;
+      if (!geom) return "";
+      const polys = geom.type === "MultiPolygon" ? geom.coordinates : [geom.coordinates];
+      return polys.map(poly => poly.map(ring => {
+        const pts = ring.map(pt => projection(pt)).filter(Boolean);
+        return pts.length >= 3 ? smoothLine(pts) : "";
+      }).join(" ")).join(" ");
+    }
+
+    const visibleFeats = feats.filter(f => {
+      const [[lo0, la0], [lo1, la1]] = d3.geoBounds(f);
+      return lo0 <= CROP[2] + 5 && lo1 >= CROP[0] - 5 && la0 <= CROP[3] + 5 && la1 >= CROP[1] - 5;
+    });
+    svg.append("g")
+      .selectAll("path")
+      .data(visibleFeats)
+      .join("path")
+      .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
+      .attr("d", smoothLandPath);
+
+    const ringPts = KASHMIR_RING.map(pt => projection(pt)).filter(Boolean);
+    svg.append("path")
+      .attr("d", smoothLine(ringPts))
+      .attr("fill", regionFill)
+      .attr("stroke", regionStroke)
+      .attr("stroke-width", 1.1)
+      .attr("stroke-linecap", "round")
+      .attr("stroke-dasharray", regionDash || null);
+  }
+
+  drawPanel("#map-india", 220, 210, "var(--india-soft)", "var(--india)", null);
+  drawPanel("#map-pakistan", 220, 210, "var(--land)", "var(--ink-soft)", "0.6,2.6");
+  drawPanel("#map-global", 220, 210, "var(--land)", "var(--ink-soft)", "4,2");
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#maps-wrap", title: "The world's most militarized border looks different depending whose map you open", filename: "hanten-kashmir.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

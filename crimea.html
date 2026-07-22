@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Crimea looks different depending whose map you open</title>
+<meta name="description" content="Russian maps show Crimea fully integrated, no different from any other region. Ukrainian maps show no border there at all. Most of the world draws it with a dashed, disputed line.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/crimea.html">
+<meta property="og:title" content="Hanten — Crimea looks different depending whose map you open">
+<meta property="og:description" content="Russian maps show Crimea fully integrated, no different from any other region. Ukrainian maps show no border there at all. Most of the world draws it with a dashed, disputed line.">
+<meta property="og:image" content="https://hanten.app/data/og/crimea.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — Crimea looks different depending whose map you open">
+<meta name="twitter:description" content="Russian maps show Crimea fully integrated, no different from any other region. Ukrainian maps show no border there at all. Most of the world draws it with a dashed, disputed line.">
+<meta name="twitter:image" content="https://hanten.app/data/og/crimea.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --land: #d6dbd0;
+    --land-line: #b9c0b2;
+    --ocean: #cde3ee;
+    --russia: #a13d3d;
+    --russia-soft: #ddb9b9;
+    --ukraine: #3b6ea3;
+    --ukraine-soft: #b7c9dc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 940px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  header .wordmark:hover { color: var(--accent); }
+  main { max-width: 940px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 66ch; }
+
+  #maps-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.2rem 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .mini-map-col { flex: 1 1 180px; max-width: 240px; text-align: center; }
+  .mini-map { width: 100%; height: auto; display: block; border: 1px solid var(--line); background: var(--paper); }
+  .mini-map-label {
+    margin-top: 0.6rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+  }
+  .ocean { fill: var(--ocean); stroke: var(--line); stroke-width: 0.7; }
+  .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.5; }
+  .land-russia { fill: var(--russia-soft); stroke: var(--russia); stroke-width: 0.6; }
+  .land-ukraine { fill: var(--ukraine-soft); stroke: var(--ukraine); stroke-width: 0.6; }
+
+  .names-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.4rem;
+  }
+  .name-card {
+    flex: 1;
+    min-width: 220px;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--card-color, var(--accent));
+    padding: 1.1rem 1.2rem;
+  }
+  .name-card .who {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-bottom: 0.4rem;
+  }
+  .name-card h2 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem;
+  }
+  .name-card p { font-size: 0.88rem; color: var(--ink-soft); margin: 0; }
+
+  .caption {
+    margin-top: 1.6rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>The same peninsula looks different depending whose map you open</h1>
+  <p class="sub">Crimea has been administered by Russia since a 2014 annexation that most of the world doesn't recognize. Open a map of the region, and which country you're browsing from quietly decides what you see.</p>
+  <div id="save-image-slot"></div>
+
+  <div id="maps-wrap">
+    <div class="mini-map-col">
+      <svg class="mini-map" id="map-russia" viewBox="0 0 210 190"></svg>
+      <div class="mini-map-label">As shown in Russia</div>
+    </div>
+    <div class="mini-map-col">
+      <svg class="mini-map" id="map-ukraine" viewBox="0 0 210 190"></svg>
+      <div class="mini-map-label">As shown in Ukraine</div>
+    </div>
+    <div class="mini-map-col">
+      <svg class="mini-map" id="map-global" viewBox="0 0 210 190"></svg>
+      <div class="mini-map-label">Viewed globally</div>
+    </div>
+  </div>
+
+  <div class="names-row">
+    <div class="name-card" style="--card-color: var(--russia)">
+      <div class="who">🇷🇺 Viewed in Russia</div>
+      <h2>Fully integrated</h2>
+      <p>Russian government maps show Crimea with the same solid, ordinary border as any other Russian region — nothing marks it as different or contested.</p>
+    </div>
+    <div class="name-card" style="--card-color: var(--ukraine)">
+      <div class="who">🇺🇦 Viewed in Ukraine</div>
+      <h2>No border at all</h2>
+      <p>Ukrainian maps draw no line separating Crimea from the rest of the country — it's simply Ukraine, the same as any other oblast, occupied or not.</p>
+    </div>
+    <div class="name-card" style="--card-color: var(--ink-soft)">
+      <div class="who">🌍 Viewed globally</div>
+      <h2>Encircled, dashed</h2>
+      <p>Most international map providers draw Crimea with a distinct dashed border — acknowledging Russia's on-the-ground control since 2014 without endorsing the annexation.</p>
+    </div>
+  </div>
+
+  <div class="caption">
+    <p><strong>Russia annexed Crimea in March 2014</strong>, days after Russian forces took control of the peninsula and a disputed referendum was held under military occupation. The UN General Assembly responded with Resolution 68/262, affirming Ukraine's territorial integrity within its internationally recognized borders, including Crimea — and the vast majority of the world's governments still do not recognize the annexation as legitimate.</p>
+    <p>In practice, that leaves cartographers picking a side just by drawing a line. Russian state maps show no distinction at all. Ukrainian maps show no distinction either, just the opposite direction. Everyone else tends to split the difference with a dashed or dotted boundary — the standard cartographic signal for "administered by one party, claimed by another."</p>
+    <p class="source">Sources: UN General Assembly Resolution 68/262 (2014); Russian Federal State Statistics Service regional listings; Ukrainian State Geocadastre. Country shapes: Natural Earth. Crimea boundary: geoBoundaries (Ukraine ADM1, "Autonomous Republic of Crimea" + "Sevastopol", dissolved and simplified).</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  const feats = COUNTRIES_GEOJSON.features;
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    return {
+      type: "Feature",
+      geometry: { type: "Polygon", coordinates: [[[lon0, lat0], [lon0, lat1], [lon1, lat1], [lon1, lat0], [lon0, lat0]]] },
+    };
+  }
+
+  // Crimea's own outline isn't in the country-level dataset above (it's a
+  // sub-national region), so it's traced separately: district-level India-
+  // style admin data doesn't apply here — this one comes from geoBoundaries'
+  // Ukraine ADM1 set (Autonomous Republic of Crimea + Sevastopol, dissolved
+  // into one shape and simplified to roughly match this dataset's coarseness).
+  const CRIMEA_RING = [[33.618,44.21],[33.295,44.335],[33.11,44.506],[33.106,44.645],[33.246,44.763],[33.295,44.941],[33.011,45.015],[32.831,45.151],[32.572,45.118],[32.362,45.171],[32.263,45.238],[32.203,45.425],[32.309,45.586],[32.773,45.827],[33.541,46.012],[33.591,46.061],[33.572,46.103],[33.641,46.142],[33.615,46.226],[33.646,46.23],[33.74,46.185],[33.849,46.2],[34.184,46.067],[34.34,46.058],[34.476,45.944],[34.561,45.994],[34.629,45.986],[34.802,45.901],[34.799,45.81],[34.96,45.757],[35.233,45.792],[35.575,45.49],[35.65,45.593],[35.785,45.643],[35.982,45.617],[36.339,45.672],[36.668,45.627],[36.664,45.36],[36.53,45.199],[36.61,44.941],[36.543,44.891],[36.256,44.822],[35.86,44.793],[35.632,44.849],[35.177,44.597],[34.736,44.585],[34.541,44.395],[34.238,44.232],[33.951,44.185],[33.618,44.21]];
+
+  const LAND_CLASS = { Russia: "land-russia", Ukraine: "land-ukraine" };
+  const CROP = [29.5, 43.0, 40.5, 48.0];
+  const smoothLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
+
+  // One shared drawing routine, called once per panel below with a
+  // different treatment for the Crimea overlay each time — that overlay
+  // (fill + stroke style) is the entire point of this page.
+  function drawPanel(svgId, width, height, regionFill, regionStroke, regionDash) {
+    const svg = d3.select(svgId).attr("viewBox", `0 0 ${width} ${height}`);
+    const projection = d3.geoMercator().fitSize([width, height], bboxFeature(...CROP));
+    const path = d3.geoPath(projection);
+
+    svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+
+    function smoothLandPath(feature) {
+      const geom = feature.geometry;
+      if (!geom) return "";
+      const polys = geom.type === "MultiPolygon" ? geom.coordinates : [geom.coordinates];
+      return polys.map(poly => poly.map(ring => {
+        const pts = ring.map(pt => projection(pt)).filter(Boolean);
+        return pts.length >= 3 ? smoothLine(pts) : "";
+      }).join(" ")).join(" ");
+    }
+
+    const visibleFeats = feats.filter(f => {
+      const [[lo0, la0], [lo1, la1]] = d3.geoBounds(f);
+      return lo0 <= CROP[2] + 5 && lo1 >= CROP[0] - 5 && la0 <= CROP[3] + 5 && la1 >= CROP[1] - 5;
+    });
+    svg.append("g")
+      .selectAll("path")
+      .data(visibleFeats)
+      .join("path")
+      .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
+      .attr("d", smoothLandPath);
+
+    const ringPts = CRIMEA_RING.map(pt => projection(pt)).filter(Boolean);
+    svg.append("path")
+      .attr("d", smoothLine(ringPts))
+      .attr("fill", regionFill)
+      .attr("stroke", regionStroke)
+      .attr("stroke-width", regionStroke === "none" ? 0 : 1.1)
+      .attr("stroke-dasharray", regionDash || null);
+  }
+
+  drawPanel("#map-russia", 210, 190, "var(--russia-soft)", "var(--russia)", null);
+  drawPanel("#map-ukraine", 210, 190, "var(--ukraine-soft)", "none", null);
+  drawPanel("#map-global", 210, 190, "var(--land)", "var(--ink-soft)", "3,2");
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#maps-wrap", title: "The same peninsula looks different depending whose map you open", filename: "hanten-crimea.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

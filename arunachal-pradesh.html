@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Arunachal Pradesh, or "South Tibet"?</title>
+<meta name="description" content="India maps it as an ordinary state. China maps it as Chinese territory and calls it South Tibet. Most of the world shows it Indian-administered, with a disputed dashed border.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/arunachal-pradesh.html">
+<meta property="og:title" content="Hanten — Arunachal Pradesh, or &quot;South Tibet&quot;?">
+<meta property="og:description" content="India maps it as an ordinary state. China maps it as Chinese territory and calls it South Tibet. Most of the world shows it Indian-administered, with a disputed dashed border.">
+<meta property="og:image" content="https://hanten.app/data/og/arunachal-pradesh.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — Arunachal Pradesh, or &quot;South Tibet&quot;?">
+<meta name="twitter:description" content="India maps it as an ordinary state. China maps it as Chinese territory and calls it South Tibet. Most of the world shows it Indian-administered, with a disputed dashed border.">
+<meta name="twitter:image" content="https://hanten.app/data/og/arunachal-pradesh.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --land: #d6dbd0;
+    --land-line: #b9c0b2;
+    --ocean: #cde3ee;
+    --india: #c9862c;
+    --india-soft: #e8d0a4;
+    --china: #b0392f;
+    --china-soft: #e3b3ab;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 940px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  header .wordmark:hover { color: var(--accent); }
+  main { max-width: 940px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 66ch; }
+
+  #maps-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.2rem 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .mini-map-col { flex: 1 1 180px; max-width: 240px; text-align: center; }
+  .mini-map { width: 100%; height: auto; display: block; border: 1px solid var(--line); background: var(--paper); }
+  .mini-map-label {
+    margin-top: 0.6rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+  }
+  .ocean { fill: var(--ocean); stroke: var(--line); stroke-width: 0.7; }
+  .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.5; }
+  .land-india { fill: var(--india-soft); stroke: var(--india); stroke-width: 0.6; }
+  .land-china { fill: var(--china-soft); stroke: var(--china); stroke-width: 0.6; }
+
+  .names-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.4rem;
+  }
+  .name-card {
+    flex: 1;
+    min-width: 220px;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--card-color, var(--accent));
+    padding: 1.1rem 1.2rem;
+  }
+  .name-card .who {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-bottom: 0.4rem;
+  }
+  .name-card h2 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem;
+  }
+  .name-card p { font-size: 0.88rem; color: var(--ink-soft); margin: 0; }
+
+  .caption {
+    margin-top: 1.6rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>India's easternmost state doesn't exist on Chinese maps — it's "South Tibet" instead</h1>
+  <p class="sub">Arunachal Pradesh has been an Indian state for decades, governed, populated, and administered like any other. China's government maps show it anyway — just not as Indian.</p>
+  <div id="save-image-slot"></div>
+
+  <div id="maps-wrap">
+    <div class="mini-map-col">
+      <svg class="mini-map" id="map-india" viewBox="0 0 220 200"></svg>
+      <div class="mini-map-label">As shown in India</div>
+    </div>
+    <div class="mini-map-col">
+      <svg class="mini-map" id="map-china" viewBox="0 0 220 200"></svg>
+      <div class="mini-map-label">As shown in China</div>
+    </div>
+    <div class="mini-map-col">
+      <svg class="mini-map" id="map-global" viewBox="0 0 220 200"></svg>
+      <div class="mini-map-label">Viewed globally</div>
+    </div>
+  </div>
+
+  <div class="names-row">
+    <div class="name-card" style="--card-color: var(--india)">
+      <div class="who">🇮🇳 Viewed in India</div>
+      <h2>An ordinary state</h2>
+      <p>Indian maps show Arunachal Pradesh exactly like any of its other 27 states — a plain internal boundary, nothing to suggest the territory is contested at all.</p>
+    </div>
+    <div class="name-card" style="--card-color: var(--china)">
+      <div class="who">🇨🇳 Viewed in China</div>
+      <h2>"South Tibet"</h2>
+      <p>Chinese government maps show the same area as Chinese territory — "Zangnan," or South Tibet — folded into China with the same solid border as any other province, to comply with domestic mapping law.</p>
+    </div>
+    <div class="name-card" style="--card-color: var(--ink-soft)">
+      <div class="who">🌍 Viewed globally</div>
+      <h2>Dashed, disputed</h2>
+      <p>Most international maps show the area under Indian administration, but mark the boundary with China as disputed — a dashed line rather than a settled international border.</p>
+    </div>
+  </div>
+
+  <div class="caption">
+    <p><strong>The boundary in question is the McMahon Line</strong>, drawn in 1914 at the Simla Convention between British India and Tibet. China has never accepted it, arguing Tibet had no authority to sign away Chinese territory — and has claimed most of Arunachal Pradesh as South Tibet ever since. The dispute turned into a war in 1962, when Chinese forces briefly occupied much of the state before withdrawing back behind the McMahon Line, where the de facto boundary has remained since.</p>
+    <p>China's official maps have gone further over time, not just disputing the border but renaming Arunachal Pradesh's towns and geographic features in Chinese, part of a standardization campaign it has repeated periodically since 2017.</p>
+    <p class="source">Sources: 1914 Simla Convention records; Indian Ministry of External Affairs statements; Chinese Ministry of Civil Affairs standardized place-name announcements. Country shapes: Natural Earth. Arunachal Pradesh boundary: dissolved from India state/district boundaries (india-maps-data, GADM-derived), simplified.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="data/countries.js"></script>
+<script>
+  const feats = COUNTRIES_GEOJSON.features;
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    return {
+      type: "Feature",
+      geometry: { type: "Polygon", coordinates: [[[lon0, lat0], [lon0, lat1], [lon1, lat1], [lon1, lat0], [lon0, lat0]]] },
+    };
+  }
+
+  // Not in the country-level dataset above (it's a sub-national region) —
+  // dissolved from Indian state/district boundaries and simplified to
+  // roughly this dataset's coarseness.
+  const ARUNACHAL_RING = [[93.088,26.914],[92.672,27.032],[92.598,26.966],[92.108,26.893],[92.024,27.162],[92.041,27.266],[92.121,27.287],[92.014,27.49],[91.655,27.483],[91.56,27.633],[91.642,27.765],[91.546,27.856],[91.827,27.81],[91.92,27.715],[92.202,27.857],[92.309,27.779],[92.562,27.821],[92.741,27.989],[92.663,28.067],[92.689,28.126],[93.224,28.342],[93.183,28.432],[93.339,28.64],[93.846,28.707],[93.921,28.67],[94.217,29.084],[94.434,29.227],[94.561,29.229],[94.631,29.348],[94.8,29.164],[95.025,29.129],[95.0,29.172],[95.455,29.035],[95.6,29.261],[96.089,29.46],[96.244,29.233],[96.393,29.254],[96.347,29.168],[96.115,29.075],[96.185,28.985],[96.166,28.902],[96.525,29.076],[96.477,28.99],[96.614,28.76],[96.472,28.684],[96.493,28.633],[96.325,28.53],[96.371,28.482],[96.262,28.409],[96.398,28.339],[96.457,28.414],[96.663,28.46],[96.994,28.309],[97.09,28.363],[97.397,28.185],[97.304,28.069],[97.411,28.015],[97.385,27.888],[97.253,27.901],[97.088,27.734],[96.861,27.631],[96.935,27.508],[96.903,27.453],[97.164,27.142],[97.138,27.092],[96.86,27.19],[96.885,27.259],[96.704,27.372],[96.524,27.286],[96.228,27.279],[96.022,27.179],[95.946,27.051],[95.802,27.015],[95.745,26.896],[95.667,26.903],[95.608,26.813],[95.496,26.818],[95.427,26.698],[95.259,26.656],[95.181,26.856],[95.232,26.903],[95.196,27.035],[95.453,27.129],[95.509,27.262],[95.892,27.255],[96.015,27.368],[95.941,27.437],[95.845,27.422],[95.874,27.544],[95.78,27.621],[95.755,27.725],[95.972,27.963],[95.82,27.971],[95.137,27.816],[94.462,27.555],[94.237,27.633],[94.266,27.52],[93.806,27.149],[93.829,27.067],[93.665,26.969],[93.088,26.914]];
+
+  const LAND_CLASS = { India: "land-india", China: "land-china" };
+  const CROP = [89, 25, 99, 31];
+  const smoothLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
+
+  // One shared drawing routine, called once per panel below with a
+  // different treatment for the Arunachal Pradesh overlay each time —
+  // that overlay (fill + stroke style) is the entire point of this page.
+  function drawPanel(svgId, width, height, regionFill, regionStroke, regionDash) {
+    const svg = d3.select(svgId).attr("viewBox", `0 0 ${width} ${height}`);
+    const projection = d3.geoMercator().fitSize([width, height], bboxFeature(...CROP));
+    const path = d3.geoPath(projection);
+
+    svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+
+    function smoothLandPath(feature) {
+      const geom = feature.geometry;
+      if (!geom) return "";
+      const polys = geom.type === "MultiPolygon" ? geom.coordinates : [geom.coordinates];
+      return polys.map(poly => poly.map(ring => {
+        const pts = ring.map(pt => projection(pt)).filter(Boolean);
+        return pts.length >= 3 ? smoothLine(pts) : "";
+      }).join(" ")).join(" ");
+    }
+
+    const visibleFeats = feats.filter(f => {
+      const [[lo0, la0], [lo1, la1]] = d3.geoBounds(f);
+      return lo0 <= CROP[2] + 5 && lo1 >= CROP[0] - 5 && la0 <= CROP[3] + 5 && la1 >= CROP[1] - 5;
+    });
+    svg.append("g")
+      .selectAll("path")
+      .data(visibleFeats)
+      .join("path")
+      .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
+      .attr("d", smoothLandPath);
+
+    const ringPts = ARUNACHAL_RING.map(pt => projection(pt)).filter(Boolean);
+    svg.append("path")
+      .attr("d", smoothLine(ringPts))
+      .attr("fill", regionFill)
+      .attr("stroke", regionStroke)
+      .attr("stroke-width", 1.1)
+      .attr("stroke-dasharray", regionDash || null);
+  }
+
+  drawPanel("#map-india", 220, 200, "var(--india-soft)", "var(--india)", null);
+  drawPanel("#map-china", 220, 200, "var(--china-soft)", "var(--china)", null);
+  drawPanel("#map-global", 220, 200, "var(--land)", "var(--ink-soft)", "4,2");
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#maps-wrap", title: "India's easternmost state doesn't exist on Chinese maps — it's \"South Tibet\" instead", filename: "hanten-arunachal-pradesh.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
