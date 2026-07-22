@@ -29,7 +29,7 @@
     --land-line: #b9c0b2;
     --ocean: #cde3ee;
     --russia: #a13d3d;
-    --russia-soft: #ddb9b9;
+    --russia-soft: #e3a49c;
     --ukraine: #3b6ea3;
     --ukraine-soft: #b7c9dc;
   }
@@ -86,9 +86,19 @@
   .land-ukraine { fill: var(--ukraine-soft); stroke: var(--ukraine); stroke-width: 0.6; }
   .country-label {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
     text-anchor: middle;
+    fill: var(--ink);
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 2px;
+  }
+  .city-dot { fill: var(--ink); stroke: #fff; stroke-width: 0.8; }
+  .city-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 7px;
+    font-weight: 700;
     fill: var(--ink);
     paint-order: stroke;
     stroke: #fff;
@@ -216,14 +226,24 @@
   const CRIMEA_RING = [[33.618,44.21],[33.295,44.335],[33.11,44.506],[33.106,44.645],[33.246,44.763],[33.295,44.941],[33.011,45.015],[32.831,45.151],[32.572,45.118],[32.362,45.171],[32.263,45.238],[32.203,45.425],[32.309,45.586],[32.773,45.827],[33.541,46.012],[33.591,46.061],[33.572,46.103],[33.641,46.142],[33.615,46.226],[33.646,46.23],[33.74,46.185],[33.849,46.2],[34.184,46.067],[34.34,46.058],[34.476,45.944],[34.561,45.994],[34.629,45.986],[34.802,45.901],[34.799,45.81],[34.96,45.757],[35.233,45.792],[35.575,45.49],[35.65,45.593],[35.785,45.643],[35.982,45.617],[36.339,45.672],[36.668,45.627],[36.664,45.36],[36.53,45.199],[36.61,44.941],[36.543,44.891],[36.256,44.822],[35.86,44.793],[35.632,44.849],[35.177,44.597],[34.736,44.585],[34.541,44.395],[34.238,44.232],[33.951,44.185],[33.618,44.21]];
 
   const LAND_CLASS = { Russia: "land-russia", Ukraine: "land-ukraine" };
-  const CROP = [29.5, 43.0, 40.5, 48.0];
+  // Zoomed out a bit further east so mainland Russia reads as a real
+  // landmass rather than a thin sliver of coastline easy to mistake for
+  // open water.
+  const CROP = [27, 42, 42.5, 49.5];
   const smoothLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
 
   // Checked against the real country polygons (not eyeballed) to make
-  // sure each label lands inside its own country's shape at this crop.
+  // sure each label lands inside its own country's shape at this crop —
+  // and, since this dataset's own "Russia" polygon already includes
+  // Crimea, also checked against the CRIMEA_RING below so the RUSSIA
+  // label doesn't end up sitting on the peninsula itself.
   const COUNTRY_LABELS = [
-    { name: "UKRAINE", lon: 32.64, lat: 48.06 },
-    { name: "RUSSIA", lon: 38.93, lat: 45.19 },
+    { name: "UKRAINE", lon: 33.64, lat: 49.49 },
+    { name: "RUSSIA", lon: 40.73, lat: 47.03 },
+  ];
+  const CITIES = [
+    { name: "Sevastopol", lon: 33.53, lat: 44.6, dx: -4, dy: 9, anchor: "end" },
+    { name: "Kerch", lon: 36.47, lat: 45.35, dx: -6, dy: 3, anchor: "end" },
   ];
 
   // One shared drawing routine, called once per panel below with a
@@ -269,6 +289,16 @@
       .attr("stroke", regionStroke)
       .attr("stroke-width", regionStroke === "none" ? 0 : 1.1)
       .attr("stroke-dasharray", regionDash || null);
+
+    CITIES.forEach(c => {
+      const [x, y] = projection([c.lon, c.lat]);
+      svg.append("circle").attr("class", "city-dot").attr("cx", x).attr("cy", y).attr("r", 1.8);
+      svg.append("text")
+        .attr("class", "city-label")
+        .attr("x", x + c.dx).attr("y", y + c.dy)
+        .attr("text-anchor", c.anchor)
+        .text(c.name);
+    });
   }
 
   drawPanel("#map-russia", 210, 190, "var(--russia-soft)", "var(--russia)", null);
