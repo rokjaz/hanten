@@ -88,6 +88,25 @@
     stroke: #fff;
     stroke-width: 3px;
   }
+  .water-label {
+    font-family: ui-serif, Georgia, serif;
+    font-weight: 600;
+    font-style: italic;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+  }
+  .water-caveat {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-anchor: middle;
+    fill: var(--ink-soft);
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+  }
   .inset-box { fill: var(--paper-raised); stroke: var(--line); stroke-width: 1; }
   .inset-land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.3; }
   .inset-marker { fill: var(--china); stroke: #fff; stroke-width: 1; }
@@ -266,6 +285,36 @@
   // is their real coordinate (Uotsuri-jima, the largest islet), marked as
   // a point rather than a shaded landmass.
   drawSplitMarker(123.48, 25.74, 20, ["var(--japan)", "var(--china)", "var(--taiwan)"]);
+
+  (function() {
+    const [x, y] = projection([123.48, 25.74]);
+    const r = 20;
+    svg.append("text")
+      .attr("class", "water-label")
+      .attr("x", x).attr("y", y - r - 10)
+      .attr("text-anchor", "middle")
+      .style("font-size", "14px")
+      .style("fill", "var(--japan)")
+      .text("Senkaku Islands");
+    svg.append("text")
+      .attr("class", "water-label")
+      .attr("x", x - 14).attr("y", y + r + 18)
+      .attr("text-anchor", "end")
+      .style("font-size", "14px")
+      .style("fill", "var(--china)")
+      .text("Diaoyu Islands");
+    svg.append("text")
+      .attr("class", "water-label")
+      .attr("x", x + 14).attr("y", y + r + 18)
+      .attr("text-anchor", "start")
+      .style("font-size", "14px")
+      .style("fill", "var(--taiwan)")
+      .text("Diaoyutai Islands");
+    svg.append("text")
+      .attr("class", "water-caveat")
+      .attr("x", x).attr("y", y + r + 36)
+      .text("three names, one island group — disputed");
+  })();
 
   // World-context inset — where this whole crop sits on the globe, since
   // the main map is zoomed in far enough that it's easy to lose that.

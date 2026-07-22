@@ -83,6 +83,26 @@
   }
   .marker-wedge { stroke: #fff; stroke-width: 1.5; }
   .marker-ring { fill: none; stroke: #fff; stroke-width: 2; }
+  .water-label {
+    font-family: ui-serif, Georgia, serif;
+    font-weight: 600;
+    font-style: italic;
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+  }
+  .water-caveat {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-anchor: middle;
+    fill: var(--ink-soft);
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 3px;
+  }
 
   .names-row {
     display: flex;
@@ -240,6 +260,27 @@
   }
 
   drawSplitMarker(51.3, 26.6, 24, ["var(--iran)", "var(--arab)"]);
+
+  (function() {
+    const [x, y] = projection([51.3, 26.6]);
+    const r = 24;
+    svg.append("text")
+      .attr("class", "water-label")
+      .attr("x", x).attr("y", y - r - 10)
+      .style("font-size", "15px")
+      .style("fill", "var(--iran)")
+      .text("Persian Gulf");
+    svg.append("text")
+      .attr("class", "water-label")
+      .attr("x", x).attr("y", y + r + 20)
+      .style("font-size", "15px")
+      .style("fill", "var(--arab)")
+      .text("Arabian Gulf");
+    svg.append("text")
+      .attr("class", "water-caveat")
+      .attr("x", x).attr("y", y + r + 36)
+      .text("two names, one gulf — disputed");
+  })();
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
