@@ -285,25 +285,28 @@
   drawSplitMarker(-7.309, 54.997, 12, ["var(--londonderry)", "var(--derry)"]);
   (function() {
     // Coleraine's label sits above-right and Strabane's sits below-left
-    // of this marker, so these point straight right (the one direction
-    // clear of both) rather than the default up-right offset.
+    // of this marker, so these point right — but Lough Neagh's shore
+    // cuts into that side too, close enough that the straight-across
+    // offset used here before actually crossed it. Pushed down and
+    // shrunk slightly to clear both the lough and Strabane's label.
     const [x, y] = projection([-7.309, 54.997]);
     svg.append("text")
       .attr("class", "water-label")
-      .attr("x", x + 20).attr("y", y - 6)
-      .style("font-size", "14px")
+      .attr("x", x + 14).attr("y", y + 30)
+      .style("font-size", "11px")
       .style("fill", "var(--londonderry)")
       .text("Londonderry");
     svg.append("text")
       .attr("class", "water-label")
-      .attr("x", x + 20).attr("y", y + 10)
-      .style("font-size", "14px")
+      .attr("x", x + 14).attr("y", y + 46)
+      .style("font-size", "11px")
       .style("fill", "var(--derry)")
       .text("Derry");
     svg.append("text")
       .attr("class", "water-caveat")
-      .attr("x", x + 20).attr("y", y + 24)
-      .text("two names, one city — disputed");
+      .attr("x", x + 14).attr("y", y + 60)
+      .style("font-size", "10px")
+      .text("disputed name");
   })();
 </script>
 

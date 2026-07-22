@@ -289,9 +289,11 @@
       .style("font-size", "14px")
       .style("fill", "var(--everest)")
       .text("Everest");
+    // India's border cuts into the frame's SE corner close enough that
+    // this centered caveat ran into it — shifted left to stay clear.
     svg.append("text")
       .attr("class", "water-caveat")
-      .attr("x", x).attr("y", y + r + 36)
+      .attr("x", x - 20).attr("y", y + r + 36)
       .text("three names, one peak — disputed");
   })();
 </script>

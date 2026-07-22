@@ -264,21 +264,24 @@
   (function() {
     const [x, y] = projection([51.3, 26.6]);
     const r = 24;
+    // The gulf is narrow here — Qatar's peninsula juts north almost right
+    // under the marker, so the second name/caveat are shifted east into
+    // open water past it rather than sitting directly below.
     svg.append("text")
       .attr("class", "water-label")
-      .attr("x", x).attr("y", y - r - 10)
+      .attr("x", x - 20).attr("y", y - 34)
       .style("font-size", "15px")
       .style("fill", "var(--iran)")
       .text("Persian Gulf");
     svg.append("text")
       .attr("class", "water-label")
-      .attr("x", x).attr("y", y + r + 20)
+      .attr("x", x + 110).attr("y", y + 34)
       .style("font-size", "15px")
       .style("fill", "var(--arab)")
       .text("Arabian Gulf");
     svg.append("text")
       .attr("class", "water-caveat")
-      .attr("x", x).attr("y", y + r + 36)
+      .attr("x", x + 110).attr("y", y + 50)
       .text("two names, one gulf — disputed");
   })();
 </script>

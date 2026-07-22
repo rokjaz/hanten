@@ -296,23 +296,26 @@
       .style("font-size", "14px")
       .style("fill", "var(--japan)")
       .text("Senkaku Islands");
+    // Taiwan's coastline curves close enough to the southwest of this
+    // marker that the original lower offset ran the "Diaoyu Islands"
+    // label into it — pulled up closer to the marker to stay clear.
     svg.append("text")
       .attr("class", "water-label")
-      .attr("x", x - 14).attr("y", y + r + 18)
+      .attr("x", x - 14).attr("y", y + r + 6)
       .attr("text-anchor", "end")
       .style("font-size", "14px")
       .style("fill", "var(--china)")
       .text("Diaoyu Islands");
     svg.append("text")
       .attr("class", "water-label")
-      .attr("x", x + 14).attr("y", y + r + 18)
+      .attr("x", x + 14).attr("y", y + r + 6)
       .attr("text-anchor", "start")
       .style("font-size", "14px")
       .style("fill", "var(--taiwan)")
       .text("Diaoyutai Islands");
     svg.append("text")
       .attr("class", "water-caveat")
-      .attr("x", x).attr("y", y + r + 36)
+      .attr("x", x).attr("y", y + r + 24)
       .text("three names, one island group — disputed");
   })();
 
