@@ -197,13 +197,29 @@
   svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
   svg.append("path").datum(d3.geoGraticule10()).attr("class", "graticule").attr("d", path);
 
+  // This dataset's 110m resolution has few vertices per coastline — fine
+  // zoomed out, visibly jagged zoomed in like this. Drawing a closed curve
+  // through the same projected points instead of straight segments rounds
+  // it off without needing higher-resolution source data. (Only for land —
+  // the ocean/graticule above are already mathematically smooth.)
+  const smoothLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
+  function smoothLandPath(feature) {
+    const geom = feature.geometry;
+    if (!geom) return "";
+    const polys = geom.type === "MultiPolygon" ? geom.coordinates : [geom.coordinates];
+    return polys.map(poly => poly.map(ring => {
+      const pts = ring.map(pt => projection(pt)).filter(Boolean);
+      return pts.length >= 3 ? smoothLine(pts) : "";
+    }).join(" ")).join(" ");
+  }
+
   const LAND_CLASS = { "United Kingdom": "land-uk", "Ireland": "land-ireland" };
   svg.append("g")
     .selectAll("path")
     .data(feats)
     .join("path")
     .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
-    .attr("d", path);
+    .attr("d", smoothLandPath);
 
   // Nearby cities for context — real coordinates, not the dispute itself,
   // so they're marked as plain dots rather than split markers.

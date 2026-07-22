@@ -190,13 +190,28 @@
   const projection = d3.geoMercator().fitSize([width, height], bboxFeature(122, 29, 144, 46));
   const path = d3.geoPath(projection);
 
+  // This dataset's 110m resolution has few vertices per coastline — fine
+  // zoomed out, visibly jagged zoomed in like this. Drawing a closed curve
+  // through the same projected points instead of straight segments rounds
+  // it off without needing higher-resolution source data.
+  const smoothLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
+  function smoothLandPath(feature) {
+    const geom = feature.geometry;
+    if (!geom) return "";
+    const polys = geom.type === "MultiPolygon" ? geom.coordinates : [geom.coordinates];
+    return polys.map(poly => poly.map(ring => {
+      const pts = ring.map(pt => projection(pt)).filter(Boolean);
+      return pts.length >= 3 ? smoothLine(pts) : "";
+    }).join(" ")).join(" ");
+  }
+
   const LAND_CLASS = { Japan: "land-japan", "South Korea": "land-korea", "North Korea": "land-korea" };
   svg.append("g")
     .selectAll("path")
     .data(feats)
     .join("path")
     .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
-    .attr("d", path);
+    .attr("d", smoothLandPath);
 
   const COUNTRY_LABELS = [
     { name: "JAPAN", lon: 138, lat: 36.5 },

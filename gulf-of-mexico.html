@@ -183,13 +183,28 @@
   const projection = d3.geoMercator().fitSize([width, height], bboxFeature(-99, 16, -79, 31));
   const path = d3.geoPath(projection);
 
+  // This dataset's 110m resolution has few vertices per coastline — fine
+  // zoomed out, visibly jagged zoomed in like this. Drawing a closed curve
+  // through the same projected points instead of straight segments rounds
+  // it off without needing higher-resolution source data.
+  const smoothLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
+  function smoothLandPath(feature) {
+    const geom = feature.geometry;
+    if (!geom) return "";
+    const polys = geom.type === "MultiPolygon" ? geom.coordinates : [geom.coordinates];
+    return polys.map(poly => poly.map(ring => {
+      const pts = ring.map(pt => projection(pt)).filter(Boolean);
+      return pts.length >= 3 ? smoothLine(pts) : "";
+    }).join(" ")).join(" ");
+  }
+
   const LAND_CLASS = { Mexico: "land-mexico", "United States of America": "land-america" };
   svg.append("g")
     .selectAll("path")
     .data(feats)
     .join("path")
     .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
-    .attr("d", path);
+    .attr("d", smoothLandPath);
 
   const COUNTRY_LABELS = [
     { name: "MEXICO", lon: -93, lat: 19.5 },
