@@ -27,6 +27,7 @@
     --accent-soft: rgba(14,124,134,0.14);
     --land: #d6dbd0;
     --land-line: #b9c0b2;
+    --ocean: #cde3ee;
     --iran: #6b4fa0;
     --iran-soft: #d0c3e2;
     --arab: #c98a23;
@@ -67,6 +68,7 @@
     justify-content: center;
   }
   #map { width: 100%; max-width: 600px; height: auto; display: block; }
+  .ocean { fill: var(--ocean); stroke: var(--line); stroke-width: 1; }
   .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.6; }
   .land-iran { fill: var(--iran-soft); stroke: var(--iran); stroke-width: 0.7; }
   .land-arab { fill: var(--arab-soft); stroke: var(--arab); stroke-width: 0.7; }
@@ -184,6 +186,8 @@
   const projection = d3.geoMercator().fitSize([width, height], bboxFeature(44, 21, 60, 33));
   const path = d3.geoPath(projection);
 
+  svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+
   // This dataset's 110m resolution has few vertices per coastline — fine
   // zoomed out, visibly jagged zoomed in like this. Drawing a closed curve
   // through the same projected points instead of straight segments rounds
@@ -210,7 +214,7 @@
   const COUNTRY_LABELS = [
     { name: "IRAN", lon: 53.5, lat: 30 },
     { name: "SAUDI ARABIA", lon: 45, lat: 24.5 },
-    { name: "UAE", lon: 54.3, lat: 23.9 },
+    { name: "UAE", lon: 55.4, lat: 24 },
   ];
   COUNTRY_LABELS.forEach(l => {
     const [x, y] = projection([l.lon, l.lat]);

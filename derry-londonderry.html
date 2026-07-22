@@ -27,7 +27,7 @@
     --accent-soft: rgba(14,124,134,0.14);
     --land: #d6dbd0;
     --land-line: #b9c0b2;
-    --ocean: #d7e3e0;
+    --ocean: #cde3ee;
     --graticule: rgba(28,39,51,0.10);
     --uk-fill: #b7c9dc;
     --uk-line: #5f83a8;
@@ -191,7 +191,7 @@
   // Belfast, and a bit of Scotland for context — rather than the whole of
   // Ireland and Great Britain, so the coastline detail this dataset does
   // have is actually visible instead of shrunk to a sliver.
-  const projection = d3.geoMercator().fitSize([width, height], bboxFeature(-9.0, 53.1, -5.0, 55.6));
+  const projection = d3.geoMercator().fitSize([width, height], bboxFeature(-9.6, 52.6, -4.5, 56.0));
   const path = d3.geoPath(projection);
 
   svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
@@ -222,17 +222,26 @@
     .attr("d", smoothLandPath);
 
   // Nearby cities for context — real coordinates, not the dispute itself,
-  // so they're marked as plain dots rather than split markers.
+  // so they're marked as plain dots rather than split markers. Coleraine
+  // and Strabane both sit close to Derry/Londonderry on the map, so each
+  // city's label is pointed in its own direction (dx/dy/anchor) rather
+  // than defaulting to "right of the dot" for all of them, which is what
+  // was causing them to run into each other.
   const CITIES = [
-    { name: "Belfast", lon: -5.9301, lat: 54.5973 },
-    { name: "Dublin", lon: -6.2603, lat: 53.3498 },
-    { name: "Coleraine", lon: -6.6672, lat: 55.1322 },
-    { name: "Strabane", lon: -7.4578, lat: 54.8271 },
+    { name: "Belfast", lon: -5.9301, lat: 54.5973, dx: 8, dy: 4, anchor: "start" },
+    { name: "Dublin", lon: -6.2603, lat: 53.3498, dx: 8, dy: 4, anchor: "start" },
+    { name: "Coleraine", lon: -6.6672, lat: 55.1322, dx: 8, dy: -8, anchor: "start" },
+    { name: "Strabane", lon: -7.4578, lat: 54.8271, dx: -8, dy: 4, anchor: "end" },
   ];
   CITIES.forEach(c => {
     const [x, y] = projection([c.lon, c.lat]);
     svg.append("circle").attr("class", "city-dot").attr("cx", x).attr("cy", y).attr("r", 3.5);
-    svg.append("text").attr("class", "city-label").attr("x", x + 8).attr("y", y + 4).text(c.name);
+    svg.append("text")
+      .attr("class", "city-label")
+      .attr("x", x + c.dx)
+      .attr("y", y + c.dy)
+      .attr("text-anchor", c.anchor)
+      .text(c.name);
   });
 
   function drawSplitMarker(lon, lat, r, colors) {
@@ -255,8 +264,11 @@
 
   drawSplitMarker(-7.309, 54.997, 12, ["var(--londonderry)", "var(--derry)"]);
   (function() {
+    // Coleraine's label sits above-right and Strabane's sits below-left
+    // of this marker, so this one points straight right (the one
+    // direction clear of both) rather than the default up-right offset.
     const [x, y] = projection([-7.309, 54.997]);
-    svg.append("text").attr("class", "city-label").attr("x", x + 16).attr("y", y - 10).text("Derry / Londonderry");
+    svg.append("text").attr("class", "city-label").attr("x", x + 20).attr("y", y + 4).text("Derry / Londonderry");
   })();
 </script>
 
