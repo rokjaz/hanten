@@ -84,6 +84,16 @@
   .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.5; }
   .land-russia { fill: var(--russia-soft); stroke: var(--russia); stroke-width: 0.6; }
   .land-ukraine { fill: var(--ukraine-soft); stroke: var(--ukraine); stroke-width: 0.6; }
+  .country-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 9px;
+    font-weight: 700;
+    text-anchor: middle;
+    fill: var(--ink);
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 2px;
+  }
 
   .names-row {
     display: flex;
@@ -209,6 +219,13 @@
   const CROP = [29.5, 43.0, 40.5, 48.0];
   const smoothLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
 
+  // Checked against the real country polygons (not eyeballed) to make
+  // sure each label lands inside its own country's shape at this crop.
+  const COUNTRY_LABELS = [
+    { name: "UKRAINE", lon: 32.64, lat: 48.06 },
+    { name: "RUSSIA", lon: 38.93, lat: 45.19 },
+  ];
+
   // One shared drawing routine, called once per panel below with a
   // different treatment for the Crimea overlay each time — that overlay
   // (fill + stroke style) is the entire point of this page.
@@ -239,6 +256,11 @@
       .join("path")
       .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
       .attr("d", smoothLandPath);
+
+    COUNTRY_LABELS.forEach(l => {
+      const [x, y] = projection([l.lon, l.lat]);
+      svg.append("text").attr("class", "country-label").attr("x", x).attr("y", y).text(l.name);
+    });
 
     const ringPts = CRIMEA_RING.map(pt => projection(pt)).filter(Boolean);
     svg.append("path")
