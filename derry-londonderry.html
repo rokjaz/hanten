@@ -76,8 +76,7 @@
   .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.6; }
   .land-uk { fill: var(--uk-fill); stroke: var(--uk-line); stroke-width: 0.7; }
   .land-ireland { fill: var(--ireland-fill); stroke: var(--ireland-line); stroke-width: 0.7; }
-  .marker-wedge { stroke: #fff; stroke-width: 1.5; }
-  .marker-ring { fill: none; stroke: #fff; stroke-width: 2; }
+  .marker-dot { stroke: #fff; stroke-width: 1.5; }
   .water-label {
     font-family: ui-serif, Georgia, serif;
     font-weight: 600;
@@ -248,10 +247,10 @@
   // than defaulting to "right of the dot" for all of them, which is what
   // was causing them to run into each other.
   const CITIES = [
-    { name: "Belfast", lon: -5.9301, lat: 54.5973, dx: 8, dy: 4, anchor: "start" },
-    { name: "Dublin", lon: -6.2603, lat: 53.3498, dx: 8, dy: 4, anchor: "start" },
+    { name: "Belfast", lon: -5.9301, lat: 54.5973, dx: -8, dy: 28, anchor: "end" },
+    { name: "Dublin", lon: -6.2603, lat: 53.3498, dx: -8, dy: -8, anchor: "end" },
     { name: "Coleraine", lon: -6.6672, lat: 55.1322, dx: 8, dy: -8, anchor: "start" },
-    { name: "Strabane", lon: -7.4578, lat: 54.8271, dx: -8, dy: 4, anchor: "end" },
+    { name: "Strabane", lon: -7.4578, lat: 54.8271, dx: -8, dy: 28, anchor: "end" },
   ];
   CITIES.forEach(c => {
     const [x, y] = projection([c.lon, c.lat]);
@@ -264,25 +263,18 @@
       .text(c.name);
   });
 
-  function drawSplitMarker(lon, lat, r, colors) {
+  // Two adjacent dots, one color per name in dispute — a pie slice reads
+  // oddly with only two names, so two-way pages use this instead.
+  function drawTwinMarker(lon, lat, r, colors) {
     const [cx, cy] = projection([lon, lat]);
+    const cr = r * 0.55;
+    const offset = cr + 2;
     const g = svg.append("g");
-    const n = colors.length;
-    colors.forEach((color, i) => {
-      const a0 = (i / n) * 2 * Math.PI - Math.PI / 2;
-      const a1 = ((i + 1) / n) * 2 * Math.PI - Math.PI / 2;
-      const x0 = cx + r * Math.cos(a0), y0 = cy + r * Math.sin(a0);
-      const x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
-      const largeArc = (a1 - a0) > Math.PI ? 1 : 0;
-      g.append("path")
-        .attr("class", "marker-wedge")
-        .attr("fill", color)
-        .attr("d", `M${cx},${cy} L${x0},${y0} A${r},${r} 0 ${largeArc} 1 ${x1},${y1} Z`);
-    });
-    g.append("circle").attr("class", "marker-ring").attr("cx", cx).attr("cy", cy).attr("r", r);
+    g.append("circle").attr("class", "marker-dot").attr("fill", colors[0]).attr("cx", cx - offset).attr("cy", cy).attr("r", cr);
+    g.append("circle").attr("class", "marker-dot").attr("fill", colors[1]).attr("cx", cx + offset).attr("cy", cy).attr("r", cr);
   }
 
-  drawSplitMarker(-7.309, 54.997, 12, ["var(--londonderry)", "var(--derry)"]);
+  drawTwinMarker(-7.309, 54.997, 12, ["var(--londonderry)", "var(--derry)"]);
   (function() {
     // Coleraine's label sits above-right and Strabane's sits below-left
     // of this marker, so these point right — but Lough Neagh's shore
@@ -292,19 +284,19 @@
     const [x, y] = projection([-7.309, 54.997]);
     svg.append("text")
       .attr("class", "water-label")
-      .attr("x", x + 14).attr("y", y + 30)
+      .attr("x", x + 18).attr("y", y + 34)
       .style("font-size", "11px")
       .style("fill", "var(--londonderry)")
       .text("Londonderry");
     svg.append("text")
       .attr("class", "water-label")
-      .attr("x", x + 14).attr("y", y + 46)
+      .attr("x", x + 18).attr("y", y + 50)
       .style("font-size", "11px")
       .style("fill", "var(--derry)")
       .text("Derry");
     svg.append("text")
       .attr("class", "water-caveat")
-      .attr("x", x + 14).attr("y", y + 60)
+      .attr("x", x + 18).attr("y", y + 64)
       .style("font-size", "10px")
       .text("disputed name");
   })();

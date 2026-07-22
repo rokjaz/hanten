@@ -81,8 +81,7 @@
     stroke: #fff;
     stroke-width: 3px;
   }
-  .marker-wedge { stroke: #fff; stroke-width: 1.5; }
-  .marker-ring { fill: none; stroke: #fff; stroke-width: 2; }
+  .marker-dot { stroke: #fff; stroke-width: 1.5; }
   .water-label {
     font-family: ui-serif, Georgia, serif;
     font-weight: 600;
@@ -246,27 +245,20 @@
     svg.append("text").attr("class", "country-label").attr("x", x).attr("y", y).text(l.name);
   });
 
-  // A pin split into wedges — one color per name in dispute — placed at
-  // the feature itself. Reused across every page in this series.
-  function drawSplitMarker(lon, lat, r, colors) {
+  // Two adjacent dots, one color per name in dispute, placed at the
+  // feature itself — a pie slice reads oddly with only two names (it
+  // just implies a 50/50 split that isn't the point), so two-way pages
+  // use this instead of the wedge marker.
+  function drawTwinMarker(lon, lat, r, colors) {
     const [cx, cy] = projection([lon, lat]);
+    const cr = r * 0.55;
+    const offset = cr + 2;
     const g = svg.append("g");
-    const n = colors.length;
-    colors.forEach((color, i) => {
-      const a0 = (i / n) * 2 * Math.PI - Math.PI / 2;
-      const a1 = ((i + 1) / n) * 2 * Math.PI - Math.PI / 2;
-      const x0 = cx + r * Math.cos(a0), y0 = cy + r * Math.sin(a0);
-      const x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
-      const largeArc = (a1 - a0) > Math.PI ? 1 : 0;
-      g.append("path")
-        .attr("class", "marker-wedge")
-        .attr("fill", color)
-        .attr("d", `M${cx},${cy} L${x0},${y0} A${r},${r} 0 ${largeArc} 1 ${x1},${y1} Z`);
-    });
-    g.append("circle").attr("class", "marker-ring").attr("cx", cx).attr("cy", cy).attr("r", r);
+    g.append("circle").attr("class", "marker-dot").attr("fill", colors[0]).attr("cx", cx - offset).attr("cy", cy).attr("r", cr);
+    g.append("circle").attr("class", "marker-dot").attr("fill", colors[1]).attr("cx", cx + offset).attr("cy", cy).attr("r", cr);
   }
 
-  drawSplitMarker(134.5, 40.2, 26, ["var(--japan)", "var(--korea)"]);
+  drawTwinMarker(134.5, 40.2, 26, ["var(--japan)", "var(--korea)"]);
 
   (function() {
     const [x, y] = projection([134.5, 40.2]);
