@@ -108,7 +108,7 @@
     justify-content: center;
     text-align: center;
     padding: 0.2rem;
-    font-size: 0.62rem;
+    font-size: 0.7rem;
     line-height: 1.2;
     border-radius: 2px;
     min-width: 0;
@@ -122,14 +122,13 @@
     color: var(--ink-soft);
   }
   .grid-cell .rel-name { font-weight: 700; color: var(--ink); }
-  .grid-cell .rel-pct { font-family: ui-monospace, "SF Mono", Menlo, monospace; color: var(--ink-soft); margin-top: 2px; }
   .grid-axis-label {
     text-align: center;
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 0.7rem;
     font-weight: 700;
     color: var(--ink-soft);
-    margin-top: 0.6rem;
+    margin-bottom: 0.8rem;
   }
 
   .names-row {
@@ -204,8 +203,8 @@
       <div id="fan-legend" class="fan-legend"></div>
     </div>
     <div id="grid-view" class="hidden">
+      <div class="grid-axis-label">G = generations back to your shared ancestor — G1 is a parent, G2 a grandparent, G3 a great-grandparent, and so on</div>
       <div id="grid-table" class="grid-table"></div>
-      <div class="grid-axis-label">Each axis: generations from the shared ancestor, on that side of the family</div>
     </div>
   </div>
 
@@ -375,12 +374,7 @@
         nameEl.className = "rel-name";
         nameEl.style.color = textColorFor(dna);
         nameEl.textContent = relationshipName(gA, gB);
-        const pctEl = document.createElement("div");
-        pctEl.className = "rel-pct";
-        pctEl.style.color = textColorFor(dna);
-        pctEl.textContent = formatPct(dna);
         cell.appendChild(nameEl);
-        cell.appendChild(pctEl);
         container.appendChild(cell);
       }
     }
