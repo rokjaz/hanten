@@ -203,7 +203,7 @@
       <div id="fan-legend" class="fan-legend"></div>
     </div>
     <div id="grid-view" class="hidden">
-      <div class="grid-axis-label">G = generations back to your shared ancestor — G1 is a parent, G2 a grandparent, G3 a great-grandparent, and so on</div>
+      <div class="grid-axis-label">Rows are you, columns are the relative — each counted in generations back to your shared ancestor (G1 = parent, G2 = grandparent, G3 = great-grandparent, and so on)</div>
       <div id="grid-table" class="grid-table"></div>
     </div>
   </div>
@@ -236,12 +236,18 @@
     const s = ["th", "st", "nd", "rd"], v = n % 100;
     return n + (s[(v - 20) % 10] || s[v] || s[0]);
   }
+  // Row (gA) is "you", column (gB) is the relative being named — so each
+  // cell states a single, one-directional term instead of an ambiguous
+  // "Aunt/Uncle ↔ Niece/Nephew" pair. Whoever sits farther from the
+  // shared ancestor (the larger generation number) is the younger side.
   function relationshipName(gA, gB) {
     const lo = Math.min(gA, gB), hi = Math.max(gA, gB), removed = hi - lo;
     if (lo === 1 && removed === 0) return "Siblings";
     if (lo === 1) {
-      const names = { 1: "Aunt/Uncle ↔ Niece/Nephew", 2: "Grand-aunt/uncle ↔ Grand-niece/nephew" };
-      return names[removed] || `${removed - 1}×-great grand-aunt/uncle ↔ grand-niece/nephew`;
+      const younger = gB > gA;
+      if (removed === 1) return younger ? "Niece/Nephew" : "Aunt/Uncle";
+      if (removed === 2) return younger ? "Grand-niece/nephew" : "Grand-aunt/uncle";
+      return younger ? `${removed - 1}×-great grand-niece/nephew` : `${removed - 1}×-great grand-aunt/uncle`;
     }
     const n = lo - 1;
     return removed === 0 ? `${ordinal(n)} cousins` : `${ordinal(n)} cousins, ${removed}× removed`;
