@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — A 5th cousin shares 0.05% of your DNA. You might have 1,000 of them.</title>
+<meta name="description" content="Genetic relatedness halves with every step out in the family tree. The number of people at that distance does the opposite — it multiplies. Two ways to see both at once.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/cousins.html">
+<meta property="og:title" content="Hanten — A 5th cousin shares 0.05% of your DNA. You might have 1,000 of them.">
+<meta property="og:description" content="Genetic relatedness halves with every step out in the family tree. The number of people at that distance does the opposite — it multiplies. Two ways to see both at once.">
+<meta property="og:image" content="https://hanten.app/data/og/cousins.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — A 5th cousin shares 0.05% of your DNA. You might have 1,000 of them.">
+<meta name="twitter:description" content="Genetic relatedness halves with every step out in the family tree. The number of people at that distance does the opposite — it multiplies. Two ways to see both at once.">
+<meta name="twitter:image" content="https://hanten.app/data/og/cousins.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --warn: #c1442d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 940px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  header .wordmark:hover { color: var(--accent); }
+  main { max-width: 940px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 66ch; }
+
+  .tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .tabs button {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.82rem;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .tabs button:hover { border-color: var(--accent); }
+  .tabs button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  #chart-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.2rem;
+    display: flex;
+    justify-content: center;
+  }
+  #fan-view, #grid-view { width: 100%; }
+  #fan-view.hidden, #grid-view.hidden { display: none; }
+  #fan-svg { width: 100%; height: auto; display: block; max-width: 700px; margin: 0 auto; }
+  .fan-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem 1.4rem;
+    margin-top: 0.8rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .fan-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; }
+  .fan-legend-swatch { width: 12px; height: 12px; border-radius: 2px; flex: none; }
+  .fan-legend-text { color: var(--ink-soft); }
+  .fan-legend-text strong { color: var(--ink); font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+
+  .grid-table {
+    display: grid;
+    gap: 3px;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .grid-cell {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0.2rem;
+    font-size: 0.62rem;
+    line-height: 1.2;
+    border-radius: 2px;
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
+  .grid-cell.head {
+    background: none;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+  .grid-cell .rel-name { font-weight: 700; color: var(--ink); }
+  .grid-cell .rel-pct { font-family: ui-monospace, "SF Mono", Menlo, monospace; color: var(--ink-soft); margin-top: 2px; }
+  .grid-axis-label {
+    text-align: center;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-top: 0.6rem;
+  }
+
+  .names-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.4rem;
+  }
+  .name-card {
+    flex: 1;
+    min-width: 220px;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--card-color, var(--accent));
+    padding: 1.1rem 1.2rem;
+  }
+  .name-card .who {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-bottom: 0.4rem;
+  }
+  .name-card h2 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem;
+  }
+  .name-card p { font-size: 0.88rem; color: var(--ink-soft); margin: 0; }
+
+  .caption {
+    margin-top: 1.6rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>A 5th cousin shares about 0.05% of your DNA. You might have 1,000 of them.</h1>
+  <p class="sub">Every step out in the family tree, your genetic relatedness cuts in half — but the number of people standing at that distance does the opposite: it roughly triples. Two views of the same math.</p>
+  <div id="save-image-slot"></div>
+
+  <div class="tabs" id="tabs">
+    <button data-view="fan" class="active">Closeness vs. headcount</button>
+    <button data-view="grid">Name the relationship</button>
+  </div>
+
+  <div id="chart-wrap">
+    <div id="fan-view">
+      <svg id="fan-svg" viewBox="0 0 700 380"></svg>
+      <div id="fan-legend" class="fan-legend"></div>
+    </div>
+    <div id="grid-view" class="hidden">
+      <div id="grid-table" class="grid-table"></div>
+      <div class="grid-axis-label">Each axis: generations from the shared ancestor, on that side of the family</div>
+    </div>
+  </div>
+
+  <div class="names-row">
+    <div class="name-card" style="--card-color: var(--accent)">
+      <div class="who">Relatedness</div>
+      <h2>50% → 0.05%</h2>
+      <p>Siblings share half their DNA. By 5th cousins, that's fallen to about 1 part in 2,000 — less related than two random members of the same ethnic group tend to be by chance.</p>
+    </div>
+    <div class="name-card" style="--card-color: var(--warn)">
+      <div class="who">Headcount</div>
+      <h2>2 → ~1,000</h2>
+      <p>Assuming roughly 3 children per family across the generations it takes to get there (a rough historical average, not a real prediction for any one family), the pool of people at each distance roughly triples every step out.</p>
+    </div>
+  </div>
+
+  <div class="caption">
+    <p><strong>The two numbers move in opposite directions on purpose.</strong> "Relatedness" is exact: it's the standard coefficient-of-relationship formula geneticists and consumer DNA services use — (1/2)<sup>gA+gB-1</sup>, where gA and gB are how many generations back each of you sits from your shared ancestor. Full siblings (1,1) get 50%. First cousins (2,2) get 12.5%. It only depends on generations, not on any assumption about family size.</p>
+    <p>"Headcount" is different — it's an illustrative model, not a measurement. It assumes every generation averages about 3 children (in the U.S., actual total fertility ranged from lows near 2 in recent decades to a Baby Boom peak near 3.7, so 3 is a round mid-range stand-in spanning many generations of a real family tree) and multiplies outward from there. Real families vary enormously — the point isn't the exact number, it's that the crowd grows exponentially while the connection shrinks exponentially, at the same time.</p>
+    <p class="source">Sources: coefficient-of-relationship formula per standard population genetics (as published in DNA-testing services' relationship-probability tables, e.g. AncestryDNA/23andMe support documentation); U.S. total fertility rate history, CDC National Center for Health Statistics.</p>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+  // gA, gB = generations from each person down to the shared ancestor
+  // (gA=gB=1 is siblings, sharing a parent one generation up).
+  function ordinal(n) {
+    const s = ["th", "st", "nd", "rd"], v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+  }
+  function relationshipName(gA, gB) {
+    const lo = Math.min(gA, gB), hi = Math.max(gA, gB), removed = hi - lo;
+    if (lo === 1 && removed === 0) return "Siblings";
+    if (lo === 1) {
+      const names = { 1: "Aunt/Uncle ↔ Niece/Nephew", 2: "Grand-aunt/uncle ↔ Grand-niece/nephew" };
+      return names[removed] || `${removed - 1}×-great grand-aunt/uncle ↔ grand-niece/nephew`;
+    }
+    const n = lo - 1;
+    return removed === 0 ? `${ordinal(n)} cousins` : `${ordinal(n)} cousins, ${removed}× removed`;
+  }
+  function dnaFraction(gA, gB) {
+    return Math.pow(0.5, gA + gB - 1);
+  }
+  function formatPct(frac) {
+    const pct = frac * 100;
+    if (pct >= 1) return pct.toFixed(pct >= 10 ? 0 : 2) + "%";
+    if (pct >= 0.01) return pct.toFixed(3) + "%";
+    return pct.toFixed(4) + "%";
+  }
+
+  // Illustrative headcount model: average children per family, applied
+  // across generations. Not a real prediction — see the caption.
+  const AVG_CHILDREN = 3;
+  function expectedCount(n) {
+    // n = 1 is siblings (one shared ancestor couple, not doubled);
+    // n >= 2 doubles for the two grandparent-and-up lines.
+    if (n === 1) return AVG_CHILDREN - 1;
+    return 2 * (AVG_CHILDREN - 1) * Math.pow(AVG_CHILDREN, n - 1);
+  }
+
+  const DEGREES = [1, 2, 3, 4, 5, 6].map(n => ({
+    n,
+    name: n === 1 ? "Siblings" : `${ordinal(n - 1)} cousins`,
+    dna: dnaFraction(n, n),
+    count: expectedCount(n),
+  }));
+
+  // ---------- Fan chart ----------
+  // Half-circle opening upward: in d3.arc's angle system 0 = 12 o'clock
+  // and angles increase clockwise, so -90deg (9 o'clock) to +90deg
+  // (3 o'clock) sweeps the top half — NOT -180deg to 0deg, which only
+  // covers the left quarter.
+  (function drawFan() {
+    const svg = d3.select("#fan-svg");
+    const width = 700, height = 380;
+    const cx = width / 2, cy = height - 20;
+    const startAngle = -Math.PI / 2, endAngle = Math.PI / 2;
+
+    const maxDna = DEGREES[0].dna, minDna = DEGREES[DEGREES.length - 1].dna;
+    function colorFor(dna) {
+      const t = (Math.log(dna) - Math.log(minDna)) / (Math.log(maxDna) - Math.log(minDna));
+      return d3.interpolateRgb("#eef1ec", "#0e7c86")(t);
+    }
+    function textColorFor(dna) {
+      const t = (Math.log(dna) - Math.log(minDna)) / (Math.log(maxDna) - Math.log(minDna));
+      return t > 0.55 ? "#fff" : "#1c2733";
+    }
+
+    // Ring thickness scales with sqrt(headcount) so the outward growth is
+    // visible without the biggest ring blowing past the canvas — tuned so
+    // the cumulative outer radius fits inside cy with margin to spare.
+    const MIN_THICK = 14, K = 3, GAP = 3;
+    let r = 18;
+    const rings = DEGREES.map(d => {
+      const thickness = MIN_THICK + K * Math.sqrt(d.count);
+      const ring = { ...d, r0: r, r1: r + thickness };
+      r += thickness + GAP;
+      return ring;
+    });
+
+    const arcGen = d3.arc().startAngle(startAngle).endAngle(endAngle);
+    const g = svg.append("g").attr("transform", `translate(${cx},${cy})`);
+
+    rings.forEach(ring => {
+      g.append("path")
+        .attr("d", arcGen.innerRadius(ring.r0).outerRadius(ring.r1)())
+        .attr("fill", colorFor(ring.dna))
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1.5);
+      // A small ordinal marker at each ring's apex (straight up from
+      // center) — full name/DNA%/count live in the legend below instead
+      // of being crammed onto the curve, where they'd collide.
+      const midR = (ring.r0 + ring.r1) / 2;
+      g.append("text")
+        .attr("x", 0).attr("y", -midR + 4)
+        .attr("text-anchor", "middle")
+        .attr("font-family", "ui-monospace, monospace")
+        .attr("font-weight", "700")
+        .attr("font-size", "11px")
+        .attr("fill", textColorFor(ring.dna))
+        .text(ring.n);
+    });
+
+    const legend = d3.select("#fan-legend");
+    rings.forEach(ring => {
+      const item = legend.append("div").attr("class", "fan-legend-item");
+      item.append("div").attr("class", "fan-legend-swatch").style("background", colorFor(ring.dna));
+      item.append("div").attr("class", "fan-legend-text")
+        .html(`<strong>${ring.n}.</strong> ${ring.name} — ${formatPct(ring.dna)} DNA · ~${Math.round(ring.count)} people`);
+    });
+  })();
+
+  // ---------- Cousin grid ----------
+  (function drawGrid() {
+    const N = 6;
+    const container = document.getElementById("grid-table");
+    container.style.gridTemplateColumns = `44px repeat(${N}, minmax(0, 1fr))`;
+
+    const maxDna = dnaFraction(1, 1), minDna = dnaFraction(N, N);
+    function colorFor(dna) {
+      const t = (Math.log(dna) - Math.log(minDna)) / (Math.log(maxDna) - Math.log(minDna));
+      return d3.interpolateRgb("#eef1ec", "#0e7c86")(t);
+    }
+    function textColorFor(dna) {
+      const t = (Math.log(dna) - Math.log(minDna)) / (Math.log(maxDna) - Math.log(minDna));
+      return t > 0.55 ? "#fff" : "var(--ink)";
+    }
+
+    // Corner
+    container.appendChild(Object.assign(document.createElement("div"), { className: "grid-cell head", textContent: "" }));
+    // Column headers
+    for (let gB = 1; gB <= N; gB++) {
+      container.appendChild(Object.assign(document.createElement("div"), { className: "grid-cell head", textContent: "G" + gB }));
+    }
+    for (let gA = 1; gA <= N; gA++) {
+      const rowHead = document.createElement("div");
+      rowHead.className = "grid-cell head";
+      rowHead.textContent = "G" + gA;
+      container.appendChild(rowHead);
+      for (let gB = 1; gB <= N; gB++) {
+        const dna = dnaFraction(gA, gB);
+        const cell = document.createElement("div");
+        cell.className = "grid-cell";
+        cell.style.background = colorFor(dna);
+        const nameEl = document.createElement("div");
+        nameEl.className = "rel-name";
+        nameEl.style.color = textColorFor(dna);
+        nameEl.textContent = relationshipName(gA, gB);
+        const pctEl = document.createElement("div");
+        pctEl.className = "rel-pct";
+        pctEl.style.color = textColorFor(dna);
+        pctEl.textContent = formatPct(dna);
+        cell.appendChild(nameEl);
+        cell.appendChild(pctEl);
+        container.appendChild(cell);
+      }
+    }
+  })();
+
+  // ---------- Tabs ----------
+  const tabButtons = document.querySelectorAll("#tabs button");
+  const fanView = document.getElementById("fan-view");
+  const gridView = document.getElementById("grid-view");
+  tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const view = btn.dataset.view;
+      tabButtons.forEach(b => b.classList.toggle("active", b === btn));
+      fanView.classList.toggle("hidden", view !== "fan");
+      gridView.classList.toggle("hidden", view !== "grid");
+    });
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#chart-wrap", title: "A 5th cousin shares about 0.05% of your DNA. You might have 1,000 of them.", filename: "hanten-cousins.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
