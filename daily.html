@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Daily Flip</title>
+<meta name="description" content="One surprising, honest map or statistic a day. Guess before you look.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/daily.html">
+<meta property="og:title" content="Hanten — Daily Flip">
+<meta property="og:description" content="One surprising, honest map or statistic a day. Guess before you look.">
+<meta property="og:image" content="https://hanten.app/data/og/daily.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — Daily Flip">
+<meta name="twitter:description" content="One surprising, honest map or statistic a day. Guess before you look.">
+<meta name="twitter:image" content="https://hanten.app/data/og/daily.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1c2733">
+<link rel="apple-touch-icon" href="/data/icons/apple-touch-icon.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --warn: #c1442d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 640px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  .wordmark:hover { color: var(--accent); }
+  .wordmark .kanji { color: var(--accent); margin-left: 0.3rem; }
+  .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .home-link:hover { text-decoration: underline; }
+
+  main { max-width: 640px; margin: 0 auto; padding: 0.6rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.6rem, 5vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.6rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.2rem; max-width: 60ch; }
+
+  #a11y-slot { margin-bottom: 1.2rem; }
+
+  .flip-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.4rem 1.4rem 1.6rem;
+  }
+  .flip-eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+  .flip-header { display: flex; align-items: flex-start; gap: 0.9rem; margin-bottom: 1.2rem; }
+  .flip-icon { flex: none; width: 40px; height: 40px; }
+  .flip-icon svg { width: 100%; height: 100%; display: block; }
+
+  .quiz-prompt {
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.15rem;
+    line-height: 1.35;
+    margin: 0 0 1rem;
+  }
+  .quiz-choices { display: flex; flex-direction: column; gap: 0.55rem; }
+  .quiz-choice {
+    text-align: left;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 0.92rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .quiz-choice:hover:not(:disabled) { border-color: var(--accent); }
+  .quiz-choice:disabled { cursor: default; }
+  .quiz-choice.correct { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+  .quiz-choice.wrong { border-color: var(--warn); background: rgba(193,68,45,0.1); }
+  .quiz-feedback {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-top: 0.9rem;
+  }
+  .quiz-reveal {
+    display: inline-block;
+    margin-top: 0.7rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+    padding: 0.6rem 1rem;
+    text-decoration: none;
+  }
+  .quiz-reveal:hover { opacity: 0.9; }
+
+  .flip-actions { display: flex; gap: 0.6rem; margin-top: 1.2rem; flex-wrap: wrap; }
+  .flip-actions button {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .flip-actions button:hover { border-color: var(--accent); color: var(--accent); }
+
+  .rotation { margin-top: 2rem; }
+  .rotation h2 {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 0.3rem;
+  }
+  .rotation-caption { font-size: 0.82rem; color: var(--ink-soft); margin: 0 0 0.8rem; }
+  .rotation-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .rotation-list a {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .rotation-list a:hover { color: var(--accent); }
+  .rotation-icon { flex: none; width: 24px; height: 24px; }
+  .rotation-icon svg { width: 100%; height: 100%; display: block; }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten <span class="kanji">反転</span></a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>Daily Flip</h1>
+  <p class="sub">One surprising, honest map or statistic a day. Guess before you look.</p>
+
+  <div id="a11y-slot"></div>
+
+  <div class="flip-card">
+    <div class="flip-eyebrow">&#10022; Today's Flip</div>
+    <div class="flip-header">
+      <div class="flip-icon" id="flip-icon"></div>
+    </div>
+    <div id="quiz-mount"></div>
+    <div class="flip-actions" id="flip-actions"></div>
+  </div>
+
+  <div class="rotation">
+    <h2>Rest of the rotation</h2>
+    <p class="rotation-caption">The rotation only cycles through this same small pool, so this isn't a real per-day history — it's the rest of the pool, one click away.</p>
+    <div class="rotation-list" id="rotation-list"></div>
+  </div>
+</main>
+
+<script src="data/featured.js"></script>
+<script src="data/quiz.js"></script>
+<script src="data/a11y.js"></script>
+<script>
+  HantenA11y.init({ target: "#a11y-slot" });
+
+  const pick = HantenFeatured.todayPick();
+
+  document.getElementById("flip-icon").innerHTML = HantenFeatured.wedgeIcon(pick.colors);
+  HantenQuiz.render(document.getElementById("quiz-mount"), pick);
+
+  // Share/copy is specific to this page's daily pick, so it stays inline
+  // rather than living in the generic data/quiz.js renderer.
+  (function renderShare() {
+    const actions = document.getElementById("flip-actions");
+    const url = `${location.origin}/${pick.href}`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    if (navigator.share) {
+      btn.textContent = "Share today's Flip";
+      btn.addEventListener("click", () => {
+        navigator.share({ title: pick.title, text: pick.title, url }).catch(() => {});
+      });
+    } else {
+      btn.textContent = "Copy link";
+      btn.addEventListener("click", () => {
+        navigator.clipboard.writeText(url).then(() => {
+          btn.textContent = "Copied!";
+          setTimeout(() => { btn.textContent = "Copy link"; }, 1500);
+        });
+      });
+    }
+    actions.appendChild(btn);
+  })();
+
+  (function renderRotation() {
+    const others = HantenFeatured.pool.filter(f => f !== pick);
+    const list = document.getElementById("rotation-list");
+    list.innerHTML = others.map(f => `
+      <a href="${f.href}">
+        <div class="rotation-icon">${HantenFeatured.wedgeIcon(f.colors)}</div>
+        <span>${f.title}</span>
+      </a>
+    `).join("");
+  })();
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js");
+  }
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

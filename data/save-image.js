@@ -125,7 +125,24 @@
       ctx.fillText(SITE_URL, PAD * scale, footerY + 12 * scale);
       ctx.globalAlpha = 1;
 
-      canvas.toBlob(blob => {
+      canvas.toBlob(async blob => {
+        // Prefer the native share sheet when the browser genuinely supports
+        // sharing files (checked against the real file, not just guessed
+        // from navigator.share's presence) — falls back to the original
+        // forced download everywhere else, including when the user cancels
+        // the share sheet without picking anything.
+        const file = new File([blob], filename, { type: "image/png" });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file], title });
+            btn.disabled = false;
+            btn.textContent = originalLabel;
+            return;
+          } catch (err) {
+            // cancelled or failed — fall through to download
+          }
+        }
+
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
@@ -152,7 +169,10 @@
       if (!slotEl) { console.error("save-image slot not found:", slot); return; }
       const btn = document.createElement("button");
       btn.className = "save-image-btn";
-      btn.textContent = "⬇ Save as image";
+      // navigator.share existing is a reasonable signal that file-sharing is
+      // likely available — the exact capability is re-checked against the
+      // real file at click time, with a silent fallback to download.
+      btn.textContent = typeof navigator.share === "function" ? "⬆ Share image" : "⬇ Save as image";
       btn.addEventListener("click", () => capture(target, title, filename, btn));
       slotEl.appendChild(btn);
     },

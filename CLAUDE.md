@@ -48,6 +48,20 @@ There's no OG-image tooling in the repo — images are a templated card design (
 3. Verify size with `sips -g pixelWidth -g pixelHeight`.
 4. **Always delete `_og-gen.html` before committing** — it's a disposable generator, never checked in.
 
+## Progressive Web App (Daily Flip)
+
+`daily.html` is the PWA's `start_url` — a guess-before-reveal quiz built from `data/featured.js` (the same pool `index.html`'s "Graphic of the day" card reads from, so there's one source of truth). Supporting pieces:
+- `manifest.json` + `sw.js` live at the repo root (required for scope `/` to cover the whole site).
+- `sw.js` uses a versioned `CACHE_NAME` (currently `hanten-v1`) — **bump this string whenever you change the file or its precache list**; `activate()` deletes any cache under the old name, which is what actually forces a clean slate for returning visitors.
+- By design, only `daily.html` and `index.html` carry the manifest link, theme-color meta, SW registration, and `data/a11y.js` accessibility toggle. Once a service worker is active from either entry point, it controls navigations to every other page under scope `/` — the other ~40 standalone map pages don't need any of this wiring themselves.
+- `data/quiz.js` is the generic guess/reveal renderer Daily Flip uses; it's intentionally not wired into the other map pages.
+- App icons live in `data/icons/` (same precedent as `data/og/` for generated images): `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (180×180).
+
+**Generating the icons and Daily Flip's OG image**: driving `html2canvas` through the Browser tool and copying its base64 output by hand is unreliable at this size — a single mistyped character silently corrupts the PNG (it'll still pass a basic `file`/`sips` check but fail to actually decode). Generate these directly with Python/PIL instead, which is both deterministic and avoids the round-trip:
+- Kanji ("反") renders correctly via `/System/Library/Fonts/Hiragino Sans GB.ttc` — a Simplified Chinese font, but it covers this shared Han character fine.
+- Site fonts are available as system fonts for this purpose: `/System/Library/Fonts/Supplemental/Georgia Bold.ttf` (serif headings) and `/System/Library/Fonts/Menlo.ttc` (monospace tags/footer).
+- Always verify the result actually decodes (`PIL.Image.open(...).load()`, not just `sips -g pixelWidth`) before treating a generated image as done.
+
 ## Verify-before-shipping workflow
 
 For every change:
