@@ -93,15 +93,19 @@
   .fan-legend-text { color: var(--ink-soft); }
   .fan-legend-text strong { color: var(--ink); font-family: ui-monospace, "SF Mono", Menlo, monospace; }
 
+  .grid-scroll {
+    width: 100%;
+    overflow-x: auto;
+  }
   .grid-table {
     display: grid;
     gap: 3px;
-    width: 100%;
-    max-width: 640px;
+    width: max-content;
+    max-width: none;
     margin: 0 auto;
   }
   .grid-cell {
-    aspect-ratio: 1;
+    min-height: 3.4em;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -122,6 +126,7 @@
     color: var(--ink-soft);
   }
   .grid-cell .rel-name { font-weight: 700; color: var(--ink); }
+  .grid-cell .rel-note { font-weight: 400; font-size: 0.85em; margin-top: 2px; opacity: 0.85; }
   .grid-axis-label {
     text-align: center;
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
@@ -204,7 +209,7 @@
     </div>
     <div id="grid-view" class="hidden">
       <div class="grid-axis-label">Rows are you, columns are the relative — each counted in generations back to your shared ancestor (G1 = parent, G2 = grandparent, G3 = great-grandparent, and so on)</div>
-      <div id="grid-table" class="grid-table"></div>
+      <div class="grid-scroll"><div id="grid-table" class="grid-table"></div></div>
     </div>
   </div>
 
@@ -251,6 +256,16 @@
     }
     const n = lo - 1;
     return removed === 0 ? `${ordinal(n)} cousins` : `${ordinal(n)} cousins, ${removed}× removed`;
+  }
+  // Diagonal-only helper: what ancestor two same-generation relatives
+  // share. n = generations back to that ancestor (n=1 is a parent,
+  // n=2 a grandparent, and so on) — this is why the diagonal reads
+  // Siblings, 1st cousins, 2nd cousins... it's just n-1 named directly.
+  function sharedAncestorLabel(n) {
+    if (n === 1) return "parent";
+    if (n === 2) return "grandparent";
+    if (n === 3) return "great-grandparent";
+    return `${n - 2}×-great-grandparent`;
   }
   function dnaFraction(gA, gB) {
     return Math.pow(0.5, gA + gB - 1);
@@ -348,7 +363,7 @@
   (function drawGrid() {
     const N = 6;
     const container = document.getElementById("grid-table");
-    container.style.gridTemplateColumns = `44px repeat(${N}, minmax(0, 1fr))`;
+    container.style.gridTemplateColumns = `44px repeat(${N}, 84px)`;
 
     const maxDna = dnaFraction(1, 1), minDna = dnaFraction(N, N);
     function colorFor(dna) {
@@ -381,6 +396,13 @@
         nameEl.style.color = textColorFor(dna);
         nameEl.textContent = relationshipName(gA, gB);
         cell.appendChild(nameEl);
+        if (gA === gB) {
+          const noteEl = document.createElement("div");
+          noteEl.className = "rel-note";
+          noteEl.style.color = textColorFor(dna);
+          noteEl.textContent = `share a ${sharedAncestorLabel(gA)}`;
+          cell.appendChild(noteEl);
+        }
         container.appendChild(cell);
       }
     }
