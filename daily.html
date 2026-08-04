@@ -61,7 +61,7 @@
   }
   .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.2rem; max-width: 60ch; }
 
-  #a11y-slot { margin-bottom: 1.2rem; }
+  #a11y-slot { margin-top: 2rem; }
 
   .flip-card {
     background: var(--paper-raised);
@@ -173,8 +173,6 @@
   <h1>Daily Flip</h1>
   <p class="sub">One surprising, honest map or statistic a day. Guess before you look.</p>
 
-  <div id="a11y-slot"></div>
-
   <div class="flip-card">
     <div class="flip-eyebrow">&#10022; Today's Flip</div>
     <div class="flip-header">
@@ -189,6 +187,8 @@
     <p class="rotation-caption">The rotation only cycles through this same small pool, so this isn't a real per-day history — it's the rest of the pool, one click away.</p>
     <div class="rotation-list" id="rotation-list"></div>
   </div>
+
+  <div id="a11y-slot"></div>
 </main>
 
 <script src="data/featured.js"></script>
