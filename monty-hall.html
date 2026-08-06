@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Switch doors, win the car twice as often</title>
+<meta name="description" content="The Monty Hall Problem, live: pick a door, watch the reveal, then see whether sticking or switching actually wins more.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanten.app/monty-hall.html">
+<meta property="og:title" content="Hanten — Switch doors, win the car twice as often">
+<meta property="og:description" content="The Monty Hall Problem, live: pick a door, watch the reveal, then see whether sticking or switching actually wins more.">
+<meta property="og:image" content="https://hanten.app/data/og/monty-hall.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hanten — Switch doors, win the car twice as often">
+<meta name="twitter:description" content="The Monty Hall Problem, live: pick a door, watch the reveal, then see whether sticking or switching actually wins more.">
+<meta name="twitter:image" content="https://hanten.app/data/og/monty-hall.png">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef1ec;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #0e7c86;
+    --accent-soft: rgba(14,124,134,0.14);
+    --warn: #c1442d;
+    --door: #2c3b4d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+  }
+  header { padding: 1.4rem 1.5rem 0.6rem; max-width: 720px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .home-link {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header .home-link:hover { text-decoration: underline; }
+  header .wordmark { font-family: ui-serif, Georgia, serif; font-weight: 600; font-size: 1.15rem; text-decoration: none; color: inherit; }
+  header .wordmark:hover { color: var(--accent); }
+  main { max-width: 720px; margin: 0 auto; padding: 0.5rem 1.5rem 3rem; }
+  h1 {
+    font-family: ui-serif, Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0.4rem 0 0.2rem;
+  }
+  .sub { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 1.4rem; max-width: 66ch; }
+
+  #game-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.4rem;
+  }
+  .doors { display: flex; gap: 0.9rem; justify-content: center; }
+  .door {
+    flex: 1;
+    max-width: 150px;
+    aspect-ratio: 2 / 3;
+    border-radius: 10px 10px 4px 4px;
+    background: var(--door);
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    transition: transform 0.15s ease;
+  }
+  .door:hover:not(:disabled) { transform: translateY(-3px); }
+  .door:disabled { cursor: default; }
+  .door-number {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--paper);
+  }
+  .door-handle { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); position: absolute; right: 12px; top: 50%; }
+  .door.open { background: var(--paper); border: 2px solid var(--line); }
+  .door.open.has-car { background: var(--accent-soft); border-color: var(--accent); }
+  .door-result { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-weight: 700; font-size: 0.95rem; color: var(--ink); }
+  .door.open.has-car .door-result { color: var(--accent); }
+  .door-icon { width: 34px; height: 34px; }
+  .door.chosen { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .door-tag {
+    position: absolute;
+    top: -1.6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  @media (prefers-reduced-motion: reduce) { .door { transition: none; } }
+
+  #game-status { text-align: center; margin-top: 1.2rem; font-size: 0.95rem; min-height: 1.6rem; }
+  #game-status strong { font-family: ui-serif, Georgia, serif; font-size: 1.1rem; }
+  .decide-actions, .again-action { display: flex; gap: 0.6rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+  .decide-actions button, .again-action button {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.65rem 1.1rem;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .decide-actions button:hover, .again-action button:hover { border-color: var(--accent); color: var(--accent); }
+  .decide-actions button.primary, .again-action button { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .decide-actions button.primary:hover { opacity: 0.9; color: #fff; }
+
+  #tally { text-align: center; margin-top: 1rem; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.8rem; color: var(--ink-soft); }
+
+  #sim-section { margin-top: 2rem; }
+  #sim-section h2 {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 0.6rem;
+  }
+  #sim-btn {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.7rem 1.1rem;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  #sim-btn:hover { border-color: var(--accent); color: var(--accent); }
+  #sim-chart { margin-top: 1.2rem; }
+  .sim-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.7rem; }
+  .sim-label { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.8rem; width: 70px; flex: none; }
+  .sim-bar-track { flex: 1; background: var(--paper); border: 1px solid var(--line); height: 26px; position: relative; }
+  .sim-bar-fill { height: 100%; width: 0; transition: width 0.5s ease; }
+  .sim-bar-fill.switch { background: var(--accent); }
+  .sim-bar-fill.stay { background: var(--warn); }
+  @media (prefers-reduced-motion: reduce) { .sim-bar-fill { transition: none; } }
+  .sim-pct { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.8rem; font-weight: 700; width: 76px; flex: none; text-align: right; }
+
+  .caption {
+    margin-top: 1.6rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .caption a { color: var(--accent); }
+  .source {
+    margin-top: 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">Hanten</a>
+  <a class="home-link" href="index.html">&larr; All maps</a>
+</header>
+
+<main>
+  <h1>Switch doors, and you'll win the car twice as often</h1>
+  <p class="sub">The Monty Hall Problem, live. Pick a door. I'll open one of the others to show you a goat. Then decide: stick with your door, or switch?</p>
+  <div id="save-image-slot"></div>
+
+  <div id="game-wrap">
+    <div class="doors" id="doors"></div>
+    <div id="game-status"></div>
+    <div class="decide-actions" id="decide-actions"></div>
+    <div class="again-action" id="again-action"></div>
+  </div>
+  <div id="tally"></div>
+
+  <div id="sim-section">
+    <h2>Run the numbers</h2>
+    <p class="sub" style="margin-bottom: 0.9rem;">Playing by hand only gets you a few rounds. Simulate thousands to see the real odds.</p>
+    <button id="sim-btn" type="button">Simulate 10,000 games</button>
+    <div id="sim-chart"></div>
+  </div>
+
+  <div class="caption">
+    <p><strong>Why switching wins twice as often.</strong> When you first pick, there's a 1-in-3 chance you picked the car and a 2-in-3 chance you picked a goat. The host, who knows where the car is, always opens one of the other two doors to reveal a goat — he can always do this, no matter what you picked.</p>
+    <p>If you originally picked a goat (2 times out of 3), the host is forced to open the <em>other</em> goat door, which means the car is behind the one door left unopened — switching wins. If you originally picked the car (1 time out of 3), switching loses. So switching wins in exactly the 2-out-of-3 cases where your first guess was wrong, and staying only wins in the 1-out-of-3 case where it was right.</p>
+    <p>See also: <a href="birthday-paradox.html">the Birthday Paradox</a>, another probability result that breaks most people's intuition on first read.</p>
+    <p class="source">Source: first rigorously stated by Steve Selvin in a 1975 letter to The American Statistician; popularized (and initially disputed by many mathematicians before being confirmed correct) after Marilyn vos Savant answered a reader's question about it in Parade magazine, 1990.</p>
+  </div>
+</main>
+
+<script>
+  // ---------- Game state ----------
+  let doorContents, chosen, hostOpened, phase, finalPick, focusResetTarget;
+  const tally = { switch: { win: 0, lose: 0 }, stay: { win: 0, lose: 0 } };
+
+  function shuffledDoors() {
+    const carIndex = Math.floor(Math.random() * 3);
+    return [0, 1, 2].map(i => (i === carIndex ? "car" : "goat"));
+  }
+
+  function carSVG() {
+    return `<svg class="door-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 26 H35 V20 L29 20 L25 13 H15 L11 20 L5 20 Z"/>
+      <circle cx="12" cy="26" r="3"/>
+      <circle cx="28" cy="26" r="3"/>
+    </svg>`;
+  }
+  function goatSVG() {
+    return `<svg class="door-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 30 V19 C11 13 15 9 20 9 C25 9 29 13 29 19 V30"/>
+      <path d="M15 9 L12 4 M25 9 L28 4"/>
+      <path d="M11 30 H29"/>
+      <circle cx="16" cy="18" r="1.4" fill="currentColor" stroke="none"/>
+    </svg>`;
+  }
+
+  function newRound() {
+    doorContents = shuffledDoors();
+    chosen = null;
+    hostOpened = null;
+    finalPick = null;
+    phase = "pick";
+    render();
+  }
+
+  function pickDoor(i) {
+    if (phase !== "pick") return;
+    chosen = i;
+    const goatOptions = [0, 1, 2].filter(d => d !== chosen && doorContents[d] === "goat");
+    hostOpened = goatOptions[Math.floor(Math.random() * goatOptions.length)];
+    phase = "decide";
+    render();
+  }
+
+  function decide(strategy) {
+    const otherDoor = [0, 1, 2].find(d => d !== chosen && d !== hostOpened);
+    finalPick = strategy === "stay" ? chosen : otherDoor;
+    const won = doorContents[finalPick] === "car";
+    tally[strategy][won ? "win" : "lose"]++;
+    phase = "revealed";
+    render();
+  }
+
+  function render() {
+    const doorsEl = document.getElementById("doors");
+    doorsEl.innerHTML = "";
+    for (let i = 0; i < 3; i++) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "door";
+      const isOpen = (phase === "decide" && i === hostOpened) || (phase === "revealed");
+      if (isOpen) {
+        btn.classList.add("open");
+        if (doorContents[i] === "car") btn.classList.add("has-car");
+        btn.innerHTML = `
+          ${doorContents[i] === "car" ? carSVG() : goatSVG()}
+          <div class="door-result">${doorContents[i] === "car" ? "CAR" : "GOAT"}</div>
+        `;
+      } else {
+        btn.innerHTML = `<div class="door-number">${i + 1}</div><div class="door-handle"></div>`;
+      }
+      if (phase === "pick") {
+        btn.addEventListener("click", () => pickDoor(i));
+      } else {
+        btn.disabled = true;
+      }
+      if (phase === "decide" && i === chosen) {
+        btn.classList.add("chosen");
+        const tag = document.createElement("div");
+        tag.className = "door-tag";
+        tag.textContent = "YOUR PICK";
+        btn.appendChild(tag);
+      }
+      if (phase === "revealed" && i === finalPick) {
+        btn.classList.add("chosen");
+        const tag = document.createElement("div");
+        tag.className = "door-tag";
+        tag.textContent = "FINAL PICK";
+        btn.appendChild(tag);
+      }
+      doorsEl.appendChild(btn);
+    }
+
+    const status = document.getElementById("game-status");
+    const decideActions = document.getElementById("decide-actions");
+    const againAction = document.getElementById("again-action");
+    decideActions.innerHTML = "";
+    againAction.innerHTML = "";
+
+    if (phase === "pick") {
+      status.innerHTML = "Pick a door.";
+    } else if (phase === "decide") {
+      const otherDoor = [0, 1, 2].find(d => d !== chosen && d !== hostOpened);
+      status.innerHTML = `Door ${hostOpened + 1} had a goat. Stick with door <strong>${chosen + 1}</strong>, or switch to door <strong>${otherDoor + 1}</strong>?`;
+      const stayBtn = document.createElement("button");
+      stayBtn.type = "button";
+      stayBtn.textContent = `Stick with door ${chosen + 1}`;
+      stayBtn.addEventListener("click", () => decide("stay"));
+      const switchBtn = document.createElement("button");
+      switchBtn.type = "button";
+      switchBtn.className = "primary";
+      switchBtn.textContent = `Switch to door ${otherDoor + 1}`;
+      switchBtn.addEventListener("click", () => decide("switch"));
+      decideActions.appendChild(stayBtn);
+      decideActions.appendChild(switchBtn);
+    } else if (phase === "revealed") {
+      const won = doorContents[finalPick] === "car";
+      status.innerHTML = won
+        ? `<strong>You won the car!</strong>`
+        : `<strong>Just a goat this time.</strong>`;
+      const again = document.createElement("button");
+      again.type = "button";
+      again.textContent = "Play again";
+      again.addEventListener("click", newRound);
+      againAction.appendChild(again);
+    }
+
+    renderTally();
+  }
+
+  function renderTally() {
+    const el = document.getElementById("tally");
+    const s = tally.switch, y = tally.stay;
+    const sPlayed = s.win + s.lose, yPlayed = y.win + y.lose;
+    if (!sPlayed && !yPlayed) {
+      el.textContent = "";
+      return;
+    }
+    const parts = [];
+    if (sPlayed) parts.push(`Switched ${sPlayed}× — won ${s.win}`);
+    if (yPlayed) parts.push(`Stayed ${yPlayed}× — won ${y.win}`);
+    el.textContent = "Your plays so far: " + parts.join(" · ");
+  }
+
+  newRound();
+
+  // ---------- Simulation ----------
+  function simulate(trials) {
+    let switchWins = 0, stayWins = 0;
+    for (let t = 0; t < trials; t++) {
+      const carIndex = Math.floor(Math.random() * 3);
+      const guess = Math.floor(Math.random() * 3);
+      const goatDoors = [0, 1, 2].filter(d => d !== guess && d !== carIndex);
+      const hostDoor = goatDoors[Math.floor(Math.random() * goatDoors.length)];
+      const switchDoor = [0, 1, 2].find(d => d !== guess && d !== hostDoor);
+      if (switchDoor === carIndex) switchWins++;
+      if (guess === carIndex) stayWins++;
+    }
+    return { switchWins, stayWins, trials };
+  }
+
+  function renderSimChart(result) {
+    const { switchWins, stayWins, trials } = result;
+    const switchPct = (switchWins / trials) * 100;
+    const stayPct = (stayWins / trials) * 100;
+    const chart = document.getElementById("sim-chart");
+    chart.innerHTML = `
+      <div class="sim-row">
+        <div class="sim-label">Switch</div>
+        <div class="sim-bar-track"><div class="sim-bar-fill switch" id="bar-switch"></div></div>
+        <div class="sim-pct">${switchPct.toFixed(1)}%</div>
+      </div>
+      <div class="sim-row">
+        <div class="sim-label">Stay</div>
+        <div class="sim-bar-track"><div class="sim-bar-fill stay" id="bar-stay"></div></div>
+        <div class="sim-pct">${stayPct.toFixed(1)}%</div>
+      </div>
+    `;
+    requestAnimationFrame(() => {
+      document.getElementById("bar-switch").style.width = switchPct + "%";
+      document.getElementById("bar-stay").style.width = stayPct + "%";
+    });
+  }
+
+  document.getElementById("sim-btn").addEventListener("click", () => {
+    renderSimChart(simulate(10000));
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="data/save-image.js"></script>
+<script>
+  HantenSaveImage.init({ target: "#game-wrap", title: "Switch doors, and you'll win the car twice as often", filename: "hanten-monty-hall.png" });
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
