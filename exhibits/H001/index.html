@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H001 — The Average BBQ Restaurant</title>
+    <meta
+        name="description"
+        content="Ten neighbors are having a backyard BBQ. Then one extraordinarily rich guest walks in. What happens to the average?"
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        :root {
+            --h001-ink-soft: #4a5a6b;
+            --h001-line: rgba(28, 39, 51, 0.14);
+            --h001-accent: #0e7c86;
+            --h001-accent-soft: rgba(14, 124, 134, 0.14);
+            --h001-warn: #c1442d;
+            --h001-bar: #7ca6b8;
+        }
+
+        .h001-shell {
+            width: min(100%, 900px);
+            margin: 0 auto;
+        }
+
+        .h001-stage {
+            background: #ffffff;
+            border: 1px solid var(--h001-line);
+            padding: clamp(0.85rem, 2vw, 1.2rem);
+        }
+
+        .h001-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.85rem;
+            flex-wrap: wrap;
+        }
+
+        .h001-tabs button {
+            font-family: var(--hanten-font);
+            font-size: 0.78rem;
+            padding: 0.5rem 0.9rem;
+            border: 1px solid var(--h001-line);
+            background: #ffffff;
+            color: var(--h001-ink-soft);
+            cursor: pointer;
+        }
+
+        .h001-tabs button:hover,
+        .h001-tabs button:focus-visible {
+            border-color: var(--h001-accent);
+        }
+
+        .h001-tabs button.active {
+            background: var(--h001-accent);
+            border-color: var(--h001-accent);
+            color: #ffffff;
+        }
+
+        .h001-readouts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--h001-line);
+            border: 1px solid var(--h001-line);
+            margin-bottom: 0.85rem;
+        }
+
+        .h001-readout {
+            background: #ffffff;
+            padding: 0.7rem 0.9rem;
+        }
+
+        .h001-label {
+            font-size: 0.7rem;
+            color: var(--h001-ink-soft);
+            font-family: var(--hanten-font);
+            font-weight: 700;
+        }
+
+        .h001-value {
+            font-family: var(--hanten-font);
+            font-size: clamp(1.15rem, 2vw, 1.4rem);
+            font-weight: 700;
+            margin-top: 0.1rem;
+        }
+
+        .h001-value.median { color: var(--h001-accent); }
+        .h001-value.mean { color: var(--h001-warn); }
+
+        .h001-delta {
+            font-size: 0.72rem;
+            color: var(--h001-ink-soft);
+            margin-top: 0.1rem;
+            min-height: 1.05em;
+        }
+
+        .h001-people {
+            display: flex;
+            align-items: flex-end;
+            gap: 0.65rem;
+            height: min(32vh, 235px);
+            min-height: 165px;
+            border-bottom: 1px solid var(--h001-line);
+        }
+
+        .h001-person {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            height: 100%;
+        }
+
+        .h001-bar {
+            width: 100%;
+            background: var(--h001-bar);
+            transition: height 0.5s ease;
+        }
+
+        .h001-person.billionaire .h001-bar {
+            background: var(--h001-warn);
+        }
+
+        .h001-who,
+        .h001-amt {
+            font-family: var(--hanten-font);
+            color: var(--h001-ink-soft);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: clip;
+        }
+
+        .h001-who {
+            font-size: 0.72rem;
+            margin-top: 0.25rem;
+        }
+
+        .h001-amt {
+            font-size: 0.66rem;
+        }
+
+        .h001-note-under {
+            font-size: 0.74rem;
+            color: var(--h001-ink-soft);
+            margin-top: 0.55rem;
+            font-family: var(--hanten-font);
+            min-height: 1.1em;
+        }
+
+        .h001-caption {
+            margin-top: 1rem;
+            padding: 0.15rem 0 0.15rem 1rem;
+            border-left: 3px solid var(--h001-accent);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--h001-ink-soft);
+        }
+
+        .h001-caption strong {
+            color: var(--hanten-text);
+        }
+
+        .h001-caption p {
+            margin: 0 0 0.5rem;
+        }
+
+        .h001-caption p:last-child {
+            margin-bottom: 0;
+        }
+
+        .h001-explore {
+            margin-top: 0.75rem;
+            padding: 0.6rem 0;
+            border-top: 1px solid var(--h001-line);
+            border-bottom: 1px solid var(--h001-line);
+            color: var(--h001-ink-soft);
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .h001-explore summary {
+            cursor: pointer;
+            color: var(--hanten-text);
+            font-weight: 750;
+        }
+
+        .h001-explore p {
+            margin: 0.65rem 0 0;
+        }
+
+        .h001-source-note {
+            margin-top: 0.7rem;
+            font-size: 0.74rem;
+            color: var(--h001-ink-soft);
+            font-family: var(--hanten-font);
+        }
+
+        .h001-save-image {
+            margin-top: 0.75rem;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .h001-save-image button {
+            font-size: 0.75rem;
+            opacity: 0.72;
+        }
+
+        .h001-save-image button:hover,
+        .h001-save-image button:focus-visible {
+            opacity: 1;
+        }
+
+        @media (max-width: 480px) {
+            .h001-people {
+                gap: 0.2rem;
+                height: 190px;
+            }
+
+            .h001-who {
+                font-size: 0.5rem;
+                margin-top: 0.2rem;
+            }
+
+            .h001-amt {
+                font-size: 0.44rem;
+            }
+
+            .h001-stage {
+                padding: 0.8rem;
+            }
+
+            .h001-readout {
+                padding: 0.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            What’s the average income at this BBQ?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Ten neighbors have ordinary incomes. Then a guest earning $500 million a year shows up.
+        </p>
+
+        <div class="hanten-graphic">
+            <div class="h001-shell">
+
+                <div class="h001-stage">
+                    <div
+                        class="h001-tabs"
+                        id="tabs"
+                        role="group"
+                        aria-label="BBQ comparison"
+                    >
+                        <button class="active" data-ceo="0" aria-pressed="true">
+                            Without the guest
+                        </button>
+
+                        <button data-ceo="1" aria-pressed="false">
+                            A guest earning $500M/yr walks in
+                        </button>
+                    </div>
+
+                    <div class="h001-readouts" aria-live="polite">
+                        <div class="h001-readout">
+                            <div class="h001-label">Median income</div>
+                            <div class="h001-value median" id="median-val">$80,500</div>
+                            <div class="h001-delta" id="median-delta"></div>
+                        </div>
+
+                        <div class="h001-readout">
+                            <div class="h001-label">Mean (“average”) income</div>
+                            <div class="h001-value mean" id="mean-val">$86,400</div>
+                            <div class="h001-delta" id="mean-delta"></div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="h001-people"
+                        id="people"
+                        role="img"
+                        aria-label="Bar chart comparing ten household incomes"
+                    ></div>
+
+                    <div class="h001-note-under" id="scale-note">
+                        Bar heights: income, linear scale.
+                    </div>
+                </div>
+
+                <div class="h001-caption">
+                    <p><strong>No one else at the BBQ got richer.</strong> Only the summary changed.</p>
+                    <p>The mean jumped from $86,400 to $45.5 million. The median barely moved, from $80,500 to $87,000.</p>
+                </div>
+
+                <p class="hanten-reflection">
+                    When someone tells you the “average,” what do you need to know before deciding what it means?
+                </p>
+
+                <details class="h001-explore">
+                    <summary>Mean or median?</summary>
+                    <p>
+                        The mean uses every value, so an extreme value can move it dramatically.
+                        The median is the middle value, so it is much less sensitive to a single outlier.
+                        Neither is automatically better: the useful measure depends on the question.
+                    </p>
+                </details>
+
+                <p class="h001-source-note">Example incomes are invented; the arithmetic is exact.</p>
+
+                <div class="h001-save-image">
+                    <div id="save-image-slot"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const INCOMES = [28000, 41000, 52000, 61000, 74000, 87000, 95000, 112000, 134000, 180000];
+        const CEO = 500000000;
+
+        const fmt = n => "$" + Math.round(n).toLocaleString();
+        const fmtShort = n => n >= 1e6
+            ? "$" + (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M"
+            : "$" + Math.round(n / 1000) + "k";
+
+        function median(arr) {
+            const sorted = [...arr].sort((a, b) => a - b);
+            const mid = Math.floor(sorted.length / 2);
+            return sorted.length % 2
+                ? sorted[mid]
+                : (sorted[mid - 1] + sorted[mid]) / 2;
+        }
+
+        const mean = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+
+        let ceoIn = false;
+
+        const peopleEl = document.getElementById("people");
+        const tabButtons = document.querySelectorAll("#tabs button");
+
+        function render() {
+            const crowd = ceoIn ? [...INCOMES, CEO] : [...INCOMES];
+            const max = Math.max(...crowd);
+
+            peopleEl.innerHTML = "";
+
+            crowd.forEach((income, index) => {
+                const person = document.createElement("div");
+
+                person.className =
+                    "h001-person" + (income === CEO ? " billionaire" : "");
+
+                const height = Math.max(2, (income / max) * 100);
+
+                person.innerHTML = `
+                    <div class="h001-bar" style="height:${height}%"></div>
+                    <div class="h001-who">${income === CEO ? "Guest" : "#" + (index + 1)}</div>
+                    <div class="h001-amt">${fmtShort(income)}</div>
+                `;
+
+                peopleEl.appendChild(person);
+            });
+
+            document.getElementById("median-val").textContent = fmt(median(crowd));
+            document.getElementById("mean-val").textContent = fmt(mean(crowd));
+
+            document.getElementById("median-delta").textContent =
+                ceoIn ? "was $80,500 — barely moved" : "";
+
+            document.getElementById("mean-delta").textContent =
+                ceoIn ? "was $86,400 — up 527×" : "";
+
+            document.getElementById("scale-note").textContent =
+                ceoIn
+                    ? "Everyone else’s bar just flattened. Their incomes did not change — only the scale of the picture did."
+                    : "Bar heights: income, linear scale.";
+
+            tabButtons.forEach(button => {
+                const isActive = (button.dataset.ceo === "1") === ceoIn;
+                button.classList.toggle("active", isActive);
+                button.setAttribute("aria-pressed", isActive ? "true" : "false");
+            });
+
+            peopleEl.setAttribute(
+                "aria-label",
+                ceoIn
+                    ? "Bar chart showing ten ordinary incomes compressed near zero after adding one 500 million dollar income."
+                    : "Bar chart showing ten household incomes ranging from 28 thousand to 180 thousand dollars."
+            );
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                ceoIn = button.dataset.ceo === "1";
+                render();
+            });
+        });
+
+        render();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "What’s the average income at this BBQ?",
+            filename: "H001_v2.png"
+        });
+    </script>
+
+</body>
+</html>

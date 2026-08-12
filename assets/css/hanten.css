@@ -1,0 +1,263 @@
+/* ==========================================================
+   HANTEN CSS FRAMEWORK
+   Version 0.3
+
+   Purpose:
+   Shared visual foundation for Hanten exhibits.
+
+   Core goals:
+   - Question first, but compact.
+   - Primary visual enters the first desktop viewport whenever practical.
+   - Soft paper background + restrained teal-green borders create
+     a recognizable Hanten visual language.
+   - Editorial hierarchy is standardized without making exhibits rigid.
+   ========================================================== */
+
+:root {
+    /* Typography */
+    --hanten-font:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    /* Core colors */
+    --hanten-paper: #eef1ec;
+    --hanten-panel: #ffffff;
+    --hanten-text: #1f1f1f;
+    --hanten-muted: #666666;
+    --hanten-accent: #0e7c86;
+
+    /* Shared structural colors */
+    --hanten-border: rgba(14, 124, 134, 0.18);
+    --hanten-border-soft: rgba(14, 124, 134, 0.10);
+    --hanten-accent-soft: rgba(14, 124, 134, 0.10);
+
+    /* Layout */
+    --hanten-page-width: 1200px;
+    --hanten-graphic-width: 900px;
+    --hanten-text-width: 760px;
+
+    /* Spacing */
+    --hanten-space-xs: 0.5rem;
+    --hanten-space-sm: 1rem;
+    --hanten-space-md: 2rem;
+    --hanten-space-lg: 4rem;
+    --hanten-space-xl: 6rem;
+}
+
+/* ==========================================================
+   1. RESET + PAGE
+   ========================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--hanten-font);
+    color: var(--hanten-text);
+    background: var(--hanten-paper);
+    line-height: 1.5;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg,
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ==========================================================
+   2. EXHIBIT FRAME
+
+   Compact by design so question + visual can share the first
+   viewport whenever the exhibit format reasonably allows it.
+   ========================================================== */
+
+.hanten-exhibit {
+    width: 100%;
+    max-width: var(--hanten-page-width);
+
+    margin: 0 auto;
+
+    padding:
+        clamp(1rem, 2.5vh, 1.75rem)
+        clamp(1rem, 3vw, 2rem)
+        clamp(2rem, 5vh, 4rem);
+}
+
+/* ==========================================================
+   3. QUESTION + SUBTITLE
+   ========================================================== */
+
+.hanten-question {
+    max-width: 900px;
+
+    margin:
+        0 auto
+        0.35rem;
+
+    text-align: center;
+
+    font-size: clamp(1.45rem, 2.4vw, 2rem);
+    font-weight: 700;
+    line-height: 1.15;
+
+    letter-spacing: -0.018em;
+}
+
+.hanten-subtitle {
+    max-width: var(--hanten-text-width);
+
+    margin:
+        0 auto
+        clamp(0.75rem, 2vh, 1.25rem);
+
+    text-align: center;
+
+    font-size: clamp(0.9rem, 1.35vw, 1rem);
+    line-height: 1.4;
+
+    color: var(--hanten-muted);
+}
+
+/* ==========================================================
+   4. PRIMARY GRAPHIC
+   ========================================================== */
+
+.hanten-graphic {
+    width: min(100%, var(--hanten-graphic-width));
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ==========================================================
+   5. STANDARD SURFACES
+
+   Use these classes where appropriate rather than inventing a
+   new border/background treatment in every exhibit.
+   ========================================================== */
+
+.hanten-panel,
+.hanten-card {
+    background: var(--hanten-panel);
+    border: 1px solid var(--hanten-border);
+}
+
+.hanten-takeaway-box {
+    background: var(--hanten-accent-soft);
+    border-left: 3px solid var(--hanten-accent);
+}
+
+/* ==========================================================
+   6. SHARED TYPOGRAPHY
+   ========================================================== */
+
+.hanten-section-title {
+    margin: 0;
+
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.hanten-body {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.hanten-takeaway {
+    font-size: 1rem;
+    line-height: 1.45;
+    font-weight: 700;
+}
+
+.hanten-reflection {
+    margin:
+        1rem auto
+        0;
+
+    text-align: center;
+
+    font-size: 0.95rem;
+    line-height: 1.45;
+    font-weight: 500;
+
+    color: var(--hanten-muted);
+}
+
+.hanten-source {
+    font-size: 0.76rem;
+    line-height: 1.45;
+
+    color: var(--hanten-muted);
+}
+
+/* ==========================================================
+   7. UTILITY ACTIONS
+
+   Save/share controls are secondary to the discovery and should
+   normally appear after the explanatory content.
+   ========================================================== */
+
+.hanten-utility {
+    margin-top: 0.75rem;
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+.hanten-utility button,
+.hanten-utility a {
+    font-size: 0.75rem;
+    opacity: 0.72;
+}
+
+.hanten-utility button:hover,
+.hanten-utility button:focus-visible,
+.hanten-utility a:hover,
+.hanten-utility a:focus-visible {
+    opacity: 1;
+}
+
+/* ==========================================================
+   8. MOBILE
+   ========================================================== */
+
+@media (max-width: 600px) {
+    .hanten-exhibit {
+        padding-top: 0.9rem;
+        padding-left: 0.9rem;
+        padding-right: 0.9rem;
+    }
+
+    .hanten-question {
+        font-size: clamp(1.3rem, 6vw, 1.65rem);
+        line-height: 1.16;
+    }
+
+    .hanten-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .hanten-body,
+    .hanten-takeaway,
+    .hanten-reflection {
+        font-size: 0.92rem;
+    }
+}
