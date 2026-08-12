@@ -57,7 +57,7 @@
     return lines;
   }
 
-  async function capture(target, title, filename, btn) {
+  async function capture(target, title, filename, btn, action = "save") {
     const originalLabel = btn.textContent;
     btn.disabled = true;
     btn.textContent = "Rendering…";
@@ -84,20 +84,27 @@
       const canvas = shot;
 
       canvas.toBlob(async blob => {
-        // Prefer the native share sheet when the browser genuinely supports
-        // sharing files (checked against the real file, not just guessed
-        // from navigator.share's presence) — falls back to the original
-        // forced download everywhere else, including when the user cancels
-        // the share sheet without picking anything.
+        if (!blob) return;
+
         const file = new File([blob], filename, { type: "image/png" });
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          try {
-            await navigator.share({ files: [file], title });
-            btn.disabled = false;
-            btn.textContent = originalLabel;
-            return;
-          } catch (err) {
-            // cancelled or failed — fall through to download
+
+        if (action === "share") {
+          if (
+            typeof navigator.share === "function" &&
+            (!navigator.canShare || navigator.canShare({ files: [file] }))
+          ) {
+            try {
+              await navigator.share({ files: [file], title });
+              btn.disabled = false;
+              btn.textContent = originalLabel;
+              return;
+            } catch (err) {
+              if (err && err.name === "AbortError") {
+                btn.disabled = false;
+                btn.textContent = originalLabel;
+                return;
+              }
+            }
           }
         }
 
@@ -108,7 +115,9 @@
         document.body.appendChild(a);
         a.click();
         a.remove();
-        URL.revokeObjectURL(url);
+
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+
         btn.disabled = false;
         btn.textContent = originalLabel;
       }, "image/png");
@@ -125,14 +134,23 @@
       injectStyleOnce();
       const slotEl = document.querySelector(slot);
       if (!slotEl) { console.error("save-image slot not found:", slot); return; }
-      const btn = document.createElement("button");
-      btn.className = "save-image-btn";
-      // navigator.share existing is a reasonable signal that file-sharing is
-      // likely available — the exact capability is re-checked against the
-      // real file at click time, with a silent fallback to download.
-      btn.textContent = typeof navigator.share === "function" ? "⬆ Share image" : "⬇ Save as image";
-      btn.addEventListener("click", () => capture(target, title, filename, btn));
-      slotEl.appendChild(btn);
+      const saveBtn = document.createElement("button");
+      saveBtn.className = "save-image-btn";
+      saveBtn.textContent = "↓ Save image";
+      saveBtn.addEventListener("click", () =>
+        capture(target, title, filename, saveBtn, "save")
+      );
+      slotEl.appendChild(saveBtn);
+
+      if (typeof navigator.share === "function") {
+        const shareBtn = document.createElement("button");
+        shareBtn.className = "save-image-btn share-image-btn";
+        shareBtn.textContent = "↗ Share image";
+        shareBtn.addEventListener("click", () =>
+          capture(target, title, filename, shareBtn, "share")
+        );
+        slotEl.appendChild(shareBtn);
+      }
     },
   };
 })();
