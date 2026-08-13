@@ -34,11 +34,15 @@ fi
 SOURCE_HTML="$SOURCE_DIR/${ID}_v2.html"
 
 if [[ ! -f "$SOURCE_HTML" ]]; then
-  echo "ERROR: Standardized source file not found:"
-  echo "$SOURCE_HTML"
   echo
-  echo "This exhibit may not have completed the v2 standardization pass."
-  exit 1
+  echo "NOT READY FOR PUBLICATION: $ID"
+  echo
+  echo "Required standardized file does not exist:"
+  echo "  $SOURCE_HTML"
+  echo
+  echo "$ID must complete the Hanten v2 standardization pass before publication."
+  echo "No website files were changed."
+  exit 2
 fi
 
 DEST_DIR="exhibits/$ID"
