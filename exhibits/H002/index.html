@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H002 — Point Nemo</title>
+<meta name="description" content="At Point Nemo, the nearest people can sometimes be astronauts aboard the International Space Station.">
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+<style>
+:root{--h002-ink:#1c2733;--h002-muted:#5f6b76;--h002-line:rgba(28,39,51,.14);--h002-ocean:#d9edf5;--h002-land:#d9ddd4;--h002-land-line:#b8c0b5;--h002-graticule:rgba(28,39,51,.10);--h002-nemo:#c1442d;--h002-land-ring:#0e7c86;--h002-iss-ring:#c98a23;--h002-panel:#fff}
+body{background:var(--hanten-paper,#f4f3ef)}
+main.hanten-exhibit{max-width:1180px;margin:0 auto}.h002-shell{width:min(100%,940px);margin:0 auto}.h002-map-wrap{width:min(100%,820px);margin:0 auto;background:var(--h002-panel);border:1px solid var(--h002-line);padding:.4rem}#h002-map{display:block;width:100%;height:auto}.h002-sphere{fill:var(--h002-ocean);stroke:var(--h002-line);stroke-width:1}.h002-graticule{fill:none;stroke:var(--h002-graticule);stroke-width:.65}.h002-land{fill:var(--h002-land);stroke:var(--h002-land-line);stroke-width:.65}.h002-ring{fill:none;stroke-width:2}.h002-ring--land{stroke:var(--h002-land-ring)}.h002-ring--iss{stroke:var(--h002-iss-ring);stroke-dasharray:5 4}.h002-label{font-family:var(--hanten-font);font-size:13px;font-weight:700;}.h002-label--land{fill:var(--h002-land-ring)}.h002-label--iss{fill:var(--h002-iss-ring)}.h002-marker{fill:var(--h002-nemo);stroke:#fff;stroke-width:2.5}.h002-marker-label{font-family:var(--hanten-font);font-size:15px;font-weight:800;fill:var(--h002-ink);}.h002-legend{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin:.55rem auto 0;font-size:.84rem;color:var(--h002-muted)}.h002-key{display:inline-block;width:24px;height:0;margin-right:.45rem;vertical-align:middle;border-top:2px solid}.h002-key--land{border-color:var(--h002-land-ring)}.h002-key--iss{border-color:var(--h002-iss-ring);border-top-style:dashed}.h002-reveal{max-width:760px;margin:1.15rem auto 0;text-align:left;font-size:clamp(1.05rem,2vw,1.3rem);line-height:1.5}.h002-source{max-width:760px;margin:1rem auto 0;color:var(--h002-muted);font-size:.82rem;line-height:1.5;text-align:center}.h002-explore{max-width:760px;margin:.75rem auto 0;padding:.6rem 0;border-top:1px solid var(--h002-line);border-bottom:1px solid var(--h002-line);color:var(--h002-muted);font-size:.82rem;line-height:1.5}.h002-explore summary{cursor:pointer;color:var(--h002-ink);font-weight:750}.h002-explore p{margin:.65rem 0 0}.h002-save{max-width:760px;margin:.75rem auto 0;display:flex;justify-content:flex-end}.h002-save button{font-size:.75rem;opacity:.72}.h002-save button:hover,.h002-save button:focus-visible{opacity:1}@media(max-width:700px){.h002-label{font-size:10px}.h002-marker-label{font-size:12px}}
+</style>
+
+<style>
+.hanten-image-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:.55rem;
+  flex-wrap:wrap;
+}
+.hanten-image-actions button{
+  appearance:none;
+  border:1px solid var(--hanten-border, rgba(28,39,51,.16));
+  background:var(--hanten-paper, #f4f3ef);
+  color:var(--hanten-text, #1c2733);
+  font-family:var(--hanten-font, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif);
+  font-size:.76rem;
+  font-weight:700;
+  padding:.55rem .8rem;
+  cursor:pointer;
+}
+.hanten-image-actions button:hover,
+.hanten-image-actions button:focus-visible{
+  border-color:var(--hanten-accent, #0e7c86);
+  color:var(--hanten-accent, #0e7c86);
+}
+.hanten-image-actions button:disabled{
+  opacity:.55;
+  cursor:wait;
+}
+</style>
+
+
+<style>
+/* H002 v2 — ocean/scale palette */
+body{
+  background:#edf3f4 !important;
+}
+.h002-map-wrap{
+  background:#ffffff !important;
+}
+.hanten-image-actions button{
+  background:#ffffff !important;
+  color:#1c2733 !important;
+  border-color:rgba(28,39,51,.18) !important;
+}
+.hanten-image-actions button:hover,
+.hanten-image-actions button:focus-visible{
+  background:#ffffff !important;
+  color:#356d78 !important;
+  border-color:#5d8f98 !important;
+}
+
+/* Export composition */
+.hanten-export-card{
+  position:fixed;
+  left:-10000px;
+  top:0;
+  width:1080px;
+  padding:30px 78px 56px;
+  box-sizing:border-box;
+  background:#edf3f4;
+  color:var(--hanten-text,#1c2733);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-card .hanten-question{
+  margin:0 0 14px;
+  font-size:44px !important;
+  line-height:1.08 !important;
+}
+.hanten-export-card .hanten-subtitle{
+  margin-bottom:28px;
+  font-size:22px !important;
+  line-height:1.4 !important;
+  color:#4f6268 !important;
+}
+.hanten-export-card .h002-export-map{
+  background:#ffffff;
+  border:1px solid rgba(28,39,51,.14);
+  padding:12px;
+}
+.hanten-export-card .h002-export-legend{
+  margin-top:14px;
+}
+.hanten-export-card .hanten-export-aha{
+  margin-top:24px;
+  padding-left:18px;
+  border-left:4px solid #5d8f98;
+  font-size:17px;
+  line-height:1.45;
+  color:#35464d;
+}
+.hanten-export-card .hanten-export-reflection{
+  margin-top:18px;
+  text-align:center;
+  font-size:15px;
+  line-height:1.4;
+  font-weight:600;
+  color:#52656b;
+}
+</style>
+
+
+<style>
+/* H002 v2 label clarity */
+</style>
+
+
+<style>
+/* HANTEN V2 TYPOGRAPHY — match H001 */
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  font-family:var(--hanten-font) !important;
+}
+
+/* Explanatory/Aha text uses the same quiet scale as H001. */
+.h002-reveal{
+  max-width:760px !important;
+  margin:1rem auto 0 !important;
+  padding:.15rem 0 !important;
+  border-left:none !important;
+  text-align:left !important;
+  font-size:.9rem !important;
+  line-height:1.5 !important;
+  color:var(--h002-muted) !important;
+}
+.h002-reveal strong{
+  color:var(--h002-ink) !important;
+}
+
+/* Closing reflection uses the shared Hanten reflection treatment. */
+.hanten-reflection{
+  margin:1rem auto 0 !important;
+  text-align:center !important;
+  font-family:var(--hanten-font) !important;
+  font-size:.95rem !important;
+  line-height:1.45 !important;
+  font-weight:500 !important;
+  color:var(--h002-muted) !important;
+}
+</style>
+
+
+<style>
+/* HANTEN PNG EXPORT STANDARD v1 */
+.hanten-export-card{
+  width:1080px !important;
+  padding:30px 70px 54px !important;
+  box-sizing:border-box !important;
+}
+.hanten-export-card .hanten-question{
+  max-width:900px !important;
+  margin:0 auto 10px !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:34px !important;
+  line-height:1.12 !important;
+  font-weight:750 !important;
+  letter-spacing:0 !important;
+}
+.hanten-export-card .hanten-subtitle{
+  max-width:900px !important;
+  margin:0 auto 20px !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:18px !important;
+  line-height:1.4 !important;
+  font-weight:400 !important;
+  letter-spacing:0 !important;
+}
+.hanten-export-card .hanten-export-aha{
+  margin-top:20px !important;
+  padding-left:0 !important;
+  border-left:none !important;
+  font-size:16px !important;
+  line-height:1.45 !important;
+  font-weight:400 !important;
+}
+.hanten-export-card .hanten-export-reflection{
+  margin-top:16px !important;
+  text-align:center !important;
+  font-size:14px !important;
+  line-height:1.4 !important;
+  font-weight:400 !important;
+}
+</style>
+
+
+<style>
+/* Reference/source text: supporting material, not centered exhibit content */
+.h002-sources,
+.h002-source,
+.sources,
+.source-note{
+  text-align:left !important;
+  text-wrap:pretty;
+  max-width:760px;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+</style>
+
+
+<style>
+.h002-source{
+  text-align:left !important;
+  text-wrap:pretty;
+}
+.h002-source a{
+  color:#356d78;
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+</style>
+
+
+<style>
+.hanten-export-card{overflow:visible!important}
+.hanten-export-card .hanten-export-aha,
+.hanten-export-card .caption,
+.hanten-export-card .source,
+.hanten-export-card .h002-source{
+  text-align:left!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+.hanten-export-card .hanten-export-reflection{
+  text-align:center!important;
+}
+</style>
+
+</head>
+<body>
+<main class="hanten-exhibit">
+<h1 class="hanten-question">How far can you get from everyone?</h1>
+<p class="hanten-subtitle">At one spot in the South Pacific, the nearest land is thousands of kilometers away.</p>
+<div class="hanten-graphic"><div class="h002-shell">
+<div class="h002-map-wrap" id="h002-capture"><svg id="h002-map" viewBox="0 0 900 540" role="img" aria-labelledby="h002-title h002-desc"><title id="h002-title">Point Nemo distance comparison</title><desc id="h002-desc">An azimuthal equidistant map centered on Point Nemo. A large ring marks roughly 2,688 kilometers to the nearest land, while a much smaller ring marks about 408 kilometers, the approximate altitude of the International Space Station used for this comparison.</desc></svg></div>
+<div class="h002-legend"><span><span class="h002-key h002-key--land"></span>Nearest land ≈ 2,688 km</span><span><span class="h002-key h002-key--iss"></span>ISS altitude ≈ 408 km</span></div>
+<div class="h002-reveal"><strong>At Point Nemo, the closest people can sometimes be in orbit.</strong> The nearest land is more than six times farther away than the ISS is above Earth.</div>
+<p class="hanten-reflection">What feels far away only because you haven’t compared it to something else?</p>
+<details class="h002-explore"><summary>How are these distances being compared?</summary><p>The 2,688 km distance is measured across Earth’s surface from Point Nemo to the nearest land. The ISS figure is its approximate altitude above Earth, about 408 km in this comparison. They are different kinds of distance, but the rings are drawn to the same scale to make the size contrast visible.</p></details>
+<div class="h002-source">
+  <strong>Sources:</strong>
+  <a href="https://oceanservice.noaa.gov/facts/nemo.html" target="_blank" rel="noopener noreferrer">NOAA National Ocean Service</a>
+  for Point Nemo’s coordinates and its roughly 2,688 km distance from the nearest land;
+  <a href="https://www.nasa.gov/reference/international-space-station/" target="_blank" rel="noopener noreferrer">NASA</a>
+  for the ISS orbital altitude range (about 370–460 km; this exhibit uses 408 km as an illustrative comparison value).
+  World boundaries use the shared Hanten 1:10m countries dataset.
+</div>
+<div class="h002-save"><div id="save-image-slot"></div></div>
+</div></div>
+</main>
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/geodata/world/countries-10m.js"></script>
+<script>
+(()=>{"use strict";// ============================================================
+// HANTEN LABEL ADJUSTMENTS
+// Change x to move a label left (-) or right (+).
+// Change y to move a label up (-) or down (+).
+// ============================================================
+const LABELS = {
+  pointNemo: { x: -55, y: 52 },
+  iss:       { x: 48,  y: -42 }
+};
+
+const POINT_NEMO={lon:-123.3933,lat:-48.8767,name:"Point Nemo"},NEAREST_LAND_KM=2688,ISS_ALTITUDE_KM=408,EARTH_RADIUS_KM=6371,width=900,height=540,VIEW_KM=7200;const svg=d3.select("#h002-map"),viewRadiusPx=Math.min(width,height)*.46,scale=viewRadiusPx/(VIEW_KM/EARTH_RADIUS_KM);const projection=d3.geoAzimuthalEquidistant().rotate([-POINT_NEMO.lon,-POINT_NEMO.lat]).scale(scale).translate([width/2,height/2]);const path=d3.geoPath(projection),kmToPx=km=>scale*(km/EARTH_RADIUS_KM),[cx,cy]=projection([POINT_NEMO.lon,POINT_NEMO.lat]);svg.append("path").datum({type:"Sphere"}).attr("class","h002-sphere").attr("d",path);svg.append("path").datum(d3.geoGraticule10()).attr("class","h002-graticule").attr("d",path);svg.append("g").selectAll("path").data(COUNTRIES_10M_GEOJSON.features).join("path").attr("class","h002-land").attr("d",path);const landR=kmToPx(NEAREST_LAND_KM),issR=kmToPx(ISS_ALTITUDE_KM);svg.append("circle").attr("class","h002-ring h002-ring--land").attr("cx",cx).attr("cy",cy).attr("r",landR);svg.append("text").attr("class","h002-label h002-label--land").attr("x",cx).attr("y",cy-landR-10).attr("text-anchor","middle").text("Nearest land");svg.append("circle").attr("class","h002-ring h002-ring--iss").attr("cx",cx).attr("cy",cy).attr("r",issR);svg.append("text").attr("class","h002-label h002-label--iss").attr("x",cx+LABELS.iss.x).attr("y",cy+LABELS.iss.y).text("ISS altitude");svg.append("circle").attr("class","h002-marker").attr("cx",cx).attr("cy",cy).attr("r",5);svg.append("text").attr("class","h002-marker-label").attr("x",cx+LABELS.pointNemo.x).attr("y",cy+LABELS.pointNemo.y).attr("text-anchor","middle").text(POINT_NEMO.name)})();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+<script>
+(() => {
+  "use strict";
+
+  const targetSelector = "#h002-capture";
+  const filename = "H002_v2.png";
+  const shareTitle = "How far can you get from everyone?";
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+
+  slot.classList.add("hanten-image-actions");
+  slot.innerHTML = "";
+
+  const saveButton = document.createElement("button");
+  saveButton.type = "button";
+  saveButton.textContent = "Save Image";
+
+  const shareButton = document.createElement("button");
+  shareButton.type = "button";
+  shareButton.textContent = "Share Image";
+
+  slot.append(saveButton, shareButton);
+
+  async function renderBlob() {
+    const question=document.querySelector(".hanten-question");
+    const subtitle=document.querySelector(".hanten-subtitle");
+    const mapWrap=document.querySelector(".h002-map-wrap");
+    const legend=document.querySelector(".h002-legend");
+
+    if(!question || !mapWrap) throw new Error("Export content not found.");
+
+    const card=document.createElement("div");
+    card.className="hanten-export-card";
+
+    const titleCanvas=document.createElement("canvas");
+    titleCanvas.width=1800;
+    titleCanvas.height=92;
+    titleCanvas.style.width="900px";
+    titleCanvas.style.height="46px";
+    titleCanvas.style.display="block";
+    titleCanvas.style.margin="0 auto 10px";
+    const titleCtx=titleCanvas.getContext("2d");
+    titleCtx.scale(2,2);
+    titleCtx.font='750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    titleCtx.fillStyle="#1c2733";
+    titleCtx.textAlign="center";
+    titleCtx.textBaseline="middle";
+    titleCtx.fillText("How far can you get from everyone?",450,23);
+    card.appendChild(titleCanvas);
+
+    const subtitleCanvas=document.createElement("canvas");
+    subtitleCanvas.width=1800;
+    subtitleCanvas.height=56;
+    subtitleCanvas.style.width="900px";
+    subtitleCanvas.style.height="28px";
+    subtitleCanvas.style.display="block";
+    subtitleCanvas.style.margin="0 auto 20px";
+    const subCtx=subtitleCanvas.getContext("2d");
+    subCtx.scale(2,2);
+    subCtx.font='400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    subCtx.fillStyle="#4f6268";
+    subCtx.textAlign="center";
+    subCtx.textBaseline="middle";
+    subCtx.fillText("At one spot in the South Pacific, the nearest land is thousands of kilometers away.",450,14);
+    card.appendChild(subtitleCanvas);
+
+    const mapBox=document.createElement("div");
+    mapBox.className="h002-export-map";
+    mapBox.appendChild(mapWrap.querySelector("svg").cloneNode(true));
+    card.appendChild(mapBox);
+
+    if(legend){
+      const legendClone=legend.cloneNode(true);
+      legendClone.classList.add("h002-export-legend");
+      card.appendChild(legendClone);
+    }
+
+    const aha=document.createElement("div");
+    aha.className="hanten-export-aha";
+    aha.innerHTML="<strong>At Point Nemo, the closest people can sometimes be in orbit.</strong> The nearest land is more than six times farther away than the ISS is above Earth.";
+    card.appendChild(aha);
+
+    const reflection=document.createElement("div");
+    reflection.className="hanten-export-reflection";
+    reflection.textContent="What feels far away only because you haven’t compared it to something else?";
+    card.appendChild(reflection);
+
+    document.body.appendChild(card);
+
+    try{
+      const canvas=await html2canvas(card,{
+        backgroundColor:null,
+        scale:2,
+        useCORS:true,
+        width:card.scrollWidth,
+        height:card.scrollHeight
+      });
+      return await new Promise((resolve,reject)=>{
+        canvas.toBlob(blob=>blob?resolve(blob):reject(new Error("Could not create image.")),"image/png");
+      });
+    }finally{
+      card.remove();
+    }
+  }
+
+  async function downloadBlob(blob) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  saveButton.addEventListener("click", async () => {
+    saveButton.disabled = true;
+    try {
+      await downloadBlob(await renderBlob());
+    } catch (err) {
+      console.error(err);
+    } finally {
+      saveButton.disabled = false;
+    }
+  });
+
+  shareButton.addEventListener("click", async () => {
+    shareButton.disabled = true;
+    try {
+      const blob = await renderBlob();
+      const file = new File([blob], filename, { type: "image/png" });
+
+      if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [file] }))) {
+        await navigator.share({ title: shareTitle, files: [file] });
+      } else {
+        await downloadBlob(blob);
+        window.alert("Direct sharing is not available in this browser. The image was saved instead.");
+      }
+    } catch (err) {
+      if (!err || err.name !== "AbortError") console.error(err);
+    } finally {
+      shareButton.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
