@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — Can you win most of the seats without most of the votes?</title>
+<meta name="description" content="The same 36 voters can produce three different seat outcomes when only the district boundaries change.">
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #f1f0ed;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #6b7280;
+    --accent-soft: rgba(107,114,128,0.10);
+    --blue: #1f6f8b;
+    --blue-soft: #cfe3e8;
+    --red: #c1442d;
+    --red-soft: #f0d9d2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+
+  .tally {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 0.9rem 1.2rem;
+    margin: 0.6rem 0 1rem;
+    font-size: 0.92rem;
+  }
+  .tally b { font-family: var(--hanten-font); }
+  .tally .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:0.4rem; vertical-align:middle; }
+
+  .maps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  @media (max-width: 760px) {
+    .maps { grid-template-columns: 1fr; }
+  }
+  .map-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 0.65rem;
+  }
+  .map-card h2 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 650;
+    margin: 0 0 0.15rem;
+  }
+  .map-card .map-note {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin: 0 0 0.8rem;
+  }
+  .grid6 {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    aspect-ratio: 1;
+    width: 100%;
+  }
+  .cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--hanten-font);
+    font-size: 11px;
+  }
+  .cell.B { background: var(--blue-soft); color: var(--blue); }
+  .cell.R { background: var(--red-soft); color: var(--red); }
+
+  .result {
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--hanten-font);
+    font-size: 0.95rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--line);
+  }
+  .result .seats-b, .result .seats-r { font-weight: 600; }
+  .result .win { text-decoration: underline; text-underline-offset: 3px; }
+
+  .caption {
+    margin-top: 1.15rem;
+    padding: 0.15rem 0;
+    border-left: none;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0; }
+  .h003-explore {
+    margin-top: .75rem;
+    padding: .6rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: .82rem;
+    line-height: 1.5;
+  }
+  .h003-explore summary { cursor:pointer; color:var(--ink); font-weight:750; }
+  .h003-explore p { margin:.65rem 0 0; }
+  .h003-explore a { color:var(--accent); }
+  .h003-save { margin-top: .75rem; display:flex; justify-content:flex-end; }
+  .h003-save button { font-size:.75rem; opacity:.72; }
+  .h003-save button:hover, .h003-save button:focus-visible { opacity:1; }
+</style>
+
+<style>
+.hanten-image-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:.55rem;
+  flex-wrap:wrap;
+}
+.hanten-image-actions button{
+  appearance:none;
+  border:1px solid var(--hanten-border, rgba(28,39,51,.16));
+  background:var(--hanten-paper, #f4f3ef);
+  color:var(--hanten-text, #1c2733);
+  font-family:var(--hanten-font, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif);
+  font-size:.76rem;
+  font-weight:700;
+  padding:.55rem .8rem;
+  cursor:pointer;
+}
+.hanten-image-actions button:hover,
+.hanten-image-actions button:focus-visible{
+  border-color:var(--hanten-accent, #0e7c86);
+  color:var(--hanten-accent, #0e7c86);
+}
+.hanten-image-actions button:disabled{
+  opacity:.55;
+  cursor:wait;
+}
+</style>
+
+<style>
+.caption{max-width:760px;margin:1rem auto 0;font-size:.9rem!important}
+.hanten-reflection{margin:1rem auto 0!important;text-align:center!important;font-size:.95rem!important;line-height:1.45!important;font-weight:500!important;color:var(--ink-soft)!important}
+.hanten-image-actions button{background:#fff!important;color:var(--ink)!important;border-color:rgba(28,39,51,.18)!important}
+.hanten-export-card{position:fixed;left:-10000px;top:0;width:1080px;padding:64px 70px 58px;box-sizing:border-box;background:#f1f0ed;color:var(--ink);font-family:var(--hanten-font)}
+.hanten-export-card .hanten-question{margin:0 0 14px;font-size:44px!important;line-height:1.08!important}
+.hanten-export-card .hanten-subtitle{margin:0 0 26px;font-size:22px!important;line-height:1.4!important;color:var(--ink-soft)!important}
+.hanten-export-card .caption{font-size:17px!important;margin-top:24px!important}
+.hanten-export-reflection{margin-top:18px;text-align:center;font-size:15px;line-height:1.4;font-weight:600;color:#59616b}
+</style>
+<style>
+/* Hanten v2 title/subtitle standard */
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:900px;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+  text-wrap:balance;
+}
+
+/* Saved/shared image: centered and balanced */
+.hanten-export-card .hanten-question,
+.hanten-export-card .hanten-subtitle{
+  max-width:900px;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+  text-wrap:balance;
+}
+.hanten-export-card .hanten-question{
+  margin-top:0 !important;
+  margin-bottom:14px !important;
+}
+.hanten-export-card .hanten-subtitle{
+  margin-top:0 !important;
+  margin-bottom:26px !important;
+}
+</style>
+
+
+<style>
+.hanten-export-title{
+  display:block;
+  width:100%;
+  max-width:900px;
+  margin:0 auto 14px;
+  text-align:center;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:44px;
+  font-weight:750;
+  line-height:1.08;
+  letter-spacing:0;
+  word-spacing:normal;
+  white-space:normal;
+}
+.hanten-export-subtitle{
+  display:block;
+  width:100%;
+  max-width:900px;
+  margin:0 auto 26px;
+  text-align:center;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:22px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:0;
+  word-spacing:normal;
+  white-space:normal;
+  color:var(--ink-soft);
+}
+</style>
+
+
+<style>
+/* H003 export refinements */
+.hanten-export-subtitle{
+  display:block !important;
+  width:auto !important;
+  max-width:860px !important;
+  margin:0 auto 24px !important;
+  padding:0 !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:22px !important;
+  font-weight:400 !important;
+  line-height:1.4 !important;
+  letter-spacing:0 !important;
+  word-spacing:0 !important;
+  white-space:normal !important;
+}
+
+/* Vote total line: centered, compact white panel */
+.hanten-export-card .tally{
+  display:flex !important;
+  width:max-content !important;
+  max-width:100% !important;
+  margin:0 auto 20px !important;
+  padding:.7rem 1rem !important;
+  justify-content:center !important;
+  gap:1.2rem !important;
+  background:#fff !important;
+}
+
+/* Closing question: no bold treatment */
+.hanten-export-reflection{
+  margin-top:18px !important;
+  text-align:center !important;
+  font-size:15px !important;
+  line-height:1.4 !important;
+  font-weight:400 !important;
+  color:#59616b !important;
+}
+</style>
+
+
+<style>
+/* H003 v2 — compact centered vote totals on webpage too */
+main.hanten-exhibit .tally{
+  width:max-content;
+  max-width:100%;
+  margin:.6rem auto 1rem;
+  justify-content:center;
+  padding:.7rem 1rem;
+  gap:1.2rem;
+}
+
+/* Export: reclaim vertical space at the top */
+.hanten-export-card{
+  padding:30px 70px 58px !important;
+}
+
+/* Build export subtitle from individually spaced words so html2canvas
+   cannot collapse word spaces. */
+.hanten-export-subtitle{
+  display:block !important;
+  max-width:860px !important;
+  margin:0 auto 24px !important;
+  padding:0 !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:22px !important;
+  font-weight:400 !important;
+  line-height:1.4 !important;
+  letter-spacing:0 !important;
+  word-spacing:normal !important;
+  white-space:normal !important;
+}
+.hanten-export-subtitle span{
+  display:inline-block !important;
+}
+</style>
+
+
+<style>
+/* ============================================================
+   HANTEN PNG EXPORT STANDARD v1
+   1080px canvas; graphic remains the hero.
+   ============================================================ */
+.hanten-export-card{
+  width:1080px !important;
+  padding:30px 70px 54px !important;
+  box-sizing:border-box !important;
+}
+.hanten-export-title,
+.hanten-export-card .hanten-question{
+  max-width:900px !important;
+  margin:0 auto 10px !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:34px !important;
+  line-height:1.12 !important;
+  font-weight:750 !important;
+  letter-spacing:0 !important;
+}
+.hanten-export-subtitle,
+.hanten-export-card .hanten-subtitle{
+  max-width:900px !important;
+  margin:0 auto 20px !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:18px !important;
+  line-height:1.4 !important;
+  font-weight:400 !important;
+  letter-spacing:0 !important;
+}
+.hanten-export-card .hanten-export-aha,
+.hanten-export-card .caption{
+  font-size:16px !important;
+  line-height:1.45 !important;
+  font-weight:400 !important;
+}
+.hanten-export-card .hanten-export-reflection,
+.hanten-export-reflection{
+  margin-top:16px !important;
+  text-align:center !important;
+  font-size:14px !important;
+  line-height:1.4 !important;
+  font-weight:400 !important;
+}
+</style>
+
+
+<style>
+/* ============================================================
+   H003 v2 — final Pass 2 overrides
+   ============================================================ */
+
+/* Web typography + hierarchy */
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:900px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  text-wrap:balance;
+}
+
+main.hanten-exhibit .tally{
+  width:max-content !important;
+  max-width:100% !important;
+  margin:.6rem auto 1rem !important;
+  justify-content:center !important;
+  padding:.7rem 1rem !important;
+  gap:1.2rem !important;
+  background:#fff !important;
+}
+
+.caption{
+  max-width:760px !important;
+  margin:1rem auto 0 !important;
+  padding:.15rem 0 !important;
+  border-left:none !important;
+  font-size:.9rem !important;
+  line-height:1.5 !important;
+  color:var(--ink-soft) !important;
+}
+.caption strong{color:var(--ink) !important}
+
+.hanten-reflection{
+  margin:1rem auto 0 !important;
+  text-align:center !important;
+  font-size:.95rem !important;
+  line-height:1.45 !important;
+  font-weight:500 !important;
+  color:var(--ink-soft) !important;
+}
+
+/* Neutral utility controls */
+.hanten-image-actions button{
+  background:#fff !important;
+  color:var(--ink) !important;
+  border-color:rgba(28,39,51,.18) !important;
+}
+
+/* PNG export standard aligned to H001 */
+.hanten-export-card{
+  position:fixed !important;
+  left:-10000px !important;
+  top:0 !important;
+  width:1080px !important;
+  padding:30px 70px 54px !important;
+  box-sizing:border-box !important;
+  background:#f1f0ed !important;
+  color:var(--ink) !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+}
+.hanten-export-card .tally{
+  width:max-content !important;
+  max-width:100% !important;
+  margin:0 auto 20px !important;
+  padding:.7rem 1rem !important;
+  justify-content:center !important;
+  gap:1.2rem !important;
+  background:#fff !important;
+}
+.hanten-export-card .maps{
+  gap:1rem !important;
+}
+.hanten-export-reflection{
+  margin-top:16px !important;
+  text-align:center !important;
+  font-size:14px !important;
+  line-height:1.4 !important;
+  font-weight:400 !important;
+  color:#59616b !important;
+}
+</style>
+
+
+<style>
+.hanten-export-card{overflow:visible!important}
+.hanten-export-card .hanten-export-aha,
+.hanten-export-card .caption,
+.hanten-export-card .source,
+.hanten-export-card .h002-source{
+  text-align:left!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+.hanten-export-card .hanten-export-reflection{
+  text-align:center!important;
+}
+</style>
+
+</head>
+<body>
+
+<main class="hanten-exhibit">
+  <h1 class="hanten-question">Can you win most of the seats without winning most of the votes?</h1>
+  <p class="hanten-subtitle">The same 36 voters. Three district maps. Three different outcomes.</p>
+  <div class="hanten-graphic">
+
+  <div class="tally">
+    <div><span class="dot" style="background:var(--blue)"></span><b>20 Blue voters</b> — 55.6% of the vote</div>
+    <div><span class="dot" style="background:var(--red)"></span><b>16 Red voters</b> — 44.4% of the vote</div>
+  </div>
+
+  <div class="maps" id="maps"></div>
+
+  <div class="caption">
+    <p><strong>Nothing changed except the district boundaries.</strong> The same voters produced a 2–2 split, a 3–1 Red result, and a 3–1 Blue result.</p>
+  </div>
+
+  <p class="hanten-reflection">
+    When can rearranging the same pieces change the result?
+  </p>
+
+  <details class="h003-explore">
+    <summary>How can boundaries change the result?</summary>
+    <p>
+      District elections count separate groups rather than one overall electorate. Moving the boundaries changes which voters are counted together, so the same total vote can produce different numbers of seats.
+    </p>
+    <p>
+      <a href="../H015 Gerrymander - Real Districts/H015.html" target="_blank" rel="noopener noreferrer">H015 — Gerrymander: Real Districts</a>
+      provides a real-world companion using actual congressional districts.
+    </p>
+    <p>
+      <a href="../H021 1960 World Series/H021.html" target="_blank" rel="noopener noreferrer">H021 — 1960 World Series</a>
+      shows the same broader idea in sports: winning the individual units that count can matter more than the overall total.
+    </p>
+  </details>
+
+  <div class="h003-save">
+    <div id="save-image-slot"></div>
+  </div>
+  </div>
+</main>
+
+<script>
+  const DATA = {
+    party: [
+      ["B","B","B","R","R","R"],
+      ["B","B","B","R","R","B"],
+      ["B","B","R","R","B","B"],
+      ["R","R","B","B","B","B"],
+      ["R","R","R","B","B","B"],
+      ["R","R","R","R","B","B"],
+    ],
+    maps: [
+      {
+        label: "Map A",
+        note: "Compact districts",
+        districts: [[0,0,0,1,1,1],[0,0,0,1,1,1],[0,0,0,1,1,1],[2,2,2,3,3,3],[2,2,2,3,3,3],[2,2,2,3,3,3]],
+      },
+      {
+        label: "Map B",
+        note: "Same voters, different boundaries",
+        districts: [[2,0,0,0,0,3],[2,0,0,0,0,3],[2,2,1,0,3,3],[2,1,1,3,3,3],[2,2,1,1,1,3],[2,2,1,1,1,3]],
+      },
+      {
+        label: "Map C",
+        note: "Same voters, different boundaries",
+        districts: [[3,0,0,0,0,0],[3,3,1,1,0,0],[3,3,1,1,1,0],[3,1,1,1,1,0],[3,2,2,2,2,2],[3,3,2,2,2,2]],
+      },
+    ],
+  };
+
+  const ROWS = 6, COLS = 6;
+  const THICK = "2.5px solid var(--ink)";
+  const THIN = "1px solid rgba(255,255,255,0.5)";
+
+  function districtIdAt(districtGrid, r, c) {
+    if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return null;
+    return districtGrid[r][c];
+  }
+
+  function seatResults(districtGrid) {
+    const tally = {}; // districtId -> {B,R}
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        const d = districtGrid[r][c];
+        const p = DATA.party[r][c];
+        tally[d] = tally[d] || { B: 0, R: 0 };
+        tally[d][p]++;
+      }
+    }
+    let bSeats = 0, rSeats = 0;
+    Object.values(tally).forEach(t => { t.B > t.R ? bSeats++ : rSeats++; });
+    return { bSeats, rSeats };
+  }
+
+  const mapsEl = document.getElementById("maps");
+
+  DATA.maps.forEach(map => {
+    const card = document.createElement("div");
+    card.className = "map-card";
+    card.setAttribute("role", "group");
+    card.setAttribute("aria-label", map.label + ": " + map.note);
+
+    const h2 = document.createElement("h2");
+    h2.textContent = map.label;
+    const noteEl = document.createElement("div");
+    noteEl.className = "map-note";
+    noteEl.textContent = map.note;
+
+    const gridEl = document.createElement("div");
+    gridEl.className = "grid6";
+    gridEl.setAttribute("role", "img");
+
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        const party = DATA.party[r][c];
+        const myDistrict = map.districts[r][c];
+        const cell = document.createElement("div");
+        cell.className = `cell ${party}`;
+        cell.textContent = party;
+        cell.style.borderTop = districtIdAt(map.districts, r - 1, c) === myDistrict ? THIN : THICK;
+        cell.style.borderBottom = districtIdAt(map.districts, r + 1, c) === myDistrict ? THIN : THICK;
+        cell.style.borderLeft = districtIdAt(map.districts, r, c - 1) === myDistrict ? THIN : THICK;
+        cell.style.borderRight = districtIdAt(map.districts, r, c + 1) === myDistrict ? THIN : THICK;
+        gridEl.appendChild(cell);
+      }
+    }
+
+    const { bSeats, rSeats } = seatResults(map.districts);
+    gridEl.setAttribute(
+      "aria-label",
+      `${map.label}, ${map.note}. Blue wins ${bSeats} seats and Red wins ${rSeats} seats.`
+    );
+    const result = document.createElement("div");
+    result.className = "result";
+    result.innerHTML = `
+      <span class="seats-b" style="color:var(--blue)">Blue ${bSeats}${bSeats > rSeats ? ' <span class="win">wins</span>' : ''}</span>
+      <span class="seats-r" style="color:var(--red)">Red ${rSeats}${rSeats > bSeats ? ' <span class="win">wins</span>' : ''}</span>
+    `;
+
+    card.append(h2, noteEl, gridEl, result);
+    mapsEl.appendChild(card);
+  });
+</script>
+
+
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+<script>
+(() => {
+  "use strict";
+
+  const targetSelector = "#maps";
+  const filename = "H003_v2.png";
+  const shareTitle = "Can you win most of the seats without winning most of the votes?";
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+
+  slot.classList.add("hanten-image-actions");
+  slot.innerHTML = "";
+
+  const saveButton = document.createElement("button");
+  saveButton.type = "button";
+  saveButton.textContent = "Save Image";
+
+  const shareButton = document.createElement("button");
+  shareButton.type = "button";
+  shareButton.textContent = "Share Image";
+
+  slot.append(saveButton, shareButton);
+
+  async function renderBlob() {
+    const tally=document.querySelector(".tally");
+    const maps=document.querySelector("#maps");
+    if(!maps) throw new Error("Export content not found.");
+
+    const card=document.createElement("div");
+    card.className="hanten-export-card";
+
+    // Title — fixed 34px export size
+    const titleCanvas=document.createElement("canvas");
+    titleCanvas.width=1800;
+    titleCanvas.height=168;
+    titleCanvas.style.width="900px";
+    titleCanvas.style.height="84px";
+    titleCanvas.style.display="block";
+    titleCanvas.style.margin="0 auto 8px";
+    const titleCtx=titleCanvas.getContext("2d");
+    titleCtx.scale(2,2);
+    titleCtx.font='750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    titleCtx.fillStyle="#1c2733";
+    titleCtx.textAlign="center";
+    titleCtx.textBaseline="middle";
+
+    const titleLine1="Can you win most of the seats";
+    const titleLine2="without winning most of the votes?";
+    titleCtx.fillText(titleLine1,450,21);
+    titleCtx.fillText(titleLine2,450,61);
+    card.appendChild(titleCanvas);
+
+    // Subtitle — fixed 18px export size
+    const subtitleCanvas=document.createElement("canvas");
+    subtitleCanvas.width=1800;
+    subtitleCanvas.height=56;
+    subtitleCanvas.style.width="900px";
+    subtitleCanvas.style.height="28px";
+    subtitleCanvas.style.display="block";
+    subtitleCanvas.style.margin="0 auto 20px";
+    const subCtx=subtitleCanvas.getContext("2d");
+    subCtx.scale(2,2);
+    subCtx.font='400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    subCtx.fillStyle="#4a5a6b";
+    subCtx.textAlign="center";
+    subCtx.textBaseline="middle";
+    subCtx.fillText("The same 36 voters. Three district maps. Three different outcomes.",450,14);
+    card.appendChild(subtitleCanvas);
+
+    if(tally) card.appendChild(tally.cloneNode(true));
+    card.appendChild(maps.cloneNode(true));
+
+    // Aha — fixed 14px export size, no vertical rule
+    const ahaCanvas=document.createElement("canvas");
+    ahaCanvas.width=1740;
+    ahaCanvas.height=100;
+    ahaCanvas.style.width="870px";
+    ahaCanvas.style.height="50px";
+    ahaCanvas.style.display="block";
+    ahaCanvas.style.margin="18px auto 0";
+    const aCtx=ahaCanvas.getContext("2d");
+    aCtx.scale(2,2);
+    aCtx.fillStyle="#1c2733";
+    aCtx.textBaseline="top";
+
+    const maxWidth=860;
+    const lineHeight=19;
+    let x=0, y=0;
+    const parts=[
+      {text:"Nothing changed except the district boundaries.", bold:true},
+      {text:" The same voters produced a 2–2 split, a 3–1 Red result, and a 3–1 Blue result.", bold:false}
+    ];
+
+    parts.forEach(part=>{
+      aCtx.font=(part.bold ? "750 " : "400 ") + '14px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+      const words=part.text.trim().split(" ");
+      words.forEach((word,index)=>{
+        let token=((index===0 && x===0) ? "" : " ") + word;
+        let w=aCtx.measureText(token).width;
+        if(x+w>maxWidth && x>0){
+          x=0; y+=lineHeight;
+          token=word;
+          w=aCtx.measureText(token).width;
+        }
+        aCtx.fillText(token,x,y);
+        x+=w;
+      });
+    });
+    card.appendChild(ahaCanvas);
+
+    const reflection=document.createElement("div");
+    reflection.className="hanten-export-reflection";
+    reflection.textContent="When can rearranging the same pieces change the result?";
+    card.appendChild(reflection);
+
+    document.body.appendChild(card);
+
+    try{
+      const canvas=await html2canvas(card,{
+        backgroundColor:null,
+        scale:2,
+        useCORS:true,
+        width:card.scrollWidth,
+        height:card.scrollHeight
+      });
+      return await new Promise((resolve,reject)=>{
+        canvas.toBlob(blob=>blob?resolve(blob):reject(new Error("Could not create image.")),"image/png");
+      });
+    }finally{
+      card.remove();
+    }
+  }
+
+  async function downloadBlob(blob) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  saveButton.addEventListener("click", async () => {
+    saveButton.disabled = true;
+    try {
+      await downloadBlob(await renderBlob());
+    } catch (err) {
+      console.error(err);
+    } finally {
+      saveButton.disabled = false;
+    }
+  });
+
+  shareButton.addEventListener("click", async () => {
+    shareButton.disabled = true;
+    try {
+      const blob = await renderBlob();
+      const file = new File([blob], filename, { type: "image/png" });
+
+      if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [file] }))) {
+        await navigator.share({ title: shareTitle, files: [file] });
+      } else {
+        await downloadBlob(blob);
+        window.alert("Direct sharing is not available in this browser. The image was saved instead.");
+      }
+    } catch (err) {
+      if (!err || err.name !== "AbortError") console.error(err);
+    } finally {
+      shareButton.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
