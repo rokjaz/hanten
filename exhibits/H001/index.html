@@ -156,8 +156,9 @@
 
         .h001-caption {
             margin-top: 1rem;
-            padding: 0.15rem 0 0.15rem 1rem;
-            border-left: 3px solid var(--h001-accent);
+            padding: 0.15rem 0;
+            border-left: none;
+            text-align: left;
             font-size: 0.9rem;
             line-height: 1.5;
             color: var(--h001-ink-soft);
@@ -242,6 +243,353 @@
             }
         }
     </style>
+
+<style>
+.hanten-image-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:.55rem;
+  flex-wrap:wrap;
+}
+.hanten-image-actions button{
+  appearance:none;
+  border:1px solid var(--hanten-border, rgba(28,39,51,.16));
+  background:var(--hanten-paper, #f4f3ef);
+  color:var(--hanten-text, #1c2733);
+  font-family:var(--hanten-font, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif);
+  font-size:.76rem;
+  font-weight:700;
+  padding:.55rem .8rem;
+  cursor:pointer;
+}
+.hanten-image-actions button:hover,
+.hanten-image-actions button:focus-visible{
+  border-color:var(--hanten-accent, #0e7c86);
+  color:var(--hanten-accent, #0e7c86);
+}
+.hanten-image-actions button:disabled{
+  opacity:.55;
+  cursor:wait;
+}
+</style>
+
+<style>
+.hanten-export-card{position:fixed;left:-10000px;top:0;width:1080px;padding:30px 78px 56px;box-sizing:border-box;background:var(--hanten-paper,#f4f3ef);color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif)}
+.hanten-export-card .hanten-question{margin-top:0}
+.hanten-export-card .hanten-subtitle{margin-bottom:28px}
+.hanten-export-card .hanten-export-aha{margin-top:28px;padding-left:0;border-left:none;text-align:left;font-size:24px;line-height:1.45}
+</style>
+
+<style>
+/* H001 v2 — cool measurement/math palette */
+body{
+  background:#eef2f3 !important;
+}
+.h001-stage,
+.h001-readout,
+.h001-tabs button{
+  background:#ffffff;
+}
+.hanten-image-actions button{
+  background:#ffffff !important;
+  color:#1c2733 !important;
+  border-color:rgba(28,39,51,.18) !important;
+}
+.hanten-image-actions button:hover,
+.hanten-image-actions button:focus-visible{
+  background:#ffffff !important;
+  color:#0e7c86 !important;
+  border-color:#0e7c86 !important;
+}
+
+/* Export hierarchy */
+.hanten-export-card{
+  background:#eef2f3 !important;
+}
+.hanten-export-card .hanten-question{
+  font-size:44px !important;
+  line-height:1.08 !important;
+  margin-bottom:14px !important;
+}
+.hanten-export-card .hanten-subtitle{
+  font-size:22px !important;
+  line-height:1.4 !important;
+  color:#4a5a6b !important;
+}
+.hanten-export-card .hanten-export-aha{
+  font-size:24px !important;
+  line-height:1.45 !important;
+  margin-top:26px !important;
+}
+.hanten-export-card .hanten-export-reflection{
+  margin-top:24px;
+  text-align:center;
+  font-size:20px;
+  line-height:1.4;
+  font-weight:600;
+  color:#4a5a6b;
+}
+</style>
+
+
+<style>
+/* H001 v2 refinement: quiet monochrome data treatment */
+.h001-tabs button{
+  background:#ffffff !important;
+  color:#34424f !important;
+  border-color:#c9d0d4 !important;
+}
+.h001-tabs button.active{
+  background:#667780 !important;
+  color:#ffffff !important;
+  border-color:#667780 !important;
+}
+.h001-bar{
+  background:#8d9ba2 !important;
+}
+.hanten-export-card .hanten-export-aha{
+  font-size:17px !important;
+  line-height:1.42 !important;
+  font-weight:400 !important;
+  margin-top:22px !important;
+}
+.hanten-export-card .hanten-export-aha strong{
+  font-size:17px !important;
+  font-weight:750 !important;
+}
+.hanten-export-card .hanten-export-reflection{
+  margin-top:18px !important;
+  font-size:15px !important;
+  line-height:1.4 !important;
+  font-weight:600 !important;
+  color:#52616b !important;
+}
+</style>
+
+
+<style>
+/* H001 v2: outlier is the visual exception */
+.h001-bar-wrap:has(.h001-bar-label:first-child) { align-self:stretch; }
+.h001-bar.h001-ceo,
+.h001-bar[data-income="50000000"]{
+  background:#c63d2b !important;
+}
+/* The dynamically added outlier column must share the same bottom baseline. */
+.h001-bars{align-items:end !important;}
+.h001-bar-wrap{height:100% !important;display:flex !important;flex-direction:column !important;justify-content:flex-end !important;}
+</style>
+
+
+<style>
+.h001-export-compare{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-top:26px;
+}
+.h001-export-state{
+  background:#ffffff;
+  border:1px solid rgba(28,39,51,.14);
+  padding:18px 18px 16px;
+}
+.h001-export-state-title{
+  font-size:18px;
+  font-weight:750;
+  margin-bottom:12px;
+  color:#33424d;
+}
+.h001-export-readouts{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  border:1px solid rgba(28,39,51,.12);
+  margin-bottom:16px;
+}
+.h001-export-readouts>div{
+  padding:11px 12px;
+}
+.h001-export-readouts>div+div{
+  border-left:1px solid rgba(28,39,51,.12);
+}
+.h001-export-readouts span{
+  display:block;
+  font-size:12px;
+  color:#566570;
+  margin-bottom:2px;
+}
+.h001-export-readouts strong{
+  font-size:20px;
+  color:#667780;
+}
+.h001-export-readouts strong.mean{
+  color:#c63d2b;
+}
+.h001-export-bars{
+  height:250px;
+  display:flex;
+  align-items:flex-end;
+  gap:5px;
+  border-bottom:1px solid rgba(28,39,51,.14);
+}
+.h001-export-col{
+  flex:1;
+  min-width:0;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+}
+.h001-export-bar{
+  width:100%;
+  background:#8d9ba2;
+}
+.h001-export-bar.guest{
+  background:#c63d2b;
+}
+.h001-export-who{
+  margin-top:4px;
+  font-size:9px;
+  color:#51606a;
+}
+.h001-export-amt{
+  font-size:9px;
+  color:#51606a;
+}
+</style>
+
+
+<style>
+.h001-stage-compare{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+  background:transparent !important;
+  border:0 !important;
+  padding:0 !important;
+}
+.h001-page-state{
+  background:#ffffff;
+  border:1px solid var(--h001-line);
+  padding:.9rem;
+}
+.h001-page-state-title{
+  font-size:.9rem;
+  font-weight:750;
+  color:#34424f;
+  margin-bottom:.65rem;
+}
+.h001-page-readouts{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  border:1px solid var(--h001-line);
+  margin-bottom:.8rem;
+}
+.h001-page-readouts>div{
+  padding:.65rem .7rem;
+}
+.h001-page-readouts>div+div{
+  border-left:1px solid var(--h001-line);
+}
+.h001-page-label{
+  display:block;
+  font-size:.72rem;
+  font-weight:700;
+  color:var(--h001-ink-soft);
+  margin-bottom:.12rem;
+}
+.h001-page-value{
+  display:block;
+  font-size:1.18rem;
+  font-weight:750;
+}
+.h001-page-value.median{color:#667780}
+.h001-page-value.mean{color:#c63d2b}
+.h001-page-bars{
+  display:flex;
+  align-items:flex-end;
+  gap:.35rem;
+  height:235px;
+  border-bottom:1px solid var(--h001-line);
+}
+.h001-page-col{
+  flex:1;
+  min-width:0;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+}
+.h001-page-bar{
+  width:100%;
+  background:#8d9ba2;
+}
+.h001-page-bar.guest{
+  background:#c63d2b;
+}
+.h001-page-who{
+  margin-top:.2rem;
+  font-size:.62rem;
+  color:var(--h001-ink-soft);
+}
+.h001-page-amt{
+  font-size:.58rem;
+  color:var(--h001-ink-soft);
+}
+@media(max-width:760px){
+  .h001-stage-compare{grid-template-columns:1fr}
+}
+</style>
+
+
+<style>
+/* ============================================================
+   HANTEN PNG EXPORT STANDARD v1
+   1080px canvas; graphic remains the hero.
+   ============================================================ */
+.hanten-export-card{
+  width:1080px !important;
+  padding:30px 70px 54px !important;
+  box-sizing:border-box !important;
+}
+.hanten-export-title,
+.hanten-export-card .hanten-question{
+  max-width:900px !important;
+  margin:0 auto 10px !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:34px !important;
+  line-height:1.12 !important;
+  font-weight:750 !important;
+  letter-spacing:0 !important;
+}
+.hanten-export-subtitle,
+.hanten-export-card .hanten-subtitle{
+  max-width:900px !important;
+  margin:0 auto 20px !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:18px !important;
+  line-height:1.4 !important;
+  font-weight:400 !important;
+  letter-spacing:0 !important;
+}
+.hanten-export-card .hanten-export-aha,
+.hanten-export-card .caption{
+  font-size:16px !important;
+  line-height:1.45 !important;
+  font-weight:400 !important;
+}
+.hanten-export-card .hanten-export-reflection,
+.hanten-export-reflection{
+  margin-top:16px !important;
+  text-align:center !important;
+  font-size:14px !important;
+  line-height:1.4 !important;
+  font-weight:400 !important;
+}
+</style>
+
 </head>
 
 <body>
@@ -253,57 +601,47 @@
         </h1>
 
         <p class="hanten-subtitle">
-            Ten neighbors have ordinary incomes. Then a guest earning $500 million a year shows up.
+            Ten neighbors have ordinary incomes. Then a guest earning $50 million a year shows up.
         </p>
 
         <div class="hanten-graphic">
             <div class="h001-shell">
 
-                <div class="h001-stage">
-                    <div
-                        class="h001-tabs"
-                        id="tabs"
-                        role="group"
-                        aria-label="BBQ comparison"
-                    >
-                        <button class="active" data-ceo="0" aria-pressed="true">
-                            Without the guest
-                        </button>
-
-                        <button data-ceo="1" aria-pressed="false">
-                            A guest earning $500M/yr walks in
-                        </button>
-                    </div>
-
-                    <div class="h001-readouts" aria-live="polite">
-                        <div class="h001-readout">
-                            <div class="h001-label">Median income</div>
-                            <div class="h001-value median" id="median-val">$80,500</div>
-                            <div class="h001-delta" id="median-delta"></div>
+                <div class="h001-stage h001-stage-compare">
+                    <section class="h001-page-state">
+                        <div class="h001-page-state-title">Without the guest</div>
+                        <div class="h001-page-readouts">
+                            <div>
+                                <span class="h001-page-label">Median</span>
+                                <strong class="h001-page-value median">$80,500</strong>
+                            </div>
+                            <div>
+                                <span class="h001-page-label">Mean</span>
+                                <strong class="h001-page-value mean">$86,400</strong>
+                            </div>
                         </div>
+                        <div class="h001-page-bars" id="h001-before-bars"></div>
+                    </section>
 
-                        <div class="h001-readout">
-                            <div class="h001-label">Mean (“average”) income</div>
-                            <div class="h001-value mean" id="mean-val">$86,400</div>
-                            <div class="h001-delta" id="mean-delta"></div>
+                    <section class="h001-page-state">
+                        <div class="h001-page-state-title">Guest earning $50M/yr shows up</div>
+                        <div class="h001-page-readouts">
+                            <div>
+                                <span class="h001-page-label">Median</span>
+                                <strong class="h001-page-value median">$87,000</strong>
+                            </div>
+                            <div>
+                                <span class="h001-page-label">Mean</span>
+                                <strong class="h001-page-value mean">$4,600,000</strong>
+                            </div>
                         </div>
-                    </div>
-
-                    <div
-                        class="h001-people"
-                        id="people"
-                        role="img"
-                        aria-label="Bar chart comparing ten household incomes"
-                    ></div>
-
-                    <div class="h001-note-under" id="scale-note">
-                        Bar heights: income, linear scale.
-                    </div>
+                        <div class="h001-page-bars" id="h001-after-bars"></div>
+                    </section>
                 </div>
 
                 <div class="h001-caption">
                     <p><strong>No one else at the BBQ got richer.</strong> Only the summary changed.</p>
-                    <p>The mean jumped from $86,400 to $45.5 million. The median barely moved, from $80,500 to $87,000.</p>
+                    <p>The mean jumped from $86,400 to $4,600,000. The median barely moved, from $80,500 to $87,000.</p>
                 </div>
 
                 <p class="hanten-reflection">
@@ -332,99 +670,277 @@
 
     <script>
         const INCOMES = [28000, 41000, 52000, 61000, 74000, 87000, 95000, 112000, 134000, 180000];
-        const CEO = 500000000;
+        const CEO = 50000000;
 
-        const fmt = n => "$" + Math.round(n).toLocaleString();
-        const fmtShort = n => n >= 1e6
-            ? "$" + (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M"
-            : "$" + Math.round(n / 1000) + "k";
-
-        function median(arr) {
-            const sorted = [...arr].sort((a, b) => a - b);
+        const mean = values => values.reduce((sum, value) => sum + value, 0) / values.length;
+        const median = values => {
+            const sorted = [...values].sort((a,b) => a-b);
             const mid = Math.floor(sorted.length / 2);
             return sorted.length % 2
                 ? sorted[mid]
                 : (sorted[mid - 1] + sorted[mid]) / 2;
-        }
+        };
+        const fmt = n => n >= 1e6
+            ? "$" + (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M"
+            : "$" + Math.round(n).toLocaleString("en-US");
 
-        const mean = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+        const fmtShort = n => n >= 1e6
+            ? "$" + (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M"
+            : "$" + Math.round(n / 1000) + "k";
 
-        let ceoIn = false;
-
-        const peopleEl = document.getElementById("people");
-        const tabButtons = document.querySelectorAll("#tabs button");
-
-        function render() {
-            const crowd = ceoIn ? [...INCOMES, CEO] : [...INCOMES];
+        function renderBars(containerId, crowd) {
+            const container = document.getElementById(containerId);
             const max = Math.max(...crowd);
 
-            peopleEl.innerHTML = "";
-
             crowd.forEach((income, index) => {
-                const person = document.createElement("div");
+                const col = document.createElement("div");
+                col.className = "h001-page-col";
 
-                person.className =
-                    "h001-person" + (income === CEO ? " billionaire" : "");
+                const bar = document.createElement("div");
+                bar.className = "h001-page-bar" + (income === CEO ? " guest" : "");
+                bar.style.height = Math.max(2, (income / max) * 100) + "%";
 
-                const height = Math.max(2, (income / max) * 100);
+                const who = document.createElement("div");
+                who.className = "h001-page-who";
+                who.textContent = income === CEO ? "Guest" : "#" + (index + 1);
 
-                person.innerHTML = `
-                    <div class="h001-bar" style="height:${height}%"></div>
-                    <div class="h001-who">${income === CEO ? "Guest" : "#" + (index + 1)}</div>
-                    <div class="h001-amt">${fmtShort(income)}</div>
-                `;
+                const amt = document.createElement("div");
+                amt.className = "h001-page-amt";
+                amt.textContent = fmtShort(income);
 
-                peopleEl.appendChild(person);
+                col.append(bar, who, amt);
+                container.appendChild(col);
             });
-
-            document.getElementById("median-val").textContent = fmt(median(crowd));
-            document.getElementById("mean-val").textContent = fmt(mean(crowd));
-
-            document.getElementById("median-delta").textContent =
-                ceoIn ? "was $80,500 — barely moved" : "";
-
-            document.getElementById("mean-delta").textContent =
-                ceoIn ? "was $86,400 — up 527×" : "";
-
-            document.getElementById("scale-note").textContent =
-                ceoIn
-                    ? "Everyone else’s bar just flattened. Their incomes did not change — only the scale of the picture did."
-                    : "Bar heights: income, linear scale.";
-
-            tabButtons.forEach(button => {
-                const isActive = (button.dataset.ceo === "1") === ceoIn;
-                button.classList.toggle("active", isActive);
-                button.setAttribute("aria-pressed", isActive ? "true" : "false");
-            });
-
-            peopleEl.setAttribute(
-                "aria-label",
-                ceoIn
-                    ? "Bar chart showing ten ordinary incomes compressed near zero after adding one 500 million dollar income."
-                    : "Bar chart showing ten household incomes ranging from 28 thousand to 180 thousand dollars."
-            );
         }
 
-        tabButtons.forEach(button => {
-            button.addEventListener("click", () => {
-                ceoIn = button.dataset.ceo === "1";
-                render();
-            });
-        });
-
-        render();
+        renderBars("h001-before-bars", INCOMES);
+        renderBars("h001-after-bars", [...INCOMES, CEO]);
     </script>
 
-    <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+        
+    
 
-    <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "What’s the average income at this BBQ?",
-            filename: "H001_v2.png"
-        });
-    </script>
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+<script>
+(() => {
+  "use strict";
+
+  const targetSelector = ".h001-stage";
+  const filename = "H001_v2.png";
+  const shareTitle = "What\u2019s the average income at this BBQ?";
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+
+  slot.classList.add("hanten-image-actions");
+  slot.innerHTML = "";
+
+  const saveButton = document.createElement("button");
+  saveButton.type = "button";
+  saveButton.textContent = "Save Image";
+
+  const shareButton = document.createElement("button");
+  shareButton.type = "button";
+  shareButton.textContent = "Share Image";
+
+  slot.append(saveButton, shareButton);
+
+  async function renderBlob() {
+    const question=document.querySelector(".hanten-question");
+    const subtitle=document.querySelector(".hanten-subtitle");
+    if(!question) throw new Error("Export content not found.");
+
+    const card=document.createElement("div");
+    card.className="hanten-export-card";
+
+    const titleCanvas=document.createElement("canvas");
+    titleCanvas.width=1800;
+    titleCanvas.height=92;
+    titleCanvas.style.width="900px";
+    titleCanvas.style.height="46px";
+    titleCanvas.style.display="block";
+    titleCanvas.style.margin="0 auto 10px";
+    const titleCtx=titleCanvas.getContext("2d");
+    titleCtx.scale(2,2);
+    titleCtx.font='750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    titleCtx.fillStyle="#1c2733";
+    titleCtx.textAlign="center";
+    titleCtx.textBaseline="middle";
+    titleCtx.fillText("What’s the average income at this BBQ?",450,23);
+    card.appendChild(titleCanvas);
+
+    if(subtitle){
+      const subtitleCanvas=document.createElement("canvas");
+      subtitleCanvas.width=1800;
+      subtitleCanvas.height=56;
+      subtitleCanvas.style.width="900px";
+      subtitleCanvas.style.height="28px";
+      subtitleCanvas.style.display="block";
+      subtitleCanvas.style.margin="0 auto 20px";
+      const subCtx=subtitleCanvas.getContext("2d");
+      subCtx.scale(2,2);
+      subCtx.font='400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+      subCtx.fillStyle="#4f6268";
+      subCtx.textAlign="center";
+      subCtx.textBaseline="middle";
+      subCtx.fillText("Ten neighbors have ordinary incomes. Then a guest earning $50 million a year shows up.",450,14);
+      card.appendChild(subtitleCanvas);
+    }
+
+    const compare=document.createElement("div");
+    compare.className="h001-export-compare";
+    card.appendChild(compare);
+
+    function buildState(includeGuest){
+      const wrap=document.createElement("section");
+      wrap.className="h001-export-state";
+
+      const heading=document.createElement("div");
+      heading.className="h001-export-state-title";
+      heading.textContent=includeGuest ? "Guest earning $50M/yr shows up" : "Without the guest";
+      wrap.appendChild(heading);
+
+      const crowd=includeGuest ? [...INCOMES, CEO] : [...INCOMES];
+      const stateMean=mean(crowd);
+      const stateMedian=median(crowd);
+
+      const readouts=document.createElement("div");
+      readouts.className="h001-export-readouts";
+      readouts.innerHTML=`
+        <div><span>Median</span><strong>${fmt(stateMedian)}</strong></div>
+        <div><span>Mean</span><strong class="mean">${includeGuest ? "$4,600,000" : fmt(stateMean)}</strong></div>
+      `;
+      wrap.appendChild(readouts);
+
+      const bars=document.createElement("div");
+      bars.className="h001-export-bars";
+      const max=Math.max(...crowd);
+
+      crowd.forEach((income,index)=>{
+        const col=document.createElement("div");
+        col.className="h001-export-col";
+        const bar=document.createElement("div");
+        bar.className="h001-export-bar" + (income===CEO ? " guest" : "");
+        bar.style.height=Math.max(2,(income/max)*100)+"%";
+
+        const who=document.createElement("div");
+        who.className="h001-export-who";
+        who.textContent=income===CEO ? "Guest" : "#"+(index+1);
+
+        const amt=document.createElement("div");
+        amt.className="h001-export-amt";
+        amt.textContent=fmtShort(income);
+
+        col.append(bar,who,amt);
+        bars.appendChild(col);
+      });
+
+      wrap.appendChild(bars);
+      return wrap;
+    }
+
+    compare.append(buildState(false), buildState(true));
+
+    const ahaWrap=document.createElement("div");
+    ahaWrap.style.marginTop="22px";
+    ahaWrap.style.paddingLeft="0";
+    ahaWrap.style.borderLeft="none";
+
+    const ahaCanvas=document.createElement("canvas");
+    ahaCanvas.width=1700;
+    ahaCanvas.height=104;
+    ahaCanvas.style.width="850px";
+    ahaCanvas.style.height="52px";
+    ahaCanvas.style.display="block";
+
+    const aCtx=ahaCanvas.getContext("2d");
+    aCtx.scale(2,2);
+    aCtx.fillStyle="#1c2733";
+    aCtx.textBaseline="top";
+
+    const maxWidth=835;
+    const lineHeight=20;
+    let x=0, y=0;
+
+    const parts = [
+      { text:"No one else at the BBQ got richer.", bold:true },
+      { text:"Only the summary changed. The mean jumped from $86,400 to $4,600,000. The median barely moved, from $80,500 to $87,000.", bold:false }
+    ];
+
+    parts.forEach(part=>{
+      aCtx.font=(part.bold ? "750 " : "400 ") + '14px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+      const words=part.text.split(" ");
+      words.forEach((word,index)=>{
+        let token=((index===0 && x===0) ? "" : " ") + word;
+        let w=aCtx.measureText(token).width;
+        if(x+w>maxWidth && x>0){
+          x=0; y+=lineHeight;
+          token=word;
+          w=aCtx.measureText(token).width;
+        }
+        aCtx.fillText(token,x,y);
+        x+=w;
+      });
+    });
+
+    ahaWrap.appendChild(ahaCanvas);
+    card.appendChild(ahaWrap);
+
+    const reflection=document.createElement("div");
+    reflection.className="hanten-export-reflection";
+    reflection.textContent="When someone tells you the “average,” what do you need to know before deciding what it means?";
+    card.appendChild(reflection);
+
+    document.body.appendChild(card);
+
+    try {
+      const canvas=await html2canvas(card,{backgroundColor:null,scale:2,useCORS:true,width:card.scrollWidth,height:card.scrollHeight});
+      return await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error("Could not create image.")),"image/png"));
+    } finally { card.remove(); }
+  }
+
+  async function downloadBlob(blob) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  saveButton.addEventListener("click", async () => {
+    saveButton.disabled = true;
+    try {
+      await downloadBlob(await renderBlob());
+    } catch (err) {
+      console.error(err);
+    } finally {
+      saveButton.disabled = false;
+    }
+  });
+
+  shareButton.addEventListener("click", async () => {
+    shareButton.disabled = true;
+    try {
+      const blob = await renderBlob();
+      const file = new File([blob], filename, { type: "image/png" });
+
+      if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [file] }))) {
+        await navigator.share({ title: shareTitle, files: [file] });
+      } else {
+        await downloadBlob(blob);
+        window.alert("Direct sharing is not available in this browser. The image was saved instead.");
+      }
+    } catch (err) {
+      if (!err || err.name !== "AbortError") console.error(err);
+    } finally {
+      shareButton.disabled = false;
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
