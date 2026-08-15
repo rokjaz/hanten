@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H005 — Shared Birthday Paradox | Hanten</title>
+<meta name="description" content="Most people guess you'd need close to 183. It's 253 pairs of people, not 365 dates, that get you there.">
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #4a5a6b;
+    --paper: #eef0f4;
+    --paper-raised: #ffffff;
+    --line: rgba(28,39,51,0.14);
+    --accent: #596f96;
+    --accent-soft: rgba(89,111,150,0.10);
+    --warn: #b84b3a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+
+  #panel {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 0.85rem 1rem;
+  }
+
+  .slider-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+  .slider-row .n-label { font-family:var(--hanten-font); color: var(--ink-soft); }
+  .slider-row .n-value { font-weight: 700; color: var(--ink); }
+  input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent);
+    margin-bottom: 0.7rem;
+  }
+
+  .readout {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .readout .pct {
+    font-family:var(--hanten-font);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .readout .desc { color: var(--ink-soft); font-size: 0.95rem; max-width: 40ch; }
+
+  .room {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 0.6rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    margin-bottom: 0.8rem;
+    min-height: 44px;
+  }
+  .room .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.85;
+  }
+
+  #chart-wrap {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 1.2rem 1rem 0.8rem;
+    margin-top: 0.8rem;
+  }
+  #chart { width: 100%; height: auto; display: block; }
+
+  table.thresholds {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.4rem;
+    font-size: 0.9rem;
+  }
+  table.thresholds th, table.thresholds td {
+    text-align: left;
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid var(--line);
+  }
+  table.thresholds th {
+    font-family:var(--hanten-font);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+  }
+  table.thresholds td.num { font-family:var(--hanten-font); font-weight: 700; }
+
+  .caption {
+    max-width: 760px;
+    margin: 1rem auto 0;
+    padding: .15rem 0;
+    background: transparent;
+    border-left: none;
+    text-align: left;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .caption strong { color: var(--ink); }
+  .caption p { margin: 0 0 0.6rem; }
+  .caption p:last-child { margin-bottom: 0; }
+  .source { margin-top: 0.8rem; font-family:var(--hanten-font); font-size: 0.75rem; color: var(--ink-soft); }
+  .h005-explore{margin-top:.75rem;padding:.6rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink-soft);font-size:.82rem;line-height:1.5}.h005-explore summary{cursor:pointer;color:var(--ink);font-weight:750}.h005-save { margin-top:.75rem; display:flex; justify-content:flex-end; }
+  .h005-save button { font-size:.75rem; opacity:.72; }
+  .h005-save button:hover, .h005-save button:focus-visible { opacity:1; }
+</style>
+
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:var(--hanten-paper,#f4f3ef);color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+
+<style>
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:900px !important;margin-left:auto !important;margin-right:auto !important;
+  text-align:center !important;text-wrap:balance;
+}
+.hanten-reflection{
+  margin:1rem auto 0 !important;text-align:center !important;font-size:.95rem !important;
+  line-height:1.45 !important;font-weight:500 !important;color:var(--ink-soft) !important;
+}
+.h005-source{
+  max-width:760px;margin:1.5rem auto 0;text-align:left;font-size:.75rem;line-height:1.45;color:var(--ink-soft);
+}
+.formula-note{margin:.55rem 0 0;font-family:var(--hanten-font);font-size:.75rem;color:var(--ink-soft)}
+main.hanten-exhibit a{color:#2563a6;text-decoration:underline;text-underline-offset:2px}
+main.hanten-exhibit a:visited{color:#2563a6}
+main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
+.hanten-image-actions button{background:#fff !important;color:var(--ink) !important;border-color:var(--line) !important}
+
+.hanten-export-card{
+ position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
+ background:#eef0f4;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-card #panel{margin:0;background:#fff}
+.hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+.hanten-export-aha{font-size:14px;line-height:1.5;color:#4a5a6b;margin-top:16px}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+.hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+</style>
+
+
+<style>
+.slider-row{
+  align-items:center !important;
+}
+.slider-row .n-label{
+  font-size:.9rem;
+}
+.n-input{
+  width:5.2rem;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:1.55rem;
+  font-weight:750;
+  line-height:1;
+  text-align:right;
+  padding:.35rem .45rem;
+}
+.n-input:focus{
+  outline:2px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  outline-offset:2px;
+}
+.room{display:none !important}
+</style>
+
+
+<style>
+.hanten-export-card .slider-row{
+  display:flex !important;
+  align-items:baseline !important;
+  justify-content:space-between !important;
+  margin-bottom:.5rem !important;
+}
+.hanten-export-card .h005-export-n{
+  font-size:28px !important;
+  line-height:1 !important;
+  font-weight:750 !important;
+  color:#1c2733 !important;
+}
+</style>
+
+
+<style>
+/* Hanten closing-question standard */
+main.hanten-exhibit > .hanten-graphic .hanten-reflection,
+.hanten-reflection{
+  max-width:760px !important;
+  margin:1rem auto 0 !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:.95rem !important;
+  line-height:1.45 !important;
+  font-weight:500 !important;
+  color:var(--ink-soft) !important;
+}
+</style>
+
+
+<style>
+/* Keep the closing reflection balanced and avoid a short orphan line */
+.hanten-reflection{
+  max-width:680px !important;
+  text-wrap:balance !important;
+}
+</style>
+
+
+<style>
+/* Natural two-line reflection: avoid a one-word orphan without forcing equal lines */
+.hanten-reflection{
+  max-width:740px !important;
+  text-wrap:wrap !important;
+}
+</style>
+
+
+<style>
+/* Keep the final phrase together so the reflection wraps naturally without an orphan */
+.hanten-reflection{
+  max-width:740px !important;
+  text-wrap:wrap !important;
+}
+.hanten-reflection .keep-together{
+  white-space:nowrap;
+}
+</style>
+
+</head>
+<body>
+
+<main class="hanten-exhibit">
+  <h1 class="hanten-question">How many people does it take before a shared birthday is more likely than not?</h1>
+  <p class="hanten-subtitle">Most people guess somewhere near half of 365. Try 23.</p>
+  <div class="hanten-graphic">
+
+  <div id="panel">
+    <div class="slider-row">
+      <label class="n-label" for="number-input">People in the room</label>
+      <input class="n-input" id="number-input" type="number" min="1" max="70" value="23" inputmode="numeric" aria-label="Number of people in the room">
+    </div>
+    <input type="range" id="slider" min="1" max="70" value="23" aria-label="Number of people in the room" aria-describedby="pct-desc">
+
+    <div class="readout">
+      <div class="pct" id="pct-value" aria-live="polite">50.7%</div>
+      <div class="desc" id="pct-desc">chance at least two of them share a birthday</div>
+    </div>
+
+    <div id="chart-wrap">
+      <svg id="chart" viewBox="0 0 700 280" role="img" aria-label="Probability of at least two people sharing a birthday rises rapidly with group size and passes 50 percent at 23 people."></svg>
+    </div>
+
+    <details class="h005-explore"><summary>Explore other probability thresholds</summary><table class="thresholds">
+      <thead>
+        <tr><th>Odds of a shared birthday</th><th>People needed</th></tr>
+      </thead>
+      <tbody id="thresholds-body"></tbody>
+    </table></details>
+  </div>
+
+  <div class="caption">
+    <p><strong>It's about pairs, not dates.</strong> With 23 people there are 23×22÷2 = 253 different pairs of people. The number of possible pairs grows much faster than the number of people, so the chance of at least one match crosses 50% surprisingly quickly.</p>
+    
+    <details class="h005-explore"><summary>How is this calculated?</summary><p>This assumes birthdays are spread evenly across 365 days (no Feb 29 and no real-world seasonal clustering), the standard simplification used in the classic problem.</p><p class="formula-note">P(shared) = 1 − (365 × 364 × … × (365−n+1)) / 365ⁿ, computed exactly for each n.</p></details>
+  </div>
+
+  <p class="hanten-reflection">What changes when the number of possible comparisons grows faster than <span class="keep-together">the number of things being compared?</span></p>
+
+  <div class="source h005-source">
+    Sources: <a href="https://mathworld.wolfram.com/BirthdayProblem.html" target="_blank" rel="noopener noreferrer">Wolfram MathWorld — Birthday Problem</a>;
+    <a href="https://www.scientificamerican.com/article/bring-science-home-probability-birthday-paradox/" target="_blank" rel="noopener noreferrer">Scientific American — Probability and the Birthday Paradox</a>.
+    Standard 365-day model; leap day and real-world seasonal birthday variation are omitted.
+  </div>
+
+  <div class="h005-save"><div id="save-image-slot"></div></div>
+  </div>
+</main>
+
+<script>
+  const DAYS = 365;
+  const MAX_N = 70;
+
+  function probShared(n) {
+    let pNoMatch = 1;
+    for (let i = 0; i < n; i++) pNoMatch *= (DAYS - i) / DAYS;
+    return 1 - pNoMatch;
+  }
+
+  const probs = [];
+  for (let n = 0; n <= MAX_N; n++) probs.push(probShared(n));
+
+  // Thresholds table
+  const THRESHOLDS = [0.5, 0.7, 0.9, 0.99, 0.999];
+  const thresholdsBody = document.getElementById("thresholds-body");
+  THRESHOLDS.forEach(t => {
+    let n = 1;
+    while (probs[n] < t) n++;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${(t * 100).toFixed(t >= 0.99 ? 1 : 0)}%+</td><td class="num">${n} people</td>`;
+    thresholdsBody.appendChild(tr);
+  });
+
+  // Chart: probability curve, n=0..70
+  const svg = document.getElementById("chart");
+  const W = 700, H = 280, M = { top: 14, right: 16, bottom: 54, left: 42 };
+  const plotW = W - M.left - M.right, plotH = H - M.top - M.bottom;
+  const x = n => M.left + (n / MAX_N) * plotW;
+  const y = p => M.top + plotH - p * plotH;
+
+  const ns = "http://www.w3.org/2000/svg";
+  function el(tag, attrs) {
+    const e = document.createElementNS(ns, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  // gridlines + y labels (0-100%)
+  for (let g = 0; g <= 4; g++) {
+    const p = g / 4;
+    const gy = y(p);
+    svg.appendChild(el("line", { x1: M.left, x2: W - M.right, y1: gy, y2: gy, stroke: "rgba(28,39,51,0.10)" }));
+    const label = el("text", { x: M.left - 8, y: gy + 4, "text-anchor": "end", style: "font:10px ui-monospace,monospace; fill:#4a5a6b" });
+    label.textContent = Math.round(p * 100) + "%";
+    svg.appendChild(label);
+  }
+  // x labels every 10 people
+  for (let n = 0; n <= MAX_N; n += 10) {
+    const label = el("text", { x: x(n), y: H - 24, "text-anchor": "middle", style: "font:10px ui-monospace,monospace; fill:#4a5a6b" });
+    label.textContent = n;
+    svg.appendChild(label);
+  }
+
+  const xAxisLabel = el("text", {
+    x: M.left + plotW / 2,
+    y: H - 5,
+    "text-anchor": "middle",
+    style: "font:11px var(--hanten-font), system-ui, sans-serif; fill:#4a5a6b"
+  });
+  xAxisLabel.textContent = "Number of people";
+  svg.appendChild(xAxisLabel);
+
+  // 50% reference line
+  svg.appendChild(el("line", { x1: M.left, x2: W - M.right, y1: y(0.5), y2: y(0.5), stroke: "var(--warn)", "stroke-width": 1, "stroke-dasharray": "4,3" }));
+  const fiftyLabel = el("text", { x: W - M.right, y: y(0.5) - 6, "text-anchor": "end", style: "font:11px ui-monospace,monospace; fill:var(--warn)" });
+  fiftyLabel.textContent = "50%";
+  svg.appendChild(fiftyLabel);
+
+  // probability curve
+  const pts = probs.map((p, n) => `${x(n)},${y(p)}`).join(" ");
+  svg.appendChild(el("polyline", { points: pts, fill: "none", stroke: "var(--accent)", "stroke-width": 2.5 }));
+
+  // fixed marker at n=23
+  svg.appendChild(el("circle", { cx: x(23), cy: y(probs[23]), r: 4, fill: "var(--warn)" }));
+  svg.appendChild(el("line", { x1: x(23), x2: x(23), y1: y(probs[23]), y2: H - M.bottom, stroke: "var(--warn)", "stroke-width": 1, "stroke-dasharray": "3,3" }));
+  const label23 = el("text", { x: x(23) - 12, y: y(probs[23]) - 24, "text-anchor": "end", style: "font:11px ui-monospace,monospace; fill:var(--warn)" });
+  label23.textContent = "23 → 50.7%";
+  svg.appendChild(label23);
+
+  // moving marker tied to slider
+  const currentDot = el("circle", { r: 5, fill: "var(--ink)", stroke: "#fff", "stroke-width": 1.5 });
+  svg.appendChild(currentDot);
+
+  // Slider + typed number stay synchronized
+  const slider = document.getElementById("slider");
+  const numberInput = document.getElementById("number-input");
+  const pctValueEl = document.getElementById("pct-value");
+
+  function clampN(value) {
+    const n = Math.round(Number(value));
+    if (!Number.isFinite(n)) return 23;
+    return Math.max(1, Math.min(MAX_N, n));
+  }
+
+  function render(n) {
+    n = clampN(n);
+    slider.value = n;
+    numberInput.value = n;
+
+    const p = probs[n];
+    pctValueEl.textContent = (p * 100).toFixed(1) + "%";
+    currentDot.setAttribute("cx", x(n));
+    currentDot.setAttribute("cy", y(p));
+  }
+
+  slider.addEventListener("input", () => render(slider.value));
+  numberInput.addEventListener("input", () => {
+    if (numberInput.value !== "") render(numberInput.value);
+  });
+  numberInput.addEventListener("change", () => render(numberInput.value));
+  render(23);
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+
+
+<script>
+(() => {
+ const slot=document.getElementById("save-image-slot");
+ if(!slot || typeof html2canvas!=="function") return;
+ slot.classList.add("hanten-image-actions"); slot.innerHTML="";
+ const save=document.createElement("button"), share=document.createElement("button");
+ save.type=share.type="button"; save.textContent="Save Image"; share.textContent="Share Image";
+ slot.append(save,share);
+ const target="#panel", filename="H005_v2.png", title="How many people does it take before a shared birthday is more likely than not?";
+ async function blob(){
+   const panel=document.querySelector("#panel");
+   const caption=document.querySelector(".caption");
+   const source=document.querySelector(".h005-source");
+   if(!panel) throw new Error("Export content not found.");
+
+   const card=document.createElement("div");
+   card.className="hanten-export-card";
+
+   const titleCanvas=document.createElement("canvas");
+   titleCanvas.width=1800; titleCanvas.height=168;
+   titleCanvas.style.width="900px"; titleCanvas.style.height="84px";
+   titleCanvas.style.display="block"; titleCanvas.style.margin="0 auto 8px";
+   const t=titleCanvas.getContext("2d"); t.scale(2,2);
+   t.font='750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+   t.fillStyle="#1c2733"; t.textAlign="center"; t.textBaseline="middle";
+   t.fillText("How many people does it take before",450,21);
+   t.fillText("a shared birthday is more likely than not?",450,61);
+   card.appendChild(titleCanvas);
+
+   const sub=document.createElement("canvas");
+   sub.width=1800; sub.height=56; sub.style.width="900px"; sub.style.height="28px";
+   sub.style.display="block"; sub.style.margin="0 auto 20px";
+   const s=sub.getContext("2d"); s.scale(2,2);
+   s.font='400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+   s.fillStyle="#4a5a6b"; s.textAlign="center"; s.textBaseline="middle";
+   s.fillText("Most people guess somewhere near half of 365. Try 23.",450,14);
+   card.appendChild(sub);
+
+   const panelClone=panel.cloneNode(true);
+   panelClone.querySelectorAll("details").forEach(d=>d.remove());
+
+   const liveN = document.getElementById("number-input") ? document.getElementById("number-input").value : "23";
+   const sliderClone=panelClone.querySelector('input[type="range"]');
+   if(sliderClone) sliderClone.remove();
+
+   const sliderRow=panelClone.querySelector(".slider-row");
+   if(sliderRow){
+     sliderRow.innerHTML="";
+     const label=document.createElement("span");
+     label.className="n-label";
+     label.textContent="People in the room";
+     const value=document.createElement("strong");
+     value.className="h005-export-n";
+     value.textContent=liveN;
+     sliderRow.append(label,value);
+   }
+
+   const numberClone=panelClone.querySelector("#number-input");
+   if(numberClone) numberClone.remove();
+
+   card.appendChild(panelClone);
+
+   if(caption){
+     const textcol=document.createElement("div"); textcol.className="hanten-export-textcol";
+     const aha=document.createElement("div"); aha.className="hanten-export-aha";
+     const p=caption.querySelector("p");
+     if(p) aha.innerHTML=p.innerHTML;
+     textcol.appendChild(aha); card.appendChild(textcol);
+   }
+
+   const reflection=document.createElement("div");
+   reflection.className="hanten-export-reflection";
+   reflection.textContent="What changes when the number of possible comparisons grows faster than the number of things being compared?";
+   card.appendChild(reflection);
+
+   if(source){
+     const sc=source.cloneNode(true); sc.className="hanten-export-source"; card.appendChild(sc);
+   }
+
+   document.body.appendChild(card);
+   try{
+     const canvas=await html2canvas(card,{backgroundColor:null,scale:2,useCORS:true,width:card.scrollWidth,height:card.scrollHeight});
+     return await new Promise((ok,no)=>canvas.toBlob(b=>b?ok(b):no(new Error("Could not create image")),"image/png"));
+   }finally{card.remove();}
+ }
+ function download(b){const u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+ save.onclick=async()=>{save.disabled=true;try{download(await blob())}finally{save.disabled=false}};
+ share.onclick=async()=>{share.disabled=true;try{const b=await blob(),f=new File([b],filename,{type:"image/png"});if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[f]})))await navigator.share({title,files:[f]});else{download(b);alert("Direct sharing is not available in this browser. The image was saved instead.")}}catch(e){if(!e||e.name!=="AbortError")console.error(e)}finally{share.disabled=false}};
+})();
+</script>
+
+</body>
+</html>
