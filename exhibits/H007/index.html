@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>H007 — How Big Is Africa... Really?</title>
+
+    <meta
+        name="description"
+        content="Three of the world’s largest countries fit inside Africa — with room still left over."
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../assets/css/hanten.css"
+    >
+
+    <style>
+        /*
+           H007-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h007-paper-raised: var(--hanten-panel);
+            --h007-line: var(--hanten-border);
+
+            --h007-africa: #c8d0c3;
+            --h007-africa-line: #9fa99b;
+
+            --h007-usa: #1f6f8b;
+            --h007-china: #c1442d;
+            --h007-india: #d9a441;
+        }
+
+
+        /* Map */
+
+        #map-wrap {
+            display: flex;
+            justify-content: center;
+
+            padding: 0.7rem;
+
+            background: transparent;
+        }
+
+        #map {
+    display: block;
+
+    width: auto;
+    max-width: 100%;
+    height: min(54vh, 540px);
+
+    margin: 0 auto;
+}
+
+        .africa {
+            fill: var(--h007-africa);
+
+            stroke: var(--h007-africa-line);
+            stroke-width: 0.9;
+        }
+
+        .overlay {
+            fill-opacity: 0.72;
+
+            stroke: #ffffff;
+            stroke-width: 1;
+        }
+
+        .overlay-label {
+            font-family:var(--hanten-font);
+
+            font-size: 18px;
+            font-weight: 700;
+
+            fill: #ffffff;
+
+            text-anchor: middle;
+
+            
+        }
+
+
+        /* Area tally */
+
+        .h007-tally {
+            width: 100%;
+
+            margin-top: .8rem;
+
+            border-collapse: collapse;
+
+            font-size: 0.9rem;
+        }
+
+        .h007-tally td {
+            padding:
+                0.5rem
+                0.8rem
+                0.5rem
+                0;
+
+            border-bottom: none;
+        }
+
+        .h007-tally td:last-child {
+            text-align: right;
+
+            font-family:var(--hanten-font);
+        }
+
+        .h007-swatch {
+            display: inline-block;
+
+            width: 10px;
+            height: 10px;
+
+            margin-right: 0.5rem;
+        }
+
+        .h007-tally .remaining td {
+            font-weight: 700;
+        }
+
+        .h007-tally .remaining td:first-child::before {
+            content: "↳ ";
+        }
+
+        .h007-tally .total td {
+            font-weight: 700;
+        }
+
+        .h007-caption {
+            max-width: var(--hanten-text-width);
+            margin: .8rem auto 0;
+            padding: .9rem 1.05rem;
+        }
+
+        .h007-caption p {
+            margin: 0 0 .55rem;
+        }
+
+        .h007-caption p:last-child {
+            margin-bottom: 0;
+        }
+
+        .h007-takeaway {
+            background: transparent;
+            border-left: 0;
+            padding: .15rem 0;
+        }
+
+        .h007-takeaway p:first-child {
+            color: var(--hanten-muted);
+        }
+
+        .h007-takeaway p:last-child {
+            color: var(--hanten-muted);
+            font-weight: 400;
+        }
+
+        .h007-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(220px, .8fr);
+            gap: 1rem;
+            align-items: start;
+            padding: .7rem;
+            background: var(--hanten-paper);
+        }
+
+        .h007-map-column,
+        .h007-tally-column {
+            min-width: 0;
+        }
+
+        #map-wrap {
+            min-height: 100%;
+        }
+
+        #map {
+            height: min(54vh, 540px);
+        }
+
+        .h007-tally {
+            margin-top: 0;
+            font-size: 0.88rem;
+        }
+
+        .h007-tally td {
+            padding: .65rem .35rem;
+        }
+
+        .h007-tally td:first-child {
+            padding-right: .7rem;
+        }
+
+        .h007-tally-column {
+            border-left: 1px solid var(--hanten-border);
+            padding-left: 1rem;
+        }
+
+        @media (max-width: 760px) {
+            .h007-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .h007-tally-column {
+                border-left: 0;
+                border-top: 1px solid var(--hanten-border);
+                padding-left: 0;
+                padding-top: .75rem;
+            }
+        }
+
+    </style>
+
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:var(--hanten-paper,#f4f3ef);color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+
+<style>
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:900px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+  text-wrap:balance;
+}
+.h007-caption{
+  max-width:760px !important;
+  margin:1rem auto 0 !important;
+  padding:.15rem 0 !important;
+  text-align:left !important;
+  font-size:.9rem !important;
+  line-height:1.5 !important;
+  color:var(--hanten-muted) !important;
+}
+.h007-caption strong{color:var(--hanten-text)}
+.h007-tally .remaining td{
+  font-size:1rem;
+  color:var(--hanten-text);
+}
+.h007-tally .remaining td:last-child{
+  font-size:1.15rem;
+}
+.hanten-reflection{
+  max-width:740px !important;
+  margin:.65rem auto 0 !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:.95rem !important;
+  line-height:1.45 !important;
+  font-weight:500 !important;
+  color:var(--hanten-muted) !important;
+}
+.h007-source{
+  max-width:760px !important;
+  margin:1.5rem auto 0 !important;
+  text-align:left !important;
+  font-size:.75rem !important;
+  line-height:1.45 !important;
+  color:var(--hanten-muted) !important;
+}
+main.hanten-exhibit a{color:#2563a6;text-decoration:underline;text-underline-offset:2px}
+main.hanten-exhibit a:visited{color:#2563a6}
+main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
+.hanten-image-actions button{
+  background:#fff !important;
+  color:var(--hanten-text) !important;
+  border-color:var(--hanten-border) !important;
+}
+
+/* Standalone PNG */
+.hanten-export-card{
+  position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;
+  box-sizing:border-box;background:var(--hanten-paper,#f4f3ef);color:var(--hanten-text,#1c2733);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-card .h007-layout{
+  width:900px;margin:0 auto;
+  grid-template-columns:minmax(0,2fr) minmax(220px,.8fr) !important;
+}
+.hanten-export-card #map{height:520px !important}
+.hanten-export-textcol{width:760px;margin-left:auto;margin-right:auto;text-align:left}
+.hanten-export-aha{margin-top:16px;font-size:14px;line-height:1.5;color:#4a5a6b}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-reflection{margin-top:8px;text-align:center;font-size:14px;line-height:1.4;font-weight:400;color:#59616b}
+.hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+</style>
+
+
+<style>
+/* H007 arithmetic tally + map-surface refinement */
+#map-wrap{
+  background:#ffffff !important;
+  border:1px solid var(--hanten-border) !important;
+  padding:.8rem !important;
+}
+.h007-tally .total td{
+  padding-top:.35rem !important;
+  padding-bottom:.7rem !important;
+  font-weight:800 !important;
+  color:var(--hanten-text) !important;
+  border-bottom:1px solid var(--hanten-border) !important;
+}
+.h007-tally .subtract td{
+  color:var(--hanten-muted);
+}
+.h007-tally .math-sign{
+  display:inline-block;
+  width:1rem;
+  margin-right:.15rem;
+  color:var(--hanten-muted);
+  font-weight:800;
+}
+.h007-tally .remaining td{
+  border-top:2px solid var(--hanten-text) !important;
+  padding-top:.8rem !important;
+  font-weight:800 !important;
+}
+.h007-tally .remaining td:last-child{
+  font-size:1.2rem !important;
+}
+</style>
+
+
+<style>
+/* H007 final tally / framing refinement */
+.h007-layout{
+  background:#e5e8e2 !important;
+  border:1px solid #c7cec4 !important;
+}
+#map-wrap{
+  background:#f8f8f5 !important;
+  border:1px solid #c2c9bf !important;
+}
+.h007-tally-column{
+  background:#f8f8f5 !important;
+  border-left:1px solid #c2c9bf !important;
+  padding:1rem !important;
+}
+.h007-tally td:last-child{
+  white-space:nowrap !important;
+  min-width:7.2rem;
+}
+.h007-tally .math-sign{display:none !important}
+</style>
+
+
+<style>
+/* H007 map/tally proportion refinement */
+.h007-layout{
+  grid-template-columns:minmax(0,1.45fr) minmax(300px,1fr) !important;
+  align-items:center !important;
+}
+.h007-map-column{
+  align-self:center !important;
+}
+#map-wrap{
+  width:100% !important;
+  padding:.45rem !important;
+}
+#map{
+  width:100% !important;
+  height:min(50vh,500px) !important;
+}
+.h007-tally-column{
+  align-self:center !important;
+  padding:1rem 1.15rem !important;
+}
+.h007-tally td:first-child{
+  white-space:nowrap !important;
+}
+.h007-tally .total td,
+.h007-tally .remaining td{
+  font-size:1rem !important;
+  font-weight:800 !important;
+  color:var(--hanten-text) !important;
+}
+.h007-tally .total td:last-child,
+.h007-tally .remaining td:last-child{
+  font-size:1rem !important;
+  font-weight:800 !important;
+}
+</style>
+
+
+<style>
+.hanten-export-card .h007-layout{
+  width:900px !important;
+  grid-template-columns:minmax(0,1.3fr) 330px !important;
+  gap:.75rem !important;
+  padding:.6rem !important;
+  box-sizing:border-box !important;
+}
+.hanten-export-card .h007-map-column{
+  min-width:0 !important;
+}
+.hanten-export-card .h007-tally-column{
+  width:330px !important;
+  min-width:0 !important;
+  padding:.8rem .9rem !important;
+  box-sizing:border-box !important;
+}
+.hanten-export-card .h007-tally{
+  width:100% !important;
+  table-layout:auto !important;
+  font-size:.78rem !important;
+}
+.hanten-export-card .h007-tally td{
+  padding:.55rem .2rem !important;
+}
+.hanten-export-card .h007-tally td:first-child{
+  white-space:nowrap !important;
+  padding-right:.45rem !important;
+}
+.hanten-export-card .h007-tally td:last-child{
+  min-width:6.6rem !important;
+  white-space:nowrap !important;
+}
+</style>
+
+</head>
+
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            How Big Is Africa... Really?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Three of the world’s largest countries fit inside Africa —
+            with room still left over.
+        </p>
+
+
+        <div class="hanten-graphic h007-layout hanten-panel">
+            <div class="h007-map-column">
+<div id="map-wrap">
+                <svg
+                    id="map"
+                    viewBox="0 0 760 820"
+                    role="img"
+                    aria-label="Equal-area comparison showing the United States, China, and India placed inside Africa"
+                ></svg>
+            </div>
+            </div>
+
+            <div class="h007-tally-column">
+<table class="h007-tally">
+                <tr class="total">
+                    <td>Africa total</td>
+                    <td>30.4M km²</td>
+                </tr>
+
+                <tr class="subtract">
+                    <td>
+                        <span class="h007-swatch" style="background: var(--h007-usa);"></span>
+                        United States (lower 48)
+                    </td>
+                    <td>8.1M km²</td>
+                </tr>
+
+                <tr class="subtract">
+                    <td>
+                        <span class="h007-swatch" style="background: var(--h007-china);"></span>
+                        China
+                    </td>
+                    <td>9.6M km²</td>
+                </tr>
+
+                <tr class="subtract">
+                    <td>
+                        <span class="h007-swatch" style="background: var(--h007-india);"></span>
+                        India
+                    </td>
+                    <td>3.3M km²</td>
+                </tr>
+
+                <tr class="remaining">
+                    <td>Still uncovered</td>
+                    <td>≈9.4M km²</td>
+                </tr>
+            </table>
+            </div>
+
+
+        </div>
+
+
+        <div class="h007-caption h007-takeaway hanten-body">
+            <p><strong>United States + China + India all fit inside Africa.</strong><br>
+                About 9.4 million km² is still uncovered. Familiar world maps can make Africa feel smaller because many common projections enlarge places farther from the equator.
+            </p>
+        </div>
+
+        <p class="hanten-reflection">
+            What changes when we compare things at the same scale?
+        </p>
+
+        <p class="hanten-source h007-source">
+            Sources: area figures rounded from the CIA World Factbook; country shapes from Natural Earth.
+            All shapes are drawn using equal-area projections at the same scale.
+        </p>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+
+    <script src="../../assets/js/d3.v7.min.js"></script>
+
+    <script src="../../assets/geodata/world/countries-10m.js"></script>
+
+
+    <script>
+        const width = 760;
+        const height = 820;
+
+        const svg = d3
+            .select("#map")
+            .attr("viewBox", `0 0 ${width} ${height}`);
+
+        const feats = COUNTRIES_10M_GEOJSON.features;
+
+        const africaFeats = feats.filter(
+            feature => feature.properties.CONTINENT === "Africa"
+        );
+
+
+        /*
+           The full U.S. geometry includes Alaska and the Aleutian chain,
+           which makes the country's geographic span unsuitable for this
+           comparison. H007 therefore uses the contiguous lower 48 states.
+        */
+
+        function lower48(usFeature) {
+
+            const polys = usFeature.geometry.coordinates.filter(poly => {
+
+                const [lon, lat] = poly[0][0];
+
+                return lon > -130 && lat < 50;
+
+            });
+
+            return {
+                type: "Feature",
+
+                properties: usFeature.properties,
+
+                geometry: {
+                    type: "MultiPolygon",
+                    coordinates: polys
+                }
+            };
+        }
+
+
+        /*
+           Africa establishes the equal-area scale.
+
+           Every comparison country reuses this same scale so that the
+           visual claim is about actual area rather than map projection
+           distortion.
+        */
+
+        const base = d3
+            .geoAzimuthalEqualArea()
+            .rotate([-17, -1.5])
+            .fitSize(
+                [width, height],
+                {
+                    type: "FeatureCollection",
+                    features: africaFeats
+                }
+            );
+
+        const SCALE = base.scale();
+
+        const basePath = d3.geoPath(base);
+
+
+        svg
+            .append("g")
+            .selectAll("path")
+            .data(africaFeats)
+            .join("path")
+            .attr("class", "africa")
+            .attr("d", basePath);
+
+
+        /*
+           Each comparison country uses its own equal-area projection but
+           exactly the same scale as Africa.
+
+           Position and rotation are used only to pack the shapes clearly
+           inside Africa. Orientation is not part of the claim.
+        */
+
+        const OVERLAYS = [
+
+            {
+                names: ["United States of America"],
+                lower48: true,
+                label: "United States",
+                color: "var(--h007-usa)",
+                pos: [490, 550],
+                rotateTo: [98.73, -39.87, 240]
+            },
+
+            {
+                names: ["China"],
+                label: "China",
+                color: "var(--h007-china)",
+                pos: [310, 220],
+                rotateTo: [-103.45, -36.68, 150]
+            },
+
+            {
+                names: ["India"],
+                label: "India",
+                color: "var(--h007-india)",
+                pos: [542, 146],
+                rotateTo: [-79.54, -22.82, 20]
+            }
+
+        ];
+
+
+        OVERLAYS.forEach(overlay => {
+
+            const feature = overlay.lower48
+
+                ? lower48(
+                    feats.find(
+                        item =>
+                            item.properties.NAME === overlay.names[0]
+                    )
+                )
+
+                : feats.find(
+                    item =>
+                        item.properties.NAME === overlay.names[0]
+                );
+
+
+            const projection = d3
+                .geoAzimuthalEqualArea()
+                .rotate(overlay.rotateTo)
+                .scale(SCALE)
+                .translate(overlay.pos);
+
+
+            const path = d3.geoPath(projection);
+
+
+            svg
+                .append("path")
+                .datum(feature)
+                .attr("class", "overlay")
+                .attr("fill", overlay.color)
+                .attr("d", path);
+
+
+            svg
+                .append("text")
+                .attr("class", "overlay-label")
+                .attr("x", overlay.pos[0])
+                .attr("y", overlay.pos[1] + 5)
+                .text(overlay.label);
+
+        });
+    </script>
+
+
+    <script
+        src="../../assets/js/html2canvas.min.js"
+    ></script>
+
+    
+
+    
+
+
+<script>
+(() => {
+ const slot=document.getElementById("save-image-slot");
+ if(!slot || typeof html2canvas!=="function") return;
+ slot.classList.add("hanten-image-actions"); slot.innerHTML="";
+ const save=document.createElement("button"), share=document.createElement("button");
+ save.type=share.type="button"; save.textContent="Save Image"; share.textContent="Share Image";
+ slot.append(save,share);
+ const target=".hanten-graphic", filename="H007_v2.png", title="How Big Is Africa... Really?";
+ async function blob(){
+   const graphic=document.querySelector(".h007-layout");
+   const aha=document.querySelector(".h007-caption");
+   const source=document.querySelector(".h007-source");
+   if(!graphic) throw new Error("Export content not found.");
+
+   const card=document.createElement("div");
+   card.className="hanten-export-card";
+
+   const titleCanvas=document.createElement("canvas");
+   titleCanvas.width=1800; titleCanvas.height=100;
+   titleCanvas.style.width="900px"; titleCanvas.style.height="50px";
+   titleCanvas.style.display="block"; titleCanvas.style.margin="0 auto 6px";
+   const t=titleCanvas.getContext("2d"); t.scale(2,2);
+   t.font='750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+   t.fillStyle="#1c2733"; t.textAlign="center"; t.textBaseline="middle";
+   t.fillText("How Big Is Africa... Really?",450,25);
+   card.appendChild(titleCanvas);
+
+   const sub=document.createElement("canvas");
+   sub.width=1800; sub.height=56;
+   sub.style.width="900px"; sub.style.height="28px";
+   sub.style.display="block"; sub.style.margin="0 auto 18px";
+   const s=sub.getContext("2d"); s.scale(2,2);
+   s.font='400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+   s.fillStyle="#4a5a6b"; s.textAlign="center"; s.textBaseline="middle";
+   s.fillText("Three of the world’s largest countries fit inside Africa — with room still left over.",450,14);
+   card.appendChild(sub);
+
+   const gc=graphic.cloneNode(true);
+   card.appendChild(gc);
+
+   if(aha){
+     const textcol=document.createElement("div");
+     textcol.className="hanten-export-textcol";
+     const ac=aha.cloneNode(true);
+     ac.className="hanten-export-aha";
+     textcol.appendChild(ac);
+     card.appendChild(textcol);
+   }
+
+   const reflection=document.createElement("div");
+   reflection.className="hanten-export-reflection";
+   reflection.textContent="What changes when we compare things at the same scale?";
+   card.appendChild(reflection);
+
+   if(source){
+     const sc=source.cloneNode(true);
+     sc.className="hanten-export-source";
+     card.appendChild(sc);
+   }
+
+   document.body.appendChild(card);
+   try{
+     const canvas=await html2canvas(card,{
+       backgroundColor:null,scale:2,useCORS:true,
+       width:card.scrollWidth,height:card.scrollHeight
+     });
+     return await new Promise((ok,no)=>canvas.toBlob(b=>b?ok(b):no(new Error("Could not create image")),"image/png"));
+   }finally{card.remove();}
+ }
+ function download(b){const u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+ save.onclick=async()=>{save.disabled=true;try{download(await blob())}finally{save.disabled=false}};
+ share.onclick=async()=>{share.disabled=true;try{const b=await blob(),f=new File([b],filename,{type:"image/png"});if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[f]})))await navigator.share({title,files:[f]});else{download(b);alert("Direct sharing is not available in this browser. The image was saved instead.")}}catch(e){if(!e||e.name!=="AbortError")console.error(e)}finally{share.disabled=false}};
+})();
+</script>
+
+</body>
+
+</html>

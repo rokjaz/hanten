@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>H008 — Sea of Japan /East Sea</title>
+  <link rel="stylesheet" href="../../assets/css/hanten.css">
+  <style>
+    .h008-graphic{width:min(100%,700px);margin:0 auto}
+    .h008-map-shell{position:relative;overflow:hidden;background:var(--hanten-paper);border:1px solid var(--hanten-border)}
+    .h008-map-shell img{display:block;width:136%;max-width:none;height:auto;margin:-7% -14% -7% -22%}
+    .h008-label-layer{position:absolute;inset:0;pointer-events:none}
+    .h008-country{
+      position:absolute;
+      transform:translate(-50%,-50%);
+      font-size:clamp(.7rem,1.5vw,.92rem);
+      font-weight:700;
+      line-height:1.05;
+      letter-spacing:.02em;
+      color:var(--hanten-text);
+      text-align:center;
+      text-shadow:0 1px 0 rgba(255,255,255,.9);
+      white-space:nowrap;
+    }
+    .h008-north-korea{left:34.5%;top:47%}
+    .h008-south-korea{left:36%;top:59%}
+    .h008-japan{left:72%;top:55%}
+
+    
+    
+    .h008-question-mark{position:absolute;left:56%;top:46%;transform:translate(-50%,-50%);font-size:clamp(3rem,8vw,5.5rem);font-weight:700;line-height:1;color:var(--hanten-accent);text-shadow:0 1px 0 rgba(255,255,255,.65)}
+    .h008-context{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem;max-width:700px;margin:.8rem auto 0}
+    .h008-context-card{padding:.72rem .72rem;background:transparent;border-top:2px solid var(--h008-card-accent)}
+    .h008-context-card h2{margin:0 0 .32rem;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em;color:var(--hanten-muted)}
+    .h008-context-card p{margin:0;font-size:.82rem;line-height:1.4;color:var(--hanten-text)}
+    .h008-flag{font-size:1.25rem;vertical-align:-.12em;margin-right:.18rem}
+    .h008-note{max-width:700px;margin:.8rem auto 0;font-size:.8rem;line-height:1.5;color:var(--hanten-muted)}
+    .h008-takeaway{max-width:700px;margin:1rem auto 0;padding:.15rem 0;border-left:0;font-size:.9rem;line-height:1.5;color:var(--hanten-muted)}
+.h008-takeaway strong{font-weight:700}
+@media(max-width:760px){.h008-context{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.h008-context{grid-template-columns:1fr}}
+    
+  </style>
+
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:var(--hanten-paper,#f4f3ef);color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+
+<style>
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:900px !important;margin-left:auto !important;margin-right:auto !important;
+  text-align:center !important;text-wrap:balance;
+}
+.h008-takeaway strong{color:var(--hanten-text)}
+.hanten-reflection{
+  max-width:740px !important;margin:.65rem auto 0 !important;text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:.95rem !important;line-height:1.45 !important;font-weight:500 !important;color:var(--hanten-muted) !important;
+}
+.h008-source{
+  max-width:700px !important;margin:1.5rem auto 0 !important;text-align:left !important;
+  font-size:.75rem !important;line-height:1.45 !important;color:var(--hanten-muted) !important;
+}
+.hanten-image-actions button{background:#fff !important;color:var(--hanten-text) !important;border-color:var(--hanten-border) !important}
+
+/* PNG composition */
+.hanten-export-card{
+ position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
+ background:var(--hanten-paper,#f4f3ef);color:var(--hanten-text,#1c2733);
+ font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-card .h008-export-core{width:900px;margin:0 auto}
+.hanten-export-card .h008-graphic{width:900px !important}
+.hanten-export-card .h008-map-shell{width:700px;margin:0 auto}
+.hanten-export-card .h008-context{max-width:900px !important;grid-template-columns:repeat(4,minmax(0,1fr)) !important}
+.hanten-export-textcol{width:760px;margin-left:auto;margin-right:auto;text-align:left}
+.hanten-export-aha{margin-top:16px;font-size:14px;line-height:1.5;color:#4a5a6b}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-reflection{margin-top:8px;text-align:center;font-size:14px;line-height:1.4;font-weight:400;color:#59616b}
+.hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+</style>
+
+
+<style>
+/* H008 map + card refinement */
+.h008-graphic{width:min(100%,820px) !important}
+.h008-map-shell{
+  width:100% !important;
+  aspect-ratio:16 / 9 !important;
+  position:relative !important;
+  overflow:hidden !important;
+  background:#e8edf0 !important;
+  border:2px solid #aebbc0 !important;
+}
+.h008-map-shell img{
+  position:absolute !important;
+  display:block !important;
+  width:122% !important;
+  max-width:none !important;
+  height:auto !important;
+  left:-15% !important;
+  top:-24% !important;
+  margin:0 !important;
+}
+.h008-context{
+  max-width:820px !important;
+  gap:.75rem !important;
+}
+.h008-context-card{
+  background:rgba(255,255,255,.62) !important;
+  padding:.78rem .8rem !important;
+}
+.h008-context-card h2{
+  display:flex;
+  align-items:center;
+  gap:.42rem;
+  font-size:.78rem !important;
+}
+.h008-flat-flag{
+  width:32px;
+  height:21px;
+  flex:0 0 auto;
+  display:inline-block;
+  border:1px solid rgba(28,39,51,.18);
+}
+.h008-flat-flag svg{
+  display:block;
+  width:100%;
+  height:100%;
+}
+.h008-globe{
+  width:26px;
+  height:26px;
+  flex:0 0 auto;
+}
+.h008-country{
+  font-size:clamp(.72rem,1.25vw,.9rem) !important;
+}
+.h008-question-mark{
+  font-size:clamp(3.5rem,7vw,5.8rem) !important;
+}
+
+/* Export keeps the same rectangular map */
+.hanten-export-card .h008-map-shell{
+  width:820px !important;
+  aspect-ratio:16 / 9 !important;
+  margin:0 auto !important;
+}
+.hanten-export-card .h008-context{
+  max-width:900px !important;
+}
+</style>
+
+
+<style>
+.h008-context-card{
+  display:grid !important;
+  grid-template-rows:3.1rem auto !important;
+  align-content:start !important;
+}
+.h008-context-card h2{
+  margin:0 !important;
+  min-height:0 !important;
+  align-self:start !important;
+}
+.h008-context-card p{
+  align-self:start !important;
+  margin:0 !important;
+}
+</style>
+
+</head>
+<body>
+<main class="hanten-exhibit">
+  <h1 class="hanten-question">What is the correct name for this sea?</h1>
+  <p class="hanten-subtitle">The geography is the same. The answer depends on where you stand.</p>
+
+  <div class="hanten-graphic">
+    <div class="h008-graphic">
+      <div class="h008-map-shell">
+        <img src="../../assets/basemaps/library/regions/BM-101/BM-101.svg"
+             alt="BM-101 Northeast Asia basemap showing Japan, the Korean Peninsula, eastern China, and the Russian Far East">
+
+        <div class="h008-label-layer" aria-hidden="true">
+          <div class="h008-country h008-north-korea">North Korea</div>
+          <div class="h008-country h008-south-korea">South Korea</div>
+          <div class="h008-country h008-japan">Japan</div>
+          <div class="h008-question-mark">?</div>
+        </div>
+      </div>
+
+      <div class="h008-context h008-context-4">
+        <section class="h008-context-card" style="--h008-card-accent:#b13f2f;">
+          <h2><span class="h008-flat-flag" aria-hidden="true"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="5.7" fill="#bc002d"/></svg></span> Japan</h2>
+          <p><strong>Sea of Japan</strong><br>Official government usage.</p>
+        </section>
+
+        <section class="h008-context-card" style="--h008-card-accent:#1f4f73;">
+          <h2><span class="h008-flat-flag" aria-hidden="true"><svg viewBox="0 0 60 40">
+<rect width="60" height="40" fill="#fff"/>
+<g transform="translate(30 20) rotate(-33.7)">
+  <path d="M0-8a8 8 0 1 1 0 16a4 4 0 1 0 0-8a4 4 0 1 1 0-8z" fill="#cd2e3a"/>
+  <path d="M0 8a8 8 0 1 1 0-16a4 4 0 1 0 0 8a4 4 0 1 1 0 8z" fill="#0047a0"/>
+</g>
+<g fill="#111">
+  <g transform="translate(12 9) rotate(-33.7)"><rect x="-6" y="-3" width="12" height="1.8"/><rect x="-6" y="0" width="12" height="1.8"/><rect x="-6" y="3" width="12" height="1.8"/></g>
+  <g transform="translate(48 31) rotate(-33.7)"><rect x="-6" y="-3" width="5" height="1.8"/><rect x="1" y="-3" width="5" height="1.8"/><rect x="-6" y="0" width="12" height="1.8"/><rect x="-6" y="3" width="5" height="1.8"/><rect x="1" y="3" width="5" height="1.8"/></g>
+  <g transform="translate(48 9) rotate(33.7)"><rect x="-6" y="-3" width="5" height="1.8"/><rect x="1" y="-3" width="5" height="1.8"/><rect x="-6" y="0" width="5" height="1.8"/><rect x="1" y="0" width="5" height="1.8"/><rect x="-6" y="3" width="12" height="1.8"/></g>
+  <g transform="translate(12 31) rotate(33.7)"><rect x="-6" y="-3" width="12" height="1.8"/><rect x="-6" y="0" width="5" height="1.8"/><rect x="1" y="0" width="5" height="1.8"/><rect x="-6" y="3" width="12" height="1.8"/></g>
+</g>
+</svg></span> South Korea</h2>
+          <p><strong>East Sea</strong><br>Official government usage.</p>
+        </section>
+
+        <section class="h008-context-card" style="--h008-card-accent:#3f7251;">
+          <h2><span class="h008-flat-flag" aria-hidden="true"><svg viewBox="0 0 30 20">
+<rect width="30" height="20" fill="#024fa2"/><rect y="3" width="30" height="14" fill="#fff"/><rect y="4" width="30" height="12" fill="#ed1c27"/>
+<circle cx="10" cy="10" r="4.1" fill="#fff"/><path d="M10 6.3l1.05 2.25 2.45.25-1.8 1.65.5 2.4L10 11.65 7.8 12.85l.5-2.4-1.8-1.65 2.45-.25z" fill="#ed1c27"/>
+</svg></span> North Korea</h2>
+          <p><strong>Korean East Sea</strong><br>Official government usage.</p>
+        </section>
+
+        <section class="h008-context-card" style="--h008-card-accent:#68747b;">
+          <h2><span class="h008-globe" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#68747b" stroke-width="1.5">
+<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span> International usage</h2>
+          <p><strong>Sea of Japan</strong><br>Predominant label on international maps.</p>
+        </section>
+      </div>
+
+      <p class="h008-takeaway">
+        <strong>The geography is fixed. The label carries perspective.</strong>
+        The same sea can appear under different names depending on who is making the map.
+      </p>
+
+      <p class="hanten-reflection">What else on a map might look objective but carry a point of view?</p>
+
+      <p class="h008-note h008-source">
+        Context: the naming dispute is unresolved. Hanten is not choosing a preferred name here;
+        the exhibit shows how map labels can carry history, politics, language, and perspective along with geography.
+      </p>
+
+      <div class="hanten-utility">
+        <div id="save-image-slot"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+
+
+<script>
+(() => {
+ const slot=document.getElementById("save-image-slot");
+ if(!slot || typeof html2canvas!=="function") return;
+ slot.classList.add("hanten-image-actions"); slot.innerHTML="";
+ const save=document.createElement("button"), share=document.createElement("button");
+ save.type=share.type="button"; save.textContent="Save Image"; share.textContent="Share Image";
+ slot.append(save,share);
+ const target=".h008-map-shell", filename="H008_v2.png", title="What is the correct name for this sea?";
+ async function blob(){
+   const map=document.querySelector(".h008-map-shell");
+   const context=document.querySelector(".h008-context");
+   const aha=document.querySelector(".h008-takeaway");
+   const source=document.querySelector(".h008-source");
+   if(!map || !context) throw new Error("Export content not found.");
+
+   const card=document.createElement("div");
+   card.className="hanten-export-card";
+
+   const titleCanvas=document.createElement("canvas");
+   titleCanvas.width=1800; titleCanvas.height=100;
+   titleCanvas.style.width="900px"; titleCanvas.style.height="50px";
+   titleCanvas.style.display="block"; titleCanvas.style.margin="0 auto 6px";
+   const t=titleCanvas.getContext("2d"); t.scale(2,2);
+   t.font='750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+   t.fillStyle="#1c2733"; t.textAlign="center"; t.textBaseline="middle";
+   t.fillText("What is the correct name for this sea?",450,25);
+   card.appendChild(titleCanvas);
+
+   const sub=document.createElement("canvas");
+   sub.width=1800; sub.height=56; sub.style.width="900px"; sub.style.height="28px";
+   sub.style.display="block"; sub.style.margin="0 auto 18px";
+   const s=sub.getContext("2d"); s.scale(2,2);
+   s.font='400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+   s.fillStyle="#4a5a6b"; s.textAlign="center"; s.textBaseline="middle";
+   s.fillText("The geography is the same. The answer depends on where you stand.",450,14);
+   card.appendChild(sub);
+
+   const core=document.createElement("div"); core.className="h008-export-core";
+   const graphic=document.createElement("div"); graphic.className="h008-graphic";
+   graphic.appendChild(map.cloneNode(true)); graphic.appendChild(context.cloneNode(true));
+   core.appendChild(graphic); card.appendChild(core);
+
+   if(aha){
+     const textcol=document.createElement("div"); textcol.className="hanten-export-textcol";
+     const ac=aha.cloneNode(true); ac.className="hanten-export-aha";
+     textcol.appendChild(ac); card.appendChild(textcol);
+   }
+
+   const reflection=document.createElement("div"); reflection.className="hanten-export-reflection";
+   reflection.textContent="What else on a map might look objective but carry a point of view?";
+   card.appendChild(reflection);
+
+   if(source){
+     const sc=source.cloneNode(true); sc.className="hanten-export-source"; card.appendChild(sc);
+   }
+
+   document.body.appendChild(card);
+   try{
+     await document.fonts.ready;
+     const imgs=Array.from(card.querySelectorAll("img"));
+     await Promise.all(imgs.map(img=>new Promise(resolve=>{
+       if(img.complete && img.naturalWidth>0) return resolve();
+       img.addEventListener("load",resolve,{once:true});
+       img.addEventListener("error",resolve,{once:true});
+     })));
+     const canvas=await html2canvas(card,{
+       backgroundColor:null,
+       scale:2,
+       useCORS:true,
+       logging:false,
+       width:card.scrollWidth,
+       height:card.scrollHeight
+     });
+     return await new Promise((ok,no)=>canvas.toBlob(b=>b?ok(b):no(new Error("Could not create image")),"image/png"));
+   }finally{card.remove();}
+ }
+ function download(b){const u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+ save.onclick=async()=>{save.disabled=true;try{download(await blob())}catch(e){console.error(e);alert("The image could not be saved. Open this exhibit with Live Server and try again.");}finally{save.disabled=false}};
+ share.onclick=async()=>{share.disabled=true;try{const b=await blob(),f=new File([b],filename,{type:"image/png"});if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[f]})))await navigator.share({title,files:[f]});else{download(b);alert("Direct sharing is not available in this browser. The image was saved instead.")}}catch(e){if(!e||e.name!=="AbortError")console.error(e)}finally{share.disabled=false}};
+})();
+</script>
+
+</body>
+</html>

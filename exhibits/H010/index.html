@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H010 — Half the World Lives Here</title>
+    <meta
+        name="description"
+        content="A 4,000 kilometer circle over Asia contains more than half of humanity."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        :root {
+            --h010-ocean: #e7eef1;
+            --h010-land: #cbd3d0;
+            --h010-land-line: #a7b2ae;
+            --h010-circle: #39705a;
+            --h010-circle-fill: rgba(57, 112, 90, 0.16);
+            --h010-muted: var(--hanten-muted);
+        }
+
+        .h010-shell {
+            width: min(100%, 900px);
+            margin: 0 auto;
+        }
+
+        .h010-panel {
+            padding: .65rem;
+            background: var(--hanten-paper);
+            border: 1px solid var(--hanten-border);
+        }
+
+        #h010-map {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h010-sphere {
+            fill: var(--h010-ocean);
+        }
+
+        .h010-graticule {
+            fill: none;
+            stroke: rgba(31, 31, 31, 0.07);
+            stroke-width: .5;
+        }
+
+        .h010-land {
+            fill: var(--h010-land);
+            stroke: var(--h010-land-line);
+            stroke-width: .45;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .h010-circle {
+            fill: var(--h010-circle-fill);
+            stroke: var(--h010-circle);
+            stroke-width: 2.4;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .h010-circle-label {
+            font-family: var(--hanten-font);
+            fill: var(--h010-circle);
+            text-anchor: middle;
+            
+        }
+
+        .h010-circle-label-main {
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: -.03em;
+        }
+
+        .h010-circle-label-sub {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .h010-context {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .75rem;
+            margin-top: .75rem;
+        }
+
+        .h010-context-card {
+            padding: .7rem .8rem;
+            border-top: 2px solid var(--h010-circle);
+        }
+
+        .h010-context-card h2 {
+            margin: 0 0 .2rem;
+            font-size: .76rem;
+            line-height: 1.2;
+            
+            
+            color: var(--h010-muted);
+        }
+
+        .h010-context-card p {
+            margin: 0;
+            font-size: .9rem;
+            line-height: 1.42;
+            color: var(--hanten-text);
+        }
+
+        .h010-takeaway {
+            max-width: 760px;
+            margin: 1rem auto 0;
+            padding: .15rem 0;
+            border-left: 0;
+            text-align: left;
+            color: var(--hanten-muted);
+            font-size: .9rem;
+            line-height: 1.5;
+        }
+
+        .h010-takeaway p {
+            margin: 0;
+        }
+
+        .h010-takeaway p + p {
+            margin-top: .3rem;
+            color: var(--hanten-muted);
+        }
+
+        .h010-source {
+            max-width: 760px;
+            margin: .8rem auto 0;
+        }
+
+        @media (max-width: 700px) {
+            .h010-context {
+                grid-template-columns: 1fr;
+            }
+
+            .h010-circle-label-main {
+                font-size: 30px;
+            }
+
+            .h010-circle-label-sub {
+                font-size: 12px;
+            }
+        }
+    </style>
+
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:var(--hanten-paper,#f4f3ef);color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+
+<style>
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:900px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+  text-wrap:balance;
+}
+.h010-takeaway strong{color:var(--hanten-text)}
+.hanten-reflection{
+  max-width:740px !important;
+  margin:.65rem auto 0 !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:.95rem !important;
+  line-height:1.45 !important;
+  font-weight:500 !important;
+  color:var(--hanten-muted) !important;
+}
+.h010-source{
+  max-width:760px !important;
+  margin:1.5rem auto 0 !important;
+  text-align:left !important;
+  font-size:.75rem !important;
+  line-height:1.45 !important;
+  color:var(--hanten-muted) !important;
+  text-wrap:pretty;
+}
+.hanten-image-actions button{
+  background:#fff !important;
+  color:var(--hanten-text) !important;
+  border-color:var(--hanten-border) !important;
+}
+
+/* Standalone PNG */
+.hanten-export-card{
+  position:fixed;
+  left:-10000px;
+  top:0;
+  width:1080px;
+  padding:30px 70px 54px;
+  box-sizing:border-box;
+  background:var(--hanten-paper,#f4f3ef);
+  color:var(--hanten-text,#1c2733);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-card .h010-export-core{
+  width:900px;
+  margin:0 auto;
+}
+.hanten-export-card .h010-panel{
+  width:900px !important;
+  box-sizing:border-box !important;
+}
+.hanten-export-textcol{
+  width:760px;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:left;
+}
+.hanten-export-aha{
+  margin-top:16px;
+  font-size:14px;
+  line-height:1.5;
+  color:#53616f;
+}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-reflection{
+  margin-top:8px;
+  text-align:center;
+  font-size:14px;
+  line-height:1.4;
+  font-weight:400;
+  color:#59616b;
+}
+.hanten-export-source{
+  width:760px;
+  margin:24px auto 0;
+  text-align:left;
+  font-size:11px;
+  line-height:1.4;
+  color:#6a716f;
+}
+</style>
+
+
+<style>
+.h010-panel{background:#f5f7f6 !important;border:1px solid #b8c4c0 !important}
+.h010-context-card{border-top-color:#39705a !important}
+.h010-explore{
+  max-width:760px;margin:1rem auto 0;border-top:1px solid var(--hanten-border);
+  border-bottom:1px solid var(--hanten-border)
+}
+.h010-explore summary{
+  cursor:pointer;padding:.75rem 0;font-size:.86rem;font-weight:750;color:var(--hanten-text)
+}
+.h010-explore-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:.15rem 0 1rem}
+.h010-explore-stat{background:#f5f7f6;border:1px solid var(--hanten-border);padding:.8rem;text-align:center}
+.h010-big{display:block;font-size:1.5rem;font-weight:800;color:#39705a;line-height:1.1}
+.h010-explore-stat span:last-child{font-size:.76rem;color:var(--hanten-muted)}
+.h010-explore h2{margin:.8rem 0 .4rem;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--hanten-muted)}
+.h010-pop-table{width:100%;border-collapse:collapse;font-size:.82rem;background:#fff;border:1px solid var(--hanten-border)}
+.h010-pop-table td{padding:.42rem .65rem;border-bottom:1px solid var(--hanten-border)}
+.h010-pop-table td:last-child{text-align:right;font-weight:750;color:var(--hanten-text)}
+.h010-table-note{margin:.5rem 0 .9rem;font-size:.72rem;line-height:1.45;color:var(--hanten-muted)}
+.h010-surprise{margin:.8rem 0;padding:.8rem;background:rgba(57,112,90,.07);border-left:0}
+.h010-surprise h2{margin:0 0 .3rem;color:var(--hanten-text)}
+.h010-surprise p{margin:0;font-size:.84rem;line-height:1.5;color:var(--hanten-muted)}
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            Could half the world’s population really fit inside one circle?
+        </h1>
+
+        <p class="hanten-subtitle">
+            The Yuxi Circle: a 4,000 km radius around southern China contains more than 55% of humanity.
+        </p>
+
+        <div class="hanten-graphic">
+            <div class="h010-shell">
+
+                <div class="h010-panel" id="h010-capture">
+                    <svg
+                        id="h010-map"
+                        viewBox="0 0 960 500"
+                        role="img"
+                        aria-label="Equal Earth world map showing a 4,000 kilometer radius circle over Asia containing about 52 percent of humanity"
+                    ></svg>
+
+                    <div class="h010-context">
+                        <section class="h010-context-card">
+                            <h2>Inside the circle</h2>
+                            <p>
+                                <strong>About 4.32 billion people.</strong>
+                                It reaches across the great population centers of South, East, and Southeast Asia.
+                            </p>
+                        </section>
+
+                        <section class="h010-context-card">
+                            <h2>Outside the circle</h2>
+                            <p>
+                                <strong>About 3.48 billion people.</strong>
+                                The rest of humanity—less than 45% in the 2020 dataset—lives beyond the circle.
+                            </p>
+                        </section>
+                    </div>
+                </div>
+
+                <details class="h010-explore">
+                    <summary>What’s inside the circle?</summary>
+
+                    <div class="h010-explore-grid">
+                        <section class="h010-explore-stat">
+                            <span class="h010-big">4.32B</span>
+                            <span>people inside</span>
+                        </section>
+                        <section class="h010-explore-stat">
+                            <span class="h010-big">&gt;55%</span>
+                            <span>of humanity in 2020</span>
+                        </section>
+                    </div>
+
+                    <h2>Major country populations within its reach</h2>
+                    <table class="h010-pop-table">
+                        <tbody>
+                            <tr><td>China</td><td>≈1.42B</td></tr>
+                            <tr><td>India</td><td>≈1.40B</td></tr>
+                            <tr><td>Indonesia</td><td>≈274M</td></tr>
+                            <tr><td>Pakistan</td><td>≈227M</td></tr>
+                            <tr><td>Bangladesh</td><td>≈167M</td></tr>
+                            <tr><td>Japan</td><td>≈126M</td></tr>
+                            <tr><td>Philippines</td><td>≈112M</td></tr>
+                            <tr><td>Vietnam</td><td>≈98M</td></tr>
+                        </tbody>
+                    </table>
+                    <p class="h010-table-note">
+                        These are rounded 2020 whole-country populations for context. The 4,000 km boundary cuts through some countries, so these figures are not a subtotal of the 4.32 billion people inside the circle.
+                    </p>
+
+                    <div class="h010-surprise">
+                        <h2>And it isn’t all crowded.</h2>
+                        <p>
+                            The circle also takes in large areas of sea and sparsely populated landscapes including the Tibetan Plateau, the Taklamakan Desert, Mongolia, and parts of southern Siberia.
+                            More than half of humanity fits inside despite all that lightly populated space.
+                        </p>
+                    </div>
+                </details>
+
+                <div class="h010-takeaway hanten-body">
+                    <p>
+                        <strong>Population is far more geographically concentrated than a world map makes it feel.</strong>
+                    </p>
+                    <p>
+                        The circle even includes large low-density areas, which makes the concentration more striking.
+                    </p>
+                </div>
+
+                <p class="hanten-reflection">
+                    What does a world map hide when people are distributed this unevenly?
+                </p>
+
+                <p class="hanten-source h010-source">
+                    Source: Alasdair Rae’s Yuxi Circle analysis, using WorldPop 2020 1 km population data.
+                    Rae tested more than 1,500 cities; a 4,000 km geodesic circle centered on Yuxi, Yunnan, contained about 4.32 billion people—just over 55% of the 7.8 billion world population in that dataset.
+                    Country totals in the dropdown are rounded 2020 population context and are not added to calculate the circle total.
+                </p>
+
+                <div class="hanten-utility">
+                    <div id="save-image-slot"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/d3.v7.min.js"></script>
+    <script src="../../assets/geodata/world/countries-10m.js"></script>
+
+    <script>
+        const width = 960;
+        const height = 500;
+
+        const svg = d3
+            .select("#h010-map")
+            .attr("viewBox", `0 0 ${width} ${height}`);
+
+        const projection = d3
+            .geoEqualEarth()
+            .rotate([-95, 0])
+            .fitSize([width, height], { type: "Sphere" });
+
+        const path = d3.geoPath(projection);
+        const graticule = d3.geoGraticule10();
+
+        svg
+            .append("path")
+            .datum({ type: "Sphere" })
+            .attr("class", "h010-sphere")
+            .attr("d", path);
+
+        svg
+            .append("path")
+            .datum(graticule)
+            .attr("class", "h010-graticule")
+            .attr("d", path);
+
+        svg
+            .append("g")
+            .selectAll("path")
+            .data(COUNTRIES_10M_GEOJSON.features)
+            .join("path")
+            .attr("class", "h010-land")
+            .attr("d", path);
+
+        const radiusDegrees =
+            4000 / 6371 * 180 / Math.PI;
+
+        const circle = d3
+            .geoCircle()
+            .center([102.54, 24.35])
+            .radius(radiusDegrees);
+
+        svg
+            .append("path")
+            .datum(circle())
+            .attr("class", "h010-circle")
+            .attr("d", path);
+
+        const [cx, cy] =
+            projection([102.54, 24.35]);
+
+        svg
+            .append("text")
+            .attr("class", "h010-circle-label h010-circle-label-main")
+            .attr("x", cx)
+            .attr("y", cy - 3)
+            .text(">55%");
+
+        svg
+            .append("text")
+            .attr("class", "h010-circle-label h010-circle-label-sub")
+            .attr("x", cx)
+            .attr("y", cy + 22)
+            .text("of humanity");
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    
+
+    
+
+
+<script>
+(() => {
+ const slot=document.getElementById("save-image-slot");
+ if(!slot || typeof html2canvas!=="function") return;
+ slot.classList.add("hanten-image-actions"); slot.innerHTML="";
+ const save=document.createElement("button"), share=document.createElement("button");
+ save.type=share.type="button"; save.textContent="Save Image"; share.textContent="Share Image";
+ slot.append(save,share);
+ const target="#h010-capture", filename="H010_v2.png", title="Could half the world\u2019s population really fit inside one circle?";
+ async function blob(){
+   const panel=document.querySelector(".h010-panel");
+   const takeaway=document.querySelector(".h010-takeaway");
+   const source=document.querySelector(".h010-source");
+   if(!panel) throw new Error("Export content not found.");
+
+   const card=document.createElement("div");
+   card.className="hanten-export-card";
+
+   const titleCanvas=document.createElement("canvas");
+   titleCanvas.width=1800;
+   titleCanvas.height=168;
+   titleCanvas.style.width="900px";
+   titleCanvas.style.height="84px";
+   titleCanvas.style.display="block";
+   titleCanvas.style.margin="0 auto 8px";
+   const t=titleCanvas.getContext("2d");
+   t.scale(2,2);
+   t.font='750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+   t.fillStyle="#1c2733";
+   t.textAlign="center";
+   t.textBaseline="middle";
+   t.fillText("Could half the world’s population really",450,21);
+   t.fillText("fit inside one circle?",450,61);
+   card.appendChild(titleCanvas);
+
+   const sub=document.createElement("canvas");
+   sub.width=1800;
+   sub.height=56;
+   sub.style.width="900px";
+   sub.style.height="28px";
+   sub.style.display="block";
+   sub.style.margin="0 auto 18px";
+   const s=sub.getContext("2d");
+   s.scale(2,2);
+   s.font='400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+   s.fillStyle="#53616f";
+   s.textAlign="center";
+   s.textBaseline="middle";
+   s.fillText("The Yuxi Circle: a 4,000 km radius around southern China contains more than 55% of humanity.",450,14);
+   card.appendChild(sub);
+
+   const core=document.createElement("div");
+   core.className="h010-export-core";
+   core.appendChild(panel.cloneNode(true));
+   card.appendChild(core);
+
+   if(takeaway){
+     const textcol=document.createElement("div");
+     textcol.className="hanten-export-textcol";
+     const aha=takeaway.cloneNode(true);
+     aha.className="hanten-export-aha";
+     textcol.appendChild(aha);
+     card.appendChild(textcol);
+   }
+
+   const reflection=document.createElement("div");
+   reflection.className="hanten-export-reflection";
+   reflection.textContent="What does a world map hide when people are distributed this unevenly?";
+   card.appendChild(reflection);
+
+   if(source){
+     const sc=source.cloneNode(true);
+     sc.className="hanten-export-source";
+     card.appendChild(sc);
+   }
+
+   document.body.appendChild(card);
+   try{
+     await document.fonts.ready;
+     const canvas=await html2canvas(card,{
+       backgroundColor:null,
+       scale:2,
+       useCORS:true,
+       logging:false,
+       width:card.scrollWidth,
+       height:card.scrollHeight
+     });
+     return await new Promise((ok,no)=>canvas.toBlob(b=>b?ok(b):no(new Error("Could not create image")),"image/png"));
+   }finally{
+     card.remove();
+   }
+ }
+ function download(b){const u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+ save.onclick=async()=>{save.disabled=true;try{download(await blob())}finally{save.disabled=false}};
+ share.onclick=async()=>{share.disabled=true;try{const b=await blob(),f=new File([b],filename,{type:"image/png"});if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[f]})))await navigator.share({title,files:[f]});else{download(b);alert("Direct sharing is not available in this browser. The image was saved instead.")}}catch(e){if(!e||e.name!=="AbortError")console.error(e)}finally{share.disabled=false}};
+})();
+</script>
+
+</body>
+</html>

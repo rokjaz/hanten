@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H009 — Which state buys the most Ford F-150s?</title>
+<meta name="description" content="Two honest rankings give two different answers because totals and per-person measures answer different questions.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+:root{
+  --h009-ink-soft:#53616f;
+  --h009-card:#ffffff;
+  --h009-accent:#0e7c86;
+  --h009-ford-lo:#f0e0d3;
+  --h009-ford-hi:#9a3e1f;
+  --h009-other:#d6dbd0;
+  --h009-other-line:#b9c0b2;
+}
+
+.h009-shell{
+  width:min(100%,900px);
+  margin:0 auto;
+}
+
+.h009-tabs{
+  display:flex;
+  gap:.5rem;
+  flex-wrap:wrap;
+  margin:0 0 .7rem;
+}
+
+.h009-tabs button{
+  border:1px solid var(--hanten-border);
+  background:transparent;
+  color:var(--hanten-muted);
+  padding:.5rem .8rem;
+  font-family:var(--hanten-font);
+  font-size:.75rem;
+  font-weight:650;
+  cursor:pointer;
+}
+
+.h009-tabs button:hover,
+.h009-tabs button:focus-visible{
+  border-color:var(--hanten-accent);
+}
+
+.h009-tabs button.active{
+  background:var(--hanten-accent);
+  border-color:var(--hanten-accent);
+  color:#fff;
+}
+
+.h009-layout{
+  display:grid;
+  grid-template-columns:minmax(0,2.25fr) minmax(210px,.75fr);
+  gap:.9rem;
+  align-items:stretch;
+  padding:.7rem;
+  background:var(--hanten-paper);
+  border:1px solid var(--hanten-border);
+}
+
+.h009-map-card{
+  position:relative;
+  min-width:0;
+}
+
+#map{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.state{
+  stroke:#fff;
+  stroke-width:.6;
+  vector-effect:non-scaling-stroke;
+  cursor:pointer;
+}
+
+.state.other{
+  fill:var(--h009-other);
+  stroke:var(--h009-other-line);
+}
+
+#tooltip{
+  position:absolute;
+  display:none;
+  z-index:5;
+  pointer-events:none;
+  max-width:245px;
+  padding:.55rem .65rem;
+  border-radius:4px;
+  background:#1c2733;
+  color:#fff;
+  font-size:.75rem;
+  line-height:1.4;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+
+#tooltip .stat{color:#9ad6da}
+
+.h009-rank{
+  border-left:1px solid var(--hanten-border);
+  padding-left:.9rem;
+}
+
+.h009-rank h2{
+  margin:0 0 .6rem;
+  color:var(--hanten-muted);
+  font-size:.74rem;
+  line-height:1.3;
+  
+  
+}
+
+.h009-rank ol{
+  margin:0;
+  padding-left:1.2rem;
+  font-size:.82rem;
+  line-height:1.35;
+}
+
+.h009-rank li{
+  margin:0 0 .38rem;
+  padding-left:.05rem;
+}
+
+.h009-rank .val{
+  color:var(--hanten-accent);
+  font-family:var(--hanten-font);
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.h009-legend{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:.45rem;
+  margin:.55rem 0 0;
+  color:var(--hanten-muted);
+  font-size:.72rem;
+}
+
+.h009-legend .bar{
+  width:110px;
+  height:8px;
+  background:linear-gradient(to right,var(--h009-ford-lo),var(--h009-ford-hi));
+}
+
+.h009-legend .swatch{
+  display:inline-block;
+  width:10px;
+  height:10px;
+  margin-right:.22rem;
+  background:var(--h009-other);
+  border:1px solid var(--h009-other-line);
+  vertical-align:-1px;
+}
+
+.h009-takeaway{
+  max-width:760px;
+  margin:1rem auto 0;
+  padding:.15rem 0;
+  border-left:0;
+  text-align:left;
+  color:var(--hanten-muted);
+  font-size:.9rem;
+  line-height:1.5;
+}
+
+.h009-takeaway p{
+  margin:0;
+}
+
+.h009-takeaway p + p{
+  margin-top:.35rem;
+  color:var(--hanten-muted);
+}
+
+.h009-source{
+  max-width:760px;
+  margin:.8rem auto 0;
+}
+
+@media(max-width:760px){
+  .h009-layout{grid-template-columns:1fr}
+  .h009-rank{
+    border-left:0;
+    border-top:1px solid var(--hanten-border);
+    padding-left:0;
+    padding-top:.75rem;
+  }
+}
+</style>
+
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:var(--hanten-paper,#f4f3ef);color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+
+<style>
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:900px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+  text-wrap:balance;
+}
+.h009-takeaway strong{color:var(--hanten-text)}
+.hanten-reflection{
+  max-width:740px !important;
+  margin:.65rem auto 0 !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:.95rem !important;
+  line-height:1.45 !important;
+  font-weight:500 !important;
+  color:var(--hanten-muted) !important;
+}
+.h009-source{
+  max-width:760px !important;
+  margin:1.5rem auto 0 !important;
+  text-align:left !important;
+  font-size:.75rem !important;
+  line-height:1.45 !important;
+  color:var(--hanten-muted) !important;
+  text-wrap:pretty;
+}
+.hanten-image-actions button{
+  background:#fff !important;
+  color:var(--hanten-text) !important;
+  border-color:var(--hanten-border) !important;
+}
+.hanten-export-card{
+  position:fixed;
+  left:-10000px;
+  top:0;
+  width:1080px;
+  padding:30px 70px 54px;
+  box-sizing:border-box;
+  background:var(--hanten-paper,#f4f3ef);
+  color:var(--hanten-text,#1c2733);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-card .h009-export-core{
+  width:900px;
+  margin:0 auto;
+}
+.hanten-export-card .h009-dual{
+  width:900px !important;
+  grid-template-columns:1fr 1fr !important;
+}
+.hanten-export-textcol{
+  width:760px;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:left;
+}
+.hanten-export-aha{
+  margin-top:16px;
+  font-size:14px;
+  line-height:1.5;
+  color:#53616f;
+}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-reflection{
+  margin-top:8px;
+  text-align:center;
+  font-size:14px;
+  line-height:1.4;
+  font-weight:400;
+  color:#59616b;
+}
+.hanten-export-source{
+  width:760px;
+  margin:24px auto 0;
+  text-align:left;
+  font-size:11px;
+  line-height:1.4;
+  color:#6a716f;
+}
+</style>
+
+
+<style>
+:root{--h009-ford-lo:#dce8ee;--h009-ford-hi:#315f7d}
+.h009-dual{display:grid;grid-template-columns:1fr 1fr;gap:1rem;width:min(100%,900px);margin:0 auto}
+.h009-panel{background:var(--hanten-paper);border:1px solid var(--hanten-border);padding:.75rem;min-width:0}
+.h009-panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-bottom:.35rem}
+.h009-measure{text-transform:uppercase;letter-spacing:.05em;font-size:.78rem;font-weight:800;color:var(--hanten-muted)}
+.h009-panel-head strong{font-size:1rem;color:var(--hanten-text)}
+.h009-map{display:block;width:100%;height:auto}
+.h009-mini-rank{border-top:1px solid var(--hanten-border);padding-top:.5rem;margin-top:.15rem}
+.h009-mini-rank h2{margin:0 0 .3rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--hanten-muted)}
+.h009-mini-rank ol{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin:0;padding-left:1.2rem;font-size:.78rem}
+.h009-mini-rank li{padding-right:.25rem}.h009-mini-rank .val{display:block;color:#315f7d;font-weight:800}
+.h009-legend{max-width:900px;margin:.55rem auto 0}.h009-legend .bar{background:linear-gradient(to right,#dce8ee,#315f7d)}
+.h009-explore{max-width:900px;margin:1rem auto 0;border-top:1px solid var(--hanten-border);border-bottom:1px solid var(--hanten-border)}
+.h009-explore summary{cursor:pointer;padding:.75rem 0;font-size:.86rem;font-weight:750;color:var(--hanten-text)}
+.h009-data-controls{display:flex;gap:.5rem;margin:.2rem 0 .75rem}
+.h009-data-controls button{border:1px solid var(--hanten-border);background:#fff;color:var(--hanten-muted);padding:.45rem .7rem;font:700 .76rem var(--hanten-font);cursor:pointer}
+.h009-data-controls button.active{background:#315f7d;color:#fff;border-color:#315f7d}
+.h009-table-wrap{max-height:420px;overflow:auto;background:#fff;border:1px solid var(--hanten-border)}
+.h009-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.h009-table th,.h009-table td{text-align:left;padding:.48rem .6rem;border-bottom:1px solid var(--hanten-border)}
+.h009-table th{position:sticky;top:0;background:#f3f5f4;color:var(--hanten-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.03em}
+.h009-table td:first-child{width:3rem;color:var(--hanten-muted)}
+.h009-table-note,.h009-unreported{font-size:.75rem;line-height:1.45;color:var(--hanten-muted)}
+.h009-unreported{margin:.6rem 0 .8rem}
+@media(max-width:760px){.h009-dual{grid-template-columns:1fr}.h009-mini-rank ol{grid-template-columns:1fr 1fr 1fr}}
+.hanten-export-card .h009-dual{width:900px !important;grid-template-columns:1fr 1fr !important}
+</style>
+
+</head>
+
+<body>
+
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">
+    Which state buys the most Ford F-150s?
+  </h1>
+
+  <p class="hanten-subtitle">
+    Try two ways of measuring “most.”
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h009-shell">
+
+      <section class="h009-dual" id="h009-capture" aria-label="Ford F-150 rankings compared">
+        <article class="h009-panel">
+          <div class="h009-panel-head">
+            <span class="h009-measure">Per person</span>
+            <strong>Wyoming #1</strong>
+          </div>
+          <svg id="map-share" class="h009-map" viewBox="0 0 975 610" role="img" aria-label="F-150 share by state"></svg>
+          <div class="h009-mini-rank"><h2>Top 3</h2><ol id="top3-share"></ol></div>
+        </article>
+        <article class="h009-panel">
+          <div class="h009-panel-head">
+            <span class="h009-measure">Total owners</span>
+            <strong>Texas #1</strong>
+          </div>
+          <svg id="map-est" class="h009-map" viewBox="0 0 975 610" role="img" aria-label="Estimated F-150 owners by state"></svg>
+          <div class="h009-mini-rank"><h2>Top 3</h2><ol id="top3-est"></ol></div>
+        </article>
+      </section>
+
+      <div class="h009-legend" id="legend">
+        <span>Lower</span><span class="bar"></span><span>Higher</span>
+        <span style="margin-left:.65rem"><span class="swatch"></span>F-150 share not reported</span>
+      </div>
+
+      <details class="h009-explore">
+        <summary>See all state data</summary>
+        <div class="h009-data-controls" role="group" aria-label="Sort state data">
+          <button type="button" class="active" data-sort="share">Per person</button>
+          <button type="button" data-sort="est">Total owners</button>
+        </div>
+        <div class="h009-table-wrap">
+          <table class="h009-table">
+            <thead><tr><th>Rank</th><th>State</th><th id="metric-heading">F-150 share</th><th>Other measure</th></tr></thead>
+            <tbody id="state-table"></tbody>
+          </table>
+        </div>
+        <p class="h009-table-note">Only states with a reported F-150 share can be ranked by these measures. States where another vehicle ranked first are listed separately because the F-150 share was not reported in the source data.</p>
+        <div id="unreported-states" class="h009-unreported"></div>
+      </details>
+
+      <div class="h009-takeaway hanten-body">
+        <p>
+          <strong>Wyoming ranks first by F-150 share. Texas ranks first by estimated total owners.</strong>
+        </p>
+        <p>
+          Neither answer is wrong. “Most” changes when the measure changes.
+        </p>
+      </div>
+
+      <p class="hanten-reflection">
+        When two rankings disagree, which question is each one answering?
+      </p>
+
+      <p class="hanten-source h009-source">
+        Sources: iSeeCars.com used-vehicle study (1–5 year old vehicles) for vehicle popularity and market share;
+        U.S. Census Bureau Vintage 2023 estimates for state populations.
+        “Estimated total owners” is population × reported share, not a directly measured sales count.
+        States where another vehicle ranked first are gray because the F-150 share was not reported there.
+      </p>
+
+      <div class="hanten-utility">
+        <div id="save-image-slot"></div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/js/topojson-client.min.js"></script>
+
+<script src="../../assets/geodata/us/us-counties-10m.js"></script>
+<script src="../../assets/datasets/ford/ford-f150.js"></script>
+
+<script>
+const width=975,height=610;
+const statesFeatures=topojson.feature(
+  US_COUNTIES_TOPOLOGY,
+  US_COUNTIES_TOPOLOGY.objects.states
+).features.filter(f=>FORD_F150[f.properties.name]);
+const projection=d3.geoAlbersUsa().fitSize([width,height],{type:"FeatureCollection",features:statesFeatures});
+const path=d3.geoPath(projection);
+const leaders=Object.entries(FORD_F150).filter(([,d])=>d.isLeader);
+const unreported=Object.entries(FORD_F150).filter(([,d])=>!d.isLeader);
+
+const blueLo="#dce8ee", blueHi="#315f7d";
+const shareScale=d3.scaleLinear().domain(d3.extent(leaders,([,d])=>d.share)).range([blueLo,blueHi]).interpolate(d3.interpolateRgb);
+const estScale=d3.scaleLinear().domain(d3.extent(leaders,([,d])=>d.est)).range([blueLo,blueHi]).interpolate(d3.interpolateRgb);
+
+function drawMap(selector,metric,scale){
+  const svg=d3.select(selector);
+  svg.selectAll("*").remove();
+  svg.append("g").selectAll("path").data(statesFeatures).join("path")
+    .attr("d",path)
+    .attr("class",f=>"state"+(FORD_F150[f.properties.name].isLeader?"":" other"))
+    .attr("fill",f=>{
+      const d=FORD_F150[f.properties.name];
+      return d.isLeader?scale(d[metric]):"#d6dbd0";
+    });
+}
+function ranked(metric){
+  return leaders.slice().sort((a,b)=>b[1][metric]-a[1][metric]);
+}
+function fillTop3(id,metric){
+  const ol=document.getElementById(id); ol.innerHTML="";
+  ranked(metric).slice(0,3).forEach(([name,d])=>{
+    const li=document.createElement("li");
+    li.innerHTML=`${name} <span class="val">${metric==="share"?d.share+"%":"~"+d.est.toLocaleString()}</span>`;
+    ol.appendChild(li);
+  });
+}
+function renderTable(metric){
+  const body=document.getElementById("state-table"); body.innerHTML="";
+  document.getElementById("metric-heading").textContent=metric==="share"?"F-150 share":"Estimated owners";
+  ranked(metric).forEach(([name,d],i)=>{
+    const tr=document.createElement("tr");
+    const primary=metric==="share"?`${d.share}%`:`~${d.est.toLocaleString()}`;
+    const other=metric==="share"?`~${d.est.toLocaleString()} owners`:`${d.share}% share`;
+    tr.innerHTML=`<td>${i+1}</td><td>${name}</td><td>${primary}</td><td>${other}</td>`;
+    body.appendChild(tr);
+  });
+  document.querySelectorAll(".h009-data-controls button").forEach(b=>b.classList.toggle("active",b.dataset.sort===metric));
+}
+drawMap("#map-share","share",shareScale);
+drawMap("#map-est","est",estScale);
+fillTop3("top3-share","share");
+fillTop3("top3-est","est");
+renderTable("share");
+document.querySelectorAll(".h009-data-controls button").forEach(b=>b.addEventListener("click",()=>renderTable(b.dataset.sort)));
+document.getElementById("unreported-states").innerHTML="<strong>F-150 share not reported:</strong> "+unreported.map(([name,d])=>`${name} (${d.other} ranked first)`).join("; ");
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+
+
+
+<script>
+(() => {
+ const slot=document.getElementById("save-image-slot");
+ if(!slot || typeof html2canvas!=="function") return;
+ slot.classList.add("hanten-image-actions"); slot.innerHTML="";
+ const save=document.createElement("button"), share=document.createElement("button");
+ save.type=share.type="button"; save.textContent="Save Image"; share.textContent="Share Image";
+ slot.append(save,share);
+ const target="#h009-capture", filename="H009_v2.png", title="Which state buys the most Ford F-150s?";
+ async function blob(){
+   const layout=document.querySelector(".h009-dual");
+   const legend=document.querySelector(".h009-legend");
+   const takeaway=document.querySelector(".h009-takeaway");
+   const source=document.querySelector(".h009-source");
+   if(!layout) throw new Error("Export content not found.");
+
+   const card=document.createElement("div");
+   card.className="hanten-export-card";
+
+   const titleCanvas=document.createElement("canvas");
+   titleCanvas.width=1800;
+   titleCanvas.height=100;
+   titleCanvas.style.width="900px";
+   titleCanvas.style.height="50px";
+   titleCanvas.style.display="block";
+   titleCanvas.style.margin="0 auto 6px";
+   const t=titleCanvas.getContext("2d");
+   t.scale(2,2);
+   t.font='750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+   t.fillStyle="#1c2733";
+   t.textAlign="center";
+   t.textBaseline="middle";
+   t.fillText("Which state buys the most Ford F-150s?",450,25);
+   card.appendChild(titleCanvas);
+
+   const sub=document.createElement("canvas");
+   sub.width=1800;
+   sub.height=56;
+   sub.style.width="900px";
+   sub.style.height="28px";
+   sub.style.display="block";
+   sub.style.margin="0 auto 18px";
+   const s=sub.getContext("2d");
+   s.scale(2,2);
+   s.font='400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+   s.fillStyle="#53616f";
+   s.textAlign="center";
+   s.textBaseline="middle";
+   s.fillText("Try two ways of measuring “most.”",450,14);
+   card.appendChild(sub);
+
+   const core=document.createElement("div");
+   core.className="h009-export-core";
+   core.appendChild(layout.cloneNode(true));
+   if(legend) core.appendChild(legend.cloneNode(true));
+   card.appendChild(core);
+
+   if(takeaway){
+     const textcol=document.createElement("div");
+     textcol.className="hanten-export-textcol";
+     const aha=takeaway.cloneNode(true);
+     aha.className="hanten-export-aha";
+     textcol.appendChild(aha);
+     card.appendChild(textcol);
+   }
+
+   const reflection=document.createElement("div");
+   reflection.className="hanten-export-reflection";
+   reflection.textContent="When two rankings disagree, which question is each one answering?";
+   card.appendChild(reflection);
+
+   if(source){
+     const sc=source.cloneNode(true);
+     sc.className="hanten-export-source";
+     card.appendChild(sc);
+   }
+
+   document.body.appendChild(card);
+   try{
+     await document.fonts.ready;
+     const canvas=await html2canvas(card,{
+       backgroundColor:null,
+       scale:2,
+       useCORS:true,
+       logging:false,
+       width:card.scrollWidth,
+       height:card.scrollHeight
+     });
+     return await new Promise((ok,no)=>canvas.toBlob(b=>b?ok(b):no(new Error("Could not create image")),"image/png"));
+   }finally{
+     card.remove();
+   }
+ }
+ function download(b){const u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+ save.onclick=async()=>{save.disabled=true;try{download(await blob())}finally{save.disabled=false}};
+ share.onclick=async()=>{share.disabled=true;try{const b=await blob(),f=new File([b],filename,{type:"image/png"});if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[f]})))await navigator.share({title,files:[f]});else{download(b);alert("Direct sharing is not available in this browser. The image was saved instead.")}}catch(e){if(!e||e.name!=="AbortError")console.error(e)}finally{share.disabled=false}};
+})();
+</script>
+
+</body>
+</html>
