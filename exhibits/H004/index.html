@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanten — How long does someone remain the world's oldest person?</title>
+<meta name="description" content="Since 1950, 68 people have held the title of world's oldest person. Most held it for less than a year.">
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+<style>
+:root{
+  --ink:#1c2733;
+  --ink-soft:#53616f;
+  --paper:#f3efe6;
+  --card:#ffffff;
+  --line:rgba(28,39,51,.14);
+  --accent:#a66f2c;
+  --accent-soft:rgba(166,111,44,.11);
+  --muted:#d9dfdc;
+  --short:#d8c8ad;
+  --long:#b58a52;
+  --record:#315f7d;
+  --shortest:#d33f2f;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+}
+
+
+
+
+
+
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1rem;
+  margin:.55rem 0 .8rem;
+}
+.stat{
+  background:var(--card);
+  border:1px solid var(--line);
+  padding:.7rem .85rem;
+}
+.stat strong{
+  display:block;
+  font-family:var(--hanten-font);
+  font-size:1.55rem;
+  line-height:1;
+  margin-bottom:.35rem;
+}
+.stat span{
+  color:var(--ink-soft);
+  font-size:.82rem;
+}
+.chart-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  padding:.8rem .9rem .75rem;
+}
+.chart-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:1rem;
+  margin-bottom:.7rem;
+}
+.chart-head h2{
+  font-size:1rem;
+  margin:0;
+}
+.chart-head p{
+  margin:0;
+  color:var(--ink-soft);
+  font-size:.78rem;
+}
+.chart-wrap{
+  position:relative;
+  height:min(38vh,300px);
+  padding-top:12px;
+  border-bottom:1px solid var(--line);
+}
+.gridline{
+  position:absolute;
+  left:0;
+  right:0;
+  border-top:1px dashed rgba(28,39,51,.12);
+}
+.gridlabel{
+  position:absolute;
+  left:4px;
+  transform:translateY(115%);
+  font-family:var(--hanten-font);
+  font-size:.68rem;
+  color:var(--ink-soft);
+  background:var(--card);
+  padding-right:.3rem;
+}
+.gridlabel-top{
+  transform:translateY(115%);
+}
+.bars{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  top:12px;
+  display:flex;
+  align-items:flex-end;
+  gap:2px;
+  padding-left:48px;
+}
+.bar{
+  flex:1 1 0;
+  min-width:3px;
+  background:var(--long);
+  border-radius:2px 2px 0 0;
+  position:relative;
+  cursor:default;
+}
+.bar.short{background:var(--short)}
+.bar.record{background:var(--record)}
+.bar:hover{filter:brightness(.9)}
+.axis{
+  display:flex;
+  justify-content:space-between;
+  margin:.45rem 0 0 48px;
+  color:var(--ink-soft);
+  font-family:var(--hanten-font);
+  font-size:.68rem;
+}
+.legend{
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+  margin-top:.8rem;
+  color:var(--ink-soft);
+  font-size:.75rem;
+}
+.legend i{
+  display:inline-block;
+  width:10px;height:10px;
+  border-radius:2px;
+  vertical-align:-1px;
+  margin-right:.3rem;
+}
+.callouts{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:1rem;
+  margin-top:.75rem;
+}
+.callout{
+  background:transparent;
+  border-left:3px solid var(--accent);
+  padding:1rem 1.1rem;
+  color:var(--ink-soft);
+  line-height:1.45;
+}
+.callout strong{color:var(--ink)}
+.note{
+  background:var(--card);
+  border:1px solid var(--line);
+  padding:1rem 1.1rem;
+  color:var(--ink-soft);
+  font-size:.84rem;
+  line-height:1.5;
+}
+.h004-explore{margin-top:.8rem;padding:.65rem .1rem;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink-soft);font-size:.84rem;line-height:1.5}.h004-explore summary{cursor:pointer;color:var(--ink);font-weight:750}.h004-explore p{margin:.65rem 0 0}.source{
+  margin-top:1rem;
+  color:var(--ink-soft);
+  font-size:.72rem;
+}
+.source a{color:var(--accent)}
+.h004-save{margin-top:.75rem;display:flex;justify-content:flex-end}
+.h004-save button{font-size:.75rem;opacity:.72}
+.h004-save button:hover,.h004-save button:focus-visible{opacity:1}
+@media(max-width:760px){
+  .stats{grid-template-columns:1fr}
+  .callouts{grid-template-columns:1fr}
+  .chart-wrap{height:310px}
+  .bars{gap:1px}
+}
+</style>
+
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:var(--hanten-paper,#f4f3ef);color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{border-color:var(--hanten-accent,#b58a52);color:var(--hanten-accent,#b58a52)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+
+<style>
+.hanten-image-actions button{
+  background:#fbfaf6;
+  color:#40382f;
+  border-color:#cfc6b8;
+}
+.hanten-image-actions button:hover,
+.hanten-image-actions button:focus-visible{
+  background:#ffffff;
+  color:#7d5727;
+  border-color:#a66f2c;
+}
+</style>
+
+
+<style>
+/* H004 v2 warm-history chart palette */
+.bar, .chart-bar, rect.bar, .bars rect { fill:#b58a52 !important; }
+.chart-card svg rect[fill="#b58a52"],
+.chart-card svg rect[fill="#b58a52"],
+.chart-card svg rect[fill="var(--accent)"] { fill:#b58a52 !important; }
+
+/* Keep the long Jeanne Calment annotation clear of the chronology label. */
+.chart-card .duration-label,
+.chart-card .bar-label { pointer-events:none; }
+</style>
+
+
+<style>
+/* H004 verified Pass 2 */
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:900px;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  text-wrap:balance;
+}
+.callout{
+  max-width:760px;
+  margin:1rem auto 0;
+  padding:.15rem 0;
+  border-left:none;
+  text-align:left;
+  font-size:.9rem;
+  line-height:1.5;
+}
+.hanten-reflection{
+  margin:1rem auto 0 !important;
+  text-align:center !important;
+  font-size:.95rem !important;
+  line-height:1.45 !important;
+  font-weight:500 !important;
+  color:var(--ink-soft) !important;
+}
+.source{
+  max-width:760px;
+  margin:1rem auto 0;
+  text-align:left;
+  text-wrap:pretty;
+}
+.bar.shortest{background:var(--shortest) !important}
+.bar.record{background:var(--record) !important}
+.bar-explainer{
+  margin:.5rem 0 0;
+  text-align:center;
+  color:var(--ink-soft);
+  font-size:.75rem;
+}
+.legend{justify-content:center !important;text-align:center;margin-top:.45rem !important}
+.h004-explore table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:.75rem;
+  font-size:.8rem;
+}
+.h004-explore th,.h004-explore td{
+  padding:.38rem .5rem;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  vertical-align:top;
+}
+.h004-explore th{font-weight:750;color:var(--ink)}
+.h004-explore tr.shortest td:first-child{color:var(--shortest);font-weight:750}
+.h004-explore tr.longest td:first-child{color:var(--record);font-weight:750}
+.h004-extremes{
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+  margin:.7rem 0 .25rem;
+  font-size:.8rem;
+}
+.h004-extreme-short{color:var(--shortest);font-weight:750}
+.h004-extreme-long{color:var(--record);font-weight:750}
+.hanten-image-actions button{
+  background:#fff !important;
+  color:#40382f !important;
+  border-color:#cfc6b8 !important;
+}
+
+/* PNG export */
+.hanten-export-card{
+  position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;
+  box-sizing:border-box;background:#f3efe6;color:#1c2733;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+.hanten-export-source{font-size:12px;line-height:1.4;color:#53616f;margin-top:14px;text-align:left}
+.hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:16px;color:#59616b}
+</style>
+
+
+<style>
+.mean-median-link{
+  margin:-.15rem 0 .8rem;
+  text-align:center;
+  color:var(--ink-soft);
+  font-size:.78rem;
+  line-height:1.4;
+}
+.mean-median-link a{
+  color:#008c95;
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+@media(max-width:760px){
+  .stats{grid-template-columns:repeat(2,1fr) !important}
+}
+</style>
+
+
+<style>
+.hanten-export-source{
+  text-align:left !important;
+  font-size:11px !important;
+  line-height:1.4 !important;
+  color:#6a716f !important;
+}
+</style>
+
+
+<style>
+.h004-table-wrap{overflow-x:auto;margin-top:.5rem}
+.h004-explore table{min-width:760px}
+.h004-explore th:nth-child(2),
+.h004-explore td:nth-child(2),
+.h004-explore th:nth-child(3),
+.h004-explore td:nth-child(3),
+.h004-explore th:nth-child(4),
+.h004-explore td:nth-child(4),
+.h004-explore th:nth-child(5),
+.h004-explore td:nth-child(5){white-space:nowrap}
+</style>
+
+
+<style>
+/* PNG editorial spacing: Aha and reflection belong together; source is separate */
+.hanten-export-reflection{
+  margin-top:8px !important;
+}
+.hanten-export-source{
+  margin-top:24px !important;
+}
+</style>
+
+</head>
+<body>
+<main class="hanten-exhibit">
+  <h1 class="hanten-question">How long does someone remain the world's oldest person?</h1>
+  <p class="hanten-subtitle">The title sounds permanent. The timeline shows how quickly it can change.</p>
+  <div class="hanten-graphic">
+
+  <section class="stats">
+    <div class="stat"><strong>63</strong><span>completed titleholders, 1950–2022</span></div>
+    <div class="stat"><strong>42</strong><span>held the title for less than one year</span></div>
+    <div class="stat"><strong>252 days</strong><span>median tenure</span></div>
+    <div class="stat"><strong>419 days</strong><span>mean tenure</span></div>
+  </section>
+  <div class="mean-median-link">
+    Why do the mean and median differ?
+    <a href="../H001%20The%20Average%20BBQ%20Restaurant/H001_v2.html" target="_blank" rel="noopener noreferrer">See H001 — The Average BBQ Restaurant</a>.
+  </div>
+
+  <section class="chart-card">
+    <div class="chart-head">
+      <div>
+        <h2>Tenure as the world's oldest person</h2>
+        <p>Chronological order, 1950 → 2022</p>
+      </div>
+      
+    </div>
+
+    <div class="chart-wrap">
+      <div class="gridline" style="bottom:10%"></div>
+      <div class="gridlabel" style="bottom:10%">1 year</div>
+      <div class="gridline" style="bottom:30%"></div>
+      <div class="gridlabel" style="bottom:30%">3 years</div>
+      <div class="gridline" style="bottom:50%"></div>
+      <div class="gridlabel" style="bottom:50%">5 years</div>
+      <div class="gridline" style="bottom:70%"></div>
+      <div class="gridlabel" style="bottom:70%">7 years</div>
+      <div class="gridline" style="bottom:90%"></div>
+      <div class="gridlabel" style="bottom:90%">9 years</div>
+      <div class="bars" id="bars"></div>
+    </div>
+
+    <div class="bar-explainer">Each bar is one titleholder · chronological order, 1950 → 2022</div>
+    <div class="legend">
+      <span><i style="background:var(--short)"></i>under 1 year</span>
+      <span><i style="background:var(--long)"></i>1 year or more</span>
+      <span><i style="background:var(--shortest)"></i>shortest tenure</span>
+      <span><i style="background:var(--record)"></i>longest tenure</span>
+    </div>
+  </section>
+
+  <div class="callout"><strong>The present is only one frame in a much longer story.</strong> Most titleholders since 1950 held the distinction for less than a year.</div>
+  <p class="hanten-reflection">What looks permanent only because you’re seeing a snapshot?</p>
+  <details class="h004-explore">
+  <summary>See all 63 titleholders</summary>
+  <div class="h004-extremes">
+    <span class="h004-extreme-short">Shortest: Emma Tillman — 4 days</span>
+    <span class="h004-extreme-long">Longest: Jeanne Calment — 9 yrs, 208 days</span>
+  </div>
+  <div class="h004-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Age while titleholder</th><th>Title start</th><th>Title end</th><th>Tenure</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Nancy Merriman</td><td>108–112</td><td>01/01/1950</td><td>14/01/1954</td><td>4 yrs, 14 days</td></tr>
+<tr><td>Betsy Baker</td><td>111–113</td><td>14/01/1954</td><td>24/10/1955</td><td>1 yr, 283 days</td></tr>
+<tr><td>Jennie Howell</td><td>110–111</td><td>24/10/1955</td><td>16/12/1956</td><td>1 yr, 54 days</td></tr>
+<tr><td>Catherine Waller</td><td>108–110</td><td>16/12/1956</td><td>04/01/1959</td><td>2 yrs, 19 days</td></tr>
+<tr><td>Chrissemeuje Karnebeek-Backs</td><td>109–110</td><td>04/01/1959</td><td>07/10/1959</td><td>276 days</td></tr>
+<tr><td>Robert Early</td><td>109–111</td><td>07/10/1959</td><td>09/10/1960</td><td>1 yr, 3 days</td></tr>
+<tr><td>Mary Kelly</td><td>109–113</td><td>09/10/1960</td><td>30/12/1964</td><td>4 yrs, 83 days</td></tr>
+<tr><td>Ferdinise Nébolle</td><td>109–110</td><td>30/12/1964</td><td>10/12/1965</td><td>345 days</td></tr>
+<tr><td>Narcissa Rickman</td><td>110–113</td><td>10/12/1965</td><td>21/10/1968</td><td>2 yrs, 316 days</td></tr>
+<tr><td>Marie Bernátková</td><td>110–111</td><td>21/10/1968</td><td>04/05/1969</td><td>195 days</td></tr>
+<tr><td>Ada Roe</td><td>111</td><td>04/05/1969</td><td>11/01/1970</td><td>252 days</td></tr>
+<tr><td>Kitty Harvey</td><td>109–112</td><td>11/01/1970</td><td>10/07/1972</td><td>2 yrs, 181 days</td></tr>
+<tr><td>Josefa Salas Mateo</td><td>111–112</td><td>10/07/1972</td><td>27/02/1973</td><td>232 days</td></tr>
+<tr><td>Alice Stevenson</td><td>111–112</td><td>27/02/1973</td><td>18/08/1973</td><td>172 days</td></tr>
+<tr><td>Ettie Crist</td><td>111</td><td>18/08/1973</td><td>10/01/1974</td><td>145 days</td></tr>
+<tr><td>Laurence Entiope</td><td>111</td><td>10/01/1974</td><td>07/04/1974</td><td>87 days</td></tr>
+<tr><td>Mito Umeda</td><td>110–112</td><td>07/04/1974</td><td>31/05/1975</td><td>1 yr, 54 days</td></tr>
+<tr><td>Niwa Kawamoto</td><td>111–113</td><td>31/05/1975</td><td>16/11/1976</td><td>1 yr, 170 days</td></tr>
+<tr><td>Alice Coles</td><td>111–113</td><td>16/11/1976</td><td>05/11/1978</td><td>1 yr, 354 days</td></tr>
+<tr><td>Eliza Underwood</td><td>111–113</td><td>05/11/1978</td><td>27/01/1981</td><td>2 yrs, 84 days</td></tr>
+<tr><td>Augustine Teissier</td><td>112</td><td>27/01/1981</td><td>08/03/1981</td><td>40 days</td></tr>
+<tr><td>Nellie Spencer</td><td>111–113</td><td>08/03/1981</td><td>13/11/1982</td><td>1 yr, 250 days</td></tr>
+<tr><td>Emma Wilson</td><td>112–113</td><td>13/11/1982</td><td>13/10/1983</td><td>334 days</td></tr>
+<tr><td>Augusta Holtz</td><td>112–115</td><td>13/10/1983</td><td>21/10/1986</td><td>3 yrs, 9 days</td></tr>
+<tr><td>Mary McKinney</td><td>113</td><td>21/10/1986</td><td>02/02/1987</td><td>104 days</td></tr>
+<tr><td>Anna Eliza Williams</td><td>113–114</td><td>02/02/1987</td><td>27/12/1987</td><td>328 days</td></tr>
+<tr><td>Florence Knapp</td><td>114</td><td>27/12/1987</td><td>11/01/1988</td><td>15 days</td></tr>
+<tr class="longest"><td>Jeanne Calment</td><td>112–122</td><td>11/01/1988</td><td>04/08/1997</td><td>9 yrs, 208 days</td></tr>
+<tr><td>Marie-Louise Meilleur</td><td>116–117</td><td>04/08/1997</td><td>16/04/1998</td><td>255 days</td></tr>
+<tr><td>Sarah Knauss</td><td>117–119</td><td>16/04/1998</td><td>30/12/1999</td><td>1 yr, 258 days</td></tr>
+<tr><td>Eva Morris</td><td>114</td><td>30/12/1999</td><td>02/11/2000</td><td>308 days</td></tr>
+<tr><td>Marie Brémont</td><td>114–115</td><td>02/11/2000</td><td>06/06/2001</td><td>216 days</td></tr>
+<tr><td>Maud Farris-Luse</td><td>114–115</td><td>06/06/2001</td><td>18/03/2002</td><td>285 days</td></tr>
+<tr><td>Grace Clawson</td><td>114</td><td>18/03/2002</td><td>28/05/2002</td><td>71 days</td></tr>
+<tr><td>Adelina Domingues</td><td>114</td><td>28/05/2002</td><td>21/08/2002</td><td>85 days</td></tr>
+<tr><td>Mae Harrington</td><td>113</td><td>21/08/2002</td><td>29/12/2002</td><td>130 days</td></tr>
+<tr><td>Yūkichi Chūganji</td><td>113–114</td><td>29/12/2002</td><td>28/09/2003</td><td>273 days</td></tr>
+<tr><td>Mitoyo Kawate</td><td>114</td><td>28/09/2003</td><td>13/11/2003</td><td>46 days</td></tr>
+<tr><td>Ramona Trinidad Iglesias Jordan</td><td>114</td><td>13/11/2003</td><td>29/05/2004</td><td>198 days</td></tr>
+<tr><td>María Esther Heredia de Capovilla</td><td>114–116</td><td>29/05/2004</td><td>27/08/2006</td><td>2 yrs, 90 days</td></tr>
+<tr><td>Elizabeth Bolden</td><td>116</td><td>27/08/2006</td><td>11/12/2006</td><td>106 days</td></tr>
+<tr><td>Emiliano Mercado del Toro</td><td>115</td><td>11/12/2006</td><td>24/01/2007</td><td>44 days</td></tr>
+<tr class="shortest"><td>Emma Tillman</td><td>114</td><td>24/01/2007</td><td>28/01/2007</td><td>4 days</td></tr>
+<tr><td>Yone Minagawa</td><td>114</td><td>28/01/2007</td><td>13/08/2007</td><td>197 days</td></tr>
+<tr><td>Edna Parker</td><td>114–115</td><td>13/08/2007</td><td>26/11/2008</td><td>1 yr, 106 days</td></tr>
+<tr><td>Maria de Jesus</td><td>115</td><td>26/11/2008</td><td>02/01/2009</td><td>37 days</td></tr>
+<tr><td>Gertrude Baines</td><td>114–115</td><td>02/01/2009</td><td>11/09/2009</td><td>252 days</td></tr>
+<tr><td>Kama Chinen</td><td>114</td><td>11/09/2009</td><td>02/05/2010</td><td>233 days</td></tr>
+<tr><td>Eugénie Blanchard</td><td>114</td><td>02/05/2010</td><td>04/11/2010</td><td>186 days</td></tr>
+<tr><td>Ana Nogueira de Lucas</td><td>114</td><td>04/11/2010</td><td>18/11/2010</td><td>14 days</td></tr>
+<tr><td>Maria Gomes Valentim</td><td>114</td><td>18/11/2010</td><td>21/06/2011</td><td>215 days</td></tr>
+<tr><td>Besse Cooper</td><td>114–116</td><td>21/06/2011</td><td>04/12/2012</td><td>1 yr, 167 days</td></tr>
+<tr><td>Dina Manfredini</td><td>115</td><td>04/12/2012</td><td>17/12/2012</td><td>13 days</td></tr>
+<tr><td>Jiroemon Kimura</td><td>115–116</td><td>17/12/2012</td><td>12/06/2013</td><td>177 days</td></tr>
+<tr><td>Misao Okawa</td><td>115–117</td><td>12/06/2013</td><td>01/04/2015</td><td>1 yr, 293 days</td></tr>
+<tr><td>Gertrude Weaver</td><td>116</td><td>01/04/2015</td><td>06/04/2015</td><td>5 days</td></tr>
+<tr><td>Jeralean Talley</td><td>115–116</td><td>06/04/2015</td><td>17/06/2015</td><td>72 days</td></tr>
+<tr><td>Susannah Mushatt Jones</td><td>115–116</td><td>17/06/2015</td><td>12/05/2016</td><td>330 days</td></tr>
+<tr><td>Emma Morano</td><td>116–117</td><td>12/05/2016</td><td>15/04/2017</td><td>338 days</td></tr>
+<tr><td>Violet Brown</td><td>117</td><td>15/04/2017</td><td>15/09/2017</td><td>153 days</td></tr>
+<tr><td>Nabi Tajima</td><td>117</td><td>15/09/2017</td><td>21/04/2018</td><td>218 days</td></tr>
+<tr><td>Chiyo Miyako</td><td>116–117</td><td>21/04/2018</td><td>22/07/2018</td><td>92 days</td></tr>
+<tr><td>Kane Tanaka</td><td>115–119</td><td>22/07/2018</td><td>19/04/2022</td><td>3 yrs, 272 days</td></tr>
+      </tbody>
+    </table>
+  </div>
+</details>
+
+  <div class="source">
+  Source: <a href="https://longeviquest.com/atlas/titleholders" target="_blank" rel="noopener noreferrer">LongeviQuest — World's Oldest Person Titleholders</a>.
+  This exhibit uses completed titleholder tenures from January 1, 1950 through Kane Tanaka’s tenure ending April 19, 2022.
+</div>
+
+  <div class="h004-save"><div id="save-image-slot"></div></div>
+  </div>
+</main>
+
+
+<script>
+const holders = [
+["Nancy Merriman",1475],["Betsy Baker",648],["Jennie Howell",419],["Catherine Waller",750],
+["Chrissemeuje Karnebeek-Backs",276],["Robert Early",368],["Mary Kelly",1544],["Ferdinise Nébolle",345],
+["Narcissa Rickman",1047],["Marie Bernátková",195],["Ada Roe",252],["Kitty Harvey",911],
+["Josefa Salas Mateo",232],["Alice Stevenson",172],["Ettie Crist",145],["Laurence Entiope",87],
+["Mito Umeda",419],["Niwa Kawamoto",535],["Alice Coles",719],["Eliza Underwood",815],
+["Augustine Teissier",40],["Nellie Spencer",615],["Emma Wilson",334],["Augusta Holtz",1104],
+["Mary McKinney",104],["Anna Eliza Williams",328],["Florence Knapp",15],["Jeanne Calment",3493],
+["Marie-Louise Meilleur",255],["Sarah Knauss",623],["Eva Morris",308],["Marie Brémont",216],
+["Maud Farris-Luse",285],["Grace Clawson",71],["Adelina Domingues",85],["Mae Harrington",130],
+["Yūkichi Chūganji",273],["Mitoyo Kawate",46],["Ramona Trinidad Iglesias Jordan",198],
+["María Esther Heredia de Capovilla",820],["Elizabeth Bolden",106],["Emiliano Mercado del Toro",44],
+["Emma Tillman",4],["Yone Minagawa",197],["Edna Parker",471],["Maria de Jesus",37],
+["Gertrude Baines",252],["Kama Chinen",233],["Eugénie Blanchard",186],["Ana Nogueira de Lucas",14],
+["Maria Gomes Valentim",215],["Besse Cooper",532],["Dina Manfredini",13],["Jiroemon Kimura",177],
+["Misao Okawa",658],["Gertrude Weaver",5],["Jeralean Talley",72],["Susannah Mushatt Jones",330],
+["Emma Morano",338],["Violet Brown",153],["Nabi Tajima",218],["Chiyo Miyako",92],
+["Kane Tanaka",1367],
+
+];
+
+const maxDays = 3650;
+const bars = document.getElementById("bars");
+
+function tenure(d){
+  if(d < 30) return d + " days";
+  if(d < 365) return d + " days";
+  const y = Math.floor(d/365);
+  const rem = d - y*365;
+  return y + (y===1 ? " year" : " years") + (rem ? ", " + rem + " days" : "");
+}
+
+holders.forEach(([name,days])=>{
+  const b=document.createElement("div");
+  const isShortest=name==="Emma Tillman";
+  const isLongest=name==="Jeanne Calment";
+  b.className="bar" + (days<365 ? " short" : "") + (isShortest ? " shortest" : "") + (isLongest ? " record" : "");
+  b.style.height=Math.max(1.5,(days/maxDays)*100)+"%";
+  b.setAttribute("aria-label",`${name}: ${isShortest ? "4 days" : isLongest ? "9 years, 208 days" : days+" days"}`);
+  bars.appendChild(b);
+});
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+
+
+<script>
+(() => {
+ const slot=document.getElementById("save-image-slot");
+ if(!slot || typeof html2canvas!=="function") return;
+ slot.classList.add("hanten-image-actions"); slot.innerHTML="";
+ const save=document.createElement("button"), share=document.createElement("button");
+ save.type=share.type="button"; save.textContent="Save Image"; share.textContent="Share Image";
+ slot.append(save,share);
+ const target=".chart-card", filename="H004_v2.png", title="How long does someone remain the world's oldest person?";
+ async function blob(){
+   const stats=document.querySelector(".stats");
+   const chart=document.querySelector(".chart-card");
+   const source=document.querySelector(".source");
+   if(!chart) throw new Error("Export content not found.");
+
+   const card=document.createElement("div");
+   card.className="hanten-export-card";
+
+   const titleCanvas=document.createElement("canvas");
+   titleCanvas.width=1800; titleCanvas.height=168;
+   titleCanvas.style.width="900px"; titleCanvas.style.height="84px";
+   titleCanvas.style.display="block"; titleCanvas.style.margin="0 auto 8px";
+   const tctx=titleCanvas.getContext("2d"); tctx.scale(2,2);
+   tctx.font='750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+   tctx.fillStyle="#1c2733"; tctx.textAlign="center"; tctx.textBaseline="middle";
+   tctx.fillText("How long does someone remain",450,21);
+   tctx.fillText("the world's oldest person?",450,61);
+   card.appendChild(titleCanvas);
+
+   const sub=document.createElement("canvas");
+   sub.width=1800; sub.height=56;
+   sub.style.width="900px"; sub.style.height="28px";
+   sub.style.display="block"; sub.style.margin="0 auto 20px";
+   const sctx=sub.getContext("2d"); sctx.scale(2,2);
+   sctx.font='400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+   sctx.fillStyle="#53616f"; sctx.textAlign="center"; sctx.textBaseline="middle";
+   sctx.fillText("The title sounds permanent. The timeline shows how quickly it can change.",450,14);
+   card.appendChild(sub);
+
+   if(stats) card.appendChild(stats.cloneNode(true));
+   card.appendChild(chart.cloneNode(true));
+
+   const textcol=document.createElement("div");
+   textcol.className="hanten-export-textcol";
+
+   const aha=document.createElement("canvas");
+   aha.width=1520; aha.height=92;
+   aha.style.width="760px"; aha.style.height="46px"; aha.style.display="block"; aha.style.margin="18px 0 0";
+   const actx=aha.getContext("2d"); actx.scale(2,2); actx.fillStyle="#1c2733"; actx.textBaseline="top";
+   const parts=[
+     {text:"The present is only one frame in a much longer story.",bold:true},
+     {text:" Most titleholders since 1950 held the distinction for less than a year.",bold:false}
+   ];
+   let x=0,y=0; const maxW=750,lineH=19;
+   parts.forEach(part=>{
+     actx.font=(part.bold?"750 ":"400 ")+'14px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+     part.text.trim().split(" ").forEach((word,index)=>{
+       let token=((index===0&&x===0)?"":" ")+word, w=actx.measureText(token).width;
+       if(x+w>maxW&&x>0){x=0;y+=lineH;token=word;w=actx.measureText(token).width;}
+       actx.fillText(token,x,y); x+=w;
+     });
+   });
+   textcol.appendChild(aha);
+
+   card.appendChild(textcol);
+
+   const reflection=document.createElement("div");
+   reflection.className="hanten-export-reflection";
+   reflection.textContent="What looks permanent only because you’re seeing a snapshot?";
+   card.appendChild(reflection);
+
+   if(source){
+     const sc=source.cloneNode(true);
+     sc.className="hanten-export-source";
+     sc.style.width="760px";
+     sc.style.margin="14px auto 0";
+     card.appendChild(sc);
+   }
+
+   document.body.appendChild(card);
+   try{
+     const canvas=await html2canvas(card,{backgroundColor:null,scale:2,useCORS:true,width:card.scrollWidth,height:card.scrollHeight});
+     return await new Promise((ok,no)=>canvas.toBlob(b=>b?ok(b):no(new Error("Could not create image")),"image/png"));
+   }finally{card.remove();}
+ }
+ function download(b){const u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+ save.onclick=async()=>{save.disabled=true;try{download(await blob())}finally{save.disabled=false}};
+ share.onclick=async()=>{share.disabled=true;try{const b=await blob(),f=new File([b],filename,{type:"image/png"});if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[f]})))await navigator.share({title,files:[f]});else{download(b);alert("Direct sharing is not available in this browser. The image was saved instead.")}}catch(e){if(!e||e.name!=="AbortError")console.error(e)}finally{share.disabled=false}};
+})();
+</script>
+
+</body>
+</html>
