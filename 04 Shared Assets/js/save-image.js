@@ -1,0 +1,180 @@
+// Shared "Save Image" button for every Hanten map page. Captures a target
+// element with html2canvas, then composites it onto a branded canvas
+// (title header + site footer) and triggers a PNG download.
+//
+// Usage on a page:
+//   <div id="save-image-slot"></div>   (placeholder where the button goes)
+//   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+//   <script src="data/save-image.js"></script>
+//   <script>HantenSaveImage.init({ target: "#map-wrap", title: "...", filename: "hanten-....png" });</script>
+
+(function () {
+  const INK = "#1c2733";
+  const PAPER = "#eef1ec";
+  const ACCENT = "#0e7c86";
+  const SITE_URL = "hanten.app";
+
+  const STYLE = `
+    .save-image-btn {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.8rem;
+      padding: 0.55rem 0.9rem;
+      border: 1px solid ${ACCENT};
+      background: #fff;
+      color: ${ACCENT};
+      cursor: pointer;
+      margin-bottom: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .save-image-btn:hover { background: ${ACCENT}; color: #fff; }
+    .save-image-btn:disabled { opacity: 0.6; cursor: wait; }
+  `;
+
+  function injectStyleOnce() {
+    if (document.getElementById("save-image-style")) return;
+    const s = document.createElement("style");
+    s.id = "save-image-style";
+    s.textContent = STYLE;
+    document.head.appendChild(s);
+  }
+
+  function wrapTitle(ctx, text, maxWidth) {
+    const words = text.split(" ");
+    const lines = [];
+    let line = "";
+    for (const w of words) {
+      const test = line ? line + " " + w : w;
+      if (ctx.measureText(test).width > maxWidth && line) {
+        lines.push(line);
+        line = w;
+      } else {
+        line = test;
+      }
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  async function capture(target, title, filename, btn) {
+    const originalLabel = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Rendering…";
+    try {
+      const el = document.querySelector(target);
+      const shot = await html2canvas(el, {
+        backgroundColor: PAPER,
+        scale: 2,
+        useCORS: true,
+      });
+
+      const PAD = 32;
+      const FOOTER_H = 44;
+      const scale = 2;
+      const contentW = shot.width;
+      const contentH = shot.height;
+      const outW = contentW + PAD * 2 * scale;
+
+      // Measure title wrapping before sizing the canvas — a fixed header
+      // height let long titles either collide with the captured graphic
+      // (2 lines into a 1-line header) or get silently truncated (3+
+      // lines capped at 2). The header now grows to fit however many
+      // lines the title actually needs.
+      const measureCtx = document.createElement("canvas").getContext("2d");
+      measureCtx.font = `600 ${26 * scale}px Georgia, "Times New Roman", serif`;
+      const titleLines = wrapTitle(measureCtx, title, outW - PAD * 2 * scale);
+      const HEADER_H = 100 + (titleLines.length - 1) * 32;
+
+      const outH = contentH + (HEADER_H + FOOTER_H + PAD * 2) * scale;
+
+      const canvas = document.createElement("canvas");
+      canvas.width = outW;
+      canvas.height = outH;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = PAPER;
+      ctx.fillRect(0, 0, outW, outH);
+
+      ctx.fillStyle = ACCENT;
+      ctx.font = `700 ${13 * scale}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+      ctx.textBaseline = "top";
+      ctx.fillText("HANTEN", PAD * scale, PAD * scale);
+
+      ctx.fillStyle = INK;
+      ctx.font = `600 ${26 * scale}px Georgia, "Times New Roman", serif`;
+      let ty = (PAD + 28) * scale;
+      const lineH = 32 * scale;
+      titleLines.forEach(line => {
+        ctx.fillText(line, PAD * scale, ty);
+        ty += lineH;
+      });
+
+      ctx.drawImage(shot, PAD * scale, HEADER_H * scale, contentW, contentH);
+
+      const footerY = HEADER_H * scale + contentH + (PAD * scale) / 2;
+      ctx.strokeStyle = "rgba(28,39,51,0.14)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(PAD * scale, footerY);
+      ctx.lineTo(outW - PAD * scale, footerY);
+      ctx.stroke();
+
+      ctx.fillStyle = INK;
+      ctx.globalAlpha = 0.65;
+      ctx.font = `${12 * scale}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+      ctx.fillText(SITE_URL, PAD * scale, footerY + 12 * scale);
+      ctx.globalAlpha = 1;
+
+      canvas.toBlob(async blob => {
+        // Prefer the native share sheet when the browser genuinely supports
+        // sharing files (checked against the real file, not just guessed
+        // from navigator.share's presence) — falls back to the original
+        // forced download everywhere else, including when the user cancels
+        // the share sheet without picking anything.
+        const file = new File([blob], filename, { type: "image/png" });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file], title });
+            btn.disabled = false;
+            btn.textContent = originalLabel;
+            return;
+          } catch (err) {
+            // cancelled or failed — fall through to download
+          }
+        }
+
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        btn.disabled = false;
+        btn.textContent = originalLabel;
+      }, "image/png");
+    } catch (err) {
+      console.error("Save image failed:", err);
+      btn.disabled = false;
+      btn.textContent = originalLabel;
+      alert("Couldn't generate the image in this browser. Try Chrome or Safari, or take a screenshot instead.");
+    }
+  }
+
+  window.HantenSaveImage = {
+    init({ target, title, filename, slot = "#save-image-slot" }) {
+      injectStyleOnce();
+      const slotEl = document.querySelector(slot);
+      if (!slotEl) { console.error("save-image slot not found:", slot); return; }
+      const btn = document.createElement("button");
+      btn.className = "save-image-btn";
+      // navigator.share existing is a reasonable signal that file-sharing is
+      // likely available — the exact capability is re-checked against the
+      // real file at click time, with a silent fallback to download.
+      btn.textContent = typeof navigator.share === "function" ? "⬆ Share image" : "⬇ Save as image";
+      btn.addEventListener("click", () => capture(target, title, filename, btn));
+      slotEl.appendChild(btn);
+    },
+  };
+})();

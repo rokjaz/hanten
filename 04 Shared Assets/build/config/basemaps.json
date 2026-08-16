@@ -1,0 +1,8 @@
+{
+  "BM-001": {
+    "name": "Hanten World — Equal Earth",
+    "builder": "build_bm001.py",
+    "status": "candidate",
+    "output": "04 Shared Assets/basemaps/library/world/BM-001"
+  }
+}

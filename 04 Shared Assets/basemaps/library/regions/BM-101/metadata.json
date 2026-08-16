@@ -1,0 +1,43 @@
+{
+  "id": "BM-101",
+  "title": "Northeast Asia",
+  "version": "1.0",
+  "status": "production",
+  "library": "Hanten Cartography Library",
+  "type": "regional basemap",
+  "source": {
+    "dataset": "Natural Earth",
+    "theme": "Admin 0 Countries",
+    "scale": "1:10m",
+    "source_file": "ne_10m_admin_0_countries.shp",
+    "license": "Public domain"
+  },
+  "extent_wgs84": {
+    "west": 120.0,
+    "south": 29.0,
+    "east": 146.5,
+    "north": 47.5
+  },
+  "crs": {
+    "source_geometry": "EPSG:4326",
+    "svg_preview_projection": "EPSG:3857 / Web Mercator"
+  },
+  "dimensions": {
+    "svg_viewbox": "0 0 1200 900",
+    "aspect_ratio": 1.3333333333333333
+  },
+  "design": {
+    "ocean": "#edf5f7",
+    "land": "#e7e2d8",
+    "coastline": "#9da8ad",
+    "principle": "No artificial coastline smoothing. Preserve source geometry."
+  },
+  "files": [
+    "BM-101.svg",
+    "BM-101.png",
+    "BM-101.geojson",
+    "BM-101.js",
+    "metadata.json",
+    "README.md"
+  ]
+}

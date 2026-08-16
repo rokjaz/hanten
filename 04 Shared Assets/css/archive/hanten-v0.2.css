@@ -1,0 +1,111 @@
+/* ==========================================================
+   HANTEN CSS FRAMEWORK
+   Version 0.2
+   ========================================================== */
+
+:root {
+    --hanten-font:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    --hanten-background: #ffffff;
+    --hanten-text: #1f1f1f;
+    --hanten-muted: #666666;
+    --hanten-border: #dddddd;
+    --hanten-soft-background: #f7f7f7;
+
+    --hanten-page-width: 1200px;
+    --hanten-text-width: 760px;
+
+    --hanten-space-xs: 0.5rem;
+    --hanten-space-sm: 1rem;
+    --hanten-space-md: 2rem;
+    --hanten-space-lg: 4rem;
+    --hanten-space-xl: 6rem;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--hanten-font);
+    color: var(--hanten-text);
+    background: var(--hanten-background);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg,
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Compact by design so question + visual can share the first viewport. */
+.hanten-exhibit {
+    width: 100%;
+    max-width: var(--hanten-page-width);
+    margin: 0 auto;
+    padding:
+        clamp(1rem, 2.5vh, 1.75rem)
+        clamp(1rem, 3vw, 2rem)
+        clamp(2rem, 5vh, 4rem);
+}
+
+/* The question frames the exhibit; it is not a hero banner. */
+.hanten-question {
+    max-width: 900px;
+    margin: 0 auto 0.35rem;
+    text-align: center;
+    font-size: clamp(1.45rem, 2.4vw, 2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.018em;
+}
+
+.hanten-subtitle {
+    max-width: var(--hanten-text-width);
+    margin: 0 auto clamp(0.75rem, 2vh, 1.25rem);
+    text-align: center;
+    font-size: clamp(0.9rem, 1.35vw, 1rem);
+    line-height: 1.4;
+    color: var(--hanten-muted);
+}
+
+.hanten-graphic {
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    .hanten-exhibit {
+        padding-top: 0.9rem;
+        padding-left: 0.9rem;
+        padding-right: 0.9rem;
+    }
+
+    .hanten-question {
+        font-size: clamp(1.3rem, 6vw, 1.65rem);
+        line-height: 1.16;
+    }
+
+    .hanten-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+    }
+}

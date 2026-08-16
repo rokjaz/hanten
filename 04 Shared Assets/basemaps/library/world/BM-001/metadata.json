@@ -1,0 +1,28 @@
+{
+  "id": "BM-001",
+  "name": "Hanten World — Equal Earth",
+  "version": "1.0.0",
+  "status": "candidate",
+  "projection": {
+    "name": "Equal Earth",
+    "epsg": 8857
+  },
+  "source": {
+    "provider": "Natural Earth",
+    "scale": "1:110m",
+    "land": "ne_110m_land.geojson",
+    "countries": "ne_110m_admin_0_countries.geojson"
+  },
+  "layers": [
+    "land",
+    "coastlines",
+    "national boundaries"
+  ],
+  "labels": false,
+  "terrain": false,
+  "intended_use": [
+    "general world exhibits",
+    "area comparisons",
+    "educational overlays"
+  ]
+}

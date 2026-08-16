@@ -1,0 +1,234 @@
+/* ==========================================================
+   HANTEN CSS FRAMEWORK
+   Version 0.1
+
+   Purpose:
+   Provide a consistent visual foundation for every Hanten exhibit.
+
+   ========================================================== *//* ==========================================================
+   1. ROOT VARIABLES
+   ========================================================== */
+
+:root {
+    --hanten-font:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    --hanten-background: #ffffff;
+    --hanten-text: #1f1f1f;
+    --hanten-muted: #666666;
+    --hanten-border: #dddddd;
+    --hanten-soft-background: #f7f7f7;
+
+    --hanten-page-width: 1200px;
+    --hanten-text-width: 760px;
+
+    --hanten-space-xs: 0.5rem;
+    --hanten-space-sm: 1rem;
+    --hanten-space-md: 2rem;
+    --hanten-space-lg: 4rem;
+    --hanten-space-xl: 6rem;
+}/* ==========================================================
+   2. BASIC RESET
+   ========================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    font-family: var(--hanten-font);
+    color: var(--hanten-text);
+    background: var(--hanten-background);
+
+    line-height: 1.5;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg,
+canvas {
+    max-width: 100%;
+    height: auto;
+}/* ==========================================================
+   3. MAIN EXHIBIT CONTAINER
+
+   Every Hanten exhibit should wrap its content in:
+
+   <main class="hanten-exhibit">
+
+   ========================================================== */
+
+.hanten-exhibit {
+    width: 100%;
+    max-width: var(--hanten-page-width);
+
+    margin: 0 auto;
+
+    padding:
+        var(--hanten-space-lg)
+        var(--hanten-space-md);
+}/* ==========================================================
+   4. QUESTION
+
+   The question is the visual and intellectual starting point
+   of every Hanten exhibit.
+
+   Example:
+
+   <h1 class="hanten-question">
+       How big is Africa really?
+   </h1>
+
+   ========================================================== */
+
+.hanten-question {
+    max-width: 900px;
+
+    margin:
+        0 auto
+        var(--hanten-space-sm);
+
+    text-align: center;
+
+    font-size: clamp(1.8rem, 3.2vw, 2.7rem);
+    font-weight: 700;
+    line-height: 1.08;
+
+    letter-spacing: -0.025em;
+}/* ==========================================================
+   5. SUBTITLE
+
+   Optional supporting sentence beneath the main question.
+   It should clarify or frame the exhibit without competing
+   with the question itself.
+
+   ========================================================== */
+
+.hanten-subtitle {
+    max-width: var(--hanten-text-width);
+
+    margin:
+        0 auto
+        var(--hanten-space-lg);
+
+    text-align: center;
+
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.5;
+
+    color: var(--hanten-muted);
+}/* ==========================================================
+   6. GRAPHIC
+
+   The primary visual experience of a Hanten exhibit.
+   This may contain a map, chart, diagram, image, or
+   interactive element.
+
+   ========================================================== */
+
+..hanten-graphic {
+    width: 100%;
+    max-width: 1400px;
+
+    margin:
+        var(--hanten-space-sm)
+        auto
+        var(--hanten-space-lg);
+
+    position: relative;
+}
+}
+
+/* ==========================================================
+   7. CAPTION / EXPLANATION
+
+   Supporting explanation that follows the primary graphic.
+   ========================================================== */
+
+.hanten-caption {
+    max-width: var(--hanten-text-width);
+
+    margin:
+        var(--hanten-space-md)
+        auto;
+
+    font-size: 1rem;
+    line-height: 1.65;
+}
+
+.hanten-caption p {
+    margin:
+        0
+        0
+        var(--hanten-space-sm);
+}
+
+.hanten-caption p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* ==========================================================
+   8. SOURCE
+
+   Source and methodology information should remain readable
+   but visually secondary to the exhibit itself.
+
+   ========================================================== */
+
+.hanten-source {
+    max-width: var(--hanten-text-width);
+
+    margin:
+        var(--hanten-space-sm)
+        auto
+        0;
+
+    font-family:
+        ui-monospace,
+        "SF Mono",
+        Menlo,
+        Monaco,
+        monospace;
+
+    font-size: 0.78rem;
+    line-height: 1.5;
+
+    color: var(--hanten-muted);
+}
+
+
+/* ==========================================================
+   9. RESPONSIVE FOUNDATION
+   ========================================================== */
+
+@media (max-width: 700px) {
+
+    .hanten-exhibit {
+        padding:
+            var(--hanten-space-md)
+            var(--hanten-space-sm);
+    }
+
+    .hanten-subtitle {
+        margin-bottom: var(--hanten-space-md);
+    }
+
+}

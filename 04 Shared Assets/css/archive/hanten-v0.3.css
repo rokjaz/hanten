@@ -1,0 +1,25 @@
+/* Hanten shared typography additions — v0.3 */
+
+.hanten-section-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.hanten-body {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.hanten-takeaway {
+    font-size: 1rem;
+    line-height: 1.45;
+    font-weight: 700;
+}
+
+.hanten-source {
+    font-size: 0.76rem;
+    line-height: 1.45;
+    color: var(--hanten-muted);
+}
