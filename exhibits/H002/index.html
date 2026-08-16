@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>H002 — Point Nemo</title>
 <meta name="description" content="At Point Nemo, the nearest people can sometimes be astronauts aboard the International Space Station.">
-<link rel="stylesheet" href="../../assets/css/hanten.css">
+<link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
 <style>
 :root{--h002-ink:#1c2733;--h002-muted:#5f6b76;--h002-line:rgba(28,39,51,.14);--h002-ocean:#d9edf5;--h002-land:#d9ddd4;--h002-land-line:#b8c0b5;--h002-graticule:rgba(28,39,51,.10);--h002-nemo:#c1442d;--h002-land-ring:#0e7c86;--h002-iss-ring:#c98a23;--h002-panel:#fff}
 body{background:var(--hanten-paper,#f4f3ef)}
@@ -262,23 +262,105 @@ main.hanten-exhibit > .hanten-subtitle{
 <div class="h002-save"><div id="save-image-slot"></div></div>
 </div></div>
 </main>
-<script src="../../assets/js/d3.v7.min.js"></script>
-<script src="../../assets/geodata/world/countries-10m.js"></script>
-<script>
-(()=>{"use strict";// ============================================================
-// HANTEN LABEL ADJUSTMENTS
-// Change x to move a label left (-) or right (+).
-// Change y to move a label up (-) or down (+).
-// ============================================================
-const LABELS = {
-  pointNemo: { x: -55, y: 52 },
-  iss:       { x: 48,  y: -42 }
-};
 
-const POINT_NEMO={lon:-123.3933,lat:-48.8767,name:"Point Nemo"},NEAREST_LAND_KM=2688,ISS_ALTITUDE_KM=408,EARTH_RADIUS_KM=6371,width=900,height=540,VIEW_KM=7200;const svg=d3.select("#h002-map"),viewRadiusPx=Math.min(width,height)*.46,scale=viewRadiusPx/(VIEW_KM/EARTH_RADIUS_KM);const projection=d3.geoAzimuthalEquidistant().rotate([-POINT_NEMO.lon,-POINT_NEMO.lat]).scale(scale).translate([width/2,height/2]);const path=d3.geoPath(projection),kmToPx=km=>scale*(km/EARTH_RADIUS_KM),[cx,cy]=projection([POINT_NEMO.lon,POINT_NEMO.lat]);svg.append("path").datum({type:"Sphere"}).attr("class","h002-sphere").attr("d",path);svg.append("path").datum(d3.geoGraticule10()).attr("class","h002-graticule").attr("d",path);svg.append("g").selectAll("path").data(COUNTRIES_10M_GEOJSON.features).join("path").attr("class","h002-land").attr("d",path);const landR=kmToPx(NEAREST_LAND_KM),issR=kmToPx(ISS_ALTITUDE_KM);svg.append("circle").attr("class","h002-ring h002-ring--land").attr("cx",cx).attr("cy",cy).attr("r",landR);svg.append("text").attr("class","h002-label h002-label--land").attr("x",cx).attr("y",cy-landR-10).attr("text-anchor","middle").text("Nearest land");svg.append("circle").attr("class","h002-ring h002-ring--iss").attr("cx",cx).attr("cy",cy).attr("r",issR);svg.append("text").attr("class","h002-label h002-label--iss").attr("x",cx+LABELS.iss.x).attr("y",cy+LABELS.iss.y).text("ISS altitude");svg.append("circle").attr("class","h002-marker").attr("cx",cx).attr("cy",cy).attr("r",5);svg.append("text").attr("class","h002-marker-label").attr("x",cx+LABELS.pointNemo.x).attr("y",cy+LABELS.pointNemo.y).attr("text-anchor","middle").text(POINT_NEMO.name)})();
+<script id="hanten-label-data" type="application/json">
+{
+  "labels": {
+    "nearestLand": {
+      "text": "Nearest land",
+      "x": 40.18784080104011,
+      "y": 68.62740341855462,
+      "align": "center",
+      "fontSize": 14,
+      "lineHeight": 1.05,
+      "font": "hanten",
+      "weight": 700,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 50,
+        "anchorY": 20,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "iss": {
+      "text": "ISS\naltitude",
+      "x": 53.97803349310152,
+      "y": 53.77512572971749,
+      "align": "center",
+      "fontSize": 14,
+      "lineHeight": 1.05,
+      "font": "hanten",
+      "weight": 700,
+      "color": "text",
+      "lineOffsets": [
+        0,
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 50,
+        "anchorY": 50,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "pointNemo": {
+      "text": "Point\nNemo",
+      "x": 46.39,
+      "y": 42.05,
+      "align": "center",
+      "fontSize": 16,
+      "lineHeight": 1.05,
+      "font": "hanten",
+      "weight": 700,
+      "color": "text",
+      "lineOffsets": [
+        0,
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 50,
+        "anchorY": 50,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    }
+  },
+  "map": "#h002-map"
+}
+</script>
+<script src="../../04 Shared Assets/js/d3.v7.min.js"></script>
+<script src="../../04 Shared Assets/geodata/world/countries-10m.js"></script>
+<script>
+(()=>{"use strict";
+const LABEL_DATA = JSON.parse(
+  document.getElementById("hanten-label-data").textContent
+).labels;
+const pctX = x => x / 100 * 900;
+const pctY = y => y / 100 * 540;
+
+const POINT_NEMO={lon:-123.3933,lat:-48.8767,name:"Point Nemo"},NEAREST_LAND_KM=2688,ISS_ALTITUDE_KM=408,EARTH_RADIUS_KM=6371,width=900,height=540,VIEW_KM=7200;const svg=d3.select("#h002-map"),viewRadiusPx=Math.min(width,height)*.46,scale=viewRadiusPx/(VIEW_KM/EARTH_RADIUS_KM);const projection=d3.geoAzimuthalEquidistant().rotate([-POINT_NEMO.lon,-POINT_NEMO.lat]).scale(scale).translate([width/2,height/2]);const path=d3.geoPath(projection),kmToPx=km=>scale*(km/EARTH_RADIUS_KM),[cx,cy]=projection([POINT_NEMO.lon,POINT_NEMO.lat]);svg.append("path").datum({type:"Sphere"}).attr("class","h002-sphere").attr("d",path);svg.append("path").datum(d3.geoGraticule10()).attr("class","h002-graticule").attr("d",path);svg.append("g").selectAll("path").data(COUNTRIES_10M_GEOJSON.features).join("path").attr("class","h002-land").attr("d",path);const landR=kmToPx(NEAREST_LAND_KM),issR=kmToPx(ISS_ALTITUDE_KM);svg.append("circle").attr("class","h002-ring h002-ring--land").attr("cx",cx).attr("cy",cy).attr("r",landR);svg.append("text").attr("class","h002-label h002-label--land").attr("data-hanten-label","nearestLand").attr("x",pctX(LABEL_DATA.nearestLand.x)).attr("y",pctY(LABEL_DATA.nearestLand.y)).attr("text-anchor",LABEL_DATA.nearestLand.align==="center"?"middle":LABEL_DATA.nearestLand.align).style("font-size",LABEL_DATA.nearestLand.fontSize+"px").text(LABEL_DATA.nearestLand.text);svg.append("circle").attr("class","h002-ring h002-ring--iss").attr("cx",cx).attr("cy",cy).attr("r",issR);svg.append("text").attr("class","h002-label h002-label--iss").attr("data-hanten-label","iss").attr("x",pctX(LABEL_DATA.iss.x)).attr("y",pctY(LABEL_DATA.iss.y)).attr("text-anchor",LABEL_DATA.iss.align==="center"?"middle":LABEL_DATA.iss.align).style("font-size",LABEL_DATA.iss.fontSize+"px").text(LABEL_DATA.iss.text);svg.append("circle").attr("class","h002-marker").attr("cx",cx).attr("cy",cy).attr("r",5);svg.append("text").attr("class","h002-marker-label").attr("data-hanten-label","pointNemo").attr("x",pctX(LABEL_DATA.pointNemo.x)).attr("y",pctY(LABEL_DATA.pointNemo.y)).attr("text-anchor",LABEL_DATA.pointNemo.align==="center"?"middle":LABEL_DATA.pointNemo.align).style("font-size",LABEL_DATA.pointNemo.fontSize+"px").text(LABEL_DATA.pointNemo.text)})();
 </script>
 
-<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
 
 <script>
 (() => {

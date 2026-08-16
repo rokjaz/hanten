@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H011 — Earth–Moon Gap</title>
+<link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
+<style>
+:root{
+  --h011-ink:#1c2733;--h011-muted:#66727f;--h011-line:var(--hanten-border);
+  --h011-panel:var(--hanten-paper);--h011-accent:#0e7c86;--h011-warn:#b94b37;
+}
+.h011-shell{width:min(900px,100%);margin:0 auto}
+.h011-controls{display:flex;justify-content:center;gap:.55rem;flex-wrap:wrap;margin:.7rem 0 .7rem}
+.h011-controls button,.hanten-image-actions button{
+  border:1px solid var(--hanten-border);background:#fff;color:var(--h011-ink);
+  padding:.48rem .72rem;border-radius:0;font:650 .78rem/1.2 var(--hanten-font);
+  cursor:pointer
+}
+.h011-controls button.active{background:var(--h011-ink);border-color:var(--h011-ink);color:#fff}
+.h011-card{background:#f7f7f4;border:1px solid var(--hanten-border);padding:.65rem}
+#h011-diagram{display:block;width:100%;height:auto;overflow:visible}
+.h011-result{min-height:1.45rem;margin:.45rem 0 0;text-align:center;font:750 .95rem/1.35 var(--hanten-font)}
+.h011-result.fits{color:var(--h011-accent)} .h011-result.no-fit{color:var(--h011-warn)}
+.h011-takeaway{max-width:760px;margin:1rem auto 0;text-align:left;color:var(--hanten-muted);font-size:.9rem;line-height:1.5}
+.h011-takeaway strong{color:var(--h011-ink)}
+.hanten-reflection{max-width:740px;margin:.65rem auto 0;text-align:center;font-size:.95rem;line-height:1.45;font-weight:500;color:var(--hanten-muted)}
+.h011-explore{max-width:760px;margin:1rem auto 0;border-top:1px solid var(--hanten-border);border-bottom:1px solid var(--hanten-border)}
+.h011-explore summary{cursor:pointer;padding:.7rem 0;font-size:.86rem;font-weight:750;color:var(--h011-ink)}
+.h011-math{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.1rem 0 .8rem}
+.h011-math div{background:#fff;border:1px solid var(--hanten-border);padding:.7rem}
+.h011-math strong{display:block;font-size:1.05rem;color:var(--h011-ink)}
+.h011-math span{font-size:.76rem;color:var(--h011-muted)}
+.h011-explore p{font-size:.8rem;line-height:1.5;color:var(--h011-muted)}
+.h011-source{max-width:760px;margin:1.35rem auto 0;text-align:left;font-size:.75rem;line-height:1.45;color:var(--hanten-muted)}
+.hanten-utility{max-width:760px;margin:1rem auto 0}
+.h011-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:.55rem;
+  flex-wrap:wrap
+}
+.h011-actions button{
+  appearance:none;
+  border:1px solid var(--hanten-border);
+  background:#fff;
+  color:var(--h011-ink);
+  padding:.55rem .8rem;
+  border-radius:0;
+  font:700 .76rem/1.2 var(--hanten-font);
+  cursor:pointer
+}
+.h011-actions button:hover,
+.h011-actions button:focus-visible{
+  border-color:var(--h011-accent);
+  color:var(--h011-accent)
+}
+.h011-actions button:disabled{opacity:.55;cursor:wait}
+@media(max-width:700px){.h011-controls button{font-size:.7rem}.h011-card{padding:.45rem}.h011-math{grid-template-columns:1fr}}
+</style>
+
+<style>
+.h011-calc{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:.8rem;
+  margin:.75rem 0;
+}
+.h011-calc section{
+  background:#fff;
+  border:1px solid var(--hanten-border);
+  padding:.8rem;
+}
+.h011-calc h2{
+  margin:0 0 .45rem;
+  font-size:.8rem;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  color:var(--h011-muted);
+}
+.h011-equation{
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.9rem;
+  line-height:1.45;
+  color:var(--h011-ink);
+}
+.h011-calc section p{
+  margin:.35rem 0 .6rem;
+  font-size:.76rem;
+  line-height:1.45;
+  color:var(--h011-muted);
+}
+.h011-calc-note{
+  margin:.6rem 0 .8rem;
+}
+@media(max-width:700px){
+  .h011-calc{grid-template-columns:1fr}
+}
+</style>
+
+
+<style>
+.h011-export-card{
+  position:fixed;
+  left:-10000px;
+  top:0;
+  width:1080px;
+  padding:30px 70px 54px;
+  box-sizing:border-box;
+  background:var(--hanten-paper,#f4f3ef);
+  color:var(--h011-ink);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.h011-export-card .h011-card{
+  width:900px;
+  margin:0 auto;
+  box-sizing:border-box;
+}
+.h011-export-textcol{
+  width:760px;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:left;
+}
+.h011-export-aha{
+  margin-top:16px;
+  font-size:14px;
+  line-height:1.5;
+  color:#66727f;
+}
+.h011-export-aha strong{color:#1c2733}
+.h011-export-reflection{
+  margin-top:8px;
+  text-align:center;
+  font-size:14px;
+  line-height:1.4;
+  font-weight:400;
+  color:#59616b;
+}
+.h011-export-source{
+  width:760px;
+  margin:24px auto 0;
+  text-align:left;
+  font-size:11px;
+  line-height:1.4;
+  color:#6a716f;
+}
+</style>
+
+</head>
+<body>
+<main class="hanten-exhibit">
+  <h1 class="hanten-question">Could all the other planets fit between Earth and the Moon?</h1>
+  <p class="hanten-subtitle">The answer depends on where the Moon is.</p>
+
+  <div class="hanten-graphic">
+    <div class="h011-shell">
+      <div class="h011-controls" id="h011-controls" aria-label="Moon distance">
+        <button type="button" data-dist="363300">Closest · 363,300 km</button>
+        <button type="button" data-dist="384400" class="active">Average · 384,400 km</button>
+        <button type="button" data-dist="405500">Farthest · 405,500 km</button>
+      </div>
+
+      <section class="h011-card" id="h011-capture" aria-label="Earth Moon gap scale graphic">
+        <svg id="h011-diagram" role="img" aria-label="The seven other planets arranged between Earth and the Moon to scale"></svg>
+        <p id="h011-result" class="h011-result" aria-live="polite"></p>
+      </section>
+
+      <div class="h011-takeaway">
+        <strong>Answer: sometimes.</strong>
+        At the Moon’s average distance, the seven planets are slightly too wide for the clear gap.
+        At its farthest distance, they fit. The familiar “fact” changes with the condition being measured.
+      </div>
+
+      <p class="hanten-reflection">How many “facts” depend on a condition we rarely mention?</p>
+
+      <details class="h011-explore">
+        <summary>Why doesn’t 384,400 km mean 384,400 km of empty space?</summary>
+
+        <p>
+          Earth–Moon distance is measured from the <strong>center of Earth to the center of the Moon</strong>.
+          To find the empty space between their surfaces, subtract Earth’s radius and the Moon’s radius.
+        </p>
+
+        <div class="h011-calc">
+          <section>
+            <h2>Average distance</h2>
+            <div class="h011-equation">384,400 − 6,371 − 1,737 = <strong>376,292 km</strong></div>
+            <p>That is the clear gap between Earth and the Moon.</p>
+            <div class="h011-equation">380,010 − 376,292 = <strong>3,718 km too wide</strong></div>
+          </section>
+
+          <section>
+            <h2>Farthest distance</h2>
+            <div class="h011-equation">405,500 − 6,371 − 1,737 = <strong>397,392 km</strong></div>
+            <p>That is the clear gap at the farthest distance used here.</p>
+            <div class="h011-equation">397,392 − 380,010 = <strong>17,382 km to spare</strong></div>
+          </section>
+        </div>
+
+        <p class="h011-calc-note">
+          The seven other planets have a combined diameter of about <strong>380,010 km</strong>.
+        </p>
+      </details>
+
+      <p class="h011-source">
+        Sources: NASA planetary fact sheets / Solar System Exploration for planetary diameters and Moon dimensions; NASA lunar reference values for Earth–Moon distance. This exhibit uses 363,300 km (closest), 384,400 km (average), and 405,500 km (farthest) as center-to-center distances and shows all diameters and distances on one scale.
+      </p>
+
+      <div class="hanten-utility h011-actions">
+        <button type="button" id="h011-save">Save Image</button>
+        <button type="button" id="h011-share">Share Image</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const NS="http://www.w3.org/2000/svg";
+  const PLANETS=[
+    {name:"Mercury",diam:4879,color:"#9c9184"},{name:"Venus",diam:12104,color:"#d9b978"},
+    {name:"Mars",diam:6779,color:"#b94b37"},{name:"Jupiter",diam:139820,color:"#c98a4b"},
+    {name:"Saturn",diam:116460,color:"#d8c48a"},{name:"Uranus",diam:50724,color:"#8fc4c9"},
+    {name:"Neptune",diam:49244,color:"#3d6ea5"}
+  ];
+  const EARTH_DIAM=12742, MOON_DIAM=3474.8;
+  const diagram=document.getElementById("h011-diagram"), result=document.getElementById("h011-result");
+  const el=(tag,attrs={},text=null)=>{const n=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));if(text!==null)n.textContent=text;return n};
+
+  function render(distKm){
+    diagram.replaceChildren();
+    const W=1300, pxPerKm=W/distKm, kmToPx=km=>km*pxPerKm;
+    const earthR=kmToPx(EARTH_DIAM/2), moonR=kmToPx(MOON_DIAM/2);
+    const leftPad=54, earthCx=leftPad+earthR, moonCx=earthCx+W;
+    let cursor=earthCx+earthR;
+    const placed=PLANETS.map(p=>{const r=kmToPx(p.diam/2),cx=cursor+r;cursor+=r*2;return {...p,r,cx}});
+    const maxR=Math.max(...placed.map(p=>p.r));
+    const centerY=maxR+126, labelBase=centerY+maxR+62, height=labelBase+112, totalWidth=moonCx+moonR+55;
+    diagram.setAttribute("viewBox",`0 0 ${totalWidth} ${height}`);
+
+    diagram.appendChild(el("line",{x1:12,x2:totalWidth-12,y1:centerY,y2:centerY,stroke:"rgba(28,39,51,.12)","stroke-width":1}));
+
+    function addPlanet(cx,r,fill,name){
+      diagram.appendChild(el("circle",{cx,cy:centerY,r,fill}));
+      diagram.appendChild(el("line",{
+        x1:cx,x2:cx,
+        y1:labelBase-31,
+        y2:labelBase-18,
+        stroke:"rgba(28,39,51,.24)",
+        "stroke-width":1.3
+      }));
+      diagram.appendChild(el("text",{
+        x:cx,y:labelBase,
+        transform:`rotate(-38 ${cx} ${labelBase})`,
+        "text-anchor":"end",
+        fill:"#4f5c68",
+        "font-size":18,
+        "font-weight":650,
+        "font-family":'-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif'
+      },name));
+    }
+
+    function addEndpoint(cx,r,fill,name,side){
+      diagram.appendChild(el("circle",{
+        cx,cy:centerY,r,fill,
+        stroke:name==="Moon"?"#1c2733":"none",
+        "stroke-width":name==="Moon"?1.2:0
+      }));
+
+      const guideX = side==="left" ? cx-r : cx+r;
+      const topY = Math.max(30, centerY-maxR-76);
+
+      diagram.appendChild(el("line",{
+        x1:guideX,x2:guideX,
+        y1:topY+18,y2:centerY+r+8,
+        stroke:"rgba(28,39,51,.34)",
+        "stroke-width":1.4,
+        "stroke-dasharray":"5 5"
+      }));
+
+      diagram.appendChild(el("text",{
+        x:guideX,
+        y:topY,
+        "text-anchor":side==="left"?"start":"end",
+        fill:"#1c2733",
+        "font-size":19,
+        "font-weight":800,
+        "font-family":'-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif'
+      },name));
+    }
+
+    addEndpoint(earthCx,earthR,"#267f88","Earth","left");
+    placed.forEach(p=>addPlanet(p.cx,p.r,p.color,p.name));
+    addEndpoint(moonCx,moonR,"#b8bbb4","Moon","right");
+
+    const neptune=placed[placed.length-1], neptuneRight=neptune.cx+neptune.r, moonLeft=moonCx-moonR;
+    const spareKm=Math.round((moonLeft-neptuneRight)/pxPerKm), fits=spareKm>=0;
+    const noteY=centerY-Math.max(neptune.r,moonR)-40;
+    if(fits){
+      diagram.appendChild(el("path",{d:`M ${neptuneRight} ${noteY+9} V ${noteY} H ${moonLeft} V ${noteY+9}`,fill:"none",stroke:"#0e7c86","stroke-width":2}));
+      diagram.appendChild(el("text",{x:(neptuneRight+moonLeft)/2,y:noteY-13,"text-anchor":"middle",fill:"#0e7c86","font-size":18,"font-weight":800,"font-family":'-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif'},`${spareKm.toLocaleString()} km to spare`));
+    }else{
+      diagram.appendChild(el("line",{x1:moonLeft,x2:moonLeft,y1:noteY-30,y2:labelBase-28,stroke:"#b94b37","stroke-width":1.8,"stroke-dasharray":"5 5"}));
+      diagram.appendChild(el("text",{x:moonLeft-10,y:noteY-39,"text-anchor":"end",fill:"#b94b37","font-size":18,"font-weight":800,"font-family":'-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif'},`${Math.abs(spareKm).toLocaleString()} km too wide`));
+    }
+    diagram.appendChild(el("text",{x:totalWidth/2,y:height-12,"text-anchor":"middle",fill:"#66727f","font-size":15,"font-weight":500,"font-family":'-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif'},"Planet diameters and the Earth–Moon distance are shown on the same scale."));
+    result.className=`h011-result ${fits?"fits":"no-fit"}`;
+    result.textContent=fits?`It fits — with ${spareKm.toLocaleString()} km to spare.`:`It doesn't fit — short by ${Math.abs(spareKm).toLocaleString()} km.`;
+  }
+
+  document.querySelectorAll("#h011-controls button").forEach(button=>button.addEventListener("click",()=>{
+    document.querySelectorAll("#h011-controls button").forEach(b=>b.classList.remove("active"));
+    button.classList.add("active"); render(Number(button.dataset.dist));
+  }));
+  render(384400);
+})();
+</script>
+
+<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
+<script>
+(() => {
+  const save = document.getElementById("h011-save");
+  const share = document.getElementById("h011-share");
+  const filename = "H011_v2.png";
+  const title = "Could all the other planets fit between Earth and the Moon?";
+
+  async function renderBlob(){
+    const diagramCard = document.querySelector(".h011-card");
+    const takeaway = document.querySelector(".h011-takeaway");
+    const source = document.querySelector(".h011-source");
+    const active = document.querySelector("#h011-controls button.active");
+    if(!diagramCard) throw new Error("Export content not found.");
+
+    const card = document.createElement("div");
+    card.className = "h011-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800;
+    titleCanvas.height = 168;
+    titleCanvas.style.width = "900px";
+    titleCanvas.style.height = "84px";
+    titleCanvas.style.display = "block";
+    titleCanvas.style.margin = "0 auto 6px";
+    const t = titleCanvas.getContext("2d");
+    t.scale(2,2);
+    t.font = '750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    t.fillStyle = "#1c2733";
+    t.textAlign = "center";
+    t.textBaseline = "middle";
+    t.fillText("Could all the other planets fit",450,21);
+    t.fillText("between Earth and the Moon?",450,61);
+    card.appendChild(titleCanvas);
+
+    const subCanvas = document.createElement("canvas");
+    subCanvas.width = 1800;
+    subCanvas.height = 56;
+    subCanvas.style.width = "900px";
+    subCanvas.style.height = "28px";
+    subCanvas.style.display = "block";
+    subCanvas.style.margin = "0 auto 12px";
+    const s = subCanvas.getContext("2d");
+    s.scale(2,2);
+    s.font = '400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    s.fillStyle = "#53616f";
+    s.textAlign = "center";
+    s.textBaseline = "middle";
+    s.fillText("The answer depends on where the Moon is.",450,14);
+    card.appendChild(subCanvas);
+
+    if(active){
+      const state = document.createElement("div");
+      state.style.width = "900px";
+      state.style.margin = "0 auto 10px";
+      state.style.textAlign = "center";
+      state.style.fontSize = "13px";
+      state.style.fontWeight = "700";
+      state.style.color = "#66727f";
+      state.textContent = active.textContent;
+      card.appendChild(state);
+    }
+
+    card.appendChild(diagramCard.cloneNode(true));
+
+    if(takeaway){
+      const textcol = document.createElement("div");
+      textcol.className = "h011-export-textcol";
+      const aha = takeaway.cloneNode(true);
+      aha.className = "h011-export-aha";
+      textcol.appendChild(aha);
+      card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "h011-export-reflection";
+    reflection.textContent = "How many “facts” depend on a condition we rarely mention?";
+    card.appendChild(reflection);
+
+    if(source){
+      const sc = source.cloneNode(true);
+      sc.className = "h011-export-source";
+      card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+    try{
+      await document.fonts.ready;
+      const canvas = await html2canvas(card,{
+        backgroundColor:null,
+        scale:2,
+        useCORS:true,
+        logging:false,
+        width:card.scrollWidth,
+        height:card.scrollHeight
+      });
+      return await new Promise((resolve,reject)=>{
+        canvas.toBlob(blob=>blob?resolve(blob):reject(new Error("Could not create image.")),"image/png");
+      });
+    }finally{
+      card.remove();
+    }
+  }
+
+  function download(blob){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+
+  save.addEventListener("click", async ()=>{
+    save.disabled = true;
+    try{
+      download(await renderBlob());
+    }finally{
+      save.disabled = false;
+    }
+  });
+
+  share.addEventListener("click", async ()=>{
+    share.disabled = true;
+    try{
+      const blob = await renderBlob();
+      const file = new File([blob],filename,{type:"image/png"});
+      if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){
+        await navigator.share({title,files:[file]});
+      }else{
+        download(blob);
+        alert("Direct sharing is not available in this browser. The image was saved instead.");
+      }
+    }catch(e){
+      if(!e || e.name !== "AbortError") console.error(e);
+    }finally{
+      share.disabled = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>

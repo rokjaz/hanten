@@ -7,7 +7,7 @@
 <title>H009 — Which state buys the most Ford F-150s?</title>
 <meta name="description" content="Two honest rankings give two different answers because totals and per-person measures answer different questions.">
 
-<link rel="stylesheet" href="../../assets/css/hanten.css">
+<link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
 
 <style>
 :root{
@@ -407,11 +407,11 @@ main.hanten-exhibit > .hanten-subtitle{
 
 </main>
 
-<script src="../../assets/js/d3.v7.min.js"></script>
-<script src="../../assets/js/topojson-client.min.js"></script>
+<script src="../../04 Shared Assets/js/d3.v7.min.js"></script>
+<script src="../../04 Shared Assets/js/topojson-client.min.js"></script>
 
-<script src="../../assets/geodata/us/us-counties-10m.js"></script>
-<script src="../../assets/datasets/ford/ford-f150.js"></script>
+<script src="../../04 Shared Assets/geodata/us/us-counties-10m.js"></script>
+<script src="../../04 Shared Assets/datasets/ford/ford-f150.js"></script>
 
 <script>
 const width=975,height=610;
@@ -471,7 +471,7 @@ document.querySelectorAll(".h009-data-controls button").forEach(b=>b.addEventLis
 document.getElementById("unreported-states").innerHTML="<strong>F-150 share not reported:</strong> "+unreported.map(([name,d])=>`${name} (${d.other} ranked first)`).join("; ");
 </script>
 
-<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
 
 
 

@@ -18,7 +18,7 @@
 
     <link
         rel="stylesheet"
-        href="../../assets/css/hanten.css"
+        href="../../04 Shared Assets/css/hanten.css"
     >
 
     <style>
@@ -529,14 +529,102 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
     </main>
 
 
-    <script src="../../assets/js/d3.v7.min.js"></script>
+    
+<script id="hanten-label-data" type="application/json">
+{
+  "map": "#map",
+  "labels": {
+    "unitedStates": {
+      "text": "United\nStates",
+      "x": 66.81185636533854,
+      "y": 62.617969953775045,
+      "align": "center",
+      "fontSize": 26,
+      "lineHeight": 1.8,
+      "font": "hanten",
+      "weight": 700,
+      "color": "white",
+      "lineOffsets": [
+        0,
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 64,
+        "anchorY": 62,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "china": {
+      "text": "China",
+      "x": 42.961869852906176,
+      "y": 26.548054699537747,
+      "align": "center",
+      "fontSize": 26,
+      "lineHeight": 1.05,
+      "font": "hanten",
+      "weight": 700,
+      "color": "white",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 41,
+        "anchorY": 32,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "india": {
+      "text": "India",
+      "x": 70.7,
+      "y": 18.11,
+      "align": "center",
+      "fontSize": 26,
+      "lineHeight": 1.05,
+      "font": "hanten",
+      "weight": 700,
+      "color": "white",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 71,
+        "anchorY": 23,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    }
+  }
+}
+</script>
+<script src="../../04 Shared Assets/js/d3.v7.min.js"></script>
 
-    <script src="../../assets/geodata/world/countries-10m.js"></script>
+    <script src="../../04 Shared Assets/geodata/world/countries-10m.js"></script>
 
 
     <script>
         const width = 760;
         const height = 820;
+
+        const LABEL_DATA = JSON.parse(
+            document.getElementById("hanten-label-data").textContent
+        ).labels;
 
         const svg = d3
             .select("#map")
@@ -684,19 +772,36 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
                 .attr("d", path);
 
 
+            const labelId =
+                overlay.label === "United States"
+                    ? "unitedStates"
+                    : overlay.label.toLowerCase();
+
+            const labelCfg = LABEL_DATA[labelId];
+
             svg
                 .append("text")
                 .attr("class", "overlay-label")
-                .attr("x", overlay.pos[0])
-                .attr("y", overlay.pos[1] + 5)
-                .text(overlay.label);
+                .attr("data-hanten-label", labelId)
+                .attr("x", labelCfg.x / 100 * width)
+                .attr("y", labelCfg.y / 100 * height)
+                .attr(
+                    "text-anchor",
+                    labelCfg.align === "left"
+                        ? "start"
+                        : labelCfg.align === "right"
+                            ? "end"
+                            : "middle"
+                )
+                .style("font-size", labelCfg.fontSize + "px")
+                .text(labelCfg.text);
 
         });
     </script>
 
 
     <script
-        src="../../assets/js/html2canvas.min.js"
+        src="../../04 Shared Assets/js/html2canvas.min.js"
     ></script>
 
     

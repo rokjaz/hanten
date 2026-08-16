@@ -10,7 +10,7 @@
         content="A 4,000 kilometer circle over Asia contains more than half of humanity."
     >
 
-    <link rel="stylesheet" href="../../assets/css/hanten.css">
+    <link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
 
     <style>
         :root {
@@ -380,12 +380,74 @@ main.hanten-exhibit > .hanten-subtitle{
 
     </main>
 
-    <script src="../../assets/js/d3.v7.min.js"></script>
-    <script src="../../assets/geodata/world/countries-10m.js"></script>
+    
+<script id="hanten-label-data" type="application/json">
+{
+  "map": "#h010-map",
+  "labels": {
+    "populationShare": {
+      "text": ">55%",
+      "x": 51.794588625069025,
+      "y": 32.47349521203831,
+      "align": "center",
+      "fontSize": 42,
+      "lineHeight": 1,
+      "font": "hanten",
+      "weight": 700,
+      "color": "accent",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 52,
+        "anchorY": 38,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "populationLabel": {
+      "text": "of humanity",
+      "x": 51.98,
+      "y": 39.15,
+      "align": "center",
+      "fontSize": 15,
+      "lineHeight": 1,
+      "font": "hanten",
+      "weight": 700,
+      "color": "accent",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 52,
+        "anchorY": 38,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    }
+  }
+}
+</script>
+<script src="../../04 Shared Assets/js/d3.v7.min.js"></script>
+    <script src="../../04 Shared Assets/geodata/world/countries-10m.js"></script>
 
     <script>
         const width = 960;
         const height = 500;
+
+        const LABEL_DATA = JSON.parse(
+            document.getElementById("hanten-label-data").textContent
+        ).labels;
 
         const svg = d3
             .select("#h010-map")
@@ -439,19 +501,25 @@ main.hanten-exhibit > .hanten-subtitle{
         svg
             .append("text")
             .attr("class", "h010-circle-label h010-circle-label-main")
-            .attr("x", cx)
-            .attr("y", cy - 3)
-            .text(">55%");
+            .attr("data-hanten-label", "populationShare")
+            .attr("x", LABEL_DATA.populationShare.x / 100 * width)
+            .attr("y", LABEL_DATA.populationShare.y / 100 * height)
+            .attr("text-anchor", "middle")
+            .style("font-size", LABEL_DATA.populationShare.fontSize + "px")
+            .text(LABEL_DATA.populationShare.text);
 
         svg
             .append("text")
             .attr("class", "h010-circle-label h010-circle-label-sub")
-            .attr("x", cx)
-            .attr("y", cy + 22)
-            .text("of humanity");
+            .attr("data-hanten-label", "populationLabel")
+            .attr("x", LABEL_DATA.populationLabel.x / 100 * width)
+            .attr("y", LABEL_DATA.populationLabel.y / 100 * height)
+            .attr("text-anchor", "middle")
+            .style("font-size", LABEL_DATA.populationLabel.fontSize + "px")
+            .text(LABEL_DATA.populationLabel.text);
     </script>
 
-    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
     
 
     
