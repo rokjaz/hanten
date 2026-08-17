@@ -791,7 +791,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 
             const labelCfg = LABEL_DATA[labelId];
 
-            svg
+            const labelText = svg
                 .append("text")
                 .attr("class", "overlay-label")
                 .attr("data-hanten-label", labelId)
@@ -805,8 +805,18 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
                             ? "end"
                             : "middle"
                 )
-                .style("font-size", labelCfg.fontSize + "px")
-                .text(labelCfg.text);
+                .style("font-size", labelCfg.fontSize + "px");
+
+            const lines = String(labelCfg.text || "").split(/\r?\n/);
+            const lineHeight = Number(labelCfg.lineHeight || 1.05);
+
+            lines.forEach((line, i) => {
+                labelText
+                    .append("tspan")
+                    .attr("x", labelCfg.x / 100 * width)
+                    .attr("dy", i === 0 ? 0 : `${lineHeight}em`)
+                    .text(line);
+            });
 
         });
     </script>
