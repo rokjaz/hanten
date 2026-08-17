@@ -436,6 +436,18 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 }
 </style>
 
+
+<style id="h007-mobile-scaling-fix">
+@media (max-width:760px){
+  #map{
+    width:100% !important;
+    max-width:100% !important;
+    height:auto !important;
+    aspect-ratio:760 / 820 !important;
+  }
+}
+</style>
+
 </head>
 
 
@@ -536,8 +548,8 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
   "labels": {
     "unitedStates": {
       "text": "United\nStates",
-      "x": 66.81185636533854,
-      "y": 62.617969953775045,
+      "x": 66.81,
+      "y": 62.62,
       "align": "center",
       "fontSize": 26,
       "lineHeight": 1.8,

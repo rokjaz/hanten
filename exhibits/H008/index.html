@@ -450,6 +450,41 @@ main.hanten-exhibit > .hanten-subtitle{
   });
 })();
 </script>
+
+<script id="h008-responsive-label-size">
+(() => {
+  const map = document.querySelector(".h008-map-shell");
+  const raw = document.getElementById("hanten-label-data");
+  if (!map || !raw) return;
+
+  const labels = JSON.parse(raw.textContent).labels || {};
+  const REFERENCE_WIDTH = 820;
+  const MIN_SCALE = 0.62;
+
+  function applyResponsiveLabelSizes(){
+    const scale = Math.min(
+      1,
+      Math.max(MIN_SCALE, map.getBoundingClientRect().width / REFERENCE_WIDTH)
+    );
+
+    Object.entries(labels).forEach(([id, cfg]) => {
+      const node = document.querySelector(`[data-hanten-label="${id}"]`);
+      if (!node) return;
+      const base = Number(cfg.fontSize || 14);
+      node.style.fontSize = `${base * scale}px`;
+    });
+  }
+
+  applyResponsiveLabelSizes();
+
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(applyResponsiveLabelSizes).observe(map);
+  }
+
+  window.addEventListener("resize", applyResponsiveLabelSizes, {passive:true});
+})();
+</script>
+
 <script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
 
 
@@ -494,7 +529,15 @@ main.hanten-exhibit > .hanten-subtitle{
 
    const core=document.createElement("div"); core.className="h008-export-core";
    const graphic=document.createElement("div"); graphic.className="h008-graphic";
-   graphic.appendChild(map.cloneNode(true)); graphic.appendChild(context.cloneNode(true));
+   const mapClone=map.cloneNode(true);
+   try{
+     const exportLabels=JSON.parse(document.getElementById("hanten-label-data").textContent).labels||{};
+     Object.entries(exportLabels).forEach(([id,cfg])=>{
+       const node=mapClone.querySelector(`[data-hanten-label="${id}"]`);
+       if(node) node.style.fontSize=`${Number(cfg.fontSize||14)}px`;
+     });
+   }catch(e){}
+   graphic.appendChild(mapClone); graphic.appendChild(context.cloneNode(true));
    core.appendChild(graphic); card.appendChild(core);
 
    if(aha){
