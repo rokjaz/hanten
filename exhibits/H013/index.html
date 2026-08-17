@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H013 — Very High Density</title>
+
+<link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
+
+<style>
+:root{
+  --h013-ink:#1c2733;
+  --h013-muted:#66727f;
+  --h013-dense:#174f6b;
+  --h013-other:#d8ddd3;
+  --h013-other-line:#bcc4b9;
+}
+
+.h013-shell{
+  width:min(900px,100%);
+  margin:0 auto;
+}
+
+.h013-stat-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:.7rem;
+  max-width:760px;
+  margin:.7rem auto .85rem;
+}
+
+.h013-stat{
+  background:#fff;
+  border:1px solid var(--hanten-border);
+  padding:.72rem .8rem;
+}
+
+.h013-stat strong{
+  display:block;
+  font-size:1.55rem;
+  line-height:1;
+  color:var(--h013-dense);
+}
+
+.h013-stat span{
+  display:block;
+  margin-top:.28rem;
+  font-size:.78rem;
+  line-height:1.35;
+  color:var(--h013-muted);
+}
+
+.h013-map-card{
+  background:#fff;
+  border:1px solid var(--hanten-border);
+  padding:.7rem;
+}
+
+#h013-map{
+  width:100%;
+  height:auto;
+  display:block;
+}
+
+.h013-county-dense{
+  fill:var(--h013-dense);
+  stroke:#9eb4c1;
+  stroke-width:.28;
+}
+
+.h013-county-other{
+  fill:var(--h013-other);
+  stroke:var(--h013-other-line);
+  stroke-width:.28;
+}
+
+.h013-state-outline{
+  fill:none;
+  stroke:var(--h013-ink);
+  stroke-width:.65;
+  opacity:.45;
+}
+
+.h013-legend{
+  display:flex;
+  justify-content:center;
+  gap:1.2rem;
+  flex-wrap:wrap;
+  margin:.65rem auto 0;
+  font-size:.78rem;
+  color:var(--h013-muted);
+}
+
+.h013-swatch{
+  display:inline-block;
+  width:10px;
+  height:10px;
+  margin-right:.32rem;
+  vertical-align:-.03rem;
+}
+
+.h013-takeaway{
+  max-width:760px;
+  margin:1rem auto 0;
+  font-size:.9rem;
+  line-height:1.5;
+  color:var(--hanten-muted);
+}
+
+.h013-takeaway strong{
+  color:var(--h013-ink);
+}
+
+.hanten-reflection{
+  max-width:740px;
+  margin:.65rem auto 0;
+  text-align:center;
+  font-size:.95rem;
+  line-height:1.45;
+  font-weight:500;
+  color:var(--hanten-muted);
+}
+
+.h013-source{
+  max-width:760px;
+  margin:1.35rem auto 0;
+  text-align:left;
+  font-size:.75rem;
+  line-height:1.45;
+  color:var(--hanten-muted);
+}
+
+.h013-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:.55rem;
+  flex-wrap:wrap;
+  max-width:760px;
+  margin:1rem auto 0;
+}
+
+.h013-actions button{
+  appearance:none;
+  border:1px solid var(--hanten-border);
+  background:#fff;
+  color:var(--h013-ink);
+  padding:.55rem .8rem;
+  border-radius:0;
+  font:700 .76rem/1.2 var(--hanten-font);
+  cursor:pointer;
+}
+
+.h013-actions button:hover,
+.h013-actions button:focus-visible{
+  border-color:var(--hanten-accent);
+  color:var(--hanten-accent);
+}
+
+.h013-actions button:disabled{
+  opacity:.55;
+  cursor:wait;
+}
+
+.h013-export-card{
+  position:fixed;
+  left:-10000px;
+  top:0;
+  width:1080px;
+  padding:30px 70px 54px;
+  box-sizing:border-box;
+  background:var(--hanten-paper,#f4f3ef);
+  color:var(--h013-ink);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+
+.h013-export-core{
+  width:900px;
+  margin:0 auto;
+}
+
+.h013-export-card .h013-stat-row{
+  max-width:760px;
+}
+
+.h013-export-card .h013-map-card{
+  width:900px;
+  margin:0 auto;
+}
+
+.h013-export-textcol{
+  width:760px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.h013-export-aha{
+  margin-top:16px;
+  font-size:14px;
+  line-height:1.5;
+  color:#66727f;
+}
+
+.h013-export-aha strong{
+  color:#1c2733;
+}
+
+.h013-export-reflection{
+  margin-top:8px;
+  text-align:center;
+  font-size:14px;
+  line-height:1.4;
+  color:#59616b;
+}
+
+.h013-export-source{
+  width:760px;
+  margin:24px auto 0;
+  text-align:left;
+  font-size:11px;
+  line-height:1.4;
+  color:#6a716f;
+}
+
+@media(max-width:600px){
+  .h013-stat-row{
+    grid-template-columns:1fr;
+  }
+
+  .h013-map-card{
+    padding:.45rem;
+  }
+
+  .h013-legend{
+    justify-content:flex-start;
+  }
+}
+</style>
+
+<style id="h013-places-dropdown-style">
+.h013-places{
+  max-width:760px;
+  margin:1rem auto 0;
+  border-top:1px solid var(--hanten-border);
+  border-bottom:1px solid var(--hanten-border);
+}
+
+.h013-places summary{
+  cursor:pointer;
+  padding:.8rem .15rem;
+  font-size:.86rem;
+  line-height:1.4;
+  font-weight:700;
+  color:var(--hanten-text);
+}
+
+.h013-places[open] summary{
+  border-bottom:1px solid var(--hanten-border);
+}
+
+.h013-places-body{
+  padding:.85rem .15rem .25rem;
+}
+
+.h013-place{
+  margin:0 0 1rem;
+}
+
+.h013-place h3{
+  margin:0 0 .25rem;
+  font-size:.85rem;
+  line-height:1.35;
+  color:var(--hanten-text);
+}
+
+.h013-place p{
+  margin:0;
+  font-size:.82rem;
+  line-height:1.5;
+  color:var(--hanten-muted);
+}
+
+.h013-place strong{
+  color:var(--hanten-text);
+}
+
+.h013-places-lesson{
+  margin:.35rem 0 .75rem;
+  padding-top:.8rem;
+  border-top:1px solid var(--hanten-border);
+  font-size:.84rem;
+  line-height:1.5;
+  color:var(--hanten-muted);
+}
+
+.h013-places-lesson strong{
+  color:var(--hanten-text);
+}
+</style>
+
+</head>
+
+<body>
+
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">
+    How much of America holds 40% of its people?
+  </h1>
+
+  <p class="hanten-subtitle">
+    Just 1.8% of the land.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h013-shell">
+
+      <div class="h013-stat-row">
+        <div class="h013-stat">
+          <strong>1.8%</strong>
+          <span>of U.S. land is in counties with 1,000+ people per square mile</span>
+        </div>
+
+        <div class="h013-stat">
+          <strong>39.8%</strong>
+          <span>of the population lives in those same counties</span>
+        </div>
+      </div>
+
+      <section class="h013-map-card" id="h013-capture" aria-label="Map of very high density U.S. counties">
+        <svg
+          id="h013-map"
+          viewBox="0 0 975 610"
+          role="img"
+          aria-label="United States counties shaded by whether they have at least 1,000 people per square mile"
+        ></svg>
+      </section>
+
+      <div class="h013-legend">
+        <div>
+          <span class="h013-swatch" style="background:var(--h013-dense)"></span>
+          1,000+ people per sq. mi. — 159 counties
+        </div>
+
+        <div>
+          <span class="h013-swatch" style="background:var(--h013-other)"></span>
+          All other counties
+        </div>
+      </div>
+
+      <div class="h013-takeaway">
+        <strong>Population is concentrated far more tightly than land is.</strong>
+        Nearly 40% of Americans live in counties covering less than 2% of the country’s land area.
+      </div>
+
+      <details class="h013-places">
+        <summary>Which places are highlighted—and which surprising cities aren’t?</summary>
+
+        <div class="h013-places-body">
+
+          <div class="h013-place">
+            <h3>Phoenix, Las Vegas, and San Diego — major cities that aren’t blue</h3>
+            <p>
+              All three sit inside very large counties. Phoenix is in
+              <strong>Maricopa County</strong>, Las Vegas in <strong>Clark County</strong>,
+              and San Diego in <strong>San Diego County</strong>. Their dense urban
+              populations are averaged together with much larger, less-populated areas,
+              pulling countywide density below this map’s 1,000-person threshold.
+              <strong>The city can be dense even when its county isn’t.</strong>
+            </p>
+          </div>
+
+          <div class="h013-place">
+            <h3>Denver and Broomfield — why are those small blue spots there?</h3>
+            <p>
+              Both have unusually compact city-county boundaries. Denver is a
+              consolidated city and county, while <strong>Broomfield</strong> is also
+              organized as the City and County of Broomfield. With much less surrounding
+              rural land included, their countywide densities remain above the threshold.
+              Broomfield is the smaller blue area just north of Denver.
+            </p>
+          </div>
+
+          <div class="h013-place">
+            <h3>Virginia — what are all those tiny blue shapes?</h3>
+            <p>
+              Virginia has many <strong>independent cities</strong> that the Census treats
+              as county equivalents. That is why places such as Alexandria
+              (~10,394/sq mi), Falls Church (~7,177), Charlottesville (~4,391),
+              Richmond (~3,826), Roanoke (~2,285), and Lynchburg (~1,624)
+              appear as tiny separate units.
+            </p>
+          </div>
+
+          <div class="h013-place">
+            <h3>New York City — one city becomes five county units</h3>
+            <p>
+              The five boroughs correspond to five county-level units:
+              New York, Kings, Bronx, Queens, and Richmond.
+              Manhattan’s New York County exceeds <strong>70,000 people per square mile</strong>,
+              while all five clear the threshold easily.
+            </p>
+          </div>
+
+          <div class="h013-place">
+            <h3>Los Angeles — a large county that still turns blue</h3>
+            <p>
+              <strong>Los Angeles County</strong> covers a large area, but its population
+              is concentrated enough to average about <strong>2,380 people per square mile</strong>.
+              That makes it a useful contrast with Phoenix and Maricopa County.
+            </p>
+          </div>
+
+          <div class="h013-place">
+            <h3>Baltimore and St. Louis — cities that function like counties</h3>
+            <p>
+              Both <strong>Baltimore city</strong> (~6,983/sq mi) and
+              <strong>St. Louis city</strong> (~4,565/sq mi) are independent
+              county-equivalent units, so they show up as compact blue shapes.
+            </p>
+          </div>
+
+          <div class="h013-place">
+            <h3>Some sprawling Sun Belt metros do turn blue</h3>
+            <p>
+              Dallas County (~2,985/sq mi), Harris County around Houston (~2,833),
+              Fulton County around Atlanta (~2,049), Miami-Dade (~1,414),
+              and Davidson County around Nashville (~1,415) all exceed the threshold.
+            </p>
+          </div>
+
+          <div class="h013-place">
+            <h3>Connecticut looks different in current Census geography</h3>
+            <p>
+              Beginning with newer Census geography, Connecticut’s
+              <strong>nine planning regions</strong> are treated as county equivalents.
+              H013 uses 2023 boundaries so the map and its 2023 density data describe
+              the same geographic units.
+            </p>
+          </div>
+
+          <p class="h013-places-lesson">
+            <strong>The blue areas do not simply show where cities are.</strong>
+            They show where dense populations happen to line up with county or
+            county-equivalent boundaries. Change the unit—from counties to cities,
+            census tracts, or urban areas—and the map changes too.
+          </p>
+
+        </div>
+      </details>
+
+      <p class="hanten-reflection">
+        What changes when we measure where people are instead of where land is?
+      </p>
+
+      <p class="h013-source">
+        Sources: U.S. Census Bureau, Vintage 2023 Population Estimates and 2023 Gazetteer Files.
+        County and county-equivalent boundaries: U.S. Census Bureau, 2023 cartographic boundary files.
+        Puerto Rico excluded. The 1,000-people-per-square-mile threshold identifies 159 county or county-equivalent units.
+        Connecticut is shown using its nine Census county-equivalent planning regions.
+      </p>
+
+      <div class="h013-actions">
+        <button type="button" id="h013-save">Save Image</button>
+        <button type="button" id="h013-share">Share Image</button>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script src="../../04 Shared Assets/js/d3.v7.min.js"></script>
+<script src="../../04 Shared Assets/geodata/us/us-counties-2023.js"></script>
+<script src="../../04 Shared Assets/geodata/county-density.js"></script>
+
+<script>
+(() => {
+  const width = 975;
+  const height = 610;
+
+  const svg = d3.select("#h013-map")
+    .attr("viewBox", `0 0 ${width} ${height}`);
+
+  const counties = US_COUNTIES_2023_GEOJSON;
+  const states = US_STATES_2023_GEOJSON;
+
+  const projection = d3.geoAlbersUsa()
+    .fitSize([width,height],counties);
+
+  const path = d3.geoPath(projection);
+
+  svg.append("g")
+    .selectAll("path")
+    .data(counties.features)
+    .join("path")
+    .attr("class", d => {
+      const density = COUNTY_DENSITY[String(d.id).padStart(5,"0")];
+      return density !== undefined && density >= 1000
+        ? "h013-county-dense"
+        : "h013-county-other";
+    })
+    .attr("d",path);
+
+  svg.append("g")
+    .selectAll("path")
+    .data(states.features)
+    .join("path")
+    .attr("class","h013-state-outline")
+    .attr("d",path);
+})();
+</script>
+
+<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
+
+<script>
+(() => {
+  const save = document.getElementById("h013-save");
+  const share = document.getElementById("h013-share");
+
+  const filename = "H013_v2.png";
+  const title = "How much of America holds 40% of its people?";
+
+  async function renderBlob(){
+    const stats = document.querySelector(".h013-stat-row");
+    const map = document.querySelector(".h013-map-card");
+    const legend = document.querySelector(".h013-legend");
+    const takeaway = document.querySelector(".h013-takeaway");
+    const source = document.querySelector(".h013-source");
+
+    const card = document.createElement("div");
+    card.className = "h013-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800;
+    titleCanvas.height = 100;
+    titleCanvas.style.width = "900px";
+    titleCanvas.style.height = "50px";
+    titleCanvas.style.display = "block";
+    titleCanvas.style.margin = "0 auto 6px";
+
+    const t = titleCanvas.getContext("2d");
+    t.scale(2,2);
+    t.font = '750 34px -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif';
+    t.fillStyle = "#1c2733";
+    t.textAlign = "center";
+    t.textBaseline = "middle";
+    t.fillText("How much of America holds 40% of its people?",450,25);
+    card.appendChild(titleCanvas);
+
+    const subCanvas = document.createElement("canvas");
+    subCanvas.width = 1800;
+    subCanvas.height = 56;
+    subCanvas.style.width = "900px";
+    subCanvas.style.height = "28px";
+    subCanvas.style.display = "block";
+    subCanvas.style.margin = "0 auto 14px";
+
+    const s = subCanvas.getContext("2d");
+    s.scale(2,2);
+    s.font = '400 18px -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif';
+    s.fillStyle = "#53616f";
+    s.textAlign = "center";
+    s.textBaseline = "middle";
+    s.fillText("Just 1.8% of the land.",450,14);
+    card.appendChild(subCanvas);
+
+    const core = document.createElement("div");
+    core.className = "h013-export-core";
+
+    core.appendChild(stats.cloneNode(true));
+    core.appendChild(map.cloneNode(true));
+    core.appendChild(legend.cloneNode(true));
+
+    card.appendChild(core);
+
+    if(takeaway){
+      const textcol = document.createElement("div");
+      textcol.className = "h013-export-textcol";
+      const aha = takeaway.cloneNode(true);
+      aha.className = "h013-export-aha";
+      textcol.appendChild(aha);
+      card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "h013-export-reflection";
+    reflection.textContent = "What changes when we measure where people are instead of where land is?";
+    card.appendChild(reflection);
+
+    if(source){
+      const sc = source.cloneNode(true);
+      sc.className = "h013-export-source";
+      card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+
+    try{
+      await document.fonts.ready;
+
+      const canvas = await html2canvas(card,{
+        backgroundColor:null,
+        scale:2,
+        useCORS:true,
+        logging:false,
+        width:card.scrollWidth,
+        height:card.scrollHeight
+      });
+
+      return await new Promise((resolve,reject)=>{
+        canvas.toBlob(
+          blob => blob ? resolve(blob) : reject(new Error("Could not create image.")),
+          "image/png"
+        );
+      });
+    }finally{
+      card.remove();
+    }
+  }
+
+  function download(blob){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+
+  save.addEventListener("click",async()=>{
+    save.disabled = true;
+    try{
+      download(await renderBlob());
+    }finally{
+      save.disabled = false;
+    }
+  });
+
+  share.addEventListener("click",async()=>{
+    share.disabled = true;
+    try{
+      const blob = await renderBlob();
+      const file = new File([blob],filename,{type:"image/png"});
+
+      if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){
+        await navigator.share({title,files:[file]});
+      }else{
+        download(blob);
+        alert("Direct sharing is not available in this browser. The image was saved instead.");
+      }
+    }catch(e){
+      if(!e || e.name !== "AbortError") console.error(e);
+    }finally{
+      share.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
