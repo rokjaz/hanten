@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H015 — Gerrymander: Real Districts</title>
+<meta name="description" content="Could a real congressional district actually look like this? Three actual U.S. congressional districts show how strange real boundaries can become.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h015-district: #a64b36;
+    --h015-district-soft: #ead2cb;
+    --h015-state: #b9c0b8;
+    --h015-line: #dddddd;
+    --h015-ink-soft: #666666;
+    --h015-panel: #f7f7f7;
+    --h015-accent: #0e6f78;
+    --h015-accent-soft: #edf5f5;
+  }
+
+  .h015-continuation {
+    max-width: var(--hanten-text-width);
+    margin: 0 auto .7rem;
+    padding: .55rem .75rem;
+    background: transparent;
+    border-left: 3px solid var(--h015-accent);
+    color: var(--h015-ink-soft);
+    font-size: .8rem;
+    line-height: 1.42;
+  }
+
+  .h015-continuation strong {
+    color: var(--hanten-text);
+  }
+
+  .h015-continuation a {
+    color: var(--h015-accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .h015-continuation a:hover {
+    text-decoration: underline;
+  }
+
+  .h015-panels {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .65rem;
+    align-items: stretch;
+  }
+
+  .h015-panel {
+    background: var(--hanten-paper);
+    border: 1px solid var(--hanten-border);
+    padding: .65rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .h015-panel-head {
+    min-height: 3.35rem;
+    text-align: center;
+  }
+
+  .h015-panel h2 {
+    margin: 0;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--hanten-text);
+  }
+
+  .h015-years {
+    margin-top: 0.3rem;
+    font-family: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    font-size: clamp(0.67rem, 1vw, 0.76rem);
+    line-height: 1.35;
+    color: var(--h015-ink-soft);
+  }
+
+  .h015-map-wrap {
+    width: 100%;
+    margin: .15rem auto .5rem;
+    background: transparent;
+    border: 0;
+  }
+
+  .h015-map {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .state-ctx {
+    fill: none;
+    stroke: var(--h015-state);
+    stroke-width: 0.85;
+  }
+
+  .district {
+    fill: var(--h015-district-soft);
+    stroke: var(--h015-district);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .h015-story {
+    margin: auto 0 0;
+    font-size: .8rem;
+    line-height: 1.5;
+    color: var(--h015-ink-soft);
+  }
+
+  .h015-story strong {
+    color: var(--hanten-text);
+  }
+
+  .h015-reveal {
+    max-width: var(--hanten-text-width);
+    margin: var(--hanten-space-md) auto 0;
+    padding: .15rem 0;
+    background: transparent;
+    border-left: 0;
+    color: var(--h015-ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .h015-reveal strong,
+  .h015-principle strong {
+    color: var(--hanten-text);
+  }
+
+  .h015-principle {
+    max-width: var(--hanten-text-width);
+    margin: var(--hanten-space-md) auto 0;
+    padding-top: var(--hanten-space-sm);
+    border-top: 1px solid var(--h015-line);
+    color: var(--h015-ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .h015-panels {
+      grid-template-columns: 1fr;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .h015-panel-head {
+      min-height: 0;
+      margin-bottom: 0.4rem;
+    }
+
+    .h015-map-wrap {
+      max-width: 520px;
+    }
+  }
+</style>
+
+<style id="hanten-source-alignment-standard">
+main.hanten-exhibit .hanten-source{
+  max-width:760px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:left !important;
+}
+</style>
+
+
+<style id="h015-final-polish">
+.h015-panel{
+  background:#ffffff !important;
+}
+
+.h015-map-wrap{
+  background:#ffffff;
+}
+
+.h015-reveal{
+  margin-top:1.25rem !important;
+}
+
+.hanten-reflection{
+  margin-top:1.25rem !important;
+}
+
+main.hanten-exhibit .hanten-source{
+  max-width:760px !important;
+  margin:2.25rem auto 0 !important;
+  text-align:left !important;
+}
+
+.h015-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:.55rem;
+  flex-wrap:wrap;
+  max-width:760px;
+  margin:1rem auto 0;
+}
+
+.h015-actions button{
+  appearance:none;
+  border:1px solid var(--hanten-border);
+  background:#fff;
+  color:var(--hanten-text);
+  padding:.55rem .8rem;
+  border-radius:0;
+  font:700 .76rem/1.2 var(--hanten-font);
+  cursor:pointer;
+}
+
+.h015-actions button:hover,
+.h015-actions button:focus-visible{
+  border-color:var(--hanten-accent);
+  color:var(--hanten-accent);
+}
+
+.h015-actions button:disabled{
+  opacity:.55;
+  cursor:wait;
+}
+
+/* PNG export */
+.h015-export-card{
+  position:fixed;
+  left:-10000px;
+  top:0;
+  width:1080px;
+  padding:30px 70px 54px;
+  box-sizing:border-box;
+  background:var(--hanten-paper,#f4f3ef);
+  color:var(--hanten-text,#1c2733);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+
+.h015-export-core{
+  width:940px;
+  margin:0 auto;
+}
+
+.h015-export-card .h015-panels{
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+}
+
+.h015-export-card .h015-panel{
+  background:#fff !important;
+}
+
+.h015-export-text{
+  width:760px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.h015-export-aha{
+  margin-top:18px;
+  padding:0;
+  border:0;
+  font-size:14px;
+  line-height:1.5;
+  color:#59616b;
+}
+
+.h015-export-aha strong{
+  color:#1c2733;
+}
+
+.h015-export-reflection{
+  margin-top:12px;
+  text-align:center;
+  font-size:14px;
+  line-height:1.4;
+  color:#59616b;
+}
+
+.h015-export-source{
+  width:760px;
+  margin:24px auto 0;
+  text-align:left;
+  font-size:11px;
+  line-height:1.4;
+  color:#6a716f;
+}
+</style>
+
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">
+    Could a real congressional district actually look like this?
+  </h1>
+
+  <p class="hanten-subtitle">
+    Three actual U.S. congressional districts, drawn to their real boundaries.
+  </p>
+
+  <div class="h015-continuation">
+    <strong>Real-world companion to H003 — Gerrymandering.</strong>
+    The <a href="../H003/index.html" target="_blank" rel="noopener noreferrer">gerrymandering explainer</a> shows the mechanism with a simple grid; these are real districts.
+  </div>
+
+  <div class="hanten-graphic" id="h015-capture">
+    <div class="h015-panels" id="h015-panels" aria-label="Three real U.S. congressional district shapes">
+
+      <section class="h015-panel">
+        <div class="h015-panel-head">
+          <h2>Illinois 4th — “The Earmuffs”</h2>
+          <div class="h015-years">113th Congress · 2013–2015 · Chicago</div>
+        </div>
+
+        <div class="h015-map-wrap">
+          <svg id="map-IL4" class="h015-map" viewBox="0 0 300 300"
+               role="img" aria-label="Illinois 4th Congressional District, known as the Earmuffs"></svg>
+        </div>
+
+        <p class="h015-story">
+          Two separate arcs of Chicago — one largely Puerto Rican, one heavily Mexican-American —
+          were joined in a single district by a <strong>narrow connecting corridor</strong>.
+        </p>
+      </section>
+
+      <section class="h015-panel">
+        <div class="h015-panel-head">
+          <h2>Maryland 3rd</h2>
+          <div class="h015-years">113th Congress · 2013–2015 · Baltimore area</div>
+        </div>
+
+        <div class="h015-map-wrap">
+          <svg id="map-MD3" class="h015-map" viewBox="0 0 300 300"
+               role="img" aria-label="Maryland 3rd Congressional District"></svg>
+        </div>
+
+        <p class="h015-story">
+          One of the least compact congressional districts of its era, its boundary looped through
+          disconnected-looking pieces of the Baltimore–Washington region before being substantially redrawn after 2020.
+        </p>
+      </section>
+
+      <section class="h015-panel">
+        <div class="h015-panel-head">
+          <h2>North Carolina 12th</h2>
+          <div class="h015-years">113th Congress · 2013–2015 · I-85 corridor</div>
+        </div>
+
+        <div class="h015-map-wrap">
+          <svg id="map-NC12" class="h015-map" viewBox="0 0 300 300"
+               role="img" aria-label="North Carolina 12th Congressional District"></svg>
+        </div>
+
+        <p class="h015-story">
+          A long, narrow district following the I-85 corridor. This version became part of the racial-gerrymandering case
+          <strong><em>Cooper v. Harris</em> (2017)</strong>, in which the Supreme Court invalidated the district.
+        </p>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="h015-reveal">
+    <strong>The strange shapes are real. Shape alone does not explain why they exist.</strong><br>
+    An unusual boundary can reflect partisan strategy, minority representation, voting-rights law,
+    geography, or several forces at once.
+  </div>
+
+  <p class="hanten-reflection">
+    When a pattern looks strange, what evidence would tell you what created it?
+  </p>
+
+  <div class="hanten-source">
+    Boundaries: 113th Congress congressional district geography (2013–2015), U.S. Census data
+    via the unitedstates/districts open-data project. Historical context includes congressional
+    and court records, including <em>Cooper v. Harris</em> (2017).
+  </div>
+
+  <div class="h015-actions">
+    <button type="button" id="h015-save">Save Image</button>
+    <button type="button" id="h015-share">Share Image</button>
+  </div>
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/js/topojson-client.min.js"></script>
+
+<script src="../../assets/geodata/us/us-counties-10m.js"></script>
+<script src="../../assets/geodata/districts2012.js"></script>
+
+<script>
+  const statesMesh = topojson.mesh(
+    US_COUNTIES_TOPOLOGY,
+    US_COUNTIES_TOPOLOGY.objects.states,
+    (a, b) => a !== b
+  );
+
+  function drawPanel(id, feature, padFactor) {
+    const size = 300;
+    const svg = d3.select("#map-" + id);
+
+    const projection = d3.geoAlbers();
+    projection.fitExtent(
+      [
+        [size * padFactor, size * padFactor],
+        [size * (1 - padFactor), size * (1 - padFactor)]
+      ],
+      feature
+    );
+
+    const path = d3.geoPath(projection);
+
+    svg.append("path")
+      .datum(statesMesh)
+      .attr("class", "state-ctx")
+      .attr("d", path);
+
+    svg.append("path")
+      .datum(feature)
+      .attr("class", "district")
+      .attr("d", path);
+  }
+
+  drawPanel("IL4", GERRY_DISTRICTS.IL4, 0.18);
+  drawPanel("MD3", GERRY_DISTRICTS.MD3, 0.15);
+  drawPanel("NC12", GERRY_DISTRICTS.NC12, 0.12);
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+<script>
+(() => {
+  const save = document.getElementById("h015-save");
+  const share = document.getElementById("h015-share");
+
+  const filename = "H015_v2.png";
+  const title = "Could a real congressional district actually look like this?";
+
+  async function renderBlob(){
+    const panels = document.querySelector(".h015-panels");
+    const takeaway = document.querySelector(".h015-reveal");
+    const source = document.querySelector(".hanten-source");
+
+    const card = document.createElement("div");
+    card.className = "h015-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1880;
+    titleCanvas.height = 100;
+    titleCanvas.style.width = "940px";
+    titleCanvas.style.height = "50px";
+    titleCanvas.style.display = "block";
+    titleCanvas.style.margin = "0 auto 6px";
+
+    const t = titleCanvas.getContext("2d");
+    t.scale(2,2);
+    t.font = '750 30px -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif';
+    t.fillStyle = "#1c2733";
+    t.textAlign = "center";
+    t.textBaseline = "middle";
+    t.fillText("Could a real congressional district actually look like this?",470,25);
+    card.appendChild(titleCanvas);
+
+    const subCanvas = document.createElement("canvas");
+    subCanvas.width = 1880;
+    subCanvas.height = 56;
+    subCanvas.style.width = "940px";
+    subCanvas.style.height = "28px";
+    subCanvas.style.display = "block";
+    subCanvas.style.margin = "0 auto 14px";
+
+    const st = subCanvas.getContext("2d");
+    st.scale(2,2);
+    st.font = '400 18px -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif';
+    st.fillStyle = "#53616f";
+    st.textAlign = "center";
+    st.textBaseline = "middle";
+    st.fillText("Three actual U.S. congressional districts, drawn to their real boundaries.",470,14);
+    card.appendChild(subCanvas);
+
+    const core = document.createElement("div");
+    core.className = "h015-export-core";
+    core.appendChild(panels.cloneNode(true));
+    card.appendChild(core);
+
+    if(takeaway){
+      const text = document.createElement("div");
+      text.className = "h015-export-text";
+
+      const aha = takeaway.cloneNode(true);
+      aha.className = "h015-export-aha";
+
+      text.appendChild(aha);
+      card.appendChild(text);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "h015-export-reflection";
+    reflection.textContent =
+      "When a pattern looks strange, what evidence would tell you what created it?";
+    card.appendChild(reflection);
+
+    if(source){
+      const sc = source.cloneNode(true);
+      sc.className = "h015-export-source";
+      card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+
+    try{
+      await document.fonts.ready;
+
+      const canvas = await html2canvas(card,{
+        backgroundColor:null,
+        scale:2,
+        useCORS:true,
+        logging:false,
+        width:card.scrollWidth,
+        height:card.scrollHeight
+      });
+
+      return await new Promise((resolve,reject)=>{
+        canvas.toBlob(
+          blob => blob ? resolve(blob) : reject(new Error("Could not create image.")),
+          "image/png"
+        );
+      });
+    }finally{
+      card.remove();
+    }
+  }
+
+  function download(blob){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+
+  save.addEventListener("click",async()=>{
+    save.disabled = true;
+    try{
+      download(await renderBlob());
+    }finally{
+      save.disabled = false;
+    }
+  });
+
+  share.addEventListener("click",async()=>{
+    share.disabled = true;
+
+    try{
+      const blob = await renderBlob();
+      const file = new File([blob],filename,{type:"image/png"});
+
+      if(navigator.share &&
+         (!navigator.canShare || navigator.canShare({files:[file]}))){
+        await navigator.share({title,files:[file]});
+      }else{
+        download(blob);
+        alert("Direct sharing is not available in this browser. The image was saved instead.");
+      }
+    }catch(e){
+      if(!e || e.name !== "AbortError") console.error(e);
+    }finally{
+      share.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

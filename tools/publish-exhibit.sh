@@ -114,6 +114,47 @@ html_path.write_text(text)
 PY
 
 # ------------------------------------------------------------
+# Rewrite links between master exhibit folders for website use.
+#
+# Example:
+#   ../H015 Gerrymander - Real Districts/H015_v2.html
+# becomes:
+#   ../H015/
+# ------------------------------------------------------------
+
+python3 - "$DEST_HTML" <<'PYLINKS'
+from pathlib import Path
+import re
+import sys
+
+p = Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+
+pattern = re.compile(
+    r'\.\./H(\d{3})[^/"\']*/H\1(?:_v2)?\.html'
+)
+
+s, count = pattern.subn(
+    lambda m: f'../H{m.group(1)}/index.html',
+    s
+)
+
+# Ensure rewritten inter-exhibit anchors open in a new tab/window.
+s = re.sub(
+    r'<a href="(\.\./H\d{3}/index\.html)"(?![^>]*target=)',
+    r'<a href="\1" target="_blank" rel="noopener noreferrer"',
+    s
+)
+
+p.write_text(s, encoding="utf-8")
+
+if count:
+    print(f"REWRITE inter-exhibit links: {count}")
+else:
+    print("NOTE: No inter-exhibit master links found.")
+PYLINKS
+
+# ------------------------------------------------------------
 # Standardize Save Image capture target.
 # The exported PNG should capture the complete exhibit rather
 # than a chart/map-only stage.
