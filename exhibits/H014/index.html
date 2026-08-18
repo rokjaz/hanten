@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H014 — Density Extremes</title>
+<meta name="description" content="The same 3,144 U.S. counties can make America look almost empty or intensely crowded, depending on which density threshold you choose.">
+
+<link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
+
+<style>
+  :root {
+    --h014-empty: #a8684f;
+    --h014-empty-soft: #dfc8be;
+
+    --h014-middle: #b59a67;
+    --h014-middle-soft: #ded5c2;
+
+    --h014-dense: #0b3d5c;
+    --h014-dense-soft: #aec2cf;
+
+    --h014-filled: #e3e5df;
+    --h014-filled-line: #c8ccc4;
+    --h014-ink-soft: #666666;
+    --h014-line: #dddddd;
+    --h014-panel: #f7f7f7;
+  }
+
+  .h014-panels {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .65rem;
+    align-items: stretch;
+  }
+
+  .h014-panel {
+    background: #ffffff;
+    border: 1px solid var(--hanten-border);
+    padding: .65rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .h014-panel-head {
+    min-height: 3.7rem;
+    text-align: center;
+  }
+
+  .h014-panel h2 {
+    margin: 0;
+    font-size: clamp(1rem, 1.65vw, 1.18rem);
+    line-height: 1.2;
+    font-weight: 700;
+    color: var(--hanten-text);
+  }
+
+  .h014-threshold {
+    margin-top: 0.35rem;
+    font-family: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    font-size: clamp(0.68rem, 1vw, 0.78rem);
+    line-height: 1.35;
+    color: var(--h014-ink-soft);
+  }
+
+  .h014-map-wrap {
+    width: 100%;
+    margin: .15rem auto .45rem;
+    background: #ffffff;
+  }
+
+  .h014-map {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .h014-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--h014-line);
+    border: 1px solid var(--h014-line);
+    margin-top: auto;
+  }
+
+  .h014-stat {
+    background: #ffffff;
+    padding: .6rem .4rem .55rem;
+    text-align: center;
+  }
+
+  .h014-num {
+    display: block;
+    font-family: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    font-size: clamp(1.45rem, 2.6vw, 2rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .h014-label {
+    display: block;
+    margin-top: 0.38rem;
+    font-size: clamp(0.68rem, 1vw, 0.78rem);
+    line-height: 1.3;
+    color: var(--h014-ink-soft);
+  }
+
+  .h014-count {
+    margin: .42rem 0 0;
+    text-align: center;
+    font-size: 0.76rem;
+    color: var(--h014-ink-soft);
+  }
+
+  .state-outline {
+    fill: none;
+    stroke: #1f1f1f;
+    stroke-width: 0.62;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .h014-context {
+    max-width: var(--hanten-text-width);
+    margin: var(--hanten-space-md) auto 0;
+    padding: .15rem 0;
+    background: transparent;
+    border-left: 0;
+    color: var(--h014-ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .h014-context strong,
+  .h014-principle strong {
+    color: var(--hanten-text);
+  }
+
+  .h014-principle {
+    max-width: var(--hanten-text-width);
+    margin: var(--hanten-space-md) auto 0;
+    padding-top: var(--hanten-space-sm);
+    border-top: 1px solid var(--h014-line);
+    color: var(--h014-ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .h014-panels {
+      grid-template-columns: 1fr;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .h014-panel-head {
+      min-height: 0;
+      margin-bottom: 0.4rem;
+    }
+
+    .h014-map-wrap {
+      max-width: 650px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .h014-stats {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
+
+<style id="h014-explainer-style">
+.h014-explainer{
+  max-width:var(--hanten-text-width);
+  margin:1rem auto 0;
+  border-top:1px solid var(--hanten-border);
+  border-bottom:1px solid var(--hanten-border);
+}
+
+.h014-explainer summary{
+  cursor:pointer;
+  padding:.8rem .15rem;
+  font-size:.86rem;
+  line-height:1.4;
+  font-weight:700;
+  color:var(--hanten-text);
+}
+
+.h014-explainer[open] summary{
+  border-bottom:1px solid var(--hanten-border);
+}
+
+.h014-explainer-body{
+  padding:.85rem .15rem .2rem;
+}
+
+.h014-explainer-body p{
+  margin:0 0 .8rem;
+  font-size:.84rem;
+  line-height:1.55;
+  color:var(--hanten-muted);
+}
+
+.h014-explainer-body strong{
+  color:var(--hanten-text);
+}
+
+.h014-explainer-example{
+  margin:.2rem 0 .8rem;
+  padding:.65rem .75rem;
+  background:rgba(255,255,255,.55);
+  border:1px solid var(--hanten-border);
+  font-size:.82rem;
+  line-height:1.5;
+  color:var(--hanten-muted);
+}
+
+.hanten-reflection{
+  margin-top:1.25rem !important;
+}
+
+.hanten-source{
+  margin-top:2.25rem !important;
+}
+
+.hanten-utility{
+  margin-top:1.2rem !important;
+  display:flex;
+  justify-content:flex-end;
+}
+
+#save-image-slot{
+  display:flex;
+  justify-content:flex-end;
+}
+
+#save-image-slot button{
+  background:#ffffff !important;
+  color:var(--hanten-text) !important;
+  border:1px solid var(--hanten-border) !important;
+}
+</style>
+
+
+<style id="h014-actions-style">
+.h014-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:.55rem;
+  flex-wrap:wrap;
+  max-width:var(--hanten-text-width);
+  margin:1rem auto 0;
+}
+
+.h014-actions button{
+  appearance:none;
+  border:1px solid var(--hanten-border);
+  background:#fff;
+  color:var(--hanten-text);
+  padding:.55rem .8rem;
+  border-radius:0;
+  font:700 .76rem/1.2 var(--hanten-font);
+  cursor:pointer;
+}
+
+.h014-actions button:hover,
+.h014-actions button:focus-visible{
+  border-color:var(--hanten-accent);
+  color:var(--hanten-accent);
+}
+
+.h014-actions button:disabled{
+  opacity:.55;
+  cursor:wait;
+}
+
+.h014-export-card{
+  position:fixed;
+  left:-10000px;
+  top:0;
+  width:1080px;
+  padding:30px 70px 54px;
+  box-sizing:border-box;
+  background:var(--hanten-paper,#f4f3ef);
+  color:var(--hanten-text,#1c2733);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+
+.h014-export-core{
+  width:940px;
+  margin:0 auto;
+}
+
+.h014-export-card .h014-panels{
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+}
+
+.h014-export-text{
+  width:760px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.h014-export-aha{
+  margin-top:16px;
+  font-size:14px;
+  line-height:1.5;
+  color:#59616b;
+}
+
+.h014-export-aha strong{
+  color:#1c2733;
+}
+
+.h014-export-reflection{
+  margin-top:12px;
+  text-align:center;
+  font-size:14px;
+  line-height:1.4;
+  color:#59616b;
+}
+
+.h014-export-source{
+  width:760px;
+  margin:24px auto 0;
+  text-align:left;
+  font-size:11px;
+  line-height:1.4;
+  color:#6a716f;
+}
+</style>
+
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">
+    How can the same country look almost empty — and unbelievably crowded?
+  </h1>
+
+  <p class="hanten-subtitle">
+    Same counties. Same population. Three different density thresholds.
+  </p>
+
+  <div class="hanten-graphic" id="h014-capture">
+    <div class="h014-panels" id="h014-panels" aria-label="Three U.S. county density maps">
+
+      <section class="h014-panel" data-panel="empty">
+        <div class="h014-panel-head">
+          <h2>Nearly Empty</h2>
+          <div class="h014-threshold">fewer than 10 people / sq mi</div>
+        </div>
+
+        <div class="h014-map-wrap">
+          <svg class="h014-map" viewBox="0 0 460 290"
+               role="img"
+               aria-label="U.S. counties with fewer than 10 people per square mile"></svg>
+        </div>
+
+        <div class="h014-stats">
+          <div class="h014-stat">
+            <span class="h014-num area"></span>
+            <span class="h014-label">of U.S. land</span>
+          </div>
+          <div class="h014-stat">
+            <span class="h014-num pop"></span>
+            <span class="h014-label">of Americans</span>
+          </div>
+        </div>
+
+        <p class="h014-count"></p>
+      </section>
+
+      <section class="h014-panel middle" data-panel="middle">
+        <div class="h014-panel-head">
+          <h2>Dense</h2>
+          <div class="h014-threshold">500–999 people / sq mi</div>
+        </div>
+
+        <div class="h014-map-wrap">
+          <svg class="h014-map" viewBox="0 0 460 290"
+               role="img"
+               aria-label="U.S. counties with 500 to 999 people per square mile"></svg>
+        </div>
+
+        <div class="h014-stats">
+          <div class="h014-stat">
+            <span class="h014-num area"></span>
+            <span class="h014-label">of U.S. land</span>
+          </div>
+          <div class="h014-stat">
+            <span class="h014-num pop"></span>
+            <span class="h014-label">of Americans</span>
+          </div>
+        </div>
+
+        <p class="h014-count"></p>
+      </section>
+
+      <section class="h014-panel" data-panel="dense">
+        <div class="h014-panel-head">
+          <h2>Extremely Dense</h2>
+          <div class="h014-threshold">1,000+ people / sq mi</div>
+        </div>
+
+        <div class="h014-map-wrap">
+          <svg class="h014-map" viewBox="0 0 460 290"
+               role="img"
+               aria-label="U.S. counties with 1,000 or more people per square mile"></svg>
+        </div>
+
+        <div class="h014-stats">
+          <div class="h014-stat">
+            <span class="h014-num area"></span>
+            <span class="h014-label">of U.S. land</span>
+          </div>
+          <div class="h014-stat">
+            <span class="h014-num pop"></span>
+            <span class="h014-label">of Americans</span>
+          </div>
+        </div>
+
+        <p class="h014-count"></p>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="h014-context">
+    <strong>America is both almost empty and intensely crowded.</strong><br>
+    Nothing about the country changes between these maps. Only the slice of the distribution we choose to see.
+  </div>
+
+  <details class="h014-explainer">
+    <summary>How should I read these three maps?</summary>
+
+    <div class="h014-explainer-body">
+      <p>
+        <strong>These three percentages are not supposed to add up to 100%.</strong>
+        The maps show three selected slices of the density distribution rather than
+        dividing every county into three complete categories.
+      </p>
+
+      <div class="h014-explainer-example">
+        Nearly Empty shows counties below 10 people per square mile.<br>
+        Dense shows counties from 500–999.<br>
+        Extremely Dense shows counties at 1,000 or more.<br><br>
+        Counties from <strong>10–499 people per square mile are intentionally left out</strong>
+        so the contrast between the sparse and crowded ends of the distribution is easier to see.
+      </div>
+
+      <p>
+        Each county or county-equivalent unit can appear in only one of the three
+        displayed ranges—but many appear in none of them.
+      </p>
+
+      <p>
+        <strong>The underlying population does not change from map to map.</strong>
+        Only the threshold changes. That is why choosing a cutoff can dramatically
+        change the picture a map seems to show.
+      </p>
+    </div>
+  </details>
+
+  <p class="hanten-reflection">
+    How much can a threshold change the picture without changing the underlying data?
+  </p>
+
+  <div class="hanten-source">
+    Sources: U.S. Census Bureau, Vintage 2023 Population Estimates and 2023 Gazetteer Files.
+    County and county-equivalent boundaries: U.S. Census Bureau, 2023 cartographic boundary files.
+    Puerto Rico excluded because it is not covered by this population-estimates release.
+    Connecticut is shown using its nine Census county-equivalent planning regions.
+  </div>
+
+  <div class="h014-actions">
+    <button type="button" id="h014-save">Save Image</button>
+    <button type="button" id="h014-share">Share Image</button>
+  </div>
+</main>
+
+<script src="../../04 Shared Assets/js/d3.v7.min.js"></script>
+
+<script src="../../04 Shared Assets/geodata/us/us-counties-2023.js"></script>
+<script src="../../04 Shared Assets/geodata/county-density.js"></script>
+<script src="../../04 Shared Assets/geodata/county-area.js"></script>
+
+<script>
+  const width = 460;
+  const height = 290;
+
+  const counties = US_COUNTIES_2023_GEOJSON;
+  const states = US_STATES_2023_GEOJSON;
+
+  const projection = d3.geoAlbersUsa().fitSize([width, height], counties);
+  const path = d3.geoPath(projection);
+
+  const PANEL_DEFS = {
+    empty: {
+      color: "var(--h014-empty)",
+      soft: "var(--h014-empty-soft)",
+      test: d => d < 10
+    },
+    middle: {
+      color: "var(--h014-middle)",
+      soft: "var(--h014-middle-soft)",
+      test: d => d >= 500 && d < 1000
+    },
+    dense: {
+      color: "var(--h014-dense)",
+      soft: "var(--h014-dense-soft)",
+      test: d => d >= 1000
+    }
+  };
+
+  const totalLandArea = Object.values(COUNTY_AREA)
+    .reduce((sum, area) => sum + area, 0);
+
+  const totalPopulation = Object.keys(COUNTY_DENSITY)
+    .reduce((sum, fips) => {
+      const area = COUNTY_AREA[fips] || 0;
+      return sum + COUNTY_DENSITY[fips] * area;
+    }, 0);
+
+  document.querySelectorAll(".h014-panel").forEach(panelEl => {
+    const key = panelEl.dataset.panel;
+    const panel = PANEL_DEFS[key];
+
+    let matchArea = 0;
+    let matchPopulation = 0;
+    let matchCount = 0;
+
+    for (const fips in COUNTY_DENSITY) {
+      const density = COUNTY_DENSITY[fips];
+
+      if (panel.test(density)) {
+        const area = COUNTY_AREA[fips] || 0;
+
+        matchArea += area;
+        matchPopulation += density * area;
+        matchCount++;
+      }
+    }
+
+    const pctArea = 100 * matchArea / totalLandArea;
+    const pctPop = 100 * matchPopulation / totalPopulation;
+
+    const areaEl = panelEl.querySelector(".area");
+    const popEl = panelEl.querySelector(".pop");
+    const countEl = panelEl.querySelector(".h014-count");
+
+    areaEl.textContent = pctArea.toFixed(1) + "%";
+    popEl.textContent = pctPop.toFixed(1) + "%";
+    countEl.textContent = matchCount.toLocaleString() + " county / county-equivalent units";
+
+    areaEl.style.color = panel.color;
+    popEl.style.color = panel.color;
+
+    const svg = d3.select(panelEl.querySelector(".h014-map"));
+
+    svg.append("g")
+      .selectAll("path")
+      .data(counties.features)
+      .join("path")
+      .attr("fill", d => {
+        const density = COUNTY_DENSITY[String(d.id).padStart(5,"0")];
+        return density !== undefined && panel.test(density)
+          ? panel.color
+          : "var(--h014-filled)";
+      })
+      .attr("stroke", d => {
+        const density = COUNTY_DENSITY[String(d.id).padStart(5,"0")];
+        return density !== undefined && panel.test(density)
+          ? panel.soft
+          : "var(--h014-filled-line)";
+      })
+      .attr("stroke-width", 0.25)
+      .attr("d", path);
+
+    svg.append("g")
+      .selectAll("path")
+      .data(states.features)
+      .join("path")
+      .attr("class", "state-outline")
+      .attr("d", path);
+  });
+</script>
+
+<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
+
+<script>
+(() => {
+  const save = document.getElementById("h014-save");
+  const share = document.getElementById("h014-share");
+
+  const filename = "H014_v2.png";
+  const title = "How can the same country look almost empty — and unbelievably crowded?";
+
+  async function renderBlob(){
+    const panels = document.querySelector(".h014-panels");
+    const takeaway = document.querySelector(".h014-context");
+    const source = document.querySelector(".hanten-source");
+
+    const card = document.createElement("div");
+    card.className = "h014-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1880;
+    titleCanvas.height = 150;
+    titleCanvas.style.width = "940px";
+    titleCanvas.style.height = "75px";
+    titleCanvas.style.display = "block";
+    titleCanvas.style.margin = "0 auto 8px";
+
+    const t = titleCanvas.getContext("2d");
+    t.scale(2,2);
+    t.font = '750 30px -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif';
+    t.fillStyle = "#1c2733";
+    t.textAlign = "center";
+    t.textBaseline = "middle";
+    t.fillText("How can the same country look almost empty —",470,24);
+    t.fillText("and unbelievably crowded?",470,56);
+    card.appendChild(titleCanvas);
+
+    const subCanvas = document.createElement("canvas");
+    subCanvas.width = 1880;
+    subCanvas.height = 56;
+    subCanvas.style.width = "940px";
+    subCanvas.style.height = "28px";
+    subCanvas.style.display = "block";
+    subCanvas.style.margin = "0 auto 14px";
+
+    const st = subCanvas.getContext("2d");
+    st.scale(2,2);
+    st.font = '400 18px -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif';
+    st.fillStyle = "#53616f";
+    st.textAlign = "center";
+    st.textBaseline = "middle";
+    st.fillText("Same counties. Same population. Three different density thresholds.",470,14);
+    card.appendChild(subCanvas);
+
+    const core = document.createElement("div");
+    core.className = "h014-export-core";
+    core.appendChild(panels.cloneNode(true));
+    card.appendChild(core);
+
+    if(takeaway){
+      const text = document.createElement("div");
+      text.className = "h014-export-text";
+
+      const aha = takeaway.cloneNode(true);
+      aha.className = "h014-export-aha";
+
+      text.appendChild(aha);
+      card.appendChild(text);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "h014-export-reflection";
+    reflection.textContent =
+      "How much can a threshold change the picture without changing the underlying data?";
+    card.appendChild(reflection);
+
+    if(source){
+      const sc = source.cloneNode(true);
+      sc.className = "h014-export-source";
+      card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+
+    try{
+      await document.fonts.ready;
+
+      const canvas = await html2canvas(card,{
+        backgroundColor:null,
+        scale:2,
+        useCORS:true,
+        logging:false,
+        width:card.scrollWidth,
+        height:card.scrollHeight
+      });
+
+      return await new Promise((resolve,reject)=>{
+        canvas.toBlob(
+          blob => blob ? resolve(blob) : reject(new Error("Could not create image.")),
+          "image/png"
+        );
+      });
+    }finally{
+      card.remove();
+    }
+  }
+
+  function download(blob){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+
+  save.addEventListener("click",async()=>{
+    save.disabled = true;
+    try{
+      download(await renderBlob());
+    }finally{
+      save.disabled = false;
+    }
+  });
+
+  share.addEventListener("click",async()=>{
+    share.disabled = true;
+
+    try{
+      const blob = await renderBlob();
+      const file = new File([blob],filename,{type:"image/png"});
+
+      if(navigator.share &&
+         (!navigator.canShare || navigator.canShare({files:[file]}))){
+        await navigator.share({title,files:[file]});
+      }else{
+        download(blob);
+        alert("Direct sharing is not available in this browser. The image was saved instead.");
+      }
+    }catch(e){
+      if(!e || e.name !== "AbortError") console.error(e);
+    }finally{
+      share.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
