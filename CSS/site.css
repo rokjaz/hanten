@@ -1861,3 +1861,19 @@ header h1 {
     margin-top: 14px;
   }
 }
+
+/* Homepage — ensure exhibit cards remain clickable */
+
+.featured-equal-card,
+.idea-card,
+.newest-card {
+  position: relative;
+  z-index: 5;
+  pointer-events: auto !important;
+}
+
+.featured-equal-card *,
+.idea-card *,
+.newest-card * {
+  pointer-events: none;
+}
