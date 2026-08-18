@@ -8,144 +8,313 @@
     name="description"
     content="Counterintuitive maps, graphics, and visual explanations designed to help you see familiar things differently."
   >
-  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="CSS/site.css">
 </head>
 
 <body>
   <div class="site">
-    <header>
-      <p class="brand">HANTEN</p>
+   <header>
+  <div class="brand provisional-brand">
+  <div class="provisional-wordmark">
+    <span>H</span>
+    <span>A</span>
+    <span>N</span>
+    <span>T</span>
+    <span>E</span>
+    <span>N</span>
+    <img
+      src="Media/branding/hanten-reveal-mark.svg"
+      alt=""
+      aria-hidden="true"
+    >
+  </div>
+  <div class="provisional-motto">Truth deserves clarity</div>
+</div>
 
-      <h1>Truth deserves clarity.</h1>
+  <h1>Truth deserves clarity</h1>
 
-      <p class="intro">
-        Counterintuitive maps, graphics, and visual explanations designed
-        to help you see familiar things differently.
-      </p>
-    </header>
+  <p class="intro">
+    Maps, graphics, and ideas that change how you see familiar things.
+  </p>
 
-    <main>
-      <p class="exhibits-heading">Exhibits</p>
+  <img
+    class="header-world"
+    src="Media/branding/hanten-south-up-world.svg"
+    alt=""
+    aria-hidden="true"
+  >
+</header>
+      <main class="homepage-v2">
 
-      <section class="exhibit-grid" aria-label="Hanten exhibits">
-        <a class="exhibit-card" href="exhibits/H001/">
-          <span class="exhibit-number">H001</span>
+  <section class="home-section home-spotlight">
 
-          <h2>What’s the average income at this BBQ?</h2>
+  <div class="spotlight-card daily-flip-card">
+    <p class="spotlight-label">Daily Flip</p>
 
-          <p>
-            The same group can tell very different stories depending on
-            how “average” is measured.
-          </p>
-        </a>
+    <h2>How many names does this sea have?</h2>
 
-      <a class="exhibit-card" href="exhibits/H002/">
-        <span class="exhibit-number">H002</span>
+    <div class="spotlight-preview">
+      <img
+        src="Media/thumbnails/H008_thumbnail.png"
+        alt="Map of Northeast Asia showing the sea between Japan and the Korean Peninsula"
+      >
+    </div>
 
-        <h2>How far can you get from everyone?</h2>
+    <div class="daily-response">
+      <p class="daily-guess-label">Make your guess:</p>
 
-        <p>
-          A point in the Pacific is farther from land than the astronauts
-          aboard the International Space Station.
+      <div class="daily-choices" aria-label="Guess how many names the sea has">
+        <button type="button">1</button>
+        <button type="button">2</button>
+        <button type="button">3</button>
+        <button type="button">4+</button>
+      </div>
+
+      <a class="daily-reveal" href="exhibits/H008/" hidden>
+        Guess locked. See the answer →
+      </a>
+    </div>
+  </div>
+
+
+  <a class="spotlight-card featured-equal-card" href="exhibits/H013/">
+    <p class="spotlight-label">Featured</p>
+
+    <p class="spotlight-idea">Patterns</p>
+
+    <h2>How much of America holds 40% of its people?</h2>
+
+    <div class="spotlight-preview featured-equal-preview">
+      <img
+        src="Media/thumbnails/H013_thumbnail.png"
+        alt="Map showing U.S. counties with at least 1,000 people per square mile"
+      >
+    </div>
+
+    <div class="featured-equal-bottom">
+      <strong>Just 1.8% of the land.</strong>
+      <span>Explore the exhibit →</span>
+    </div>
+  </a>
+
+</section>
+
+
+<section class="home-section home-ideas">
+    <p class="home-kicker">Explore by idea</p>
+
+    <div class="idea-grid">
+
+      <a class="idea-card" href="exhibits/H008/">
+        <p class="idea-name">Perspective</p>
+        <h2>See the familiar differently.</h2>
+        <div class="idea-preview">
+  <img
+    src="Media/thumbnails/H008_thumbnail.png"
+    alt="Map of Northeast Asia showing Japan and the Korean Peninsula"
+  >
+</div>
+
+<p class="idea-example">
+  What is the correct name for this sea?
+</p>
+      </a>
+
+      <a class="idea-card" href="exhibits/H007/">
+        <p class="idea-name">Scale</p>
+        <h2>How big, far, or numerous is it really?</h2>
+        <div class="idea-preview">
+          <img
+            src="Media/thumbnails/H007_thumbnail.png"
+            alt="Map comparing the true size of Africa"
+          >
+        </div>
+
+        <p class="idea-example">
+          How big is Africa... really?
         </p>
       </a>
-      
-      <a class="exhibit-card" href="exhibits/H003/">
-        <span class="exhibit-number">H003</span>
 
-        <h2>Can you win most of the seats without winning most of the votes?</h2>
+      <a class="idea-card" href="exhibits/H001/">
+        <p class="idea-name">Measurement</p>
+        <h2>What changes when we change the measure?</h2>
+        <div class="idea-preview">
+          <img
+            src="Media/thumbnails/H001_thumbnail.png"
+            alt="Comparison showing how mean and median respond differently to an extreme income"
+          >
+        </div>
 
-        <p>
-          The same voters can produce very different outcomes depending on
-          how they are grouped into districts.
+        <p class="idea-example">
+          What’s the average income at this BBQ?
         </p>
       </a>
 
+      <a class="idea-card" href="exhibits/H012/">
+        <p class="idea-name">Patterns</p>
+        <h2>What does the whole hide?</h2>
+        <div class="idea-preview">
+          <img
+            src="Media/thumbnails/H012_thumbnail.png"
+            alt="Map showing sparsely populated U.S. counties"
+          >
+        </div>
 
-      <a class="exhibit-card" href="exhibits/H004/">
-        <span class="exhibit-number">H004</span>
-
-        <h2>How long does someone remain the world's oldest person?</h2>
-
-        <p>
-          Holding the record sounds permanent. In reality, the title usually
-          changes hands surprisingly quickly.
+        <p class="idea-example">
+          How much of America is almost empty?
         </p>
       </a>
 
+      <a class="idea-card" href="exhibits/H005/">
+        <p class="idea-name">Probability</p>
+        <h2>When does intuition get the odds wrong?</h2>
+        <div class="idea-preview">
+          <img
+            src="Media/thumbnails/H005_thumbnail.png"
+            alt="Chart showing how the probability of a shared birthday rises with group size"
+          >
+        </div>
 
-      <a class="exhibit-card" href="exhibits/H005/">
-        <span class="exhibit-number">H005</span>
-
-        <h2>How many people does it take before a shared birthday is more likely than not?</h2>
-
-        <p>
-          A surprisingly small group is enough because every person creates
-          many possible birthday matches.
+        <p class="idea-example">
+          How many people does it take before a shared birthday is more likely than not?
         </p>
       </a>
 
+      <a class="idea-card" href="exhibits/H006/">
+        <p class="idea-name">Connections</p>
+        <h2>What changes when things interact?</h2>
+        <div class="idea-preview">
+          <img
+            src="Media/thumbnails/H006_thumbnail.png"
+            alt="Bowling score comparison showing the effect of sequence"
+          >
+        </div>
 
-      <a class="exhibit-card" href="exhibits/H006/">
-        <span class="exhibit-number">H006</span>
-
-        <h2>Can two bowlers knock down the same 50 pins and finish 70 points apart?</h2>
-
-        <p>
-          Same pins. Same number of strikes. The order alone can dramatically
-          change the final score.
+        <p class="idea-example">
+          Can two bowlers knock down the same 50 pins and finish 70 points apart?
         </p>
       </a>
 
+    </div>
+  </section>
 
-      <a class="exhibit-card" href="exhibits/H007/">
-        <span class="exhibit-number">H007</span>
-        <h2>How Big Is Africa... Really?</h2>
-        <p>A familiar map can make Africa look much smaller than it actually is.</p>
-      </a>
 
-      <a class="exhibit-card" href="exhibits/H008/">
-        <span class="exhibit-number">H008</span>
-        <h2>What is the correct name for this sea?</h2>
-        <p>The answer depends on where you are standing—and which naming convention you use.</p>
-      </a>
+  <section class="home-section home-newest">
+    <p class="home-kicker">Newest</p>
 
-      <a class="exhibit-card" href="exhibits/H009/">
-        <span class="exhibit-number">H009</span>
-        <h2>Which state buys the most Ford F-150s?</h2>
-        <p>Raw totals and per-person measures can tell very different stories about the same sales data.</p>
-      </a>
+    <div class="newest-grid">
 
-      <a class="exhibit-card" href="exhibits/H010/">
-        <span class="exhibit-number">H010</span>
-        <h2>Could half the world's population really fit inside one circle?</h2>
-        <p>The Yuxi Circle contains more than half of humanity—even with vast stretches of ocean and sparsely populated land.</p>
-      </a>
-
-      <a class="exhibit-card" href="exhibits/H011/">
-        <span class="exhibit-number">H011</span>
-        <h2>Could all the other planets fit between Earth and the Moon?</h2>
-        <p>The answer depends on where the Moon is.</p>
-      </a>
-
-      <a class="exhibit-card" href="exhibits/H012/">
-        <span class="exhibit-number">H012</span>
-        <h2>How much of America is almost empty?</h2>
-        <p>Shade every county with fewer than 10 people per square mile.</p>
-      </a>
-
-      <a class="exhibit-card" href="exhibits/H013/">
+      <a class="newest-card" href="exhibits/H013/">
+  <div class="newest-preview">
+    <img src="Media/thumbnails/H013_thumbnail.png" alt="">
+  </div>
         <span class="exhibit-number">H013</span>
         <h2>How much of America holds 40% of its people?</h2>
         <p>Just 1.8% of the land.</p>
       </a>
 
+      <a class="newest-card" href="exhibits/H012/">
+  <div class="newest-preview">
+    <img src="Media/thumbnails/H012_thumbnail.png" alt="">
+  </div>
+        <span class="exhibit-number">H012</span>
+        <h2>How much of America is almost empty?</h2>
+        <p>Shade every county with fewer than 10 people per square mile.</p>
+      </a>
+
+      <a class="newest-card" href="exhibits/H011/">
+  <div class="newest-preview">
+    <img src="Media/thumbnails/H011_thumbnail.png" alt="">
+  </div>
+        <span class="exhibit-number">H011</span>
+        <h2>Could all the other planets fit between Earth and the Moon?</h2>
+        <p>The answer depends on where the Moon is.</p>
+      </a>
+
+    </div>
+  </section>
+
+
+  <section class="home-section browse-all">
+    <a href="browse.html" class="browse-all-link">
+      Browse all exhibits →
+    </a>
+  </section>
+
+<section class="why-hanten">
+  <div class="why-hanten-grid">
+
+    <div class="why-hanten-mark">反転</div>
+
+    <div class="why-hanten-copy">
+      <p class="home-kicker">Why Hanten?</p>
+
+      <p class="why-hanten-meaning">
+        <strong>反転 (hanten)</strong> is a Japanese word meaning reversal,
+        inversion, or turning something over.
+      </p>
+
+      <p>
+        That idea is at the heart of Hanten: <strong>look again.</strong>
+        Change the perspective, scale, measure, or frame, and something
+        familiar can reveal a very different story.
+      </p>
+
+      <p class="why-hanten-principle">
+        Understanding is discovered, not delivered.
+      </p>
+    </div>
+
+  </div>
 </section>
-    </main>
+  
+</main>
 
     <footer>
-      Hanten · Understanding is discovered, not delivered.
     </footer>
   </div>
+<script src="JS/d3.v7.min.js"></script>
+<script>
+(async () => {
+  const svg = d3.select("#header-world-map");
+  if (svg.empty()) return;
+
+  const world = await d3.json(
+  "Media/geodata/world-land-110m.geojson"
+);
+  );
+
+  const projection = d3.geoNaturalEarth1()
+    .reflectY(true)
+    .fitExtent([[10, 10], [510, 270]], world);
+
+  const path = d3.geoPath(projection);
+
+  svg
+    .append("path")
+    .datum(world)
+    .attr("class", "header-world-land")
+    .attr("d", path);
+})();
+</script>
+
+<script>
+(() => {
+  const choices = [...document.querySelectorAll(".daily-choices button")];
+  const reveal = document.querySelector(".daily-reveal");
+
+  choices.forEach(button => {
+    button.addEventListener("click", () => {
+      choices.forEach(b => {
+        b.classList.toggle("selected", b === button);
+        b.setAttribute("aria-pressed", b === button ? "true" : "false");
+      });
+
+      if (reveal) reveal.hidden = false;
+    });
+  });
+})();
+</script>
+
 </body>
 </html>

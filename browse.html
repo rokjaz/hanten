@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All Exhibits · Hanten</title>
+  <meta
+    name="description"
+    content="Browse every published Hanten exhibit."
+  >
+  <link rel="stylesheet" href="CSS/site.css">
+</head>
+
+<body>
+  <div class="site">
+
+    <header class="browse-header">
+      <p class="brand"><a href="homepage-v2.html">HANTEN</a></p>
+      <h1>All Exhibits</h1>
+      <p class="intro">
+        Find an exhibit—or explore a way of seeing.
+      </p>
+    </header>
+
+    <main class="browse-page">
+
+      <section class="browse-controls">
+        <p class="home-kicker">Explore by idea</p>
+
+        <div class="browse-filters" role="group" aria-label="Filter exhibits by idea">
+          <button class="browse-filter active" data-filter="all">All</button>
+          <button class="browse-filter" data-filter="perspective">Perspective</button>
+          <button class="browse-filter" data-filter="scale">Scale</button>
+          <button class="browse-filter" data-filter="measurement">Measurement</button>
+          <button class="browse-filter" data-filter="patterns">Patterns</button>
+          <button class="browse-filter" data-filter="probability">Probability</button>
+          <button class="browse-filter" data-filter="connections">Connections</button>
+        </div>
+      </section>
+
+      <section id="all-view" class="browse-all-view">
+        <div class="browse-search-wrap">
+          <label for="browse-search">Search all exhibits</label>
+          <input
+            id="browse-search"
+            type="search"
+            placeholder="Search by H-number or words…"
+            autocomplete="off"
+          >
+        </div>
+
+        <div class="browse-index" id="browse-index">
+
+          <a href="exhibits/H013/" data-search="h013 how much of america holds 40% of its people patterns">
+            <span>H013</span><strong>How much of America holds 40% of its people?</strong>
+          </a>
+
+          <a href="exhibits/H012/" data-search="h012 how much of america is almost empty patterns">
+            <span>H012</span><strong>How much of America is almost empty?</strong>
+          </a>
+
+          <a href="exhibits/H011/" data-search="h011 could all the other planets fit between earth and the moon scale">
+            <span>H011</span><strong>Could all the other planets fit between Earth and the Moon?</strong>
+          </a>
+
+          <a href="exhibits/H010/" data-search="h010 could half the world's population really fit inside one circle scale">
+            <span>H010</span><strong>Could half the world's population really fit inside one circle?</strong>
+          </a>
+
+          <a href="exhibits/H009/" data-search="h009 which state buys the most ford f-150s measurement">
+            <span>H009</span><strong>Which state buys the most Ford F-150s?</strong>
+          </a>
+
+          <a href="exhibits/H008/" data-search="h008 what is the correct name for this sea perspective">
+            <span>H008</span><strong>What is the correct name for this sea?</strong>
+          </a>
+
+          <a href="exhibits/H007/" data-search="h007 how big is africa really scale">
+            <span>H007</span><strong>How big is Africa... really?</strong>
+          </a>
+
+          <a href="exhibits/H006/" data-search="h006 can two bowlers knock down the same 50 pins and finish 70 points apart connections">
+            <span>H006</span><strong>Can two bowlers knock down the same 50 pins and finish 70 points apart?</strong>
+          </a>
+
+          <a href="exhibits/H005/" data-search="h005 how many people shared birthday more likely than not probability">
+            <span>H005</span><strong>How many people does it take before a shared birthday is more likely than not?</strong>
+          </a>
+
+          <a href="exhibits/H004/" data-search="h004 how long does someone remain the world's oldest person patterns">
+            <span>H004</span><strong>How long does someone remain the world's oldest person?</strong>
+          </a>
+
+          <a href="exhibits/H003/" data-search="h003 can you win most of the seats without winning most of the votes connections">
+            <span>H003</span><strong>Can you win most of the seats without winning most of the votes?</strong>
+          </a>
+
+          <a href="exhibits/H002/" data-search="h002 how far can you get from everyone scale">
+            <span>H002</span><strong>How far can you get from everyone?</strong>
+          </a>
+
+          <a href="exhibits/H001/" data-search="h001 what's the average income at this bbq measurement">
+            <span>H001</span><strong>What’s the average income at this BBQ?</strong>
+          </a>
+
+        </div>
+
+        <p id="browse-no-results" class="browse-no-results" hidden>
+          No exhibits found.
+        </p>
+      </section>
+
+
+      <section id="idea-view" class="browse-idea-view" hidden>
+        <div class="browse-grid">
+
+          <a class="browse-card" data-idea="patterns" href="exhibits/H013/">
+            <div class="browse-preview"><img src="Media/thumbnails/H013_thumbnail.png" alt=""></div>
+            <span class="browse-number">H013</span>
+            <h2>How much of America holds 40% of its people?</h2>
+          </a>
+
+          <a class="browse-card" data-idea="patterns" href="exhibits/H012/">
+            <div class="browse-preview"><img src="Media/thumbnails/H012_thumbnail.png" alt=""></div>
+            <span class="browse-number">H012</span>
+            <h2>How much of America is almost empty?</h2>
+          </a>
+
+          <a class="browse-card" data-idea="scale" href="exhibits/H011/">
+            <div class="browse-preview"><img src="Media/thumbnails/H011_thumbnail.png" alt=""></div>
+            <span class="browse-number">H011</span>
+            <h2>Could all the other planets fit between Earth and the Moon?</h2>
+          </a>
+
+          <a class="browse-card" data-idea="scale" href="exhibits/H010/">
+            <div class="browse-preview"><img src="Media/thumbnails/H010_thumbnail.png" alt=""></div>
+            <span class="browse-number">H010</span>
+            <h2>Could half the world's population really fit inside one circle?</h2>
+          </a>
+
+          <a class="browse-card" data-idea="measurement" href="exhibits/H009/">
+            <div class="browse-preview"><img src="Media/thumbnails/H009_thumbnail.png" alt=""></div>
+            <span class="browse-number">H009</span>
+            <h2>Which state buys the most Ford F-150s?</h2>
+          </a>
+
+          <a class="browse-card" data-idea="perspective" href="exhibits/H008/">
+            <div class="browse-preview"><img src="Media/thumbnails/H008_thumbnail.png" alt=""></div>
+            <span class="browse-number">H008</span>
+            <h2>What is the correct name for this sea?</h2>
+          </a>
+
+          <a class="browse-card" data-idea="scale" href="exhibits/H007/">
+            <div class="browse-preview"><img src="Media/thumbnails/H007_thumbnail.png" alt=""></div>
+            <span class="browse-number">H007</span>
+            <h2>How big is Africa... really?</h2>
+          </a>
+
+          <a class="browse-card" data-idea="connections" href="exhibits/H006/">
+            <div class="browse-preview"><img src="Media/thumbnails/H006_thumbnail.png" alt=""></div>
+            <span class="browse-number">H006</span>
+            <h2>Can two bowlers knock down the same 50 pins and finish 70 points apart?</h2>
+          </a>
+
+          <a class="browse-card" data-idea="probability" href="exhibits/H005/">
+            <div class="browse-preview"><img src="Media/thumbnails/H005_thumbnail.png" alt=""></div>
+            <span class="browse-number">H005</span>
+            <h2>How many people does it take before a shared birthday is more likely than not?</h2>
+          </a>
+
+          <a class="browse-card" data-idea="patterns" href="exhibits/H004/">
+            <div class="browse-preview"><img src="Media/thumbnails/H004_thumbnail.png" alt=""></div>
+            <span class="browse-number">H004</span>
+            <h2>How long does someone remain the world's oldest person?</h2>
+          </a>
+
+          <a class="browse-card" data-idea="connections" href="exhibits/H003/">
+            <div class="browse-preview"><img src="Media/thumbnails/H003_thumbnail.png" alt=""></div>
+            <span class="browse-number">H003</span>
+            <h2>Can you win most of the seats without winning most of the votes?</h2>
+          </a>
+
+          <a class="browse-card" data-idea="scale" href="exhibits/H002/">
+            <div class="browse-preview"><img src="Media/thumbnails/H002_thumbnail.png" alt=""></div>
+            <span class="browse-number">H002</span>
+            <h2>How far can you get from everyone?</h2>
+          </a>
+
+          <a class="browse-card" data-idea="measurement" href="exhibits/H001/">
+            <div class="browse-preview"><img src="Media/thumbnails/H001_thumbnail.png" alt=""></div>
+            <span class="browse-number">H001</span>
+            <h2>What’s the average income at this BBQ?</h2>
+          </a>
+
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      Hanten · Understanding is discovered, not delivered.
+    </footer>
+
+  </div>
+
+<script>
+(() => {
+  const filters = [...document.querySelectorAll(".browse-filter")];
+  const allView = document.getElementById("all-view");
+  const ideaView = document.getElementById("idea-view");
+  const cards = [...document.querySelectorAll(".browse-card")];
+  const search = document.getElementById("browse-search");
+  const indexItems = [...document.querySelectorAll("#browse-index a")];
+  const noResults = document.getElementById("browse-no-results");
+
+  filters.forEach(button => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.filter;
+
+      filters.forEach(b => b.classList.toggle("active", b === button));
+
+      if (filter === "all") {
+        allView.hidden = false;
+        ideaView.hidden = true;
+        search.focus();
+        return;
+      }
+
+      allView.hidden = true;
+      ideaView.hidden = false;
+
+      cards.forEach(card => {
+        card.hidden = card.dataset.idea !== filter;
+      });
+    });
+  });
+
+  search.addEventListener("input", () => {
+    const query = search.value.trim().toLowerCase();
+    let visible = 0;
+
+    indexItems.forEach(item => {
+      const match = item.dataset.search.toLowerCase().includes(query);
+      item.hidden = !match;
+      if (match) visible++;
+    });
+
+    noResults.hidden = visible !== 0;
+  });
+})();
+</script>
+
+</body>
+</html>
