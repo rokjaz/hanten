@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>H016 — Kiritimati</title>
+
+    <link
+        rel="stylesheet"
+        href="../../assets/css/hanten.css"
+    >
+
+    <style>
+        :root {
+            --h016-ocean: #edf5f7;
+            --h016-land: #d9ddd4;
+            --h016-border: #aeb7aa;
+            --h016-grid: rgba(31, 31, 31, 0.12);
+            --h016-accent: #0e7c86;
+            --h016-date-line: #c1442d;
+        }
+
+        .h016-shell {
+            width: min(100%, 900px);
+            margin: 0 auto;
+        }
+
+        .h016-map-frame {
+            width: 100%;
+            padding: .55rem;
+            background: var(--hanten-paper);
+            border: 1px solid var(--hanten-border);
+            border-radius: 0;
+        }
+
+        #h016-map {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h016-sphere {
+            fill: var(--h016-ocean);
+        }
+
+        .h016-graticule {
+            fill: none;
+            stroke: var(--h016-grid);
+            stroke-width: 0.7;
+        }
+
+        .h016-land {
+            fill: var(--h016-land);
+            stroke: var(--h016-border);
+            stroke-width: 0.55;
+        }
+
+        .h016-outline {
+            fill: none;
+            stroke: rgba(31, 31, 31, 0.32);
+            stroke-width: 1;
+        }
+
+        .h016-dateline {
+            fill: none;
+            stroke: var(--h016-date-line);
+            stroke-width: 2;
+            stroke-dasharray: 7 5;
+        }
+
+        .h016-dateline-label {
+            font-family: ui-monospace, "SF Mono", Menlo, monospace;
+            font-size: 12px;
+            fill: var(--h016-date-line);
+        }
+
+        .h016-marker circle {
+            fill: var(--h016-accent);
+            stroke: #ffffff;
+            stroke-width: 2.5;
+        }
+
+        .h016-marker text {
+            font-family: var(--hanten-font);
+            font-size: 14px;
+            font-weight: 700;
+            fill: var(--hanten-text);
+            paint-order: stroke;
+            stroke: #ffffff;
+            stroke-width: 4px;
+            stroke-linejoin: round;
+        }
+
+
+        .h016-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin: .5rem auto 0;
+            font-size: .76rem;
+            color: var(--hanten-muted);
+        }
+
+        .h016-key {
+            display: inline-block;
+            width: 22px;
+            height: 0;
+            margin-right: 0.45rem;
+            vertical-align: middle;
+            border-top: 2px dashed var(--h016-date-line);
+        }
+
+        .h016-reveal {
+            max-width: 760px;
+            margin: .8rem auto 0;
+            padding: .15rem 0;
+            border-left: 0;
+            text-align: left;
+            font-size: .95rem;
+            line-height: 1.45;
+        }
+
+        .h016-reveal strong {
+            font-weight: 750;
+        }
+
+        .h016-note {
+            max-width: 760px;
+            margin: .7rem auto 0;
+            color: var(--hanten-muted);
+            font-size: .82rem;
+            line-height: 1.45;
+            text-align: left;
+        }
+
+        @media (max-width: 700px) {
+            .h016-map-frame {
+                padding: 0.35rem;
+            }
+
+            .h016-dateline-label {
+                font-size: 10px;
+            }
+
+            .h016-marker text {
+                font-size: 12px;
+            }
+        }
+    </style>
+
+<style id="h016-v2-polish">
+.h016-map-frame{
+  background:#ffffff;
+}
+
+.h016-reveal{
+  margin-top:1.25rem !important;
+}
+
+.h016-note{
+  margin-top:.7rem !important;
+}
+
+.hanten-reflection{
+  margin-top:1.25rem !important;
+}
+
+.h016-source{
+  max-width:760px;
+  margin:2.25rem auto 0;
+  text-align:left;
+  font-size:.75rem;
+  line-height:1.45;
+  color:var(--hanten-muted);
+  text-wrap:pretty;
+}
+
+.h016-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:.55rem;
+  flex-wrap:wrap;
+  max-width:760px;
+  margin:1rem auto 0;
+}
+
+.h016-actions button{
+  appearance:none;
+  border:1px solid var(--hanten-border);
+  background:#fff;
+  color:var(--hanten-text);
+  padding:.55rem .8rem;
+  border-radius:0;
+  font:700 .76rem/1.2 var(--hanten-font);
+  cursor:pointer;
+}
+
+.h016-actions button:hover,
+.h016-actions button:focus-visible{
+  border-color:var(--hanten-accent);
+  color:var(--hanten-accent);
+}
+
+.h016-actions button:disabled{
+  opacity:.55;
+  cursor:wait;
+}
+</style>
+
+
+<style id="h016-dropdown-polish">
+.h016-explore{
+  max-width:760px;
+  margin:1.25rem auto 0;
+  text-align:left;
+  border-top:1px solid var(--hanten-border);
+  border-bottom:1px solid var(--hanten-border);
+  padding:.75rem 0;
+}
+
+.h016-explore summary{
+  cursor:pointer;
+  font-weight:700;
+  font-size:.88rem;
+}
+
+.h016-explore p{
+  margin:.7rem 0 0;
+  font-size:.86rem;
+  line-height:1.5;
+  color:var(--hanten-muted);
+}
+
+.h016-explore p strong{
+  color:var(--hanten-text);
+}
+</style>
+
+<style id="h016-inset-style">
+.h016-inset{
+  width:100%;
+  margin:.9rem auto .4rem;
+  background:#fff;
+  border:1px solid var(--hanten-border);
+}
+
+#h016-inset-map{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.h016-inset-ocean{
+  fill:#f7fafb;
+}
+
+.h016-inset-grid{
+  stroke:#dde3e5;
+  stroke-width:.7;
+  stroke-dasharray:2 4;
+}
+
+.h016-inset-island{
+  fill:var(--h016-accent);
+}
+
+.h016-inset-group{
+  font-family:var(--hanten-font);
+  font-size:13px;
+  font-weight:700;
+  fill:var(--hanten-text);
+}
+
+.h016-inset-place{
+  font-family:var(--hanten-font);
+  font-size:12px;
+  font-weight:650;
+  fill:var(--hanten-text);
+}
+
+.h016-inset-date{
+  fill:none;
+  stroke:var(--h016-date-line);
+  stroke-width:2.4;
+  stroke-dasharray:7 5;
+}
+
+.h016-inset-date-label{
+  font-family:ui-monospace,"SF Mono",Menlo,monospace;
+  font-size:11px;
+  font-weight:700;
+  fill:var(--h016-date-line);
+}
+
+.h016-inset-note{
+  font-family:var(--hanten-font);
+  font-size:11px;
+  fill:var(--hanten-muted);
+}
+</style>
+
+
+<style id="h016-editor-label-fix">
+.h016-marker-label{
+  font-family:var(--hanten-font);
+  font-size:14px;
+  font-weight:700;
+  fill:var(--hanten-text);
+  paint-order:stroke;
+  stroke:#ffffff;
+  stroke-width:4px;
+  stroke-linejoin:round;
+}
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            What does the world look like<br>when somewhere else is in the middle?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Recenter the world on a small island in the Pacific.
+        </p>
+
+        <div class="hanten-graphic">
+            <div class="h016-shell">
+
+                <div class="h016-map-frame" id="h016-capture">
+                    <svg
+                        id="h016-map"
+                        viewBox="0 0 960 500"
+                        role="img"
+                        aria-label="Equal Earth world map recentered so Kiritimati in Kiribati sits on the central meridian"
+                    ></svg>
+                </div>
+
+                <div class="h016-legend">
+                    <span>
+                        <span class="h016-key"></span>
+                        International Date Line
+                    </span>
+                </div>
+
+                <p class="h016-reveal">
+                    <strong>World maps do not have a natural center.</strong>
+                    The center is a choice.
+                </p>
+
+                <p class="h016-note">
+                    Equal Earth projection, rotated so Kiritimati in Kiribati occupies the middle.
+                    Re-centering changes the familiar arrangement without changing the geography.
+                </p>
+
+                <details class="h016-explore">
+                    <summary>Why does the International Date Line bend around Kiribati?</summary>
+
+                    <div class="h016-inset">
+                      <svg id="h016-inset-map"
+                           viewBox="0 0 760 300"
+                           role="img"
+                           aria-label="Diagram showing Kiribati's Gilbert, Phoenix, and Line island groups and the International Date Line bending east around the country">
+                      </svg>
+                    </div>
+
+                    <p>
+                        <strong>Kiribati is a country of widely scattered Pacific islands.</strong>
+                        Kiritimati is one of those islands.
+                    </p>
+
+                    <p>
+                        In 1995, Kiribati shifted the International Date Line eastward
+                        around its eastern islands. That put the country’s island groups
+                        on the same side of the Date Line — and therefore on the same
+                        calendar day.
+                    </p>
+                </details>
+
+                <p class="hanten-reflection">
+                    How much of what feels “normal” is really just a choice we’re used to seeing?
+                </p>
+
+                <div class="h016-source">
+                    Map boundaries: Hanten shared world-country dataset.
+                    Projection: Equal Earth. Kiritimati coordinates and the simplified International Date Line
+                    are used to illustrate how changing the central meridian changes the familiar world-map view.
+                </div>
+
+                <div class="h016-actions">
+                    <button type="button" id="h016-save">Save Image</button>
+                    <button type="button" id="h016-share">Share Image</button>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/d3.v7.min.js"></script>
+    <script src="../../assets/geodata/countries.js"></script>
+
+    <script>
+        const KIRITIMATI = {
+            lon: -157.4278,
+            lat: 1.8721,
+            name: "Kiritimati"
+        };
+
+        const width = 960;
+        const height = 500;
+
+        const svg = d3
+            .select("#h016-map")
+            .attr("viewBox", `0 0 ${width} ${height}`);
+
+        /*
+            Recenter the world on Kiritimati.
+
+            Equal Earth is retained from the original exhibit because it keeps
+            the world recognizable while avoiding the severe high-latitude
+            enlargement of Mercator.
+
+            Rotating longitude only keeps north at the top.
+        */
+        const projection = d3
+            .geoEqualEarth()
+            .rotate([-KIRITIMATI.lon, 0])
+            .fitExtent(
+                [[10, 10], [width - 10, height - 10]],
+                { type: "Sphere" }
+            );
+
+        const path = d3.geoPath(projection);
+
+        svg.append("path")
+            .datum({ type: "Sphere" })
+            .attr("class", "h016-sphere")
+            .attr("d", path);
+
+        svg.append("path")
+            .datum(d3.geoGraticule10())
+            .attr("class", "h016-graticule")
+            .attr("d", path);
+
+        svg.append("g")
+            .selectAll("path")
+            .data(COUNTRIES_GEOJSON.features)
+            .join("path")
+            .attr("class", "h016-land")
+            .attr("d", path);
+
+        /*
+            International Date Line.
+
+            The line generally follows 180°, with deviations around the
+            Bering Strait, Aleutians, Kiribati, and Samoa. This simplified
+            route follows the geometry used in the original Hanten source.
+        */
+        const DATE_LINE = [
+            [180, 90],
+            [180, 71.5],
+            [-168.9, 65.5],
+            [180, 52.5],
+            [180, 6],
+            [-163, 6],
+            [-150, 3],
+            [-150, -4],
+            [-163, -12],
+            [180, -12],
+            [-171, -13],
+            [-171, -15.5],
+            [180, -16],
+            [180, -90]
+        ];
+
+        svg.append("path")
+            .datum({
+                type: "LineString",
+                coordinates: DATE_LINE
+            })
+            .attr("class", "h016-dateline")
+            .attr("d", path);
+
+        const [dateLabelX, dateLabelY] = projection([-163, -8]);
+
+        svg.append("text")
+            .attr("class", "h016-dateline-label")
+            .attr("data-hanten-label", "international-date-line")
+            .attr("x", dateLabelX - 10)
+            .attr("y", dateLabelY)
+            .attr("text-anchor", "end")
+            .text("International Date Line");
+
+
+
+        const [x, y] =
+            projection([KIRITIMATI.lon, KIRITIMATI.lat]);
+
+        const marker = svg
+            .append("g")
+            .attr("class", "h016-marker")
+            .attr("transform", `translate(${x},${y})`);
+
+        marker.append("circle")
+            .attr("r", 5.5);
+
+        svg.append("text")
+            .attr("class", "h016-marker-label")
+            .attr("data-hanten-label", "kiribati")
+            .attr("x", x + 10)
+            .attr("y", y - 8)
+            .text("Kiribati");
+
+        svg.append("path")
+            .datum({ type: "Sphere" })
+            .attr("class", "h016-outline")
+            .attr("d", path);
+
+
+        /*
+          Kiribati inset.
+
+          This is intentionally schematic rather than a literal rendering
+          of every tiny atoll. Representative locations show how widely
+          Kiribati's three island groups are spread across the Pacific.
+        */
+        const inset = d3.select("#h016-inset-map");
+        const iw = 760;
+        const ih = 300;
+
+        inset.append("rect")
+          .attr("class", "h016-inset-ocean")
+          .attr("width", iw)
+          .attr("height", ih);
+
+        const ix = d3.scaleLinear()
+          .domain([165, 215])   // 215°E = 145°W
+          .range([35, iw - 35]);
+
+        const iy = d3.scaleLinear()
+          .domain([8, -10])
+          .range([30, ih - 35]);
+
+        // Light reference grid.
+        [170,180,190,200,210].forEach(lon => {
+          inset.append("line")
+            .attr("class","h016-inset-grid")
+            .attr("x1",ix(lon)).attr("x2",ix(lon))
+            .attr("y1",25).attr("y2",ih-30);
+        });
+
+        [-5,0,5].forEach(lat => {
+          inset.append("line")
+            .attr("class","h016-inset-grid")
+            .attr("x1",30).attr("x2",iw-30)
+            .attr("y1",iy(lat)).attr("y2",iy(lat));
+        });
+
+        // Representative island locations.
+        const islands = [
+          {name:"Tarawa", group:"Gilbert Islands", lon:172.98, lat:1.45, r:5},
+          {name:"Kanton", group:"Phoenix Islands", lon:188.33, lat:-2.83, r:4.5},
+          {name:"Kiritimati", group:"Line Islands", lon:202.60, lat:1.88, r:6}
+        ];
+
+        inset.selectAll(".h016-inset-island")
+          .data(islands)
+          .join("circle")
+          .attr("class","h016-inset-island")
+          .attr("cx",d=>ix(d.lon))
+          .attr("cy",d=>iy(d.lat))
+          .attr("r",d=>d.r);
+
+        // Group labels.
+        inset.append("text")
+          .attr("class","h016-inset-group")
+          .attr("x",ix(172.98))
+          .attr("y",iy(1.45)-16)
+          .attr("text-anchor","middle")
+          .text("Gilbert Islands");
+
+        inset.append("text")
+          .attr("class","h016-inset-group")
+          .attr("x",ix(188.33))
+          .attr("y",iy(-2.83)-16)
+          .attr("text-anchor","middle")
+          .text("Phoenix Islands");
+
+        inset.append("text")
+          .attr("class","h016-inset-group")
+          .attr("x",ix(202.60))
+          .attr("y",iy(1.88)-18)
+          .attr("text-anchor","middle")
+          .text("Line Islands");
+
+        inset.append("text")
+          .attr("class","h016-inset-place")
+          .attr("x",ix(202.60)+10)
+          .attr("y",iy(1.88)+16)
+          .text("Kiritimati");
+
+        /*
+          Schematic modern Date Line:
+          it runs east of Kiribati's Line Islands rather than separating
+          the eastern islands from the rest of the country.
+        */
+        const datePts = [
+          [180,8],
+          [180,5],
+          [211,5],
+          [211,-6],
+          [180,-6],
+          [180,-10]
+        ];
+
+        const dateLine = d3.line()
+          .x(d=>ix(d[0]))
+          .y(d=>iy(d[1]));
+
+        inset.append("path")
+          .attr("class","h016-inset-date")
+          .attr("d",dateLine(datePts));
+
+        inset.append("text")
+          .attr("class","h016-inset-date-label")
+          .attr("x",(ix(180) + ix(211)) / 2)
+          .attr("y",iy(5)-9)
+          .attr("text-anchor","middle")
+          .text("International Date Line");
+
+        inset.append("text")
+          .attr("class","h016-inset-note")
+          .attr("x",iw/2)
+          .attr("y",ih-10)
+          .attr("text-anchor","middle")
+          .text("Schematic: representative islands shown; distances are geographic, island sizes are exaggerated.");
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const save = document.getElementById("h016-save");
+      const share = document.getElementById("h016-share");
+
+      if (!save || !share || typeof html2canvas !== "function") return;
+
+      const filename = "H016_v2.png";
+      const title = "What does the world look like when somewhere else is in the middle?";
+
+      async function renderBlob(){
+        const map = document.querySelector("#h016-capture");
+        const legend = document.querySelector(".h016-legend");
+        const takeaway = document.querySelector(".h016-reveal");
+        const source = document.querySelector(".h016-source");
+
+        if (!map) throw new Error("H016 map not found.");
+
+        const card = document.createElement("div");
+        card.style.position = "fixed";
+        card.style.left = "-10000px";
+        card.style.top = "0";
+        card.style.width = "1080px";
+        card.style.padding = "30px 70px 54px";
+        card.style.boxSizing = "border-box";
+        card.style.background = "var(--hanten-paper,#f4f3ef)";
+        card.style.color = "var(--hanten-text,#1c2733)";
+        card.style.fontFamily =
+          'var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif)';
+
+        const titleCanvas = document.createElement("canvas");
+        titleCanvas.width = 1880;
+        titleCanvas.height = 150;
+        titleCanvas.style.width = "940px";
+        titleCanvas.style.height = "75px";
+        titleCanvas.style.display = "block";
+        titleCanvas.style.margin = "0 auto 6px";
+
+        const t = titleCanvas.getContext("2d");
+        t.scale(2,2);
+        t.font = '750 30px -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif';
+        t.fillStyle = "#1c2733";
+        t.textAlign = "center";
+        t.textBaseline = "middle";
+        t.fillText("What does the world look like",470,20);
+        t.fillText("when somewhere else is in the middle?",470,52);
+        card.appendChild(titleCanvas);
+
+        const sub = document.createElement("canvas");
+        sub.width = 1880;
+        sub.height = 56;
+        sub.style.width = "940px";
+        sub.style.height = "28px";
+        sub.style.display = "block";
+        sub.style.margin = "0 auto 14px";
+
+        const st = sub.getContext("2d");
+        st.scale(2,2);
+        st.font = '400 18px -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif';
+        st.fillStyle = "#53616f";
+        st.textAlign = "center";
+        st.textBaseline = "middle";
+        st.fillText("Recenter the world on a small island in the Pacific.",470,14);
+        card.appendChild(sub);
+
+        const core = document.createElement("div");
+        core.style.width = "940px";
+        core.style.margin = "0 auto";
+        core.appendChild(map.cloneNode(true));
+
+        if (legend) core.appendChild(legend.cloneNode(true));
+
+        card.appendChild(core);
+
+        if (takeaway) {
+          const text = document.createElement("div");
+          text.style.width = "760px";
+          text.style.margin = "18px auto 0";
+          text.style.fontSize = "14px";
+          text.style.lineHeight = "1.5";
+          text.style.color = "#59616b";
+
+          const aha = takeaway.cloneNode(true);
+          aha.style.margin = "0";
+          aha.style.padding = "0";
+          aha.style.border = "0";
+
+          text.appendChild(aha);
+          card.appendChild(text);
+        }
+
+        const reflection = document.createElement("div");
+        reflection.style.marginTop = "12px";
+        reflection.style.textAlign = "center";
+        reflection.style.fontSize = "14px";
+        reflection.style.lineHeight = "1.4";
+        reflection.style.color = "#59616b";
+        reflection.textContent =
+          "How much of what feels “normal” is really just a choice we’re used to seeing?";
+        card.appendChild(reflection);
+
+        if (source) {
+          const sc = source.cloneNode(true);
+          sc.style.width = "760px";
+          sc.style.margin = "24px auto 0";
+          sc.style.textAlign = "left";
+          sc.style.fontSize = "11px";
+          sc.style.lineHeight = "1.4";
+          sc.style.color = "#6a716f";
+          card.appendChild(sc);
+        }
+
+        document.body.appendChild(card);
+
+        try {
+          await document.fonts.ready;
+
+          const canvas = await html2canvas(card,{
+            backgroundColor:null,
+            scale:2,
+            useCORS:true,
+            logging:false,
+            width:card.scrollWidth,
+            height:card.scrollHeight
+          });
+
+          return await new Promise((resolve,reject)=>{
+            canvas.toBlob(
+              blob => blob ? resolve(blob) : reject(new Error("Could not create image.")),
+              "image/png"
+            );
+          });
+        } finally {
+          card.remove();
+        }
+      }
+
+      function download(blob){
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(()=>URL.revokeObjectURL(url),1000);
+      }
+
+      save.addEventListener("click", async () => {
+        save.disabled = true;
+        try {
+          download(await renderBlob());
+        } catch (e) {
+          console.error(e);
+          alert("The image could not be saved.");
+        } finally {
+          save.disabled = false;
+        }
+      });
+
+      share.addEventListener("click", async () => {
+        share.disabled = true;
+        try {
+          const blob = await renderBlob();
+          const file = new File([blob],filename,{type:"image/png"});
+
+          if (
+            navigator.share &&
+            (!navigator.canShare || navigator.canShare({files:[file]}))
+          ) {
+            await navigator.share({title,files:[file]});
+          } else {
+            download(blob);
+            alert("Direct sharing is not available in this browser. The image was saved instead.");
+          }
+        } catch (e) {
+          if (!e || e.name !== "AbortError") console.error(e);
+        } finally {
+          share.disabled = false;
+        }
+      });
+    })();
+    </script>
+
+
+<script id="hanten-label-data" type="application/json">
+{
+  "version": 1.5,
+  "map": "#h016-map",
+  "labels": {
+    "kiribati": {
+      "text": "Kiribati",
+      "x": 43.845614595534734,
+      "y": 53.02676639462969,
+      "align": "left",
+      "fontSize": 14,
+      "lineHeight": 1.05,
+      "font": "hanten",
+      "weight": 700,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 50,
+        "anchorY": 50,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "international-date-line": {
+      "text": "International \nDate Line",
+      "x": 49.71,
+      "y": 36.7,
+      "align": "center",
+      "fontSize": 12,
+      "lineHeight": 1.45,
+      "font": "hanten",
+      "weight": 700,
+      "color": "date-line",
+      "lineOffsets": [
+        0,
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 47,
+        "anchorY": 61,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    }
+  }
+}
+</script>
+
+<script id="h016-apply-label-data">
+(() => {
+  const map = document.querySelector("#h016-map");
+  const raw = document.getElementById("hanten-label-data");
+  if (!map || !raw) return;
+
+  const data = JSON.parse(raw.textContent);
+  const labels = data.labels || {};
+
+  const FONT = {
+    hanten: 'var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif)',
+    system: '-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif',
+    arial: 'Arial,Helvetica,sans-serif'
+  };
+
+  const COLOR = {
+    text: 'var(--hanten-text,#1c2733)',
+    muted: 'var(--hanten-muted,#667179)',
+    accent: 'var(--hanten-accent,#0e7c86)',
+    "date-line": '#b13f3a',
+    gray: '#68747b',
+    white: '#ffffff'
+  };
+
+  const vb = map.viewBox.baseVal;
+  const width = vb.width || 960;
+  const height = vb.height || 500;
+
+  Object.entries(labels).forEach(([id, cfg]) => {
+    const node = map.querySelector(
+      `[data-hanten-label="${CSS.escape(id)}"]`
+    );
+
+    if (!node) return;
+
+    node.setAttribute("x", String(Number(cfg.x) / 100 * width));
+    node.setAttribute("y", String(Number(cfg.y) / 100 * height));
+
+    const anchor =
+      cfg.align === "left" ? "start" :
+      cfg.align === "right" ? "end" :
+      "middle";
+
+    node.setAttribute("text-anchor", anchor);
+
+    node.style.fontSize = `${Number(cfg.fontSize || 14)}px`;
+    node.style.fontFamily = FONT[cfg.font || "hanten"] || FONT.hanten;
+    node.style.fontWeight = String(cfg.weight ?? 700);
+    node.style.fill = COLOR[cfg.color || "text"] || COLOR.text;
+
+    const lines = String(cfg.text || "").split("\n");
+    const offsets = cfg.lineOffsets || [];
+
+    node.replaceChildren();
+
+    lines.forEach((line, i) => {
+      const tspan = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "tspan"
+      );
+
+      tspan.textContent = line || "\u00a0";
+      tspan.setAttribute("x", node.getAttribute("x"));
+      tspan.setAttribute(
+        "dy",
+        i === 0 ? "0" : `${Number(cfg.lineHeight || 1.05)}em`
+      );
+      tspan.setAttribute("dx", String(Number(offsets[i] || 0)));
+
+      node.appendChild(tspan);
+    });
+  });
+})();
+</script>
+
+
+</body>
+</html>
