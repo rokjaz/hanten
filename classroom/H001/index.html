@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hanten Classroom — H001 Mean vs. Median v0.2</title>
+<style>
+:root{
+  --paper:#f3efe6;
+  --card:#fffdf8;
+  --ink:#1d2b2f;
+  --soft:#627176;
+  --line:rgba(29,43,47,.14);
+  --accent:#2f6f63;
+  --mean:#b64a36;
+  --median:#26756f;
+  --bar:#8ea8ad;
+  --rich:#b64a36;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+}
+button{font:inherit}
+.app{
+  min-height:100%;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+}
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  padding:14px 22px;
+  border-bottom:1px solid var(--line);
+  background:rgba(243,239,230,.96);
+}
+.brand{
+  font-weight:800;
+  letter-spacing:.08em;
+  font-size:.92rem;
+}
+.meta{
+  color:var(--soft);
+  font-size:.82rem;
+}
+.teacher-btn{
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--ink);
+  padding:.48rem .72rem;
+  border-radius:999px;
+  cursor:pointer;
+}
+main{
+  width:min(1180px,100%);
+  margin:0 auto;
+  padding:28px 30px 18px;
+  display:flex;
+  align-items:center;
+}
+.slide{
+  width:100%;
+  display:none;
+  animation:fade .18s ease;
+}
+.slide.active{display:block}
+@keyframes fade{from{opacity:.25;transform:translateY(4px)}to{opacity:1;transform:none}}
+.kicker{
+  color:var(--accent);
+  font-weight:800;
+  letter-spacing:.09em;
+  font-size:.72rem;
+  margin-bottom:.6rem;
+}
+h1{
+  margin:.1rem auto .75rem;
+  max-width:950px;
+  text-align:center;
+  font-size:clamp(2rem,4.2vw,4rem);
+  line-height:1.05;
+  letter-spacing:-.03em;
+}
+.sub{
+  margin:0 auto 1.4rem;
+  max-width:860px;
+  text-align:center;
+  color:var(--soft);
+  font-size:clamp(1rem,1.6vw,1.35rem);
+  line-height:1.45;
+}
+.salary-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 8px 24px rgba(29,43,47,.05);
+}
+.salaries{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+}
+.salary{
+  text-align:center;
+  padding:14px 8px;
+  background:#f8f6f0;
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+.person{
+  color:var(--soft);
+  font-size:.72rem;
+  margin-bottom:.25rem;
+}
+.amount{
+  font-weight:800;
+  font-size:clamp(.9rem,1.5vw,1.15rem);
+}
+.prompt{
+  max-width:900px;
+  margin:1.2rem auto 0;
+  text-align:center;
+  font-size:clamp(1.15rem,2.2vw,1.7rem);
+  line-height:1.35;
+  font-weight:650;
+}
+.prompt strong{color:var(--accent)}
+.pred-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  max-width:900px;
+  margin:1.5rem auto 0;
+}
+.pred{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:22px;
+  text-align:center;
+}
+.pred h2{margin:0 0 .45rem;font-size:1.35rem}
+.pred p{margin:0;color:var(--soft);font-size:1.02rem}
+.guest-pill{
+  display:inline-block;
+  margin:.7rem auto 1.1rem;
+  padding:.62rem .9rem;
+  border-radius:999px;
+  background:rgba(182,74,54,.1);
+  color:var(--rich);
+  font-weight:800;
+}
+.compare{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+.panel{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  min-width:0;
+}
+.panel-title{
+  font-weight:800;
+  text-align:center;
+  margin-bottom:14px;
+}
+.readouts{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:14px;
+}
+.readout{
+  padding:10px 8px;
+  text-align:center;
+  background:#f8f6f0;
+  border-radius:10px;
+}
+.rlabel{font-size:.72rem;color:var(--soft);font-weight:700}
+.rvalue{font-weight:850;font-size:clamp(1.05rem,2vw,1.55rem);margin-top:2px}
+.rvalue.mean{color:var(--mean)}
+.rvalue.median{color:var(--median)}
+.bars{
+  height:230px;
+  display:flex;
+  align-items:flex-end;
+  gap:5px;
+  border-bottom:1px solid var(--line);
+}
+.col{
+  flex:1;
+  min-width:0;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+}
+.bar{width:100%;background:var(--bar);min-height:2px}
+.bar.rich{background:var(--rich)}
+.bwho,.bamt{
+  font-size:.57rem;
+  color:var(--soft);
+  white-space:nowrap;
+}
+.bwho{margin-top:3px}
+.aha{
+  max-width:900px;
+  margin:1.2rem auto 0;
+  text-align:center;
+  font-size:clamp(1.2rem,2.4vw,1.8rem);
+  line-height:1.35;
+}
+.aha strong{color:var(--accent)}
+.explain{
+  max-width:900px;
+  margin:1.5rem auto 0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+.explain .box{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:24px;
+}
+.explain h2{margin:0 0 .5rem;font-size:1.35rem}
+.explain p{margin:0;color:var(--soft);font-size:1.04rem;line-height:1.5}
+.transfer{
+  max-width:950px;
+  margin:1.6rem auto 0;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:30px;
+  text-align:center;
+}
+.transfer .scenario{
+  color:var(--soft);
+  font-size:clamp(1rem,1.8vw,1.3rem);
+  line-height:1.5;
+  margin-bottom:1rem;
+}
+.transfer .question{
+  font-weight:850;
+  font-size:clamp(1.6rem,3vw,2.7rem);
+  line-height:1.15;
+}
+footer{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:16px;
+  padding:12px 22px 18px;
+}
+.navbtn{
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--ink);
+  border-radius:12px;
+  padding:.72rem 1rem;
+  cursor:pointer;
+  font-weight:750;
+}
+.navbtn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:white;
+  justify-self:end;
+}
+.navbtn:disabled{opacity:.35;cursor:default}
+.progress{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(29,43,47,.18);
+}
+.dot.active{background:var(--accent);transform:scale(1.25)}
+.stage-name{
+  text-align:center;
+  color:var(--soft);
+  font-size:.78rem;
+  font-weight:750;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-top:5px;
+}
+.notes{
+  position:fixed;
+  right:18px;
+  top:68px;
+  width:min(360px,calc(100vw - 36px));
+  background:#1f2d30;
+  color:white;
+  padding:18px;
+  border-radius:14px;
+  box-shadow:0 16px 40px rgba(0,0,0,.2);
+  display:none;
+  z-index:10;
+}
+.notes.open{display:block}
+.notes h3{margin:0 0 .55rem;font-size:1rem}
+.notes p{margin:.35rem 0;color:#dbe4e2;line-height:1.4;font-size:.9rem}
+.notes .tiny{font-size:.76rem;color:#b9c8c5;margin-top:.75rem}
+.source{
+  text-align:center;
+  color:var(--soft);
+  font-size:.72rem;
+  margin-top:.75rem;
+}
+@media(max-width:760px){
+  main{padding:20px 16px 10px;align-items:flex-start}
+  .salaries{grid-template-columns:repeat(2,1fr)}
+  .salary:last-child:nth-child(odd){grid-column:1/-1}
+  .pred-grid,.compare,.explain{grid-template-columns:1fr}
+  .bars{height:180px}
+  footer{grid-template-columns:auto 1fr auto;padding:10px 14px 14px}
+  .progress{justify-content:center}
+  .meta{display:none}
+}
+@media print{
+  header,footer,.notes{display:none!important}
+  .slide{display:block!important;page-break-after:always}
+}
+</style>
+<style id="classroom-v1-final">
+main{padding:8px 24px 4px!important;min-height:0;overflow:hidden}
+.kicker{text-align:center!important;color:var(--accent)!important;font-weight:900!important;letter-spacing:.18em!important;font-size:clamp(1.35rem,3.2vh,1.8rem)!important;line-height:1!important;margin:0 auto .18rem!important}
+h1{margin:0 auto .35rem!important;font-size:clamp(1.85rem,4.6vh,3.25rem)!important}.sub{margin-bottom:.65rem!important}
+.salary-card{padding:16px!important}.salary{padding:10px 7px!important}.prompt{margin-top:.65rem!important}
+.compare{gap:14px!important}.panel{padding:14px!important}.panel-title{margin-bottom:8px!important}.readouts{margin-bottom:8px!important}.bars{height:min(28vh,205px)!important}.aha{margin-top:.6rem!important}
+.explain{margin-top:.8rem!important}.transfer{margin-top:.8rem!important;padding:22px!important}
+footer{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;gap:5px!important;padding:5px 18px 7px!important}
+.nav-group{display:flex;gap:10px;justify-content:center;align-items:center}#backBtn,#nextBtn{min-width:128px!important;background:var(--accent)!important;color:white!important;border-color:var(--accent)!important;font-weight:800!important}
+.footer-progress{display:flex;flex-direction:column;align-items:center;gap:1px}.stage-name{display:none!important}
+@media(max-height:720px){main{padding-top:4px!important}.kicker{font-size:1.25rem!important}h1{font-size:clamp(1.65rem,4.2vh,2.8rem)!important}.bars{height:170px!important}.salary-card{padding:10px!important}.salary{padding:7px 5px!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">HANTEN CLASSROOM</div>
+  <div class="meta">H001 · Mean &amp; median · ~5 minutes</div>
+  <button class="teacher-btn" id="teacherBtn" aria-expanded="false">Teacher Notes</button>
+</header>
+
+<main>
+  <section class="slide active" data-stage="ASK">
+    <div class="kicker" style="text-align:center">ASK</div>
+    <h1>What’s the average income at this BBQ?</h1>
+    <p class="sub">Ten people are at a backyard BBQ. These are their annual salaries.</p>
+    <div class="salary-card">
+      <div class="salaries" id="salaryList"></div>
+    </div>
+    <div class="prompt">What would you say the <strong>“average”</strong> person here earns?</div>
+    <div class="source">Example incomes are invented; the arithmetic is exact.</div>
+  </section>
+
+  <section class="slide" data-stage="PREDICT">
+    <div class="kicker" style="text-align:center">PREDICT</div>
+    <h1>A guest earning $50 million a year walks in.</h1>
+    <p class="sub">Nobody else’s salary changes.</p>
+    <div style="text-align:center"><span class="guest-pill">+$50,000,000 guest</span></div>
+    <div class="pred-grid">
+      <div class="pred">
+        <h2>What happens to the mean?</h2>
+        <p>Does it barely move, rise somewhat, or explode upward?</p>
+      </div>
+      <div class="pred">
+        <h2>What happens to the median?</h2>
+        <p>Does it behave the same way—or differently?</p>
+      </div>
+    </div>
+    <div class="prompt">Commit to a prediction before the reveal.</div>
+  </section>
+
+  <section class="slide" data-stage="REVEAL">
+    <div class="kicker" style="text-align:center">REVEAL</div>
+    <h1>One new person. Two very different “averages.”</h1>
+    <div class="compare">
+      <div class="panel">
+        <div class="panel-title">Before the guest</div>
+        <div class="readouts">
+          <div class="readout"><div class="rlabel">Median</div><div class="rvalue median">$80,500</div></div>
+          <div class="readout"><div class="rlabel">Mean</div><div class="rvalue mean">$86,400</div></div>
+        </div>
+        <div class="bars" id="beforeBars"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">After the $50M guest arrives</div>
+        <div class="readouts">
+          <div class="readout"><div class="rlabel">Median</div><div class="rvalue median">$87,000</div></div>
+          <div class="readout"><div class="rlabel">Mean</div><div class="rvalue mean">$4,600,000</div></div>
+        </div>
+        <div class="bars" id="afterBars"></div>
+      </div>
+    </div>
+    <div class="aha"><strong>No one else got richer.</strong> Only the summary changed.</div>
+  </section>
+
+  <section class="slide" data-stage="UNDERSTAND">
+    <div class="kicker" style="text-align:center">UNDERSTAND</div>
+    <h1>Why did the two numbers react so differently?</h1>
+    <div class="explain">
+      <div class="box">
+        <h2 style="color:var(--mean)">Mean</h2>
+        <p>The mean uses every value. One extreme salary can pull it dramatically upward.</p>
+      </div>
+      <div class="box">
+        <h2 style="color:var(--median)">Median</h2>
+        <p>The median is the middle value. A single extreme value usually changes it much less.</p>
+      </div>
+    </div>
+    <div class="prompt">Neither is automatically “better.” <strong>The useful measure depends on the question.</strong></div>
+  </section>
+
+  <section class="slide" data-stage="TRANSFER">
+    <div class="kicker" style="text-align:center">TRANSFER</div>
+    <h1>Take the idea somewhere else.</h1>
+    <div class="transfer">
+      <div class="scenario">A multimillionaire moves into a small town. The town’s <strong>average income</strong> rises sharply.</div>
+      <div class="question">Did the typical resident become richer?</div>
+    </div>
+    <div class="prompt">When someone tells you the “average,” what do you need to know before deciding what it means?</div>
+  </section>
+</main>
+
+<footer><div class="nav-group"><button class="navbtn primary" id="backBtn">← Back</button><button class="navbtn primary" id="nextBtn">Next →</button></div><div class="footer-progress"><div class="progress" id="progress"></div><div class="stage-name" id="stageName">Ask</div></div></footer>
+</div>
+
+<aside class="notes" id="notes" aria-live="polite">
+  <h3 id="noteTitle">ASK · Teacher note</h3>
+  <p id="noteBody" style="white-space:pre-line"></p>
+  <p class="tiny">Tip: use ← and → keys to move through the lesson. Keep the class screen on each stage only as long as needed.</p>
+</aside>
+
+<script>
+const INCOMES=[28000,41000,52000,61000,74000,87000,95000,112000,134000,180000];
+const RICH=50000000;
+
+const notes=[
+  {
+    title:"ASK · Teacher note",
+    body:"DO: Give students a few seconds to scan the ten salaries, then ask what “average” income seems to mean here.\n\nLISTEN FOR: Whether they mean a typical person, the arithmetic mean, or simply a rough estimate.\n\nIF NEEDED: “If you had to describe this group with one income number, what would you choose?”"
+  },
+  {
+    title:"PREDICT · Teacher note",
+    body:"DO: Get a quick show of hands before revealing anything. Ask separately about the mean and the median.\n\nLISTEN FOR: Whether students expect mean and median to move together.\n\nIF NEEDED: “Can one person change what’s typical for everyone else?”"
+  },
+  {
+    title:"REVEAL · Teacher note",
+    body:"DO: Pause on the contrast: mean $86,400 → $4.6M; median $80,500 → $87,000.\n\nLISTEN FOR: Recognition that the original ten people did not become richer.\n\nIF NEEDED: “What changed—the people, or the number describing them?”"
+  },
+  {
+    title:"UNDERSTAND · Teacher note",
+    body:"DO: Ask students to explain why the mean moved so much more than the median before giving the explanation.\n\nLISTEN FOR: Mean uses every value; median depends mainly on the middle position.\n\nIF NEEDED: “Which measure is more sensitive to one extreme value?”"
+  },
+  {
+    title:"TRANSFER · Teacher note",
+    body:"DO: Let students answer the town question in their own words. Ask for a reason, not just yes or no.\n\nLISTEN FOR: The distinction between a rising average and a change in the typical resident’s income.\n\nIF NEEDED: “What would you want to know before concluding the town became wealthier?”\n\nEXTEND THE THINKING: Imagine someone tells you the “average household income” in a town is $150,000. What else would you want to know before deciding whether a typical family there earns about $150,000?”"
+  }
+];
+
+const moneyShort=n=>n>=1e6?"$"+(n/1e6).toFixed(n%1e6?1:0)+"M":"$"+Math.round(n/1000)+"k";
+
+const salaryList=document.getElementById("salaryList");
+INCOMES.forEach((n,i)=>{
+  const d=document.createElement("div");
+  d.className="salary";
+  d.innerHTML=`<div class="person">Person ${i+1}</div><div class="amount">$${n.toLocaleString("en-US")}</div>`;
+  salaryList.appendChild(d);
+});
+
+function bars(id, values){
+  const el=document.getElementById(id);
+  const max=Math.max(...values);
+  values.forEach((n,i)=>{
+    const c=document.createElement("div");
+    c.className="col";
+    const h=Math.max(2,(n/max)*100);
+    c.innerHTML=`<div class="bar ${n===RICH?"rich":""}" style="height:${h}%"></div>
+      <div class="bwho">${n===RICH?"Guest":"#"+(i+1)}</div>
+      <div class="bamt">${moneyShort(n)}</div>`;
+    el.appendChild(c);
+  });
+}
+bars("beforeBars",INCOMES);
+bars("afterBars",[...INCOMES,RICH]);
+
+const slides=[...document.querySelectorAll(".slide")];
+const progress=document.getElementById("progress");
+slides.forEach((_,i)=>{
+  const d=document.createElement("span");
+  d.className="dot"+(i===0?" active":"");
+  progress.appendChild(d);
+});
+const dots=[...progress.children];
+
+let index=0;
+const backBtn=document.getElementById("backBtn");
+const nextBtn=document.getElementById("nextBtn");
+const stageName=document.getElementById("stageName");
+const noteTitle=document.getElementById("noteTitle");
+const noteBody=document.getElementById("noteBody");
+
+function show(i){
+  index=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,j)=>s.classList.toggle("active",j===index));
+  dots.forEach((d,j)=>d.classList.toggle("active",j===index));
+  stageName.textContent=slides[index].dataset.stage;
+  backBtn.disabled=index===0;
+  nextBtn.textContent=index===slides.length-1?"Restart ↺":"Next →";
+  noteTitle.textContent=notes[index].title;
+  noteBody.textContent=notes[index].body;
+}
+backBtn.addEventListener("click",()=>show(index-1));
+nextBtn.addEventListener("click",()=>show(index===slides.length-1?0:index+1));
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowRight"){e.preventDefault();show(index===slides.length-1?0:index+1)}
+  if(e.key==="ArrowLeft"){e.preventDefault();show(index-1)}
+  if(e.key==="Escape"){notesEl.classList.remove("open");teacherBtn.setAttribute("aria-expanded","false")}
+});
+
+const teacherBtn=document.getElementById("teacherBtn");
+const notesEl=document.getElementById("notes");
+teacherBtn.addEventListener("click",()=>{
+  const open=notesEl.classList.toggle("open");
+  teacherBtn.setAttribute("aria-expanded",open?"true":"false");
+});
+show(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hanten Classroom — H007 How Big Is Africa... Really?</title>
+<style>
+:root{--paper:#f3efe6;--card:#fffdf8;--ink:#1d2b2f;--soft:#627176;--line:rgba(29,43,47,.14);--accent:#2f6f63;--africa:#d6dbd0;--usa:#1f6f8b;--china:#c1442d;--india:#d9a441}
+*{box-sizing:border-box} html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+button{font:inherit}.app{min-height:100%;display:grid;grid-template-rows:auto 1fr auto}
+header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:14px 22px;border-bottom:1px solid var(--line)}
+.brand{font-weight:800;letter-spacing:.08em;font-size:.92rem}.meta{color:var(--soft);font-size:.82rem}
+.teacher-btn,.navbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:.55rem .8rem;border-radius:12px;cursor:pointer;font-weight:750}
+.teacher-btn{background:transparent;border-radius:999px;font-weight:500}
+main{width:min(1180px,100%);margin:0 auto;padding:26px 30px 16px;display:flex;align-items:center}
+.slide{display:none;width:100%;animation:fade .18s ease}.slide.active{display:block}
+@keyframes fade{from{opacity:.25;transform:translateY(4px)}to{opacity:1;transform:none}}
+.kicker{text-align:center;color:var(--accent);font-weight:800;letter-spacing:.09em;font-size:.72rem;margin-bottom:.6rem}
+h1{margin:.1rem auto .7rem;max-width:950px;text-align:center;font-size:clamp(2rem,4.2vw,4rem);line-height:1.05;letter-spacing:-.03em}
+.sub{margin:0 auto 1.2rem;max-width:850px;text-align:center;color:var(--soft);font-size:clamp(1rem,1.6vw,1.3rem);line-height:1.45}
+.world-card,.reveal-card,.transfer{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 24px rgba(29,43,47,.04)}
+.world{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center;max-width:760px;margin:auto}
+#h007-mercator-map{display:block;width:100%;max-width:900px;height:auto;margin:auto}
+#h007-mercator-map .mercator-land{fill:#d8d7cf;stroke:#fffdf8;stroke-width:.7}
+#h007-mercator-map .mercator-focus{fill:#8ca18c;stroke:#1d2b2f;stroke-width:1.2}
+#h007-mercator-map .greenland-focus{fill:#6d93a2;stroke:#1d2b2f;stroke-width:1.2}
+#h007-mercator-map .mercator-label{fill:#1d2b2f;font-size:21px;font-weight:850;text-anchor:middle}
+.projection-note{text-align:center;color:var(--soft);font-size:.75rem;margin-top:.35rem}
+.prompt{max-width:900px;margin:1.1rem auto 0;text-align:center;font-size:clamp(1.15rem,2.2vw,1.65rem);line-height:1.35;font-weight:650}.prompt strong{color:var(--accent)}
+.guess-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:850px;margin:1.4rem auto}
+.guess{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;font-size:1.3rem;font-weight:850}
+.reveal-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:center}
+.africa-box{height:390px;display:flex;align-items:center;justify-content:center}
+#h007-real-map{display:block;width:100%;height:100%;max-width:390px}
+#h007-real-map .africa-real{fill:var(--africa);stroke:#9fa99b;stroke-width:1.2}
+#h007-real-map .country-real{stroke:rgba(255,255,255,.75);stroke-width:1.4}
+#h007-real-map .map-label{fill:#fff;font-weight:850;font-size:24px;text-anchor:middle;paint-order:stroke;stroke:rgba(0,0,0,.18);stroke-width:2px}
+.tally{width:100%;border-collapse:collapse;font-size:1rem}.tally td{padding:11px 6px;border-bottom:1px solid var(--line)}.tally td:last-child{text-align:right;font-weight:800}.tally tr:last-child td{border:0;font-weight:900}
+.sw{display:inline-block;width:10px;height:10px;margin-right:7px}
+.big-number{text-align:center;font-size:clamp(1.7rem,3.2vw,3rem);font-weight:900;margin:.8rem auto 0;color:var(--accent)}
+.explain{max-width:900px;margin:1.4rem auto 0;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}.box h2{margin:0 0 .5rem;font-size:1.3rem}.box p{margin:0;color:var(--soft);font-size:1.03rem;line-height:1.5}
+.transfer{max-width:920px;margin:1.5rem auto;text-align:center}.scenario{color:var(--soft);font-size:1.2rem;line-height:1.5}.question{font-weight:850;font-size:clamp(1.6rem,3vw,2.7rem);line-height:1.15;margin-top:1rem}
+footer{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:12px 22px 18px}.navbtn.primary{background:var(--accent);color:white;border-color:var(--accent);justify-self:end}.navbtn:disabled{opacity:.35}
+.progress{display:flex;gap:8px}.dot{width:8px;height:8px;border-radius:50%;background:rgba(29,43,47,.18)}.dot.active{background:var(--accent);transform:scale(1.25)}.stage-name{text-align:center;color:var(--soft);font-size:.78rem;font-weight:750;letter-spacing:.05em;margin-top:5px}
+.notes{position:fixed;right:18px;top:68px;width:min(390px,calc(100vw - 36px));background:#1f2d30;color:white;padding:18px;border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,.2);display:none;z-index:10}.notes.open{display:block}.notes h3{margin:0 0 .55rem}.notes p{white-space:pre-line;margin:.35rem 0;color:#dbe4e2;line-height:1.45;font-size:.9rem}.tiny{font-size:.76rem!important;color:#b9c8c5!important;margin-top:.75rem!important}.source{text-align:center;color:var(--soft);font-size:.72rem;margin-top:.65rem}
+@media(max-width:760px){main{padding:18px 14px 8px;align-items:flex-start}.meta{display:none}.world,.reveal-grid,.explain{grid-template-columns:1fr}.fake-map{height:190px}.africa-familiar{width:130px;height:155px}.greenland-familiar{width:120px;height:160px}.africa-box{height:320px}.africa-true{transform:scale(.78)}.guess-row{grid-template-columns:1fr 1fr}footer{padding:10px 14px 14px}}
+</style>
+<style id="classroom-v1-final">
+main{padding:8px 24px 4px!important;min-height:0;overflow:hidden}.kicker{font-size:clamp(1.35rem,3.2vh,1.8rem)!important;letter-spacing:.18em!important;font-weight:900!important;line-height:1!important;margin:0 auto .18rem!important}
+h1{margin:0 auto .35rem!important;font-size:clamp(1.85rem,4.6vh,3.25rem)!important}.sub{margin-bottom:.55rem!important}.world-card{padding:10px!important}#h007-mercator-map{height:min(43vh,325px)!important;width:auto!important;max-width:100%!important}.prompt{margin-top:.55rem!important}
+.reveal-card{padding:12px!important}.africa-box{height:min(43vh,330px)!important}.big-number{margin-top:.45rem!important}.explain{margin-top:.8rem!important}.transfer{margin-top:.8rem!important;padding:20px!important}
+footer{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;gap:5px!important;padding:5px 18px 7px!important}.nav-group{display:flex;gap:10px;justify-content:center;align-items:center}#backBtn,#nextBtn{min-width:128px!important;background:var(--accent)!important;color:white!important;border-color:var(--accent)!important;font-weight:800!important}.footer-progress{display:flex;flex-direction:column;align-items:center;gap:1px}.stage-name{display:none!important}
+@media(max-height:720px){.kicker{font-size:1.25rem!important}#h007-mercator-map{height:260px!important}.africa-box{height:260px!important}h1{font-size:clamp(1.65rem,4.2vh,2.8rem)!important}}
+</style>
+
+<style id="h007-tight-ask-reveal-width">
+/* ASK + REVEAL: narrower cards/frames while keeping the maps themselves prominent. */
+.world-card{
+  width:min(820px,72vw) !important;
+  max-width:820px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  overflow:hidden !important;
+}
+#h007-mercator-map{
+  width:900px !important;
+  max-width:none !important;
+  position:relative !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+}
+.reveal-card{
+  width:min(820px,72vw) !important;
+  max-width:820px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+@media(max-width:900px){
+  .world-card,.reveal-card{
+    width:92vw !important;
+    max-width:92vw !important;
+  }
+  #h007-mercator-map{
+    width:105vw !important;
+  }
+}
+</style>
+
+</head>
+<body>
+<div class="app">
+<header><div class="brand">HANTEN CLASSROOM</div><div class="meta">H007 · Map projections &amp; scale · ~5 minutes</div><button class="teacher-btn" id="teacherBtn">Teacher Notes</button></header>
+<main>
+<section class="slide active" data-stage="ASK">
+<div class="kicker">ASK</div><h1>How big is Africa... really?</h1>
+<p class="sub">On many familiar world maps, Africa can look much smaller than it actually is.</p>
+<div class="world-card">
+<svg id="h007-mercator-map" viewBox="0 0 900 440" role="img" aria-label="Africa and Greenland on a Mercator projection"></svg>
+<div class="projection-note">Mercator projection</div>
+</div>
+<div class="prompt">Which landmass do you think is actually larger—and by how much?</div>
+</section>
+
+<section class="slide" data-stage="PREDICT">
+<div class="kicker">PREDICT</div><h1>Could these three countries fit inside Africa at once?</h1>
+<p class="sub">The contiguous United States + China + India.</p>
+<div class="guess-row"><div class="guess">No chance</div><div class="guess">Almost</div><div class="guess">Just barely</div><div class="guess">With room left</div></div>
+<div class="prompt">Choose before you see them at the same <strong>equal-area scale.</strong></div>
+</section>
+
+<section class="slide" data-stage="REVEAL">
+<div class="kicker">REVEAL</div><h1>All three fit—with about 9.4 million km² still empty.</h1>
+<div class="reveal-card"><div class="reveal-grid">
+<div class="africa-box">
+<svg id="h007-real-map" viewBox="0 0 760 820" role="img" aria-label="Equal-area comparison showing the contiguous United States, China, and India placed inside Africa"></svg>
+</div>
+<div><table class="tally">
+<tr><td><span class="sw" style="background:var(--usa)"></span>Lower 48 U.S.</td><td>8.1M km²</td></tr>
+<tr><td><span class="sw" style="background:var(--china)"></span>China</td><td>9.6M km²</td></tr>
+<tr><td><span class="sw" style="background:var(--india)"></span>India</td><td>3.3M km²</td></tr>
+<tr><td>Still empty</td><td>≈9.4M km²</td></tr>
+<tr><td>Africa total</td><td>30.4M km²</td></tr>
+</table></div></div></div>
+<div class="big-number">The familiar map changed our intuition—not Africa.</div>
+<div class="source">Areas rounded from the CIA World Factbook; H007 uses equal-area country shapes from Natural Earth.</div>
+</section>
+
+<section class="slide" data-stage="UNDERSTAND">
+<div class="kicker">UNDERSTAND</div><h1>Why can a perfectly useful map still mislead us?</h1>
+<div class="explain">
+<div class="box"><h2>Every flat map makes tradeoffs</h2><p>The Earth is curved. Flattening it means some combination of area, shape, distance or direction must be distorted.</p></div>
+<div class="box"><h2>Familiar maps can distort area</h2><p>Common world maps enlarge places farther from the equator. Africa crosses the equator, so its area is easy to underestimate by eye.</p></div>
+</div>
+<div class="prompt"><strong>Maps can be accurate in some ways while misleading in others.</strong></div>
+</section>
+
+<section class="slide" data-stage="TRANSFER">
+<div class="kicker">TRANSFER</div><h1>Take the idea beyond Africa.</h1>
+<div class="transfer"><div class="scenario">A map is designed to make navigation and direction easy, but it distorts the apparent size of places.</div><div class="question">Can the map be accurate and misleading at the same time?</div></div>
+<div class="prompt">When you look at any visualization, what might it be <strong>preserving</strong>—and what might it be <strong>distorting?</strong></div>
+</section>
+</main>
+<footer><div class="nav-group"><button class="navbtn primary" id="backBtn">← Back</button><button class="navbtn primary" id="nextBtn">Next →</button></div><div class="footer-progress"><div class="progress" id="progress"></div><div class="stage-name" id="stageName">ASK</div></div></footer>
+</div>
+<aside class="notes" id="notes"><h3 id="noteTitle"></h3><p id="noteBody"></p><p class="tiny">Tip: use ← and → to move through APRUT. Keep the pace conversational; this is a five-minute thinking exercise, not a lecture.</p></aside>
+<script src="../../04 Shared Assets/js/d3.v7.min.js"></script>
+<script src="../../04 Shared Assets/geodata/world/countries-10m.js"></script>
+<script>
+(function drawMercatorAsk(){
+  const svg = d3.select("#h007-mercator-map");
+  if (svg.empty()) return;
+  const width = 900, height = 440;
+  const feats = COUNTRIES_10M_GEOJSON.features;
+
+  const projection = d3.geoMercator()
+    .center([-5, 22])
+    .scale(125)
+    .translate([width/2, height/2]);
+
+  const path = d3.geoPath(projection);
+
+  svg.selectAll("path")
+    .data(feats)
+    .join("path")
+    .attr("class", d => {
+      if (d.properties.NAME === "Greenland") return "mercator-land greenland-focus";
+      if (d.properties.CONTINENT === "Africa") return "mercator-land mercator-focus";
+      return "mercator-land";
+    })
+    .attr("d", path);
+
+  const africa = {
+    type:"FeatureCollection",
+    features:feats.filter(f => f.properties.CONTINENT === "Africa")
+  };
+  const greenland = feats.find(f => f.properties.NAME === "Greenland");
+  const a = path.centroid(africa);
+  const g = path.centroid(greenland);
+
+  svg.append("text").attr("class","mercator-label")
+    .attr("x",a[0]).attr("y",a[1]).text("AFRICA");
+  svg.append("text").attr("class","mercator-label")
+    .attr("x",g[0]).attr("y",g[1]).text("GREENLAND");
+})();
+
+(function drawRealH007Map(){
+  const width = 760, height = 820;
+  const svg = d3.select("#h007-real-map");
+  const feats = COUNTRIES_10M_GEOJSON.features;
+  const africaFeats = feats.filter(f => f.properties.CONTINENT === "Africa");
+
+  function lower48(usFeature) {
+    const polys = usFeature.geometry.coordinates.filter(poly => {
+      const [lon, lat] = poly[0][0];
+      return lon > -130 && lat < 50;
+    });
+    return {
+      type:"Feature",
+      properties:usFeature.properties,
+      geometry:{type:"MultiPolygon", coordinates:polys}
+    };
+  }
+
+  const base = d3.geoAzimuthalEqualArea()
+    .rotate([-17, -1.5])
+    .fitSize([width, height], {
+      type:"FeatureCollection",
+      features:africaFeats
+    });
+
+  const SCALE = base.scale();
+  const basePath = d3.geoPath(base);
+
+  svg.append("g").selectAll("path")
+    .data(africaFeats).join("path")
+    .attr("class","africa-real")
+    .attr("d",basePath);
+
+  const overlays = [
+    {name:"United States of America", lower48:true, label:"Lower 48 U.S.", color:"var(--usa)", pos:[490,550], rotateTo:[98.73,-39.87,240], labelPos:[490,555]},
+    {name:"China", label:"China", color:"var(--china)", pos:[310,220], rotateTo:[-103.45,-36.68,150], labelPos:[310,225]},
+    {name:"India", label:"India", color:"var(--india)", pos:[542,146], rotateTo:[-79.54,-22.82,20], labelPos:[542,150]}
+  ];
+
+  overlays.forEach(o => {
+    const original = feats.find(f => f.properties.NAME === o.name);
+    const feature = o.lower48 ? lower48(original) : original;
+    const projection = d3.geoAzimuthalEqualArea()
+      .rotate(o.rotateTo).scale(SCALE).translate(o.pos);
+
+    svg.append("path")
+      .datum(feature)
+      .attr("class","country-real")
+      .attr("fill",o.color)
+      .attr("d",d3.geoPath(projection));
+
+    svg.append("text")
+      .attr("class","map-label")
+      .attr("x",o.labelPos[0]).attr("y",o.labelPos[1])
+      .text(o.label);
+  });
+})();
+</script>
+<script>
+const notes=[
+{title:"ASK · Teacher note",body:"DO: Let students compare the familiar-looking silhouettes and make a quick size judgment. Do not explain projections yet.\n\nLISTEN FOR: Assumptions based on how large places look on maps they already know.\n\nIF NEEDED: “Would you expect the picture on a world map to preserve true area?”"},
+{title:"PREDICT · Teacher note",body:"DO: Ask students whether the lower 48 U.S., China and India could all fit inside Africa at the same true-area scale. Get a show of hands for one of the four choices.\n\nLISTEN FOR: Whether students underestimate Africa even after being warned that maps distort size.\n\nIF NEEDED: “Would there be any Africa left over?”"},
+{title:"REVEAL · Teacher note",body:"DO: Pause on the leftover area: about 9.4 million km² remains after all three countries are placed inside Africa.\n\nLISTEN FOR: Surprise that the remaining area alone is comparable to another very large country.\n\nIF NEEDED: “Which surprised you more—that all three fit, or how much room is left?”"},
+{title:"UNDERSTAND · Teacher note",body:"DO: Ask why their mental picture may have been wrong before explaining the projection tradeoff.\n\nLISTEN FOR: Recognition that turning a globe into a flat map requires distortion and that different projections preserve different properties.\n\nIF NEEDED: “What happens when you try to flatten the peel of an orange?”"},
+{title:"TRANSFER · Teacher note",body:"DO: Move away from Africa. Ask whether something can be accurate for one purpose while misleading for another.\n\nLISTEN FOR: Students separating what a representation preserves from what it distorts.\n\nIF NEEDED: “What should you ask before trusting the size, shape or distance you see in any map or graphic?”\n\nEXTEND THE THINKING: If a familiar map can distort the size of Africa, what other conclusions might we accidentally draw from the way information is displayed?”"}
+];
+const slides=[...document.querySelectorAll(".slide")], progress=document.getElementById("progress");
+slides.forEach((_,i)=>{let d=document.createElement("span");d.className="dot"+(i===0?" active":"");progress.appendChild(d)});
+const dots=[...progress.children], back=document.getElementById("backBtn"), next=document.getElementById("nextBtn"), stage=document.getElementById("stageName"), noteTitle=document.getElementById("noteTitle"), noteBody=document.getElementById("noteBody"), notesEl=document.getElementById("notes"), teacherBtn=document.getElementById("teacherBtn");
+let index=0;
+function show(i){index=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle("active",j===index));dots.forEach((d,j)=>d.classList.toggle("active",j===index));stage.textContent=slides[index].dataset.stage;back.disabled=index===0;next.textContent=index===slides.length-1?"Restart ↺":"Next →";noteTitle.textContent=notes[index].title;noteBody.textContent=notes[index].body}
+back.onclick=()=>show(index-1);next.onclick=()=>show(index===slides.length-1?0:index+1);teacherBtn.onclick=()=>notesEl.classList.toggle("open");
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight")show(index===slides.length-1?0:index+1);if(e.key==="ArrowLeft")show(index-1);if(e.key==="Escape")notesEl.classList.remove("open")});show(0);
+</script>
+</body></html>

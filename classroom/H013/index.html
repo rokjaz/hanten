@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hanten Classroom — H013 Very High Density</title>
+<style>
+:root{--paper:#f3efe6;--card:#fffdf8;--ink:#1d2b2f;--soft:#627176;--line:rgba(29,43,47,.14);--accent:#2f6f63;--land:#d8d7cf;--dense:#3d756c}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}button{font:inherit}
+.app{min-height:100%;display:grid;grid-template-rows:auto 1fr auto}header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:9px 18px;border-bottom:1px solid var(--line)}.brand{font-weight:800;letter-spacing:.08em;font-size:.92rem}.meta{color:var(--soft);font-size:.82rem}.teacher-btn,.navbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:.55rem .8rem;border-radius:12px;cursor:pointer}.teacher-btn{background:transparent;border-radius:999px}
+main{width:min(1180px,100%);margin:0 auto;padding:14px 26px 8px;display:flex;align-items:center;min-height:0;overflow:hidden}.slide{display:none;width:100%;animation:fade .18s ease}.slide.active{display:block}@keyframes fade{from{opacity:.25;transform:translateY(4px)}to{opacity:1;transform:none}}
+.kicker{text-align:center;color:var(--accent);font-weight:800;letter-spacing:.09em;font-size:.72rem;margin-bottom:.6rem}h1{margin:.05rem auto .45rem;max-width:980px;text-align:center;font-size:clamp(1.8rem,4.8vh,3.35rem);line-height:1.03;letter-spacing:-.03em}.sub{margin:0 auto .7rem;max-width:850px;text-align:center;color:var(--soft);font-size:clamp(.95rem,2vh,1.18rem);line-height:1.35}.prompt{max-width:900px;margin:.65rem auto 0;text-align:center;font-size:clamp(1.05rem,2.3vh,1.45rem);line-height:1.3;font-weight:650}.prompt strong{color:var(--accent)}
+.map-card,.transfer{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 8px 24px rgba(29,43,47,.04)}
+#h013-ask-map,#h013-reveal-map{display:block;width:100%;height:100%}
+#h013-ask-map .county{fill:#d8d7cf;stroke:#fffdf8;stroke-width:.45}
+#h013-ask-map .state{fill:none;stroke:#7f8c8f;stroke-width:1.2}
+#h013-reveal-map .county-other{fill:#d8d7cf;stroke:#fffdf8;stroke-width:.4}
+#h013-reveal-map .county-dense{fill:var(--dense);stroke:#fffdf8;stroke-width:.45}
+#h013-reveal-map .state{fill:none;stroke:#67767a;stroke-width:1.15}
+.reveal-map-wrap{height:min(34vh,255px);max-width:780px;margin:.45rem auto 0}
+.density-key{text-align:center;color:var(--soft);font-size:.78rem;margin-top:.35rem}
+.key-swatch{display:inline-block;width:10px;height:10px;background:var(--dense);margin-right:5px}
+.guess-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:850px;margin:1.15rem auto}.guess{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center;font-size:1.25rem;font-weight:850}
+.answer{font-size:clamp(3.3rem,8vh,6.2rem);font-weight:900;text-align:center;color:var(--accent);letter-spacing:-.06em;line-height:.88}.answer-sub{text-align:center;font-size:clamp(1.05rem,2.2vh,1.55rem);font-weight:750;margin-top:.35rem}
+.explain{max-width:920px;margin:.8rem auto 0;display:grid;grid-template-columns:1fr 1fr;gap:14px}.box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}.box h2{margin:0 0 .5rem;font-size:1.3rem}.box p{margin:0;color:var(--soft);font-size:1.03rem;line-height:1.5}.transfer{max-width:930px;margin:.8rem auto;text-align:center}.scenario{color:var(--soft);font-size:1.2rem;line-height:1.5}.question{font-weight:850;font-size:clamp(1.6rem,3vw,2.7rem);line-height:1.15;margin-top:1rem}.source{text-align:center;color:var(--soft);font-size:.72rem;margin-top:.65rem}
+footer{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:7px 18px 10px}.navbtn{font-weight:750}.navbtn.primary{background:var(--accent);color:white;border-color:var(--accent);justify-self:end}.navbtn:disabled{opacity:.35}.progress{display:flex;gap:8px}.pdot{width:8px;height:8px;border-radius:50%;background:rgba(29,43,47,.18)}.pdot.active{background:var(--accent);transform:scale(1.25)}.stage-name{text-align:center;color:var(--soft);font-size:.78rem;font-weight:750;letter-spacing:.05em;margin-top:5px}
+.notes{position:fixed;right:18px;top:68px;width:min(390px,calc(100vw - 36px));background:#1f2d30;color:white;padding:18px;border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,.2);display:none;z-index:10}.notes.open{display:block}.notes h3{margin:0 0 .55rem}.notes p{white-space:pre-line;margin:.35rem 0;color:#dbe4e2;line-height:1.45;font-size:.9rem}.tiny{font-size:.76rem!important;color:#b9c8c5!important;margin-top:.75rem!important}
+#h013-ask-map{height:min(39vh,285px)}
+@media(max-height:800px){
+  #h013-ask-map{height:250px}
+  .reveal-map-wrap{height:225px}
+  .kicker{margin-bottom:.3rem}
+}
+@media(max-height:720px){
+  #h013-ask-map{height:210px}
+  .reveal-map-wrap{height:190px}
+  .box{padding:14px}
+  .box p{font-size:.94rem}
+}
+@media(max-width:760px){
+  main{padding:12px 14px 6px;align-items:flex-start;overflow:auto}
+  .meta{display:none}
+  .guess-row,.explain{grid-template-columns:1fr 1fr}
+  footer{padding:7px 14px 9px}
+}
+
+/* Classroom visual standard — spacious graphics, prominent APRUT, paired navigation */
+:root{--map-bg:#e5eee9;--map-land:#e7ddcd;--map-state:#75878a}
+.kicker{
+  font-size:clamp(1.35rem,3.2vh,1.9rem);
+  letter-spacing:.18em;
+  font-weight:900;
+  margin-bottom:.15rem;
+}
+main{padding:8px 18px 4px}
+h1{font-size:clamp(1.85rem,4.6vh,3.2rem);margin:0 auto .3rem}
+.sub{margin-bottom:.45rem}
+.map-card{
+  width:min(1120px,96vw);
+  margin:0 auto;
+  padding:8px;
+  background:var(--map-bg);
+  border-color:rgba(47,111,99,.20);
+}
+#h013-ask-map{
+  height:min(47vh,355px);
+  width:100%;
+}
+#h013-ask-map .county{fill:var(--map-land);stroke:#fffdf8;stroke-width:.42}
+#h013-ask-map .state{stroke:var(--map-state);stroke-width:1.15}
+.reveal-map-wrap{
+  height:min(36vh,270px);
+  width:min(1120px,96vw);
+  max-width:none;
+  margin:.2rem auto 0;
+  padding:8px;
+  background:var(--map-bg);
+  border:1px solid rgba(47,111,99,.20);
+  border-radius:18px;
+}
+#h013-reveal-map .county-other{fill:var(--map-land)}
+#h013-reveal-map .state{stroke:var(--map-state)}
+.prompt{margin-top:.4rem}
+footer{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+  padding:5px 18px 7px;
+}
+.nav-group{display:flex;gap:10px;justify-content:center;align-items:center}
+.navbtn{
+  min-width:118px;
+  padding:.62rem 1rem;
+  font-weight:800;
+}
+.navbtn.primary{background:var(--accent);color:white;border-color:var(--accent)}
+.navbtn:disabled{opacity:.38}
+.footer-progress{display:flex;flex-direction:column;align-items:center;gap:1px}
+.stage-name{display:none}
+@media(max-height:800px){
+  #h013-ask-map{height:315px}
+  .reveal-map-wrap{height:235px}
+  .kicker{font-size:1.35rem}
+}
+@media(max-height:720px){
+  #h013-ask-map{height:265px}
+  .reveal-map-wrap{height:190px}
+  h1{font-size:clamp(1.65rem,4.2vh,2.8rem)}
+  .sub{font-size:.95rem}
+}
+
+</style>
+<style id="h013-classroom-final-layout">
+:root{
+  --h013-map-land:#d8b56f;
+  --h013-map-panel:#dce8e3;
+}
+main{
+  padding-top:6px !important;
+  padding-left:14px !important;
+  padding-right:14px !important;
+}
+.kicker{
+  font-size:clamp(1.35rem,3.2vh,1.8rem) !important;
+  line-height:1 !important;
+  margin:0 auto .12rem !important;
+}
+h1{margin-top:0 !important;margin-bottom:.28rem !important;}
+.sub{margin-bottom:.35rem !important;}
+.map-card{
+  padding:8px !important;
+  background:var(--h013-map-panel) !important;
+}
+#h013-ask-map{
+  width:100% !important;
+  height:min(49vh,380px) !important;
+  background:var(--h013-map-panel) !important;
+}
+.reveal-map-wrap{
+  width:100% !important;
+  max-width:none !important;
+  height:min(45vh,340px) !important;
+  margin:.15rem auto 0 !important;
+  padding:8px !important;
+  box-sizing:border-box !important;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:var(--h013-map-panel) !important;
+}
+#h013-reveal-map{
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  background:var(--h013-map-panel) !important;
+}
+#h013-ask-map .county,
+#h013-reveal-map .county-other{
+  fill:var(--h013-map-land) !important;
+}
+#h013-reveal-map .county-dense{
+  fill:var(--dense) !important;
+}
+footer{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  gap:12px !important;
+}
+#backBtn,#nextBtn{min-width:128px;}
+@media (max-height:800px){
+  #h013-ask-map{height:330px !important;}
+  .reveal-map-wrap{height:295px !important;}
+}
+@media (max-height:720px){
+  .kicker{font-size:1.25rem !important;}
+  #h013-ask-map{height:275px !important;}
+  .reveal-map-wrap{height:245px !important;}
+}
+</style>
+
+
+<style id="h013-map-card-width-final">
+/* Keep the map frame close to the actual U.S. map on ASK and REVEAL. */
+.map-card,
+.reveal-map-wrap{
+  width:min(1120px,84vw) !important;
+  max-width:1120px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+#h013-ask-map,
+#h013-reveal-map{
+  width:100% !important;
+}
+@media (max-width:900px){
+  .map-card,
+  .reveal-map-wrap{
+    width:94vw !important;
+  }
+}
+</style>
+
+
+<style id="h013-frame-one-third-shorter">
+/* ASK + REVEAL: narrower frame, same-size map, clipped evenly at the sides. */
+.map-card,
+.reveal-map-wrap{
+  width:min(760px,66vw) !important;
+  max-width:760px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  overflow:hidden !important;
+  position:relative !important;
+}
+
+/* Preserve the existing map size rather than shrinking it with the frame. */
+#h013-ask-map,
+#h013-reveal-map{
+  width:1120px !important;
+  max-width:none !important;
+  position:relative !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+}
+@media (max-width:900px){
+  .map-card,
+  .reveal-map-wrap{
+    width:90vw !important;
+    max-width:90vw !important;
+  }
+  #h013-ask-map,
+  #h013-reveal-map{
+    width:110vw !important;
+  }
+}
+</style>
+
+</head>
+<body><div class="app">
+<header><div class="brand">HANTEN CLASSROOM</div><div class="meta">H013 · Population density · ~5 minutes</div><button class="teacher-btn" id="teacherBtn">Teacher Notes</button></header>
+<main>
+<section class="slide active" data-stage="ASK"><div class="kicker">ASK</div><h1>How much of America holds 40% of its people?</h1><p class="sub">Picture the United States by land area. Now picture where Americans actually live.</p><div class="map-card">
+<svg id="h013-ask-map"
+     viewBox="0 0 975 440"
+     role="img"
+     aria-label="Map of the contiguous United States"></svg>
+</div><div class="prompt">Would 40% of the population need <strong>most of the map</strong>—or surprisingly little of it?</div></section>
+<section class="slide" data-stage="PREDICT"><div class="kicker">PREDICT</div><h1>Choose your estimate.</h1><p class="sub">What share of U.S. land area contains about 40% of the population?</p><div class="guess-row"><div class="guess">30%</div><div class="guess">15%</div><div class="guess">5%</div><div class="guess">2%</div></div><div class="prompt">Commit before the map is revealed.</div></section>
+<section class="slide" data-stage="REVEAL"><div class="kicker">REVEAL</div><h1>Forty percent of Americans live on...</h1><div class="answer">1.8%</div><div class="answer-sub">of the land.</div><div class="reveal-map-wrap">
+<svg id="h013-reveal-map"
+     viewBox="0 0 975 440"
+     role="img"
+     aria-label="Map highlighting U.S. counties and county-equivalent units with at least 1,000 people per square mile"></svg>
+</div>
+<div class="density-key"><span class="key-swatch"></span> 1,000+ people per sq. mi. — 159 county or county-equivalent units</div>
+<div class="source">County and county-equivalent boundaries: U.S. Census Bureau, 2023. Puerto Rico excluded. Connecticut uses its nine Census county-equivalent planning regions.</div></section>
+<section class="slide" data-stage="UNDERSTAND"><div class="kicker">UNDERSTAND</div><h1>Land and people tell very different stories.</h1><div class="explain"><div class="box"><h2>Land is enormous</h2><p>Large parts of the country have relatively low population density. They dominate a conventional land-area map.</p></div><div class="box"><h2>People cluster</h2><p>Dense metropolitan counties occupy comparatively little land while containing tens of millions of people.</p></div></div><div class="prompt">A map can show <strong>where land is</strong> without showing <strong>where most people are.</strong></div></section>
+<section class="slide" data-stage="TRANSFER"><div class="kicker">TRANSFER</div><h1>Take the idea somewhere new.</h1><div class="transfer"><div class="scenario">Two regions look equally large on a map. One is mostly rural; the other contains several dense cities.</div><div class="question">Does equal land area mean equal human importance?</div></div><div class="prompt">When we picture a place, are we picturing its <strong>land</strong>—or its <strong>people?</strong></div></section>
+</main>
+<footer><div class="nav-group"><button class="navbtn primary" id="backBtn">← Back</button><button class="navbtn primary" id="nextBtn">Next →</button></div><div class="footer-progress"><div class="progress" id="progress"></div><div class="stage-name" id="stageName">ASK</div></div></footer></div>
+<aside class="notes" id="notes"><h3 id="noteTitle"></h3><p id="noteBody"></p><p class="tiny">Tip: use ← and → to move through APRUT. Keep the pace conversational; this is a five-minute thinking exercise, not a lecture.</p></aside>
+<script src="../../04 Shared Assets/js/d3.v7.min.js"></script>
+<script src="../../04 Shared Assets/geodata/us/us-counties-2023.js"></script>
+<script src="../../04 Shared Assets/geodata/county-density.js"></script>
+<script>
+(function drawH013Maps(){
+  const counties = US_COUNTIES_2023_GEOJSON;
+  const states = US_STATES_2023_GEOJSON;
+
+  const projection = d3.geoAlbersUsa()
+    .fitExtent([[18,18],[957,422]], counties);
+
+  const path = d3.geoPath(projection);
+
+  function draw(svgId, reveal){
+    const svg = d3.select(svgId);
+
+    svg.append("g")
+      .selectAll("path")
+      .data(counties.features)
+      .join("path")
+      .attr("class", d => {
+        if (!reveal) return "county";
+        const density = COUNTY_DENSITY[String(d.id).padStart(5,"0")];
+        return density !== undefined && density >= 1000
+          ? "county-dense"
+          : "county-other";
+      })
+      .attr("d", path);
+
+    svg.append("g")
+      .selectAll("path")
+      .data(states.features)
+      .join("path")
+      .attr("class","state")
+      .attr("d",path);
+  }
+
+  draw("#h013-ask-map", false);
+  draw("#h013-reveal-map", true);
+})();
+</script>
+<script>
+const notes=[
+{title:"ASK · Teacher note",body:"DO: Ask students to picture where Americans live before giving them any choices.\n\nLISTEN FOR: Whether they equate a large share of the population with a large share of the land.\n\nIF NEEDED: “Would 40% of Americans need 40% of the country’s land?”"},
+{title:"PREDICT · Teacher note",body:"DO: Have everyone choose one estimate—30%, 15%, 5%, or 2%. A show of hands is enough.\n\nLISTEN FOR: How strongly students anchor population to physical land area.\n\nIF NEEDED: “Think about cities versus rural areas. Does that change your guess?”"},
+{title:"REVEAL · Teacher note",body:"DO: Let 1.8% sit for a moment before explaining it. Then point out how concentrated the dense areas are.\n\nLISTEN FOR: Surprise at how little land is required to contain such a large population share.\n\nIF NEEDED: “What does 98.2% of the land not tell us about where people live?”"},
+{title:"UNDERSTAND · Teacher note",body:"DO: Ask students why a normal U.S. map can make population feel more spread out than it is.\n\nLISTEN FOR: The distinction between geographic area and population distribution.\n\nIF NEEDED: “What is every square inch of a normal map being given equal weight for?”"},
+{title:"TRANSFER · Teacher note",body:"DO: Move beyond the United States. Ask students what could go wrong if we judge importance only by land area.\n\nLISTEN FOR: Recognition that the right representation depends on whether we care about land, people, votes, resources, activity, or something else.\n\nIF NEEDED: “What would you redraw if you wanted every person—not every acre—to count equally?”\n\nEXTEND THE THINKING: If we redrew this map using neighborhoods instead of counties, what might change—and what would stay the same?”"}
+];
+const slides=[...document.querySelectorAll(".slide")],progress=document.getElementById("progress");slides.forEach((_,i)=>{let d=document.createElement("span");d.className="pdot"+(i===0?" active":"");progress.appendChild(d)});const dots=[...progress.children],back=document.getElementById("backBtn"),next=document.getElementById("nextBtn"),stage=document.getElementById("stageName"),noteTitle=document.getElementById("noteTitle"),noteBody=document.getElementById("noteBody"),notesEl=document.getElementById("notes"),teacherBtn=document.getElementById("teacherBtn");let index=0;
+function show(i){index=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle("active",j===index));dots.forEach((d,j)=>d.classList.toggle("active",j===index));stage.textContent=slides[index].dataset.stage;back.disabled=index===0;next.textContent=index===slides.length-1?"Restart ↺":"Next →";noteTitle.textContent=notes[index].title;noteBody.textContent=notes[index].body}
+back.onclick=()=>show(index-1);next.onclick=()=>show(index===slides.length-1?0:index+1);teacherBtn.onclick=()=>notesEl.classList.toggle("open");document.addEventListener("keydown",e=>{if(e.key==="ArrowRight")show(index===slides.length-1?0:index+1);if(e.key==="ArrowLeft")show(index-1);if(e.key==="Escape")notesEl.classList.remove("open")});show(0);
+</script>
+<style id="h013-map-fill-final">
+/* Fill the map panel: remove the remaining large side gutters. */
+.map-card{
+  padding:6px !important;
+  overflow:hidden !important;
+}
+#h013-ask-map{
+  display:block !important;
+  width:100% !important;
+  height:min(49vh,380px) !important;
+  overflow:visible !important;
+}
+.reveal-map-wrap{
+  padding:6px !important;
+  overflow:hidden !important;
+}
+#h013-reveal-map{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  overflow:visible !important;
+}
+</style>
+<script>
+/* Re-fit H013 geography to a wider drawing box so the U.S. nearly fills
+   the rounded map panel instead of inheriting the original generous gutters. */
+window.addEventListener("load", () => {
+  if (typeof d3 === "undefined" ||
+      typeof US_COUNTIES_2023_GEOJSON === "undefined" ||
+      typeof US_STATES_2023_GEOJSON === "undefined") return;
+
+  const counties = US_COUNTIES_2023_GEOJSON;
+  const states = US_STATES_2023_GEOJSON;
+  const W = 1120, H = 500;
+  const projection = d3.geoAlbersUsa().fitExtent([[10,10],[W-10,H-10]], counties);
+  const path = d3.geoPath(projection);
+
+  function redraw(id, reveal){
+    const svg = d3.select(id);
+    if (svg.empty()) return;
+    svg.selectAll("*").remove();
+    svg.attr("viewBox", `0 0 ${W} ${H}`)
+       .attr("preserveAspectRatio","xMidYMid meet");
+
+    svg.append("g")
+      .selectAll("path")
+      .data(counties.features)
+      .join("path")
+      .attr("class", d => {
+        if (!reveal) return "county";
+        const density = COUNTY_DENSITY[String(d.id).padStart(5,"0")];
+        return density !== undefined && density >= 1000
+          ? "county-dense" : "county-other";
+      })
+      .attr("d", path);
+
+    svg.append("g")
+      .selectAll("path")
+      .data(states.features)
+      .join("path")
+      .attr("class","state")
+      .attr("d",path);
+  }
+
+  redraw("#h013-ask-map", false);
+  redraw("#h013-reveal-map", true);
+});
+</script>
+
+</body></html>
