@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hanten Classroom — H007 How Big Is Africa... Really?</title>
+<title>Hanten Classroom — H007 Interactive v2</title>
 <style>
 :root{--paper:#f3efe6;--card:#fffdf8;--ink:#1d2b2f;--soft:#627176;--line:rgba(29,43,47,.14);--accent:#2f6f63;--africa:#d6dbd0;--usa:#1f6f8b;--china:#c1442d;--india:#d9a441}
 *{box-sizing:border-box} html,body{height:100%}
@@ -88,6 +88,53 @@ footer{display:flex!important;flex-direction:column!important;justify-content:ce
 }
 </style>
 
+<style id="h007-interactive-v1">
+.guess{cursor:pointer;font-family:inherit}.guess.selected,.preserve.selected{border-color:var(--accent)!important;background:#e7efec!important}
+.preserve,.xbtn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 12px;font-weight:800;cursor:pointer}
+.xcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;text-align:center;min-width:0}.xtype{font-size:.76rem;letter-spacing:.15em;color:var(--accent);font-weight:900}.xvisual{min-height:100px;display:flex;flex-direction:column;justify-content:center;font-size:1rem;line-height:1.3}.xanswer{font-size:.86rem;color:var(--soft);font-weight:750;min-height:42px;margin-top:8px}
+@media(max-width:760px){#transferExamples{grid-template-columns:1fr!important}}
+</style>
+<style id="h007-interactive-v2">
+.projection-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:1020px;margin:.55rem auto}
+.projection-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px;min-width:0}
+.projection-head{display:flex;justify-content:space-between;gap:8px;align-items:baseline;font-size:.78rem;color:var(--soft)}
+.projection-head strong{color:var(--accent);font-size:.88rem}
+.projection-map{display:block;width:100%;height:min(25vh,190px);margin:4px auto}
+.projection-land{fill:#d7d9d1;stroke:#fffdf8;stroke-width:.5}
+.projection-africa{fill:#8ca18c;stroke:#1d2b2f;stroke-width:.7}
+.projection-foot{font-size:.78rem;line-height:1.25;color:var(--soft);min-height:40px}
+.transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:900px;margin:.65rem auto}
+.transfer-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;text-align:center}
+.transfer-type{font-size:.74rem;letter-spacing:.16em;font-weight:900;color:var(--accent)}
+.transfer-hook{min-height:72px;display:flex;flex-direction:column;justify-content:center;line-height:1.25}
+.demo-btn{border:1px solid var(--accent);background:var(--accent);color:white;border-radius:10px;padding:9px 13px;font-weight:850;cursor:pointer}
+.demo-btn.seen{background:#e7efec;color:var(--accent)}
+.transfer-final{display:none;max-width:900px;margin:.65rem auto 0;text-align:center}
+.transfer-final.show{display:block}
+.transfer-final .question{font-size:clamp(1.25rem,2.4vw,2rem);margin-top:0}
+.sacrifice{margin-top:8px;font-size:1rem;font-weight:850;color:var(--accent)}
+.demo-modal{position:fixed;inset:0;background:rgba(17,28,32,.58);display:none;align-items:center;justify-content:center;padding:18px;z-index:40}
+.demo-modal.open{display:flex}
+.demo-dialog{position:relative;width:min(820px,94vw);max-height:90vh;overflow:auto;background:var(--card);border-radius:18px;padding:20px 22px;box-shadow:0 22px 70px rgba(0,0,0,.25)}
+.modal-close{position:absolute;right:12px;top:9px;border:0;background:transparent;font-size:2rem;cursor:pointer;color:var(--soft)}
+.demo-kicker{color:var(--accent);letter-spacing:.14em;font-weight:900;font-size:.75rem}
+.demo-dialog h2{margin:3px 36px 12px 0;font-size:1.55rem}
+.demo-bottom{font-weight:850;text-align:center;margin-top:12px;color:var(--accent)}
+.modal-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-panel{border:1px solid var(--line);border-radius:14px;padding:12px;background:#faf8f2;text-align:center}
+.modal-panel h3{margin:0 0 7px;font-size:1rem}
+.modal-map{width:100%;height:190px;display:block}
+.axis-demo{height:220px;position:relative;border-left:2px solid #7c8585;border-bottom:2px solid #7c8585;margin:8px 18px 25px 45px}
+.axis-bar{position:absolute;bottom:0;width:18%;background:#6e8983}
+.axis-label{position:absolute;bottom:-24px;transform:translateX(-50%);font-size:.72rem}
+.y-note{position:absolute;left:-42px;font-size:.7rem;color:var(--soft)}
+.number-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px auto}
+.number-chip{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:white;font-weight:800}
+.summary-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:560px;margin:14px auto}
+.summary-box{border:1px solid var(--line);border-radius:14px;padding:14px}.summary-box .n{font-size:1.7rem;font-weight:900;color:var(--accent)}
+@media(max-width:760px){.projection-grid,.transfer-grid,.modal-two,.summary-pair{grid-template-columns:1fr}.projection-map{height:155px}.demo-dialog{max-height:94vh}}
+@media(max-height:720px){.projection-map{height:145px}.projection-foot{font-size:.72rem;min-height:32px}.transfer-card{padding:10px}.transfer-hook{min-height:54px}.demo-dialog{padding:16px 18px}.modal-map{height:150px}.axis-demo{height:170px}}
+</style>
 </head>
 <body>
 <div class="app">
@@ -106,12 +153,12 @@ footer{display:flex!important;flex-direction:column!important;justify-content:ce
 <section class="slide" data-stage="PREDICT">
 <div class="kicker">PREDICT</div><h1>Could these three countries fit inside Africa at once?</h1>
 <p class="sub">The contiguous United States + China + India.</p>
-<div class="guess-row"><div class="guess">No chance</div><div class="guess">Almost</div><div class="guess">Just barely</div><div class="guess">With room left</div></div>
+<div class="guess-row" id="guessRow"><button class="guess" data-guess="No chance">No chance</button><button class="guess" data-guess="Almost">Almost</button><button class="guess" data-guess="Just barely">Just barely</button><button class="guess" data-guess="With room left">With room left</button></div>
 <div class="prompt">Choose before you see them at the same <strong>equal-area scale.</strong></div>
 </section>
 
 <section class="slide" data-stage="REVEAL">
-<div class="kicker">REVEAL</div><h1>All three fit—with about 9.4 million km² still empty.</h1>
+<div class="kicker">REVEAL</div><h1>All three fit—with about 9.4 million km² still empty.</h1><div id="guessMemory" style="text-align:center;color:var(--accent);font-weight:850;margin:-2px auto 5px"></div>
 <div class="reveal-card"><div class="reveal-grid">
 <div class="africa-box">
 <svg id="h007-real-map" viewBox="0 0 760 820" role="img" aria-label="Equal-area comparison showing the contiguous United States, China, and India placed inside Africa"></svg>
@@ -128,20 +175,66 @@ footer{display:flex!important;flex-direction:column!important;justify-content:ce
 </section>
 
 <section class="slide" data-stage="UNDERSTAND">
-<div class="kicker">UNDERSTAND</div><h1>Why can a perfectly useful map still mislead us?</h1>
-<div class="explain">
-<div class="box"><h2>Every flat map makes tradeoffs</h2><p>The Earth is curved. Flattening it means some combination of area, shape, distance or direction must be distorted.</p></div>
-<div class="box"><h2>Familiar maps can distort area</h2><p>Common world maps enlarge places farther from the equator. Africa crosses the equator, so its area is easy to underestimate by eye.</p></div>
+<div class="kicker">UNDERSTAND</div>
+<h1>Same Earth. Different map. Different sacrifice.</h1>
+<p class="sub">A flat map cannot preserve everything at once. Compare three legitimate ways to flatten the same world.</p>
+<div class="projection-grid">
+  <div class="projection-card">
+    <div class="projection-head"><strong>Preserve AREA</strong><span>Equal Earth</span></div>
+    <svg class="projection-map" id="mapArea" viewBox="0 0 340 190" aria-label="Equal Earth projection"></svg>
+    <div class="projection-foot">Relative area is trustworthy. Shapes bend.</div>
+  </div>
+  <div class="projection-card">
+    <div class="projection-head"><strong>Preserve LOCAL SHAPE</strong><span>Mercator</span></div>
+    <svg class="projection-map" id="mapShape" viewBox="0 0 340 190" aria-label="Mercator projection"></svg>
+    <div class="projection-foot">Local angles and shapes work well. Area explodes toward the poles.</div>
+  </div>
+  <div class="projection-card">
+    <div class="projection-head"><strong>DISTANCE FROM A CENTER</strong><span>Azimuthal equidistant</span></div>
+    <svg class="projection-map" id="mapDistance" viewBox="0 0 340 190" aria-label="Azimuthal equidistant projection centered on Africa"></svg>
+    <div class="projection-foot">Distance and direction from the center are useful. Other shapes stretch.</div>
+  </div>
 </div>
-<div class="prompt"><strong>Maps can be accurate in some ways while misleading in others.</strong></div>
+<div class="prompt"><strong>The Earth did not change. The mapmaker's priority did.</strong></div>
 </section>
 
 <section class="slide" data-stage="TRANSFER">
-<div class="kicker">TRANSFER</div><h1>Take the idea beyond Africa.</h1>
-<div class="transfer"><div class="scenario">A map is designed to make navigation and direction easy, but it distorts the apparent size of places.</div><div class="question">Can the map be accurate and misleading at the same time?</div></div>
-<div class="prompt">When you look at any visualization, what might it be <strong>preserving</strong>—and what might it be <strong>distorting?</strong></div>
+<div class="kicker">TRANSFER</div>
+<h1>This isn't only about maps.</h1>
+<p class="sub">Open all three examples. Each is technically correct. Each makes something easier to see—and something else harder to see.</p>
+<div class="transfer-grid">
+  <div class="transfer-card">
+    <div class="transfer-type">MAP</div>
+    <div class="transfer-hook">Same world.<br><strong>Different projection.</strong></div>
+    <button class="demo-btn" data-demo="map">What changed?</button>
+  </div>
+  <div class="transfer-card">
+    <div class="transfer-type">GRAPH</div>
+    <div class="transfer-hook">Same values.<br><strong>Different axis.</strong></div>
+    <button class="demo-btn" data-demo="graph">What changed?</button>
+  </div>
+  <div class="transfer-card">
+    <div class="transfer-type">NUMBER</div>
+    <div class="transfer-hook">Same five values.<br><strong>Different summary.</strong></div>
+    <button class="demo-btn" data-demo="number">What changed?</button>
+  </div>
+</div>
+<div class="transfer-final" id="transferFinal">
+  <div class="question">What did this representation help you see—and what did it make harder to see?</div>
+  <div class="sacrifice">What had to be sacrificed to show this part of the truth?</div>
+</div>
 </section>
 </main>
+<div class="demo-modal" id="demoModal" aria-hidden="true">
+  <div class="demo-dialog" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
+    <button class="modal-close" id="modalClose" aria-label="Close example">×</button>
+    <div class="demo-kicker" id="demoKicker"></div>
+    <h2 id="demoTitle"></h2>
+    <div id="demoBody"></div>
+    <div class="demo-bottom" id="demoBottom"></div>
+  </div>
+</div>
+
 <footer><div class="nav-group"><button class="navbtn primary" id="backBtn">← Back</button><button class="navbtn primary" id="nextBtn">Next →</button></div><div class="footer-progress"><div class="progress" id="progress"></div><div class="stage-name" id="stageName">ASK</div></div></footer>
 </div>
 <aside class="notes" id="notes"><h3 id="noteTitle"></h3><p id="noteBody"></p><p class="tiny">Tip: use ← and → to move through APRUT. Keep the pace conversational; this is a five-minute thinking exercise, not a lecture.</p></aside>
@@ -242,21 +335,86 @@ footer{display:flex!important;flex-direction:column!important;justify-content:ce
       .text(o.label);
   });
 })();
+
+(function drawProjectionComparisons(){
+  const feats = COUNTRIES_10M_GEOJSON.features;
+  const africa = d => d.properties.CONTINENT === "Africa";
+  const configs = [
+    {id:"#mapArea", projection:d3.geoEqualEarth().fitExtent([[8,8],[332,182]], {type:"Sphere"})},
+    {id:"#mapShape", projection:d3.geoMercator().scale(50).translate([170,100])},
+    {id:"#mapDistance", projection:d3.geoAzimuthalEquidistant().rotate([-20,-5]).scale(57).translate([170,96])}
+  ];
+  configs.forEach(c=>{
+    const svg=d3.select(c.id), path=d3.geoPath(c.projection);
+    svg.append("path").datum({type:"Sphere"}).attr("fill","#edf3f4").attr("stroke","#bac5c2").attr("d",path);
+    svg.selectAll("path.land").data(feats).join("path")
+      .attr("class",d=>africa(d)?"projection-land projection-africa":"projection-land")
+      .attr("d",path);
+  });
+})();
 </script>
 <script>
 const notes=[
 {title:"ASK · Teacher note",body:"DO: Let students compare the familiar-looking silhouettes and make a quick size judgment. Do not explain projections yet.\n\nLISTEN FOR: Assumptions based on how large places look on maps they already know.\n\nIF NEEDED: “Would you expect the picture on a world map to preserve true area?”"},
 {title:"PREDICT · Teacher note",body:"DO: Ask students whether the lower 48 U.S., China and India could all fit inside Africa at the same true-area scale. Get a show of hands for one of the four choices.\n\nLISTEN FOR: Whether students underestimate Africa even after being warned that maps distort size.\n\nIF NEEDED: “Would there be any Africa left over?”"},
 {title:"REVEAL · Teacher note",body:"DO: Pause on the leftover area: about 9.4 million km² remains after all three countries are placed inside Africa.\n\nLISTEN FOR: Surprise that the remaining area alone is comparable to another very large country.\n\nIF NEEDED: “Which surprised you more—that all three fit, or how much room is left?”"},
-{title:"UNDERSTAND · Teacher note",body:"DO: Ask why their mental picture may have been wrong before explaining the projection tradeoff.\n\nLISTEN FOR: Recognition that turning a globe into a flat map requires distortion and that different projections preserve different properties.\n\nIF NEEDED: “What happens when you try to flatten the peel of an orange?”"},
-{title:"TRANSFER · Teacher note",body:"DO: Move away from Africa. Ask whether something can be accurate for one purpose while misleading for another.\n\nLISTEN FOR: Students separating what a representation preserves from what it distorts.\n\nIF NEEDED: “What should you ask before trusting the size, shape or distance you see in any map or graphic?”\n\nEXTEND THE THINKING: If a familiar map can distort the size of Africa, what other conclusions might we accidentally draw from the way information is displayed?”"}
+{title:"UNDERSTAND · Teacher note",body:"DO: Compare the three maps of the same Earth. Ask what each map protects and what becomes less trustworthy.\n\nLISTEN FOR: Recognition that distortion is not a flaw unique to one map; it is a tradeoff created by flattening a sphere.\n\nIF NEEDED: “What had to give so this map could preserve its chosen property?”"},
+{title:"TRANSFER · Teacher note",body:"DO: Open all three popups. Emphasize that the underlying world, graph values, and five numbers never change. Only the representation or summary changes.\n\nLISTEN FOR: Students identifying what was gained and what context was sacrificed.\n\nIF NEEDED: “What did this choice help you see—and what did it hide or make harder to see?”\n\nEXTEND THE THINKING: Where else do we sacrifice part of the truth to make one part easier to see?”"}
 ];
 const slides=[...document.querySelectorAll(".slide")], progress=document.getElementById("progress");
 slides.forEach((_,i)=>{let d=document.createElement("span");d.className="dot"+(i===0?" active":"");progress.appendChild(d)});
 const dots=[...progress.children], back=document.getElementById("backBtn"), next=document.getElementById("nextBtn"), stage=document.getElementById("stageName"), noteTitle=document.getElementById("noteTitle"), noteBody=document.getElementById("noteBody"), notesEl=document.getElementById("notes"), teacherBtn=document.getElementById("teacherBtn");
 let index=0;
 function show(i){index=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle("active",j===index));dots.forEach((d,j)=>d.classList.toggle("active",j===index));stage.textContent=slides[index].dataset.stage;back.disabled=index===0;next.textContent=index===slides.length-1?"Restart ↺":"Next →";noteTitle.textContent=notes[index].title;noteBody.textContent=notes[index].body}
-back.onclick=()=>show(index-1);next.onclick=()=>show(index===slides.length-1?0:index+1);teacherBtn.onclick=()=>notesEl.classList.toggle("open");
-document.addEventListener("keydown",e=>{if(e.key==="ArrowRight")show(index===slides.length-1?0:index+1);if(e.key==="ArrowLeft")show(index-1);if(e.key==="Escape")notesEl.classList.remove("open")});show(0);
+let studentGuess=null;
+document.querySelectorAll("#guessRow .guess").forEach(b=>b.addEventListener("click",()=>{studentGuess=b.dataset.guess;document.querySelectorAll("#guessRow .guess").forEach(x=>x.classList.toggle("selected",x===b));if(index===1)next.disabled=false;}));
+
+const demoModal=document.getElementById("demoModal"), modalClose=document.getElementById("modalClose"), demoKicker=document.getElementById("demoKicker"), demoTitle=document.getElementById("demoTitle"), demoBody=document.getElementById("demoBody"), demoBottom=document.getElementById("demoBottom"), transferFinal=document.getElementById("transferFinal");
+let seenDemos=new Set();
+
+function worldSvg(projectionName){
+  return `<svg class="modal-map demo-world" data-projection="${projectionName}" viewBox="0 0 360 200"></svg>`;
+}
+function openDemo(type){
+  demoModal.classList.add("open"); demoModal.setAttribute("aria-hidden","false");
+  if(type==="map"){
+    demoKicker.textContent="MAP";
+    demoTitle.textContent="Same Earth. Different projection.";
+    demoBody.innerHTML=`<div class="modal-two"><div class="modal-panel"><h3>Mercator</h3>${worldSvg("mercator")}<div>Local shape works well; high-latitude area swells.</div></div><div class="modal-panel"><h3>Equal Earth</h3>${worldSvg("equal")}<div>Area is comparable; familiar shapes change.</div></div></div>`;
+    demoBottom.textContent="What changed? The projection—not the Earth.";
+    drawModalWorlds();
+  } else if(type==="graph"){
+    demoKicker.textContent="GRAPH";
+    demoTitle.textContent="Same four values. Different vertical axis.";
+    const vals=[48,50,52,54];
+    const chart=(min,max,label)=>`<div class="modal-panel"><h3>${label}</h3><div class="axis-demo">${[0,1,2,3].map((i)=>{const h=(vals[i]-min)/(max-min)*100;return `<div class="axis-bar" style="left:${8+i*23}%;height:${h}%"></div><div class="axis-label" style="left:${17+i*23}%">${vals[i]}</div>`}).join("")}<div class="y-note" style="bottom:0">${min}</div><div class="y-note" style="top:0">${max}</div></div></div>`;
+    demoBody.innerHTML=`<div class="modal-two">${chart(0,60,"Axis starts at 0")}${chart(46,56,"Axis starts at 46")}</div>`;
+    demoBottom.textContent="What changed? The baseline—not the values.";
+  } else {
+    demoKicker.textContent="NUMBER";
+    demoTitle.textContent="Same five values. Different summary.";
+    demoBody.innerHTML=`<div class="number-row">${[40,45,50,55,310].map(v=>`<div class="number-chip">${v}</div>`).join("")}</div><div class="summary-pair"><div class="summary-box"><div>Mean</div><div class="n">100</div><div>Every value contributes.</div></div><div class="summary-box"><div>Median</div><div class="n">50</div><div>The middle value.</div></div></div>`;
+    demoBottom.textContent="What changed? The measure—not the five values.";
+  }
+  seenDemos.add(type);
+  const btn=document.querySelector(`.demo-btn[data-demo="${type}"]`); if(btn)btn.classList.add("seen");
+  if(seenDemos.size===3) transferFinal.classList.add("show");
+}
+function drawModalWorlds(){
+  document.querySelectorAll(".demo-world").forEach(node=>{
+    const kind=node.dataset.projection;
+    const projection=kind==="equal"?d3.geoEqualEarth().fitExtent([[8,8],[352,192]],{type:"Sphere"}):d3.geoMercator().scale(53).translate([180,105]);
+    const path=d3.geoPath(projection), svg=d3.select(node);
+    svg.append("path").datum({type:"Sphere"}).attr("fill","#edf3f4").attr("stroke","#bac5c2").attr("d",path);
+    svg.selectAll("path.land").data(COUNTRIES_10M_GEOJSON.features).join("path").attr("fill",d=>d.properties.CONTINENT==="Africa"?"#8ca18c":"#d7d9d1").attr("stroke","#fffdf8").attr("stroke-width",".5").attr("d",path);
+  });
+}
+document.querySelectorAll(".demo-btn").forEach(b=>b.addEventListener("click",()=>openDemo(b.dataset.demo)));
+modalClose.addEventListener("click",()=>{demoModal.classList.remove("open");demoModal.setAttribute("aria-hidden","true")});
+demoModal.addEventListener("click",e=>{if(e.target===demoModal)modalClose.click()});
+
+const baseShow=show;show=function(i){baseShow(i);if(index===1)next.disabled=!studentGuess;if(index===2&&studentGuess)document.getElementById("guessMemory").textContent="You predicted: "+studentGuess;};
+back.onclick=()=>show(index-1);next.onclick=()=>{if(index===1&&!studentGuess)return;if(index===slides.length-1){studentGuess=null;seenDemos.clear();document.querySelectorAll(".guess").forEach(x=>x.classList.remove("selected"));document.querySelectorAll(".demo-btn").forEach(x=>x.classList.remove("seen"));transferFinal.classList.remove("show");demoModal.classList.remove("open");show(0)}else show(index+1)};teacherBtn.onclick=()=>notesEl.classList.toggle("open");
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight"&&!(index===1&&!studentGuess))next.click();if(e.key==="ArrowLeft")show(index-1);if(e.key==="Escape")notesEl.classList.remove("open")});show(0);
 </script>
 </body></html>

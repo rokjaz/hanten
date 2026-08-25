@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hanten Classroom — H013 Very High Density</title>
+<title>Hanten Classroom — H013 Interactive v3</title>
 <style>
 :root{--paper:#f3efe6;--card:#fffdf8;--ink:#1d2b2f;--soft:#627176;--line:rgba(29,43,47,.14);--accent:#2f6f63;--land:#d8d7cf;--dense:#3d756c}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}button{font:inherit}
@@ -113,8 +113,8 @@ footer{
 </style>
 <style id="h013-classroom-final-layout">
 :root{
-  --h013-map-land:#d8b56f;
-  --h013-map-panel:#dce8e3;
+  --h013-map-land:#d7dedc;
+  --h013-map-panel:#eef3f1;
 }
 main{
   padding-top:6px !important;
@@ -236,7 +236,13 @@ footer{
 }
 </style>
 
-</head>
+<style id="h013-interactive-v1">
+.guess{cursor:pointer;font-family:inherit}.guess.selected{border:2px solid var(--accent);background:#e7efec}.guess-memory{text-align:center;color:var(--accent);font-weight:850;min-height:1.1rem;margin:-.05rem auto .15rem}
+.capture-wrap{display:grid;grid-template-columns:1.25fr .75fr;gap:14px;max-width:900px;margin:.75rem auto}.capture-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}.capture-top{display:flex;justify-content:space-between;align-items:baseline;font-size:1rem}.capture-top strong{font-size:2rem;color:var(--accent)}#captureSlider{width:100%;accent-color:var(--accent);margin:20px 0 10px}.slider-readout{text-align:center;font-size:1.05rem;font-weight:800;color:var(--ink);margin-bottom:4px}.slider-readout strong{font-size:1.55rem;color:var(--accent)}.capture-labels{display:flex;justify-content:space-between;color:var(--soft);font-size:.78rem;margin-top:5px}.mini-land{height:58px;background:var(--h013-map-land);border-radius:12px;overflow:hidden;margin:14px 0;position:relative}.mini-land div{height:100%;width:0;background:var(--dense);transition:width .15s}#captureMessage{font-size:.9rem;color:var(--soft);font-weight:750;line-height:1.35}
+.objective-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:900px;margin:.7rem auto}.objective-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:center}.objective-icon{font-size:2rem}.objective-card h2{font-size:1.12rem;margin:4px 0}.objective-card p{font-size:.9rem;color:var(--soft);margin:4px 0 10px}.objective-buttons{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.objective-btn{border:1px solid var(--line);background:white;border-radius:10px;padding:8px 10px;font-weight:800;cursor:pointer}.objective-btn.selected{border-color:var(--accent);background:#e7efec}.objective-feedback{min-height:38px;margin-top:8px;font-size:.82rem;font-weight:750;color:var(--soft)}.transfer-final{display:none;max-width:900px;margin:.65rem auto 0;text-align:center}.transfer-final.show{display:block}.transfer-final .question{font-size:clamp(1.25rem,2.3vw,1.9rem);margin-top:0}.transfer-tags{margin-top:8px;color:var(--accent);font-weight:900;word-spacing:8px}
+@media(max-width:760px){.capture-wrap,.objective-grid{grid-template-columns:1fr}.objective-card{padding:11px}}
+@media(max-height:720px){.capture-card{padding:12px}.objective-card{padding:10px}.objective-icon{font-size:1.5rem}.objective-card p{font-size:.8rem}.objective-feedback{min-height:28px}.transfer-final .question{font-size:1.15rem}}
+</style></head>
 <body><div class="app">
 <header><div class="brand">HANTEN CLASSROOM</div><div class="meta">H013 · Population density · ~5 minutes</div><button class="teacher-btn" id="teacherBtn">Teacher Notes</button></header>
 <main>
@@ -246,8 +252,8 @@ footer{
      role="img"
      aria-label="Map of the contiguous United States"></svg>
 </div><div class="prompt">Would 40% of the population need <strong>most of the map</strong>—or surprisingly little of it?</div></section>
-<section class="slide" data-stage="PREDICT"><div class="kicker">PREDICT</div><h1>Choose your estimate.</h1><p class="sub">What share of U.S. land area contains about 40% of the population?</p><div class="guess-row"><div class="guess">30%</div><div class="guess">15%</div><div class="guess">5%</div><div class="guess">2%</div></div><div class="prompt">Commit before the map is revealed.</div></section>
-<section class="slide" data-stage="REVEAL"><div class="kicker">REVEAL</div><h1>Forty percent of Americans live on...</h1><div class="answer">1.8%</div><div class="answer-sub">of the land.</div><div class="reveal-map-wrap">
+<section class="slide" data-stage="PREDICT"><div class="kicker">PREDICT</div><h1>Choose your estimate.</h1><p class="sub">What share of U.S. land area contains about 40% of the population?</p><div class="guess-row" id="guessRow"><button class="guess" data-guess="30%">30%</button><button class="guess" data-guess="15%">15%</button><button class="guess" data-guess="5%">5%</button><button class="guess" data-guess="2%">2%</button></div><div class="prompt" id="predictPrompt">Commit before the map is revealed.</div></section>
+<section class="slide" data-stage="REVEAL"><div class="kicker">REVEAL</div><h1>Forty percent of Americans live on...</h1><div id="guessMemory" class="guess-memory"></div><div class="answer">1.8%</div><div class="answer-sub">of the land.</div><div class="reveal-map-wrap">
 <svg id="h013-reveal-map"
      viewBox="0 0 975 440"
      role="img"
@@ -255,8 +261,46 @@ footer{
 </div>
 <div class="density-key"><span class="key-swatch"></span> 1,000+ people per sq. mi. — 159 county or county-equivalent units</div>
 <div class="source">County and county-equivalent boundaries: U.S. Census Bureau, 2023. Puerto Rico excluded. Connecticut uses its nine Census county-equivalent planning regions.</div></section>
-<section class="slide" data-stage="UNDERSTAND"><div class="kicker">UNDERSTAND</div><h1>Land and people tell very different stories.</h1><div class="explain"><div class="box"><h2>Land is enormous</h2><p>Large parts of the country have relatively low population density. They dominate a conventional land-area map.</p></div><div class="box"><h2>People cluster</h2><p>Dense metropolitan counties occupy comparatively little land while containing tens of millions of people.</p></div></div><div class="prompt">A map can show <strong>where land is</strong> without showing <strong>where most people are.</strong></div></section>
-<section class="slide" data-stage="TRANSFER"><div class="kicker">TRANSFER</div><h1>Take the idea somewhere new.</h1><div class="transfer"><div class="scenario">Two regions look equally large on a map. One is mostly rural; the other contains several dense cities.</div><div class="question">Does equal land area mean equal human importance?</div></div><div class="prompt">When we picture a place, are we picturing its <strong>land</strong>—or its <strong>people?</strong></div></section>
+<section class="slide" data-stage="UNDERSTAND">
+<div class="kicker">UNDERSTAND</div><h1>How little land can hold 40% of Americans?</h1>
+<p class="sub"><strong>Move the slider toward 40% of the population.</strong> Watch how little land is needed.</p>
+<div class="capture-wrap">
+  <div class="capture-card">
+    <div class="slider-readout">Population captured: <strong id="capturePct">0%</strong></div>
+    <input id="captureSlider" type="range" min="0" max="40" value="0" step="1" aria-label="Population captured from 0 to 40 percent">
+    <div class="capture-labels"><span>0%</span><span>40% of Americans</span></div>
+  </div>
+  <div class="capture-card result-card">
+    <div class="capture-top"><span>Land needed</span><strong id="landNeeded">—</strong></div>
+    <div class="mini-land"><div id="miniDense"></div></div>
+    <div id="captureMessage">Move the slider toward 40%.</div>
+  </div>
+</div>
+<div class="prompt" id="understandTakeaway"><strong>Same country. Different objective. Different picture.</strong></div>
+</section>
+<section class="slide" data-stage="TRANSFER">
+<div class="kicker">TRANSFER</div><h1>Which map would you want?</h1>
+<p class="sub">The useful representation depends on the question you are trying to answer.</p>
+<div class="objective-grid">
+  <div class="objective-card">
+    <div class="objective-icon">🏥</div><h2>Where should a new hospital go?</h2>
+    <p>You want to reach the greatest number of people.</p>
+    <div class="objective-buttons"><button class="objective-btn" data-case="hospital" data-choice="land">Land-area map</button><button class="objective-btn" data-case="hospital" data-choice="people">People-weighted map</button></div>
+    <div class="objective-feedback" id="hospitalFeedback"></div>
+  </div>
+  <div class="objective-card">
+    <div class="objective-icon">🌲</div><h2>Where should a large wilderness reserve go?</h2>
+    <p>You care about continuous undeveloped land.</p>
+    <div class="objective-buttons"><button class="objective-btn" data-case="wilderness" data-choice="land">Land-area map</button><button class="objective-btn" data-case="wilderness" data-choice="people">People-weighted map</button></div>
+    <div class="objective-feedback" id="wildernessFeedback"></div>
+  </div>
+</div>
+<div class="transfer-final" id="transferFinal">
+  <div class="question"><strong>What looks biggest—and is that what matters most?</strong></div>
+  <div class="sacrifice" style="margin-top:8px">What should get the most weight for the question you're trying to answer?</div>
+  <div class="transfer-tags">Land · People · Votes · Resources · Activity · Risk</div>
+</div>
+</section>
 </main>
 <footer><div class="nav-group"><button class="navbtn primary" id="backBtn">← Back</button><button class="navbtn primary" id="nextBtn">Next →</button></div><div class="footer-progress"><div class="progress" id="progress"></div><div class="stage-name" id="stageName">ASK</div></div></footer></div>
 <aside class="notes" id="notes"><h3 id="noteTitle"></h3><p id="noteBody"></p><p class="tiny">Tip: use ← and → to move through APRUT. Keep the pace conversational; this is a five-minute thinking exercise, not a lecture.</p></aside>
@@ -306,12 +350,38 @@ const notes=[
 {title:"ASK · Teacher note",body:"DO: Ask students to picture where Americans live before giving them any choices.\n\nLISTEN FOR: Whether they equate a large share of the population with a large share of the land.\n\nIF NEEDED: “Would 40% of Americans need 40% of the country’s land?”"},
 {title:"PREDICT · Teacher note",body:"DO: Have everyone choose one estimate—30%, 15%, 5%, or 2%. A show of hands is enough.\n\nLISTEN FOR: How strongly students anchor population to physical land area.\n\nIF NEEDED: “Think about cities versus rural areas. Does that change your guess?”"},
 {title:"REVEAL · Teacher note",body:"DO: Let 1.8% sit for a moment before explaining it. Then point out how concentrated the dense areas are.\n\nLISTEN FOR: Surprise at how little land is required to contain such a large population share.\n\nIF NEEDED: “What does 98.2% of the land not tell us about where people live?”"},
-{title:"UNDERSTAND · Teacher note",body:"DO: Ask students why a normal U.S. map can make population feel more spread out than it is.\n\nLISTEN FOR: The distinction between geographic area and population distribution.\n\nIF NEEDED: “What is every square inch of a normal map being given equal weight for?”"},
-{title:"TRANSFER · Teacher note",body:"DO: Move beyond the United States. Ask students what could go wrong if we judge importance only by land area.\n\nLISTEN FOR: Recognition that the right representation depends on whether we care about land, people, votes, resources, activity, or something else.\n\nIF NEEDED: “What would you redraw if you wanted every person—not every acre—to count equally?”\n\nEXTEND THE THINKING: If we redrew this map using neighborhoods instead of counties, what might change—and what would stay the same?”"}
+{title:"UNDERSTAND · Teacher note",body:"DO: Let students move the slider toward 40%. The land bar is a conceptual bridge anchored by the 1.8% result—not a claim that population accumulates linearly.\n\nLISTEN FOR: Recognition that changing the objective from showing land to capturing people changes what deserves visual weight.\n\nIF NEEDED: “If people are what matter to the question, should every acre still get equal visual space?”"},
+{title:"TRANSFER · Teacher note",body:"DO: Make students choose a representation for each objective. Neither representation is universally better.\n\nLISTEN FOR: Recognition that the right visual weighting depends on the question: people for access to services; land for continuous habitat or wilderness.\n\nIF NEEDED: “What looks biggest—and is that what matters most for this question?”\n\nEXTEND THE THINKING: What would you want visually weighted if the question were about votes, disease cases, traffic, economic activity, or water use?”"}
 ];
 const slides=[...document.querySelectorAll(".slide")],progress=document.getElementById("progress");slides.forEach((_,i)=>{let d=document.createElement("span");d.className="pdot"+(i===0?" active":"");progress.appendChild(d)});const dots=[...progress.children],back=document.getElementById("backBtn"),next=document.getElementById("nextBtn"),stage=document.getElementById("stageName"),noteTitle=document.getElementById("noteTitle"),noteBody=document.getElementById("noteBody"),notesEl=document.getElementById("notes"),teacherBtn=document.getElementById("teacherBtn");let index=0;
 function show(i){index=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle("active",j===index));dots.forEach((d,j)=>d.classList.toggle("active",j===index));stage.textContent=slides[index].dataset.stage;back.disabled=index===0;next.textContent=index===slides.length-1?"Restart ↺":"Next →";noteTitle.textContent=notes[index].title;noteBody.textContent=notes[index].body}
-back.onclick=()=>show(index-1);next.onclick=()=>show(index===slides.length-1?0:index+1);teacherBtn.onclick=()=>notesEl.classList.toggle("open");document.addEventListener("keydown",e=>{if(e.key==="ArrowRight")show(index===slides.length-1?0:index+1);if(e.key==="ArrowLeft")show(index-1);if(e.key==="Escape")notesEl.classList.remove("open")});show(0);
+let studentGuess=null;
+document.querySelectorAll("#guessRow .guess").forEach(b=>b.addEventListener("click",()=>{studentGuess=b.dataset.guess;document.querySelectorAll("#guessRow .guess").forEach(x=>x.classList.toggle("selected",x===b));document.getElementById("predictPrompt").textContent="Prediction locked: "+studentGuess;next.disabled=false;}));
+
+const captureSlider=document.getElementById("captureSlider"),capturePct=document.getElementById("capturePct"),landNeeded=document.getElementById("landNeeded"),miniDense=document.getElementById("miniDense"),captureMessage=document.getElementById("captureMessage");
+function updateCapture(){
+ const v=+captureSlider.value; capturePct.textContent=v+"%";
+ if(v===0){landNeeded.textContent="—";miniDense.style.width="0";captureMessage.textContent="Your goal: reach 40% of Americans while using as little land as possible.";return}
+ // conceptual, deliberately nonlinear bridge ending at the known 1.8% result
+ const land=1.8*Math.pow(v/40,2.15); landNeeded.textContent=(land<.1?"<0.1":land.toFixed(1))+"%";
+ miniDense.style.width=Math.max(1.2,land)+"%";
+ captureMessage.textContent=v===40?"40% of Americans can be represented by just 1.8% of the land.": "As the goal shifts toward capturing people, land area stops being the thing that deserves equal weight.";
+}
+captureSlider.addEventListener("input",updateCapture);updateCapture();
+
+const caseAnswers={hospital:"people",wilderness:"land"},caseDone=new Set();
+document.querySelectorAll(".objective-btn").forEach(b=>b.addEventListener("click",()=>{
+ const c=b.dataset.case,choice=b.dataset.choice;caseDone.add(c);
+ document.querySelectorAll(`.objective-btn[data-case="${c}"]`).forEach(x=>x.classList.toggle("selected",x===b));
+ const fb=document.getElementById(c+"Feedback");
+ if(c==="hospital") fb.textContent=choice==="people"?"Yes. If access for people is the goal, population deserves the visual weight.":"Land area alone can hide where most potential patients actually are.";
+ else fb.textContent=choice==="land"?"Yes. For continuous wilderness, physical land area is central to the question.":"A people-weighted map can shrink exactly the sparsely populated land you need to evaluate.";
+ if(caseDone.size===2)document.getElementById("transferFinal").classList.add("show");
+}));
+
+const baseShow=show;show=function(i){baseShow(i);if(index===1)next.disabled=!studentGuess;if(index===2&&studentGuess)document.getElementById("guessMemory").textContent="You predicted: "+studentGuess;};
+function resetInteractive(){studentGuess=null;document.querySelectorAll(".guess,.objective-btn").forEach(x=>x.classList.remove("selected"));document.getElementById("predictPrompt").textContent="Commit before the map is revealed.";document.getElementById("guessMemory").textContent="";captureSlider.value=0;updateCapture();caseDone.clear();document.querySelectorAll(".objective-feedback").forEach(x=>x.textContent="");document.getElementById("transferFinal").classList.remove("show");}
+back.onclick=()=>show(index-1);next.onclick=()=>{if(index===1&&!studentGuess)return;if(index===slides.length-1){resetInteractive();show(0)}else show(index+1)};teacherBtn.onclick=()=>notesEl.classList.toggle("open");document.addEventListener("keydown",e=>{if(e.key==="ArrowRight")next.click();if(e.key==="ArrowLeft")show(index-1);if(e.key==="Escape")notesEl.classList.remove("open")});show(0);
 </script>
 <style id="h013-map-fill-final">
 /* Fill the map panel: remove the remaining large side gutters. */
