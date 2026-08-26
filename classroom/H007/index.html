@@ -355,11 +355,61 @@ footer{display:flex!important;flex-direction:column!important;justify-content:ce
 </script>
 <script>
 const notes=[
-{title:"ASK · Teacher note",body:"DO: Let students compare the familiar-looking silhouettes and make a quick size judgment. Do not explain projections yet.\n\nLISTEN FOR: Assumptions based on how large places look on maps they already know.\n\nIF NEEDED: “Would you expect the picture on a world map to preserve true area?”"},
-{title:"PREDICT · Teacher note",body:"DO: Ask students whether the lower 48 U.S., China and India could all fit inside Africa at the same true-area scale. Get a show of hands for one of the four choices.\n\nLISTEN FOR: Whether students underestimate Africa even after being warned that maps distort size.\n\nIF NEEDED: “Would there be any Africa left over?”"},
-{title:"REVEAL · Teacher note",body:"DO: Pause on the leftover area: about 9.4 million km² remains after all three countries are placed inside Africa.\n\nLISTEN FOR: Surprise that the remaining area alone is comparable to another very large country.\n\nIF NEEDED: “Which surprised you more—that all three fit, or how much room is left?”"},
-{title:"UNDERSTAND · Teacher note",body:"DO: Compare the three maps of the same Earth. Ask what each map protects and what becomes less trustworthy.\n\nLISTEN FOR: Recognition that distortion is not a flaw unique to one map; it is a tradeoff created by flattening a sphere.\n\nIF NEEDED: “What had to give so this map could preserve its chosen property?”"},
-{title:"TRANSFER · Teacher note",body:"DO: Open all three popups. Emphasize that the underlying world, graph values, and five numbers never change. Only the representation or summary changes.\n\nLISTEN FOR: Students identifying what was gained and what context was sacrificed.\n\nIF NEEDED: “What did this choice help you see—and what did it hide or make harder to see?”\n\nEXTEND THE THINKING: Where else do we sacrifice part of the truth to make one part easier to see?”"}
+{title:"ASK · Teacher note",body:`DO:
+Let students compare Africa and Greenland on the familiar Mercator map and make a quick size judgment. Do not explain projections yet.
+
+LISTEN FOR:
+Assumptions based on how large places look on maps students already know.
+
+IF NEEDED:
+Ask, “Would you expect every flat world map to preserve true area?”
+
+EXTEND THE THINKING:
+What information might a map preserve well even if area is distorted?`},
+{title:"PREDICT · Teacher note",body:`DO:
+Have students choose whether the lower 48 U.S., China, and India could all fit inside Africa at the same equal-area scale.
+
+LISTEN FOR:
+Whether students still underestimate Africa even after being warned that familiar maps distort size.
+
+IF NEEDED:
+Ask, “If all three fit, do you think there would be any Africa left over?”
+
+EXTEND THE THINKING:
+What does your prediction reveal about the mental picture of Africa you carried into the lesson?`},
+{title:"REVEAL · Teacher note",body:`DO:
+Pause on the result: all three fit, with about 9.4 million km² still empty.
+
+LISTEN FOR:
+Surprise not only that all three fit, but at how much room remains.
+
+IF NEEDED:
+Ask, “Which surprised you more—that all three fit, or how much space is left?”
+
+EXTEND THE THINKING:
+If the familiar map changed your intuition about Africa, what other places might it change your intuition about?`},
+{title:"UNDERSTAND · Teacher note",body:`DO:
+Compare the three maps of the same Earth. Ask what each projection preserves and what it sacrifices.
+
+LISTEN FOR:
+Recognition that distortion is unavoidable when a sphere is flattened; the choice is what kind of distortion to accept.
+
+IF NEEDED:
+Ask, “What had to give so this map could preserve its chosen property?”
+
+EXTEND THE THINKING:
+Which projection would you choose if your question were about area, local shape, or distance from one location?`},
+{title:"TRANSFER · Teacher note",body:`DO:
+Open all three examples. Emphasize that the underlying world, graph values, and numbers never change—only the representation or summary does.
+
+LISTEN FOR:
+Students identifying both what became easier to see and what context became harder to see.
+
+IF NEEDED:
+Ask, “What did this choice help you see—and what did it hide or make harder to see?”
+
+EXTEND THE THINKING:
+Where else do we sacrifice part of the truth to make one part easier to see?`}
 ];
 const slides=[...document.querySelectorAll(".slide")], progress=document.getElementById("progress");
 slides.forEach((_,i)=>{let d=document.createElement("span");d.className="dot"+(i===0?" active":"");progress.appendChild(d)});

@@ -347,11 +347,61 @@ footer{
 </script>
 <script>
 const notes=[
-{title:"ASK · Teacher note",body:"DO: Ask students to picture where Americans live before giving them any choices.\n\nLISTEN FOR: Whether they equate a large share of the population with a large share of the land.\n\nIF NEEDED: “Would 40% of Americans need 40% of the country’s land?”"},
-{title:"PREDICT · Teacher note",body:"DO: Have everyone choose one estimate—30%, 15%, 5%, or 2%. A show of hands is enough.\n\nLISTEN FOR: How strongly students anchor population to physical land area.\n\nIF NEEDED: “Think about cities versus rural areas. Does that change your guess?”"},
-{title:"REVEAL · Teacher note",body:"DO: Let 1.8% sit for a moment before explaining it. Then point out how concentrated the dense areas are.\n\nLISTEN FOR: Surprise at how little land is required to contain such a large population share.\n\nIF NEEDED: “What does 98.2% of the land not tell us about where people live?”"},
-{title:"UNDERSTAND · Teacher note",body:"DO: Let students move the slider toward 40%. The land bar is a conceptual bridge anchored by the 1.8% result—not a claim that population accumulates linearly.\n\nLISTEN FOR: Recognition that changing the objective from showing land to capturing people changes what deserves visual weight.\n\nIF NEEDED: “If people are what matter to the question, should every acre still get equal visual space?”"},
-{title:"TRANSFER · Teacher note",body:"DO: Make students choose a representation for each objective. Neither representation is universally better.\n\nLISTEN FOR: Recognition that the right visual weighting depends on the question: people for access to services; land for continuous habitat or wilderness.\n\nIF NEEDED: “What looks biggest—and is that what matters most for this question?”\n\nEXTEND THE THINKING: What would you want visually weighted if the question were about votes, disease cases, traffic, economic activity, or water use?”"}
+{title:"ASK · Teacher note",body:`DO:
+Ask students to picture where Americans live before giving them any percentages.
+
+LISTEN FOR:
+Whether they equate a large share of the population with a large share of the land.
+
+IF NEEDED:
+Ask, “Would 40% of Americans necessarily need 40% of the country’s land?”
+
+EXTEND THE THINKING:
+What parts of a conventional map receive the most visual space—places with more land, or places with more people?`},
+{title:"PREDICT · Teacher note",body:`DO:
+Have everyone commit to one estimate—30%, 15%, 5%, or 2%—before advancing.
+
+LISTEN FOR:
+How strongly students anchor population to physical land area.
+
+IF NEEDED:
+Ask, “Think about cities versus rural areas. Does that change your guess?”
+
+EXTEND THE THINKING:
+What would have to be true about population distribution for 40% of Americans to fit on very little land?`},
+{title:"REVEAL · Teacher note",body:`DO:
+Let 1.8% sit for a moment before explaining it. Then point out how concentrated the highlighted dense areas are.
+
+LISTEN FOR:
+Surprise at how little land contains such a large share of the population.
+
+IF NEEDED:
+Ask, “What does the other 98.2% of the land fail to tell us about where people live?”
+
+EXTEND THE THINKING:
+How might the United States look different if visual space were based on people instead of acres?`},
+{title:"UNDERSTAND · Teacher note",body:`DO:
+Let students move the slider toward 40%. Explain that the land bar is a conceptual bridge anchored by the 1.8% result, not a claim that population accumulates linearly.
+
+LISTEN FOR:
+Recognition that changing the objective from showing land to capturing people changes what deserves visual weight.
+
+IF NEEDED:
+Ask, “If people are what matter to the question, should every acre still get equal visual space?”
+
+EXTEND THE THINKING:
+What other questions would make equal land area the wrong thing to emphasize?`},
+{title:"TRANSFER · Teacher note",body:`DO:
+Have students choose a representation for both objectives. Emphasize that neither representation is universally better.
+
+LISTEN FOR:
+Recognition that useful visual weighting depends on the question—people for access to services, land for continuous wilderness.
+
+IF NEEDED:
+Ask, “What looks biggest—and is that what matters most for this question?”
+
+EXTEND THE THINKING:
+What should receive the most visual weight if the question is about votes, disease cases, traffic, economic activity, water use, or risk?`}
 ];
 const slides=[...document.querySelectorAll(".slide")],progress=document.getElementById("progress");slides.forEach((_,i)=>{let d=document.createElement("span");d.className="pdot"+(i===0?" active":"");progress.appendChild(d)});const dots=[...progress.children],back=document.getElementById("backBtn"),next=document.getElementById("nextBtn"),stage=document.getElementById("stageName"),noteTitle=document.getElementById("noteTitle"),noteBody=document.getElementById("noteBody"),notesEl=document.getElementById("notes"),teacherBtn=document.getElementById("teacherBtn");let index=0;
 function show(i){index=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle("active",j===index));dots.forEach((d,j)=>d.classList.toggle("active",j===index));stage.textContent=slides[index].dataset.stage;back.disabled=index===0;next.textContent=index===slides.length-1?"Restart ↺":"Next →";noteTitle.textContent=notes[index].title;noteBody.textContent=notes[index].body}

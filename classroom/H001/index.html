@@ -431,11 +431,61 @@ const dots=[...progress.children];
 let index=0;
 
 const notesData=[
-  ['ASK · Teacher note','Use the graph to estimate the baseline median and mean. Students check both before advancing.'],
-  ['PREDICT · Teacher note','Carry forward the correct baseline values: median $80,500 and mean $86,400. Then introduce the $50 million guest and predict the new values.'],
-  ['REVEAL · Teacher note','Read left to right: BEFORE, then AFTER. Both panels use the same scale.'],
-  ['UNDERSTAND · Teacher note','The slider is linear from $0 to $50,000,000. Students can also type any salary directly in the upper-right box.'],
-  ['TRANSFER · Teacher note','Reveal both ticket-price lists, compare their mean and median, then ask what else students would want to know when someone reports an “average.”']
+  ['ASK · Teacher note',`DO:
+Have students estimate both the median and mean from the ten salaries, then check both answers before advancing.
+
+LISTEN FOR:
+Whether students distinguish the middle value from the total divided by the number of people.
+
+IF NEEDED:
+Ask, “For the median, which values are in the middle? For the mean, what would you have to calculate?”
+
+EXTEND THE THINKING:
+Before changing any salaries, ask which measure they expect would react more to one unusually large value.`],
+  ['PREDICT · Teacher note',`DO:
+Carry forward the correct baseline values—median $80,500 and mean $86,400—then introduce the $50 million guest and require predictions for both new measures.
+
+LISTEN FOR:
+Whether students expect both measures to rise dramatically just because one enormous value entered the group.
+
+IF NEEDED:
+Ask, “Did anyone else at the BBQ get richer? Which measure depends on position, and which uses every dollar?”
+
+EXTEND THE THINKING:
+Ask what would happen if the new guest earned $5 million instead of $50 million.`],
+  ['REVEAL · Teacher note',`DO:
+Read the panels left to right: BEFORE, then AFTER. Point out that both use the same vertical scale.
+
+LISTEN FOR:
+Recognition that the median barely moves while the mean is pulled dramatically upward.
+
+IF NEEDED:
+Ask, “Why did the mean change so much even though the original ten salaries stayed exactly the same?”
+
+EXTEND THE THINKING:
+Where might one extreme value make an “average” technically correct but misleading about a typical person?`],
+  ['UNDERSTAND · Teacher note',`DO:
+Let students drag the salary slider—or type a value—and watch the median and mean respond.
+
+LISTEN FOR:
+Recognition that once the new guest moves above the middle, the median stops following the salary while the mean keeps climbing.
+
+IF NEEDED:
+Ask, “Which measure follows the middle position? Which measure responds to every value?”
+
+EXTEND THE THINKING:
+Invite students to try several extreme salaries and look for the point where the median stops changing.`],
+  ['TRANSFER · Teacher note',`DO:
+Reveal both ticket-price lists, let students choose which $50 “average” is more useful, then reveal the mean and median for both lists.
+
+LISTEN FOR:
+Students noticing that the same mean can describe two very different distributions.
+
+IF NEEDED:
+Ask, “If most tickets in List B cost $5, what does the $50 mean fail to tell you?”
+
+EXTEND THE THINKING:
+Next time someone reports an “average,” what else would you want to know before deciding what it means?`]
 ];
 
 function updateNext(){
