@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hanten Classroom — H013 Interactive v3</title>
+<title>Hanten Classroom — H013 Interactive v4</title>
 <style>
 :root{--paper:#f3efe6;--card:#fffdf8;--ink:#1d2b2f;--soft:#627176;--line:rgba(29,43,47,.14);--accent:#2f6f63;--land:#d8d7cf;--dense:#3d756c}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}button{font:inherit}
@@ -242,6 +242,24 @@ footer{
 .objective-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:900px;margin:.7rem auto}.objective-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:center}.objective-icon{font-size:2rem}.objective-card h2{font-size:1.12rem;margin:4px 0}.objective-card p{font-size:.9rem;color:var(--soft);margin:4px 0 10px}.objective-buttons{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.objective-btn{border:1px solid var(--line);background:white;border-radius:10px;padding:8px 10px;font-weight:800;cursor:pointer}.objective-btn.selected{border-color:var(--accent);background:#e7efec}.objective-feedback{min-height:38px;margin-top:8px;font-size:.82rem;font-weight:750;color:var(--soft)}.transfer-final{display:none;max-width:900px;margin:.65rem auto 0;text-align:center}.transfer-final.show{display:block}.transfer-final .question{font-size:clamp(1.25rem,2.3vw,1.9rem);margin-top:0}.transfer-tags{margin-top:8px;color:var(--accent);font-weight:900;word-spacing:8px}
 @media(max-width:760px){.capture-wrap,.objective-grid{grid-template-columns:1fr}.objective-card{padding:11px}}
 @media(max-height:720px){.capture-card{padding:12px}.objective-card{padding:10px}.objective-icon{font-size:1.5rem}.objective-card p{font-size:.8rem}.objective-feedback{min-height:28px}.transfer-final .question{font-size:1.15rem}}
+</style><style id="h013-rc2">.rc2-grid{grid-template-columns:1fr 1fr;gap:8px;max-width:960px;margin:.3rem auto}.rc2-grid .objective-card{padding:9px 11px}.rc2-grid .objective-icon{font-size:1.35rem}.rc2-grid .objective-card h2{font-size:.96rem;margin:2px 0}.rc2-grid .objective-card p{font-size:.76rem;margin:2px 0 5px}.rc2-grid .objective-btn{padding:5px 7px;font-size:.69rem}.rc2-grid .objective-feedback{min-height:26px;font-size:.7rem;margin-top:3px}@media(max-height:720px){.rc2-grid{gap:5px}.rc2-grid .objective-card{padding:6px}.rc2-grid .objective-feedback{min-height:20px}}</style><style id="h013-rc2-size-fix">
+.rc2-grid{gap:12px !important;max-width:1040px !important}
+.rc2-grid .objective-card{padding:14px 16px !important}
+.rc2-grid .objective-icon{font-size:1.8rem !important}
+.rc2-grid .objective-card h2{font-size:1.18rem !important;line-height:1.18 !important;margin:4px 0 !important}
+.rc2-grid .objective-card p{font-size:.92rem !important;line-height:1.25 !important;margin:4px 0 9px !important}
+.rc2-grid .objective-buttons{gap:7px !important}
+.rc2-grid .objective-btn{padding:9px 12px !important;font-size:.88rem !important;min-width:72px !important}
+.rc2-grid .objective-feedback{min-height:34px !important;font-size:.82rem !important;line-height:1.25 !important;margin-top:6px !important}
+@media(max-height:760px){
+ .rc2-grid{gap:8px !important}
+ .rc2-grid .objective-card{padding:10px 12px !important}
+ .rc2-grid .objective-icon{font-size:1.45rem !important}
+ .rc2-grid .objective-card h2{font-size:1.02rem !important}
+ .rc2-grid .objective-card p{font-size:.8rem !important;margin-bottom:6px !important}
+ .rc2-grid .objective-btn{padding:7px 9px !important;font-size:.78rem !important}
+ .rc2-grid .objective-feedback{min-height:27px !important;font-size:.72rem !important}
+}
 </style></head>
 <body><div class="app">
 <header><div class="brand">HANTEN CLASSROOM</div><div class="meta">H013 · Population density · ~5 minutes</div><button class="teacher-btn" id="teacherBtn">Teacher Notes</button></header>
@@ -279,27 +297,15 @@ footer{
 <div class="prompt" id="understandTakeaway"><strong>Same country. Different objective. Different picture.</strong></div>
 </section>
 <section class="slide" data-stage="TRANSFER">
-<div class="kicker">TRANSFER</div><h1>Which map would you want?</h1>
-<p class="sub">The useful representation depends on the question you are trying to answer.</p>
-<div class="objective-grid">
-  <div class="objective-card">
-    <div class="objective-icon">🏥</div><h2>Where should a new hospital go?</h2>
-    <p>You want to reach the greatest number of people.</p>
-    <div class="objective-buttons"><button class="objective-btn" data-case="hospital" data-choice="land">Land-area map</button><button class="objective-btn" data-case="hospital" data-choice="people">People-weighted map</button></div>
-    <div class="objective-feedback" id="hospitalFeedback"></div>
-  </div>
-  <div class="objective-card">
-    <div class="objective-icon">🌲</div><h2>Where should a large wilderness reserve go?</h2>
-    <p>You care about continuous undeveloped land.</p>
-    <div class="objective-buttons"><button class="objective-btn" data-case="wilderness" data-choice="land">Land-area map</button><button class="objective-btn" data-case="wilderness" data-choice="people">People-weighted map</button></div>
-    <div class="objective-feedback" id="wildernessFeedback"></div>
-  </div>
+<div class="kicker">TRANSFER</div><h1>What deserves the visual space?</h1>
+<p class="sub">A useful representation gives visual weight to what matters for the question.</p>
+<div class="objective-grid rc2-grid">
+<div class="objective-card"><div class="objective-icon">🏥</div><h2>Where should a new hospital go?</h2><p>Reach the greatest number of people.</p><div class="objective-buttons"><button class="objective-btn" data-case="hospital" data-choice="land">Land</button><button class="objective-btn" data-case="hospital" data-choice="people">People</button><button class="objective-btn" data-case="hospital" data-choice="stops">Stops</button><button class="objective-btn" data-case="hospital" data-choice="risk">Risk</button></div><div class="objective-feedback" id="hospitalFeedback"></div></div>
+<div class="objective-card"><div class="objective-icon">🌲</div><h2>Where should a large wilderness reserve go?</h2><p>Find continuous undeveloped land.</p><div class="objective-buttons"><button class="objective-btn" data-case="wilderness" data-choice="land">Land</button><button class="objective-btn" data-case="wilderness" data-choice="people">People</button><button class="objective-btn" data-case="wilderness" data-choice="stops">Stops</button><button class="objective-btn" data-case="wilderness" data-choice="risk">Risk</button></div><div class="objective-feedback" id="wildernessFeedback"></div></div>
+<div class="objective-card"><div class="objective-icon">🚇</div><h2>How should a subway system be shown?</h2><p>Understand stations and connections.</p><div class="objective-buttons"><button class="objective-btn" data-case="subway" data-choice="land">Land</button><button class="objective-btn" data-case="subway" data-choice="people">People</button><button class="objective-btn" data-case="subway" data-choice="stops">Stops</button><button class="objective-btn" data-case="subway" data-choice="risk">Risk</button></div><div class="objective-feedback" id="subwayFeedback"></div></div>
+<div class="objective-card"><div class="objective-icon">🌊</div><h2>Where is flooding most dangerous?</h2><p>See where the hazard is greatest.</p><div class="objective-buttons"><button class="objective-btn" data-case="flood" data-choice="land">Land</button><button class="objective-btn" data-case="flood" data-choice="people">People</button><button class="objective-btn" data-case="flood" data-choice="stops">Stops</button><button class="objective-btn" data-case="flood" data-choice="risk">Risk</button></div><div class="objective-feedback" id="floodFeedback"></div></div>
 </div>
-<div class="transfer-final" id="transferFinal">
-  <div class="question"><strong>What looks biggest—and is that what matters most?</strong></div>
-  <div class="sacrifice" style="margin-top:8px">What should get the most weight for the question you're trying to answer?</div>
-  <div class="transfer-tags">Land · People · Votes · Resources · Activity · Risk</div>
-</div>
+<div class="transfer-final" id="transferFinal"><div class="question"><strong>What deserves the visual space?</strong></div><div style="margin-top:5px">The answer changes with the question.</div><div class="transfer-tags">Land · People · Stops & connections · Risk</div></div>
 </section>
 </main>
 <footer><div class="nav-group"><button class="navbtn primary" id="backBtn">← Back</button><button class="navbtn primary" id="nextBtn">Next →</button></div><div class="footer-progress"><div class="progress" id="progress"></div><div class="stage-name" id="stageName">ASK</div></div></footer></div>
@@ -392,16 +398,16 @@ Ask, “If people are what matter to the question, should every acre still get e
 EXTEND THE THINKING:
 What other questions would make equal land area the wrong thing to emphasize?`},
 {title:"TRANSFER · Teacher note",body:`DO:
-Have students choose a representation for both objectives. Emphasize that neither representation is universally better.
+Have students choose what deserves visual weight in all four cases: hospital, wilderness, subway, and flood risk. Emphasize that no individual variable is universally best.
 
 LISTEN FOR:
-Recognition that useful visual weighting depends on the question—people for access to services, land for continuous wilderness.
+Recognition that useful visual weighting depends on the question—people for access, land for wilderness, stops and connections for a subway diagram, and risk for a hazard map.
 
 IF NEEDED:
 Ask, “What looks biggest—and is that what matters most for this question?”
 
 EXTEND THE THINKING:
-What should receive the most visual weight if the question is about votes, disease cases, traffic, economic activity, water use, or risk?`}
+Ask students for a fifth example: votes, disease cases, traffic, economic activity, water use, or something from their own experience.`}
 ];
 const slides=[...document.querySelectorAll(".slide")],progress=document.getElementById("progress");slides.forEach((_,i)=>{let d=document.createElement("span");d.className="pdot"+(i===0?" active":"");progress.appendChild(d)});const dots=[...progress.children],back=document.getElementById("backBtn"),next=document.getElementById("nextBtn"),stage=document.getElementById("stageName"),noteTitle=document.getElementById("noteTitle"),noteBody=document.getElementById("noteBody"),notesEl=document.getElementById("notes"),teacherBtn=document.getElementById("teacherBtn");let index=0;
 function show(i){index=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle("active",j===index));dots.forEach((d,j)=>d.classList.toggle("active",j===index));stage.textContent=slides[index].dataset.stage;back.disabled=index===0;next.textContent=index===slides.length-1?"Restart ↺":"Next →";noteTitle.textContent=notes[index].title;noteBody.textContent=notes[index].body}
@@ -419,14 +425,18 @@ function updateCapture(){
 }
 captureSlider.addEventListener("input",updateCapture);updateCapture();
 
-const caseAnswers={hospital:"people",wilderness:"land"},caseDone=new Set();
+const caseAnswers={hospital:"people",wilderness:"land",subway:"stops",flood:"risk"},caseDone=new Set();
+const caseFeedback={
+hospital:{people:"Yes. Population deserves the visual weight.",land:"Land area can hide where most potential patients are.",stops:"Stops answer a transit question, not this one.",risk:"Risk can matter, but this question asks where the most people can be reached."},
+wilderness:{land:"Yes. Continuous physical land is central here.",people:"People-weighting can shrink the sparse land you need to evaluate.",stops:"Stops are not the variable this question asks about.",risk:"Risk can matter, but continuous undeveloped land is the objective."},
+subway:{stops:"Yes. Subway diagrams prioritize stations and connections even when geographic distance is distorted.",land:"Exact land area is less useful than a clear network.",people:"Ridership can matter, but this question is about understanding stations and connections.",risk:"Risk is not the organizing variable here."},
+flood:{risk:"Yes. A hazard map should emphasize where flooding risk is greatest.",land:"Equal land area can make low- and high-risk places look equally important.",people:"Population matters for exposure, but this question asks where the hazard is greatest.",stops:"Stops are not the variable this hazard question asks about."}
+};
 document.querySelectorAll(".objective-btn").forEach(b=>b.addEventListener("click",()=>{
  const c=b.dataset.case,choice=b.dataset.choice;caseDone.add(c);
  document.querySelectorAll(`.objective-btn[data-case="${c}"]`).forEach(x=>x.classList.toggle("selected",x===b));
- const fb=document.getElementById(c+"Feedback");
- if(c==="hospital") fb.textContent=choice==="people"?"Yes. If access for people is the goal, population deserves the visual weight.":"Land area alone can hide where most potential patients actually are.";
- else fb.textContent=choice==="land"?"Yes. For continuous wilderness, physical land area is central to the question.":"A people-weighted map can shrink exactly the sparsely populated land you need to evaluate.";
- if(caseDone.size===2)document.getElementById("transferFinal").classList.add("show");
+ document.getElementById(c+"Feedback").textContent=caseFeedback[c][choice];
+ if(caseDone.size===4)document.getElementById("transferFinal").classList.add("show");
 }));
 
 const baseShow=show;show=function(i){baseShow(i);if(index===1)next.disabled=!studentGuess;if(index===2&&studentGuess)document.getElementById("guessMemory").textContent="You predicted: "+studentGuess;};

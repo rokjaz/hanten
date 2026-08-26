@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hanten Classroom — H007 Interactive v2</title>
+<title>Hanten Classroom — H007 Interactive v3</title>
 <style>
 :root{--paper:#f3efe6;--card:#fffdf8;--ink:#1d2b2f;--soft:#627176;--line:rgba(29,43,47,.14);--accent:#2f6f63;--africa:#d6dbd0;--usa:#1f6f8b;--china:#c1442d;--india:#d9a441}
 *{box-sizing:border-box} html,body{height:100%}
@@ -135,7 +135,11 @@ footer{display:flex!important;flex-direction:column!important;justify-content:ce
 @media(max-width:760px){.projection-grid,.transfer-grid,.modal-two,.summary-pair{grid-template-columns:1fr}.projection-map{height:155px}.demo-dialog{max-height:94vh}}
 @media(max-height:720px){.projection-map{height:145px}.projection-foot{font-size:.72rem;min-height:32px}.transfer-card{padding:10px}.transfer-hook{min-height:54px}.demo-dialog{padding:16px 18px}.modal-map{height:150px}.axis-demo{height:170px}}
 </style>
-</head>
+<style id="h007-rc2">.china-again{text-align:center;max-width:820px;margin:.22rem auto 0;color:var(--soft);font-size:.88rem}.orange-box{border-width:2px}@media(max-height:720px){.china-again{font-size:.76rem;margin-top:.08rem}}</style><style id="h007-orange-bridge-fix">
+.orange-bridge{max-width:900px;margin:.3rem auto .5rem;padding:10px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);display:flex;align-items:center;gap:12px;color:var(--ink);font-size:.9rem;line-height:1.3}
+.orange-icon{font-size:2rem;line-height:1}
+@media(max-height:720px){.orange-bridge{padding:7px 10px;margin:.15rem auto .3rem;font-size:.78rem}.orange-icon{font-size:1.55rem}}
+</style></head>
 <body>
 <div class="app">
 <header><div class="brand">HANTEN CLASSROOM</div><div class="meta">H007 · Map projections &amp; scale · ~5 minutes</div><button class="teacher-btn" id="teacherBtn">Teacher Notes</button></header>
@@ -171,13 +175,19 @@ footer{display:flex!important;flex-direction:column!important;justify-content:ce
 <tr><td>Africa total</td><td>30.4M km²</td></tr>
 </table></div></div></div>
 <div class="big-number">The familiar map changed our intuition—not Africa.</div>
+<div class="china-again"><strong>The ≈9.4M km² still empty is almost the size of another China (≈9.6M km²).</strong></div>
 <div class="source">Areas rounded from the CIA World Factbook; H007 uses equal-area country shapes from Natural Earth.</div>
 </section>
 
 <section class="slide" data-stage="UNDERSTAND">
 <div class="kicker">UNDERSTAND</div>
 <h1>Same Earth. Different map. Different sacrifice.</h1>
-<p class="sub">A flat map cannot preserve everything at once. Compare three legitimate ways to flatten the same world.</p>
+<p class="sub">A flat map cannot preserve everything at once. Compare three legitimate ways to flatten the same world.</p><div class="orange-bridge">
+  <div class="orange-icon">🍊</div>
+  <div><strong>Imagine peeling an orange and trying to press the peel completely flat.</strong><br>
+  You would have to stretch it, tear it, or overlap parts of it. A flat map of a round Earth faces the same problem.</div>
+</div>
+
 <div class="projection-grid">
   <div class="projection-card">
     <div class="projection-head"><strong>Preserve AREA</strong><span>Equal Earth</span></div>
