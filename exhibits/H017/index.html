@@ -1,0 +1,2503 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H017 — Equal Fifty</title>
+<meta name="description" content="What would America look like if every state had the same population?">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h017-ink: #1f1f1f;
+    --h017-muted: #666666;
+    --h017-line: rgba(31,31,31,0.14);
+    --h017-accent: #0e6f78;
+    --h017-accent-soft: #edf5f5;
+    --h017-r0:  #6f98a3;  /* blue-teal */
+    --h017-r1:  #c19a55;  /* ochre */
+    --h017-r2:  #b97563;  /* terracotta */
+    --h017-r3:  #78966f;  /* sage */
+    --h017-r4:  #9280aa;  /* lavender */
+    --h017-r5:  #7188a2;  /* slate blue */
+    --h017-r6:  #b8798e;  /* dusty rose */
+    --h017-r7:  #9a965b;  /* olive */
+    --h017-r8:  #5f958b;  /* teal */
+    --h017-r9:  #9b718d;  /* mauve */
+    --h017-r10: #b6814f;  /* warm brown */
+    --h017-r11: #7da3b2;  /* cool blue */
+  }
+
+  .h017-shell {
+    width: min(100%, 900px);
+    margin: 0 auto;
+  }
+
+  .h017-map-frame {
+    background: var(--hanten-paper);
+    border: 1px solid var(--hanten-border);
+    padding: .55rem;
+  }
+
+  #h017-map {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .h017-county {
+    stroke: rgba(255,255,255,0.35);
+    stroke-width: 0.2;
+  }
+
+  .h017-state-borders {
+    fill: none;
+    stroke: var(--h017-ink);
+    stroke-width: 1.15;
+    opacity: 0.68;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .h017-region-borders {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 0.7;
+    opacity: 0.45;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .h017-city-dot {
+    fill: var(--h017-ink);
+    stroke: #ffffff;
+    stroke-width: 1.3;
+  }
+
+  .h017-city-label {
+    font-family: var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    font-size: 11px;
+    fill: var(--h017-ink);
+    paint-order: stroke;
+    stroke: rgba(255,255,255,0.9);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+  }
+
+  .h017-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--h017-line);
+    border: 1px solid var(--h017-line);
+    margin: .65rem auto 0;
+    max-width: 900px;
+  }
+
+  .h017-stat {
+    background: var(--hanten-paper);
+    padding: .6rem .7rem;
+  }
+
+  .h017-stat .num {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 1.05rem;
+    font-weight: 750;
+    color: var(--h017-accent);
+  }
+
+  .h017-stat .label {
+    margin-top: 0.2rem;
+    font-size: .76rem;
+    line-height: 1.4;
+    color: var(--h017-muted);
+  }
+
+
+  .h017-takeaway {
+    max-width: 760px;
+    margin: .8rem auto 0;
+    padding: .15rem 0 .15rem 1rem;
+    border-left: 3px solid var(--hanten-accent);
+    font-size: .95rem;
+    line-height: 1.45;
+  }
+
+  .h017-takeaway p {
+    margin: 0;
+  }
+
+  .h017-takeaway p + p {
+    margin-top: .3rem;
+    color: var(--hanten-muted);
+  }
+
+  .hanten-source {
+    max-width: 820px;
+    margin: .75rem auto 0;
+  }
+
+  @media (max-width: 720px) {
+    .h017-map-frame {
+      padding: 0.35rem;
+    }
+
+    .h017-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .h017-city-label {
+      font-size: 9px;
+    }
+  }
+</style>
+
+<style id="h017-v2-polish">
+
+.h017-map-frame{
+  background:#ffffff;
+}
+
+.h017-city-toggle{
+  max-width:760px;
+  margin:.55rem auto 0;
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  font-size:.78rem;
+  line-height:1.4;
+  color:var(--hanten-muted);
+  cursor:pointer;
+  user-select:none;
+}
+
+.h017-city-toggle input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.h017-toggle-switch{
+  position:relative;
+  width:34px;
+  height:18px;
+  flex:0 0 auto;
+  border-radius:999px;
+  background:#c8cdcb;
+  transition:background .15s ease;
+}
+
+.h017-toggle-switch::after{
+  content:"";
+  position:absolute;
+  top:2px;
+  left:2px;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:#ffffff;
+  box-shadow:0 1px 3px rgba(0,0,0,.18);
+  transition:transform .15s ease;
+}
+
+.h017-city-toggle input:checked + .h017-toggle-switch{
+  background:var(--hanten-accent);
+}
+
+.h017-city-toggle input:checked + .h017-toggle-switch::after{
+  transform:translateX(16px);
+}
+
+.h017-city-toggle:focus-within .h017-toggle-switch{
+  outline:2px solid color-mix(in srgb,var(--hanten-accent) 35%,transparent);
+  outline-offset:2px;
+}
+
+.h017-map-note{
+  max-width:760px;
+  margin:.6rem auto 0;
+  text-align:left;
+  font-size:.78rem;
+  line-height:1.45;
+  color:var(--hanten-muted);
+}
+
+.h017-method{
+  max-width:760px;
+  margin:1rem auto 0;
+  text-align:left;
+  border-top:1px solid var(--hanten-border);
+  border-bottom:1px solid var(--hanten-border);
+}
+
+.h017-method summary{
+  cursor:pointer;
+  padding:.7rem 0;
+  font-size:.88rem;
+  font-weight:700;
+  color:var(--hanten-text);
+}
+
+.h017-method-body{
+  padding:0 0 .8rem;
+  font-size:.82rem;
+  line-height:1.5;
+  color:var(--hanten-muted);
+}
+
+.h017-method-body p{
+  margin:0;
+}
+
+.h017-method-body p + p{
+  margin-top:.55rem;
+}
+
+.h017-takeaway{
+  margin-top:1.15rem;
+  padding-left:0;
+  border-left:0;
+}
+
+.hanten-reflection{
+  margin-top:1.25rem !important;
+}
+
+.hanten-source{
+  max-width:760px !important;
+  margin:2.25rem auto 0 !important;
+  text-align:left !important;
+  font-size:.75rem !important;
+  line-height:1.45 !important;
+  color:var(--hanten-muted) !important;
+}
+</style>
+
+
+<style id="h017-final-polish">
+
+body{
+  background:var(--hanten-paper,#f4f3ef);
+}
+
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:900px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+  text-wrap:balance;
+}
+
+.h017-map-frame{
+  background:var(--hanten-paper,#f4f3ef) !important;
+}
+
+.h017-takeaway{
+  max-width:760px !important;
+  margin:1rem auto 0 !important;
+  padding:0 !important;
+  border-left:0 !important;
+  font-size:.9rem !important;
+  line-height:1.5 !important;
+}
+
+.h017-map-note{
+  margin:.65rem auto 0 !important;
+  font-size:.78rem !important;
+  line-height:1.45 !important;
+}
+
+.h017-method{
+  margin:.9rem auto 0 !important;
+}
+
+.h017-method summary{
+  font-size:.84rem !important;
+}
+
+.h017-method-body{
+  font-size:.8rem !important;
+  line-height:1.5 !important;
+}
+
+.hanten-reflection{
+  max-width:740px !important;
+  margin:1rem auto 0 !important;
+  text-align:center !important;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
+  font-size:.95rem !important;
+  line-height:1.45 !important;
+  font-weight:500 !important;
+  color:var(--hanten-muted) !important;
+}
+
+.hanten-source{
+  max-width:760px !important;
+  margin:1.5rem auto 0 !important;
+  text-align:left !important;
+  font-size:.75rem !important;
+  line-height:1.45 !important;
+  color:var(--hanten-muted) !important;
+}
+
+.h017-actions{
+  max-width:760px;
+  margin:1rem auto 0;
+  display:flex;
+  justify-content:flex-end;
+  gap:.55rem;
+  flex-wrap:wrap;
+}
+
+.h017-actions button{
+  appearance:none;
+  border:1px solid var(--hanten-border);
+  background:#fff;
+  color:var(--hanten-text);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.76rem;
+  font-weight:700;
+  padding:.55rem .8rem;
+  cursor:pointer;
+}
+
+.h017-actions button:hover,
+.h017-actions button:focus-visible{
+  border-color:var(--hanten-accent);
+  color:var(--hanten-accent);
+}
+
+.h017-actions button:disabled{
+  opacity:.55;
+  cursor:wait;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">
+    What would America look like<br>if every state had the same population?
+  </h1>
+
+  <p class="hanten-subtitle">
+    Redraw the country into 50 regions containing roughly the same number of people.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h017-shell" id="h017-capture">
+
+      <div class="h017-map-frame" id="h017-map-wrap">
+        <svg
+          id="h017-map"
+          viewBox="0 0 975 610"
+          aria-label="United States redrawn into fifty regions of roughly equal population, with real state borders shown faintly"
+        ></svg>
+      </div>
+
+      <label class="h017-city-toggle" data-html2canvas-ignore="true">
+        <input type="checkbox" id="h017-city-toggle" checked>
+        <span class="h017-toggle-switch" aria-hidden="true"></span>
+        <span>Show largest city in each region</span>
+      </label>
+
+<div class="h017-takeaway">
+        <p><strong>Equal population produces radically unequal-looking regions.</strong></p>
+        <p>
+          Dense corridors fracture into small pieces while sparsely populated areas combine into enormous ones.
+          The faint dark lines show the real state borders.
+        </p>
+      </div>
+
+      <p class="h017-map-note">
+        Alaska is part of Region 1; Hawaii is part of Region 7.
+        Each label marks the largest 2023 incorporated place in that region.
+      </p>
+
+      <details class="h017-method" data-html2canvas-ignore="true">
+        <summary>How were these regions created?</summary>
+        <div class="h017-method-body">
+          <p>
+            U.S. counties were grouped into 50 geographically coherent regions containing roughly equal populations,
+            using U.S. Census Bureau Vintage 2023 county estimates. Connecticut uses 2020 census counties.
+            Mainland regions are contiguous; Alaska and Hawaii are assigned to Pacific regions, and island counties may appear detached.
+          </p>
+          <p>
+            The method recursively divides counties by population and geography, then refines the result
+            with border-county swaps. Whole counties are preserved, so perfect equality is not always possible.
+            Los Angeles County alone exceeds the target population for one region and is not divided.
+          </p>
+          <p>
+            These are illustrative Hanten regions, not proposed states or official boundaries.
+          </p>
+        </div>
+      </details>
+
+      <p class="hanten-reflection">
+        What changes when we compare places by people instead of land?
+      </p>
+
+      <div class="hanten-source">
+        Population: U.S. Census Bureau Vintage 2023 county estimates; Connecticut uses 2020 census counties.
+        Boundaries: U.S. Census via us-atlas.
+      </div>
+
+      <div class="h017-actions" data-html2canvas-ignore="true">
+        <button type="button" id="h017-save">Save Image</button>
+        <button type="button" id="h017-share">Share Image</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/js/topojson-client.min.js"></script>
+
+<script src="../../assets/geodata/us/us-counties-10m.js"></script>
+<script src="../../assets/geodata/us/equal50.js"></script>
+
+<script>
+  const width = 975;
+  const height = 610;
+  const svg = d3.select("#h017-map");
+
+  const counties = topojson.feature(
+    US_COUNTIES_TOPOLOGY,
+    US_COUNTIES_TOPOLOGY.objects.counties
+  );
+
+  const statesMesh = topojson.mesh(
+    US_COUNTIES_TOPOLOGY,
+    US_COUNTIES_TOPOLOGY.objects.states,
+    (a, b) => a !== b
+  );
+
+  const regionMesh = topojson.mesh(
+    US_COUNTIES_TOPOLOGY,
+    US_COUNTIES_TOPOLOGY.objects.counties,
+    (a, b) =>
+      a !== b &&
+      EQUAL50.assign[a.id] !== undefined &&
+      EQUAL50.assign[b.id] !== undefined &&
+      EQUAL50.assign[a.id] !== EQUAL50.assign[b.id]
+  );
+
+  const projection = d3.geoAlbersUsa().fitSize([width, height], counties);
+  const path = d3.geoPath(projection);
+
+  const PALETTE = [
+    "var(--h017-r0)",
+    "var(--h017-r1)",
+    "var(--h017-r2)",
+    "var(--h017-r3)",
+    "var(--h017-r4)",
+    "var(--h017-r5)",
+    "var(--h017-r6)",
+    "var(--h017-r7)",
+    "var(--h017-r8)",
+    "var(--h017-r9)",
+    "var(--h017-r10)",
+    "var(--h017-r11)"
+  ];
+
+  const REGION_COLOR = {
+    0: 7,
+    1: 10,
+    2: 9,
+    3: 2,
+    4: 0,
+    5: 5,
+    6: 8,
+    7: 11,
+    8: 1,
+    9: 6,
+    10: 3,
+    11: 7,
+    12: 9,
+    13: 4,
+    14: 5,
+    15: 3,
+    16: 0,
+    17: 11,
+    18: 7,
+    19: 2,
+    20: 1,
+    21: 3,
+    22: 4,
+    23: 8,
+    24: 5,
+    25: 1,
+    26: 0,
+    27: 4,
+    28: 2,
+    29: 11,
+    30: 7,
+    31: 4,
+    32: 10,
+    33: 5,
+    34: 6,
+    35: 1,
+    36: 11,
+    37: 0,
+    38: 9,
+    39: 11,
+    40: 8,
+    41: 6,
+    42: 3,
+    43: 10,
+    44: 0,
+    45: 6,
+    46: 2,
+    47: 1,
+    48: 9,
+    49: 8
+  };
+
+  svg.append("g")
+    .selectAll("path")
+    .data(counties.features.filter(f => EQUAL50.assign[f.id] !== undefined))
+    .join("path")
+    .attr("class", "h017-county")
+    .attr(
+      "fill",
+      f => PALETTE[REGION_COLOR[EQUAL50.assign[f.id]]]
+    )
+    .attr("d", path);
+
+  svg.append("path")
+    .datum(regionMesh)
+    .attr("class", "h017-region-borders")
+    .attr("d", path);
+
+  svg.append("path")
+    .datum(statesMesh)
+    .attr("class", "h017-state-borders")
+    .attr("d", path);
+
+  const REGION_PLACES = [
+  {
+    "region": 0,
+    "name": "Los Angeles",
+    "state": "CA",
+    "population": 3820914,
+    "lat": 34.019394,
+    "lon": -118.410825
+  },
+  {
+    "region": 1,
+    "name": "Seattle",
+    "state": "WA",
+    "population": 755078,
+    "lat": 47.619335,
+    "lon": -122.351538
+  },
+  {
+    "region": 2,
+    "name": "San Jose",
+    "state": "CA",
+    "population": 969655,
+    "lat": 37.296011,
+    "lon": -121.814552
+  },
+  {
+    "region": 3,
+    "name": "Sacramento",
+    "state": "CA",
+    "population": 526384,
+    "lat": 38.567694,
+    "lon": -121.468161
+  },
+  {
+    "region": 4,
+    "name": "Bakersfield",
+    "state": "CA",
+    "population": 413381,
+    "lat": 35.353171,
+    "lon": -119.037919
+  },
+  {
+    "region": 5,
+    "name": "Las Vegas",
+    "state": "NV",
+    "population": 660929,
+    "lat": 36.233499,
+    "lon": -115.264037
+  },
+  {
+    "region": 6,
+    "name": "Portland",
+    "state": "OR",
+    "population": 630498,
+    "lat": 45.536951,
+    "lon": -122.649971
+  },
+  {
+    "region": 7,
+    "name": "San Diego",
+    "state": "CA",
+    "population": 1388320,
+    "lat": 32.814977,
+    "lon": -117.135562
+  },
+  {
+    "region": 8,
+    "name": "Phoenix",
+    "state": "AZ",
+    "population": 1650070,
+    "lat": 33.572154,
+    "lon": -112.090132
+  },
+  {
+    "region": 9,
+    "name": "Boise",
+    "state": "ID",
+    "population": 235421,
+    "lat": 43.600229,
+    "lon": -116.231656
+  },
+  {
+    "region": 10,
+    "name": "San Antonio",
+    "state": "TX",
+    "population": 1495295,
+    "lat": 29.462809,
+    "lon": -98.524635
+  },
+  {
+    "region": 11,
+    "name": "Albuquerque",
+    "state": "NM",
+    "population": 560274,
+    "lat": 35.10478,
+    "lon": -106.646809
+  },
+  {
+    "region": 12,
+    "name": "Denver",
+    "state": "CO",
+    "population": 716577,
+    "lat": 39.76185,
+    "lon": -104.881105
+  },
+  {
+    "region": 13,
+    "name": "Austin",
+    "state": "TX",
+    "population": 979882,
+    "lat": 30.298622,
+    "lon": -97.754134
+  },
+  {
+    "region": 14,
+    "name": "Houston",
+    "state": "TX",
+    "population": 2314157,
+    "lat": 29.785743,
+    "lon": -95.388806
+  },
+  {
+    "region": 15,
+    "name": "New Orleans",
+    "state": "LA",
+    "population": 364136,
+    "lat": 30.05342,
+    "lon": -89.934502
+  },
+  {
+    "region": 16,
+    "name": "Dallas",
+    "state": "TX",
+    "population": 1302868,
+    "lat": 32.793333,
+    "lon": -96.766513
+  },
+  {
+    "region": 17,
+    "name": "Tulsa",
+    "state": "OK",
+    "population": 411894,
+    "lat": 36.127949,
+    "lon": -95.902316
+  },
+  {
+    "region": 18,
+    "name": "Memphis",
+    "state": "TN",
+    "population": 618639,
+    "lat": 35.109026,
+    "lon": -89.967455
+  },
+  {
+    "region": 19,
+    "name": "Kansas City",
+    "state": "MO",
+    "population": 510704,
+    "lat": 39.122361,
+    "lon": -94.555117
+  },
+  {
+    "region": 20,
+    "name": "St. Louis",
+    "state": "MO",
+    "population": 281754,
+    "lat": 38.635699,
+    "lon": -90.244582
+  },
+  {
+    "region": 21,
+    "name": "Aurora",
+    "state": "IL",
+    "population": 177563,
+    "lat": 41.763455,
+    "lon": -88.290099
+  },
+  {
+    "region": 22,
+    "name": "Minneapolis",
+    "state": "MN",
+    "population": 425115,
+    "lat": 44.963324,
+    "lon": -93.26832
+  },
+  {
+    "region": 23,
+    "name": "Madison",
+    "state": "WI",
+    "population": 280305,
+    "lat": 43.087815,
+    "lon": -89.429856
+  },
+  {
+    "region": 24,
+    "name": "Chicago",
+    "state": "IL",
+    "population": 2664452,
+    "lat": 41.837045,
+    "lon": -87.684939
+  },
+  {
+    "region": 25,
+    "name": "Miami",
+    "state": "FL",
+    "population": 455924,
+    "lat": 25.775163,
+    "lon": -80.208615
+  },
+  {
+    "region": 26,
+    "name": "Tampa",
+    "state": "FL",
+    "population": 403364,
+    "lat": 27.966262,
+    "lon": -82.477618
+  },
+  {
+    "region": 27,
+    "name": "Orlando",
+    "state": "FL",
+    "population": 320742,
+    "lat": 28.40865,
+    "lon": -81.254805
+  },
+  {
+    "region": 28,
+    "name": "Columbus",
+    "state": "GA",
+    "population": 201877,
+    "lat": 32.510197,
+    "lon": -84.874946
+  },
+  {
+    "region": 29,
+    "name": "Atlanta",
+    "state": "GA",
+    "population": 510823,
+    "lat": 33.762909,
+    "lon": -84.422675
+  },
+  {
+    "region": 30,
+    "name": "Jacksonville",
+    "state": "FL",
+    "population": 985843,
+    "lat": 30.336864,
+    "lon": -81.661603
+  },
+  {
+    "region": 31,
+    "name": "Nashville",
+    "state": "TN",
+    "population": 687788,
+    "lat": 36.1718,
+    "lon": -86.785002
+  },
+  {
+    "region": 32,
+    "name": "Charlotte",
+    "state": "NC",
+    "population": 911311,
+    "lat": 35.209045,
+    "lon": -80.83099
+  },
+  {
+    "region": 33,
+    "name": "Lexington",
+    "state": "KY",
+    "population": 320154,
+    "lat": 38.040678,
+    "lon": -84.458272
+  },
+  {
+    "region": 34,
+    "name": "Raleigh",
+    "state": "NC",
+    "population": 482295,
+    "lat": 35.831868,
+    "lon": -78.641042
+  },
+  {
+    "region": 35,
+    "name": "Virginia Beach",
+    "state": "VA",
+    "population": 453649,
+    "lat": 36.779525,
+    "lon": -76.029142
+  },
+  {
+    "region": 36,
+    "name": "Washington, D.C.",
+    "state": "DC",
+    "population": 678972,
+    "lat": 38.904247,
+    "lon": -77.016517
+  },
+  {
+    "region": 37,
+    "name": "Columbus",
+    "state": "OH",
+    "population": 913175,
+    "lat": 39.983938,
+    "lon": -82.984882
+  },
+  {
+    "region": 38,
+    "name": "Detroit",
+    "state": "MI",
+    "population": 633218,
+    "lat": 42.383037,
+    "lon": -83.102237
+  },
+  {
+    "region": 39,
+    "name": "Grand Rapids",
+    "state": "MI",
+    "population": 196608,
+    "lat": 42.961156,
+    "lon": -85.65557
+  },
+  {
+    "region": 40,
+    "name": "Frederick",
+    "state": "MD",
+    "population": 85793,
+    "lat": 39.434089,
+    "lon": -77.414539
+  },
+  {
+    "region": 41,
+    "name": "Cleveland",
+    "state": "OH",
+    "population": 362656,
+    "lat": 41.478462,
+    "lon": -81.679435
+  },
+  {
+    "region": 42,
+    "name": "Buffalo",
+    "state": "NY",
+    "population": 274678,
+    "lat": 42.892492,
+    "lon": -78.859686
+  },
+  {
+    "region": 43,
+    "name": "Philadelphia",
+    "state": "PA",
+    "population": 1550542,
+    "lat": 40.009376,
+    "lon": -75.133346
+  },
+  {
+    "region": 44,
+    "name": "Jersey City",
+    "state": "NJ",
+    "population": 291657,
+    "lat": 40.711417,
+    "lon": -74.06476
+  },
+  {
+    "region": 45,
+    "name": "New York",
+    "state": "NY",
+    "population": 8258035,
+    "lat": 40.662712,
+    "lon": -73.938677
+  },
+  {
+    "region": 46,
+    "name": "Newark",
+    "state": "NJ",
+    "population": 304960,
+    "lat": 40.72422,
+    "lon": -74.172574
+  },
+  {
+    "region": 47,
+    "name": "Yonkers",
+    "state": "NY",
+    "population": 207657,
+    "lat": 40.945862,
+    "lon": -73.867446
+  },
+  {
+    "region": 48,
+    "name": "Worcester",
+    "state": "MA",
+    "population": 207621,
+    "lat": 42.269478,
+    "lon": -71.807783
+  },
+  {
+    "region": 49,
+    "name": "Boston",
+    "state": "MA",
+    "population": 653833,
+    "lat": 42.338551,
+    "lon": -71.018253
+  }
+];
+
+  const cityLayer = svg.append("g")
+    .attr("class", "h017-city-layer");
+
+  REGION_PLACES.forEach(c => {
+    const pt = projection([c.lon, c.lat]);
+    if (!pt) return;
+
+    cityLayer.append("circle")
+      .attr("class", "h017-city-dot")
+      .attr("cx", pt[0])
+      .attr("cy", pt[1])
+      .attr("r", 2.8);
+
+    cityLayer.append("text")
+      .attr("class", "h017-city-label")
+      .attr("x", pt[0] + 6)
+      .attr("y", pt[1] - 5)
+      .attr("text-anchor", "start")
+      .attr("data-h017-region", c.region)
+      .attr("data-hanten-label", `region-${String(c.region).padStart(2,"0")}`)
+      .text(c.name);
+  });
+
+  const cityToggle = document.getElementById("h017-city-toggle");
+
+  if (cityToggle) {
+    cityToggle.addEventListener("change", () => {
+      cityLayer.style(
+        "display",
+        cityToggle.checked ? null : "none"
+      );
+    });
+  }
+
+</script>
+
+
+<script id="hanten-label-data" type="application/json">
+{
+  "version": 1.5,
+  "map": "#h017-map",
+  "labels": {
+    "region-00": {
+      "text": "Los Angeles",
+      "x": 14.535255844081831,
+      "y": 57.583893062184785,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 13.919871228697216,
+        "anchorY": 58.40356519333233,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-01": {
+      "text": "Seattle",
+      "x": 15.896575271710589,
+      "y": 7.623490959902214,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 15.281190656325972,
+        "anchorY": 8.443163091049756,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-02": {
+      "text": "San Jose",
+      "x": 10.458397309009989,
+      "y": 43.690358071469795,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 9.843012693625374,
+        "anchorY": 44.51003020261734,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-03": {
+      "text": "Sacramento",
+      "x": 11.806786216641727,
+      "y": 39.524534841073425,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 11.191401601257112,
+        "anchorY": 40.34420697222097,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-04": {
+      "text": "Bakersfield",
+      "x": 11.282078585880098,
+      "y": 51.146034267559294,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 13.520982715790918,
+        "anchorY": 53.301192389411575,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-05": {
+      "text": "Las Vegas",
+      "x": 21.189755896673333,
+      "y": 51.77799560880162,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 20.574371281288716,
+        "anchorY": 52.59766773994916,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-06": {
+      "text": "Portland",
+      "x": 14.176856508490207,
+      "y": 14.552436741618235,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 13.561471893105589,
+        "anchorY": 15.372108872765775,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-07": {
+      "text": "San Diego",
+      "x": 16.2216058798844,
+      "y": 62.662664974010255,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 15.606221264499784,
+        "anchorY": 63.4823371051578,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-08": {
+      "text": "Phoenix",
+      "x": 25.75190022154507,
+      "y": 62.90847721492573,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 25.136515606160454,
+        "anchorY": 63.72814934607327,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-09": {
+      "text": "Boise",
+      "x": 23.007363516584782,
+      "y": 25.25609151663433,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 22.391978901200165,
+        "anchorY": 26.075763647781873,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-10": {
+      "text": "San Antonio",
+      "x": 42.75281297696376,
+      "y": 79.70044252808351,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 49.845934715921054,
+        "anchorY": 82.38447018266122,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-11": {
+      "text": "Albuquerque",
+      "x": 36.10722191515079,
+      "y": 59.678343836083094,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 35.491837299766175,
+        "anchorY": 60.498015967230636,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-12": {
+      "text": "Denver",
+      "x": 40.273515539669205,
+      "y": 43.47379403473591,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 39.6581309242846,
+        "anchorY": 44.29346616588346,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-13": {
+      "text": "Austin",
+      "x": 51.36700031945479,
+      "y": 77.1949109270396,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 51.3802535021427,
+        "anchorY": 79.44930684676397,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-14": {
+      "text": "Houston",
+      "x": 56.573226138501425,
+      "y": 80.5706059230682,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 55.94623749210582,
+        "anchorY": 81.32824240712921,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-15": {
+      "text": "New Orleans",
+      "x": 60.06060767401412,
+      "y": 78.37853171451266,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 66.47826563248856,
+        "anchorY": 79.77897386310433,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-16": {
+      "text": "Dallas",
+      "x": 53.94411442752025,
+      "y": 69.71863495054073,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 53.32872981213564,
+        "anchorY": 70.53830708168827,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-17": {
+      "text": "Tulsa",
+      "x": 55.55105608209166,
+      "y": 57.71528912035709,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 54.93567146670705,
+        "anchorY": 58.53496125150463,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-18": {
+      "text": "Memphis",
+      "x": 66.30913568661252,
+      "y": 60.83513682638667,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 65.69375107122791,
+        "anchorY": 61.6548089575342,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-19": {
+      "text": "Kansas City",
+      "x": 57.858787079122884,
+      "y": 46.879450066217885,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 57.24340246373827,
+        "anchorY": 47.699122197365426,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-20": {
+      "text": "St. Louis",
+      "x": 65.32575154621433,
+      "y": 48.18413453863044,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 64.71036693082972,
+        "anchorY": 49.00380666977798,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-21": {
+      "text": "Aurora",
+      "x": 62.56655308273879,
+      "y": 37.1503744468399,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 700,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 67.51,
+        "anchorY": 37.38,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-22": {
+      "text": "Minneapolis",
+      "x": 59.6914399863011,
+      "y": 25.798088069634765,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 59.07605537091648,
+        "anchorY": 26.617760200782303,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-23": {
+      "text": "Madison",
+      "x": 60.4062400170376,
+      "y": 31.778338817655737,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 65.42345166203148,
+        "anchorY": 32.85438038409606,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-24": {
+      "text": "Chicago",
+      "x": 69.48452418982714,
+      "y": 40.13672983093158,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 68.4947209347574,
+        "anchorY": 36.981856132763724,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-25": {
+      "text": "Miami",
+      "x": 87.33855349609372,
+      "y": 90.53335170488678,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 86.7231688807091,
+        "anchorY": 91.35302383603432,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-26": {
+      "text": "Tampa",
+      "x": 76.71529478578782,
+      "y": 87.0227221150573,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 81.47417634107974,
+        "anchorY": 84.78514965595478,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-27": {
+      "text": "Orlando",
+      "x": 85.28422603201648,
+      "y": 80.9847668217406,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 83.71885247727514,
+        "anchorY": 82.65389337531742,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-28": {
+      "text": "Columbus",
+      "x": 76.18945381514276,
+      "y": 68.79647170162191,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 75.57406919975813,
+        "anchorY": 69.61614383276944,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-29": {
+      "text": "Atlanta",
+      "x": 76.68890318243216,
+      "y": 64.16212435334087,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 76.07351856704754,
+        "anchorY": 64.98179648448841,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-30": {
+      "text": "Jacksonville",
+      "x": 82.89370971876687,
+      "y": 75.21862772831075,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 82.27832510338226,
+        "anchorY": 76.03829985945829,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-31": {
+      "text": "Nashville",
+      "x": 71.82966821794976,
+      "y": 56.2813534996563,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 71.21428360256515,
+        "anchorY": 57.10102563080384,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-32": {
+      "text": "Charlotte",
+      "x": 81.91131579881447,
+      "y": 61.070293884034946,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 82.11787649803941,
+        "anchorY": 58.35219194692064,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-33": {
+      "text": "Lexington",
+      "x": 69.19405464673623,
+      "y": 51.743401748482356,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 74.83917488023518,
+        "anchorY": 49.68191114736757,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-34": {
+      "text": "Raleigh",
+      "x": 81.15482909168352,
+      "y": 54.06359922841257,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 85.7709911945891,
+        "anchorY": 55.0641065960219,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-35": {
+      "text": "Virginia Beach",
+      "x": 81.3673552692294,
+      "y": 50.351753092023145,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 89.92646821274506,
+        "anchorY": 50.257218334146124,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-36": {
+      "text": "Washington, D.C.",
+      "x": 77.59661011873071,
+      "y": 45.28395552025417,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 87.25980802625398,
+        "anchorY": 43.31141992886877,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-37": {
+      "text": "Columbus",
+      "x": 70.57924614213964,
+      "y": 43.60864055585499,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 76.78833724594689,
+        "anchorY": 42.20662532265019,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-38": {
+      "text": "Detroit",
+      "x": 71.61777233521457,
+      "y": 36.68373425621241,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 75.85936178540116,
+        "anchorY": 33.68603542663708,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-39": {
+      "text": "Grand\nRapids",
+      "x": 70.63,
+      "y": 28.78,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 700,
+      "color": "text",
+      "lineOffsets": [
+        0,
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 71.56,
+        "anchorY": 32.44,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-40": {
+      "text": "Frederick",
+      "x": 80.25946828523763,
+      "y": 41.40025521601611,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 86.35480719218819,
+        "anchorY": 41.65133605922717,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-41": {
+      "text": "Cleveland",
+      "x": 79.37608703368474,
+      "y": 37.95553155672018,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 78.4758626140011,
+        "anchorY": 36.372928934960974,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-42": {
+      "text": "Buffalo",
+      "x": 83.55532945994392,
+      "y": 31.698201520481106,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 82.52788102221223,
+        "anchorY": 30.132853467523063,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-43": {
+      "text": "Philadelphia",
+      "x": 90.21270365243318,
+      "y": 40.61448419593214,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 89.89088058043784,
+        "anchorY": 38.34056151378942,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-44": {
+      "text": "Jersey City",
+      "x": 84.61988068141483,
+      "y": 34.015329582364124,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 91.29636320041928,
+        "anchorY": 35.22910181959678,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-45": {
+      "text": "New York",
+      "x": 92.45081449881091,
+      "y": 36.8882162270935,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 91.52786231679995,
+        "anchorY": 35.32227760679128,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-46": {
+      "text": "Newark",
+      "x": 86.26950975890037,
+      "y": 36.37524112107114,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 91.11339079299148,
+        "anchorY": 35.25024610032714,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-47": {
+      "text": "Yonkers",
+      "x": 92.22393781279948,
+      "y": 33.70187218987575,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 91.49707408585608,
+        "anchorY": 34.28512572336976,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-48": {
+      "text": "Worcester",
+      "x": 87.73515422567706,
+      "y": 29.518421605511747,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 94.0939364461534,
+        "anchorY": 28.341599610219227,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    },
+    "region-49": {
+      "text": "Boston",
+      "x": 90.82721044972136,
+      "y": 26.60676832165551,
+      "align": "left",
+      "fontSize": 11,
+      "lineHeight": 1.05,
+      "font": "system",
+      "weight": 500,
+      "color": "text",
+      "lineOffsets": [
+        0
+      ],
+      "leader": {
+        "enabled": false,
+        "anchorX": 95.30798406375844,
+        "anchorY": 27.571032932522378,
+        "color": "leader",
+        "weight": 1,
+        "style": "solid",
+        "dot": "none",
+        "opacity": 0.7,
+        "vertices": []
+      }
+    }
+  }
+}
+</script>
+
+<script id="h017-label-runtime">
+(() => {
+  const map = document.querySelector("#h017-map");
+  const raw = document.getElementById("hanten-label-data");
+
+  if (!map || !raw) return;
+
+  let data;
+
+  try {
+    data = JSON.parse(raw.textContent);
+  } catch (e) {
+    console.error("H017 label data could not be parsed.", e);
+    return;
+  }
+
+  data.labels ||= {};
+
+  const vb = map.viewBox.baseVal;
+  const width = vb.width || 975;
+  const height = vb.height || 610;
+
+  const FONT = {
+    hanten: 'var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif)',
+    system: '-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif',
+    arial: 'Arial,Helvetica,sans-serif'
+  };
+
+  const COLOR = {
+    text: 'var(--hanten-text,#1c2733)',
+    muted: 'var(--hanten-muted,#667179)',
+    accent: 'var(--hanten-accent,#0e7c86)',
+    gray: '#68747b',
+    white: '#ffffff',
+    leader: '#8b918f'
+  };
+
+  function defaultLeader(x,y){
+    return {
+      enabled:false,
+      anchorX:x,
+      anchorY:y,
+      color:"leader",
+      weight:1,
+      style:"solid",
+      dot:"none",
+      opacity:0.7,
+      vertices:[]
+    };
+  }
+
+  // First use: derive editor coordinates from the real D3 positions.
+  if (Object.keys(data.labels).length === 0) {
+    REGION_PLACES.forEach(c => {
+      const id = `region-${String(c.region).padStart(2,"0")}`;
+      const node = map.querySelector(`[data-hanten-label="${id}"]`);
+      if (!node) return;
+
+      const xpx = Number(node.getAttribute("x"));
+      const ypx = Number(node.getAttribute("y"));
+
+      const x = xpx / width * 100;
+      const y = ypx / height * 100;
+
+      data.labels[id] = {
+        text:c.name,
+        x:x,
+        y:y,
+        align:"left",
+        fontSize:11,
+        lineHeight:1.05,
+        font:"system",
+        weight:500,
+        color:"text",
+        lineOffsets:[0],
+        leader:defaultLeader(
+          (projection([c.lon,c.lat])?.[0] ?? xpx) / width * 100,
+          (projection([c.lon,c.lat])?.[1] ?? ypx) / height * 100
+        )
+      };
+    });
+
+    // Make the generated starting data visible to the Label Editor.
+    raw.textContent = JSON.stringify(data, null, 2);
+  }
+
+  Object.entries(data.labels).forEach(([id,cfg]) => {
+    const node = map.querySelector(
+      `[data-hanten-label="${CSS.escape(id)}"]`
+    );
+
+    if (!node) return;
+
+    node.setAttribute("x", String(Number(cfg.x) / 100 * width));
+    node.setAttribute("y", String(Number(cfg.y) / 100 * height));
+
+    node.setAttribute(
+      "text-anchor",
+      cfg.align === "right" ? "end" :
+      cfg.align === "center" ? "middle" :
+      "start"
+    );
+
+    node.style.fontSize = `${Number(cfg.fontSize || 11)}px`;
+    node.style.fontFamily = FONT[cfg.font || "system"] || FONT.system;
+    node.style.fontWeight = String(cfg.weight ?? 500);
+    node.style.fill = COLOR[cfg.color || "text"] || COLOR.text;
+
+    const lines = String(cfg.text || "").split("\n");
+    const offsets = cfg.lineOffsets || [];
+
+    node.replaceChildren();
+
+    lines.forEach((line,i) => {
+      const tspan = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "tspan"
+      );
+
+      tspan.textContent = line || "\u00a0";
+      tspan.setAttribute("x", node.getAttribute("x"));
+      tspan.setAttribute(
+        "dy",
+        i === 0 ? "0" : `${Number(cfg.lineHeight || 1.05)}em`
+      );
+      tspan.setAttribute("dx", String(Number(offsets[i] || 0)));
+
+      node.appendChild(tspan);
+    });
+  });
+})();
+</script>
+
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+<script>
+(() => {
+  const save = document.getElementById("h017-save");
+  const share = document.getElementById("h017-share");
+  const target = document.querySelector(".hanten-exhibit");
+
+  if (!save || !share || !target || typeof html2canvas !== "function") return;
+
+  const filename = "H017_v2.png";
+  const title = "What would America look like if every state had the same population?";
+
+  async function renderBlob(){
+    await document.fonts.ready;
+
+    const canvas = await html2canvas(target,{
+      backgroundColor:null,
+      scale:2,
+      useCORS:true,
+      logging:false,
+      width:target.scrollWidth,
+      height:target.scrollHeight
+    });
+
+    return await new Promise((resolve,reject)=>{
+      canvas.toBlob(
+        blob => blob ? resolve(blob) : reject(new Error("Could not create image.")),
+        "image/png"
+      );
+    });
+  }
+
+  function download(blob){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = filename;
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+
+  save.addEventListener("click", async () => {
+    save.disabled = true;
+
+    try{
+      download(await renderBlob());
+    }catch(e){
+      console.error(e);
+      alert("The image could not be saved.");
+    }finally{
+      save.disabled = false;
+    }
+  });
+
+  share.addEventListener("click", async () => {
+    share.disabled = true;
+
+    try{
+      const blob = await renderBlob();
+      const file = new File([blob],filename,{type:"image/png"});
+
+      if(
+        navigator.share &&
+        (!navigator.canShare || navigator.canShare({files:[file]}))
+      ){
+        await navigator.share({title,files:[file]});
+      }else{
+        download(blob);
+        alert("Direct sharing is not available in this browser. The image was saved instead.");
+      }
+    }catch(e){
+      if(!e || e.name !== "AbortError") console.error(e);
+    }finally{
+      share.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
