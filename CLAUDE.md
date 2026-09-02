@@ -1,23 +1,46 @@
 # Hanten (反転)
 
-Public static site of counterintuitive-but-accurate maps and statistics, at **hanten.app**. No monetization yet.
+Public site of counterintuitive-but-accurate maps and statistics, at **hanten.app**. No monetization yet.
+
+The full editorial philosophy, standards, and design system live in the Hanten master project on Google Drive (`Hanten/00 Foundation/`) — the Constitution, First Principles, Exhibit Framework, Website Architecture Guide, CSS Framework, Design System, and Editorial Handbook. This file only covers the mechanics of *this repo*; it doesn't restate that philosophy.
 
 ## Stack
 
-Plain HTML/CSS/vanilla JS. One `.html` file per map page in the repo root — no build step, no framework, no bundler. Deployed on Vercel straight from the repo; pushing to `main` ships to production.
+Plain HTML/CSS/vanilla JS. No build step, no framework, no bundler. Deployed with Cloudflare Pages from this repo (`03 Website/` is the repo root); `website-v2` is the production branch.
 
-**Keep it flat.** All map pages live directly in the repo root (`bowling-spares.html`, `true-size-africa.html`, etc.), not in subdirectories. URLs are shared on Reddit/social as-is, so a page's filename is effectively a permanent public URL — don't move or rename an existing page without a good reason, and never nest pages into category subfolders (it would break every existing link and OG image URL for an organizational win that doesn't matter at this page count). Categorization is handled in data (`CATEGORIES`/`SUBGROUPS` in `index.html`), not the filesystem.
+## Two exhibit systems coexist right now — know which one you're touching
+
+This repo is mid-migration. There are two generations of pages:
+
+1. **Legacy flat pages** (~45 of them, e.g. `bowling-spares.html`, `true-size-africa.html`) — the original pages, built directly in this repo, styled via `CSS/site.css`. **Do not add new pages this way.** Only touch these to fix a bug in an existing one, or to retire it (see below).
+2. **Current exhibits** (`exhibits/H0XX/index.html`, 17 so far and growing) — styled via the shared `assets/css/hanten.css` framework, with shared `assets/js/`, `assets/geodata/`, `assets/basemaps/` (a real Natural-Earth-derived basemap library). **This is where all new work goes.**
+
+Before assuming a legacy page is still the canonical URL for its topic, check whether `exhibits/` already has a newer version of the same idea (e.g. `true-size-africa.html` vs `exhibits/H007/`) — if so, the legacy page is a retirement candidate (redirect, don't delete outright — see "Keep it flat" below).
+
+## Exhibits are published, not authored, in this repo
+
+`exhibits/H0XX/index.html` is **generated output**. Do not hand-edit it to fix a content problem — fix the master source and republish. The real pipeline (see `PUBLISHING.md`):
+
+1. The editorial master for each exhibit lives in Google Drive: `Hanten/02 Maps/H0XX <name>/`. That folder holds the research/editorial brief, references, and, once the exhibit is standardized, an **`H0XX_v2.html`** file — that's the only file the publisher will accept.
+2. Run `./tools/publish-exhibit.sh H0XX` from this repo. It copies `H0XX_v2.html` into `exhibits/H0XX/index.html`, rewrites any `.../04 Shared Assets/...` references to `../../assets/...` (copying only the specific referenced files into `assets/`, not the whole shared-asset library), and rewrites inter-exhibit links (`../H0YY .../H0YY_v2.html` style Drive links → `../H0YY/index.html`).
+3. If `H0XX_v2.html` doesn't exist yet in the master folder, the script refuses with "NOT READY FOR PUBLICATION" and touches nothing — that exhibit needs a standardization pass first (build it against `assets/css/hanten.css` and the Exhibit Framework structure: Question → Graphic → Discovery statement → optional explanation → Sources → Related exhibits).
+4. **Source of truth:** the Drive master project owns editorial content; this repo owns the deployable website. Don't edit a master exhibit merely to solve a website deployment issue, and don't treat a hand-edit to `exhibits/H0XX/index.html` as durable — it'll be overwritten the next time that exhibit is republished.
 
 ## Repo layout
 
-- `index.html` — homepage. Card grid + two-level category/subgroup filter UI (see below).
-- `<page>.html` — one map/stat page per file, self-contained.
-- `data/` — shared JS data files loaded by multiple pages (`us-counties-10m.js`, `county-density.js`, `county-area.js`, `countries.js`, etc.) and `data/og/*.png` (social preview images, one per page).
-- `data/save-image.js` — `HantenSaveImage.init(...)` helper, adds a "save as image" button to a page (see per-page template below).
+- `index.html` — homepage. Card grid + two-level category/subgroup filter UI (see below). Links to both legacy pages and `exhibits/H0XX/` as appropriate.
+- `browse.html` — full exhibit listing.
+- `daily.html` — the PWA's Daily Flip quiz (see below).
+- `<page>.html` — legacy flat pages (see above; don't add new ones here).
+- `exhibits/H0XX/index.html` — current exhibits, one folder per ID, generated by `tools/publish-exhibit.sh` (see above; don't add new ones by hand either).
+- `assets/` — shared resources for `exhibits/`: `css/hanten.css` (shared framework; `css/site.css` also lives here for the legacy pages), `js/` (`d3.v7.min.js`, `topojson-client.min.js`, `html2canvas.min.js`, `save-image.js`), `geodata/` (countries, US counties/districts topojson), `basemaps/library/` (Natural-Earth-derived basemap SVG/GeoJSON, organized by world/continents/regions/usa/countries), `datasets/`, `icons/`, `images/`, `data/`.
+- `data/` — shared JS data files loaded by the *legacy* pages specifically (`us-counties-10m.js`, `county-density.js`, `county-area.js`, `countries.js`, etc.) and `data/og/*.png` (social preview images, one per legacy page). `data/save-image.js` is the older `HantenSaveImage.init(...)` helper used by legacy pages (the `exhibits/` equivalent is `assets/js/save-image.js`).
+- `tools/publish-exhibit.sh` — the publish pipeline described above.
+- `functions/`, `classroom/`, `contact/` — separate site sections; explore before assuming their conventions match the above.
 
-## Page template
+## Legacy page template (for the ~45 flat pages only)
 
-Every map page follows the same shape:
+Every legacy map page follows the same shape:
 1. `<head>`: title, description, then a full OG/Twitter meta block (`og:title`, `og:description`, `og:image` pointing at `data/og/<page>.png` at 1200×630, `twitter:card summary_large_image`, etc.) — copy an existing page's block and edit the text/image, don't write it from scratch.
 2. `<style>`: `:root` vars for `--ink`, `--paper`, `--accent` (shared site palette) plus page-specific map-fill colors (see Color system below).
 3. `<header>`: wordmark linking to `index.html` + a "← All maps" home link, both present on every page.
@@ -25,13 +48,21 @@ Every map page follows the same shape:
 5. Scripts at the bottom: D3 (`d3.v7.min.js`) + any `data/*.js` files needed, then the page's own inline `<script>` that builds the visualization, then `html2canvas` + `data/save-image.js` + `HantenSaveImage.init({ target, title, filename })`.
 6. `<script defer src="/_vercel/insights/script.js">` at the very end.
 
+**"Keep it flat" still applies to these existing pages specifically:** their filenames are shared publicly (Reddit/social) and are effectively permanent URLs. Don't rename or move an existing legacy page without a good reason. Retiring one in favor of an `exhibits/H0XX/` equivalent means adding a redirect through the current Cloudflare Pages configuration, not silently deleting it or leaving both live as duplicate content.
+
+## Current exhibit template (for `exhibits/H0XX/`)
+
+Study an existing exhibit (`exhibits/H007/index.html` and `exhibits/H017/index.html` are good, different examples — H007 is a static basemap overlay, H017 is a data-driven interactive US map) and the Exhibit Framework doc in Drive before building a new one. In short: `<link rel="stylesheet" href="../../assets/css/hanten.css">`, then a page-specific `<style>` block for anything not worth promoting to the shared framework, then Question (`<h1>`) → primary graphic/interactive element → Discovery statement → optional explanation → Sources → Related exhibits. Prefer real data (the basemap/geodata library, or a computed value) over a hand-written number in the copy.
+
 ## Color system
 
-Two separate palettes — don't conflate them:
+Two separate palettes on the legacy pages — don't conflate them:
 - **Category accent colors** (site-wide, used for filter buttons/tags): `--cat-population`, `--cat-distances`, `--cat-politics`, `--cat-statistics`, `--cat-sports` — defined in `index.html`.
-- **Per-page map fill colors**: each page defines its own `--<name>`/`--<name>-soft` pair for what it's actually shading on the map (e.g. `density-high.html`'s `--dense`/`--dense-soft`). When multiple pages are conceptually related (e.g. the density trilogy: `density-extremes.html`, `density-high.html`, `density-veryhigh.html`), keep their fill colors visually distinct from each other and keep them in sync between the standalone pages and any combined overview page.
+- **Per-page map fill colors**: each legacy page defines its own `--<name>`/`--<name>-soft` pair for what it's actually shading on the map. When multiple pages are conceptually related (e.g. the density trilogy), keep their fill colors visually distinct from each other and in sync between the standalone pages and any combined overview page.
 
-Always compute stats (percentages, counts) from the real data files at generation time (e.g. iterate `COUNTY_DENSITY`/`COUNTY_AREA` in the browser) — never hand-write a number into copy.
+Current exhibits follow the same idea but scoped to `hanten.css`'s shared tokens plus a page-specific override block (e.g. `--h017-accent`, `--h017-r0..r11`) rather than the legacy `--ink`/`--paper`/`--accent` set.
+
+Always compute stats (percentages, counts) from the real data files at generation time — never hand-write a number into copy.
 
 ## index.html filter/navigation system
 
@@ -53,8 +84,8 @@ There's no OG-image tooling in the repo — images are a templated card design (
 `daily.html` is the PWA's `start_url` — a guess-before-reveal quiz built from `data/featured.js` (the same pool `index.html`'s "Graphic of the day" card reads from, so there's one source of truth). Supporting pieces:
 - `manifest.json` + `sw.js` live at the repo root (required for scope `/` to cover the whole site).
 - `sw.js` uses a versioned `CACHE_NAME` (currently `hanten-v1`) — **bump this string whenever you change the file or its precache list**; `activate()` deletes any cache under the old name, which is what actually forces a clean slate for returning visitors.
-- By design, only `daily.html` and `index.html` carry the manifest link, theme-color meta, SW registration, and `data/a11y.js` accessibility toggle. Once a service worker is active from either entry point, it controls navigations to every other page under scope `/` — the other ~40 standalone map pages don't need any of this wiring themselves.
-- `data/quiz.js` is the generic guess/reveal renderer Daily Flip uses; it's intentionally not wired into the other map pages.
+- By design, only `daily.html` and `index.html` carry the manifest link, theme-color meta, SW registration, and `data/a11y.js` accessibility toggle. Once a service worker is active from either entry point, it controls navigations to every other page under scope `/` — other pages (legacy or `exhibits/`) don't need any of this wiring themselves.
+- `data/quiz.js` is the generic guess/reveal renderer Daily Flip uses; it's intentionally not wired into other pages.
 - App icons live in `data/icons/` (same precedent as `data/og/` for generated images): `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (180×180).
 
 **Generating the icons and Daily Flip's OG image**: driving `html2canvas` through the Browser tool and copying its base64 output by hand is unreliable at this size — a single mistyped character silently corrupts the PNG (it'll still pass a basic `file`/`sips` check but fail to actually decode). Generate these directly with Python/PIL instead, which is both deterministic and avoids the round-trip:
@@ -67,9 +98,10 @@ There's no OG-image tooling in the repo — images are a templated card design (
 For every change:
 1. Create `.claude/launch.json` with a `python3 -m http.server <port>` config, preview it, exercise the change via the Browser tool (prefer `.click()`/`javascript_exec` over `computer` mouse actions for functional checks — coordinate/ref clicks have been unreliable in this repo; save real `computer` screenshots for final visual confirmation only).
 2. Check `read_console_messages(onlyErrors)`, take a screenshot, and resize to 375×812 to confirm no horizontal overflow (`document.documentElement.scrollWidth - window.innerWidth === 0`).
-3. `preview_stop`, then delete `.claude/launch.json` — it's local-only, never committed.
-4. `git diff` review → commit (no `Co-Authored-By` line in this repo's history) → `push` to `main`.
-5. `sleep 20` then `curl -s https://www.hanten.app/<page>` to confirm the change is live.
+3. For an `exhibits/H0XX` change: also open `exhibits/H0XX/index.html` specifically (not just the source), and test both "Save Image" and "Share Image" if present, per `PUBLISHING.md`.
+4. `preview_stop`, then delete `.claude/launch.json` — it's local-only, never committed.
+5. `git diff` review → commit (no `Co-Authored-By` line in this repo's history) → `push` to `main`.
+6. `sleep 20` then `curl -s https://www.hanten.app/<page>` to confirm the change is live.
 
 ## Working with the user
 
