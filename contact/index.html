@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Hanten</title>
+<meta name="description" content="Send Hanten a question, correction, suggestion, or idea.">
+<link rel="stylesheet" href="../CSS/site.css"></head>
+<body><div class="site">
+<header class="contact-header">
+<a class="brand provisional-brand contact-brand" href="../" aria-label="Hanten home">
+<div class="provisional-wordmark"><span>H</span><span>A</span><span>N</span><span>T</span><span>E</span><span>N</span>
+<img src="../Media/branding/hanten-reveal-mark.svg" alt="" aria-hidden="true"></div>
+<div class="provisional-motto">Truth deserves clarity</div></a></header>
+<main class="contact-page">
+<section class="contact-intro"><p class="home-kicker">Contact</p>
+<h1>We’d love to hear from you.</h1>
+<p>Have a question, correction, suggestion, or idea for Hanten? Send us a note.</p></section>
+<form class="contact-form" id="contact-form" action="/api/contact" method="post">
+<div class="contact-field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required maxlength="100"></div>
+<div class="contact-field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="200"></div>
+<div class="contact-field"><label for="category">What is this about?</label><select id="category" name="category" required>
+<option value="" selected disabled>Choose one</option><option>Question</option><option>Correction</option><option>Suggestion</option><option>Classroom</option><option>Other</option></select></div>
+<div class="contact-field"><label for="message">Message</label><textarea id="message" name="message" rows="8" required maxlength="5000"></textarea></div>
+<div class="contact-honeypot" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+<button class="contact-submit" type="submit">Send message</button>
+<p class="contact-status" id="contact-status" role="status" aria-live="polite"></p>
+</form></main><footer><a class="footer-contact" href="../">Home</a></footer></div>
+<script>
+(()=>{const f=document.querySelector("#contact-form"),s=document.querySelector("#contact-status"),b=f.querySelector("button[type='submit']");
+f.addEventListener("submit",async e=>{e.preventDefault();s.textContent="";b.disabled=true;b.textContent="Sending…";
+try{const r=await fetch(f.action,{method:"POST",body:new FormData(f),headers:{"Accept":"application/json"}});const d=await r.json().catch(()=>({}));
+if(!r.ok)throw new Error(d.error||"Message could not be sent.");f.reset();s.textContent="Thanks. Your message has been sent."}
+catch(x){s.textContent=x.message||"Something went wrong. Please try again."}finally{b.disabled=false;b.textContent="Send message";}})})();
+</script></body></html>
