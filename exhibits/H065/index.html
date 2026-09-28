@@ -66,7 +66,7 @@
             font-weight: 700;
             font-size: 0.78rem;
             color: var(--hanten-muted);
-            width: 1rem;
+            width: 1.3rem;
             flex-shrink: 0;
         }
 
@@ -91,10 +91,67 @@
             color: var(--hanten-accent);
         }
 
+        .h065-board-gap {
+            text-align: center;
+            color: var(--hanten-muted);
+            font-size: 0.85rem;
+            line-height: 1;
+            padding: 0.35rem 0 0.25rem;
+            letter-spacing: 0.2em;
+        }
+
+        .h065-board-row.h065-us {
+            background: #fbf0e4;
+            margin: 0 -0.6rem;
+            padding: 0.5rem 0.6rem;
+            border-radius: 6px;
+            border-bottom: none;
+        }
+
+        .h065-board-row.h065-us .h065-board-rank,
+        .h065-board-row.h065-us .h065-board-country {
+            color: #b5651d;
+        }
+
         @media (max-width: 600px) {
             .h065-board { padding: 1rem 0.9rem 0.8rem; }
         }
+
+        .h065-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h065-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h065-discovery p:last-child { margin-bottom: 0; }
+        .h065-discovery strong { color: var(--hanten-text); }
     </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h065-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h065-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h065-explore p { margin: .55rem 0 0; }
+.h065-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
 </head>
 
 <body>
@@ -118,7 +175,7 @@
                     <div class="hanten-panel h065-board">
                         <p class="h065-board-title">Total GDP</p>
                         <p class="h065-board-sub">Size of the whole economy</p>
-                        <div class="h065-board-row"><span class="h065-board-rank">1</span><span class="h065-board-country">United States</span><span class="h065-board-value">$32.4T</span></div>
+                        <div class="h065-board-row h065-us"><span class="h065-board-rank">1</span><span class="h065-board-country">United States</span><span class="h065-board-value">$32.4T</span></div>
                         <div class="h065-board-row"><span class="h065-board-rank">2</span><span class="h065-board-country">China</span><span class="h065-board-value">$20.9T</span></div>
                         <div class="h065-board-row"><span class="h065-board-rank">3</span><span class="h065-board-country">Germany</span><span class="h065-board-value">$5.5T</span></div>
                         <div class="h065-board-row"><span class="h065-board-rank">4</span><span class="h065-board-country">Japan</span><span class="h065-board-value">$4.4T</span></div>
@@ -133,6 +190,8 @@
                         <div class="h065-board-row"><span class="h065-board-rank">3</span><span class="h065-board-country">Ireland</span><span class="h065-board-value">$140,186</span></div>
                         <div class="h065-board-row"><span class="h065-board-rank">4</span><span class="h065-board-country">Switzerland</span><span class="h065-board-value">$126,177</span></div>
                         <div class="h065-board-row"><span class="h065-board-rank">5</span><span class="h065-board-country">Iceland</span><span class="h065-board-value">$110,048</span></div>
+                        <div class="h065-board-gap" aria-hidden="true">&middot;&middot;&middot;</div>
+                        <div class="h065-board-row h065-us"><span class="h065-board-rank">8</span><span class="h065-board-country">United States</span><span class="h065-board-value">$94,430</span></div>
                     </div>
 
                     <div class="hanten-panel h065-board">
@@ -143,49 +202,62 @@
                         <div class="h065-board-row"><span class="h065-board-rank">3</span><span class="h065-board-country">Australia</span><span class="h065-board-value">$211,000</span></div>
                         <div class="h065-board-row"><span class="h065-board-rank">4</span><span class="h065-board-country">New Zealand</span><span class="h065-board-value">$207,000</span></div>
                         <div class="h065-board-row"><span class="h065-board-rank">5</span><span class="h065-board-country">Denmark</span><span class="h065-board-value">$204,000</span></div>
+                        <div class="h065-board-gap" aria-hidden="true">&middot;&middot;&middot;</div>
+                        <div class="h065-board-row h065-us"><span class="h065-board-rank">28</span><span class="h065-board-country">United States</span><span class="h065-board-value">$69,000</span></div>
                     </div>
 
                 </div>
             </div>
 
-            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">Why the same country can top one list and vanish from another</h2>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
-                <strong>Total GDP</strong> just adds up everyone's output — mostly a function of population size
-                multiplied by productivity, which is why the U.S. and China dominate it regardless of how
-                wealthy any individual resident is. <strong>GDP per capita</strong> divides that output by
-                population, which flips the list toward small, specialized economies — financial hubs,
-                city-states, and countries where a small population divides a disproportionately large output.
-                None of the total-GDP top five shows up here.
-            </p>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
-                <strong>Median wealth per adult</strong> asks a third, different question: what does the person
-                exactly in the middle of the distribution actually own? This one punishes concentration.
-                Switzerland has the world's highest <em>average</em> wealth per adult ($910,000) — but its
-                <em>median</em> is only $146,000, because a relatively small number of extremely wealthy
-                residents pull the average far above what a typical Swiss adult holds. The United States shows
-                the same pattern even more starkly: it ranks 2nd in the world by average wealth per adult, but
-                falls all the way to <strong>28th</strong> when ranked by median — one of the largest
-                average-to-median drops of any country.
-            </p>
-
-            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
-                <p class="hanten-takeaway" style="margin:0;">
-                    Only Luxembourg shows up in more than one of these lists — 2nd by GDP per capita and 1st by
-                    median wealth. The United States, the clear #1 by total GDP, doesn't crack the top five on
-                    either of the other two measures.
-                </p>
+            <div class="h065-discovery hanten-body">
+                <p><strong>&ldquo;Richest&rdquo; has three honest answers, and the U.S. tops only one of them.</strong> Only Luxembourg shows up in more than one list; the United States, #1 by total GDP, doesn't crack the top five by GDP per capita or by median wealth per adult. Total GDP mostly measures population times productivity, per-capita figures favor small, specialized economies, and median wealth asks what a typical adult actually owns.</p>
+                <p>The same goes for "best" schools, "safest" cities, and "most successful" companies: each ranking answers one question and quietly skips the others. A list is only as meaningful as the measure behind it.</p>
             </div>
 
             <p class="hanten-reflection">
-                When someone says a country is "rich," which of these three questions are they actually
-                answering?
+                When someone calls a country “rich,” which question are they answering?
             </p>
+
+            <details class="h065-explore" data-html2canvas-ignore="true">
+                <summary>Why the same country can top one list and vanish from another</summary>
+                <p><strong>Only Luxembourg shows up in more than one of these lists</strong> — 2nd by GDP
+                    per capita and 1st by median wealth. The United States, the clear #1 by total GDP,
+                    doesn't crack the top five on either of the other two measures. <strong>Total GDP</strong>
+                    just adds up everyone's output — mostly a function of population size multiplied by
+                    productivity, which is why the U.S. and China dominate it regardless of how wealthy any
+                    individual resident is. <strong>GDP per capita</strong> divides that output by
+                    population, which flips the list toward small, specialized economies — financial hubs,
+                    city-states, and countries where a small population divides a disproportionately large
+                    output. None of the total-GDP top five shows up here.</p>
+                <p><strong>Median wealth per adult</strong> asks a third, different question: what does the
+                    person exactly in the middle of the distribution actually own? This one punishes
+                    concentration. Switzerland has the world's highest <em>average</em> wealth per adult
+                    ($910,000) — but its <em>median</em> is only $146,000, because a relatively small number
+                    of extremely wealthy residents pull the average far above what a typical Swiss adult
+                    holds. The United States shows the same pattern even more starkly: it ranks 2nd in the
+                    world by average wealth per adult ($696,000), but falls all the way to <strong>28th</strong> when
+                    ranked by median ($69,000) — one of the largest average-to-median drops of any country.</p>
+            </details>
+
+            <details class="h065-explore" data-html2canvas-ignore="true">
+                <summary>Explore how this pattern runs through the whole series</summary>
+                <p>The same instability runs all the way back to where this pattern of exhibits started: a country&rsquo;s economy, a river&rsquo;s length, a coastline&rsquo;s measured distance, and even a <a href="../H061/index.html" target="_blank" rel="noopener noreferrer">mountain&rsquo;s height</a> can each be measured several legitimate ways — and none of the &ldquo;correct&rdquo; answers agree with each other.</p>
+            </details>
+
+            <details class="h065-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H064/index.html" target="_blank" rel="noopener noreferrer">What's the biggest country?</a></li>
+                    <li><a href="../H001/index.html" target="_blank" rel="noopener noreferrer">What’s the average income at this BBQ?</a></li>
+                    <li><a href="../H070/index.html" target="_blank" rel="noopener noreferrer">Which country pollutes the most?</a></li>
+                </ul>
+            </details>
 
             <p class="hanten-source">
                 Sources: StatisticsTimes.com, 2026 nominal GDP and GDP-per-capita projections (IMF-derived);
                 UBS Global Wealth Report 2026, via Visual Capitalist's "Ranked: The Richest Countries by Average
-                vs. Median Wealth" (median and average wealth per adult, including the U.S. 2nd-by-average /
-                28th-by-median finding and Switzerland's $910,000 average vs. $146,000 median).
+                vs. Median Wealth" (median and average wealth per adult, including the U.S. 2nd-by-average ($696,000) /
+                28th-by-median ($69,000) finding and Switzerland's $910,000 average vs. $146,000 median).
             </p>
 
         </div>
@@ -197,13 +269,39 @@
     </main>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "What's the richest country?",
-            filename: "H065-richest-country.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H065-richest-country.png", title = "What's the richest country?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

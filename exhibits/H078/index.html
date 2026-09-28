@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H078 — How Far Apart Are a Million and a Billion?</title>
+
+    <meta
+        name="description"
+        content="A billion is not a bigger million; it is a thousand millions. A million seconds is 11.6 days. A billion seconds is 31.7 years."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H078-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h078-million: #d9822b;
+            --h078-billion: #0e7c86;
+            --h078-trillion: #a3392b;
+        }
+
+        .h078-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .h078-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h078-stat-k {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .h078-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.5rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h078-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.2rem; line-height: 1.4; }
+        .h078-stat-m { font-family: var(--hanten-font); font-weight: 700; font-size: 1rem; margin-top: 0.6rem; }
+
+        .h078-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h078-panel svg { display: block; width: 100%; height: auto; }
+        .h078-panel-title {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+            margin: 0 0 0.3rem;
+        }
+        .h078-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.8rem; }
+        .h078-zoom { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
+        .h078-zoom svg { border: 1px solid var(--hanten-border); border-radius: 5px; background: #fbfbf9; }
+        .h078-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.4rem;
+            margin-top: 0.7rem;
+            font-size: 0.8rem;
+            color: var(--hanten-muted);
+        }
+        .h078-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h078-sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+        .h078-note { text-align: center; font-size: 0.8rem; line-height: 1.45; color: var(--hanten-muted); max-width: 620px; margin: 0.6rem auto 0; }
+        .h078-note strong { color: var(--h078-trillion); }
+
+        .h078-aha {
+            max-width: var(--hanten-text-width);
+            margin: 1.3rem auto 0;
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+        .h078-aha p { margin: 0 0 0.6rem; }
+        .h078-aha p:last-child { margin-bottom: 0; }
+
+        .h078-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h078-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h078-table th, .h078-table td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h078-table th {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h078-table td { font-variant-numeric: tabular-nums; }
+        .h078-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .h078-table tr:last-child td { border-bottom: none; }
+
+        .h078-discovery { margin: .7rem 0 .2rem; font-size: .9rem; }
+        .h078-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h078-discovery p:last-child { margin-bottom: 0; }
+        .h078-discovery strong { color: var(--hanten-text); }
+
+        @media (max-width: 720px) {
+            .h078-stats { grid-template-columns: minmax(0, 1fr); }
+            .h078-zoom { grid-template-columns: minmax(0, 1fr); max-width: 290px; margin: 0 auto; }
+        }
+        @media (max-width: 600px) {
+            .h078-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h078-table-panel { padding: 0.3rem 0.4rem; }
+            .h078-table { font-size: 0.78rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h078-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h078-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h078-explore p { margin: .55rem 0 0; }
+.h078-explore a { color: var(--hanten-accent, #0e7c86); }
+.h078-explore + .h078-explore { margin-top: 0; border-top: none; }
+
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2),
+.hanten-exhibit table td:nth-child(3) { text-align: center; }
+</style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            How far apart are a million and a billion?
+        </h1>
+
+        <p class="hanten-subtitle">
+            They sound one letter apart. But a billion isn't a bigger million; it's a thousand millions. A million
+            seconds is a week and a half. A billion seconds is more than 30 years.
+        </p>
+
+        <div id="h078-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="h078-stats">
+                    <div class="hanten-panel h078-stat">
+                        <div class="h078-stat-k" style="color:var(--h078-million)">One million seconds</div>
+                        <div class="h078-stat-n" style="color:var(--h078-million)">11.6 days</div>
+                        <div class="h078-stat-l">about a week and a half</div>
+                    </div>
+                    <div class="hanten-panel h078-stat">
+                        <div class="h078-stat-k" style="color:var(--h078-billion)">One billion seconds</div>
+                        <div class="h078-stat-n" style="color:var(--h078-billion)">31.7 years</div>
+                        <div class="h078-stat-l">about a generation</div>
+                    </div>
+                    <div class="hanten-panel h078-stat">
+                        <div class="h078-stat-k" style="color:var(--h078-trillion)">One trillion seconds</div>
+                        <div class="h078-stat-n" style="color:var(--h078-trillion)">31,700 years</div>
+                        <div class="h078-stat-l">back before the peak of the last Ice Age</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h078-panel">
+                    <p class="h078-panel-title">Stack the money in $100 bills. Each step zooms out 1,000 times.</p>
+                    <p class="h078-panel-sub">Each panel has its own scale; the previous stack shrinks to a dot.</p>
+                    <div class="h078-zoom">
+                        <svg viewBox="0 0 240 330" role="img" aria-label="One million dollars in 100 dollar bills stacks 3.6 feet tall, shorter than a person"><text x="120.0" y="18.0" font-family="var(--hanten-font)" font-size="15" font-weight="800" text-anchor="middle" fill="var(--h078-million)">$1 million</text><text x="120.0" y="34.0" font-family="var(--hanten-font)" font-size="10" font-weight="500" text-anchor="middle" fill="var(--hanten-muted)">10,000 bills</text><line x1="46" y1="292.0" x2="232" y2="292.0" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="295.5" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">0</text><line x1="46" y1="257.7" x2="232" y2="257.7" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="261.2" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">1</text><line x1="46" y1="223.4" x2="232" y2="223.4" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="226.9" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">2</text><line x1="46" y1="189.1" x2="232" y2="189.1" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="192.6" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">3</text><line x1="46" y1="154.9" x2="232" y2="154.9" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="158.4" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">4</text><line x1="46" y1="120.6" x2="232" y2="120.6" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="124.1" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">5</text><line x1="46" y1="86.3" x2="232" y2="86.3" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="89.8" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">6</text><line x1="46" y1="52.0" x2="232" y2="52.0" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="55.5" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">7</text><text x="41.0" y="40.0" font-family="var(--hanten-font)" font-size="9" font-weight="700" text-anchor="end" fill="var(--hanten-muted)">feet</text><line x1="46" y1="292" x2="232" y2="292" stroke="#9aa3a6" stroke-width="1"/><g transform="translate(190.0 86.3) scale(2.0571)" fill="#8f989c"><circle cx="0" cy="7" r="6.3"/><path d="M-3,14 L3,14 L4,16.5 C10,17 12.2,19 12.6,23.5 L14.2,55 C14.5,59 11.6,59.8 11.1,56 L9.6,29 L9.4,50 L8.8,96.5 C8.8,99.5 4.8,100 2.7,99.3 L1.6,56 L-1.6,56 L-2.7,99.3 C-4.8,100 -8.8,99.5 -8.8,96.5 L-9.4,50 L-9.6,29 L-11.1,56 C-11.6,59.8 -14.5,59 -14.2,55 L-12.6,23.5 C-12.2,19 -10,17 -4,16.5 Z"/></g><text x="190.0" y="81.3" font-family="var(--hanten-font)" font-size="9.5" font-weight="600" text-anchor="middle" fill="var(--hanten-muted)">6-ft person</text><rect x="103.2" y="169.2" width="17.554285714285715" height="122.8" fill="var(--h078-million)" rx="1"/><text x="112.0" y="151.2" font-family="var(--hanten-font)" font-size="13" font-weight="800" text-anchor="middle" fill="var(--h078-million)">3.6 ft</text><text x="112.0" y="163.2" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="middle" fill="var(--hanten-muted)">(1.1 m)</text></svg>
+                        <svg viewBox="0 0 240 330" role="img" aria-label="One billion dollars stacks 3,580 feet tall, taller than the Burj Khalifa; the million-dollar stack is a dot"><text x="120.0" y="18.0" font-family="var(--hanten-font)" font-size="15" font-weight="800" text-anchor="middle" fill="var(--h078-billion)">$1 billion</text><text x="120.0" y="34.0" font-family="var(--hanten-font)" font-size="10" font-weight="500" text-anchor="middle" fill="var(--hanten-muted)">10 million bills</text><line x1="46" y1="292.0" x2="232" y2="292.0" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="295.5" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">0</text><line x1="46" y1="232.0" x2="232" y2="232.0" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="235.5" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">1,000</text><line x1="46" y1="172.0" x2="232" y2="172.0" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="175.5" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">2,000</text><line x1="46" y1="112.0" x2="232" y2="112.0" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="115.5" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">3,000</text><line x1="46" y1="52.0" x2="232" y2="52.0" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="55.5" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">4,000</text><text x="41.0" y="40.0" font-family="var(--hanten-font)" font-size="9" font-weight="700" text-anchor="end" fill="var(--hanten-muted)">feet</text><line x1="46" y1="292" x2="232" y2="292" stroke="#9aa3a6" stroke-width="1"/><path d="M177.0,292.0 L177.0,275.7 L178.6,275.7 L178.6,259.4 L180.1,259.4 L180.1,243.1 L181.5,243.1 L181.5,226.8 L183.0,226.8 L183.0,210.5 L184.5,210.5 L184.5,194.2 L186.1,194.2 L186.1,179.5 L188.0,179.5 L188.0,161.6 L189.3,140.4 L190.0,129.0 L190.7,140.4 L192.0,161.6 L192.0,179.5 L193.1,179.5 L193.1,187.7 L194.9,187.7 L194.9,202.3 L196.5,202.3 L196.5,218.6 L198.0,218.6 L198.0,234.9 L199.6,234.9 L199.6,251.2 L201.2,251.2 L201.2,269.2 L203.0,269.2 L203.0,292.0Z" fill="#8f989c"/><text x="190.0" y="113.0" font-family="var(--hanten-font)" font-size="9.5" font-weight="600" text-anchor="middle" fill="var(--hanten-muted)">Burj Khalifa</text><text x="190.0" y="124.0" font-family="var(--hanten-font)" font-size="9.5" font-weight="600" text-anchor="middle" fill="var(--hanten-muted)">2,717 ft</text><rect x="106.0" y="77.0" width="12" height="215.0" fill="var(--h078-billion)" rx="1"/><text x="112.0" y="59.0" font-family="var(--hanten-font)" font-size="13" font-weight="800" text-anchor="middle" fill="var(--h078-billion)">3,580 ft</text><text x="112.0" y="71.0" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="middle" fill="var(--hanten-muted)">(1,090 m)</text><circle cx="72" cy="290.5" r="2.2" fill="var(--h078-million)"/><text x="66.0" y="306.0" font-family="var(--hanten-font)" font-size="9" font-weight="600" text-anchor="start" fill="var(--h078-million)">$1 million is a dot</text></svg>
+                        <svg viewBox="0 0 240 330" role="img" aria-label="One trillion dollars stacks 680 miles tall, far above the Space Station's orbit; the billion-dollar stack is a dot"><text x="120.0" y="18.0" font-family="var(--hanten-font)" font-size="15" font-weight="800" text-anchor="middle" fill="var(--h078-trillion)">$1 trillion</text><text x="120.0" y="34.0" font-family="var(--hanten-font)" font-size="10" font-weight="500" text-anchor="middle" fill="var(--hanten-muted)">10 billion bills</text><line x1="46" y1="292.0" x2="232" y2="292.0" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="295.5" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">0</text><line x1="46" y1="232.0" x2="232" y2="232.0" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="235.5" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">200</text><line x1="46" y1="172.0" x2="232" y2="172.0" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="175.5" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">400</text><line x1="46" y1="112.0" x2="232" y2="112.0" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="115.5" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">600</text><line x1="46" y1="52.0" x2="232" y2="52.0" stroke="var(--hanten-border)" stroke-width="0.8"/><text x="41.0" y="55.5" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">800</text><text x="41.0" y="40.0" font-family="var(--hanten-font)" font-size="9" font-weight="700" text-anchor="end" fill="var(--hanten-muted)">miles</text><line x1="46" y1="292" x2="232" y2="292" stroke="#9aa3a6" stroke-width="1"/><line x1="46" y1="217.0" x2="232" y2="217.0" stroke="#5b6670" stroke-width="1.2" stroke-dasharray="4 3"/><g transform="translate(192.0 216.0) scale(1.0)"><rect x="-32" y="-1.2" width="64" height="2.4" fill="#6b7478"/><rect x="-31" y="-12" width="6" height="10" fill="#34507a" stroke="#1f3350" stroke-width="0.5"/><rect x="-31" y="2" width="6" height="10" fill="#34507a" stroke="#1f3350" stroke-width="0.5"/><rect x="-23" y="-12" width="6" height="10" fill="#34507a" stroke="#1f3350" stroke-width="0.5"/><rect x="-23" y="2" width="6" height="10" fill="#34507a" stroke="#1f3350" stroke-width="0.5"/><rect x="17" y="-12" width="6" height="10" fill="#34507a" stroke="#1f3350" stroke-width="0.5"/><rect x="17" y="2" width="6" height="10" fill="#34507a" stroke="#1f3350" stroke-width="0.5"/><rect x="25" y="-12" width="6" height="10" fill="#34507a" stroke="#1f3350" stroke-width="0.5"/><rect x="25" y="2" width="6" height="10" fill="#34507a" stroke="#1f3350" stroke-width="0.5"/><rect x="-3.2" y="-7" width="6.4" height="14" rx="2" fill="#d4d8da" stroke="#6b7478" stroke-width="0.6"/><rect x="-9" y="-2.6" width="18" height="5.2" rx="2" fill="#d4d8da" stroke="#6b7478" stroke-width="0.6"/><rect x="-13" y="4" width="4" height="6" fill="#eef0f0" stroke="#9aa3a6" stroke-width="0.4"/><rect x="9" y="-10" width="4" height="6" fill="#eef0f0" stroke="#9aa3a6" stroke-width="0.4"/></g><text x="228.0" y="243.0" font-family="var(--hanten-font)" font-size="9.5" font-weight="600" text-anchor="end" fill="#5b6670">Space Station</text><text x="228.0" y="254.0" font-family="var(--hanten-font)" font-size="9.5" font-weight="600" text-anchor="end" fill="#5b6670">orbits ~250 mi up</text><rect x="106.0" y="88.3" width="12" height="203.7" fill="var(--h078-trillion)" rx="1"/><text x="112.0" y="70.3" font-family="var(--hanten-font)" font-size="13" font-weight="800" text-anchor="middle" fill="var(--h078-trillion)">680 miles</text><text x="112.0" y="82.3" font-family="var(--hanten-font)" font-size="9.5" font-weight="500" text-anchor="middle" fill="var(--hanten-muted)">(1,090 km)</text><circle cx="72" cy="290.5" r="2.2" fill="var(--h078-billion)"/><text x="66.0" y="306.0" font-family="var(--hanten-font)" font-size="9" font-weight="600" text-anchor="start" fill="var(--h078-billion)">$1 billion is a dot</text></svg>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h078-aha">
+                <p><strong>Million, billion, trillion: each word is 1,000 times the one before, but they sound like
+                    small steps.</strong> Our sense of size works fine for things we can count or see, and then quietly
+                    gives up. Past a certain point, "a lot" and "a thousand times more than a lot" feel about the same.</p>
+                <p>When a big number shows up in the news, a budget, or a population, translate it into something you
+                    can picture. Seconds work well: a million is days, a billion is decades, a trillion is all of
+                    recorded history several times over.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                Next time you hear "billion," will you picture days or decades?
+            </p>
+
+            <details class="h078-explore" data-html2canvas-ignore="true">
+                <summary>See the numbers</summary>
+                <div class="hanten-panel h078-table-panel">
+                    <table class="h078-table">
+                        <thead>
+                            <tr><th></th><th>As seconds</th><th>As a stack of $100 bills</th><th>Compared to</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Million (1,000,000)</td><td>11.6 days</td><td>3.6 ft (1.09 m)</td><td>a kitchen counter</td></tr>
+                            <tr><td>Billion (1,000,000,000)</td><td>31.7 years</td><td>3,580 ft (1,092 m)</td><td>Burj Khalifa, 2,717 ft (828 m)</td></tr>
+                            <tr><td>Trillion (1,000,000,000,000)</td><td>31,700 years</td><td>679 mi (1,092 km)</td><td>Space Station orbit, about 250 mi (400 km) up</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="h078-discovery hanten-body">
+                    <p><strong>Where the numbers come from.</strong> A day has 86,400 seconds, so a million seconds is
+                        11.57 days and a billion is 11,574 days, or 31.7 years. A U.S. bill is about 0.0043 inches
+                        thick, so 10,000 $100 bills ($1 million) stack about 43 inches high. The last Ice Age was at its
+                        coldest about 26,000 to 20,000 years ago, well within 31,700 years.</p>
+                </div>
+            </details>
+
+            <details class="h078-explore" data-html2canvas-ignore="true">
+                <summary>Explore another number our intuition can't handle</summary>
+                <p><a href="../H047/index.html" target="_blank" rel="noopener noreferrer">Living vs Ever Lived</a> compares the 8 billion
+                    people alive today with everyone who has ever lived, another comparison that only makes sense once
+                    you translate the big numbers into something smaller.</p>
+            </details>
+
+            <details class="h078-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H047/index.html" target="_blank" rel="noopener noreferrer">Is it true that more people are alive today than have ever died?</a></li>
+                    <li><a href="../H011/index.html" target="_blank" rel="noopener noreferrer">Could all the other planets fit between Earth and the Moon?</a></li>
+                    <li><a href="../H028/index.html" target="_blank" rel="noopener noreferrer">How quickly does chess get big?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Seconds conversions are arithmetic (86,400 seconds per day; 365.25-day year). U.S. banknote
+                thickness 0.0043 in from the Bureau of Engraving and Printing. Burj Khalifa height 2,717 ft (828 m);
+                International Space Station altitude about 250 mi (400 km); Last Glacial Maximum about 26,000 to 20,000
+                years ago, all from Wikipedia.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H078-million-vs-billion.png", title = "How far apart are a million and a billion?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

@@ -8,7 +8,7 @@
 
     <meta
         name="description"
-        content="Country populations should start with each digit 1 through 9 equally often. They don't — 1 shows up six times more than 9. This is Benford's Law, computed live from real country population data."
+        content="You might expect country populations to start with each digit 1 through 9 equally often. They don't — 1 shows up about six times more often than 9. This is Benford's Law, computed live from real country population data."
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
@@ -23,7 +23,7 @@
         */
 
         :root {
-            --h057-observed: var(--hanten-accent);
+            --h057-observed: var(--hanten-accent, #0e7c86);
             --h057-benford: #a3392b;
         }
 
@@ -54,6 +54,10 @@
             font-family: var(--hanten-font);
             font-size: 10px;
             font-weight: 700;
+            /* white outline keeps the number readable where the Benford line crosses it */
+            paint-order: stroke;
+            stroke: #fff;
+            stroke-width: 3px;
         }
 
         .h057-legend {
@@ -69,6 +73,7 @@
         .h057-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
         .h057-swatch { width: 11px; height: 11px; display: inline-block; }
         .h057-swatch.line { width: 16px; height: 0; border-top: 2px dashed var(--h057-benford); }
+        .h057-swatch.flat { width: 16px; height: 0; border-top: 2px dotted var(--hanten-muted, #4a5a6b); }
 
         .h057-caption {
             max-width: var(--hanten-text-width);
@@ -77,7 +82,53 @@
             font-size: 0.82rem;
             color: var(--hanten-muted);
         }
+
+        .h057-discovery {
+            max-width: 840px; margin: 1.15rem auto 0; padding: .15rem 0;
+            color: var(--hanten-text, #1c2733); font-size: .95rem; line-height: 1.45; text-align: left;
+        }
+        .h057-discovery p { margin: 0 0 .55rem; }
+        .h057-discovery p:last-child { margin-bottom: 0; }
+        .h057-discovery strong { color: var(--hanten-text, #1c2733); }
+
+        .h057-source {
+            max-width: 840px; margin: .9rem auto 0; text-align: left;
+            color: #7b838a; font-size: .7rem; line-height: 1.45;
+        }
     </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h057-explore {
+  max-width: 840px;
+  margin: .9rem auto 0;
+  padding: .6rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .84rem;
+  line-height: 1.5;
+}
+.h057-explore summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); }
+.h057-explore p { margin: .65rem 0 0; }
+.h057-explore a { color: var(--hanten-accent, #0e7c86); }
+
+/* Design Standards 19 (text column) */
+.hanten-exhibit .h057-discovery { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; }
+</style>
 </head>
 
 <body>
@@ -102,37 +153,49 @@
                 <div class="h057-legend">
                     <span><span class="h057-swatch" style="background:var(--h057-observed)"></span>Observed (live count)</span>
                     <span><span class="h057-swatch line"></span>Benford's Law prediction</span>
+                    <span><span class="h057-swatch flat"></span>Flat 11.1% (what intuition expects)</span>
                 </div>
                 <p class="h057-caption" id="h057-note">Computing…</p>
             </div>
 
-            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.3rem auto 0;">Not a quirk of population data</h2>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
-                Benford's Law predicts the frequency of leading digit <em>d</em> as log₁₀(1 + 1/d) — about 30.1%
-                for 1, dropping to just 4.6% for 9. It holds for river lengths, stock prices, physics constants,
-                electricity bills, and yes, country populations — any dataset where values span several orders
-                of magnitude (a few hundred people up to 1.4 billion, in this case) rather than clustering near
-                one size.
-            </p>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
-                The reason: to grow from 100 to 200 is to double. To grow from 900 to 1,000 is an 11% step, but
-                from 1,000 you need to more than double again just to leave the "1..." range. Numbers spend
-                longer, proportionally, with a leading 1 than a leading 9 — and accountants have used exactly
-                this pattern to catch fabricated financial data, because faked numbers tend to be much closer to
-                uniformly distributed.
-            </p>
-
-            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
-                <p class="hanten-takeaway" style="margin:0;">
-                    A number starting with 1 is about as likely as digits 5 through 9 combined.
-                </p>
+            <div class="h057-discovery hanten-body">
+                <p><strong>A number starting with 1 is about as likely as digits 5 through 9 combined.</strong> Benford's Law predicts about 30.1% for a leading 1, dropping to just 4.6% for 9. It holds for almost any dataset whose values span several orders of magnitude, from a few hundred people to 1.4 billion in this case.</p>
+                <p>"Random" doesn't have to mean "evenly spread." Auditors use this pattern to flag invented financial figures, because people who make up numbers tend to spread the first digits out more evenly than real data does. Before calling a pattern suspicious, ask what shape the real process should produce.</p>
             </div>
 
             <p class="hanten-reflection">
-                If "random" doesn't mean "uniform," what else might the shape of a process be hiding in plain sight?
+                Where have you assumed “random” means “even”?
             </p>
 
-            <p class="hanten-source" id="h057-source">
+            <details class="h057-explore" data-html2canvas-ignore="true">
+                <summary>Not a quirk of population data</summary>
+                <p><strong>A number starting with 1 is about as likely as digits 5 through 9
+                    combined.</strong> Benford's Law predicts the frequency of leading digit <em>d</em> as
+                    log₁₀(1 + 1/d) — about 30.1% for 1, dropping to just 4.6% for 9. It holds for river
+                    lengths, stock prices, physics constants, electricity bills, and yes, country
+                    populations — any dataset where values span several orders of magnitude (a few hundred
+                    people up to 1.4 billion, in this case) rather than clustering near one size.</p>
+                <p>The reason: growing from 100 to 200 means doubling, but growing from 900 to 1,000 takes only
+                    an 11% increase. So a number that grows steadily spends far longer with a leading 1 than a
+                    leading 9. Auditors use this pattern to flag possibly fabricated financial data, because
+                    people who invent numbers tend to spread the first digits out more evenly than real data does.</p>
+            </details>
+
+            <details class="h057-explore" data-html2canvas-ignore="true">
+                <summary>Explore another case where intuition misjudges probability</summary>
+                <p>It belongs to the same family as our <a href="../H041/index.html" target="_blank" rel="noopener noreferrer">Base Rate Fallacy</a> exhibit: in both, intuition guesses the odds without first asking how the numbers are actually spread out, and the gap only shows up once someone actually counts.</p>
+            </details>
+
+            <details class="h057-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H041/index.html" target="_blank" rel="noopener noreferrer">If a medical test is 99% accurate and you test positive, what are the chances you actually have the disease?</a></li>
+                    <li><a href="../H093/index.html" target="_blank" rel="noopener noreferrer">Pharmacies check your name and birth date. Is that enough to tell you apart from everyone else?</a></li>
+                    <li><a href="../H005/index.html" target="_blank" rel="noopener noreferrer">How many people does it take before a shared birthday is more likely than not?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h057-source" id="h057-source">
                 Sources: population figures (POP_EST) for countries and territories, Natural Earth public-domain
                 dataset, as already used elsewhere on this site. The chart above is computed directly from that
                 data file in your browser when this page loads — nothing is precomputed or hardcoded. Benford's
@@ -174,7 +237,8 @@
                 `Sources: population figures (POP_EST) for ${total} countries and territories, Natural Earth public-domain dataset, as already used elsewhere on this site. The chart above is computed directly from that data file in your browser when this page loads — nothing is precomputed or hardcoded. Benford's Law: Frank Benford, "The Law of Anomalous Numbers," 1938 (earlier noted by Simon Newcomb, 1881).`;
 
             const svg = document.getElementById("h057-benford-chart");
-            const chartLeft = 50, chartRight = 610, chartTop = 30, chartBottom = 260;
+            // chartRight leaves room on the right for the "FLAT 11.1%" label.
+            const chartLeft = 50, chartRight = 568, chartTop = 30, chartBottom = 260;
             const maxPct = 32;
             const barW = (chartRight - chartLeft) / 9;
             const yFor = pct => chartBottom - (pct / maxPct) * (chartBottom - chartTop);
@@ -186,7 +250,7 @@
                 html += `<text x="${chartLeft - 8}" y="${y + 4}" class="h057-axis-label" text-anchor="end">${v}%</text>`;
             });
             const flatY = yFor(11.1);
-            html += `<line x1="${chartLeft}" y1="${flatY}" x2="${chartRight}" y2="${flatY}" stroke="var(--hanten-muted)" stroke-width="1.3" stroke-dasharray="2 3"/>`;
+            html += `<line x1="${chartLeft}" y1="${flatY}" x2="${chartRight}" y2="${flatY}" stroke="var(--hanten-muted, #4a5a6b)" stroke-width="1.3" stroke-dasharray="2 3"/>`;
             html += `<text x="${chartRight + 4}" y="${flatY + 4}" class="h057-axis-label">FLAT 11.1%</text>`;
 
             for (let d = 1; d <= 9; d++) {
@@ -194,7 +258,9 @@
                 const barWidth = barW * 0.44;
                 const y = yFor(observed[d]);
                 html += `<rect x="${(cx - barWidth / 2).toFixed(1)}" y="${y.toFixed(1)}" width="${barWidth.toFixed(1)}" height="${(chartBottom - y).toFixed(1)}" fill="var(--h057-observed)"/>`;
-                html += `<text x="${cx.toFixed(1)}" y="${(y - 10).toFixed(1)}" class="h057-pct-label" text-anchor="middle" fill="var(--h057-observed)">${observed[d].toFixed(1)}%</text>`;
+                // Label sits above whichever is higher, the bar or the Benford dot, so they never overlap.
+                const labelY = Math.min(y, yFor(benford[d])) - 12;
+                html += `<text x="${cx.toFixed(1)}" y="${labelY.toFixed(1)}" class="h057-pct-label" text-anchor="middle" fill="var(--h057-observed)">${observed[d].toFixed(1)}%</text>`;
                 html += `<text x="${cx.toFixed(1)}" y="${chartBottom + 22}" class="h057-digit-label" text-anchor="middle">${d}</text>`;
             }
 
@@ -214,13 +280,39 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "Do country populations really start with each digit 1 through 9 equally often?",
-            filename: "H057-benfords-law.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H057-benfords-law.png", title = "Do country populations really start with each digit 1 through 9 equally often?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

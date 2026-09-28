@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H066 — Is South America East of Florida?</title>
+
+    <meta
+        name="description"
+        content="Draw a straight north–south line down from Pensacola, Florida, and the entire South American mainland lands east of it — even the continent's westernmost point in Peru."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H066-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h066-sea: #d9e7ec;
+            --h066-land: #efece3;
+            --h066-land-sa: #d3dcc4;
+            --h066-border: #ffffff;
+            --h066-line: #d9822b;
+            --h066-second: #6b7280;
+        }
+
+        .h066-panel {
+            padding: 1.1rem 1.1rem 0.9rem;
+        }
+
+        .h066-map-frame {
+            max-width: 620px;
+            margin: 0 auto;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--hanten-border);
+            background: var(--h066-sea);
+        }
+
+        .h066-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h066-land { fill: var(--h066-land); stroke: var(--h066-border); stroke-width: 0.5; }
+        .h066-land.is-sa { fill: var(--h066-land-sa); }
+
+        .h066-label {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            fill: var(--hanten-text);
+            paint-order: stroke;
+            stroke: rgba(255, 255, 255, 0.85);
+            stroke-width: 3px;
+            stroke-linejoin: round;
+        }
+        .h066-sub {
+            font-family: var(--hanten-font);
+            fill: var(--hanten-muted);
+            paint-order: stroke;
+            stroke: rgba(255, 255, 255, 0.85);
+            stroke-width: 3px;
+            stroke-linejoin: round;
+        }
+        .h066-ref { fill: #9a5a17; }
+        .h066-region {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            fill: rgba(31, 31, 31, 0.55);
+            letter-spacing: 0.04em;
+        }
+        .h066-water {
+            font-family: var(--hanten-font);
+            font-style: italic;
+            fill: rgba(14, 124, 134, 0.55);
+        }
+
+        .h066-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.4rem;
+            margin-top: 0.7rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+        .h066-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h066-swatch-line { display: inline-block; width: 20px; border-top: 3px dotted var(--h066-line); }
+        .h066-swatch-second { display: inline-block; width: 20px; border-top: 2px dashed var(--h066-second); }
+
+        .h066-table-panel { padding: 0.4rem 1.1rem; margin-top: 0.8rem; overflow-x: auto; }
+        .h066-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h066-table th, .h066-table td { text-align: left; padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h066-table th {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h066-table td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .h066-table tr:last-child td { border-bottom: none; }
+        .h066-table .h066-note { display: block; font-size: 0.75rem; color: var(--hanten-muted); }
+        .h066-table tr.is-ref td { font-weight: 700; color: #9a5a17; }
+        .h066-table tr.is-miami td { background: #fbf0e4; }
+
+        @media (max-width: 600px) {
+            .h066-panel { padding: 0.8rem 0.6rem 0.7rem; }
+            .h066-table-panel { padding: 0.3rem 0.6rem; }
+        }
+
+        .h066-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h066-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h066-discovery p:last-child { margin-bottom: 0; }
+        .h066-discovery strong { color: var(--hanten-text); }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h066-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h066-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h066-explore p { margin: .55rem 0 0; }
+.h066-explore a { color: var(--hanten-accent, #0e7c86); }
+
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2),
+.hanten-exhibit table td:nth-child(3) { text-align: center; }
+</style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Is South America east of Florida?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Most people picture South America hanging directly below the United States. Draw a straight
+            north–south line down from Pensacola, on the Florida Panhandle, and the entire South American
+            mainland lands east of it.
+        </p>
+
+        <div id="h066-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="hanten-panel h066-panel">
+                    <div class="h066-map-frame">
+                        <svg id="h066-map" viewBox="0 0 600 655" role="img" aria-labelledby="h066-map-title h066-map-desc">
+                            <title id="h066-map-title">A line of longitude drawn south from Pensacola, Florida, passes west of all of South America</title>
+                            <desc id="h066-map-desc">Map of the Americas in an equirectangular projection, where every line of longitude is a straight vertical line. A line at Pensacola's longitude, 87.2 degrees west, runs south through the Pacific Ocean, west of the entire South American mainland, including Peru's Punta Pariñas, the continent's westernmost point at 81.3 degrees west. A second line at Punta Pariñas' longitude crosses the Florida peninsula, showing that Miami, at 80.2 degrees west, lies slightly east of it.</desc>
+                        </svg>
+                    </div>
+                    <div class="h066-legend">
+                        <span><span class="h066-swatch-line"></span>Pensacola's longitude (87.2°W)</span>
+                                                <span><span class="h066-swatch-second"></span>Punta Pariñas' longitude (81.3°W)</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h066-discovery hanten-body">
+                <p><strong>All of mainland South America lies east of Pensacola, even its westernmost point.</strong> Punta Pariñas, Peru, sits at about 81.3°W, still about 6° east of Pensacola's 87.2°W. The one catch is which part of Florida you pick: Miami, at 80.2°W, is about 1° east of Peru's westernmost point.</p>
+                <p>Mental maps stack places in neat columns that the real globe doesn't follow. North America sits well to the northwest and South America bulges sharply east, so the two continents are arranged more like a staircase than a straight line. When a direction feels obvious, check the coordinates.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                Which places do you picture as “directly below” each other without checking?
+            </p>
+
+            <details class="h066-explore" data-html2canvas-ignore="true">
+                <summary>See each place’s longitude</summary>
+                <div class="hanten-panel h066-table-panel">
+                    <table class="h066-table">
+                        <thead>
+                            <tr><th>Place</th><th>Longitude</th><th>Relative to Pensacola</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr class="is-ref"><td>Pensacola, FL<span class="h066-note">the reference line</span></td><td class="num">87.22°W</td><td>—</td></tr>
+                            <tr><td>Punta Pariñas, Peru<span class="h066-note">South America's westernmost point</span></td><td class="num">81.32°W</td><td>~6° east</td></tr>
+                            <tr class="is-miami"><td>Miami, FL<span class="h066-note">east of Punta Pariñas by about 1°</span></td><td class="num">80.19°W</td><td>~7° east</td></tr>
+                            <tr><td>Lima, Peru</td><td class="num">77.04°W</td><td>~10° east</td></tr>
+                            <tr><td>Buenos Aires, Argentina</td><td class="num">58.40°W</td><td>~29° east</td></tr>
+                            <tr><td>Ponta do Seixas, near Recife, Brazil<span class="h066-note">South America's easternmost point</span></td><td class="num">34.79°W</td><td>~52° east</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details class="h066-explore" data-html2canvas-ignore="true">
+                <summary>It holds even at the continent's westernmost point</summary>
+                <p><strong>The hardest test is South America's own westernmost point.</strong> That's Punta
+                    Pariñas, on Peru's Pacific coast, at about 81.3°W. Pensacola sits at about 87.2°W. In west
+                    longitudes a smaller number means farther east, so even the single closest sliver of South
+                    American land is still about 6° east of Pensacola — roughly 410 miles (660&nbsp;km) at that
+                    latitude. The claim holds for the whole continent, not just "most of it." (The one exception is
+                    offshore: Ecuador's Galápagos Islands, about 560 miles (906&nbsp;km) out in the Pacific at
+                    roughly 90°W, sit just west of the line — the small specks left of it on the map.)</p>
+                <p><strong>The catch: it depends which part of Florida you pick.</strong> Most of Florida —
+                    Pensacola, Tallahassee, Tampa, even Jacksonville (81.7°W) — lies west of Punta Pariñas,
+                    so all of South America is east of them. But Florida's southeast coast reaches past that
+                    line: Miami sits at 80.2°W, about 1° east of Peru's westernmost point. From Miami, a sliver
+                    of South America is technically to the west.</p>
+                <p><strong>Why it defies intuition:</strong> the Americas aren't stacked in a neat
+                    north–south column. North America sits well to the northwest, while South America bulges
+                    sharply east — its easternmost tip near Recife, Brazil, is closer to West Africa than to
+                    Florida. The two continents are arranged more like a staircase than a straight line.</p>
+            </details>
+
+            <details class="h066-explore" data-html2canvas-ignore="true">
+                <summary>Explore more mental-map surprises</summary>
+                <p>The same staircase effect shows up closer to home in <a href="../H043/index.html" target="_blank" rel="noopener noreferrer">Reno West of LA</a>, and running the other direction — north–south instead of east–west — in <a href="../H075/index.html" target="_blank" rel="noopener noreferrer">London sitting north of most of Canada</a>.</p>
+            </details>
+
+            <details class="h066-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H043/index.html" target="_blank" rel="noopener noreferrer">Is Reno, Nevada west of Los Angeles?</a></li>
+                    <li><a href="../H045/index.html" target="_blank" rel="noopener noreferrer">Does Alaska cross into the Eastern Hemisphere?</a></li>
+                    <li><a href="../H075/index.html" target="_blank" rel="noopener noreferrer">Is London north of Vancouver, Calgary, and Toronto?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Punta Pariñas, Peru, 81.3225°W, 4.6742°S (South America's westernmost point);
+                Ponta do Seixas, near Recife, Brazil, about 34.79°W (South America's easternmost point);
+                Pensacola, Miami, Jacksonville, Lima, and Buenos Aires from standard reference coordinates.
+                Coastlines and borders from Natural Earth 1:10m Admin 0 Countries, drawn in an
+                equirectangular projection so every line of longitude is a straight vertical line — the
+                property this comparison depends on.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/d3.v7.min.js"></script>
+    <script src="../../assets/geodata/world/countries-10m.js"></script>
+
+    <script>
+        (() => {
+            const W = 600, H = 655;
+            // Map window: 118°W–30°W, 40°N–56°S. Equirectangular keeps meridians straight and vertical.
+            const LON0 = -118, LON1 = -30, LAT0 = 40, LAT1 = -56;
+            const pxPerDeg = W / (LON1 - LON0);
+            const projection = d3.geoEquirectangular()
+                .scale(pxPerDeg * 180 / Math.PI)
+                .center([(LON0 + LON1) / 2, (LAT0 + LAT1) / 2])
+                .translate([W / 2, H / 2])
+                .clipExtent([[0, 0], [W, H]]);
+            const path = d3.geoPath(projection);
+            const P = (lon, lat) => projection([lon, lat]);
+
+            const svg = d3.select("#h066-map");
+
+            svg.append("rect").attr("width", W).attr("height", H).attr("fill", "var(--h066-sea)");
+
+            // Only draw countries that touch the map window
+            const features = COUNTRIES_10M_GEOJSON.features.filter(f => {
+                const [[w, s], [e, n]] = d3.geoBounds(f);
+                const lonOk = w > e /* crosses the antimeridian */ || (e > LON0 - 2 && w < LON1 + 2);
+                return lonOk && n > LAT1 - 2 && s < LAT0 + 2;
+            });
+
+            const pensX = P(-87.22, 0)[0];
+            const pariX = P(-81.3225, 0)[0];
+
+            svg.append("g").selectAll("path").data(features).join("path")
+                .attr("class", d => "h066-land" + ((d.properties.CONTINENT === "South America") ? " is-sa" : ""))
+                .attr("d", path);
+
+            // Punta Pariñas meridian (the tightest margin), from the point northward through Florida
+            const [, pariY] = P(-81.3225, -4.6742);
+            svg.append("line").attr("x1", pariX).attr("x2", pariX).attr("y1", 0).attr("y2", pariY)
+                .attr("stroke", "var(--h066-second)").attr("stroke-width", 1.4).attr("stroke-dasharray", "5 4");
+
+            // Pensacola meridian
+            svg.append("line").attr("x1", pensX).attr("x2", pensX).attr("y1", 0).attr("y2", H)
+                .attr("stroke", "var(--h066-line)").attr("stroke-width", 2.6)
+                .attr("stroke-dasharray", "1 6").attr("stroke-linecap", "round");
+
+            const g = svg.append("g");
+            const frame = document.querySelector(".h066-map-frame");
+
+            function drawLabels() {
+                g.selectAll("*").remove();
+                // On narrow screens, enlarge labels (in map units) and drop secondary lines
+                const fw = frame.clientWidth || W;
+                const narrow = fw < 480;
+                const k = narrow ? Math.min(1.8, (W / fw) * 0.62) : 1;
+                const fs = n => (n * k).toFixed(1);
+
+                function text(x, y, str, cls, size, anchor) {
+                    g.append("text").attr("x", x).attr("y", y).attr("class", cls)
+                        .attr("font-size", fs(size)).attr("text-anchor", anchor || "start").text(str);
+                }
+                function dot(lon, lat, fill, r) {
+                    const [x, y] = P(lon, lat);
+                    g.append("circle").attr("cx", x).attr("cy", y).attr("r", r * Math.sqrt(k))
+                        .attr("fill", fill).attr("stroke", "#ffffff").attr("stroke-width", 1.8);
+                    return [x, y];
+                }
+                const lh = n => n * k; // line offset scaled with the text
+
+                // Region + water labels
+                text(P(-112, 37)[0], P(-112, 37)[1], "UNITED STATES", "h066-region", 13);
+                text(P(-58, -22)[0], P(-58, -22)[1], "SOUTH AMERICA", "h066-region", 15, "middle");
+                if (!narrow) {
+                    text(P(-90.5, 25.5)[0], P(-90.5, 25.5)[1], "Gulf of", "h066-water", 10.5, "middle");
+                    text(P(-90.5, 25.5)[0], P(-90.5, 25.5)[1] + 12, "Mexico", "h066-water", 10.5, "middle");
+                }
+                text(P(-112, -28)[0], P(-112, -28)[1], "Pacific Ocean", "h066-water", 13);
+                text(P(-43, 12)[0], P(-43, 12)[1], "Atlantic Ocean", "h066-water", 13, "middle");
+
+                // Pensacola (reference)
+                const [px, py] = dot(-87.22, 30.42, "var(--h066-line)", 5.5);
+                text(px - 9, py - lh(10), "Pensacola, FL", "h066-label h066-ref", 13, "end");
+                text(px - 9, py + lh(5), narrow ? "87.2°W" : "87.2°W · the reference line", "h066-sub", 11, "end");
+
+                // Miami
+                const [mx, my] = dot(-80.19, 25.76, "var(--hanten-text)", 4);
+                text(mx + 8, my + lh(4), "Miami · 80.2°W", "h066-label", 11.5);
+                if (!narrow) text(mx + 8, my + 18, "just east of Punta Pariñas", "h066-sub", 10.5);
+
+                // Punta Pariñas
+                const [ppx, ppy] = dot(-81.3225, -4.6742, "var(--hanten-text)", 5);
+                text(ppx - 10, ppy - lh(6), "Punta Pariñas, Peru", "h066-label", 12.5, "end");
+                text(ppx - 10, ppy + lh(9), narrow ? "westernmost point" : "South America's westernmost point", "h066-sub", 11, "end");
+                text(ppx - 10, ppy + lh(23), narrow ? "81.3°W — 6° east" : "81.3°W — still 6° east of Pensacola", "h066-sub", 11, "end");
+
+                // Lima
+                const [lx, ly] = dot(-77.04, -12.05, "var(--hanten-text)", 3.5);
+                text(lx - 8, ly + lh(4), "Lima", "h066-sub", 11, "end");
+
+                // Buenos Aires
+                const [bx, by] = dot(-58.40, -34.60, "var(--hanten-text)", 3.5);
+                text(bx + 8, by + lh(4), "Buenos Aires", "h066-sub", 11);
+
+                // Ponta do Seixas
+                const [rx, ry] = dot(-34.79, -7.15, "var(--hanten-text)", 4);
+                text(rx - 8, ry - lh(10), narrow ? "Recife · 34.8°W" : "Near Recife · 34.8°W", "h066-label", 11.5, "end");
+                text(rx - 8, ry + lh(4), "easternmost point", "h066-sub", 10.5, "end");
+            }
+
+            drawLabels();
+            let lastW = frame.clientWidth;
+            window.addEventListener("resize", () => {
+                if (Math.abs(frame.clientWidth - lastW) > 20) { lastW = frame.clientWidth; drawLabels(); }
+            });
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H066-south-america-east-of-florida.png", title = "Is South America east of Florida?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

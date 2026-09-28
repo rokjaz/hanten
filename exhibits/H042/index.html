@@ -7,7 +7,7 @@
 <title>H042 — 2.4 Miles Apart, a Day Apart</title>
 <meta name="description" content="Big Diomede (Russia) and Little Diomede (USA) sit 2.4 miles apart in the Bering Strait — but the International Date Line runs through the water between them.">
 
-<link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
+<link rel="stylesheet" href="../../assets/css/hanten.css">
 
 <style>
   :root {
@@ -62,7 +62,7 @@
   }
 
   .h042-dl-label {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-family: var(--hanten-font);
     font-weight: 700;
     font-size: 10.5px;
     letter-spacing: 0.06em;
@@ -77,7 +77,7 @@
   }
 
   .h042-tz-label {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-family: var(--hanten-font);
     font-size: 10.5px;
     fill: var(--hanten-muted);
   }
@@ -124,7 +124,7 @@
   }
 
   .h042-clock-note {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-family: var(--hanten-font);
     font-size: 0.72rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -147,14 +147,14 @@
   }
 
   .h042-clock-day {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-family: var(--hanten-font);
     font-weight: 700;
     font-size: 10.5px;
     letter-spacing: 0.08em;
   }
 
   .h042-clock-time {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-family: var(--hanten-font);
     font-weight: 700;
     font-size: 15px;
     fill: var(--hanten-text);
@@ -165,7 +165,7 @@
     flex-direction: column;
     align-items: center;
     gap: 0.15rem;
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-family: var(--hanten-font);
     font-size: 0.72rem;
     color: var(--hanten-muted);
     text-align: center;
@@ -280,6 +280,9 @@
 .hanten-export-aha p:last-child{margin-bottom:0}
 .hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
 .hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
 </style>
 </head>
 
@@ -411,38 +414,50 @@
       </section>
     </div>
 
+    <div class="h042-reveal">
+        <p><strong>2.4 miles of water, and the clocks read 20 or 21 hours apart, never a clean 24.</strong> Big Diomede runs on Kamchatka Time, a fixed UTC+12 that Russia's Chukotka region has held year-round since Russia abolished daylight saving nationally in 2014. Little Diomede runs on Alaska Time, UTC−9 for most of the year and UTC−8 during daylight-saving months. Twelve minus negative nine is twenty-one; twelve minus negative eight is twenty — so the gap swings between 21 and 20 hours, always shy of a full day, with Big Diomede always further along the calendar.</p>
+        <p>A line drawn for convenience can open a gap far bigger than the distance it crosses. When two nearby places disagree about something as basic as the date, look at the rules each side chose, not the miles between them.</p>
+      </div>
+
+    <p class="hanten-reflection">
+                Where else does a line on a map move the clock instead of the distance?
+            </p>
+
+    <details class="h042-explore" data-html2canvas-ignore="true">
+      <summary>See the numbers</summary>
     <table class="h042-table hanten-body">
-      <caption>The numbers</caption>
-      <thead>
+            <thead>
         <tr><th>Measure</th><th>Big Diomede</th><th>Little Diomede</th></tr>
       </thead>
       <tbody>
         <tr><td>Country</td><td class="num">Russia</td><td class="num">USA (Alaska)</td></tr>
         <tr><td>Time zone</td><td class="num">Kamchatka Time, UTC+12</td><td class="num">Alaska Time, UTC−9 / −8</td></tr>
-        <tr><td>Land area</td><td class="num">≈29 km² (11 mi²)</td><td class="num">≈7 km² (2.4–2.8 mi²)</td></tr>
+        <tr><td>Land area</td><td class="num">≈11 sq mi (29 km²)</td><td class="num">≈2.4–2.8 sq mi (7 km²)</td></tr>
         <tr><td>Population</td><td class="num">0 (Russian border post)</td><td class="num">77 (2023)</td></tr>
-        <tr><td>Closest distance apart</td><td class="num" colspan="2">≈2.4 mi / 3.8 km</td></tr>
+        <tr><td>Closest distance apart</td><td class="num" colspan="2">≈2.4 mi (3.8 km)</td></tr>
         <tr><td>Time difference</td><td class="num" colspan="2">21 hrs winter / 20 hrs summer</td></tr>
       </tbody>
     </table>
+    </details>
 
-    <div class="h042-reveal">
-        <p><strong>It would be tidy if crossing the date line simply added exactly one day, leaving the clock time unchanged. It doesn't, here.</strong> Big Diomede runs on Kamchatka Time, a fixed UTC+12 that Russia's Chukotka region has held year-round since Russia abolished daylight saving nationally in 2014. Little Diomede runs on Alaska Time, UTC−9 for most of the year and UTC−8 during daylight-saving months. Twelve minus negative nine is twenty-one; twelve minus negative eight is twenty — so the gap swings between 21 and 20 hours, always shy of a full day, with Big Diomede always further along the calendar.</p>
-      </div>
-
-    <p class="hanten-reflection">
-      When does a border stop marking distance, and start marking time instead?
-    </p>
-
-    <details class="h042-explore">
+    <details class="h042-explore" data-html2canvas-ignore="true">
       <summary>Explore the Cold War history behind the border</summary>
       <p>
         The asymmetry runs deeper than the clocks. Little Diomede is home to a real, if tiny, community — 77 people as of 2023, an Iñupiat village with a school, a store, and a runway used mostly by small planes. Big Diomede has no permanent civilian population at all; the island hosts only a Russian weather station and a border post, its native Iñupiat community relocated to the Russian mainland decades ago during the Cold War, when the strait itself briefly earned the nickname the "Ice Curtain." The maritime border near the date line here is also the line the United States and the Soviet Union agreed on in a 1990 treaty, one of the last pieces of Cold War-era boundary-making still quietly doing its job.
       </p>
-        <p>In 1987, American swimmer Lynne Cox actually crossed the gap between them, covering about 2.2 miles of frigid water as a piece of Cold War diplomacy — an American touching Soviet soil by the most literal means available. Distance and time, it turns out, are governed by entirely separate sets of rules: geography put these islands within shouting distance of each other, while history and time-zone politics put them on different calendar pages for all but a sliver of the day. Farther south along the same 180th meridian, the line stops dividing calendar days and starts dividing <a href="../H045 Alaska Both Hemispheres/H045.html">east from west instead</a>, at the far tip of Alaska's Aleutian Islands — one line of longitude, doing two entirely different jobs depending on where you cross it.</p>
+        <p>In 1987, American swimmer Lynne Cox actually crossed the gap between them, covering about 2.2 miles of frigid water as a piece of Cold War diplomacy — an American touching Soviet soil by the most literal means available. Distance and time, it turns out, are governed by entirely separate sets of rules: geography put these islands within shouting distance of each other, while history and time-zone politics put them on different calendar pages for all but a sliver of the day. Farther south along the same 180th meridian, the line stops dividing calendar days and starts dividing <a href="../H045/index.html" target="_blank" rel="noopener noreferrer">east from west instead</a>, at the far tip of Alaska's Aleutian Islands — one line of longitude, doing two entirely different jobs depending on where you cross it.</p>
     </details>
 
-    <p class="hanten-source">
+    <details class="h042-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H045/index.html" target="_blank" rel="noopener noreferrer">Does Alaska cross into the Eastern Hemisphere?</a></li>
+                    <li><a href="../H068/index.html" target="_blank" rel="noopener noreferrer">Which country has the most time zones?</a></li>
+                    <li><a href="../H066/index.html" target="_blank" rel="noopener noreferrer">Is South America east of Florida?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
       Sources: island and time-zone figures per standard published references (Wikipedia: "Diomede Islands," "Alaska Time Zone," "Kamchatka Time"). Map is an illustrative schematic — coastlines and relative scale are simplified to show the geography clearly and are not survey-grade. The clock pair illustrates one representative instant during Alaska's daylight-saving months (a 20-hour gap); during Alaska's standard-time months the gap is 21 hours.
     </p>
   </div>
@@ -453,7 +468,7 @@
 
 </main>
 
-<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/html2canvas.min.js"></script>
 
 <script>
 (() => {
@@ -496,7 +511,6 @@
 
     const shell = document.createElement("div");
     shell.appendChild(capture.cloneNode(true));
-    if (table) shell.appendChild(table.cloneNode(true));
     card.appendChild(shell);
 
     if (reveal) {
@@ -508,7 +522,7 @@
 
     const reflection = document.createElement("div");
     reflection.className = "hanten-export-reflection";
-    reflection.textContent = "When does a border stop marking distance, and start marking time instead?";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     if (source) {

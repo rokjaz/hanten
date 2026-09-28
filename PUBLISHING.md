@@ -2,18 +2,16 @@
 
 ## Publication Rule
 
-Only exhibits that have completed the Hanten v2 standardization pass may be published to the website-v2 architecture.
+Publish from the standardized master file in Google Drive:
 
-The approved source file must be:
+02 Maps/H### Name/H###.html
 
-H###_v2.html
-
-The publisher must not fall back to H###.html or any archived/original version.
+(An older H###_v2.html is used only if H###.html is missing.)
 
 ## Workflow
 
 1. Standardize the exhibit in the Hanten master project.
-2. Save the approved version as H###_v2.html.
+2. Save the approved version as H###.html in its 02 Maps folder.
 3. Run:
    ./tools/publish-exhibit.sh H###
 4. Open and visually inspect exhibits/H###/index.html.
@@ -28,3 +26,14 @@ Editorial/master exhibit files remain in the Hanten master project.
 The GitHub repository contains the deployable website.
 
 Do not edit the master exhibit merely to solve a website deployment issue.
+
+## Retiring an exhibit
+
+When an exhibit is merged into another one or retired in the master project:
+
+1. Delete its folder from exhibits/.
+2. Add two lines to _redirects pointing its old address to the exhibit that absorbed it (or to /browse.html if nothing did):
+   /exhibits/H### /exhibits/H0YY/ 301
+   /exhibits/H###/* /exhibits/H0YY/ 301
+3. Remove it from index.html, browse.html, and data/featured.js.
+4. Republish any exhibit whose Related links changed.

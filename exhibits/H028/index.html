@@ -1,333 +1,397 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>H028 — CONUS vs Greenland</title>
-    <meta name="description" content="Greenland looks enormous on many familiar world maps. At equal-area scale, the contiguous United States is about 3.7 times larger.">
+    <title>H028 — How Quickly Does Chess Get Big?</title>
+
+    <meta
+        name="description"
+        content="After just five moves by each player, there are about 69 trillion possible move sequences in chess. On a normal chart, the first 85 billion don't even show up."
+    >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
 
     <style>
+        /*
+           H028-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
         :root {
-            --h028-ink: #17212b;
-            --h028-muted: #68717a;
-            --h028-line: rgba(23,33,43,.13);
-            --h028-accent: #0e7c86;
-            --h028-accent-soft: rgba(14,124,134,.10);
-            --h028-us: #dfe3dc;
-            --h028-us-line: #bac1b8;
-            --h028-greenland: #1f6f8b;
-            --h028-panel: #ffffff;
+            --h028-light: #f0d9b5;
+            --h028-dark: #b58863;
+            --h028-frame: #3b342c;
+            --h028-line: #0e7c86;
+            --h028-hi: #d9822b;
         }
 
-        .h028-shell {
-            width: min(100%, 980px);
-            margin: 0 auto;
+        .h028-panel {
+            padding: 1.1rem 1.1rem 0.9rem;
+            margin-bottom: 0.8rem;
         }
 
-        .h028-map-wrap {
+        .h028-top {
+            display: grid;
+            grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+            gap: 1.6rem;
+            align-items: center;
+        }
+
+        .h028-board {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(8, 1fr);
             width: 100%;
+            max-width: 300px;
+            aspect-ratio: 1 / 1;
             margin: 0 auto;
-            padding: clamp(.45rem, 1.4vw, .8rem);
-            background: var(--h028-panel);
-            border: 1px solid var(--h028-line);
+            border: 4px solid var(--h028-frame);
+            border-radius: 3px;
         }
+        .h028-sq { position: relative; }
+        .h028-sq.l { background: var(--h028-light); }
+        .h028-sq.d { background: var(--h028-dark); }
+        .h028-sq img { position: absolute; inset: 4%; width: 92%; height: 92%; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.35)); }
 
-        #h028-map {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
-
-        .h028-us {
-            fill: var(--h028-us);
-            stroke: var(--h028-us-line);
-            stroke-width: .7;
-            vector-effect: non-scaling-stroke;
-        }
-
-        .h028-greenland {
-            fill: var(--h028-greenland);
-            fill-opacity: .80;
-            stroke: #ffffff;
-            stroke-width: .9;
-            vector-effect: non-scaling-stroke;
-        }
-
-        .h028-number {
-            font: 800 15px/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-            fill: #ffffff;
-            text-anchor: middle;
-            dominant-baseline: middle;
-            paint-order: stroke;
-            stroke: rgba(23,33,43,.36);
-            stroke-width: 3px;
-            stroke-linejoin: round;
-            pointer-events: none;
-        }
-
-        .h028-ratio {
+        .h028-steps { list-style: none; margin: 0; padding: 0; }
+        .h028-steps li {
             display: flex;
-            justify-content: center;
             align-items: baseline;
-            gap: .45rem;
+            justify-content: space-between;
+            gap: 0.8rem;
+            padding: 0.42rem 0;
+            border-bottom: 1px solid var(--hanten-border);
+            font-variant-numeric: tabular-nums;
+        }
+        .h028-steps li:last-child { border-bottom: none; }
+        .h028-steps .h028-mv { font-size: 0.8rem; color: var(--hanten-muted); white-space: nowrap; }
+        .h028-steps .h028-n { font-weight: 700; font-size: 0.95rem; text-align: right; }
+        .h028-steps .h028-w { display: block; font-size: 0.72rem; font-weight: 500; color: var(--hanten-muted); }
+        .h028-steps li.is-final .h028-n { color: var(--hanten-accent); font-size: 1.2rem; font-weight: 800; }
+        .h028-steps li.is-final .h028-mv { color: var(--hanten-text); font-weight: 700; }
+
+        .h028-charts {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.8rem;
+        }
+        .h028-chart-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             flex-wrap: wrap;
-            margin: .85rem auto 0;
-            color: var(--h028-muted);
-            text-align: center;
-            font-size: .82rem;
+            gap: 0.6rem;
+            margin-bottom: 0.4rem;
         }
-
-        .h028-ratio strong {
-            color: var(--h028-accent);
-            font-size: 1.25rem;
+        .h028-switch {
+            display: inline-flex;
+            border: 1px solid var(--hanten-border);
+            border-radius: 6px;
+            overflow: hidden;
+            background: #ffffff;
         }
-
-        #save-image-slot {
-            max-width: 980px;
-            margin: .55rem auto 0;
-            text-align: right;
-        }
-
-        .h028-reveal {
-            max-width: 820px;
-            margin: 1.15rem auto 0;
-            padding: 1rem 1.1rem;
-            background: var(--h028-accent-soft);
-            border-left: 3px solid var(--h028-accent);
-            color: #52606a;
-            font-size: .95rem;
-            line-height: 1.58;
-        }
-
-        .h028-reveal strong {
-            color: var(--h028-ink);
-        }
-
-        .h028-note {
-            max-width: 820px;
-            margin: .95rem auto 0;
-            color: var(--h028-muted);
-            font-size: .86rem;
-            line-height: 1.55;
-            text-align: center;
-        }
-
-        .h028-companion {
-            max-width: 820px;
-            margin: 1rem auto 0;
-            padding: .82rem .95rem;
-            border: 1px solid var(--h028-line);
-            background: #fff;
-            color: var(--h028-muted);
-            font-size: .86rem;
-            line-height: 1.5;
-            text-align: center;
-        }
-
-        .h028-companion a {
-            color: var(--h028-accent);
+        .h028-switch button {
+            appearance: none;
+            border: none;
+            background: #ffffff;
+            color: var(--hanten-text);
+            font-family: var(--hanten-font);
+            font-size: 0.78rem;
             font-weight: 700;
-            text-decoration: none;
+            padding: 0.45rem 0.8rem;
+            cursor: pointer;
         }
+        .h028-switch button + button { border-left: 1px solid var(--hanten-border); }
+        .h028-switch button.is-active { background: var(--hanten-accent); color: #ffffff; }
 
-        .h028-companion a:hover {
-            text-decoration: underline;
+        .h028-chart-title {
+            margin: 0 0 0.1rem;
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 0.92rem;
         }
-
-        .h028-principle {
-            max-width: 820px;
-            margin: 1.05rem auto 0;
-            padding-top: .9rem;
-            border-top: 1px solid var(--h028-line);
-            color: #59636d;
-            font-size: .9rem;
-            line-height: 1.55;
+        .h028-chart-sub {
+            margin: 0 0 0.5rem;
+            font-size: 0.76rem;
+            color: var(--hanten-muted);
         }
+        .h028-panel svg { display: block; width: 100%; height: auto; }
+        .h028-axis { font-family: var(--hanten-font); fill: var(--hanten-muted); }
+        .h028-anno { font-family: var(--hanten-font); font-weight: 700; fill: #9a5a17; }
 
-        .h028-principle strong {
-            color: var(--h028-ink);
+        .h028-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h028-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h028-discovery p:last-child { margin-bottom: 0; }
+        .h028-discovery strong { color: var(--hanten-text); }
+
+        @media (max-width: 720px) {
+            .h028-top { grid-template-columns: 1fr; gap: 1rem; }
+            .h028-charts { grid-template-columns: 1fr; }
         }
-
-        .h028-source {
-            max-width: 840px;
-            margin: .9rem auto 0;
-            text-align: center;
-            color: #7b838a;
-            font-size: .7rem;
-            line-height: 1.45;
+        @media (max-width: 600px) {
+            .h028-panel { padding: 0.9rem 0.7rem 0.8rem; }
         }
     </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h028-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h028-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h028-explore p { margin: .55rem 0 0; }
+.h028-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
 </head>
 
 <body>
-<main class="hanten-exhibit">
 
-    <h1 class="hanten-question">
-        Greenland looks almost as large as the Lower 48 on many world maps.
-        How many Greenlands actually fit inside?
-    </h1>
+    <main class="hanten-exhibit">
 
-    <p class="hanten-subtitle">
-        Put both at the same equal-area scale and the familiar picture changes fast.
-    </p>
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            How quickly does chess get big?
+        </h1>
 
-    <div class="hanten-graphic">
-        <div class="h028-shell">
+        <p class="hanten-subtitle">
+            White has 20 possible first moves, and Black has 20 possible replies. After just five moves by each
+            player, there are about 69 trillion different ways the game could have gone.
+        </p>
 
-            <div class="h028-map-wrap" id="h028-capture">
-                <svg
-                    id="h028-map"
-                    viewBox="0 0 900 600"
-                    role="img"
-                    aria-labelledby="h028-title h028-desc"
-                >
-                    <title id="h028-title">Greenland compared with the contiguous United States</title>
-                    <desc id="h028-desc">
-                        The contiguous United States shown at equal-area scale with four copies of Greenland
-                        placed across it at the same scale. The fourth copy extends beyond the country because
-                        the true area ratio is about 3.7 to one.
-                    </desc>
-                </svg>
+        <div id="h028-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="hanten-panel h028-panel">
+                    <div class="h028-top">
+                        <div class="h028-board" id="h028-board" role="img" aria-label="Chess board in the standard starting position"></div>
+                        <ol class="h028-steps" id="h028-steps" aria-label="Number of possible move sequences after each move"></ol>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h028-panel">
+                    <div class="h028-chart-head">
+                        <div>
+                            <p class="h028-chart-title">Possible move sequences after each move</p>
+                            <p class="h028-chart-sub" id="h028-chart-sub">Normal scale: each gridline adds 10 trillion</p>
+                        </div>
+                        <div class="h028-switch" role="group" aria-label="Chart scale">
+                            <button type="button" class="is-active" data-scale="lin" aria-pressed="true">Normal scale</button>
+                            <button type="button" data-scale="log" aria-pressed="false">Log scale</button>
+                        </div>
+                    </div>
+                    <svg id="h028-chart" viewBox="0 0 720 320" role="img" aria-labelledby="h028-chart-title h028-chart-desc">
+                        <title id="h028-chart-title">Possible chess move sequences after 1 to 10 moves</title>
+                        <desc id="h028-chart-desc">On a normal scale, the first eight moves look like zero and the line shoots up to about 69 trillion at move 10. On a log scale, the same numbers form a nearly straight line, because the count multiplies by about 20 to 30 times with every move.</desc>
+                    </svg>
+                </div>
+
             </div>
 
-            <div class="h028-ratio">
-                <span>Lower 48 ≈ 8.08 million km²</span>
-                <span>·</span>
-                <span>Greenland ≈ 2.17 million km²</span>
-                <span>·</span>
-                <strong>≈ 3.7 : 1</strong>
+            <div class="h028-discovery hanten-body">
+                <p><strong>Every move multiplies the possibilities.</strong> There are 400 possible sequences after two moves and about 69 trillion after ten. On a normal chart, almost everything before the last step is invisible: the 2.4 trillion sequences after nine moves are only about 3.5% of the final height.</p>
+                <p><strong>Neither chart is wrong.</strong> The normal scale shows how much bigger the last number is; the log scale shows how steadily it grew. When numbers multiply instead of add, the chart you pick decides which story people see.</p>
             </div>
 
-            <div id="save-image-slot"></div>
+            <p class="hanten-reflection">
+                What looked “sudden” to you that was really growing all along?
+            </p>
 
-            <div class="h028-reveal">
-                <strong>The contiguous United States is about 3.7 times larger than Greenland.</strong>
-                On a Mercator map, Greenland is stretched dramatically because it sits so far north.
-                Draw both with an equal-area projection at the same scale and the illusion disappears.
-            </div>
+            <details class="h028-explore" data-html2canvas-ignore="true">
+                <summary>How the numbers grow, move by move</summary>
+                <p><strong>Every move multiplies the possibilities.</strong> There are 20 legal first moves for
+                    White and 20 replies for Black, so 400 sequences after two moves. As pieces come out, each position
+                    offers more choices, and the total multiplies by roughly 20 to 30 times with every move. After ten
+                    moves there are 69,352,859,712,417 legal sequences, about 69 trillion.</p>
+                <p><strong>On a normal chart, almost everything before the last step is invisible.</strong> After
+                    9 moves there are about 2.4 trillion sequences, which sounds enormous, but it's only about 3.5% of
+                    the final height. Millions and billions round down to nothing. Switch the chart to log scale, where each
+                    labeled gridline is 1,000 times the one below it, and the same data becomes a steady, nearly straight climb.</p>
+            </details>
 
-            <div class="h028-note">
-                Each numbered shape is Greenland. The copies may be rotated because this comparison is about
-                area, not orientation. The fourth copy deliberately spills beyond the U.S. outline: four full
-                Greenlands would be too much, while three would leave a substantial amount of the country uncovered.
-            </div>
+            <details class="h028-explore" data-html2canvas-ignore="true">
+                <summary>Explore more numbers too big to picture</summary>
+                <p>See <a href="../H078/index.html" target="_blank" rel="noopener noreferrer">Numbers Beyond Comprehension</a> for how millions, billions, and trillions compare, <a href="../H005/index.html" target="_blank" rel="noopener noreferrer">Shared Birthdays</a> for another case where combinations grow faster than intuition expects, and <a href="../H018/index.html" target="_blank" rel="noopener noreferrer">Axis Truncation</a> for how a chart's axis can change the story.</p>
+            </details>
 
-            <div class="h028-companion">
-                Companion exhibit:
-                <a href="../H023/index.html" target="_blank" rel="noopener noreferrer">H023 — Africa is 14 Greenlands</a>.
-                Same method. Same scale logic. A very different number.
-            </div>
+            <details class="h028-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H078/index.html" target="_blank" rel="noopener noreferrer">How far apart are a million and a billion?</a></li>
+                    <li><a href="../H018/index.html" target="_blank" rel="noopener noreferrer">How can the same two numbers tell two completely different stories?</a></li>
+                    <li><a href="../H005/index.html" target="_blank" rel="noopener noreferrer">How many people does it take before a shared birthday is more likely than not?</a></li>
+                </ul>
+            </details>
 
-            <div class="h028-principle">
-                <strong>Hanten Principle: Human intuition about scale is unreliable.</strong><br>
-                A familiar map can preserve useful relationships while badly distorting area.
-                Changing the projection can change what feels large.
-            </div>
-
-            <div class="h028-source">
-                Source basis from the original H028 exhibit: contiguous U.S. area ≈ 8.08 million km²;
-                Greenland area ≈ 2.17 million km²; ratio ≈ 3.7. Areas attributed there to the CIA World Factbook.
-                Greenland shape: Natural Earth 1:10m. U.S. shape: Census state boundaries. Equal-area comparison rendered with D3.
-            </div>
+            <p class="hanten-source">
+                Sources: Chess Programming Wiki, "Perft Results" (the number of legal move sequences from the
+                standard starting position for depths 1 through 10). "Moves" here are single turns by one player
+                (half-moves, or plies); sequences that end early in checkmate are not counted. Chess pieces: the
+                standard "cburnett" set by Colin M.L. Burnett (CC BY-SA 3.0), as used on Wikipedia and Lichess.
+            </p>
 
         </div>
-    </div>
 
-</main>
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
 
-<script src="../../assets/js/d3.v7.min.js"></script>
-<script src="../../assets/js/topojson-client.min.js"></script>
-<script src="../../assets/geodata/us/us-counties-10m.js"></script>
-<script src="../../assets/geodata/countries/greenland-10m.js"></script>
+    </main>
 
-<script>
-(() => {
-    "use strict";
+    <script>
+        (() => {
+            // ---------- Board (standard cburnett pieces) ----------
+            const PIECES = {"wB": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PGcgZmlsbD0iI2ZmZiIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiPjxwYXRoIGQ9Ik05IDM2YzMuMzktLjk3IDEwLjExLjQzIDEzLjUtMiAzLjM5IDIuNDMgMTAuMTEgMS4wMyAxMy41IDIgMCAwIDEuNjUuNTQgMyAyLS42OC45Ny0xLjY1Ljk5LTMgLjUtMy4zOS0uOTctMTAuMTEuNDYtMTMuNS0xLTMuMzkgMS40Ni0xMC4xMS4wMy0xMy41IDEtMS4zNS40OS0yLjMyLjQ3LTMtLjUgMS4zNS0xLjk0IDMtMiAzLTJ6Ii8+PHBhdGggZD0iTTE1IDMyYzIuNSAyLjUgMTIuNSAyLjUgMTUgMCAuNS0xLjUgMC0yIDAtMiAwLTIuNS0yLjUtNC0yLjUtNCA1LjUtMS41IDYtMTEuNS01LTE1LjUtMTEgNC0xMC41IDE0LTUgMTUuNSAwIDAtMi41IDEuNS0yLjUgNCAwIDAtLjUuNSAwIDJ6Ii8+PHBhdGggZD0iTTI1IDhhMi41IDIuNSAwIDEgMS01IDAgMi41IDIuNSAwIDEgMSA1IDB6Ii8+PC9nPjxwYXRoIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIGQ9Ik0xNy41IDI2aDEwTTE1IDMwaDE1bS03LjUtMTQuNXY1TTIwIDE4aDUiLz48L2c+PC9zdmc+", "wQ": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggZD0iTTggMTJhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwbTE2LjUtNC41YTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgME00MSAxMmEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDBNMTYgOC41YTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgME0zMyA5YTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgMCIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJidXR0IiBkPSJNOSAyNmM4LjUtMS41IDIxLTEuNSAyNyAwbDItMTItNyAxMVYxMWwtNS41IDEzLjUtMy0xNS0zIDE1LTUuNS0xNFYyNUw3IDE0eiIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJidXR0IiBkPSJNOSAyNmMwIDIgMS41IDIgMi41IDQgMSAxLjUgMSAxIC41IDMuNS0xLjUgMS0xLjUgMi41LTEuNSAyLjUtMS41IDEuNS41IDIuNS41IDIuNSA2LjUgMSAxNi41IDEgMjMgMCAwIDAgMS41LTEgMC0yLjUgMCAwIC41LTEuNS0xLTIuNS0uNS0yLjUtLjUtMiAuNS0zLjUgMS0yIDIuNS0yIDIuNS00LTguNS0xLjUtMTguNS0xLjUtMjcgMHoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMTEuNSAzMGMzLjUtMSAxOC41LTEgMjIgME0xMiAzMy41YzYtMSAxNS0xIDIxIDAiLz48L2c+PC9zdmc+", "wR": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDM5aDI3di0zSDl6bTMtM3YtNGgyMXY0em0tMS0yMlY5aDR2Mmg1VjloNXYyaDVWOWg0djUiLz48cGF0aCBkPSJtMzQgMTQtMyAzSDE0bC0zLTMiLz48cGF0aCBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTMxIDE3djEyLjVIMTRWMTciLz48cGF0aCBkPSJtMzEgMjkuNSAxLjUgMi41aC0yMGwxLjUtMi41Ii8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTExIDE0aDIzIi8+PC9nPjwvc3ZnPg==", "wP": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48cGF0aCBmaWxsPSIjZmZmIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGQ9Ik0yMi41IDljLTIuMjEgMC00IDEuNzktNCA0IDAgLjg5LjI5IDEuNzEuNzggMi4zOEMxNy4zMyAxNi41IDE2IDE4LjU5IDE2IDIxYzAgMi4wMy45NCAzLjg0IDIuNDEgNS4wMy0zIDEuMDYtNy40MSA1LjU1LTcuNDEgMTMuNDdoMjNjMC03LjkyLTQuNDEtMTIuNDEtNy40MS0xMy40NyAxLjQ3LTEuMTkgMi40MS0zIDIuNDEtNS4wMyAwLTIuNDEtMS4zMy00LjUtMy4yOC01LjYyLjQ5LS42Ny43OC0xLjQ5Ljc4LTIuMzggMC0yLjIxLTEuNzktNC00LTR6Ii8+PC9zdmc+", "bB": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PGcgZmlsbD0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiPjxwYXRoIGQ9Ik05IDM2YzMuNC0xIDEwLjEuNCAxMy41LTIgMy40IDIuNCAxMC4xIDEgMTMuNSAyIDAgMCAxLjYuNSAzIDItLjcgMS0xLjYgMS0zIC41LTMuNC0xLTEwLjEuNS0xMy41LTEtMy40IDEuNS0xMC4xIDAtMTMuNSAxLTEuNC41LTIuMy41LTMtLjUgMS40LTIgMy0yIDMtMnoiLz48cGF0aCBkPSJNMTUgMzJjMi41IDIuNSAxMi41IDIuNSAxNSAwIC41LTEuNSAwLTIgMC0yIDAtMi41LTIuNS00LTIuNS00IDUuNS0xLjUgNi0xMS41LTUtMTUuNS0xMSA0LTEwLjUgMTQtNSAxNS41IDAgMC0yLjUgMS41LTIuNSA0IDAgMC0uNS41IDAgMnoiLz48cGF0aCBkPSJNMjUgOGEyLjUgMi41IDAgMSAxLTUgMCAyLjUgMi41IDAgMSAxIDUgMHoiLz48L2c+PHBhdGggc3Ryb2tlPSIjZWNlY2VjIiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBkPSJNMTcuNSAyNmgxME0xNSAzMGgxNW0tNy41LTE0LjV2NU0yMCAxOGg1Ii8+PC9nPjwvc3ZnPg==", "bR": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDM5aDI3di0zSDl6bTMuNS03IDEuNS0yLjVoMTdsMS41IDIuNXptLS41IDR2LTRoMjF2NHoiLz48cGF0aCBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTE0IDI5LjV2LTEzaDE3djEzeiIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJidXR0IiBkPSJNMTQgMTYuNSAxMSAxNGgyM2wtMyAyLjV6TTExIDE0VjloNHYyaDVWOWg1djJoNVY5aDR2NXoiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNlY2VjZWMiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIHN0cm9rZS13aWR0aD0iMSIgZD0iTTEyIDM1LjVoMjFtLTIwLTRoMTltLTE4LTJoMTdtLTE3LTEzaDE3TTExIDE0aDIzIi8+PC9nPjwvc3ZnPg==", "bK": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NSA0NSI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIxLjUiPjxwYXRoIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIGQ9Ik0yMi41IDExLjZWNiIvPjxwYXRoIGZpbGw9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBkPSJNMjIuNSAyNXM0LjUtNy41IDMtMTAuNWMwIDAtMS0yLjUtMy0yLjVzLTMgMi41LTMgMi41Yy0xLjUgMyAzIDEwLjUgMyAxMC41Ii8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTExLjUgMzdhMjIuMyAyMi4zIDAgMCAwIDIxIDB2LTdzOS00LjUgNi0xMC41Yy00LTYuNS0xMy41LTMuNS0xNiA0VjI3di0zLjVjLTMuNS03LjUtMTMtMTAuNS0xNi00LTMgNiA1IDEwIDUgMTB6Ii8+PHBhdGggc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTIwIDhoNSIvPjxwYXRoIHN0cm9rZT0iI2VjZWNlYyIgZD0iTTMyIDI5LjVzOC41LTQgNi05LjdDMzQuMSAxNCAyNSAxOCAyMi41IDI0LjZ2Mi4xLTIuMUMyMCAxOCA5LjkgMTQgNyAxOS45Yy0yLjUgNS42IDQuOCA5IDQuOCA5Ii8+PHBhdGggc3Ryb2tlPSIjZWNlY2VjIiBkPSJNMTEuNSAzMGM1LjUtMyAxNS41LTMgMjEgMG0tMjEgMy41YzUuNS0zIDE1LjUtMyAyMSAwbS0yMSAzLjVjNS41LTMgMTUuNS0zIDIxIDAiLz48L2c+PC9zdmc+", "bQ": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PGcgc3Ryb2tlPSJub25lIj48Y2lyY2xlIGN4PSI2IiBjeT0iMTIiIHI9IjIuNzUiLz48Y2lyY2xlIGN4PSIxNCIgY3k9IjkiIHI9IjIuNzUiLz48Y2lyY2xlIGN4PSIyMi41IiBjeT0iOCIgcj0iMi43NSIvPjxjaXJjbGUgY3g9IjMxIiBjeT0iOSIgcj0iMi43NSIvPjxjaXJjbGUgY3g9IjM5IiBjeT0iMTIiIHI9IjIuNzUiLz48L2c+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzguNS0xLjUgMjEtMS41IDI3IDBsMi41LTEyLjVMMzEgMjVsLS4zLTE0LjEtNS4yIDEzLjYtMy0xNC41LTMgMTQuNS01LjItMTMuNkwxNCAyNSA2LjUgMTMuNXoiLz48cGF0aCBzdHJva2UtbGluZWNhcD0iYnV0dCIgZD0iTTkgMjZjMCAyIDEuNSAyIDIuNSA0IDEgMS41IDEgMSAuNSAzLjUtMS41IDEtMS41IDIuNS0xLjUgMi41LTEuNSAxLjUuNSAyLjUuNSAyLjUgNi41IDEgMTYuNSAxIDIzIDAgMCAwIDEuNS0xIDAtMi41IDAgMCAuNS0xLjUtMS0yLjUtLjUtMi41LS41LTIgLjUtMy41IDEtMiAyLjUtMiAyLjUtNC04LjUtMS41LTE4LjUtMS41LTI3IDB6Ii8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik0xMSAzOC41YTM1IDM1IDEgMCAwIDIzIDAiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNlY2VjZWMiIGQ9Ik0xMSAyOWEzNSAzNSAxIDAgMSAyMyAwbS0yMS41IDIuNWgyMG0tMjEgM2EzNSAzNSAxIDAgMCAyMiAwbS0yMyAzYTM1IDM1IDEgMCAwIDI0IDAiLz48L2c+PC9zdmc+", "wN": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTIyIDEwYzEwLjUgMSAxNi41IDggMTYgMjlIMTVjMC05IDEwLTYuNSA4LTIxIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTI0IDE4Yy4zOCAyLjkxLTUuNTUgNy4zNy04IDktMyAyLTIuODIgNC4zNC01IDQtMS4wNDItLjk0IDEuNDEtMy4wNCAwLTMtMSAwIC4xOSAxLjIzLTEgMi0xIDAtNC4wMDMgMS00LTQgMC0yIDYtMTIgNi0xMnMxLjg5LTEuOSAyLTMuNWMtLjczLS45OTQtLjUtMi0uNS0zIDEtMSAzIDIuNSAzIDIuNWgycy43OC0xLjk5MiAyLjUtM2MxIDAgMSAzIDEgMyIvPjxwYXRoIGZpbGw9IiMwMDAiIGQ9Ik05LjUgMjUuNWEuNS41IDAgMSAxLTEgMCAuNS41IDAgMSAxIDEgMG01LjQzMy05Ljc1YS41IDEuNSAzMCAxIDEtLjg2Ni0uNS41IDEuNSAzMCAxIDEgLjg2Ni41Ii8+PC9nPjwvc3ZnPg==", "wK": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NSA0NSI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIxLjUiPjxwYXRoIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIGQ9Ik0yMi41IDExLjYzVjZNMjAgOGg1Ii8+PHBhdGggZmlsbD0iI2ZmZiIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIGQ9Ik0yMi41IDI1czQuNS03LjUgMy0xMC41YzAgMC0xLTIuNS0zLTIuNXMtMyAyLjUtMyAyLjVjLTEuNSAzIDMgMTAuNSAzIDEwLjUiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTEuNSAzN2M1LjUgMy41IDE1LjUgMy41IDIxIDB2LTdzOS00LjUgNi0xMC41Yy00LTYuNS0xMy41LTMuNS0xNiA0VjI3di0zLjVjLTMuNS03LjUtMTMtMTAuNS0xNi00LTMgNiA1IDEwIDUgMTB6Ii8+PHBhdGggZD0iTTExLjUgMzBjNS41LTMgMTUuNS0zIDIxIDBtLTIxIDMuNWM1LjUtMyAxNS41LTMgMjEgMG0tMjEgMy41YzUuNS0zIDE1LjUtMyAyMSAwIi8+PC9nPjwvc3ZnPg==", "bP": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48cGF0aCBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGQ9Ik0yMi41IDlhNCA0IDAgMCAwLTMuMjIgNi4zOCA2LjQ4IDYuNDggMCAwIDAtLjg3IDEwLjY1Yy0zIDEuMDYtNy40MSA1LjU1LTcuNDEgMTMuNDdoMjNjMC03LjkyLTQuNDEtMTIuNDEtNy40MS0xMy40N2E2LjQ2IDYuNDYgMCAwIDAtLjg3LTEwLjY1QTQuMDEgNC4wMSAwIDAgMCAyMi41IDl6Ii8+PC9zdmc+", "bN": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTIyIDEwYzEwLjUgMSAxNi41IDggMTYgMjlIMTVjMC05IDEwLTYuNSA4LTIxIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTI0IDE4Yy4zOCAyLjkxLTUuNTUgNy4zNy04IDktMyAyLTIuODIgNC4zNC01IDQtMS4wNC0uOTQgMS40MS0zLjA0IDAtMy0xIDAgLjE5IDEuMjMtMSAyLTEgMC00IDEtNC00IDAtMiA2LTEyIDYtMTJzMS44OS0xLjkgMi0zLjVjLS43My0xLS41LTItLjUtMyAxLTEgMyAyLjUgMyAyLjVoMnMuNzgtMiAyLjUtM2MxIDAgMSAzIDEgMyIvPjxwYXRoIGZpbGw9IiNlY2VjZWMiIHN0cm9rZT0iI2VjZWNlYyIgZD0iTTkuNSAyNS41YS41LjUgMCAxIDEtMSAwIC41LjUgMCAxIDEgMSAwbTUuNDMtOS43NWEuNSAxLjUgMzAgMSAxLS44Ni0uNS41IDEuNSAzMCAxIDEgLjg2LjUiLz48cGF0aCBmaWxsPSIjZWNlY2VjIiBzdHJva2U9Im5vbmUiIGQ9Im0yNC41NSAxMC40LS40NSAxLjQ1LjUuMTVjMy4xNSAxIDUuNjUgMi40OSA3LjkgNi43NVMzNS43NSAyOS4wNiAzNS4yNSAzOWwtLjA1LjVoMi4yNWwuMDUtLjVjLjUtMTAuMDYtLjg4LTE2Ljg1LTMuMjUtMjEuMzRzLTUuNzktNi42NC05LjE5LTcuMTZ6Ii8+PC9nPjwvc3ZnPg=="};
+            const rows = ["rnbqkbnr", "pppppppp", "", "", "", "", "PPPPPPPP", "RNBQKBNR"];
+            const names = { k: "king", q: "queen", r: "rook", b: "bishop", n: "knight", p: "pawn" };
+            let bh = "";
+            for (let r = 0; r < 8; r++) {
+                for (let c = 0; c < 8; c++) {
+                    const ch = rows[r][c];
+                    let img = "";
+                    if (ch) {
+                        const white = ch === ch.toUpperCase();
+                        const key = (white ? "w" : "b") + ch.toUpperCase();
+                        img = `<img src="${PIECES[key]}" alt="${white ? "white" : "black"} ${names[ch.toLowerCase()]}">`;
+                    }
+                    bh += `<div class="h028-sq ${(r + c) % 2 ? "d" : "l"}">${img}</div>`;
+                }
+            }
+            document.getElementById("h028-board").innerHTML = bh;
 
-    const width = 900;
-    const height = 600;
-    const svg = d3.select("#h028-map");
+            // ---------- Counts ----------
+            const counts = [20, 400, 8902, 197281, 4865609, 119060324, 3195901860, 84998978956, 2439530234167, 69352859712417];
+            const words = n => {
+                if (n >= 1e12) return "about " + (n / 1e12).toFixed(1) + " trillion";
+                if (n >= 1e9) return "about " + (n / 1e9).toFixed(1) + " billion";
+                if (n >= 1e6) return "about " + (n / 1e6).toFixed(1) + " million";
+                return "";
+            };
+            document.getElementById("h028-steps").innerHTML = counts.map((n, i) => {
+                const w = words(n);
+                return `<li class="${i === 9 ? "is-final" : ""}"><span class="h028-mv">After ${i + 1} move${i ? "s" : ""}</span><span class="h028-n">${n.toLocaleString("en-US")}${w ? `<span class="h028-w">${w}</span>` : ""}</span></li>`;
+            }).join("");
 
-    const EXCLUDE = new Set([
-        "Alaska",
-        "Hawaii",
-        "Puerto Rico",
-        "Guam",
-        "American Samoa",
-        "United States Virgin Islands",
-        "Commonwealth of the Northern Mariana Islands"
-    ]);
+            // ---------- Chart (normal / log toggle) ----------
+            const svg = document.getElementById("h028-chart");
+            const sub = document.getElementById("h028-chart-sub");
+            let mode = "lin";
+            function chart() {
+                const narrow = svg.parentElement.clientWidth < 520;
+                const W = narrow ? 440 : 720, H = narrow ? 320 : 320;
+                const left = narrow ? 54 : 60, right = W - 16, top = 16, bottom = H - 42;
+                const fs = narrow ? 13.5 : 12;
+                const x = i => left + (i / 9) * (right - left);
+                let y, ticks;
+                if (mode === "lin") {
+                    const max = 70e12;
+                    y = n => bottom - (n / max) * (bottom - top);
+                    ticks = [0, 10e12, 20e12, 30e12, 40e12, 50e12, 60e12, 70e12].map(v => [v, v === 0 ? "0" : v / 1e12 + "T"]);
+                } else {
+                    const lo = 0, hi = 15;
+                    y = n => bottom - ((Math.log10(n) - lo) / (hi - lo)) * (bottom - top);
+                    const lab = { 0: "1", 3: "1K", 6: "1M", 9: "1B", 12: "1T", 15: "1,000T" };
+                    ticks = [0, 3, 6, 9, 12, 15].map(e => [Math.pow(10, e), lab[e]]);
+                }
+                let h = "";
+                ticks.forEach(([v, t]) => {
+                    const yy = y(v).toFixed(1);
+                    h += `<line x1="${left}" y1="${yy}" x2="${right}" y2="${yy}" stroke="var(--hanten-border)" stroke-width="1"/>`;
+                    h += `<text x="${left - 8}" y="${+yy + 4}" text-anchor="end" class="h028-axis" font-size="${fs}">${t}</text>`;
+                });
+                for (let i = 0; i < 10; i++) h += `<text x="${x(i).toFixed(1)}" y="${bottom + 18}" text-anchor="middle" class="h028-axis" font-size="${fs}">${i + 1}</text>`;
+                h += `<text x="${(left + right) / 2}" y="${bottom + 36}" text-anchor="middle" class="h028-axis" font-size="${fs}">Moves played (White and Black each count as one)</text>`;
+                const pts = counts.map((n, i) => [x(i), y(n)]);
+                h += `<polyline points="${pts.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ")}" fill="none" stroke="var(--h028-line)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
+                pts.forEach((p, i) => {
+                    const last = i === 9;
+                    h += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${last ? 6 : 4}" fill="${last ? "var(--h028-hi)" : "var(--h028-line)"}" stroke="#ffffff" stroke-width="1.5"><title>After ${i + 1} moves: ${counts[i].toLocaleString("en-US")}</title></circle>`;
+                });
+                if (mode === "lin") {
+                    h += `<text x="${x(4)}" y="${bottom - 12}" text-anchor="middle" class="h028-anno" font-size="${fs}">Moves 1–8 look like zero</text>`;
+                    h += `<text x="${x(9) - 12}" y="${y(counts[9]) + 5}" text-anchor="end" class="h028-anno" font-size="${fs}">about 69 trillion</text>`;
+                    h += `<text x="${x(8) - 10}" y="${y(counts[8]) - 10}" text-anchor="end" class="h028-anno" font-size="${fs}">2.4 trillion</text>`;
+                } else {
+                    h += `<text x="${x(3.5)}" y="${y(4e9)}" text-anchor="middle" class="h028-anno" font-size="${fs}">A steady climb: ×20–30 every move</text>`;
+                }
+                svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+                svg.innerHTML = svg.querySelector("title").outerHTML + svg.querySelector("desc").outerHTML + h;
+                sub.textContent = mode === "lin" ? "Normal scale: each gridline adds 10 trillion" : "Log scale: each labeled gridline is 1,000 times the one below";
+            }
+            const btns = [...document.querySelectorAll(".h028-switch button")];
+            btns.forEach(b => b.addEventListener("click", () => {
+                mode = b.dataset.scale;
+                btns.forEach(o => { o.classList.toggle("is-active", o === b); o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+                chart();
+            }));
+            chart();
+            let lastNarrow = null;
+            window.addEventListener("resize", () => {
+                const n = svg.parentElement.clientWidth < 520;
+                if (n !== lastNarrow) { lastNarrow = n; chart(); }
+            });
+        })();
+    </script>
 
-    const stateGeometries = US_COUNTIES_TOPOLOGY.objects.states.geometries
-        .filter(geometry => !EXCLUDE.has(geometry.properties.name));
+    <script src="../../assets/js/html2canvas.min.js"></script>
 
-    const continentalUS = {
-        type: "Feature",
-        geometry: topojson.merge(US_COUNTIES_TOPOLOGY, stateGeometries)
-    };
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H028-how-quickly-does-chess-get-big.png", title = "How quickly does chess get big?";
 
-    // Dedicated Natural Earth 1:10m Greenland geometry.
-    // Kept as a shared Hanten asset because the coastline is a focal visual here.
-    const greenland = GREENLAND_10M;
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
 
-    const baseProjection = d3.geoAzimuthalEqualArea()
-        .rotate([98, -39.5])
-        .fitExtent([[22, 22], [width - 22, height - 22]], continentalUS);
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
 
-    const scale = baseProjection.scale();
-    const usPath = d3.geoPath(baseProjection);
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
 
-    svg.append("path")
-        .datum(continentalUS)
-        .attr("class", "h028-us")
-        .attr("d", usPath);
-
-    /*
-     * Every Greenland gets its own azimuthal equal-area projection,
-     * but all four reuse the exact scale from the Lower 48.
-     * Placement and rotation are visual only; area remains comparable.
-     */
-    const placements = [
-        [175, 294,   0],
-        [414, 286,   0],
-        [650, 294,   0],
-        [438, 488,  90]
-    ];
-
-    const layer = svg.append("g");
-
-    placements.forEach(([x, y, rotation], index) => {
-        const projection = d3.geoAzimuthalEqualArea()
-            .rotate([42, -72, rotation])
-            .scale(scale)
-            .translate([x, y]);
-
-        layer.append("path")
-            .datum(greenland)
-            .attr("class", "h028-greenland")
-            .attr("d", d3.geoPath(projection));
-
-        layer.append("text")
-            .attr("class", "h028-number")
-            .attr("x", x)
-            .attr("y", y + 4)
-            .text(index + 1);
-    });
-})();
-</script>
-
-<script src="../../assets/js/html2canvas.min.js"></script>
-<script src="../../assets/js/save-image.js"></script>
-<script>
-HantenSaveImage.init({
-    target: ".hanten-exhibit",
-    title: "How many Greenlands fit inside the Lower 48?",
-    filename: "H028-conus-vs-greenland.png"
-});
-</script>
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
 
 </body>
 </html>

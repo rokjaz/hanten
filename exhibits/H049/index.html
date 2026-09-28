@@ -117,6 +117,39 @@
             font-size: 0.68rem;
         }
     }
+
+    .h049-explore {
+        max-width: var(--hanten-text-width);
+        margin: 1.1rem auto 0;
+        padding: .6rem 0;
+        border-top: 1px solid var(--hanten-border);
+        border-bottom: 1px solid var(--hanten-border);
+        color: var(--hanten-muted);
+        font-size: .84rem;
+        line-height: 1.5;
+    }
+
+    .h049-explore summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); }
+    .h049-explore p { margin: .65rem 0 0; }
+
+    .h049-discovery { max-width: var(--hanten-text-width); margin: 1.15rem auto 0; }
+    .h049-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+    .h049-discovery p:last-child { margin-bottom: 0; }
+    .h049-discovery strong { color: var(--hanten-text); }
+
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--h049-province,#0e7c86);color:var(--h049-province,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    .hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+    .hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+    .hanten-export-aha strong{color:#1c2733}
+    .hanten-export-aha p{margin:0 0 8px}
+    .hanten-export-aha p:last-child{margin-bottom:0}
+    .hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+    .hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
 </style>
 </head>
 
@@ -152,25 +185,40 @@
                     </p>
                 </div>
 
-                <div class="hanten-takeaway-box" style="margin-top: 1rem; padding: 1rem 1.15rem;">
-                    <p class="hanten-takeaway" style="margin: 0 0 0.5rem;">
-                        "Most populous country" and "most populous place" aren't the same list.
-                    </p>
-                    <p class="hanten-body" style="margin: 0; font-weight: 400; color: var(--hanten-muted);">
-                        Uttar Pradesh, India's most populous state, holds an estimated 243 million people —
-                        more than Nigeria, Brazil, Bangladesh, Russia, Mexico, or Japan, each counted as a
-                        whole country. Guangdong, China's most populous province, holds about 128 million —
-                        more than Japan, a G7 economy, on its own.
-                        <strong style="color: var(--hanten-text);">Both provinces are administrative subdivisions
-                        of countries so large that their internal pieces rival entire nations elsewhere.</strong>
-                    </p>
+                <div class="h049-discovery hanten-body">
+                    <p><strong>"Most populous country" and "most populous place" aren't the same
+                        list.</strong> Uttar Pradesh, India's most populous state, holds an estimated 243
+                        million people — more than Nigeria, Brazil, Bangladesh, Russia, Mexico, or Japan,
+                        each counted as a whole country. Guangdong, China's most populous province, holds
+                        about 128 million — more than Japan, a G7 economy, on its own.</p>
+                    <p><strong>Both provinces are administrative subdivisions of countries so large that
+                        their internal pieces rival entire nations elsewhere.</strong> Uttar Pradesh isn't
+                        even a special case — several other Indian states would also crack the world's top
+                        twenty countries by population if they were counted as nations. "Biggest" only
+                        means something once you've agreed on the unit.</p>
                 </div>
 
                 <p class="hanten-reflection">
-                    "Biggest in the world" depends entirely on what unit you're comparing.
-                </p>
+                When someone says “biggest,” biggest compared with what?
+            </p>
 
-                <p class="hanten-source">
+                <details class="h049-explore" data-html2canvas-ignore="true">
+                    <summary>Why India and China have provinces this large</summary>
+                    <p>Uttar Pradesh and Guangdong aren't unusually large administrative units by area — India has 28 states and China has 23 provinces, so each one is, on average, a modest slice of a very large country. What makes them enormous in population is that both countries are themselves the two most populous nations on Earth, each above 1.4 billion, and both have historically dense agricultural river-valley regions (the Ganges plain for Uttar Pradesh, the Pearl River Delta for Guangdong) that concentrated population growth for centuries before either country existed in its current form. Divide 1.4 billion people among a few dozen states or provinces and even an average-sized one lands in the hundreds of millions.</p>
+                    <p>Population figures for provinces and countries alike come from different national statistical agencies with different methodologies and reference dates, which is why the source note below flags Uttar Pradesh and Pakistan specifically as close enough to swap places depending on which year's estimate is used.</p>
+                    <p style="margin:.6rem 0 0;">It's the flip side of <a href="../H048/index.html" target="_blank" rel="noopener noreferrer">the Tokyo-versus-Canada comparison</a>: there, a metro area and a country turned out to be closer in size than expected; here, a country's internal subdivision turns out to be bigger than most whole countries. Same lesson either way.</p>
+                <p style="margin:.6rem 0 0;">It is the same population-concentration pattern as our <a href="../H010/index.html" target="_blank" rel="noopener noreferrer">Half of the World Lives Here</a> exhibit, just contained inside one country&rsquo;s internal borders instead of a circle on a globe: centuries of dense agricultural settlement can pack more people into a single administrative region than live in most entire nations.</p></details>
+
+                <details class="h049-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H048/index.html" target="_blank" rel="noopener noreferrer">Does one Japanese metro area still outpopulate all of Canada?</a></li>
+                    <li><a href="../H010/index.html" target="_blank" rel="noopener noreferrer">Could half the world’s population really fit inside one circle?</a></li>
+                    <li><a href="../H064/index.html" target="_blank" rel="noopener noreferrer">What's the biggest country?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h049-source">
                     Sources: Uttar Pradesh ≈243M (2025/26 projection, StatisticsTimes / Sample Registration
                     System trend data). Guangdong ≈128M permanent residents, end of 2024 (Guangdong provincial
                     statistics, via Xinhua/GDToday). Country populations are 2025 estimates (Worldometer / UNFPA
@@ -216,13 +264,76 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "Can a single Indian state outpopulate most countries on Earth?",
-            filename: "H049-one-province-one-billion.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H049-one-province-one-billion.png", title = "Can a single Indian state outpopulate most countries on Earth?";
+
+      async function blob() {
+        const wrap = document.querySelector(".h049-wrap");
+        const discovery = document.querySelector(".h049-discovery");
+        const source = document.querySelector(".h049-source, .hanten-source");
+        if (!wrap) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const titleCanvas = document.createElement("canvas");
+        titleCanvas.width = 1800; titleCanvas.height = 168;
+        titleCanvas.style.width = "900px"; titleCanvas.style.height = "84px";
+        titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+        const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+        t.font = '750 30px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+        t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+        t.fillText("Can a single Indian state outpopulate", 450, 30);
+        t.fillText("most countries on Earth?", 450, 60);
+        card.appendChild(titleCanvas);
+
+        const sub = document.createElement("canvas");
+        sub.width = 1800; sub.height = 84; sub.style.width = "900px"; sub.style.height = "42px";
+        sub.style.display = "block"; sub.style.margin = "0 auto 16px";
+        const s = sub.getContext("2d"); s.scale(2, 2);
+        s.font = '400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+        s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+        s.fillText("Uttar Pradesh alone outranks Nigeria, Brazil, Russia, and Japan.", 450, 21);
+        card.appendChild(sub);
+
+        const shell = document.createElement("div");
+        shell.appendChild(wrap.cloneNode(true));
+        card.appendChild(shell);
+
+        if (discovery) {
+          const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+          const discoveryClone = document.createElement("div"); discoveryClone.className = "hanten-export-aha";
+          discoveryClone.innerHTML = discovery.innerHTML;
+          textcol.appendChild(discoveryClone); card.appendChild(textcol);
+        }
+
+        const reflection = document.createElement("div");
+        reflection.className = "hanten-export-reflection";
+        reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+        card.appendChild(reflection);
+
+        if (source) {
+          const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+        }
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

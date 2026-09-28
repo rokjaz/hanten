@@ -82,6 +82,39 @@
         font-size: 0.85rem;
         color: var(--hanten-muted);
     }
+
+    .h048-explore {
+        max-width: var(--hanten-text-width);
+        margin: 1.1rem auto 0;
+        padding: .6rem 0;
+        border-top: 1px solid var(--hanten-border);
+        border-bottom: 1px solid var(--hanten-border);
+        color: var(--hanten-muted);
+        font-size: .84rem;
+        line-height: 1.5;
+    }
+
+    .h048-explore summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); }
+    .h048-explore p { margin: .65rem 0 0; }
+
+    .h048-discovery { max-width: var(--hanten-text-width); margin: 1.15rem auto 0; }
+    .h048-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+    .h048-discovery p:last-child { margin-bottom: 0; }
+    .h048-discovery strong { color: var(--hanten-text); }
+
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--h048-tokyo,#c1442d);color:var(--h048-tokyo,#c1442d)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    .hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+    .hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+    .hanten-export-aha strong{color:#1c2733}
+    .hanten-export-aha p{margin:0 0 8px}
+    .hanten-export-aha p:last-child{margin-bottom:0}
+    .hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+    .hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
 </style>
 </head>
 
@@ -123,26 +156,44 @@
                     </p>
                 </div>
 
-                <div class="hanten-takeaway-box" style="margin-top: 1rem; padding: 1rem 1.15rem;">
-                    <p class="hanten-takeaway" style="margin: 0 0 0.5rem;">
-                        Two trends, moving in opposite directions.
-                    </p>
-                    <p class="hanten-body" style="margin: 0; font-weight: 400; color: var(--hanten-muted);">
-                        Canada set successive record-high immigration targets from 2016 through 2023, pushing
-                        growth rates not seen since the 1950s. Japan, meanwhile, has had a shrinking population
-                        since the early 2010s — Tokyo's metro-area count has stayed roughly flat for a decade,
-                        and the UN's newest (2025) urban-boundary methodology puts it even lower, at 33.4 million.
-                        Put both lines on the same chart and the crossover isn't close:
-                        <strong style="color: var(--hanten-text);">Canada, at about 41.5 million people, now has
-                        several million more residents than even the most generous count of Greater Tokyo.</strong>
-                    </p>
+                <div class="h048-discovery hanten-body">
+                    <p><strong>The fact was true for years, then quietly stopped being true.</strong> Canada set successive
+                        record-high immigration targets from 2016 through 2023, pushing growth rates not
+                        seen since the 1950s. Japan, meanwhile, has had a shrinking population since the
+                        early 2010s — Tokyo's metro-area count has stayed roughly flat for a decade, and
+                        the UN's newest (2025) urban-boundary methodology puts it even lower, at 33.4
+                        million.</p>
+                    <p>Put both lines on the same chart and the crossover isn't close:
+                        <strong>Canada, at about 41.5 million people, now has several million more
+                        residents than even the most generous count of Greater Tokyo.</strong> This is
+                        what happens to any comparison built from two moving numbers: the comparison
+                        itself has a shelf life, even when neither side did anything wrong, and a
+                        factoid that was accurate for years can flip without either country's
+                        population ever behaving strangely — the crossover point was just quietly
+                        sitting there in the middle of two ordinary trend lines.</p>
                 </div>
 
                 <p class="hanten-reflection">
-                    A "fact" can be true for a decade, then quietly stop being true, while people keep repeating it.
-                </p>
+                What “fact” do you repeat that might have expired since you learned it?
+            </p>
 
-                <p class="hanten-source">
+                <details class="h048-explore" data-html2canvas-ignore="true">
+                    <summary>Why "Greater Tokyo" doesn't have one agreed-on number</summary>
+                    <p>Part of why this comparison is even debatable is that "Greater Tokyo" isn't a single administrative unit with an official population count the way a country is. The commonly cited "~37 million" figure combines Tokyo Metropolis with the neighboring Kanagawa, Saitama, and Chiba prefectures — a boundary chosen by convention, not law. The UN's 2025 World Urbanization Prospects revision applied a stricter, density-based method for defining urban agglomerations worldwide and came out with 33.4 million for Tokyo specifically — a genuinely different definition, not a correction of an error. Either way, Canada's population (a real national total, not a boundary judgment call) now sits above both figures.</p>
+                    <p>Canada's numbers are Statistics Canada's official quarterly demographic estimates, updated as new immigration and birth/death data come in; they are population counts, not projections.</p>
+                    <p style="margin:.6rem 0 0;">The flip side of the same lesson shows up in our <a href="../H049/index.html" target="_blank" rel="noopener noreferrer">One Province, One Billion Contexts</a> exhibit: there, it isn't a moving trend line that breaks the comparison, but the unit itself — "country" and "province" only look like different-sized categories until you check.</p>
+                <p style="margin:.6rem 0 0;">A &ldquo;fact&rdquo; quietly expiring while people keep repeating it is not unique to population comparisons — our <a href="../H060/index.html" target="_blank" rel="noopener noreferrer">NFL overtime coin-toss</a> exhibit shows the same thing happening to a sports rule: a fix that worked for years got quietly undone by an unrelated later change, and nobody updated the headline.</p></details>
+
+                <details class="h048-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H049/index.html" target="_blank" rel="noopener noreferrer">Can a single Indian state outpopulate most countries on Earth?</a></li>
+                    <li><a href="../H080/index.html" target="_blank" rel="noopener noreferrer">How big is a state without its biggest city?</a></li>
+                    <li><a href="../H060/index.html" target="_blank" rel="noopener noreferrer">The NFL fixed the coin-toss advantage in overtime. Did it stay fixed?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h048-source">
                     Sources: Statistics Canada annual demographic estimates, July 1 of each year (2016: 35,151,728;
                     2020: 38,005,238; 2023: 40,097,761; 2024: 41,288,599; 2025: 41,651,653). Greater Tokyo Area:
                     commonly cited "~37 million" figure per Japanese national/prefectural sources (Tokyo + Kanagawa
@@ -219,13 +270,76 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "Does one Japanese metro area still outpopulate all of Canada?",
-            filename: "H048-tokyo-vs-canada.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H048-tokyo-vs-canada.png", title = "Does one Japanese metro area still outpopulate all of Canada?";
+
+      async function blob() {
+        const wrap = document.querySelector(".h048-wrap");
+        const discovery = document.querySelector(".h048-discovery");
+        const source = document.querySelector(".h048-source, .hanten-source");
+        if (!wrap) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const titleCanvas = document.createElement("canvas");
+        titleCanvas.width = 1800; titleCanvas.height = 168;
+        titleCanvas.style.width = "900px"; titleCanvas.style.height = "84px";
+        titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+        const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+        t.font = '750 30px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+        t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+        t.fillText("Does one Japanese metro area", 450, 30);
+        t.fillText("still outpopulate all of Canada?", 450, 60);
+        card.appendChild(titleCanvas);
+
+        const sub = document.createElement("canvas");
+        sub.width = 1800; sub.height = 84; sub.style.width = "900px"; sub.style.height = "42px";
+        sub.style.display = "block"; sub.style.margin = "0 auto 16px";
+        const s = sub.getContext("2d"); s.scale(2, 2);
+        s.font = '400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+        s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+        s.fillText("It was true for years. Canada's growth means it no longer is.", 450, 21);
+        card.appendChild(sub);
+
+        const shell = document.createElement("div");
+        shell.appendChild(wrap.cloneNode(true));
+        card.appendChild(shell);
+
+        if (discovery) {
+          const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+          const discoveryClone = document.createElement("div"); discoveryClone.className = "hanten-export-aha";
+          discoveryClone.innerHTML = discovery.innerHTML;
+          textcol.appendChild(discoveryClone); card.appendChild(textcol);
+        }
+
+        const reflection = document.createElement("div");
+        reflection.className = "hanten-export-reflection";
+        reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+        card.appendChild(reflection);
+
+        if (source) {
+          const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+        }
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

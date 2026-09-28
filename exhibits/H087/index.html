@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H087 — Is the Gall-Peters Map More Accurate?</title>
+
+    <meta
+        name="description"
+        content="Mercator makes Greenland look about as big as Africa, which is really 14 times larger. Gall-Peters fixes the sizes, but only by stretching shapes: countries near the equator come out twice as tall as they should for their width."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H087-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h087-africa: #0b4f57;
+            --h087-green: #b23b32;
+            --h087-land: #d9d5ca;
+            --h087-land-edge: #bfb9ab;
+            --h087-sea: #f4f6f3;
+        }
+
+        .h087-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h087-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h087-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h087-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h087-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h087-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h087-maps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h087-panel { padding: 1.1rem 1.1rem 0.9rem; }
+        .h087-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h087-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.8rem; line-height: 1.4; }
+        .h087-map { display: block; width: 100%; height: auto; }
+        .h087-sea { fill: var(--h087-sea); stroke: var(--h087-land-edge); stroke-width: 1; }
+        .h087-land { fill: var(--h087-land); stroke: var(--h087-land-edge); stroke-width: 0.25; }
+        .h087-africa { fill: var(--h087-africa); stroke: none; }
+        .h087-greenland { fill: var(--h087-green); stroke: none; }
+        .h087-lab { font-family: var(--hanten-font); font-size: 28px; font-weight: 800; paint-order: stroke; stroke: #ffffff; stroke-width: 5px; stroke-linejoin: round; }
+        .h087-msg { font-family: var(--hanten-font); font-size: 18px; fill: var(--hanten-muted); }
+
+        .h087-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.2rem; padding-top: 0.2rem; font-size: 0.78rem; color: var(--hanten-muted); }
+        .h087-legend > span { display: inline-flex; align-items: center; gap: 0.4rem; }
+        .h087-sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+
+        .h087-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h087-aha p { margin: 0 0 0.6rem; }
+        .h087-aha p:last-child { margin-bottom: 0; }
+
+        .h087-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h087-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h087-explore p { margin: .55rem 0 0; }
+        .h087-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h087-explore + .h087-explore { margin-top: 0; border-top: none; }
+        .h087-explore strong { color: var(--hanten-text); }
+
+        .h087-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h087-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h087-table th, .h087-table td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); vertical-align: top; }
+        .h087-table th { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h087-table td { font-variant-numeric: tabular-nums; }
+        .h087-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .h087-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 720px) {
+            .h087-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .h087-maps { grid-template-columns: minmax(0, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .h087-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h087-table-panel { padding: 0.3rem 0.4rem; }
+            .h087-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2) { text-align: center; }
+
+/* Design Standards 19 (merged H083) */
+:root {
+            --h083-hi: #b23b32;
+            --h083-land: #d9d5ca;
+            --h083-land-edge: #bfb9ab;
+            --h083-sea: #f4f6f3;
+            --h083-ring: #0b4f57;
+        }
+.h083-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+.h083-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+.h083-stat { padding: 0.95rem 0.9rem; text-align: center; }
+.h083-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+.h083-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+.h083-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+.h083-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+.h083-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+.h083-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.8rem; }
+.h083-map { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; }
+.h083-sphere { fill: var(--h083-sea); stroke: var(--h083-land-edge); stroke-width: 1; }
+.h083-land { fill: var(--h083-land); stroke: var(--h083-land-edge); stroke-width: 0.3; }
+.h083-ant { fill: var(--h083-hi); fill-opacity: 0.9; stroke: #7a241e; stroke-width: 0.4; }
+.h083-par { fill: none; stroke: var(--h083-ring); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.h083-par-lab { font-family: var(--hanten-font); font-size: 11.5px; font-weight: 800; fill: var(--h083-ring); paint-order: stroke; stroke: #ffffff; stroke-width: 3.5px; stroke-linejoin: round; }
+.h083-pole { fill: var(--h083-ring); }
+.h083-pole-lab { font-family: var(--hanten-font); font-size: 11.5px; font-weight: 800; fill: var(--hanten-text); paint-order: stroke; stroke: #ffffff; stroke-width: 3.5px; stroke-linejoin: round; }
+.h083-msg { font-family: var(--hanten-font); font-size: 13px; fill: var(--hanten-muted); }
+.h083-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.2rem; margin-top: 0.9rem; padding-top: 0.8rem; border-top: 1px solid var(--hanten-border); font-size: 0.78rem; color: var(--hanten-muted); }
+.h083-legend > span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.h083-sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+.h083-dash { display: inline-block; width: 18px; border-top: 2px dashed var(--h083-ring); }
+.h083-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+.h083-aha p { margin: 0 0 0.6rem; }
+.h083-aha p:last-child { margin-bottom: 0; }
+.h083-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+.h083-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h083-explore p { margin: .55rem 0 0; }
+.h083-explore a { color: var(--hanten-accent, #0e7c86); }
+.h083-explore + .h083-explore { margin-top: 0; border-top: none; }
+.h083-explore strong { color: var(--hanten-text); }
+.h083-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+.h083-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+.h083-table th, .h083-table td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+.h083-table th { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+.h083-table td { font-variant-numeric: tabular-nums; }
+.h083-table td:first-child { font-weight: 700; white-space: nowrap; }
+.h083-table tr:last-child td { border-bottom: none; }
+@media (max-width: 720px) {
+.h083-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+.h083-panel { padding: 0.9rem 0.6rem 0.8rem; }
+.h083-table-panel { padding: 0.3rem 0.4rem; }
+.h083-table { font-size: 0.76rem; }
+}
+.hanten-exhibit table.h083-table:not([class*="h083-table-"]) td:nth-child(2), .hanten-exhibit table.h083-table:not([class*="h083-table-"]) td:nth-child(3), .hanten-exhibit table.h083-table-2 td:nth-child(2), .hanten-exhibit table.h083-table-2 td:nth-child(3) { text-align: center; }
+
+/* Design Standards 19 (merged H088) */
+:root {
+            --h088-hi: #b23b32;
+            --h088-route: #0b4f57;
+            --h088-ring: #6b675f;
+            --h088-land: #d9d5ca;
+            --h088-land-edge: #bfb9ab;
+            --h088-sea: #f4f6f3;
+        }
+.h088-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+.h088-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+.h088-stat { padding: 0.95rem 0.9rem; text-align: center; }
+.h088-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+.h088-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+.h088-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+.h088-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+.h088-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+.h088-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.8rem; }
+.h088-map { display: block; width: 100%; max-width: 620px; height: auto; margin: 0 auto; }
+.h088-sphere { fill: var(--h088-sea); stroke: var(--h088-land-edge); stroke-width: 1; }
+.h088-land { fill: var(--h088-land); stroke: var(--h088-land-edge); stroke-width: 0.3; }
+.h088-brazil { fill: var(--h088-hi); fill-opacity: 0.9; stroke: #7a241e; stroke-width: 0.5; }
+.h088-ringc { fill: none; stroke: var(--h088-ring); stroke-width: 1; stroke-dasharray: 4 4; }
+.h088-ring-lab { font-family: var(--hanten-font); font-size: 11.5px; font-weight: 800; fill: var(--h088-ring); paint-order: stroke; stroke: #ffffff; stroke-width: 3.5px; stroke-linejoin: round; }
+.h088-route { fill: none; stroke: var(--h088-route); stroke-width: 3; }
+.h088-city { fill: var(--h088-route); }
+.h088-lab { font-family: var(--hanten-font); font-size: 12px; font-weight: 800; paint-order: stroke; stroke: #ffffff; stroke-width: 3.5px; stroke-linejoin: round; }
+.h088-msg { font-family: var(--hanten-font); font-size: 13px; fill: var(--hanten-muted); }
+.h088-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.2rem; margin-top: 0.9rem; padding-top: 0.8rem; border-top: 1px solid var(--hanten-border); font-size: 0.78rem; color: var(--hanten-muted); }
+.h088-legend > span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.h088-sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+.h088-ln { display: inline-block; width: 18px; border-top: 3px solid var(--h088-route); }
+.h088-dash { display: inline-block; width: 18px; border-top: 1.5px dashed var(--h088-ring); }
+.h088-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+.h088-aha p { margin: 0 0 0.6rem; }
+.h088-aha p:last-child { margin-bottom: 0; }
+.h088-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+.h088-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h088-explore p { margin: .55rem 0 0; }
+.h088-explore a { color: var(--hanten-accent, #0e7c86); }
+.h088-explore + .h088-explore { margin-top: 0; border-top: none; }
+.h088-explore strong { color: var(--hanten-text); }
+.h088-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+.h088-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+.h088-table th, .h088-table td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+.h088-table th { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+.h088-table td { font-variant-numeric: tabular-nums; }
+.h088-table td:first-child { font-weight: 700; white-space: nowrap; }
+.h088-table tr:last-child td { border-bottom: none; }
+@media (max-width: 720px) {
+.h088-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+.h088-panel { padding: 0.9rem 0.6rem 0.8rem; }
+.h088-table-panel { padding: 0.3rem 0.4rem; }
+.h088-table { font-size: 0.76rem; }
+}
+
+/* Design Standards 19 (merged H083/H088 dropdowns) */
+.h087-more { margin: .7rem 0 .2rem; }
+.h087-more p { margin: .55rem 0 0; }
+.h087-more .hanten-panel { margin-top: .6rem; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            The Gall-Peters map shows every country at its true size. Is it the more accurate map?
+        </h1>
+
+        <p class="hanten-subtitle">
+            The popular Mercator map makes Greenland look about as big as Africa. Gall-Peters fixes that, but only by
+            stretching the shapes of the countries instead. A flat map can't get both right.
+        </p>
+
+        <div id="h087-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h087-stats-cap">What each map gets wrong</p>
+                <div class="h087-stats">
+                    <div class="hanten-panel h087-stat">
+                        <div class="h087-stat-k">In reality</div>
+                        <div class="h087-stat-n" style="color:var(--h087-africa)">14×</div>
+                        <div class="h087-stat-l">Africa is 14 times the area of Greenland</div>
+                    </div>
+                    <div class="hanten-panel h087-stat">
+                        <div class="h087-stat-k">Mercator, Greenland</div>
+                        <div class="h087-stat-n" style="color:var(--h087-green)">About 10×</div>
+                        <div class="h087-stat-l">drawn too big in area at 72°N, the middle of Greenland</div>
+                    </div>
+                    <div class="hanten-panel h087-stat">
+                        <div class="h087-stat-k">Gall-Peters, equator</div>
+                        <div class="h087-stat-n" style="color:var(--h087-green)">2× too tall</div>
+                        <div class="h087-stat-l">shapes come out twice as tall as they should be for their width</div>
+                    </div>
+                    <div class="hanten-panel h087-stat">
+                        <div class="h087-stat-k">Gall-Peters, 72°N</div>
+                        <div class="h087-stat-n" style="color:var(--h087-green)">5× too wide</div>
+                        <div class="h087-stat-l">Greenland gets squashed flat, about 5 times too wide for its height</div>
+                    </div>
+                </div>
+
+                <div class="h087-maps">
+                    <div class="hanten-panel h087-panel">
+                        <p class="h087-panel-title">Mercator</p>
+                        <p class="h087-panel-sub">Keeps shapes right, gets sizes wrong. Greenland looks about as big as Africa.</p>
+                        <svg class="h087-map" id="h087-merc" role="img" aria-labelledby="h087-merc-title">
+                            <title id="h087-merc-title">World map on the Mercator projection with Africa and Greenland highlighted. Greenland appears roughly as large as Africa.</title>
+                        </svg>
+                    </div>
+                    <div class="hanten-panel h087-panel">
+                        <p class="h087-panel-title">Gall-Peters</p>
+                        <p class="h087-panel-sub">Keeps sizes right, gets shapes wrong. Africa looks stretched tall, Greenland squashed flat.</p>
+                        <svg class="h087-map" id="h087-gp" role="img" aria-labelledby="h087-gp-title">
+                            <title id="h087-gp-title">World map on the Gall-Peters projection with Africa and Greenland highlighted. Africa is correctly 14 times larger than Greenland, but Africa looks stretched vertically and Greenland looks flattened.</title>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="h087-legend">
+                    <span><i class="h087-sw" style="background:var(--h087-africa)"></i>Africa, 11.7 million sq mi (30.4 million km²)</span>
+                    <span><i class="h087-sw" style="background:var(--h087-green)"></i>Greenland, 836,000 sq mi (2.17 million km²)</span>
+                </div>
+
+            </div>
+
+            <div class="h087-aha">
+                <p><strong>Fixing one distortion on a flat map creates another.</strong> Gall-Peters gets every
+                    country's area right, which Mercator doesn't. But to do it, it stretches places near the equator
+                    upward and squashes places near the poles flat. Africa's area is correct on Gall-Peters; its shape
+                    isn't.</p>
+                <p>Every flat map of a round Earth has to give up something: true sizes, true shapes, true distances or
+                    true directions. "More accurate" only means more accurate at one thing. Before trusting what a map
+                    seems to show, ask what it was built to get right.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                When someone calls one map "more accurate," what is it more accurate at, and what did it give up?
+            </p>
+
+            <details class="h087-explore" data-html2canvas-ignore="true">
+                <summary>How each map stretches things, by latitude</summary>
+                <div class="hanten-panel h087-table-panel">
+                    <table class="h087-table">
+                        <thead>
+                            <tr><th>Latitude</th><th>Mercator: area drawn too big by</th><th>Gall-Peters: shape</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Equator</td><td>1× (correct)</td><td>2× too tall for its width</td></tr>
+                            <tr><td>20°</td><td>1.1×</td><td>1.8× too tall</td></tr>
+                            <tr><td>45°</td><td>2×</td><td>Correct</td></tr>
+                            <tr><td>60°</td><td>4×</td><td>2× too wide for its height</td></tr>
+                            <tr><td>72° (mid-Greenland)</td><td>10.5×</td><td>5.2× too wide</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Mercator keeps shapes right in any small area, so every country's outline looks familiar, but its
+                    scale grows the farther you go from the equator. Gall-Peters keeps every area right, and its shapes
+                    are only correct along 45° north and south. Both maps leave off Antarctica here, which Mercator would
+                    stretch without limit.</p>
+            </details>
+
+            <details class="h087-explore" data-html2canvas-ignore="true">
+                <summary>Explore more about how maps distort</summary>
+                <p><a href="../H007/index.html" target="_blank" rel="noopener noreferrer">The True Size of Africa</a> and <a href="../H023/index.html" target="_blank" rel="noopener noreferrer">Africa Is 14 Greenlands</a> dig into the size gap
+                    Mercator hides. The two dropdowns below show maps that get distances or routes exactly right, and what they give up for it.</p>
+            </details>
+
+            <details class="h087-explore" data-html2canvas-ignore="true">
+                <summary>What if a map gets every distance right?</summary>
+                <div class="h087-more">
+                <p><strong>It pays with sizes and shapes instead.</strong> The azimuthal equidistant map, the one in the United Nations emblem, shows the true distance from its center to every place on Earth. Centered on the North Pole, it stretches places sideways the farther they are from the center, until Antarctica, a roughly round continent, becomes a ring around the whole world.</p>
+                <p class="h083-stats-cap">What this map gets right, and what it stretches</p>
+                <div class="h083-stats">
+                    <div class="hanten-panel h083-stat">
+                        <div class="h083-stat-k">From the center</div>
+                        <div class="h083-stat-n" style="color:var(--h083-ring)">Exact</div>
+                        <div class="h083-stat-l">Every straight line from the North Pole is the true distance</div>
+                    </div>
+                    <div class="hanten-panel h083-stat">
+                        <div class="h083-stat-k">At the equator</div>
+                        <div class="h083-stat-n">1.6×</div>
+                        <div class="h083-stat-l">too wide, so everything there is drawn 1.6 times too big</div>
+                    </div>
+                    <div class="hanten-panel h083-stat">
+                        <div class="h083-stat-k">Antarctica's coast</div>
+                        <div class="h083-stat-n" style="color:var(--h083-hi)">About 8×</div>
+                        <div class="h083-stat-l">too wide at 70°S, and it keeps growing toward the South Pole</div>
+                    </div>
+                    <div class="hanten-panel h083-stat">
+                        <div class="h083-stat-k">The South Pole</div>
+                        <div class="h083-stat-n" style="color:var(--h083-hi)">1 point</div>
+                        <div class="h083-stat-l">stretched into the map's entire outer edge</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h083-panel">
+                    <p class="h083-panel-title">The world on an azimuthal equidistant map, centered on the North Pole</p>
+                    <p class="h083-panel-sub">The map's outer edge is not a coastline or a circle on Earth. All of it is one spot: the South Pole.</p>
+
+                    <svg class="h083-map" id="h083-map" viewBox="0 0 560 560" role="img" aria-labelledby="h083-map-title">
+                        <title id="h083-map-title">World map centered on the North Pole. Dashed circles mark the equator, drawn 1.6 times too wide, and 60 degrees south, drawn 5.2 times too wide. Antarctica, highlighted in red, is stretched into a thick band around the entire outer edge of the map.</title>
+                    </svg>
+
+                    <div class="h083-legend">
+                        <span><i class="h083-sw" style="background:var(--h083-hi)"></i>Antarctica</span>
+                        <span><i class="h083-dash"></i>Lines of latitude, with how much too wide the map draws them</span>
+                    </div>
+                </div>
+                </div>
+            </details>
+
+            <details class="h087-explore" data-html2canvas-ignore="true">
+                <summary>What if every straight line is the shortest route?</summary>
+                <div class="h087-more">
+                <p><strong>It can never show even half the world.</strong> On a gnomonic map, every straight line is the true shortest path across the globe, which is why navigators use it to plan long voyages and flights. But anything 90&deg; from the center would sit infinitely far away, and places near the edge are drawn hundreds of times too big.</p>
+                <p class="h088-stats-cap">What the straight lines cost</p>
+                <div class="h088-stats">
+                    <div class="hanten-panel h088-stat">
+                        <div class="h088-stat-k">Shortest routes</div>
+                        <div class="h088-stat-n" style="color:var(--h088-route)">Straight</div>
+                        <div class="h088-stat-l">Any straight line on the map is the true shortest path on the globe</div>
+                    </div>
+                    <div class="hanten-panel h088-stat">
+                        <div class="h088-stat-k">Most it can ever show</div>
+                        <div class="h088-stat-n" style="color:var(--h088-hi)">&lt; half</div>
+                        <div class="h088-stat-l">of the Earth: anything 90° from the center would sit infinitely far away</div>
+                    </div>
+                    <div class="hanten-panel h088-stat">
+                        <div class="h088-stat-k">This map shows</div>
+                        <div class="h088-stat-n">33%</div>
+                        <div class="h088-stat-l">of the Earth's surface, cut off 70° from New York</div>
+                    </div>
+                    <div class="hanten-panel h088-stat">
+                        <div class="h088-stat-k">Near the limit</div>
+                        <div class="h088-stat-n" style="color:var(--h088-hi)">191×</div>
+                        <div class="h088-stat-l">too big in area, 80° from the center</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h088-panel">
+                    <p class="h088-panel-title">A gnomonic map centered on New York</p>
+                    <p class="h088-panel-sub">Dashed rings show how far from New York each spot is, and how much too big it's drawn there.</p>
+
+                    <svg class="h088-map" id="h088-map" viewBox="0 0 620 620" role="img" aria-labelledby="h088-map-title">
+                        <title id="h088-map-title">Gnomonic map centered on New York, cut off 70 degrees away. The shortest route from Los Angeles to London is drawn as a straight line passing over Hudson Bay and southern Greenland. Dashed rings at 30, 50 and 70 degrees from New York show areas drawn 1.5, 3.8 and 25 times too big. Brazil, highlighted, is stretched far out toward the edge. Europe's far side, Africa, Asia and Australia don't fit at all.</title>
+                    </svg>
+
+                    <div class="h088-legend">
+                        <span><i class="h088-ln"></i>Shortest route, Los Angeles to London</span>
+                        <span><i class="h088-sw" style="background:var(--h088-hi)"></i>Brazil</span>
+                        <span><i class="h088-dash"></i>Distance from New York, and how much too big areas are drawn</span>
+                    </div>
+                </div>
+                </div>
+            </details>
+
+            <details class="h087-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H076/index.html" target="_blank" rel="noopener noreferrer">Is Canada much bigger than Brazil?</a></li>
+                    <li><a href="../H046/index.html" target="_blank" rel="noopener noreferrer">Why does the shortest flight from New York to Beijing curve over the Arctic?</a></li>
+                    <li><a href="../H007/index.html" target="_blank" rel="noopener noreferrer">How Big Is Africa... Really?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Areas of Africa and Greenland from the CIA World Factbook and standard continental totals;
+                distortion factors calculated from each projection's formula (Gall-Peters as a cylindrical equal-area
+                projection with standard parallels at 45°N and 45°S). World boundaries use the shared Hanten 1:10m
+                countries dataset (Natural Earth). Azimuthal equidistant map: Distortion factors calculated from the projection's formula (east-west stretch = angular distance from the center ÷ its sine; stereographic area scale = the fourth power of the secant of half that distance), using a mean Earth radius of 3,959 mi (6,371 km); United Nations emblem description via the UN and "Flag of the United Nations," Wikipedia. World boundaries use the shared Hanten 1:10m countries dataset (Natural Earth). Gnomonic map: Distortion factors and coverage calculated from the gnomonic projection's formula (areas are stretched by the cube of the secant of the distance from the center; everything within 70° of the center covers 33% of a sphere), using a mean Earth radius of 3,959 mi (6,371 km). Route computed as the great circle between Los Angeles International and London Heathrow airports. World boundaries use the shared Hanten 1:10m countries dataset (Natural Earth).
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/d3.v7.min.js"></script>
+    <script src="../../assets/geodata/world/countries-10m.js"></script>
+
+    <script>
+    (() => {
+      "use strict";
+      const W = 900, TOP = 84, BOTTOM = -58;
+      const rad = d => d * Math.PI / 180;
+
+      // Raw projections (x, y) in radians; d3 flips y.
+      const mercRaw = d3.geoMercatorRaw;
+      const k = Math.SQRT1_2;                                  // cos 45°
+      const gpRaw = (l, p) => [l * k, Math.sin(p) / k];
+      gpRaw.invert = (x, y) => [x / k, Math.asin(Math.max(-1, Math.min(1, y * k)))];
+
+      function setup(id, raw) {
+        const width = raw(Math.PI, 0)[0] * 2;
+        const yTop = raw(0, rad(TOP))[1], yBot = raw(0, rad(BOTTOM))[1];
+        const s = W / width, H = Math.round(s * (yTop - yBot));
+        const proj = d3.geoProjection(raw).scale(s).translate([W / 2, s * yTop]).clipExtent([[0, 0], [W, H]]);
+        const svg = d3.select(id).attr("viewBox", `0 0 ${W} ${H}`);
+        return { proj, svg, H };
+      }
+
+      function draw(id, raw, greenLabelAt) {
+        const { proj, svg, H } = setup(id, raw);
+        svg.append("rect").attr("class", "h087-sea").attr("x", 0).attr("y", 0).attr("width", W).attr("height", H);
+        if (typeof COUNTRIES_10M_GEOJSON === "undefined") {
+          svg.append("text").attr("class", "h087-msg").attr("x", W / 2).attr("y", H / 2).attr("text-anchor", "middle").text("Map data couldn't load.");
+          return;
+        }
+        const path = d3.geoPath(proj);
+        const feats = COUNTRIES_10M_GEOJSON.features.filter(f => f.properties.CONTINENT !== "Antarctica");
+        const isGreen = f => f.properties.NAME === "Greenland";
+        const isAfrica = f => f.properties.CONTINENT === "Africa";
+        svg.append("g").selectAll("path").data(feats.filter(f => !isGreen(f) && !isAfrica(f))).join("path").attr("class", "h087-land").attr("d", path);
+        svg.append("g").selectAll("path").data(feats.filter(isAfrica)).join("path").attr("class", "h087-africa").attr("d", path);
+        svg.append("g").selectAll("path").data(feats.filter(isGreen)).join("path").attr("class", "h087-greenland").attr("d", path);
+
+        const label = (lonlat, text, color) => {
+          const [x, y] = proj(lonlat);
+          svg.append("text").attr("class", "h087-lab").attr("x", x).attr("y", y).attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle").attr("fill", color).text(text);
+        };
+        label([20, 5], "Africa", "var(--h087-africa)");
+        label(greenLabelAt, "Greenland", "var(--h087-green)");
+      }
+
+      draw("#h087-merc", mercRaw, [-41, 73]);
+      draw("#h087-gp", gpRaw, [-41, 64]);
+    })();
+    </script>
+
+    <script>
+    (() => {
+      "use strict";
+      const svg = d3.select("#h083-map");
+      const W = 560, H = 560, cx = W / 2, cy = H / 2;
+
+      if (typeof COUNTRIES_10M_GEOJSON === "undefined") {
+        svg.append("text").attr("class", "h083-msg").attr("x", cx).attr("y", cy).attr("text-anchor", "middle")
+          .text("Map data couldn't load.");
+        return;
+      }
+
+      const projection = d3.geoAzimuthalEquidistant()
+        .rotate([0, -90])
+        .fitSize([W - 16, H - 16], { type: "Sphere" })
+        .translate([cx, cy]);
+      const path = d3.geoPath(projection);
+
+      const features = COUNTRIES_10M_GEOJSON.features;
+      const isAnt = f => f.properties && (f.properties.NAME === "Antarctica" || f.properties.CONTINENT === "Antarctica");
+
+      svg.append("path").datum({ type: "Sphere" }).attr("class", "h083-sphere").attr("d", path);
+      svg.append("g").selectAll("path").data(features.filter(f => !isAnt(f))).join("path")
+        .attr("class", "h083-land").attr("d", path);
+      svg.append("g").selectAll("path").data(features.filter(isAnt)).join("path")
+        .attr("class", "h083-ant").attr("d", path);
+
+      // Lines of latitude: radius grows evenly with distance from the pole.
+      const R = projection.scale() * Math.PI;           // radius of the whole map (the South Pole)
+      const parallels = [
+        { lat: 0,   text: "Equator · 1.6× too wide" },
+        { lat: -60, text: "60°S · 5.2× too wide" }
+      ];
+      parallels.forEach(p => {
+        const r = R * (90 - p.lat) / 180;
+        svg.append("circle").attr("class", "h083-par").attr("cx", cx).attr("cy", cy).attr("r", r);
+        svg.append("text").attr("class", "h083-par-lab").attr("x", cx).attr("y", cy - r - 6)
+          .attr("text-anchor", "middle").text(p.text);
+      });
+
+      svg.append("circle").attr("class", "h083-pole").attr("cx", cx).attr("cy", cy).attr("r", 4);
+      svg.append("text").attr("class", "h083-pole-lab").attr("x", cx).attr("y", cy - 10)
+        .attr("text-anchor", "middle").text("North Pole");
+    })();
+    </script>
+    <script>document.querySelectorAll("details").forEach(d=>d.addEventListener("toggle",()=>window.dispatchEvent(new Event("resize"))));</script>
+    <script>
+    (() => {
+      "use strict";
+      const svg = d3.select("#h088-map");
+      const W = 620, H = 620, CLIP = 70;
+      const NYC = [-74.0, 40.7], LAX = [-118.41, 33.94], LHR = [-0.45, 51.47];
+
+      if (typeof COUNTRIES_10M_GEOJSON === "undefined") {
+        svg.append("text").attr("class", "h088-msg").attr("x", W / 2).attr("y", H / 2).attr("text-anchor", "middle").text("Map data couldn't load.");
+        return;
+      }
+
+      const proj = d3.geoGnomonic().rotate([-NYC[0], -NYC[1]]).clipAngle(CLIP)
+        .fitSize([W - 12, H - 12], { type: "Sphere" }).translate([W / 2, H / 2]);
+      const path = d3.geoPath(proj);
+      const [cx, cy] = proj(NYC);
+
+      const feats = COUNTRIES_10M_GEOJSON.features;
+      const isBrazil = f => f.properties.NAME === "Brazil";
+
+      svg.append("path").datum({ type: "Sphere" }).attr("class", "h088-sphere").attr("d", path);
+      svg.append("g").selectAll("path").data(feats.filter(f => !isBrazil(f))).join("path").attr("class", "h088-land").attr("d", path);
+      svg.append("g").selectAll("path").data(feats.filter(isBrazil)).join("path").attr("class", "h088-brazil").attr("d", path);
+
+      // Distance rings: on a gnomonic map a point θ from the center sits tan(θ) × scale away.
+      [[30, "30° · 1.5× too big"], [50, "50° · 3.8× too big"], [70, "70° · 25× too big"]].forEach(([deg, text]) => {
+        const r = proj.scale() * Math.tan(deg * Math.PI / 180);
+        svg.append("circle").attr("class", "h088-ringc").attr("cx", cx).attr("cy", cy).attr("r", r);
+        const a = Math.PI * 0.8;  // place labels lower-left, over the Pacific
+        const y = Math.min(H - 8, cy + r * Math.sin(a) - 4);
+        svg.append("text").attr("class", "h088-ring-lab").attr("x", cx + r * Math.cos(a)).attr("y", y)
+          .attr("text-anchor", "middle").text(text);
+      });
+
+      // The shortest route, drawn as a great circle (it comes out straight).
+      svg.append("path").datum({ type: "LineString", coordinates: [LAX, LHR] }).attr("class", "h088-route").attr("d", path);
+      [[LAX, "Los Angeles", "end", -8, 4], [LHR, "London", "start", 8, 4]].forEach(([ll, name, anchor, dx, dy]) => {
+        const [x, y] = proj(ll);
+        svg.append("circle").attr("class", "h088-city").attr("cx", x).attr("cy", y).attr("r", 4.5);
+        svg.append("text").attr("class", "h088-lab").attr("x", x + dx).attr("y", y + dy).attr("text-anchor", anchor)
+          .attr("fill", "var(--h088-route)").text(name);
+      });
+
+      svg.append("circle").attr("cx", cx).attr("cy", cy).attr("r", 4).attr("fill", "var(--hanten-text, #1c2733)");
+      svg.append("text").attr("class", "h088-lab").attr("x", cx + 7).attr("y", cy + 15).attr("fill", "var(--hanten-text, #1c2733)").text("New York");
+
+      const b = proj([-52, -9]);
+      svg.append("text").attr("class", "h088-lab").attr("x", b[0]).attr("y", b[1]).attr("text-anchor", "middle")
+        .attr("fill", "var(--h088-hi)").text("Brazil");
+    })();
+    </script>
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H087-gall-peters-vs-mercator.png", title = "Is the Gall-Peters map more accurate?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

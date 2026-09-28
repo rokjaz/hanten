@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H094 — If 94% of Published Studies Agree, Is It Settled?</title>
+
+    <meta
+        name="description"
+        content="In published journals, 94% of antidepressant trials looked positive. In the FDA's complete records of the same trials, only 51% were. Studies that found little were often never published or were written up as successes."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H094-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h094-pos: #2f8a86;
+            --h094-spun: #bfe0da;
+            --h094-neg: #b23b32;
+        }
+
+        .h094-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h094-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h094-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h094-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h094-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h094-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h094-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h094-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h094-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.9rem; }
+
+        .h094-panel svg { display: block; width: 100%; max-width: 680px; height: auto; margin: 0 auto; }
+        .h094-gt { font-family: var(--hanten-font); font-size: 13.5px; font-weight: 800; fill: var(--hanten-text); }
+        .h094-gs { font-family: var(--hanten-font); font-size: 12px; font-weight: 600; fill: var(--hanten-muted); }
+
+        .h094-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.2rem; margin-top: 0.6rem; padding-top: 0.8rem; border-top: 1px solid var(--hanten-border); font-size: 0.78rem; color: var(--hanten-muted); }
+        .h094-legend > span { display: inline-flex; align-items: center; gap: 0.4rem; }
+        .h094-sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; box-sizing: border-box; }
+
+        .h094-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h094-aha p { margin: 0 0 0.6rem; }
+        .h094-aha p:last-child { margin-bottom: 0; }
+
+        .h094-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h094-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h094-explore p { margin: .55rem 0 0; }
+        .h094-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h094-explore + .h094-explore { margin-top: 0; border-top: none; }
+        .h094-explore strong { color: var(--hanten-text); }
+
+        .h094-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h094-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h094-table th, .h094-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h094-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h094-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .h094-table td:first-child { font-weight: 700; }
+        .h094-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 600px) {
+            .h094-stats { grid-template-columns: minmax(0, 1fr); }
+            .h094-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h094-table-panel { padding: 0.3rem 0.4rem; }
+            .h094-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2),
+.hanten-exhibit table td:nth-child(3),
+.hanten-exhibit table td:nth-child(4),
+.hanten-exhibit table td:nth-child(5) { text-align: center; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            If 94% of published studies say a drug works, is the question settled?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Every published result can be real, and the pile of them can still mislead. Studies that find something
+            get printed; studies that find little often don't, or get written up as if they had.
+        </p>
+
+        <div id="h094-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h094-stats-cap">Antidepressant trials submitted to the FDA, 1987–2004</p>
+                <div class="h094-stats">
+                    <div class="hanten-panel h094-stat">
+                        <div class="h094-stat-k">Positive in journals</div>
+                        <div class="h094-stat-n" style="color:var(--h094-pos)">94%</div>
+                        <div class="h094-stat-l">of published trials appeared to show the drug worked</div>
+                    </div>
+                    <div class="hanten-panel h094-stat">
+                        <div class="h094-stat-k">Positive in FDA records</div>
+                        <div class="h094-stat-n" style="color:var(--h094-neg)">51%</div>
+                        <div class="h094-stat-l">of all the same trials, judged by the FDA</div>
+                    </div>
+                    <div class="hanten-panel h094-stat">
+                        <div class="h094-stat-k">Never published</div>
+                        <div class="h094-stat-n" style="color:var(--h094-neg)">23 of 74</div>
+                        <div class="h094-stat-l">trials, 22 of them negative or questionable</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h094-panel">
+                    <p class="h094-panel-title">The same 74 trials, two very different pictures</p>
+                    <p class="h094-panel-sub">Each square is one trial, in the same spot in both rows</p>
+
+                    <svg viewBox="0 0 670 196" role="img" aria-labelledby="h094-chart-title">
+                        <title id="h094-chart-title">Two grids of the same 74 antidepressant trials. In the FDA's records, 38 were positive and 36 negative or questionable. In published journals, 37 of the positive trials appeared, 11 negative trials were written up as positive, only 3 negative trials were published as negative, and 23 trials, 22 of them negative, were never published. So 48 of 51 published trials, 94%, looked positive.</title>
+<text class="h094-gt" x="20" y="16">What the FDA saw: all 74 trials</text>
+<rect x="20" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="20" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="37" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="37" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="54" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="54" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="71" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="71" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="88" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="88" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="105" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="105" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="122" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="122" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="139" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="139" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="156" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="156" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="173" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="173" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="190" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="190" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="207" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="207" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="224" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="224" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="241" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="241" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="258" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="258" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="275" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="275" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="292" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="292" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="309" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="309" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="326" y="26" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="326" y="43" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="343" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="343" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="360" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="360" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="377" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="377" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="394" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="394" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="411" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="411" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="428" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="428" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="445" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="445" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="462" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="462" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="479" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="479" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="496" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="496" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="513" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="513" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="530" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="530" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="547" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="547" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="564" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="564" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="581" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="581" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="598" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="598" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="615" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="615" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="632" y="26" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="632" y="43" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<text class="h094-gs" x="20" y="80">38 positive (51%) · 36 negative or questionable</text>
+<text class="h094-gt" x="20" y="124">What doctors could read in journals: 51 published papers</text>
+<rect x="20" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="20" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="37" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="37" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="54" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="54" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="71" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="71" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="88" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="88" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="105" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="105" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="122" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="122" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="139" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="139" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="156" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="156" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="173" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="173" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="190" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="190" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="207" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="207" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="224" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="224" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="241" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="241" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="258" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="258" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="275" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="275" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="292" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="292" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="309" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="309" y="151" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="326" y="134" width="14" height="14" rx="2" fill="var(--h094-pos)"/>
+<rect x="326.75" y="151.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="344" y="135" width="12" height="12" rx="2" fill="var(--h094-spun)" stroke="var(--h094-neg)" stroke-width="2"/>
+<rect x="344" y="152" width="12" height="12" rx="2" fill="var(--h094-spun)" stroke="var(--h094-neg)" stroke-width="2"/>
+<rect x="361" y="135" width="12" height="12" rx="2" fill="var(--h094-spun)" stroke="var(--h094-neg)" stroke-width="2"/>
+<rect x="361" y="152" width="12" height="12" rx="2" fill="var(--h094-spun)" stroke="var(--h094-neg)" stroke-width="2"/>
+<rect x="378" y="135" width="12" height="12" rx="2" fill="var(--h094-spun)" stroke="var(--h094-neg)" stroke-width="2"/>
+<rect x="378" y="152" width="12" height="12" rx="2" fill="var(--h094-spun)" stroke="var(--h094-neg)" stroke-width="2"/>
+<rect x="395" y="135" width="12" height="12" rx="2" fill="var(--h094-spun)" stroke="var(--h094-neg)" stroke-width="2"/>
+<rect x="395" y="152" width="12" height="12" rx="2" fill="var(--h094-spun)" stroke="var(--h094-neg)" stroke-width="2"/>
+<rect x="412" y="135" width="12" height="12" rx="2" fill="var(--h094-spun)" stroke="var(--h094-neg)" stroke-width="2"/>
+<rect x="412" y="152" width="12" height="12" rx="2" fill="var(--h094-spun)" stroke="var(--h094-neg)" stroke-width="2"/>
+<rect x="429" y="135" width="12" height="12" rx="2" fill="var(--h094-spun)" stroke="var(--h094-neg)" stroke-width="2"/>
+<rect x="428" y="151" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="445" y="134" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="445" y="151" width="14" height="14" rx="2" fill="var(--h094-neg)"/>
+<rect x="462.75" y="134.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="462.75" y="151.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="479.75" y="134.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="479.75" y="151.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="496.75" y="134.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="496.75" y="151.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="513.75" y="134.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="513.75" y="151.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="530.75" y="134.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="530.75" y="151.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="547.75" y="134.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="547.75" y="151.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="564.75" y="134.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="564.75" y="151.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="581.75" y="134.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="581.75" y="151.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="598.75" y="134.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="598.75" y="151.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="615.75" y="134.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="615.75" y="151.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="632.75" y="134.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<rect x="632.75" y="151.75" width="12.5" height="12.5" rx="2" fill="none" stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+<text class="h094-gs" x="20" y="188">48 looked positive (94%) · 3 negative · 23 never published</text>
+                    </svg>
+
+                    <div class="h094-legend">
+                        <span><i class="h094-sw" style="background:var(--h094-pos)"></i>Positive</span>
+                        <span><i class="h094-sw" style="background:var(--h094-neg)"></i>Negative or questionable</span>
+                        <span><i class="h094-sw" style="background:var(--h094-spun);border:2px solid var(--h094-neg)"></i>Negative, but published as if positive</span>
+                        <span><i class="h094-sw" style="border:1.5px dashed #b9b3a6"></i>Never published</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h094-aha">
+                <p><strong>What gets published isn't a fair sample of what was tested.</strong> Almost every trial that
+                    worked made it into a journal. Most of the ones that didn't either stayed in a drawer or were written
+                    up to sound like successes. A doctor reading every published paper would see a drug that almost always
+                    works, when the full record was closer to a coin flip.</p>
+                <p>The same filter works anywhere only the hits get shown: investing newsletters that advertise their
+                    winning picks, diets that only share success stories, a highlight reel of a season. Before trusting
+                    a stack of positive results, ask what didn't get shown.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                Where do you mostly see the successes and almost never the failures?
+            </p>
+
+            <details class="h094-explore" data-html2canvas-ignore="true">
+                <summary>What happened to each of the 74 trials</summary>
+                <div class="hanten-panel h094-table-panel">
+                    <table class="h094-table">
+                        <thead>
+                            <tr><th>FDA's verdict</th><th>Published as positive</th><th>Published as negative</th><th>Never published</th><th>Total</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Positive</td><td>37</td><td>0</td><td>1</td><td>38</td></tr>
+                            <tr><td>Negative or questionable</td><td>11</td><td>3</td><td>22</td><td>36</td></tr>
+                            <tr><td>All trials</td><td>48</td><td>3</td><td>23</td><td>74</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>The drugs still beat placebo overall. But in the published papers their effect looked about a third
+                    bigger (32%) than in the FDA's complete data. Today, U.S. law requires most clinical trials to be
+                    registered before they start and to report results, which makes missing trials easier to spot.</p>
+            </details>
+
+            <details class="h094-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H054/index.html" target="_blank" rel="noopener noreferrer">Where should you armor the bomber — where the bullet holes are, or where they aren't?</a></li>
+                    <li><a href="../H102/index.html" target="_blank" rel="noopener noreferrer">A neighborhood has an unusual number of cancer cases. Is something there causing them?</a></li>
+                    <li><a href="../H085/index.html" target="_blank" rel="noopener noreferrer">Ice cream sales and drownings rise and fall together. Does ice cream cause drowning?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: E. H. Turner et al., "Selective Publication of Antidepressant Trials and Its Influence on
+                Apparent Efficacy," New England Journal of Medicine, January 17, 2008 (74 FDA-registered trials of 12
+                antidepressants).
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H094-publication-bias.png", title = "If 94% of published studies say a drug works, is the question settled?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

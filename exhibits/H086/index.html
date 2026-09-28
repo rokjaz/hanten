@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H086 — What Counts as Unemployed?</title>
+
+    <meta
+        name="description"
+        content="The official U.S. unemployment rate was 4.1% in August 2026. Count people who gave up looking or can only find part-time work, and the same month's rate is 7.7%."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H086-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h086-off: #0b4f57;
+            --h086-bar: #86bfb2;
+            --h086-hi: #b23b32;
+        }
+
+        .h086-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h086-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h086-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h086-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h086-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h086-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h086-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h086-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h086-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.9rem; }
+
+        .h086-panel svg { display: block; width: 100%; max-width: 680px; height: auto; margin: 0 auto; }
+        .h086-id { font-family: var(--hanten-font); font-size: 12px; font-weight: 800; fill: var(--hanten-muted); }
+        .h086-lab { font-family: var(--hanten-font); font-size: 12.5px; fill: var(--hanten-text); }
+        .h086-strong { font-weight: 800; fill: var(--hanten-text); }
+        .h086-v { font-family: var(--hanten-font); font-size: 14px; font-weight: 800; }
+
+        .h086-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h086-aha p { margin: 0 0 0.6rem; }
+        .h086-aha p:last-child { margin-bottom: 0; }
+
+        .h086-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h086-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h086-explore p { margin: .55rem 0 0; }
+        .h086-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h086-explore + .h086-explore { margin-top: 0; border-top: none; }
+        .h086-explore strong { color: var(--hanten-text); }
+
+        .h086-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h086-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h086-table th, .h086-table td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); vertical-align: top; }
+        .h086-table th { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h086-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .h086-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 600px) {
+            .h086-stats { grid-template-columns: minmax(0, 1fr); }
+            .h086-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h086-table-panel { padding: 0.3rem 0.4rem; }
+            .h086-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(3) { text-align: center; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            The unemployment rate is 4.1%. Does that mean almost everyone who wants a job has one?
+        </h1>
+
+        <p class="hanten-subtitle">
+            The official number is reported correctly. But "unemployed" has a precise official definition that is
+            narrower than the everyday word, and the government publishes six different measures for the same month.
+        </p>
+
+        <div id="h086-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h086-stats-cap">One month, three true answers (U.S., August 2026)</p>
+                <div class="h086-stats">
+                    <div class="hanten-panel h086-stat">
+                        <div class="h086-stat-k">Narrowest measure</div>
+                        <div class="h086-stat-n">1.8%</div>
+                        <div class="h086-stat-l">only people out of work 15 weeks or longer</div>
+                    </div>
+                    <div class="hanten-panel h086-stat">
+                        <div class="h086-stat-k">The official rate</div>
+                        <div class="h086-stat-n" style="color:var(--h086-off)">4.1%</div>
+                        <div class="h086-stat-l">people with no job who looked for one in the past 4 weeks</div>
+                    </div>
+                    <div class="hanten-panel h086-stat">
+                        <div class="h086-stat-k">Broadest measure</div>
+                        <div class="h086-stat-n" style="color:var(--h086-hi)">7.7%</div>
+                        <div class="h086-stat-l">adds people who gave up looking and part-timers who want full-time work</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h086-panel">
+                    <p class="h086-panel-title">Six official measures of "not working enough," same month</p>
+                    <p class="h086-panel-sub">Each measure from U-4 to U-6 counts everyone in the one above it, plus a new group.</p>
+
+                    <svg viewBox="0 0 680 266" role="img" aria-labelledby="h086-chart-title">
+                        <title id="h086-chart-title">Bar chart of the six U.S. labor underutilization measures for August 2026: U-1, out of work 15 weeks or longer, 1.8%; U-2, lost a job or a temporary job ended, 1.9%; U-3, the official unemployment rate, 4.1%; U-4, adding discouraged workers, 4.4%; U-5, adding others who want a job but have not looked lately, 5.1%; U-6, adding part-time workers who want full-time work, 7.7%.</title>
+                        <text class="h086-id" x="0" y="26">U-1</text>
+                        <text class="h086-lab" x="38" y="26">Jobless 15 weeks or longer</text>
+                        <rect x="330" y="11" width="64.8" height="22" rx="3" fill="var(--h086-bar)"/>
+                        <text class="h086-v" x="400.8" y="27" fill="#2f8a86">1.8%</text>
+                        <text class="h086-id" x="0" y="70">U-2</text>
+                        <text class="h086-lab" x="38" y="70">Lost a job, or a temp job ended</text>
+                        <rect x="330" y="55" width="68.4" height="22" rx="3" fill="var(--h086-bar)"/>
+                        <text class="h086-v" x="404.4" y="71" fill="#2f8a86">1.9%</text>
+                        <text class="h086-id h086-strong" x="0" y="114">U-3</text>
+                        <text class="h086-lab h086-strong" x="38" y="114">Jobless and looking: the official rate</text>
+                        <rect x="330" y="99" width="147.6" height="22" rx="3" fill="var(--h086-off)"/>
+                        <text class="h086-v" x="483.6" y="115" fill="var(--h086-off)">4.1%</text>
+                        <text class="h086-id" x="0" y="158">U-4</text>
+                        <text class="h086-lab" x="38" y="158">+ discouraged, stopped looking</text>
+                        <rect x="330" y="143" width="158.4" height="22" rx="3" fill="var(--h086-bar)"/>
+                        <text class="h086-v" x="494.4" y="159" fill="#2f8a86">4.4%</text>
+                        <text class="h086-id" x="0" y="202">U-5</text>
+                        <text class="h086-lab" x="38" y="202">+ want a job, haven't looked lately</text>
+                        <rect x="330" y="187" width="183.6" height="22" rx="3" fill="var(--h086-bar)"/>
+                        <text class="h086-v" x="519.6" y="203" fill="#2f8a86">5.1%</text>
+                        <text class="h086-id h086-strong" x="0" y="246">U-6</text>
+                        <text class="h086-lab h086-strong" x="38" y="246">+ part-time, but want full-time</text>
+                        <rect x="330" y="231" width="277.2" height="22" rx="3" fill="var(--h086-hi)"/>
+                        <text class="h086-v" x="613.2" y="247" fill="var(--h086-hi)">7.7%</text>
+                    </svg>
+                </div>
+
+            </div>
+
+            <div class="h086-aha">
+                <p><strong>A number is only as broad as its definition.</strong> To count as officially unemployed, you
+                    need to have no job and to have looked for one in the past four weeks. Stop looking and you are no
+                    longer unemployed, officially. Work 10 hours a week when you want 40 and you are employed. Nothing
+                    about the 4.1% is false; it just measures something narrower than the word suggests.</p>
+                <p>The same gap shows up with poverty, homelessness, crime, "on time" flights and "graduation" rates:
+                    each has an official definition that decides who gets counted. Before comparing two numbers, or
+                    reacting to one, check what it actually counts.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                What everyday word have you seen in a statistic that might have a much narrower official meaning?
+            </p>
+
+            <details class="h086-explore" data-html2canvas-ignore="true">
+                <summary>Who each measure counts</summary>
+                <div class="hanten-panel h086-table-panel">
+                    <table class="h086-table">
+                        <thead>
+                            <tr><th>Measure</th><th>Who's counted</th><th>Aug 2026</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>U-1</td><td>People unemployed for 15 weeks or longer</td><td>1.8%</td></tr>
+                            <tr><td>U-2</td><td>People who lost their job or whose temporary job ended</td><td>1.9%</td></tr>
+                            <tr><td>U-3</td><td>Everyone with no job who is available and looked for work in the past 4 weeks (the official rate)</td><td>4.1%</td></tr>
+                            <tr><td>U-4</td><td>U-3, plus <strong>discouraged workers</strong>: people who want a job but stopped looking because they think none are available</td><td>4.4%</td></tr>
+                            <tr><td>U-5</td><td>U-4, plus everyone else who wants a job and looked sometime in the past year, but not in the past 4 weeks</td><td>5.1%</td></tr>
+                            <tr><td>U-6</td><td>U-5, plus people working part-time only because they can't find full-time work</td><td>7.7%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>All six are seasonally adjusted. People who don't want a job, like most retirees and full-time
+                    students, aren't counted in any of them.</p>
+            </details>
+
+            <details class="h086-explore" data-html2canvas-ignore="true">
+                <summary>So is the official rate misleading?</summary>
+                <p>Not by itself. The official rate is carefully defined, measured the same way every month, and useful
+                    for tracking changes over time. The Bureau of Labor Statistics publishes all six measures together
+                    every month. The problem comes when a narrow official number gets described with a broad everyday
+                    word, like "everyone who wants a job has one," or when two numbers with different definitions are
+                    compared as if they meant the same thing.</p>
+            </details>
+
+            <details class="h086-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H092/index.html" target="_blank" rel="noopener noreferrer">Tic Tacs are about 90% sugar. So why does the label say 0 g sugar?</a></li>
+                    <li><a href="../H100/index.html" target="_blank" rel="noopener noreferrer">Ground beef labeled "80% lean." Is it a low-fat food?</a></li>
+                    <li><a href="../H062/index.html" target="_blank" rel="noopener noreferrer">Which river is actually the longest — the Nile or the Amazon?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: U.S. Bureau of Labor Statistics, The Employment Situation, Table A-15, "Alternative measures of
+                labor underutilization," seasonally adjusted, August 2026.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H086-definition-switching.png", title = "What counts as unemployed?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

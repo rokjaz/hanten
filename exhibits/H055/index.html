@@ -24,7 +24,7 @@
 
         :root {
             --h055-men: #8a897f;
-            --h055-women: var(--hanten-accent);
+            --h055-women: var(--hanten-accent, #0e7c86);
         }
 
         .h055-overall {
@@ -129,7 +129,53 @@
             font-style: italic;
             color: var(--hanten-muted);
         }
+
+        .h055-discovery {
+            max-width: 840px; margin: 1.15rem auto 0; padding: .15rem 0;
+            color: var(--hanten-text, #1c2733); font-size: .95rem; line-height: 1.45; text-align: left;
+        }
+        .h055-discovery p { margin: 0 0 .55rem; }
+        .h055-discovery p:last-child { margin-bottom: 0; }
+        .h055-discovery strong { color: var(--hanten-text, #1c2733); }
+
+        .h055-source {
+            max-width: 840px; margin: .9rem auto 0; text-align: left;
+            color: #7b838a; font-size: .7rem; line-height: 1.45;
+        }
     </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h055-explore {
+  max-width: 840px;
+  margin: .9rem auto 0;
+  padding: .6rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .84rem;
+  line-height: 1.5;
+}
+.h055-explore summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); }
+.h055-explore p { margin: .65rem 0 0; }
+.h055-explore a { color: var(--hanten-accent, #0e7c86); }
+
+/* Design Standards 19 (text column) */
+.hanten-exhibit .h055-discovery { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; }
+</style>
 </head>
 
 <body>
@@ -141,7 +187,7 @@
         </h1>
 
         <p class="hanten-subtitle">
-            UC Berkeley's 1973 graduate admissions numbers triggered a gender-discrimination lawsuit.
+            UC Berkeley's 1973 graduate admissions numbers raised fears of a gender-discrimination lawsuit.
             The overall gap was real. So was the fact that it mostly wasn't there once you looked closer.
         </p>
 
@@ -161,7 +207,7 @@
             </div>
             <p class="h055-note">Pooled across the six largest departments — a 15-point gap, enough to look like a clear case of bias.</p>
 
-            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.3rem auto 0;">Now split the same data by department</h2>
+            <h2 class="hanten-section-title" style="max-width:840px;margin:1.3rem auto 0;">Now split the same data by department</h2>
 
             <div class="hanten-graphic hanten-panel h055-dept-panel" id="h055-dept-chart"></div>
             <div class="h055-legend">
@@ -170,36 +216,43 @@
             </div>
             <p class="h055-note">Women were admitted at an equal or higher rate than men in four of these six departments (A, B, D, F).</p>
 
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:1.3rem auto 0;">
-                Look at departments A and B: both admitted the large majority of applicants (62–82%), and both had
-                far more male applicants than female. Look at C, D, E, F: all admitted a minority of applicants —
-                some as low as 6–7% — and women applied to these harder-to-enter departments in much larger
-                numbers.
-            </p>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
-                Men, in this dataset, disproportionately applied to the easy departments. Women disproportionately
-                applied to the hard ones. Combine all six into one number and that difference in
-                <em>where people applied</em> masquerades as a difference in <em>how they were evaluated</em>.
-            </p>
-
-            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
-                <p class="hanten-takeaway" style="margin:0;">
-                    The original researchers found a small bias in favor of women once the data were properly
-                    analyzed, department by department.
-                </p>
+            <div class="h055-discovery hanten-body">
+                <p><strong>Women applied to the hardest departments. That, not bias against them, made the overall numbers look unfair.</strong> Analyzed department by department, the original researchers found a small bias in favor of women. Men disproportionately applied to the easy departments
+                    (A and B admitted 62–82%), and women to the hard ones (C through F, some as low as 6–7%). Combine all
+                    six and that difference in <em>where people applied</em> masquerades as a difference in <em>how they
+                    were evaluated</em>.</p>
+                <p>An overall average can reverse the pattern inside every group when the groups are mixed in very
+                    different proportions. Before trusting any combined comparison — two schools' graduation rates,
+                    two players' batting averages — ask what happens when the same data is split into groups.</p>
             </div>
 
             <p class="hanten-reflection">
-                If a combined total shows a gap, does that prove the underlying process is biased?
+                When a combined total shows a gap, what happens if you split it into groups?
             </p>
 
-            <p class="hanten-source">
+            <details class="h055-explore" data-html2canvas-ignore="true">
+                <summary>Explore how the same aggregation trap shows up elsewhere</summary>
+                <p>The effect has a name: <strong>Simpson's paradox</strong>. It needs two ingredients: groups with very different baseline rates (easy vs. hard departments), and a very different mix of people in each group (men applying mostly to easy ones, women to hard ones). Take away either ingredient and the reversal disappears.</p>
+                <p>It's a cousin of our <a href="../H058/index.html" target="_blank" rel="noopener noreferrer">Friendship Paradox</a> exhibit: in both, <em>how</em> a population gets combined or sampled shapes the number you end up seeing.</p>
+            </details>
+
+            <details class="h055-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H095/index.html" target="_blank" rel="noopener noreferrer">California has more car thefts than anywhere else in the U.S. Is it the riskiest place to park?</a></li>
+                    <li><a href="../H001/index.html" target="_blank" rel="noopener noreferrer">What’s the average income at this BBQ?</a></li>
+                    <li><a href="../H058/index.html" target="_blank" rel="noopener noreferrer">Do your friends really have more friends than you?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h055-source">
                 Sources: P.J. Bickel, E.A. Hammel, J.W. O'Connell, "Sex Bias in Graduate Admissions: Data from
                 Berkeley," <em>Science</em>, 1975. Six-department table (departments A–F, admit rates and
                 applicant counts) as reproduced in Freedman, Pisani &amp; Purves, <em>Statistics</em>, and widely
                 used as the standard classroom example of Simpson's paradox. University-wide 1973 figures across
-                all departments were approximately 44% of men and 35% of women admitted; the six-department
-                subset shown here (45%/30%) is the specific dataset used in the original analysis.
+                all departments were approximately 44% of men and 35% of women admitted. The six largest departments
+                shown here (45%/30%) are the subset popularized by Freedman, Pisani &amp; Purves; Bickel's team
+                analyzed every department.
             </p>
 
         </div>
@@ -247,13 +300,39 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "How can men be admitted at a much higher rate overall — while women do as well or better in most departments?",
-            filename: "H055-simpsons-paradox.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H055-simpsons-paradox.png", title = "How can men be admitted at a much higher rate overall — while women do as well or better in most departments?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

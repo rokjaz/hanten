@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H090 — Did People in 1900 Really Die at 40?</title>
+
+    <meta
+        name="description"
+        content="U.S. life expectancy at birth in 1900 was under 48 years, but that average was pulled down by the 1 in 5 children who died before age 5. An American who reached 20 in 1900 could expect to live to about 62."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H090-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h090-hi: #b23b32;
+            --h090-life: #0b4f57;
+            --h090-lived: #d9d5ca;
+        }
+
+        .h090-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h090-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h090-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h090-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h090-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h090-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h090-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h090-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h090-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.8rem; }
+
+        .h090-panel svg { display: block; width: 100%; max-width: 720px; height: auto; margin: 0 auto; }
+        .h090-lab { font-family: var(--hanten-font); font-size: 12.5px; font-weight: 700; fill: var(--hanten-text); }
+        .h090-val { font-family: var(--hanten-font); font-size: 14px; font-weight: 800; }
+        .h090-axis { font-family: var(--hanten-font); font-size: 11px; fill: var(--hanten-muted); }
+        .h090-myth { font-family: var(--hanten-font); font-size: 11.5px; font-weight: 800; fill: var(--h090-hi); }
+
+        .h090-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.2rem; margin-top: 0.6rem; padding-top: 0.8rem; border-top: 1px solid var(--hanten-border); font-size: 0.78rem; color: var(--hanten-muted); }
+        .h090-legend > span { display: inline-flex; align-items: center; gap: 0.4rem; }
+        .h090-sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+        .h090-dash { display: inline-block; width: 18px; border-top: 2px dashed var(--h090-hi); }
+
+        .h090-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h090-aha p { margin: 0 0 0.6rem; }
+        .h090-aha p:last-child { margin-bottom: 0; }
+
+        .h090-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h090-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h090-explore p { margin: .55rem 0 0; }
+        .h090-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h090-explore + .h090-explore { margin-top: 0; border-top: none; }
+        .h090-explore strong { color: var(--hanten-text); }
+
+        .h090-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h090-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h090-table th, .h090-table td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h090-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h090-table td { font-variant-numeric: tabular-nums; }
+        .h090-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .h090-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 600px) {
+            .h090-stats { grid-template-columns: minmax(0, 1fr); }
+            .h090-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h090-table-panel { padding: 0.3rem 0.4rem; }
+            .h090-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2),
+.hanten-exhibit table td:nth-child(3),
+.hanten-exhibit table td:nth-child(4) { text-align: center; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Life expectancy in 1900 was under 48. Did people back then really die at 40?
+        </h1>
+
+        <p class="hanten-subtitle">
+            The number is real. But life expectancy at birth averages every death together, including the many
+            babies and young children who died in 1900. Most adults lived far longer than the average suggests.
+        </p>
+
+        <div id="h090-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h090-stats-cap">United States, 1900</p>
+                <div class="h090-stats">
+                    <div class="hanten-panel h090-stat">
+                        <div class="h090-stat-k">Life expectancy at birth</div>
+                        <div class="h090-stat-n" style="color:var(--h090-hi)">48</div>
+                        <div class="h090-stat-l">the average age at death, counting every baby born</div>
+                    </div>
+                    <div class="hanten-panel h090-stat">
+                        <div class="h090-stat-k">Died before age 5</div>
+                        <div class="h090-stat-n" style="color:var(--h090-hi)">1 in 5</div>
+                        <div class="h090-stat-l">children, most of them before their first birthday</div>
+                    </div>
+                    <div class="hanten-panel h090-stat">
+                        <div class="h090-stat-k">Made it to 20?</div>
+                        <div class="h090-stat-n" style="color:var(--h090-life)">62</div>
+                        <div class="h090-stat-l">the average age you'd go on to reach</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h090-panel">
+                    <p class="h090-panel-title">How long you could expect to live in 1900, depending on the age you'd already reached</p>
+                    <p class="h090-panel-sub">Each bar ends at the average age at death for people who had already reached that age.</p>
+
+                    <svg viewBox="0 -26 680 344" role="img" aria-labelledby="h090-chart-title">
+                        <title id="h090-chart-title">Bar chart for the United States in 1900. Average age at death: 48 counting from birth; 55 for those who reached age 1; 59 for age 5; 62 for age 20; 68 for age 40; 75 for age 60; 77 for age 65. A dashed line at age 40 marks the "died at 40" myth, which every bar past birth goes well beyond.</title>
+<line x1="364.0" y1="24" x2="364.0" y2="274" stroke="var(--h090-hi)" stroke-width="1.5" stroke-dasharray="5 4"/><text class="h090-myth" x="364.0" y="-8" text-anchor="middle">The "died at 40" myth</text><text class="h090-myth" x="364.0" y="10" text-anchor="middle" style="font-weight:600">Every bar after birth goes well past it</text>
+<text class="h090-lab" x="0" y="45">At birth</text>
+<rect x="140.0" y="34" width="267.1" height="16" fill="var(--h090-hi)"/>
+<text class="h090-val" x="413.1" y="47" fill="var(--h090-hi)">48</text>
+<text class="h090-lab" x="0" y="79">Age 1</text>
+<rect x="140" y="68" width="5.6" height="16" fill="var(--h090-lived)"/>
+<rect x="145.6" y="68" width="301.8" height="16" fill="var(--h090-life)"/>
+<text class="h090-val" x="453.4" y="81" fill="var(--h090-life)">55</text>
+<text class="h090-lab" x="0" y="113">Age 5</text>
+<rect x="140" y="102" width="28.0" height="16" fill="var(--h090-lived)"/>
+<rect x="168.0" y="102" width="304.1" height="16" fill="var(--h090-life)"/>
+<text class="h090-val" x="478.1" y="115" fill="var(--h090-life)">59</text>
+<text class="h090-lab" x="0" y="147">Age 20</text>
+<rect x="140" y="136" width="112.0" height="16" fill="var(--h090-lived)"/>
+<rect x="252.0" y="136" width="236.9" height="16" fill="var(--h090-life)"/>
+<text class="h090-val" x="494.9" y="149" fill="var(--h090-life)">62</text>
+<text class="h090-lab" x="0" y="181">Age 40</text>
+<rect x="140" y="170" width="224.0" height="16" fill="var(--h090-lived)"/>
+<rect x="364.0" y="170" width="157.4" height="16" fill="var(--h090-life)"/>
+<text class="h090-val" x="527.4" y="183" fill="var(--h090-life)">68</text>
+<text class="h090-lab" x="0" y="215">Age 60</text>
+<rect x="140" y="204" width="336.0" height="16" fill="var(--h090-lived)"/>
+<rect x="476.0" y="204" width="81.8" height="16" fill="var(--h090-life)"/>
+<text class="h090-val" x="563.8" y="217" fill="var(--h090-life)">75</text>
+<text class="h090-lab" x="0" y="249">Age 65</text>
+<rect x="140" y="238" width="364.0" height="16" fill="var(--h090-lived)"/>
+<rect x="504.0" y="238" width="65.5" height="16" fill="var(--h090-life)"/>
+<text class="h090-val" x="575.5" y="251" fill="var(--h090-life)">77</text>
+<line x1="140" y1="274" x2="644.0" y2="274" stroke="var(--hanten-border,#e4e1d8)"/>
+<text class="h090-axis" x="140.0" y="290" text-anchor="middle">0</text>
+<text class="h090-axis" x="196.0" y="290" text-anchor="middle">10</text>
+<text class="h090-axis" x="252.0" y="290" text-anchor="middle">20</text>
+<text class="h090-axis" x="308.0" y="290" text-anchor="middle">30</text>
+<text class="h090-axis" x="364.0" y="290" text-anchor="middle">40</text>
+<text class="h090-axis" x="420.0" y="290" text-anchor="middle">50</text>
+<text class="h090-axis" x="476.0" y="290" text-anchor="middle">60</text>
+<text class="h090-axis" x="532.0" y="290" text-anchor="middle">70</text>
+<text class="h090-axis" x="588.0" y="290" text-anchor="middle">80</text>
+<text class="h090-axis" x="644.0" y="290" text-anchor="middle">90</text>
+<text class="h090-axis" x="392.0" y="308" text-anchor="middle">Age</text>
+                    </svg>
+
+                    <div class="h090-legend">
+                        <span><i class="h090-sw" style="background:var(--h090-lived)"></i>Years already lived</span>
+                        <span><i class="h090-sw" style="background:var(--h090-life)"></i>Years still expected, on average</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h090-aha">
+                <p><strong>An average can describe almost nobody.</strong> In 1900, deaths clustered at two ends of life:
+                    in early childhood and in old age. Averaging a baby who died at 1 with a grandmother who died at 75
+                    gives 38, an age at which neither of them died. Once a child made it past the dangerous early years,
+                    reaching 60 or 70 was common.</p>
+                <p>The same trap works anywhere a few extreme values sit far from the rest: average income pulled up by
+                    a few billionaires, an average commute pulled up by a few long ones. Before trusting what an average
+                    says about a typical person, ask how spread out the numbers behind it are.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                What average have you heard that might describe almost no one it's supposed to be about?
+            </p>
+
+            <details class="h090-explore" data-html2canvas-ignore="true">
+                <summary>The numbers for men and women</summary>
+                <div class="hanten-panel h090-table-panel">
+                    <table class="h090-table">
+                        <thead>
+                            <tr><th>Already reached</th><th>Men: expected age at death</th><th>Women: expected age at death</th><th>Still alive at this age, of 100 born</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Birth</td><td>46.4</td><td>49.0</td><td>100</td></tr>
+                            <tr><td>Age 1</td><td>54.3</td><td>55.6</td><td>87</td></tr>
+                            <tr><td>Age 5</td><td>58.8</td><td>59.9</td><td>80</td></tr>
+                            <tr><td>Age 20</td><td>61.7</td><td>62.9</td><td>75</td></tr>
+                            <tr><td>Age 40</td><td>67.5</td><td>68.7</td><td>Not published</td></tr>
+                            <tr><td>Age 60</td><td>74.2</td><td>75.0</td><td>46</td></tr>
+                            <tr><td>Age 65</td><td>76.4</td><td>77.0</td><td>39</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>The chart uses the average of the men's and women's figures. These are "period" numbers: they describe
+                    the death rates of 1900 as if a person lived their whole life under them. People born in 1900 actually
+                    lived longer, because medicine kept improving during their lives. The government's official figure
+                    for 1900, based on the 10 states that recorded deaths then, is 47.3.</p>
+            </details>
+
+            <details class="h090-explore" data-html2canvas-ignore="true">
+                <summary>So what made life expectancy rise so much?</summary>
+                <p>Mostly, fewer children died. Clean water, sewers, pasteurized milk, vaccines and later antibiotics
+                    cut deaths from infections that hit babies and young children hardest. Saving a baby adds 70 or
+                    more years to the average; adding a year to an 80-year-old's life adds just one. That's why life
+                    expectancy at birth rose by about 30 years over the 20th century, while the years still expected
+                    at age 65 grew by only about 6.</p>
+            </details>
+
+            <details class="h090-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H001/index.html" target="_blank" rel="noopener noreferrer">What’s the average income at this BBQ?</a></li>
+                    <li><a href="../H065/index.html" target="_blank" rel="noopener noreferrer">What's the richest country?</a></li>
+                    <li><a href="../H047/index.html" target="_blank" rel="noopener noreferrer">Is it true that more people are alive today than have ever died?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: U.S. Social Security Administration, Office of the Chief Actuary, Actuarial Study No. 116,
+                period life tables for calendar year 1900 (Social Security area, by sex); National Center for Health
+                Statistics, Health, United States, life expectancy at birth for 1900 (death registration states).
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H090-life-expectancy-1900.png", title = "Did people in 1900 really die at 40?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

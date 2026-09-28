@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H085 — Does Ice Cream Cause Drowning?</title>
+
+    <meta
+        name="description"
+        content="Ice cream sales and drownings rise and fall together every year. Neither causes the other: hot summer weather drives both."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H085-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h085-ice: #b23b32;
+            --h085-drown: #0b4f57;
+            --h085-heat: #d98a2b;
+            --h085-heat-bg: #f7ead7;
+        }
+
+        .h085-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h085-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h085-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+
+        .h085-panel svg { display: block; width: 100%; height: auto; }
+        .h085-axis { font-family: var(--hanten-font); font-size: 11px; fill: var(--hanten-muted); }
+        .h085-xlab { font-family: var(--hanten-font); font-size: 11.5px; font-weight: 700; fill: var(--hanten-text); }
+        .h085-ann { font-family: var(--hanten-font); font-size: 11.5px; font-weight: 800; }
+        .h085-box-t { font-family: var(--hanten-font); font-size: 14px; font-weight: 800; }
+        .h085-box-s { font-family: var(--hanten-font); font-size: 11.5px; fill: var(--hanten-muted); }
+
+        .h085-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.2rem; margin-top: 0.6rem; padding-top: 0.8rem; border-top: 1px solid var(--hanten-border); font-size: 0.78rem; color: var(--hanten-muted); }
+        .h085-legend > span { display: inline-flex; align-items: center; gap: 0.4rem; }
+        .h085-sw { display: inline-block; width: 18px; height: 0; border-top: 3px solid; }
+        .h085-sw.dash { border-top-style: dashed; }
+        .h085-swb { display: inline-block; width: 12px; height: 12px; border-radius: 2px; background: var(--h085-heat-bg); }
+
+        .h085-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h085-aha p { margin: 0 0 0.6rem; }
+        .h085-aha p:last-child { margin-bottom: 0; }
+
+        .h085-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h085-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h085-explore p { margin: .55rem 0 0; }
+        .h085-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h085-explore + .h085-explore { margin-top: 0; border-top: none; }
+        .h085-explore strong { color: var(--hanten-text); }
+
+        .h085-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h085-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h085-table th, .h085-table td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); vertical-align: top; }
+        .h085-table th { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h085-table td:first-child { font-weight: 700; }
+        .h085-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 600px) {
+            .h085-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h085-table-panel { padding: 0.3rem 0.4rem; }
+            .h085-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Ice cream sales and drownings rise and fall together. Does ice cream cause drowning?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Two things moving together is a real pattern you can measure. It still doesn't tell you which one, if
+            either, is causing the other.
+        </p>
+
+        <div id="h085-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="hanten-panel h085-panel">
+                    <p class="h085-panel-title">Ice cream sales and drownings through the year</p>
+                    <p class="h085-panel-sub">Each line is shown as a share of its own busiest month, so the two shapes can be compared.</p>
+
+                    <svg viewBox="0 0 640 290" role="img" aria-labelledby="h085-chart-title">
+                        <title id="h085-chart-title">Line chart of an illustrative year: ice cream sales and drownings both stay low in winter, climb through spring, peak together in July during the summer months, and fall again by December.</title>
+
+                        <!-- summer: June to August -->
+                        <rect x="292.8" y="40" width="141.8" height="200" fill="var(--h085-heat-bg)"/>
+                        <text class="h085-ann" x="363.6" y="54" text-anchor="middle" fill="var(--h085-heat)">SUMMER</text>
+
+                        <!-- value (% of peak) maps to y = 240 - pct * 1.7 -->
+                        <g stroke="var(--hanten-border, #e4e1d8)" stroke-width="1">
+                            <line x1="60" y1="240" x2="615" y2="240"/>
+                            <line x1="60" y1="155" x2="615" y2="155"/>
+                            <line x1="60" y1="70"  x2="615" y2="70"/>
+                        </g>
+                        <text class="h085-axis" x="52" y="244" text-anchor="end">0%</text>
+                        <text class="h085-axis" x="52" y="159" text-anchor="end">50%</text>
+                        <text class="h085-axis" x="52" y="74"  text-anchor="end">100%</text>
+
+                        <polyline points="80.0,204.2 127.3,200.6 174.5,186.3 221.8,159.5 269.1,123.7 316.4,87.9 363.6,70.0 410.9,78.9 458.2,132.6 505.5,168.4 552.7,195.3 600.0,204.2"
+                                  fill="none" stroke="var(--h085-ice)" stroke-width="3" stroke-linejoin="round"/>
+                        <polyline points="80.0,215.0 127.3,215.0 174.5,200.0 221.8,180.0 269.1,140.0 316.4,90.0 363.6,70.0 410.9,80.0 458.2,150.0 505.5,190.0 552.7,210.0 600.0,215.0"
+                                  fill="none" stroke="var(--h085-drown)" stroke-width="3" stroke-dasharray="7 4" stroke-linejoin="round"/>
+
+                        <text class="h085-ann" x="236" y="146" text-anchor="end" fill="var(--h085-ice)">Ice cream sales</text>
+                        <text class="h085-ann" x="530" y="232" text-anchor="middle" fill="var(--h085-drown)">Drownings</text>
+
+                        <g class="h085-xlab" text-anchor="middle">
+                            <text x="80" y="262">Jan</text><text x="127.3" y="262">Feb</text><text x="174.5" y="262">Mar</text>
+                            <text x="221.8" y="262">Apr</text><text x="269.1" y="262">May</text><text x="316.4" y="262">Jun</text>
+                            <text x="363.6" y="262">Jul</text><text x="410.9" y="262">Aug</text><text x="458.2" y="262">Sep</text>
+                            <text x="505.5" y="262">Oct</text><text x="552.7" y="262">Nov</text><text x="600" y="262">Dec</text>
+                        </g>
+                    </svg>
+
+                    <div class="h085-legend">
+                        <span><i class="h085-sw" style="border-color:var(--h085-ice)"></i>Ice cream sales</span>
+                        <span><i class="h085-sw dash" style="border-color:var(--h085-drown)"></i>Drownings</span>
+                        <span><i class="h085-swb"></i>Summer months</span>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h085-panel">
+                    <p class="h085-panel-title">What's really connecting them</p>
+                    <svg viewBox="0 0 640 210" role="img" aria-labelledby="h085-cause-title">
+                        <title id="h085-cause-title">Diagram: hot weather causes more ice cream sales, and hot weather causes more swimming, which causes more drownings. There is no arrow between ice cream sales and drownings; they only move together because of the weather.</title>
+                        <defs>
+                            <marker id="h085-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                                <path d="M0,0 L10,5 L0,10 z" fill="var(--h085-heat)"/>
+                            </marker>
+                        </defs>
+
+                        <rect x="220" y="10" width="200" height="52" rx="6" fill="var(--h085-heat-bg)" stroke="var(--h085-heat)" stroke-width="1.5"/>
+                        <text class="h085-box-t" x="320" y="34" text-anchor="middle" fill="var(--h085-heat)">Hot summer weather</text>
+                        <text class="h085-box-s" x="320" y="51" text-anchor="middle">the hidden third factor</text>
+
+                        <line x1="270" y1="62" x2="160" y2="138" stroke="var(--h085-heat)" stroke-width="2.5" marker-end="url(#h085-arrow)"/>
+                        <line x1="370" y1="62" x2="480" y2="138" stroke="var(--h085-heat)" stroke-width="2.5" marker-end="url(#h085-arrow)"/>
+                        <text class="h085-box-s" x="200" y="96" text-anchor="end">people want something cold</text>
+                        <text class="h085-box-s" x="440" y="96" text-anchor="start">more people go swimming</text>
+
+                        <rect x="40" y="140" width="210" height="52" rx="6" fill="#ffffff" stroke="var(--h085-ice)" stroke-width="1.5"/>
+                        <text class="h085-box-t" x="145" y="171" text-anchor="middle" fill="var(--h085-ice)">More ice cream sold</text>
+
+                        <rect x="390" y="140" width="210" height="52" rx="6" fill="#ffffff" stroke="var(--h085-drown)" stroke-width="1.5"/>
+                        <text class="h085-box-t" x="495" y="171" text-anchor="middle" fill="var(--h085-drown)">More drownings</text>
+
+                        <line x1="258" y1="166" x2="382" y2="166" stroke="var(--hanten-muted, #6b675f)" stroke-width="1.5" stroke-dasharray="4 4"/>
+                        <text class="h085-ann" x="320" y="158" text-anchor="middle" fill="var(--hanten-muted, #6b675f)">no cause here</text>
+                        <text class="h085-box-s" x="320" y="184" text-anchor="middle">they just move together</text>
+                    </svg>
+                </div>
+
+            </div>
+
+            <div class="h085-aha">
+                <p><strong>When two things move together, something else may be moving both of them.</strong> Ice cream
+                    doesn't make anyone drown, and drownings don't sell ice cream. Hot weather does both: it sends people
+                    to the freezer aisle and to the pool, lake and beach.</p>
+                <p>This hidden-third-factor trap shows up everywhere. Kids with bigger shoes read better, because older
+                    kids have bigger feet and more practice reading. Countries that eat more chocolate win more Nobel
+                    Prizes, and both go with being wealthy. When two trends line up, ask what else could be driving both
+                    before believing that one causes the other.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                What two things have you seen rise and fall together, and what else might be moving both of them?
+            </p>
+
+            <details class="h085-explore" data-html2canvas-ignore="true">
+                <summary>More pairs that move together without one causing the other</summary>
+                <div class="hanten-panel h085-table-panel">
+                    <table class="h085-table">
+                        <thead>
+                            <tr><th>These move together</th><th>The hidden factor</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Ice cream sales and drownings</td><td>Hot weather</td></tr>
+                            <tr><td>Kids' shoe size and reading level</td><td>Age</td></tr>
+                            <tr><td>Firefighters sent to a fire and the damage it does</td><td>How big the fire is</td></tr>
+                            <tr><td>Chocolate eaten per person and Nobel Prizes per person, by country</td><td>National wealth</td></tr>
+                            <tr><td>Hospital visits and deaths</td><td>How sick people already are</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details class="h085-explore" data-html2canvas-ignore="true">
+                <summary>How can you tell if one thing really causes another?</summary>
+                <p>The strongest test is an experiment: randomly split people into two groups, change one thing for only
+                    one group, and see whether the outcome changes. Random assignment spreads hidden factors like weather,
+                    age or wealth evenly across both groups, so they can't explain the difference. When experiments aren't
+                    possible, researchers compare cases where the suspected hidden factor is the same, such as comparing
+                    ice cream sales and drownings only on days with the same temperature. If the link disappears, the
+                    hidden factor was doing the work.</p>
+            </details>
+
+            <details class="h085-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H102/index.html" target="_blank" rel="noopener noreferrer">A neighborhood has an unusual number of cancer cases. Is something there causing them?</a></li>
+                    <li><a href="../H055/index.html" target="_blank" rel="noopener noreferrer">How can men be admitted at a much higher rate overall — while women do as well or better in most departments?</a></li>
+                    <li><a href="../H094/index.html" target="_blank" rel="noopener noreferrer">If 94% of published studies say a drug works, is the question settled?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: The monthly lines are an illustrative pattern, not measured data, drawn to match the well-known
+                summer peak in both; CDC death records show July has more drowning deaths than any other month. Chocolate and Nobel Prizes:
+                F. H. Messerli, "Chocolate Consumption, Cognitive Function, and Nobel Laureates," New England Journal of
+                Medicine, 2012.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H085-correlation-vs-causation.png", title = "Does ice cream cause drowning?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

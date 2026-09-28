@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>H033 — Gulf of Mexico</title>
+<title>H033 — Gulf of Mexico or Gulf of America?</title>
 <meta name="description" content="The same gulf can now appear under different names depending on the government, mapmaker, and location of the viewer.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
@@ -22,8 +22,8 @@
     --h033-ocean: #cde3ee;
     --h033-mexico: #2f7d5c;
     --h033-mexico-soft: #a9cdbb;
-    --h033-america: #3b6ea3;
-    --h033-america-soft: #b7c9dc;
+    --h033-america: #b2601f;
+    --h033-america-soft: #e8cca6;
   }
 
   body { background: var(--hanten-paper, #f4f3ef); }
@@ -125,14 +125,13 @@
   .h033-card {
     background: var(--h033-panel);
     border: 1px solid var(--h033-line);
-    border-top: 4px solid var(--card-color);
     padding: .7rem .8rem;
   }
 
   .h033-card .who {
     margin-bottom: .4rem;
     color: var(--h033-muted);
-    font: 700 .7rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font: 700 .7rem/1.35 var(--hanten-font);
     text-transform: uppercase;
     letter-spacing: .045em;
   }
@@ -154,11 +153,19 @@
   .h033-reveal {
     max-width: 760px;
     margin: .75rem auto 0;
-    padding: .15rem 0 .15rem 1rem;
-    border-left: 3px solid var(--hanten-accent);
+    padding: .15rem 0;
     color: var(--hanten-text);
     font-size: .95rem;
     line-height: 1.45;
+    text-align: left;
+  }
+
+  .h033-reveal p {
+    margin: 0 0 .55rem;
+  }
+
+  .h033-reveal p:last-child {
+    margin-bottom: 0;
   }
 
   .h033-reveal strong {
@@ -219,15 +226,44 @@
     font-weight: 750;
   }
 </style>
+
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+<style>
+.hanten-export-card{
+ position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
+ background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+.hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-aha p{margin:0 0 8px}
+.hanten-export-aha p:last-child{margin-bottom:0}
+.hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+.hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+
+/* Design Standards 19 (merged name dropdowns) */
+.h033-dd-cards { margin: .7rem 0 .2rem; }
+.h033-dd-cards.h033-c3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.h033-dd-cards.h033-c4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+.h033-dd-cards h2 { font-size: 1rem; }
+@media (max-width: 720px) { .h033-dd-cards.h033-c3, .h033-dd-cards.h033-c4 { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 420px) { .h033-dd-cards { grid-template-columns: 1fr !important; } }
+</style>
 </head>
 
 <body>
 <main class="hanten-exhibit">
 
-  <h1 class="hanten-question">What is this gulf called?</h1>
+  <h1 class="hanten-question">Gulf of Mexico or Gulf of America?</h1>
 
   <p class="hanten-subtitle">
-    The same body of water now appears under different official names.
+    The same body of water now appears under different official names depending on who is looking.
   </p>
 
   <div class="hanten-graphic">
@@ -259,15 +295,15 @@
       </div>
 
       <div class="h033-reveal">
-        <strong>The water does not move. The viewer does.</strong><br>
-        The United States and Mexico now use different official names for the same gulf.
-      </div>
+        <p><strong>The water does not move. The viewer does.</strong> "Gulf of Mexico" — "Golfo de México" — has been the name in continuous international use since Spanish colonial cartography in the 1500s, and Mexico and most of the world still use it. On January 20, 2025, his first day back in office, President Trump signed Executive Order 14172 directing U.S. federal agencies to use "Gulf of America" instead; the order applies only to the U.S. side of the gulf, not to Mexico's or Cuba's waters.</p>
+                <p>A name can change by decree without anything on the ground changing. The name a map uses tells you who made the map, not what the place is.</p>
+            </div>
 
       <p class="hanten-reflection">
-        If a map changes its label based on where you are, which part of the map is actually objective?
-      </p>
+                Which label on your map would change if you lived across the border?
+            </p>
 
-      <details class="h033-explore">
+      <details class="h033-explore" data-html2canvas-ignore="true">
         <summary>Explore how the name changes</summary>
         <div class="h033-explore-grid">
           <section>
@@ -286,13 +322,39 @@
             </p>
           </section>
         </div>
+        <p>The clearest sign of the split is Google Maps itself: since February 2025 it has shown "Gulf of America" to users located in the United States, "Gulf of Mexico" to users in Mexico, and "Gulf of Mexico (Gulf of America)" to everyone else — the same body of water, three different labels, depending on where the map is opened. Mexico's president said the country would pursue legal action against Google over the change. The dropdowns below show the same split in three other places.</p>
       </details>
 
-      <div class="h033-source">
-        Sources: Executive Order 14172; U.S. Department of the Interior Order No. 3423;
-        Google public statements on location-based map labeling; Mexican government usage.
-        Country shapes: Natural Earth 1:10m, stored locally in Hanten Shared Assets.
-      </div>
+      <details class="h033-explore" data-html2canvas-ignore="true">
+        <summary>Sea of Japan or East Sea?</summary>
+        <div class="h033-names h033-dd-cards h033-c4"><div class="h033-card" style="--card-color:#b13f2f"><div class="who">Japan</div><h2>Sea of Japan</h2><p>Official government usage.</p></div><div class="h033-card" style="--card-color:#1f4f73"><div class="who">South Korea</div><h2>East Sea</h2><p>Official government usage.</p></div><div class="h033-card" style="--card-color:#3f7251"><div class="who">North Korea</div><h2>Korean East Sea</h2><p>Official government usage.</p></div><div class="h033-card" style="--card-color:#68747b"><div class="who">International usage</div><h2>Sea of Japan</h2><p>The predominant label on international maps.</p></div></div>
+        <p>The sea between Japan and the Korean Peninsula has four official labels depending on whose government made the map. The International Hydrographic Organization&rsquo;s reference, <em>Limits of Oceans and Seas</em> (1953), uses &ldquo;Japan Sea,&rdquo; and South Korea has campaigned for decades to have &ldquo;East Sea&rdquo; shown alongside it.</p>
+      </details>
+
+      <details class="h033-explore" data-html2canvas-ignore="true">
+        <summary>Persian Gulf or Arabian Gulf?</summary>
+        <div class="h033-names h033-dd-cards h033-c2"><div class="h033-card" style="--card-color:#6b4c8a"><div class="who">Iran · UN standard usage</div><h2>Persian Gulf</h2><p>The historically established name, and the standard form used by the United Nations and most international reference works.</p></div><div class="h033-card" style="--card-color:#b2601f"><div class="who">Iraq + several Arab Gulf states</div><h2>Arabian Gulf</h2><p>Used in official communications and mapping by Iraq and several Arab Gulf states, including Saudi Arabia and the UAE.</p></div></div>
+        <p>&ldquo;Persian Gulf&rdquo; has been documented since antiquity; ancient Greek geographers called it <em>Sinus Persicus</em>. &ldquo;Arabian Gulf&rdquo; was promoted from the 1960s and &rsquo;70s onward, alongside a wave of pan-Arab nationalism. The choice still causes trouble: when National Geographic added &ldquo;Arabian Gulf&rdquo; as a secondary label in 2004, Iran barred its staff from entering the country.</p>
+      </details>
+
+      <details class="h033-explore" data-html2canvas-ignore="true">
+        <summary>Senkaku, Diaoyu, or Diaoyutai?</summary>
+        <div class="h033-names h033-dd-cards h033-c3"><div class="h033-card" style="--card-color:#b13f2f"><div class="who">Japan · administrator since 1972</div><h2>Senkaku Islands</h2><p>Administered as part of Ishigaki City, Okinawa. Japan holds that there is no sovereignty dispute to negotiate.</p></div><div class="h033-card" style="--card-color:#a3453a"><div class="who">China · claimant</div><h2>Diaoyu Islands</h2><p>China cites historical records going back centuries and patrols nearby waters to assert its claim.</p></div><div class="h033-card" style="--card-color:#1f4f73"><div class="who">Taiwan · claimant</div><h2>Diaoyutai Islands</h2><p>Taiwan makes a similar historical claim, placing the islands in Yilan County, and pursues it separately from Beijing.</p></div></div>
+        <p>Here the name sits on top of a live territorial dispute. The islands are under three square miles of uninhabited rock in the East China Sea, but they come with fishing grounds, possible undersea gas, and nearby shipping lanes. Japanese coast guard ships routinely turn away Chinese and Taiwanese boats, so a map&rsquo;s choice of name is a statement about whose claim it recognizes, not just a translation.</p>
+      </details>
+
+            <details class="h033-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H036/index.html" target="_blank" rel="noopener noreferrer">What is the world’s tallest mountain called?</a></li>
+                    <li><a href="../H098/index.html" target="_blank" rel="noopener noreferrer">Somaliland has run its own government since 1991. Is it a country?</a></li>
+                    <li><a href="../H037/index.html" target="_blank" rel="noopener noreferrer">Whose country is Crimea on the map?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h033-source">
+        Sources: Executive Order 14172 (whitehouse.gov, Jan. 20, 2025); U.S. Department of the Interior Order No. 3423; Google public statements on location-based map labeling; Mexican government statements. Sea of Japan: Japan and Republic of Korea Ministry of Foreign Affairs position statements; International Hydrographic Organization, <em>Limits of Oceans and Seas</em> (S-23, 1953). Persian Gulf: United Nations Group of Experts on Geographical Names; government statements from Iran and Gulf Cooperation Council states. Senkaku: Japan, China, and Taiwan Ministry of Foreign Affairs position statements. Country shapes: Natural Earth 1:10m, stored locally in Hanten Shared Assets.
+      </p>
 
       <div class="hanten-utility">
         <div id="save-image-slot"></div>
@@ -344,7 +406,7 @@
   const projection = d3.geoMercator()
     .fitExtent(
       [[12, 12], [width - 12, height - 12]],
-      bboxFeature(-99, 16, -79, 31)
+      bboxFeature(-99, 15, -79, 32)
     );
 
   const path = d3.geoPath(projection);
@@ -369,9 +431,10 @@
     .attr("d", path);
 
   const DIRECT_LABELS = [
-    { name: "United States", lon: -88.0, lat: 29.9, side: "america" },
-    { name: "Mexico", lon: -96.0, lat: 19.0, side: "mexico" },
-    { name: "Cuba", lon: -81.7, lat: 22.1, side: "mexico", small: true }
+    { name: "United States", lon: -88.6, lat: 30.85, side: "america" },
+    { name: "Mexico", lon: -96.97, lat: 18.53, side: "mexico" },
+    { name: "Cuba", lon: -78.6, lat: 21.65, side: "mexico", small: true },
+    { name: "Guatemala", lon: -90.32, lat: 16.97, side: "mexico", small: true }
   ];
 
   DIRECT_LABELS.forEach(label => {
@@ -386,8 +449,7 @@
   });
 
   const SMALL_LABELS = [
-    { name: "Belize", anchor: [-88.55, 17.2], label: [-87.55, 17.7] },
-    { name: "Guatemala", anchor: [-90.4, 16.2], label: [-92.1, 16.65] }
+    { name: "Belize", anchor: [-88.55, 17.2], label: [-86.7, 17.85] }
   ];
 
   SMALL_LABELS.forEach(label => {
@@ -397,7 +459,7 @@
 
     svg.append("path")
       .attr("class", "country-leader")
-      .attr("d", `M${a[0]},${a[1]} L${l[0]},${l[1]-4}`);
+      .attr("d", `M${a[0]},${a[1]} L${l[0]},${l[1]+10}`);
 
     svg.append("text")
       .attr("class", "country-label mexico small")
@@ -419,13 +481,77 @@
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
-<script src="../../assets/js/save-image.js"></script>
+
 <script>
-  HantenSaveImage.init({
-    target: ".hanten-exhibit",
-    title: "What is this gulf called?",
-    filename: "H033-gulf-name.png"
-  });
+(() => {
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+  slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+  const save = document.createElement("button"), share = document.createElement("button");
+  save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+  slot.append(save, share);
+  const filename = "H033-gulf-of-mexico.png", title = "Gulf of Mexico or Gulf of America?";
+
+  async function blob() {
+    const mapWrap = document.getElementById("h033-map-wrap");
+    const names = document.querySelector(".h033-names");
+    const reveal = document.querySelector(".h033-reveal");
+    const source = document.querySelector(".h033-source");
+    if (!mapWrap) throw new Error("Export content not found.");
+
+    const card = document.createElement("div");
+    card.className = "hanten-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800; titleCanvas.height = 84;
+    titleCanvas.style.width = "900px"; titleCanvas.style.height = "42px";
+    titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+    const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+    t.font = '750 30px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+    t.fillText("Gulf of Mexico or Gulf of America?", 450, 21);
+    card.appendChild(titleCanvas);
+
+    const sub = document.createElement("canvas");
+    sub.width = 1800; sub.height = 84; sub.style.width = "900px"; sub.style.height = "42px";
+    sub.style.display = "block"; sub.style.margin = "0 auto 16px";
+    const s = sub.getContext("2d"); s.scale(2, 2);
+    s.font = '400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+    s.fillText("The same body of water now appears under different official names depending on who is looking.", 450, 21);
+    card.appendChild(sub);
+
+    const shell = document.createElement("div");
+    shell.appendChild(mapWrap.cloneNode(true));
+    if (names) shell.appendChild(names.cloneNode(true));
+    card.appendChild(shell);
+
+    if (reveal) {
+      const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+      const revealClone = document.createElement("div"); revealClone.className = "hanten-export-aha";
+      revealClone.innerHTML = reveal.innerHTML;
+      textcol.appendChild(revealClone); card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "hanten-export-reflection";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    card.appendChild(reflection);
+
+    if (source) {
+      const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+    try {
+      const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+      return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+    } finally { card.remove(); }
+  }
+  function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+  save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+  share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+})();
 </script>
 
 </body>

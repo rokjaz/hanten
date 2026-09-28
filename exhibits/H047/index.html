@@ -1,189 +1,169 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>H047 — More People Alive Than Dead?</title>
-<meta name="description" content="The claim that more people are alive today than have ever died is false. About 117 billion people have ever been born — the roughly 8 billion of us alive today are only about 7% of that total.">
+    <title>H047 — Are More People Alive Today Than Have Ever Died?</title>
 
-<link rel="stylesheet" href="../../assets/css/hanten.css">
+    <meta
+        name="description"
+        content="About 117 billion people have ever been born. The 8.2 billion alive today are only about 7% of them. The dead outnumber the living roughly 13 to 1."
+    >
 
-<style>
-    :root {
-        --h047-alive: #0e7c86;
-        --h047-gone: #ccd3c8;
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /* H047-SPECIFIC STYLES */
+        .h047-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h047-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h047-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h047-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h047-stat-n { font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h047-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h047-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h047-panel-title { font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h047-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.9rem; }
+        .h047-panel svg { display: block; width: 100%; max-width: 680px; height: auto; margin: 0 auto; }
+        .h047-gt { font-size: 14px; font-weight: 800; fill: var(--hanten-text); }
+        .h047-gs { font-size: 12px; font-weight: 600; fill: var(--hanten-muted); }
+        .h047-in { font-size: 14px; font-weight: 800; fill: #ffffff; }
+        .h047-big { font-size: 16px; font-weight: 800; }
+
+        .h047-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h047-aha p { margin: 0 0 0.6rem; }
+        .h047-aha p:last-child { margin-bottom: 0; }
+
+        .h047-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h047-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h047-explore p { margin: .55rem 0 0; }
+        .h047-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h047-explore + .h047-explore { margin-top: 0; border-top: none; }
+
+        .hanten-source { max-width: 760px; margin: .9rem auto 0; }
+
+        @media (max-width: 600px) {
+            .h047-stats { grid-template-columns: minmax(0, 1fr); }
+            .h047-panel { padding: 0.9rem 0.6rem 0.8rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
     }
+    </style>
 
-    .h047-wrap {
-        width: min(100%, 620px);
-        margin: 0 auto;
-        padding: 1.4rem 1.3rem 1.2rem;
-    }
-
-    .h047-caption {
-        margin: 0 0 1.1rem;
-        text-align: center;
-        font-size: 0.78rem;
-        font-weight: 700;
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
-        color: var(--hanten-muted);
-    }
-
-    .h047-pictogram {
-        display: grid;
-        grid-template-columns: repeat(10, 1fr);
-        gap: 6px;
-        max-width: 400px;
-        margin: 0 auto;
-    }
-
-    .h047-dot {
-        aspect-ratio: 1;
-        border-radius: 50%;
-        background: var(--h047-gone);
-    }
-
-    .h047-dot.alive {
-        background: var(--h047-alive);
-    }
-
-    .h047-legend {
-        display: flex;
-        justify-content: center;
-        gap: 1.6rem;
-        margin-top: 1.15rem;
-        flex-wrap: wrap;
-        font-size: 0.8rem;
-        color: var(--hanten-muted);
-    }
-
-    .h047-legend-dot {
-        display: inline-block;
-        width: 11px;
-        height: 11px;
-        border-radius: 50%;
-        margin-right: 0.4rem;
-        vertical-align: middle;
-    }
-
-    .h047-stat-row {
-        display: flex;
-        justify-content: center;
-        gap: 2.6rem;
-        margin-top: 1.5rem;
-        flex-wrap: wrap;
-        text-align: center;
-        padding-top: 1.2rem;
-        border-top: 1px solid var(--hanten-border);
-    }
-
-    .h047-stat-num {
-        font-size: clamp(1.4rem, 3.4vw, 1.9rem);
-        font-weight: 800;
-        color: var(--hanten-text);
-        line-height: 1.1;
-    }
-
-    .h047-stat-num.accent {
-        color: var(--h047-alive);
-    }
-
-    .h047-stat-cap {
-        margin-top: 0.2rem;
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: var(--hanten-muted);
-    }
-
-    .h047-question-line {
-        margin: 0 auto 1.1rem;
-        max-width: var(--hanten-text-width);
-        text-align: center;
-        font-size: 1.02rem;
-        font-weight: 700;
-        color: var(--hanten-text);
-    }
-</style>
 </head>
 
 <body>
 
     <main class="hanten-exhibit">
 
-        <h1 class="hanten-question">
+        <h1 class="hanten-question" style="text-wrap:balance;">
             Is it true that more people are alive today than have ever died?
         </h1>
 
         <p class="hanten-subtitle">
-            You've probably heard this claim — population growth has been fast enough to
-            make it sound plausible. It isn't close to true.
+            You've probably heard this claim. Population growth has been fast enough to make it sound plausible.
+            It isn't close to true.
         </p>
 
-        <div class="hanten-graphic">
-            <section id="h047-capture">
+        <div id="h047-capture">
 
-                <div class="h047-wrap hanten-panel">
-                    <p class="h047-caption">Every dot ≈ 1.17 billion people who have ever been born</p>
+            <div class="hanten-graphic">
 
-                    <div
-                        class="h047-pictogram"
-                        id="h047-pictogram"
-                        role="img"
-                        aria-label="100 dots representing everyone who has ever been born; 7 are highlighted as alive today, 93 represent people who have died"
-                    ></div>
-
-                    <div class="h047-legend">
-                        <span><span class="h047-legend-dot" style="background: var(--h047-alive);"></span>Alive today (~7%)</span>
-                        <span><span class="h047-legend-dot" style="background: var(--h047-gone);"></span>Have died (~93%)</span>
+                <div class="h047-stats">
+                    <div class="hanten-panel h047-stat">
+                        <div class="h047-stat-k">Ever born</div>
+                        <div class="h047-stat-n">~117 billion</div>
+                        <div class="h047-stat-l">across about 192,000 years of human history</div>
                     </div>
-
-                    <div class="h047-stat-row">
-                        <div>
-                            <div class="h047-stat-num">~117B</div>
-                            <div class="h047-stat-cap">ever born</div>
-                        </div>
-                        <div>
-                            <div class="h047-stat-num accent">~8.2B</div>
-                            <div class="h047-stat-cap">alive today</div>
-                        </div>
-                        <div>
-                            <div class="h047-stat-num accent">~7%</div>
-                            <div class="h047-stat-cap">of all humans, alive right now</div>
-                        </div>
+                    <div class="hanten-panel h047-stat">
+                        <div class="h047-stat-k">Alive today</div>
+                        <div class="h047-stat-n" style="color:#0e7c86">~8.2 billion</div>
+                        <div class="h047-stat-l">about 7% of everyone who has ever lived</div>
+                    </div>
+                    <div class="hanten-panel h047-stat">
+                        <div class="h047-stat-k">The dead outnumber the living</div>
+                        <div class="h047-stat-n">About 13 to 1</div>
+                        <div class="h047-stat-l">roughly 109 billion to 8.2 billion</div>
                     </div>
                 </div>
 
-                <div class="hanten-takeaway-box" style="margin-top: 1rem; padding: 1rem 1.15rem;">
-                    <p class="hanten-takeaway" style="margin: 0 0 0.5rem;">
-                        The math looks close — until you count all of human history.
-                    </p>
-                    <p class="hanten-body" style="margin: 0; font-weight: 400; color: var(--hanten-muted);">
-                        The "more alive than dead" claim usually leans on something real: global population
-                        has more than tripled since 1950, and roughly half of everyone who's ever lived was
-                        born in just the last few centuries. That growth is real — it's just not enough to
-                        outweigh the other <strong style="color: var(--hanten-text);">≈192,000 years</strong>
-                        of prior human history. Demographers estimate about <strong style="color: var(--hanten-text);">117 billion</strong>
-                        people have ever been born; against today's population of about 8.2 billion, everyone
-                        alive right now is only about <strong style="color: var(--hanten-text);">7%</strong>
-                        of all humans who have ever existed.
-                    </p>
+                <div class="hanten-panel h047-panel">
+                    <p class="h047-panel-title">Everyone who has ever been born, drawn to scale</p>
+                    <p class="h047-panel-sub">Population Reference Bureau estimate</p>
+                    <svg viewBox="0 0 680 196" role="img" aria-labelledby="h047-bars-title">
+                        <title id="h047-bars-title">A bar for all 117 billion people ever born, with a thin teal sliver of about 7% for people alive today. Below it, separate bars show about 109 billion who have died and 8.2 billion alive today.</title>
+<text class="h047-gt" x="138" y="32" text-anchor="end">Everyone ever born</text>
+<rect x="150" y="10" width="437.1" height="34" fill="#c9cfcc"/>
+<rect x="587.1" y="10" width="32.9" height="34" fill="#0e7c86"/>
+<text class="h047-in" x="160" y="32">About 117 billion</text>
+<text class="h047-gs" x="618.0" y="62" text-anchor="end">the teal sliver: everyone alive today</text>
+<text class="h047-gt" x="138" y="114" text-anchor="end">Have died</text>
+<rect x="150" y="92" width="437.1" height="34" fill="#8a9692"/>
+<text class="h047-in" x="160" y="115">≈109 billion</text>
+<text class="h047-gt" x="138" y="164" text-anchor="end">Alive today</text>
+<rect x="150" y="142" width="32.9" height="34" fill="#0e7c86"/>
+<text class="h047-big" x="190.9" y="165" fill="#0e7c86">≈8.2 billion</text>
+                    </svg>
                 </div>
 
-                <p class="hanten-reflection">
-                    A trend that feels dramatic within your own lifetime can still be a small slice of the full timeline.
-                </p>
+            </div>
 
-                <p class="hanten-source">
-                    Sources: Population Reference Bureau, "How Many People Have Ever Lived on Earth?"
-                    (≈117 billion total births across human history; current world population ≈8.2 billion, 2026).
-                    PRB describes historical birth estimates as "part science and part art," since no demographic
-                    records exist for most of human history — figures are order-of-magnitude estimates, not a census.
-                </p>
+            <div class="h047-aha">
+                <p><strong>The math looks close until you count all of human history.</strong> Global population
+                    has more than tripled since 1950, and that growth is real. But about 117 billion people have ever
+                    been born, so the 8.2 billion alive today are only about 7% of all humans who have ever existed.</p>
+                <p>The same illusion shows up anywhere a fast recent trend is compared with a much longer, quieter
+                    history underneath it. The recent part is the part you lived through and can feel, so the visible
+                    slice feels like the whole pie.</p>
+            </div>
 
-            </section>
+            <p class="hanten-reflection">
+                What trend feels dramatic in your lifetime but might be a small slice of the full timeline?
+            </p>
+
+            <details class="h047-explore" data-html2canvas-ignore="true">
+                <summary>How anyone estimates births going back 192,000 years</summary>
+                <p>There's no census for most of human history, so demographers reconstruct total births from what is
+                    known: rough population sizes at different points in the past, combined with typical birth rates for
+                    a population of that size and era. Early human populations were small, but birth rates (and death
+                    rates) were high, so a very long stretch of prehistory contributes a large share of the historical
+                    total. The Population Reference Bureau, which produced the widely cited 117-billion estimate,
+                    describes the exercise as "part science and part art": a defensible order-of-magnitude figure, not a
+                    precise count.</p>
+                <p>It is the same failure of intuition that <a href="../H078/index.html" target="_blank" rel="noopener noreferrer">How far
+                    apart are a million and a billion?</a> points at directly: intuition is built for small, everyday
+                    quantities, and it doesn't scale up to hundreds of billions, or across two hundred thousand years.</p>
+            </details>
+
+            <details class="h047-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H078/index.html" target="_blank" rel="noopener noreferrer">How far apart are a million and a billion?</a></li>
+                    <li><a href="../H090/index.html" target="_blank" rel="noopener noreferrer">Life expectancy in 1900 was under 48. Did people back then really die at 40?</a></li>
+                    <li><a href="../H028/index.html" target="_blank" rel="noopener noreferrer">How quickly does chess get big?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Population Reference Bureau, "How Many People Have Ever Lived on Earth?" (about 117 billion
+                total births across human history); current world population about 8.2 billion (2026). PRB describes
+                historical birth estimates as "part science and part art," since no demographic records exist for
+                most of human history.
+            </p>
+
         </div>
 
         <div class="hanten-utility">
@@ -192,23 +172,40 @@
 
     </main>
 
-    <script>
-        const grid = document.getElementById("h047-pictogram");
-        for (let i = 0; i < 100; i++) {
-            const dot = document.createElement("div");
-            dot.className = "h047-dot" + (i < 7 ? " alive" : "");
-            grid.appendChild(dot);
-        }
-    </script>
-
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "Is it true that more people are alive today than have ever died?",
-            filename: "H047-living-vs-ever-lived.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H047-living-vs-ever-lived.png", title = "Is it true that more people are alive today than have ever died?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

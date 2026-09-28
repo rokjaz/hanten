@@ -12,7 +12,7 @@ Plain HTML/CSS/vanilla JS. No build step, no framework, no bundler. Deployed wit
 
 This repo is mid-migration. There are two generations of pages:
 
-1. **Legacy flat pages** (~45 of them, e.g. `bowling-spares.html`, `true-size-africa.html`) — the original pages, built directly in this repo, styled via `CSS/site.css`. **Do not add new pages this way.** Only touch these to fix a bug in an existing one, or to retire it (see below).
+1. **Legacy flat pages** — all retired in Sept 2026. Each old address (e.g. `true-size-africa.html`) now redirects to its `exhibits/H0XX/` replacement through `_redirects`. **Do not add new pages this way.**
 2. **Current exhibits** (`exhibits/H0XX/index.html`, 17 so far and growing) — styled via the shared `assets/css/hanten.css` framework, with shared `assets/js/`, `assets/geodata/`, `assets/basemaps/` (a real Natural-Earth-derived basemap library). **This is where all new work goes.**
 
 Before assuming a legacy page is still the canonical URL for its topic, check whether `exhibits/` already has a newer version of the same idea (e.g. `true-size-africa.html` vs `exhibits/H007/`) — if so, the legacy page is a retirement candidate (redirect, don't delete outright — see "Keep it flat" below).
@@ -21,9 +21,9 @@ Before assuming a legacy page is still the canonical URL for its topic, check wh
 
 `exhibits/H0XX/index.html` is **generated output**. Do not hand-edit it to fix a content problem — fix the master source and republish. The real pipeline (see `PUBLISHING.md`):
 
-1. The editorial master for each exhibit lives in Google Drive: `Hanten/02 Maps/H0XX <name>/`. That folder holds the research/editorial brief, references, and, once the exhibit is standardized, an **`H0XX_v2.html`** file — that's the only file the publisher will accept.
-2. Run `./tools/publish-exhibit.sh H0XX` from this repo. It copies `H0XX_v2.html` into `exhibits/H0XX/index.html`, rewrites any `.../04 Shared Assets/...` references to `../../assets/...` (copying only the specific referenced files into `assets/`, not the whole shared-asset library), and rewrites inter-exhibit links (`../H0YY .../H0YY_v2.html` style Drive links → `../H0YY/index.html`).
-3. If `H0XX_v2.html` doesn't exist yet in the master folder, the script refuses with "NOT READY FOR PUBLICATION" and touches nothing — that exhibit needs a standardization pass first (build it against `assets/css/hanten.css` and the Exhibit Framework structure: Question → Graphic → Discovery statement → optional explanation → Sources → Related exhibits).
+1. The editorial master for each exhibit lives in Google Drive: `Hanten/02 Maps/H0XX <name>/`. That folder holds the research/editorial brief, references, and, the standardized **`H0XX.html`** file, which is what the publisher copies (it falls back to an older `H0XX_v2.html` only if `H0XX.html` is missing).
+2. Run `./tools/publish-exhibit.sh H0XX` from this repo. It copies `H0XX.html` into `exhibits/H0XX/index.html`, rewrites any `.../04 Shared Assets/...` references to `../../assets/...` (copying only the specific referenced files into `assets/`, not the whole shared-asset library), and rewrites inter-exhibit links (`../H0YY .../H0YY_v2.html` style Drive links → `../H0YY/index.html`).
+3. If neither file exists in the master folder, the script refuses with "NOT READY FOR PUBLICATION" and touches nothing — that exhibit needs a standardization pass first (build it against `assets/css/hanten.css` and the Exhibit Framework structure: Question → Graphic → Discovery statement → optional explanation → Sources → Related exhibits).
 4. **Source of truth:** the Drive master project owns editorial content; this repo owns the deployable website. Don't edit a master exhibit merely to solve a website deployment issue, and don't treat a hand-edit to `exhibits/H0XX/index.html` as durable — it'll be overwritten the next time that exhibit is republished.
 
 ## Repo layout

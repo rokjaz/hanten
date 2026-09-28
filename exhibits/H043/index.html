@@ -13,6 +13,8 @@
   :root {
     --h043-land: #d6dbd0;
     --h043-land-line: #aeb6a5;
+    --h043-land-context: #c9cec1;
+    --h043-land-context-line: #b7bcae;
     --h043-sea: #cde3ee;
     --h043-meridian: #b24b36;
     --h043-reno: #c4841f;
@@ -31,12 +33,6 @@
     height: auto;
   }
 
-  .h043-tick {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-    font-size: 10.5px;
-    fill: var(--hanten-muted);
-  }
-
   .h043-state-label {
     font-family: var(--hanten-font);
     font-weight: 700;
@@ -47,7 +43,7 @@
   }
 
   .h043-meridian-label {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-family: var(--hanten-font);
     font-weight: 700;
     font-size: 11px;
     fill: var(--h043-meridian);
@@ -67,9 +63,23 @@
   }
 
   .h043-span-label {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-family: var(--hanten-font);
     font-size: 11px;
     fill: var(--hanten-muted);
+  }
+
+  .h043-sealabel {
+    font-family: var(--hanten-font);
+    font-style: italic;
+    font-size: 11.5px;
+    fill: var(--hanten-muted);
+    opacity: 0.75;
+  }
+
+  .h043-context-state {
+    fill: var(--h043-land-context);
+    stroke: var(--h043-land-context-line);
+    stroke-width: 0.9;
   }
 
   .h043-legend {
@@ -188,6 +198,57 @@
       font-size: 0.8rem;
     }
   }
+
+  .h043-explore {
+    max-width: var(--hanten-text-width);
+    margin: 1.1rem auto 0;
+    padding: .6rem 0;
+    border-top: 1px solid var(--hanten-border);
+    border-bottom: 1px solid var(--hanten-border);
+    color: var(--hanten-muted);
+    font-size: .84rem;
+    line-height: 1.5;
+  }
+
+  .h043-explore summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); }
+  .h043-explore p { margin: .65rem 0 0; }
+  .h043-explore p:first-of-type { margin-top: .65rem; }
+
+  .h043-table-details {
+    max-width: var(--hanten-text-width);
+    margin: 1.1rem auto 0;
+    padding: .6rem 0;
+    border-top: 1px solid var(--hanten-border);
+    border-bottom: 1px solid var(--hanten-border);
+  }
+
+  .h043-table-details summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); font-size: .84rem; }
+  .h043-table-details p { margin: .65rem 0 0; color: var(--hanten-muted); font-size: .84rem; line-height: 1.5; }
+  .h043-table-details p strong { color: var(--hanten-text); }
+  .h043-table-details .h043-table-wrap { margin-top: .8rem; }
+
+  .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+  .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+  .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--h043-meridian,#b24b36);color:var(--h043-meridian,#b24b36)}
+  .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+  .hanten-export-card{position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+  .hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+  .hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+  .hanten-export-aha strong{color:#1c2733}
+  .hanten-export-aha p{margin:0 0 8px}
+  .hanten-export-aha p:last-child{margin-bottom:0}
+  .hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+  .hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(3),
+.hanten-exhibit table td:nth-child(4),
+.hanten-exhibit table td:nth-child(5),
+.hanten-exhibit table td:nth-child(6) { text-align: center; }
 </style>
 </head>
 
@@ -216,32 +277,52 @@
     </div>
 
     <div class="h043-discovery hanten-body">
-      <p><strong>Why the coastline lies.</strong> California's coast isn't a vertical line — it leans. The northern border sits near 124.2°W; by San Diego the coast has drifted to about 117.2°W, nearly seven degrees east over roughly 800 miles of shoreline. The hinge is around Point Conception, near Santa Barbara: north of it, the coast runs roughly northwest–southeast as expected; south of it, the coast — and Los Angeles with it — swings sharply east. Reno sits in the less-drifted northern zone, just inside Nevada by Lake Tahoe, so it ends up west of a city that reads, on a mental map, as clearly "in California."</p>
-      <p><strong>It isn't only Reno.</strong> San Francisco, on the undrifted northern coast, is a full 228 miles west of LA's meridian — no surprise there. But San Diego, another 120 miles down the coast from LA, is actually about 63 miles <em>east</em> of it. And Las Vegas, which most people mentally file next to Reno, sits roughly 174 miles east of LA's meridian — more than three degrees of longitude from its fellow Nevada city.</p>
-    </div>
+      <p><strong>California&rsquo;s coast leans east, so Los Angeles ends up east of Reno.</strong> California's coast isn't a vertical line — it leans. The northern border sits near 124.2°W; by San Diego the coast has drifted to about 117.2°W, nearly seven degrees east over roughly 800 miles of shoreline. The hinge is around Point Conception, near Santa Barbara: north of it, the coast runs roughly northwest–southeast as expected; south of it, the coast — and Los Angeles with it — swings sharply east. Reno sits in the less-drifted northern zone, just inside Nevada by Lake Tahoe, so it ends up west of a city that reads, on a mental map, as clearly "in California."</p>
+                <p>Mental maps simplify: we remember states as boxes and coasts as straight lines. When a claim about direction feels obvious, check the coordinates rather than the shape in your head.</p>
+            </div>
 
-    <div class="h043-table-wrap">
-      <table class="h043-table">
-        <caption>Longitude, vs. Los Angeles</caption>
-        <thead>
-          <tr><th>City</th><th>State</th><th>Latitude</th><th>Longitude</th><th>Vs. LA's meridian</th><th>Approx. distance</th></tr>
-        </thead>
-        <tbody>
-          <tr><td class="city">Los Angeles</td><td>CA</td><td class="num">34.0522°N</td><td class="num">118.2437°W</td><td>reference</td><td class="num">—</td></tr>
-          <tr class="highlight"><td class="city">Reno</td><td>NV</td><td class="num">39.5296°N</td><td class="num">119.8138°W</td><td class="h043-west">1.57° west</td><td class="num">≈84 mi west</td></tr>
-          <tr><td class="city">San Francisco</td><td>CA</td><td class="num">37.7749°N</td><td class="num">122.4194°W</td><td class="h043-west">4.18° west</td><td class="num">≈228 mi west</td></tr>
-          <tr><td class="city">San Diego</td><td>CA</td><td class="num">32.7157°N</td><td class="num">117.1647°W</td><td class="h043-east">1.08° east</td><td class="num">≈63 mi east</td></tr>
-          <tr><td class="city">Las Vegas</td><td>NV</td><td class="num">36.1750°N</td><td class="num">115.1372°W</td><td class="h043-east">3.11° east</td><td class="num">≈174 mi east</td></tr>
-        </tbody>
-      </table>
-    </div>
+
 
     <p class="hanten-reflection">
-      How much of what feels like "east" or "west" is really just a mental map you never checked against the coordinates?
-    </p>
+                Which city do you “know” is east or west of another without ever checking?
+            </p>
 
-    <p class="hanten-source">
-      Sources: city coordinates from standard published latitude/longitude data. State boundaries built from US Census Bureau county cartographic boundary data (via the US Atlas TopoJSON). Distances are approximate, computed along Reno's line of latitude.
+            <details class="h043-table-details" data-html2canvas-ignore="true">
+      <summary>See how the other cities compare</summary>
+      <p><strong>It isn't only Reno.</strong> San Francisco, on the undrifted northern coast, is a full 228 miles west of LA's meridian — no surprise there. But San Diego, another 120 miles down the coast from LA, is actually about 63 miles <em>east</em> of it. And Las Vegas, which most people mentally file next to Reno, sits roughly 174 miles east of LA's meridian — more than three degrees of longitude from its fellow Nevada city. "East" and "west" feel like fixed facts about a place, but they're really just a comparison against a reference line — and a mental map built from a bent coastline will get that comparison backwards without ever being wrong about anything else. The same failure shows up on the other axis, too: <a href="../H075/index.html" target="_blank" rel="noopener noreferrer">London sits north of nearly all of Canada's population</a>, for the same reason — nobody checks the coordinates against the mental map until something forces the comparison.</p>
+      <div class="h043-table-wrap">
+        <table class="h043-table">
+          <caption>Longitude, vs. Los Angeles</caption>
+          <thead>
+            <tr><th>City</th><th>State</th><th>Latitude</th><th>Longitude</th><th>Vs. LA's meridian</th><th>Approx. distance</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="city">Los Angeles</td><td>CA</td><td class="num">34.0522°N</td><td class="num">118.2437°W</td><td>reference</td><td class="num">—</td></tr>
+            <tr class="highlight"><td class="city">Reno</td><td>NV</td><td class="num">39.5296°N</td><td class="num">119.8138°W</td><td class="h043-west">1.57° west</td><td class="num">≈84 mi west</td></tr>
+            <tr><td class="city">San Francisco</td><td>CA</td><td class="num">37.7749°N</td><td class="num">122.4194°W</td><td class="h043-west">4.18° west</td><td class="num">≈228 mi west</td></tr>
+            <tr><td class="city">San Diego</td><td>CA</td><td class="num">32.7157°N</td><td class="num">117.1647°W</td><td class="h043-east">1.08° east</td><td class="num">≈63 mi east</td></tr>
+            <tr><td class="city">Las Vegas</td><td>NV</td><td class="num">36.1750°N</td><td class="num">115.1372°W</td><td class="h043-east">3.11° east</td><td class="num">≈174 mi east</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="h043-explore" data-html2canvas-ignore="true">
+      <summary>Why the coast bends</summary>
+      <p>The hinge is Point Conception and the Transverse Ranges, an unusual east–west-trending mountain belt near Santa Barbara — one of the only stretches where the coast briefly runs sideways instead of its usual northwest–southeast line. South of that hinge, the coastline folds inland, tucking the entire Los Angeles Basin east relative to the rest of the state.</p>
+    </details>
+
+    <details class="h043-table-details" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H045/index.html" target="_blank" rel="noopener noreferrer">Does Alaska cross into the Eastern Hemisphere?</a></li>
+                    <li><a href="../H066/index.html" target="_blank" rel="noopener noreferrer">Is South America east of Florida?</a></li>
+                    <li><a href="../H075/index.html" target="_blank" rel="noopener noreferrer">Is London north of Vancouver, Calgary, and Toronto?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h043-source">
+      Sources: city coordinates from standard published latitude/longitude data, cross-checked against multiple geocoding sources; the Reno-vs-LA gap is independently corroborated by Roy H. Williams's "Reno is West of L.A." newsletter. State boundaries built from US Census Bureau county cartographic boundary data (via the US Atlas TopoJSON). Distances are approximate, computed along each city's own line of latitude.
     </p>
   </div>
 
@@ -269,10 +350,38 @@
     const ca = { type: "Feature", properties: { name: "California" }, geometry: topojson.merge(topo, caGeoms) };
     const nv = { type: "Feature", properties: { name: "Nevada" }, geometry: topojson.merge(topo, nvGeoms) };
 
+    // Neighboring states, drawn as muted context so the area around CA/NV
+    // reads as land, not open ocean — the Pacific only runs along
+    // California's own coast, not behind Nevada, Oregon, or Arizona.
+    const contextFips = { Oregon: "41", Idaho: "16", Utah: "49", Arizona: "04" };
+    const contextStates = Object.entries(contextFips).map(([name, fips]) => {
+      const geoms = counties.filter(g => String(g.id).padStart(5, "0").startsWith(fips));
+      return { type: "Feature", properties: { name }, geometry: topojson.merge(topo, geoms) };
+    });
+
     const fc = { type: "FeatureCollection", features: [ca, nv] };
 
-    const projection = d3.geoMercator().fitExtent([[36, 24], [width - 36, height - 60]], fc);
+    const bottomMargin = height - 24;
+    const projection = d3.geoMercator().fitExtent([[36, 24], [width - 36, bottomMargin]], fc);
     const path = d3.geoPath(projection);
+
+    // Water fill behind everything, so the coast reads as a coast rather than
+    // just an edge against blank page background.
+    svg.append("rect")
+      .attr("x", 0).attr("y", 0).attr("width", width).attr("height", height)
+      .attr("fill", "var(--h043-sea)");
+
+    // Context states first (muted, beneath), so the water only shows where
+    // it's real — off California's own coast — rather than wrapping around
+    // the whole map as if Nevada, Oregon, and Arizona were islands.
+    svg.append("g")
+      .attr("class", "h043-context-states")
+      .selectAll("path")
+      .data(contextStates)
+      .join("path")
+      .attr("class", "h043-context-state")
+      .attr("d", path)
+      .attr("stroke-linejoin", "round");
 
     svg.append("g")
       .selectAll("path")
@@ -285,46 +394,123 @@
       .attr("stroke-width", 1.1)
       .attr("stroke-linejoin", "round");
 
-    // longitude gridlines every 2 degrees
-    const [[lon0], [lon1]] = [projection.invert([0, height / 2]), projection.invert([width, height / 2])];
-    for (let lon = Math.ceil(lon0 / 2) * 2; lon <= Math.floor(lon1 / 2) * 2; lon += 2) {
-      const [x] = projection([lon, 37]);
-      if (x < 20 || x > width - 20) continue;
-      svg.append("line")
-        .attr("x1", x).attr("x2", x)
-        .attr("y1", 24).attr("y2", height - 60)
-        .attr("stroke", "var(--hanten-border)")
-        .attr("stroke-width", 1);
-      svg.append("text")
-        .attr("class", "h043-tick")
-        .attr("x", x).attr("y", height - 42)
-        .attr("text-anchor", "middle")
-        .text(`${Math.abs(lon)}°W`);
+    // State labels: centered on each state's "pole of inaccessibility" (the
+    // point of maximum distance from any edge) rather than its area
+    // centroid. A centroid is pulled around by a state's overall outline —
+    // for a long, curved, concave shape like California, that lands the
+    // point off to one side rather than in the shape's visual middle.
+    // Computed from the actual projected geometry at render time, on the
+    // largest ring only (so an offshore island isn't mistaken for the body
+    // of the state), with a coarse grid pass to find a good region followed
+    // by a finer local refinement pass.
+    function largestRing(geometry) {
+      const polygons = geometry.type === "MultiPolygon" ? geometry.coordinates : [geometry.coordinates];
+      let best = null, bestArea = -1;
+      for (const poly of polygons) {
+        const ring = poly[0]; // outer ring of each polygon part
+        const area = Math.abs(d3.polygonArea(ring));
+        if (area > bestArea) { bestArea = area; best = ring; }
+      }
+      return best;
     }
-    svg.append("text")
-      .attr("class", "h043-tick")
-      .attr("x", width / 2).attr("y", height - 22)
-      .attr("text-anchor", "middle")
-      .attr("font-weight", 700)
-      .attr("letter-spacing", "0.04em")
-      .text("LONGITUDE (DEGREES WEST)");
 
-    // state labels
-    const caCentroid = path.centroid(ca);
-    const nvCentroid = path.centroid(nv);
-    svg.append("text").attr("class", "h043-state-label").attr("x", caCentroid[0] - 55).attr("y", caCentroid[1] + 70)
-      .attr("transform", `rotate(-55 ${caCentroid[0] - 55} ${caCentroid[1] + 70})`).text("CALIFORNIA");
-    svg.append("text").attr("class", "h043-state-label").attr("x", nvCentroid[0] + 10).attr("y", nvCentroid[1] - 60).text("NEVADA");
+    function projectRing(ring, decimateTo) {
+      const projected = ring.map(p => projection(p));
+      if (projected.length <= decimateTo) return projected;
+      const stride = Math.ceil(projected.length / decimateTo);
+      const out = projected.filter((_, i) => i % stride === 0);
+      out.push(projected[0]);
+      return out;
+    }
 
-    // LA meridian reference line
+    function distToSegSq(px, py, ax, ay, bx, by) {
+      const dx = bx - ax, dy = by - ay;
+      let t = dx || dy ? ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy) : 0;
+      t = Math.max(0, Math.min(1, t));
+      const cx = ax + t * dx, cy = ay + t * dy;
+      return (px - cx) ** 2 + (py - cy) ** 2;
+    }
+
+    function pointInRing(x, y, ring) {
+      let inside = false;
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const [xi, yi] = ring[i], [xj, yj] = ring[j];
+        if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
+      }
+      return inside;
+    }
+
+    function distToRing(x, y, ring) {
+      let minSq = Infinity;
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        minSq = Math.min(minSq, distToSegSq(x, y, ring[i][0], ring[i][1], ring[j][0], ring[j][1]));
+      }
+      return Math.sqrt(minSq);
+    }
+
+    function poleOfInaccessibility(ring) {
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      for (const [x, y] of ring) {
+        if (x < minX) minX = x; if (x > maxX) maxX = x;
+        if (y < minY) minY = y; if (y > maxY) maxY = y;
+      }
+
+      function search(x0, y0, x1, y1, step) {
+        let best = null, bestD = -Infinity;
+        for (let x = x0; x <= x1; x += step) {
+          for (let y = y0; y <= y1; y += step) {
+            if (!pointInRing(x, y, ring)) continue;
+            const d = distToRing(x, y, ring);
+            if (d > bestD) { bestD = d; best = [x, y]; }
+          }
+        }
+        return best;
+      }
+
+      const coarseStep = Math.max(2, Math.min(maxX - minX, maxY - minY) / 40);
+      let best = search(minX, minY, maxX, maxY, coarseStep);
+      if (!best) return [(minX + maxX) / 2, (minY + maxY) / 2];
+
+      // Refine around the coarse winner with progressively finer grids.
+      let step = coarseStep;
+      for (let pass = 0; pass < 3; pass++) {
+        step /= 6;
+        const refined = search(best[0] - coarseStep, best[1] - coarseStep, best[0] + coarseStep, best[1] + coarseStep, step);
+        if (refined) best = refined;
+      }
+      return best;
+    }
+
+    const caLabelPos = poleOfInaccessibility(projectRing(largestRing(ca.geometry), 250));
+    const nvLabelPos = poleOfInaccessibility(projectRing(largestRing(nv.geometry), 250));
+
+    // LA meridian reference line (position computed here, ahead of the
+    // labels below, since California's label needs to check against it)
     const laLonLat = [-118.2437, 34.0522];
     const renoLonLat = [-119.8138, 39.5296];
     const [laX, laY] = projection(laLonLat);
     const [renoX, renoY] = projection(renoLonLat);
 
+    const caLabel = svg.append("text").attr("class", "h043-state-label").attr("text-anchor", "middle")
+      .attr("x", caLabelPos[0]).attr("y", caLabelPos[1]).text("CALIFORNIA");
+    svg.append("text").attr("class", "h043-state-label").attr("text-anchor", "middle")
+      .attr("x", nvLabelPos[0]).attr("y", nvLabelPos[1]).text("NEVADA");
+
+    // California's widest interior point happens to fall almost exactly on
+    // LA's own meridian, which would otherwise run straight through the
+    // label. Nudge it clear of the dashed line (toward the ocean side, away
+    // from Nevada) rather than let the two overlap.
+    (function keepClearOfMeridian(labelSel, lineX, margin) {
+      const box = labelSel.node().getBBox();
+      const overlaps = box.x < lineX + margin && box.x + box.width > lineX - margin;
+      if (!overlaps) return;
+      const shift = (lineX - margin) - (box.x + box.width);
+      labelSel.attr("x", +labelSel.attr("x") + shift);
+    })(caLabel, laX, 8);
+
     svg.append("line")
       .attr("x1", laX).attr("x2", laX)
-      .attr("y1", 24).attr("y2", height - 60)
+      .attr("y1", 24).attr("y2", bottomMargin)
       .attr("stroke", "var(--h043-meridian)")
       .attr("stroke-width", 2.2)
       .attr("stroke-dasharray", "7 6");
@@ -345,32 +531,96 @@
       .attr("x", (renoX + laX) / 2).attr("y", bracketY - 8).attr("text-anchor", "middle")
       .text("≈ 84 mi west");
 
-    // Reno marker
+    // Reno marker. The label sits to the right of the dot, not the left —
+    // Reno is only a few miles inside Nevada here, so a left-hanging label
+    // would land back across the state line in California. Exact
+    // coordinates live in the "See the exact longitude" table below rather
+    // than as a second line on the map itself.
     svg.append("circle").attr("cx", renoX).attr("cy", renoY).attr("r", 6.5)
       .attr("fill", "var(--h043-reno)").attr("stroke", "#fff").attr("stroke-width", 2.2);
-    svg.append("text").attr("class", "h043-city-label").attr("x", renoX - 14).attr("y", renoY - 12).attr("text-anchor", "end").text("Reno");
-    svg.append("text").attr("class", "h043-city-sub").attr("x", renoX - 14).attr("y", renoY + 3).attr("text-anchor", "end").text("39.53°N, 119.81°W");
+    svg.append("text").attr("class", "h043-city-label").attr("x", renoX + 14).attr("y", renoY - 4).text("Reno");
 
     // LA marker
     svg.append("circle").attr("cx", laX).attr("cy", laY).attr("r", 6.5)
       .attr("fill", "var(--h043-la)").attr("stroke", "#fff").attr("stroke-width", 2.2);
     svg.append("text").attr("class", "h043-city-label").attr("x", laX + 14).attr("y", laY - 4).text("Los Angeles");
-    svg.append("text").attr("class", "h043-city-sub").attr("x", laX + 14).attr("y", laY + 12).text("34.05°N, 118.24°W");
 
     // ocean label
-    svg.append("text").attr("class", "h043-span-label").attr("font-style", "italic")
-      .attr("x", 60).attr("y", 70).text("Pacific Ocean");
+    svg.append("text").attr("class", "h043-sealabel")
+      .attr("x", 60).attr("y", 500).text("Pacific Ocean");
   })();
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
-<script src="../../assets/js/save-image.js"></script>
+
 <script>
-  HantenSaveImage.init({
-    target: ".hanten-exhibit",
-    title: "Is Reno, Nevada west of Los Angeles?",
-    filename: "H043-reno-west-of-la.png"
-  });
+(() => {
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+  slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+  const save = document.createElement("button"), share = document.createElement("button");
+  save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+  slot.append(save, share);
+  const filename = "H043-reno-west-of-la.png", title = "Is Reno, Nevada west of Los Angeles?";
+
+  async function blob() {
+    const mapSection = document.querySelector(".h043-wrap");
+    const discovery = document.querySelector(".h043-discovery");
+    const source = document.querySelector(".h043-source, .hanten-source");
+    if (!mapSection) throw new Error("Export content not found.");
+
+    const card = document.createElement("div");
+    card.className = "hanten-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800; titleCanvas.height = 84;
+    titleCanvas.style.width = "900px"; titleCanvas.style.height = "42px";
+    titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+    const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+    t.font = '750 30px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+    t.fillText("Is Reno, Nevada west of Los Angeles?", 450, 21);
+    card.appendChild(titleCanvas);
+
+    const sub = document.createElement("canvas");
+    sub.width = 1800; sub.height = 84; sub.style.width = "900px"; sub.style.height = "42px";
+    sub.style.display = "block"; sub.style.margin = "0 auto 16px";
+    const s = sub.getContext("2d"); s.scale(2, 2);
+    s.font = '400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+    s.fillText("Reno falls on the ocean side of Los Angeles's own line of longitude.", 450, 21);
+    card.appendChild(sub);
+
+    const shell = document.createElement("div");
+    shell.appendChild(mapSection.cloneNode(true));
+    card.appendChild(shell);
+
+    if (discovery) {
+      const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+      const discoveryClone = document.createElement("div"); discoveryClone.className = "hanten-export-aha";
+      discoveryClone.innerHTML = discovery.innerHTML;
+      textcol.appendChild(discoveryClone); card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "hanten-export-reflection";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    card.appendChild(reflection);
+
+    if (source) {
+      const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+    try {
+      const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+      return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+    } finally { card.remove(); }
+  }
+  function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+  save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+  share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+})();
 </script>
 
 </body>

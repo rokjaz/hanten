@@ -84,7 +84,6 @@
   .h038-card {
     background: var(--h038-panel);
     border: 1px solid var(--h038-line);
-    border-top: 4px solid var(--card-color);
     padding: 1.05rem 1.15rem;
   }
 
@@ -99,27 +98,30 @@
   .h038-card p { margin: 0; color: var(--h038-muted); font-size: .86rem; line-height: 1.55; }
 
   .h038-reveal {
-    max-width: 840px;
-    margin: 1.35rem auto 0;
-    padding: 1rem 1.1rem;
-    background: var(--h038-accent-soft);
-    border-left: 3px solid var(--h038-accent);
-    color: var(--h038-muted);
+    max-width: 760px;
+    margin: .75rem auto 0;
+    padding: .15rem 0;
+    color: var(--hanten-text, var(--h038-ink));
     font-size: .95rem;
-    line-height: 1.6;
+    line-height: 1.45;
+    text-align: left;
   }
-  .h038-reveal strong { color: var(--h038-ink); }
+  .h038-reveal p { margin: 0 0 .55rem; }
+  .h038-reveal p:last-child { margin-bottom: 0; }
+  .h038-reveal strong { color: var(--hanten-text, var(--h038-ink)); }
 
-  .h038-principle {
-    max-width: 840px;
-    margin: 1.05rem auto 0;
-    padding-top: .9rem;
-    border-top: 1px solid var(--h038-line);
-    color: var(--h038-muted);
-    font-size: .9rem;
-    line-height: 1.55;
+  .h038-explore {
+    max-width: 760px;
+    margin: .7rem auto 0;
+    padding: .55rem 0;
+    border-top: 1px solid var(--hanten-border);
+    border-bottom: 1px solid var(--hanten-border);
+    color: var(--hanten-muted);
+    font-size: .8rem;
+    line-height: 1.45;
   }
-  .h038-principle strong { color: var(--h038-ink); }
+  .h038-explore summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); }
+  .h038-explore p { margin: .65rem 0 0; }
 
   .h038-source {
     max-width: 860px;
@@ -130,12 +132,35 @@
     line-height: 1.45;
   }
 
-  #save-image-slot { max-width: 960px; margin: .55rem auto .75rem; text-align: right; }
-
   @media (max-width: 780px) {
     #h038-maps-wrap, .h038-cards { grid-template-columns: 1fr; }
     .h038-map-col { width: min(100%, 360px); margin: 0 auto; }
   }
+</style>
+
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+<style>
+.hanten-export-card{
+ position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
+ background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+.hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-aha p{margin:0 0 8px}
+.hanten-export-aha p:last-child{margin-bottom:0}
+.hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+.hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+
+/* Design Standards 19 (merged H039 dropdown) */
+.h038-dd-cards { margin: .7rem 0 .2rem; }
+.h038-dd-cards h2 { font-size: 1rem; }
 </style>
 </head>
 
@@ -174,9 +199,10 @@
       <div class="h038-cards">
         <div class="h038-card" style="--card-color: var(--h038-india)">
           <div class="who">Indian-map treatment</div>
-          <h2>Shown as Indian</h2>
+          <h2>Entirely Indian</h2>
           <p>
-            Indian government maps depict Jammu and Kashmir and Ladakh as Indian territory rather than presenting the territorial claim as unsettled.
+            Indian government maps show the whole of Jammu and Kashmir and Ladakh with a solid, undifferentiated
+            border — India's constitution treats it as fully Indian territory, no exceptions shown.
           </p>
         </div>
 
@@ -184,32 +210,59 @@
           <div class="who">Pakistani-map treatment</div>
           <h2>Marked contested</h2>
           <p>
-            Pakistani maps use distinct boundary treatment to signal that the region’s final status is disputed rather than settled.
+            Pakistani maps draw the region with a dotted boundary rather than a solid one — a deliberate signal
+            that its status remains unsettled, not incorporated into either country.
           </p>
         </div>
 
         <div class="h038-card" style="--card-color: var(--h038-muted)">
           <div class="who">International-map treatment</div>
-          <h2>Line of Control</h2>
+          <h2>Dashed Line of Control</h2>
           <p>
-            Many international maps distinguish the Line of Control from a settled international border with a dashed or disputed-boundary symbol.
+            Most international maps draw the 1972 Line of Control as a dashed border — the de facto military
+            boundary, presented as a ceasefire line rather than a settled international one.
           </p>
         </div>
       </div>
 
       <div class="h038-reveal">
-        <strong>The mountains do not move. The political meaning of the line does.</strong>
-        India, Pakistan, and China administer different parts of the wider Kashmir region, while territorial claims overlap.
-        The India–Pakistan Line of Control is not the same thing as a mutually accepted final international border.
-      </div>
+        <p><strong>The mountains do not move. The political meaning of the line does.</strong> Three countries currently administer pieces of the old princely state: India holds and governs the largest share (Jammu, the Kashmir Valley, and Ladakh); Pakistan administers Azad Kashmir and Gilgit-Baltistan in the west and north; China holds Aksai Chin in the east, ceded to it by Pakistan in a 1963 border agreement that India does not recognize. India and Pakistan have fought three wars substantially over the territory since 1947, and the Line of Control dividing Indian- and Pakistani-administered areas was set by the 1972 Simla Agreement — a ceasefire line, not either side's claimed border.</p>
+                <p>A line on a map can mean a settled border, a ceasefire, or a claim, and maps often draw them the same way. Before reading a line as a fact, ask what kind of line it is.</p>
+            </div>
 
       <p class="hanten-reflection">
         Is the line showing control, a claim, or an agreed border?
       </p>
 
-      <div class="h038-source">
-        Source basis preserved from the original H038 exhibit: 1972 Simla Agreement; 1963 Sino-Pakistan Boundary Agreement; Survey of India cartographic guidance. Country shapes: Natural Earth 1:10m, stored locally in Hanten Shared Assets. Kashmir outline: simplified from Jammu &amp; Kashmir and Ladakh district-boundary data in the original exhibit.
-      </div>
+      <details class="h038-explore" data-html2canvas-ignore="true">
+        <summary>Explore how this split shows up elsewhere, and why the map itself changes at the border</summary>
+        <p>
+          A three-way split like this isn't unique to the Himalayas — <a href="../H098/index.html" target="_blank" rel="noopener noreferrer">Western Sahara is claimed, administered, and internationally classified three different ways at once</a>, by Morocco, the Polisario Front, and the UN respectively.
+        </p>
+        <p>
+          Indian law (the Cartography Act's 2011 rules) treats any map that shows Kashmir's boundary differently as illegal to sell or distribute in India, so global map providers that want to operate there quietly adjust what they show — one boundary style inside India, another everywhere else. It's the same location-dependent trick as <a href="../H033/index.html" target="_blank" rel="noopener noreferrer">Google Maps showing "Gulf of America" only to users inside the United States</a>: a single map product, quietly rendering a different political reality depending on where you're viewing it from.
+        </p>
+      </details>
+
+      <details class="h038-explore" data-html2canvas-ignore="true">
+        <summary>The other end of the Himalayas: Arunachal Pradesh</summary>
+        <p><strong>India&rsquo;s eastern border is drawn three ways too.</strong> Arunachal Pradesh, in India&rsquo;s far northeast, is an ordinary Indian state on Indian maps and part of China on Chinese ones.</p>
+        <div class="h038-cards h038-dd-cards"><div class="h038-card" style="--card-color: var(--h038-india)"><div class="who">Indian-map treatment</div><h2>An ordinary state</h2><p>Indian maps show Arunachal Pradesh like any of its other states: a plain internal boundary, nothing to suggest it is contested.</p></div><div class="h038-card" style="--card-color: #a3453a"><div class="who">Chinese-map treatment</div><h2>&ldquo;South Tibet&rdquo;</h2><p>Chinese government maps show the area as Chinese territory, &ldquo;Zangnan,&rdquo; with the same solid border as any other province.</p></div><div class="h038-card" style="--card-color: var(--h038-muted)"><div class="who">International-map treatment</div><h2>Dashed, disputed</h2><p>Most international maps show the area under Indian administration, but mark the boundary with China as a disputed, dashed line.</p></div></div>
+        <p>The line in question is the McMahon Line, drawn in 1914 between British India and Tibet. China has never accepted it, arguing Tibet had no authority to sign away Chinese territory. In October 1962 Chinese forces crossed it and advanced deep into the state, then declared a ceasefire and withdrew a month later. India has administered the area ever since, and since 2017 China has repeatedly issued its own Chinese names for the state&rsquo;s towns and landmarks.</p>
+      </details>
+
+            <details class="h038-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H037/index.html" target="_blank" rel="noopener noreferrer">Whose country is Crimea on the map?</a></li>
+                    <li><a href="../H098/index.html" target="_blank" rel="noopener noreferrer">Somaliland has run its own government since 1991. Is it a country?</a></li>
+                    <li><a href="../H033/index.html" target="_blank" rel="noopener noreferrer">Gulf of Mexico or Gulf of America?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h038-source">
+        Sources: 1972 Simla Agreement; 1963 Sino-Pakistan Boundary Agreement; Survey of India Cartography guidelines. Country shapes: Natural Earth 1:10m, stored locally in Hanten Shared Assets. Kashmir boundary: dissolved from Jammu &amp; Kashmir and Ladakh union-territory district boundaries (india-maps-data, GADM-derived), simplified. Arunachal Pradesh: 1914 Simla Convention records; Indian Ministry of External Affairs statements; Chinese Ministry of Civil Affairs standardized place-name announcements. Country shapes: Natural Earth 1:10m, stored locally in Hanten Shared Assets. Arunachal Pradesh boundary: dissolved from India state/district boundaries (india-maps-data, GADM-derived), simplified.
+      </p>
 
       <div class="hanten-utility"><div id="save-image-slot"></div></div>
 
@@ -307,13 +360,77 @@
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
-<script src="../../assets/js/save-image.js"></script>
+
 <script>
-  HantenSaveImage.init({
-    target: ".hanten-exhibit",
-    title: "Where is the border in Kashmir?",
-    filename: "H038-kashmir-dispute.png"
-  });
+(() => {
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+  slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+  const save = document.createElement("button"), share = document.createElement("button");
+  save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+  slot.append(save, share);
+  const filename = "H038-kashmir-dispute.png", title = "Where is the border in Kashmir?";
+
+  async function blob() {
+    const mapsWrap = document.getElementById("h038-maps-wrap");
+    const cards = document.querySelector(".h038-cards");
+    const reveal = document.querySelector(".h038-reveal");
+    const source = document.querySelector(".h038-source");
+    if (!mapsWrap) throw new Error("Export content not found.");
+
+    const card = document.createElement("div");
+    card.className = "hanten-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800; titleCanvas.height = 84;
+    titleCanvas.style.width = "900px"; titleCanvas.style.height = "42px";
+    titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+    const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+    t.font = '750 30px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+    t.fillText("Where is the border in Kashmir?", 450, 21);
+    card.appendChild(titleCanvas);
+
+    const sub = document.createElement("canvas");
+    sub.width = 1800; sub.height = 84; sub.style.width = "900px"; sub.style.height = "42px";
+    sub.style.display = "block"; sub.style.margin = "0 auto 16px";
+    const s = sub.getContext("2d"); s.scale(2, 2);
+    s.font = '400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+    s.fillText("The same mountain region can look different depending on what a map means by its boundary lines.", 450, 21);
+    card.appendChild(sub);
+
+    const shell = document.createElement("div");
+    shell.appendChild(mapsWrap.cloneNode(true));
+    if (cards) shell.appendChild(cards.cloneNode(true));
+    card.appendChild(shell);
+
+    if (reveal) {
+      const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+      const revealClone = document.createElement("div"); revealClone.className = "hanten-export-aha";
+      revealClone.innerHTML = reveal.innerHTML;
+      textcol.appendChild(revealClone); card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "hanten-export-reflection";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    card.appendChild(reflection);
+
+    if (source) {
+      const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+    try {
+      const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+      return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+    } finally { card.remove(); }
+  }
+  function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+  save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+  share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+})();
 </script>
 
 </body>

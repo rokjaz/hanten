@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H080 — How Big Is a State Without Its Biggest City?</title>
+
+    <meta
+        name="description"
+        content="Re-rank all 50 states by the people living outside each state's biggest metro area, and New Jersey falls from 11th to 27th, Illinois from 6th to 16th. A population total can hide how much of it lives in one place."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H080-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h080-metro: #d9822b;
+            --h080-rest: #0e7c86;
+        }
+
+        .h080-stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .h080-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h080-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h080-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h080-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h080-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h080-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h080-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h080-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.9rem; }
+
+        .h080-head, .h080-row {
+            display: grid;
+            grid-template-columns: 9.5rem minmax(0, 1fr) 6.2rem;
+            gap: 0.8rem;
+            align-items: center;
+        }
+        .h080-head { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); padding-bottom: 0.35rem; border-bottom: 1px solid var(--hanten-border); }
+        .h080-head div:last-child, .h080-rank { text-align: right; }
+        .h080-row { padding: 0.5rem 0; border-bottom: 1px solid var(--hanten-border); }
+        .h080-row:last-child { border-bottom: none; }
+        .h080-name { font-weight: 800; font-size: 0.95rem; line-height: 1.2; }
+        .h080-name span { display: block; font-weight: 500; font-size: 0.75rem; color: var(--hanten-muted); }
+        .h080-bar { display: flex; height: 30px; border-radius: 4px; overflow: hidden; background: var(--h080-rest); }
+        .h080-bar-m { background: var(--h080-metro); color: #ffffff; font-size: 0.78rem; font-weight: 700; display: flex; align-items: center; padding-left: 0.5rem; white-space: nowrap; overflow: visible; position: relative; z-index: 1; }
+        .h080-bar-r { flex: 1; }
+        .h080-rank { font-family: var(--hanten-font); font-weight: 800; font-size: 1.05rem; }
+        .h080-rank span { display: block; font-size: 0.72rem; font-weight: 600; color: var(--hanten-muted); }
+        .h080-down { color: #b23b32; }
+        .h080-same { color: var(--hanten-muted); }
+        .h080-up { color: var(--h080-rest); }
+
+        .h080-slope { display: block; width: 100%; height: auto; }
+        .h080-slope-m { display: none; }
+        .h080-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.4rem; margin-top: 0.8rem; font-size: 0.8rem; color: var(--hanten-muted); }
+        .h080-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h080-sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+
+        .h080-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h080-aha p { margin: 0 0 0.6rem; }
+        .h080-aha p:last-child { margin-bottom: 0; }
+
+        .h080-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h080-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h080-table th, .h080-table td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h080-table th { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h080-table td { font-variant-numeric: tabular-nums; }
+        .h080-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .h080-table tr:last-child td { border-bottom: none; }
+
+        .h080-discovery { margin: .7rem 0 .2rem; font-size: .9rem; }
+        .h080-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h080-discovery p:last-child { margin-bottom: 0; }
+        .h080-discovery strong { color: var(--hanten-text); }
+
+        @media (max-width: 720px) {
+            .h080-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 600px) {
+            .h080-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h080-head { display: none; }
+            .h080-slope-d { display: none; }
+            .h080-slope-m { display: block; }
+            .h080-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 0.35rem; }
+            .h080-bar { grid-column: 1 / -1; grid-row: 2; }
+            .h080-table-panel { padding: 0.3rem 0.4rem; }
+            .h080-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h080-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h080-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h080-explore p { margin: .55rem 0 0; }
+.h080-explore .h080-extremes { margin: .7rem 0 .2rem; color: var(--hanten-text); }
+.h080-explore .h080-extremes .h080-panel-sub { margin: 0 0 0.9rem; }
+.h080-explore a { color: var(--hanten-accent, #0e7c86); }
+.h080-explore + .h080-explore { margin-top: 0; border-top: none; }
+
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2),
+.hanten-exhibit table td:nth-child(4),
+.hanten-exhibit table td:nth-child(5),
+.hanten-exhibit table td:nth-child(6),
+.hanten-exhibit table td:nth-child(7) { text-align: center; }
+</style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            How big is a state without its biggest city?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Rank the states by total population, then rank them again counting only the people who live outside
+            each state's biggest metro area. Some states barely move. Others fall more than 10 places.
+        </p>
+
+        <div id="h080-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h080-stats-cap">Some of the biggest moves</p>
+                <div class="h080-stats">
+                    <div class="hanten-panel h080-stat">
+                        <div class="h080-stat-k">New Jersey</div>
+                        <div class="h080-stat-n h080-down">11th → 27th</div>
+                        <div class="h080-stat-l">Down 16 places. 74% live in metro New York City</div>
+                    </div>
+                    <div class="hanten-panel h080-stat">
+                        <div class="h080-stat-k">Arizona</div>
+                        <div class="h080-stat-n h080-down">14th → 28th</div>
+                        <div class="h080-stat-l">Down 14 places. 69% live in metro Phoenix</div>
+                    </div>
+                    <div class="hanten-panel h080-stat">
+                        <div class="h080-stat-k">Illinois</div>
+                        <div class="h080-stat-n h080-down">6th → 16th</div>
+                        <div class="h080-stat-l">Down 10 places. 68% live in metro Chicago</div>
+                    </div>
+                    <div class="hanten-panel h080-stat">
+                        <div class="h080-stat-k">South Carolina</div>
+                        <div class="h080-stat-n" style="color:var(--h080-rest)">23rd → 13th</div>
+                        <div class="h080-stat-l">Up 10 places. Its biggest metro, Greenville, holds just 18%</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h080-panel">
+                    <p class="h080-panel-title">All 50 states, re-ranked by the people living outside their biggest metro area</p>
+                    <p class="h080-panel-sub">Red lines fall 7 or more places. Teal lines rise 5 or more.</p>
+                    <svg class="h080-slope h080-slope-d" viewBox="0 0 760 809" role="img" aria-label="Slope chart of all 50 states: rank by total population on the left, rank by population outside the largest metro area on the right. New Jersey falls from 11th to 27th, Arizona from 14th to 28th, Illinois from 6th to 16th, Minnesota from 22nd to 33rd, Nevada from 31st to 41st; South Carolina rises from 23rd to 13th."><text x="250" y="20" font-family="var(--hanten-font)" font-size="11.5" font-weight="800" letter-spacing="0.05em" text-anchor="middle" fill="var(--hanten-muted)">RANK BY TOTAL POPULATION</text><text x="510" y="20" font-family="var(--hanten-font)" font-size="11.5" font-weight="800" letter-spacing="0.05em" text-anchor="middle" fill="var(--hanten-muted)">RANK WITHOUT BIGGEST METRO</text><line x1="250" y1="76.4" x2="510" y2="76.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="593.2" x2="510" y2="593.2" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="547.6" x2="510" y2="547.6" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="669.2" x2="510" y2="669.2" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="608.4" x2="510" y2="608.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="578.0" x2="510" y2="578.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="106.8" x2="510" y2="106.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="61.2" x2="510" y2="61.2" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="46.0" x2="510" y2="46.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="714.8" x2="510" y2="730.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="775.6" x2="510" y2="760.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="760.4" x2="510" y2="775.6" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="319.6" x2="510" y2="350.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="182.8" x2="510" y2="152.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="654.0" x2="510" y2="623.6" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="486.8" x2="510" y2="517.2" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="334.8" x2="510" y2="365.2" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="152.4" x2="510" y2="198.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="304.4" x2="510" y2="258.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="684.4" x2="510" y2="638.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="91.6" x2="510" y2="137.2" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="167.6" x2="510" y2="122.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="745.2" x2="510" y2="699.6" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="137.2" x2="510" y2="91.6" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="730.0" x2="510" y2="684.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="213.2" x2="510" y2="167.6" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="532.4" x2="510" y2="486.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="441.2" x2="510" y2="502.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="623.6" x2="510" y2="562.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="471.6" x2="510" y2="410.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="289.2" x2="510" y2="213.2" stroke="#0e7c86" stroke-width="2.4"/><line x1="250" y1="456.4" x2="510" y2="380.4" stroke="#0e7c86" stroke-width="2.4"/><line x1="250" y1="258.8" x2="510" y2="182.8" stroke="#0e7c86" stroke-width="2.4"/><line x1="250" y1="228.4" x2="510" y2="304.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="790.8" x2="510" y2="714.8" stroke="#0e7c86" stroke-width="2.4"/><line x1="250" y1="517.2" x2="510" y2="426.0" stroke="#0e7c86" stroke-width="2.4"/><line x1="250" y1="426.0" x2="510" y2="334.8" stroke="#0e7c86" stroke-width="2.4"/><line x1="250" y1="410.8" x2="510" y2="319.6" stroke="#0e7c86" stroke-width="2.4"/><line x1="250" y1="562.8" x2="510" y2="471.6" stroke="#0e7c86" stroke-width="2.4"/><line x1="250" y1="699.6" x2="510" y2="790.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="250" y1="638.8" x2="510" y2="745.2" stroke="#b23b32" stroke-width="2.4"/><line x1="250" y1="350.0" x2="510" y2="243.6" stroke="#0e7c86" stroke-width="2.4"/><line x1="250" y1="395.6" x2="510" y2="289.2" stroke="#0e7c86" stroke-width="2.4"/><line x1="250" y1="274.0" x2="510" y2="395.6" stroke="#b23b32" stroke-width="2.4"/><line x1="250" y1="122.0" x2="510" y2="274.0" stroke="#b23b32" stroke-width="2.4"/><line x1="250" y1="502.0" x2="510" y2="654.0" stroke="#b23b32" stroke-width="2.4"/><line x1="250" y1="380.4" x2="510" y2="228.4" stroke="#0e7c86" stroke-width="2.4"/><line x1="250" y1="365.2" x2="510" y2="532.4" stroke="#b23b32" stroke-width="2.4"/><line x1="250" y1="243.6" x2="510" y2="456.4" stroke="#b23b32" stroke-width="2.4"/><line x1="250" y1="198.0" x2="510" y2="441.2" stroke="#b23b32" stroke-width="2.4"/><circle cx="250" cy="714.8" r="2.2" fill="#b9bec1"/><circle cx="510" cy="730.0" r="2.2" fill="#b9bec1"/><text x="241" y="718.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">45. Delaware</text><text x="519" y="733.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">46. Delaware</text><circle cx="250" cy="76.4" r="2.2" fill="#b9bec1"/><circle cx="510" cy="76.4" r="2.2" fill="#b9bec1"/><text x="241" y="80.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">3. Florida</text><text x="519" y="80.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">3. Florida</text><circle cx="250" cy="152.4" r="2.2" fill="#b9bec1"/><circle cx="510" cy="198.0" r="2.2" fill="#b9bec1"/><text x="241" y="156.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">8. Georgia</text><text x="519" y="201.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">11. Georgia</text><circle cx="250" cy="638.8" r="3.2" fill="#b23b32"/><circle cx="510" cy="745.2" r="3.2" fill="#b23b32"/><text x="241" y="642.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">40. Hawaii</text><text x="519" y="749.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">47. Hawaii  (−7)</text><circle cx="250" cy="593.2" r="2.2" fill="#b9bec1"/><circle cx="510" cy="593.2" r="2.2" fill="#b9bec1"/><text x="241" y="597.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">37. Idaho</text><text x="519" y="597.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">37. Idaho</text><circle cx="250" cy="122.0" r="3.2" fill="#b23b32"/><circle cx="510" cy="274.0" r="3.2" fill="#b23b32"/><text x="241" y="125.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">6. Illinois</text><text x="519" y="277.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">16. Illinois  (−10)</text><circle cx="250" cy="289.2" r="3.2" fill="#0e7c86"/><circle cx="510" cy="213.2" r="3.2" fill="#0e7c86"/><text x="241" y="293.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">17. Indiana</text><text x="519" y="217.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">12. Indiana  (+5)</text><circle cx="250" cy="517.2" r="3.2" fill="#0e7c86"/><circle cx="510" cy="426.0" r="3.2" fill="#0e7c86"/><text x="241" y="521.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">32. Iowa</text><text x="519" y="429.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">26. Iowa  (+6)</text><circle cx="250" cy="547.6" r="2.2" fill="#b9bec1"/><circle cx="510" cy="547.6" r="2.2" fill="#b9bec1"/><text x="241" y="551.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">34. Kansas</text><text x="519" y="551.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">34. Kansas</text><circle cx="250" cy="426.0" r="3.2" fill="#0e7c86"/><circle cx="510" cy="334.8" r="3.2" fill="#0e7c86"/><text x="241" y="429.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">26. Kentucky</text><text x="519" y="338.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">20. Kentucky  (+6)</text><circle cx="250" cy="410.8" r="3.2" fill="#0e7c86"/><circle cx="510" cy="319.6" r="3.2" fill="#0e7c86"/><text x="241" y="414.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">25. Louisiana</text><text x="519" y="323.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">19. Louisiana  (+6)</text><circle cx="250" cy="669.2" r="2.2" fill="#b9bec1"/><circle cx="510" cy="669.2" r="2.2" fill="#b9bec1"/><text x="241" y="673.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">42. Maine</text><text x="519" y="673.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">42. Maine</text><circle cx="250" cy="319.6" r="2.2" fill="#b9bec1"/><circle cx="510" cy="350.0" r="2.2" fill="#b9bec1"/><text x="241" y="323.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">19. Maryland</text><text x="519" y="353.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">21. Maryland</text><circle cx="250" cy="274.0" r="3.2" fill="#b23b32"/><circle cx="510" cy="395.6" r="3.2" fill="#b23b32"/><text x="241" y="277.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">16. Massachusetts</text><text x="519" y="399.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">24. Massachusetts  (−8)</text><circle cx="250" cy="182.8" r="2.2" fill="#b9bec1"/><circle cx="510" cy="152.4" r="2.2" fill="#b9bec1"/><text x="241" y="186.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">10. Michigan</text><text x="519" y="156.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">8. Michigan</text><circle cx="250" cy="365.2" r="3.2" fill="#b23b32"/><circle cx="510" cy="532.4" r="3.2" fill="#b23b32"/><text x="241" y="369.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">22. Minnesota</text><text x="519" y="536.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">33. Minnesota  (−11)</text><circle cx="250" cy="562.8" r="3.2" fill="#0e7c86"/><circle cx="510" cy="471.6" r="3.2" fill="#0e7c86"/><text x="241" y="566.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">35. Mississippi</text><text x="519" y="475.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">29. Mississippi  (+6)</text><circle cx="250" cy="304.4" r="2.2" fill="#b9bec1"/><circle cx="510" cy="258.8" r="2.2" fill="#b9bec1"/><text x="241" y="308.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">18. Missouri</text><text x="519" y="262.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">15. Missouri</text><circle cx="250" cy="684.4" r="2.2" fill="#b9bec1"/><circle cx="510" cy="638.8" r="2.2" fill="#b9bec1"/><text x="241" y="688.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">43. Montana</text><text x="519" y="642.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">40. Montana</text><circle cx="250" cy="608.4" r="2.2" fill="#b9bec1"/><circle cx="510" cy="608.4" r="2.2" fill="#b9bec1"/><text x="241" y="612.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">38. Nebraska</text><text x="519" y="612.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">38. Nebraska</text><circle cx="250" cy="502.0" r="3.2" fill="#b23b32"/><circle cx="510" cy="654.0" r="3.2" fill="#b23b32"/><text x="241" y="505.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">31. Nevada</text><text x="519" y="657.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">41. Nevada  (−10)</text><circle cx="250" cy="654.0" r="2.2" fill="#b9bec1"/><circle cx="510" cy="623.6" r="2.2" fill="#b9bec1"/><text x="241" y="657.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">41. New Hampshire</text><text x="519" y="627.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">39. New Hampshire</text><circle cx="250" cy="198.0" r="3.2" fill="#b23b32"/><circle cx="510" cy="441.2" r="3.2" fill="#b23b32"/><text x="241" y="201.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">11. New Jersey</text><text x="519" y="445.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">27. New Jersey  (−16)</text><circle cx="250" cy="578.0" r="2.2" fill="#b9bec1"/><circle cx="510" cy="578.0" r="2.2" fill="#b9bec1"/><text x="241" y="581.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">36. New Mexico</text><text x="519" y="581.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">36. New Mexico</text><circle cx="250" cy="91.6" r="2.2" fill="#b9bec1"/><circle cx="510" cy="137.2" r="2.2" fill="#b9bec1"/><text x="241" y="95.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">4. New York</text><text x="519" y="141.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">7. New York</text><circle cx="250" cy="167.6" r="2.2" fill="#b9bec1"/><circle cx="510" cy="122.0" r="2.2" fill="#b9bec1"/><text x="241" y="171.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">9. North Carolina</text><text x="519" y="125.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">6. North Carolina</text><circle cx="250" cy="745.2" r="2.2" fill="#b9bec1"/><circle cx="510" cy="699.6" r="2.2" fill="#b9bec1"/><text x="241" y="749.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">47. North Dakota</text><text x="519" y="703.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">44. North Dakota</text><circle cx="250" cy="137.2" r="2.2" fill="#b9bec1"/><circle cx="510" cy="91.6" r="2.2" fill="#b9bec1"/><text x="241" y="141.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">7. Ohio</text><text x="519" y="95.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">4. Ohio</text><circle cx="250" cy="456.4" r="3.2" fill="#0e7c86"/><circle cx="510" cy="380.4" r="3.2" fill="#0e7c86"/><text x="241" y="460.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">28. Oklahoma</text><text x="519" y="384.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">23. Oklahoma  (+5)</text><circle cx="250" cy="441.2" r="2.2" fill="#b9bec1"/><circle cx="510" cy="502.0" r="2.2" fill="#b9bec1"/><text x="241" y="445.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">27. Oregon</text><text x="519" y="505.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">31. Oregon</text><circle cx="250" cy="106.8" r="2.2" fill="#b9bec1"/><circle cx="510" cy="106.8" r="2.2" fill="#b9bec1"/><text x="241" y="110.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">5. Pennsylvania</text><text x="519" y="110.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">5. Pennsylvania</text><circle cx="250" cy="699.6" r="2.2" fill="#b9bec1"/><circle cx="510" cy="790.8" r="2.2" fill="#b9bec1"/><text x="241" y="703.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">44. Rhode Island</text><text x="519" y="794.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">50. Rhode Island</text><circle cx="250" cy="380.4" r="3.2" fill="#0e7c86"/><circle cx="510" cy="228.4" r="3.2" fill="#0e7c86"/><text x="241" y="384.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">23. South Carolina</text><text x="519" y="232.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">13. South Carolina  (+10)</text><circle cx="250" cy="730.0" r="2.2" fill="#b9bec1"/><circle cx="510" cy="684.4" r="2.2" fill="#b9bec1"/><text x="241" y="733.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">46. South Dakota</text><text x="519" y="688.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">43. South Dakota</text><circle cx="250" cy="258.8" r="3.2" fill="#0e7c86"/><circle cx="510" cy="182.8" r="3.2" fill="#0e7c86"/><text x="241" y="262.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">15. Tennessee</text><text x="519" y="186.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">10. Tennessee  (+5)</text><circle cx="250" cy="61.2" r="2.2" fill="#b9bec1"/><circle cx="510" cy="61.2" r="2.2" fill="#b9bec1"/><text x="241" y="65.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">2. Texas</text><text x="519" y="65.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">2. Texas</text><circle cx="250" cy="486.8" r="2.2" fill="#b9bec1"/><circle cx="510" cy="517.2" r="2.2" fill="#b9bec1"/><text x="241" y="490.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">30. Utah</text><text x="519" y="521.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">32. Utah</text><circle cx="250" cy="775.6" r="2.2" fill="#b9bec1"/><circle cx="510" cy="760.4" r="2.2" fill="#b9bec1"/><text x="241" y="779.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">49. Vermont</text><text x="519" y="764.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">48. Vermont</text><circle cx="250" cy="213.2" r="2.2" fill="#b9bec1"/><circle cx="510" cy="167.6" r="2.2" fill="#b9bec1"/><text x="241" y="217.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">12. Virginia</text><text x="519" y="171.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">9. Virginia</text><circle cx="250" cy="228.4" r="2.2" fill="#b9bec1"/><circle cx="510" cy="304.4" r="2.2" fill="#b9bec1"/><text x="241" y="232.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">13. Washington</text><text x="519" y="308.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">18. Washington</text><circle cx="250" cy="623.6" r="2.2" fill="#b9bec1"/><circle cx="510" cy="562.8" r="2.2" fill="#b9bec1"/><text x="241" y="627.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">39. West Virginia</text><text x="519" y="566.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">35. West Virginia</text><circle cx="250" cy="350.0" r="3.2" fill="#0e7c86"/><circle cx="510" cy="243.6" r="3.2" fill="#0e7c86"/><text x="241" y="353.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">21. Wisconsin</text><text x="519" y="247.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">14. Wisconsin  (+7)</text><circle cx="250" cy="790.8" r="3.2" fill="#0e7c86"/><circle cx="510" cy="714.8" r="3.2" fill="#0e7c86"/><text x="241" y="794.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">50. Wyoming</text><text x="519" y="718.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">45. Wyoming  (+5)</text><circle cx="250" cy="395.6" r="3.2" fill="#0e7c86"/><circle cx="510" cy="289.2" r="3.2" fill="#0e7c86"/><text x="241" y="399.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">24. Alabama</text><text x="519" y="293.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">17. Alabama  (+7)</text><circle cx="250" cy="760.4" r="2.2" fill="#b9bec1"/><circle cx="510" cy="775.6" r="2.2" fill="#b9bec1"/><text x="241" y="764.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">48. Alaska</text><text x="519" y="779.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">49. Alaska</text><circle cx="250" cy="243.6" r="3.2" fill="#b23b32"/><circle cx="510" cy="456.4" r="3.2" fill="#b23b32"/><text x="241" y="247.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">14. Arizona</text><text x="519" y="460.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">28. Arizona  (−14)</text><circle cx="250" cy="532.4" r="2.2" fill="#b9bec1"/><circle cx="510" cy="486.8" r="2.2" fill="#b9bec1"/><text x="241" y="536.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">33. Arkansas</text><text x="519" y="490.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">30. Arkansas</text><circle cx="250" cy="46.0" r="2.2" fill="#b9bec1"/><circle cx="510" cy="46.0" r="2.2" fill="#b9bec1"/><text x="241" y="49.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">1. California</text><text x="519" y="49.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">1. California</text><circle cx="250" cy="334.8" r="2.2" fill="#b9bec1"/><circle cx="510" cy="365.2" r="2.2" fill="#b9bec1"/><text x="241" y="338.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">20. Colorado</text><text x="519" y="369.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">22. Colorado</text><circle cx="250" cy="471.6" r="2.2" fill="#b9bec1"/><circle cx="510" cy="410.8" r="2.2" fill="#b9bec1"/><text x="241" y="475.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">29. Connecticut</text><text x="519" y="414.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">25. Connecticut</text></svg>
+                    <svg class="h080-slope h080-slope-m" viewBox="0 0 440 724" role="img" aria-label="Slope chart of all 50 states ranked by total population and by population outside the largest metro area"><text x="150" y="14" font-family="var(--hanten-font)" font-size="10.5" font-weight="800" letter-spacing="0.05em" text-anchor="middle" fill="var(--hanten-muted)">BY TOTAL</text><text x="292" y="14" font-family="var(--hanten-font)" font-size="10.5" font-weight="800" letter-spacing="0.05em" text-anchor="middle" fill="var(--hanten-muted)">WITHOUT BIGGEST METRO</text><line x1="150" y1="67.2" x2="292" y2="67.2" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="529.6" x2="292" y2="529.6" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="488.8" x2="292" y2="488.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="597.6" x2="292" y2="597.6" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="543.2" x2="292" y2="543.2" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="516.0" x2="292" y2="516.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="94.4" x2="292" y2="94.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="53.6" x2="292" y2="53.6" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="40.0" x2="292" y2="40.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="638.4" x2="292" y2="652.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="692.8" x2="292" y2="679.2" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="679.2" x2="292" y2="692.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="284.8" x2="292" y2="312.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="162.4" x2="292" y2="135.2" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="584.0" x2="292" y2="556.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="434.4" x2="292" y2="461.6" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="298.4" x2="292" y2="325.6" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="135.2" x2="292" y2="176.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="271.2" x2="292" y2="230.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="611.2" x2="292" y2="570.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="80.8" x2="292" y2="121.6" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="148.8" x2="292" y2="108.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="665.6" x2="292" y2="624.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="121.6" x2="292" y2="80.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="652.0" x2="292" y2="611.2" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="189.6" x2="292" y2="148.8" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="475.2" x2="292" y2="434.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="393.6" x2="292" y2="448.0" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="556.8" x2="292" y2="502.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="420.8" x2="292" y2="366.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="257.6" x2="292" y2="189.6" stroke="#0e7c86" stroke-width="2.4"/><line x1="150" y1="407.2" x2="292" y2="339.2" stroke="#0e7c86" stroke-width="2.4"/><line x1="150" y1="230.4" x2="292" y2="162.4" stroke="#0e7c86" stroke-width="2.4"/><line x1="150" y1="203.2" x2="292" y2="271.2" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="706.4" x2="292" y2="638.4" stroke="#0e7c86" stroke-width="2.4"/><line x1="150" y1="461.6" x2="292" y2="380.0" stroke="#0e7c86" stroke-width="2.4"/><line x1="150" y1="380.0" x2="292" y2="298.4" stroke="#0e7c86" stroke-width="2.4"/><line x1="150" y1="366.4" x2="292" y2="284.8" stroke="#0e7c86" stroke-width="2.4"/><line x1="150" y1="502.4" x2="292" y2="420.8" stroke="#0e7c86" stroke-width="2.4"/><line x1="150" y1="624.8" x2="292" y2="706.4" stroke="#b9bec1" stroke-width="1.2"/><line x1="150" y1="570.4" x2="292" y2="665.6" stroke="#b23b32" stroke-width="2.4"/><line x1="150" y1="312.0" x2="292" y2="216.8" stroke="#0e7c86" stroke-width="2.4"/><line x1="150" y1="352.8" x2="292" y2="257.6" stroke="#0e7c86" stroke-width="2.4"/><line x1="150" y1="244.0" x2="292" y2="352.8" stroke="#b23b32" stroke-width="2.4"/><line x1="150" y1="108.0" x2="292" y2="244.0" stroke="#b23b32" stroke-width="2.4"/><line x1="150" y1="448.0" x2="292" y2="584.0" stroke="#b23b32" stroke-width="2.4"/><line x1="150" y1="339.2" x2="292" y2="203.2" stroke="#0e7c86" stroke-width="2.4"/><line x1="150" y1="325.6" x2="292" y2="475.2" stroke="#b23b32" stroke-width="2.4"/><line x1="150" y1="216.8" x2="292" y2="407.2" stroke="#b23b32" stroke-width="2.4"/><line x1="150" y1="176.0" x2="292" y2="393.6" stroke="#b23b32" stroke-width="2.4"/><circle cx="150" cy="638.4" r="2.2" fill="#b9bec1"/><circle cx="292" cy="652.0" r="2.2" fill="#b9bec1"/><text x="141" y="642.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">45. Delaware</text><text x="301" y="655.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">46. Delaware</text><circle cx="150" cy="67.2" r="2.2" fill="#b9bec1"/><circle cx="292" cy="67.2" r="2.2" fill="#b9bec1"/><text x="141" y="71.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">3. Florida</text><text x="301" y="71.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">3. Florida</text><circle cx="150" cy="135.2" r="2.2" fill="#b9bec1"/><circle cx="292" cy="176.0" r="2.2" fill="#b9bec1"/><text x="141" y="139.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">8. Georgia</text><text x="301" y="179.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">11. Georgia</text><circle cx="150" cy="570.4" r="3.2" fill="#b23b32"/><circle cx="292" cy="665.6" r="3.2" fill="#b23b32"/><text x="141" y="574.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">40. Hawaii</text><text x="301" y="669.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">47. Hawaii  (−7)</text><circle cx="150" cy="529.6" r="2.2" fill="#b9bec1"/><circle cx="292" cy="529.6" r="2.2" fill="#b9bec1"/><text x="141" y="533.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">37. Idaho</text><text x="301" y="533.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">37. Idaho</text><circle cx="150" cy="108.0" r="3.2" fill="#b23b32"/><circle cx="292" cy="244.0" r="3.2" fill="#b23b32"/><text x="141" y="111.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">6. Illinois</text><text x="301" y="247.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">16. Illinois  (−10)</text><circle cx="150" cy="257.6" r="3.2" fill="#0e7c86"/><circle cx="292" cy="189.6" r="3.2" fill="#0e7c86"/><text x="141" y="261.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">17. Indiana</text><text x="301" y="193.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">12. Indiana  (+5)</text><circle cx="150" cy="461.6" r="3.2" fill="#0e7c86"/><circle cx="292" cy="380.0" r="3.2" fill="#0e7c86"/><text x="141" y="465.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">32. Iowa</text><text x="301" y="383.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">26. Iowa  (+6)</text><circle cx="150" cy="488.8" r="2.2" fill="#b9bec1"/><circle cx="292" cy="488.8" r="2.2" fill="#b9bec1"/><text x="141" y="492.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">34. Kansas</text><text x="301" y="492.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">34. Kansas</text><circle cx="150" cy="380.0" r="3.2" fill="#0e7c86"/><circle cx="292" cy="298.4" r="3.2" fill="#0e7c86"/><text x="141" y="383.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">26. Kentucky</text><text x="301" y="302.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">20. Kentucky  (+6)</text><circle cx="150" cy="366.4" r="3.2" fill="#0e7c86"/><circle cx="292" cy="284.8" r="3.2" fill="#0e7c86"/><text x="141" y="370.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">25. Louisiana</text><text x="301" y="288.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">19. Louisiana  (+6)</text><circle cx="150" cy="597.6" r="2.2" fill="#b9bec1"/><circle cx="292" cy="597.6" r="2.2" fill="#b9bec1"/><text x="141" y="601.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">42. Maine</text><text x="301" y="601.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">42. Maine</text><circle cx="150" cy="284.8" r="2.2" fill="#b9bec1"/><circle cx="292" cy="312.0" r="2.2" fill="#b9bec1"/><text x="141" y="288.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">19. Maryland</text><text x="301" y="315.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">21. Maryland</text><circle cx="150" cy="244.0" r="3.2" fill="#b23b32"/><circle cx="292" cy="352.8" r="3.2" fill="#b23b32"/><text x="141" y="247.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">16. Massachusetts</text><text x="301" y="356.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">24. Massachusetts  (−8)</text><circle cx="150" cy="162.4" r="2.2" fill="#b9bec1"/><circle cx="292" cy="135.2" r="2.2" fill="#b9bec1"/><text x="141" y="166.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">10. Michigan</text><text x="301" y="139.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">8. Michigan</text><circle cx="150" cy="325.6" r="3.2" fill="#b23b32"/><circle cx="292" cy="475.2" r="3.2" fill="#b23b32"/><text x="141" y="329.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">22. Minnesota</text><text x="301" y="479.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">33. Minnesota  (−11)</text><circle cx="150" cy="502.4" r="3.2" fill="#0e7c86"/><circle cx="292" cy="420.8" r="3.2" fill="#0e7c86"/><text x="141" y="506.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">35. Mississippi</text><text x="301" y="424.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">29. Mississippi  (+6)</text><circle cx="150" cy="271.2" r="2.2" fill="#b9bec1"/><circle cx="292" cy="230.4" r="2.2" fill="#b9bec1"/><text x="141" y="275.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">18. Missouri</text><text x="301" y="234.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">15. Missouri</text><circle cx="150" cy="611.2" r="2.2" fill="#b9bec1"/><circle cx="292" cy="570.4" r="2.2" fill="#b9bec1"/><text x="141" y="615.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">43. Montana</text><text x="301" y="574.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">40. Montana</text><circle cx="150" cy="543.2" r="2.2" fill="#b9bec1"/><circle cx="292" cy="543.2" r="2.2" fill="#b9bec1"/><text x="141" y="547.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">38. Nebraska</text><text x="301" y="547.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">38. Nebraska</text><circle cx="150" cy="448.0" r="3.2" fill="#b23b32"/><circle cx="292" cy="584.0" r="3.2" fill="#b23b32"/><text x="141" y="451.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">31. Nevada</text><text x="301" y="587.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">41. Nevada  (−10)</text><circle cx="150" cy="584.0" r="2.2" fill="#b9bec1"/><circle cx="292" cy="556.8" r="2.2" fill="#b9bec1"/><text x="141" y="587.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">41. New Hampshire</text><text x="301" y="560.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">39. New Hampshire</text><circle cx="150" cy="176.0" r="3.2" fill="#b23b32"/><circle cx="292" cy="393.6" r="3.2" fill="#b23b32"/><text x="141" y="179.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">11. New Jersey</text><text x="301" y="397.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">27. New Jersey  (−16)</text><circle cx="150" cy="516.0" r="2.2" fill="#b9bec1"/><circle cx="292" cy="516.0" r="2.2" fill="#b9bec1"/><text x="141" y="519.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">36. New Mexico</text><text x="301" y="519.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">36. New Mexico</text><circle cx="150" cy="80.8" r="2.2" fill="#b9bec1"/><circle cx="292" cy="121.6" r="2.2" fill="#b9bec1"/><text x="141" y="84.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">4. New York</text><text x="301" y="125.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">7. New York</text><circle cx="150" cy="148.8" r="2.2" fill="#b9bec1"/><circle cx="292" cy="108.0" r="2.2" fill="#b9bec1"/><text x="141" y="152.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">9. North Carolina</text><text x="301" y="111.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">6. North Carolina</text><circle cx="150" cy="665.6" r="2.2" fill="#b9bec1"/><circle cx="292" cy="624.8" r="2.2" fill="#b9bec1"/><text x="141" y="669.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">47. North Dakota</text><text x="301" y="628.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">44. North Dakota</text><circle cx="150" cy="121.6" r="2.2" fill="#b9bec1"/><circle cx="292" cy="80.8" r="2.2" fill="#b9bec1"/><text x="141" y="125.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">7. Ohio</text><text x="301" y="84.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">4. Ohio</text><circle cx="150" cy="407.2" r="3.2" fill="#0e7c86"/><circle cx="292" cy="339.2" r="3.2" fill="#0e7c86"/><text x="141" y="411.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">28. Oklahoma</text><text x="301" y="343.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">23. Oklahoma  (+5)</text><circle cx="150" cy="393.6" r="2.2" fill="#b9bec1"/><circle cx="292" cy="448.0" r="2.2" fill="#b9bec1"/><text x="141" y="397.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">27. Oregon</text><text x="301" y="451.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">31. Oregon</text><circle cx="150" cy="94.4" r="2.2" fill="#b9bec1"/><circle cx="292" cy="94.4" r="2.2" fill="#b9bec1"/><text x="141" y="98.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">5. Pennsylvania</text><text x="301" y="98.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">5. Pennsylvania</text><circle cx="150" cy="624.8" r="2.2" fill="#b9bec1"/><circle cx="292" cy="706.4" r="2.2" fill="#b9bec1"/><text x="141" y="628.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">44. Rhode Island</text><text x="301" y="710.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">50. Rhode Island</text><circle cx="150" cy="339.2" r="3.2" fill="#0e7c86"/><circle cx="292" cy="203.2" r="3.2" fill="#0e7c86"/><text x="141" y="343.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">23. South Carolina</text><text x="301" y="207.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">13. South Carolina  (+10)</text><circle cx="150" cy="652.0" r="2.2" fill="#b9bec1"/><circle cx="292" cy="611.2" r="2.2" fill="#b9bec1"/><text x="141" y="655.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">46. South Dakota</text><text x="301" y="615.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">43. South Dakota</text><circle cx="150" cy="230.4" r="3.2" fill="#0e7c86"/><circle cx="292" cy="162.4" r="3.2" fill="#0e7c86"/><text x="141" y="234.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">15. Tennessee</text><text x="301" y="166.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">10. Tennessee  (+5)</text><circle cx="150" cy="53.6" r="2.2" fill="#b9bec1"/><circle cx="292" cy="53.6" r="2.2" fill="#b9bec1"/><text x="141" y="57.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">2. Texas</text><text x="301" y="57.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">2. Texas</text><circle cx="150" cy="434.4" r="2.2" fill="#b9bec1"/><circle cx="292" cy="461.6" r="2.2" fill="#b9bec1"/><text x="141" y="438.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">30. Utah</text><text x="301" y="465.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">32. Utah</text><circle cx="150" cy="692.8" r="2.2" fill="#b9bec1"/><circle cx="292" cy="679.2" r="2.2" fill="#b9bec1"/><text x="141" y="696.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">49. Vermont</text><text x="301" y="683.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">48. Vermont</text><circle cx="150" cy="189.6" r="2.2" fill="#b9bec1"/><circle cx="292" cy="148.8" r="2.2" fill="#b9bec1"/><text x="141" y="193.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">12. Virginia</text><text x="301" y="152.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">9. Virginia</text><circle cx="150" cy="203.2" r="2.2" fill="#b9bec1"/><circle cx="292" cy="271.2" r="2.2" fill="#b9bec1"/><text x="141" y="207.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">13. Washington</text><text x="301" y="275.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">18. Washington</text><circle cx="150" cy="556.8" r="2.2" fill="#b9bec1"/><circle cx="292" cy="502.4" r="2.2" fill="#b9bec1"/><text x="141" y="560.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">39. West Virginia</text><text x="301" y="506.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">35. West Virginia</text><circle cx="150" cy="312.0" r="3.2" fill="#0e7c86"/><circle cx="292" cy="216.8" r="3.2" fill="#0e7c86"/><text x="141" y="315.8" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">21. Wisconsin</text><text x="301" y="220.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">14. Wisconsin  (+7)</text><circle cx="150" cy="706.4" r="3.2" fill="#0e7c86"/><circle cx="292" cy="638.4" r="3.2" fill="#0e7c86"/><text x="141" y="710.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">50. Wyoming</text><text x="301" y="642.2" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">45. Wyoming  (+5)</text><circle cx="150" cy="352.8" r="3.2" fill="#0e7c86"/><circle cx="292" cy="257.6" r="3.2" fill="#0e7c86"/><text x="141" y="356.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#0e7c86">24. Alabama</text><text x="301" y="261.4" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#0e7c86">17. Alabama  (+7)</text><circle cx="150" cy="679.2" r="2.2" fill="#b9bec1"/><circle cx="292" cy="692.8" r="2.2" fill="#b9bec1"/><text x="141" y="683.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">48. Alaska</text><text x="301" y="696.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">49. Alaska</text><circle cx="150" cy="216.8" r="3.2" fill="#b23b32"/><circle cx="292" cy="407.2" r="3.2" fill="#b23b32"/><text x="141" y="220.6" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="end" fill="#b23b32">14. Arizona</text><text x="301" y="411.0" font-family="var(--hanten-font)" font-size="11" font-weight="800" text-anchor="start" fill="#b23b32">28. Arizona  (−14)</text><circle cx="150" cy="475.2" r="2.2" fill="#b9bec1"/><circle cx="292" cy="434.4" r="2.2" fill="#b9bec1"/><text x="141" y="479.0" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">33. Arkansas</text><text x="301" y="438.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">30. Arkansas</text><circle cx="150" cy="40.0" r="2.2" fill="#b9bec1"/><circle cx="292" cy="40.0" r="2.2" fill="#b9bec1"/><text x="141" y="43.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">1. California</text><text x="301" y="43.8" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">1. California</text><circle cx="150" cy="298.4" r="2.2" fill="#b9bec1"/><circle cx="292" cy="325.6" r="2.2" fill="#b9bec1"/><text x="141" y="302.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">20. Colorado</text><text x="301" y="329.4" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">22. Colorado</text><circle cx="150" cy="420.8" r="2.2" fill="#b9bec1"/><circle cx="292" cy="366.4" r="2.2" fill="#b9bec1"/><text x="141" y="424.6" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="end" fill="var(--hanten-muted)">29. Connecticut</text><text x="301" y="370.2" font-family="var(--hanten-font)" font-size="11" font-weight="500" text-anchor="start" fill="var(--hanten-muted)">25. Connecticut</text></svg>
+                </div>
+
+                </div>
+
+            </div>
+
+            <div class="h080-aha">
+                <p><strong>A state's population is really two numbers added together: its biggest metro area and
+                    everyone else.</strong> South Carolina, Wisconsin, and Tennessee have people spread across several
+                    cities and many small towns, so they climb when the biggest metro is set aside. New Jersey, Arizona,
+                    Illinois, and Nevada are mostly one metro area with a much smaller state around it.</p>
+                <p>A big total can hide where it comes from. Before comparing two totals, ask whether they're built
+                    the same way.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                What other total looks big because of one large piece inside it?
+            </p>
+
+            <details class="h080-explore" data-html2canvas-ignore="true">
+                <summary>The states at the extremes: how much of each lives in its biggest metro area</summary>
+                <div class="hanten-panel h080-panel h080-extremes">
+                    <p class="h080-panel-sub">From the most concentrated to the least. "Rank without it" compares each state's everyone else with the other 49 states' everyone else.</p>
+                    <div class="h080-head"><div>State · rank today</div><div>Biggest metro vs. everyone else</div><div>Rank without it</div></div>
+                    <div class="h080-row">
+                        <div class="h080-name">Rhode Island<span>44th by population</span></div>
+                        <div class="h080-bar"><div class="h080-bar-m" style="width:100%">Providence 100%</div><div class="h080-bar-r"></div></div>
+                        <div class="h080-rank h080-down">50th</div>
+                    </div>
+                    <div class="h080-row">
+                        <div class="h080-name">New Jersey<span>11th by population</span></div>
+                        <div class="h080-bar"><div class="h080-bar-m" style="width:74%">New York City metro 74%</div><div class="h080-bar-r"></div></div>
+                        <div class="h080-rank h080-down">27th</div>
+                    </div>
+                    <div class="h080-row">
+                        <div class="h080-name">Arizona<span>14th by population</span></div>
+                        <div class="h080-bar"><div class="h080-bar-m" style="width:69%">Phoenix 69%</div><div class="h080-bar-r"></div></div>
+                        <div class="h080-rank h080-down">28th</div>
+                    </div>
+                    <div class="h080-row">
+                        <div class="h080-name">Illinois<span>6th by population</span></div>
+                        <div class="h080-bar"><div class="h080-bar-m" style="width:68%">Chicago 68%</div><div class="h080-bar-r"></div></div>
+                        <div class="h080-rank h080-down">16th</div>
+                    </div>
+                    <div class="h080-row">
+                        <div class="h080-name">Massachusetts<span>16th by population</span></div>
+                        <div class="h080-bar"><div class="h080-bar-m" style="width:64%">Boston 64%</div><div class="h080-bar-r"></div></div>
+                        <div class="h080-rank h080-down">24th</div>
+                    </div>
+                    <div class="h080-row">
+                        <div class="h080-name">Texas<span>2nd by population</span></div>
+                        <div class="h080-bar"><div class="h080-bar-m" style="width:27%">Dallas–Fort Worth 27%</div><div class="h080-bar-r"></div></div>
+                        <div class="h080-rank h080-same">2nd</div>
+                    </div>
+                    <div class="h080-row">
+                        <div class="h080-name">Ohio<span>7th by population</span></div>
+                        <div class="h080-bar"><div class="h080-bar-m" style="width:19%">Columbus 19%</div><div class="h080-bar-r"></div></div>
+                        <div class="h080-rank h080-up">4th</div>
+                    </div>
+                    <div class="h080-row">
+                        <div class="h080-name">South Carolina<span>23rd by population</span></div>
+                        <div class="h080-bar"><div class="h080-bar-m" style="width:18%">Greenville 18%</div><div class="h080-bar-r"></div></div>
+                        <div class="h080-rank h080-up">13th</div>
+                    </div>
+                    <div class="h080-legend">
+                        <span><i class="h080-sw" style="background:var(--h080-metro)"></i>Biggest metro area (the part inside the state)</span>
+                        <span><i class="h080-sw" style="background:var(--h080-rest)"></i>Everyone else in the state</span>
+                    </div>
+            </details>
+
+            <details class="h080-explore" data-html2canvas-ignore="true">
+                <summary>See all 50 states</summary>
+                <div class="hanten-panel h080-table-panel">
+                    <table class="h080-table">
+                        <thead>
+                            <tr><th>State</th><th>Population</th><th>Biggest metro (in-state part)</th><th>Share</th><th>Everyone else</th><th>Rank: total → without</th><th>Change</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>California</td><td>39.36M</td><td>Los Angeles–Long Beach–Anaheim</td><td>33%</td><td>26.51M</td><td>1st → 1st</td><td>–</td></tr>
+                            <tr><td>Texas</td><td>31.71M</td><td>Dallas–Fort Worth–Arlington</td><td>27%</td><td>23.23M</td><td>2nd → 2nd</td><td>–</td></tr>
+                            <tr><td>Florida</td><td>23.46M</td><td>Miami–Fort Lauderdale–West Palm Beach</td><td>27%</td><td>17.07M</td><td>3rd → 3rd</td><td>–</td></tr>
+                            <tr><td>New York</td><td>20.00M</td><td>New York–Newark–Jersey City</td><td>65%</td><td>7.00M</td><td>4th → 7th</td><td>▼ 3</td></tr>
+                            <tr><td>Pennsylvania</td><td>13.06M</td><td>Philadelphia–Camden–Wilmington</td><td>32%</td><td>8.82M</td><td>5th → 5th</td><td>–</td></tr>
+                            <tr><td>Illinois</td><td>12.72M</td><td>Chicago–Naperville–Elgin</td><td>68%</td><td>4.01M</td><td>6th → 16th</td><td>▼ 10</td></tr>
+                            <tr><td>Ohio</td><td>11.90M</td><td>Columbus</td><td>19%</td><td>9.66M</td><td>7th → 4th</td><td>▲ 3</td></tr>
+                            <tr><td>Georgia</td><td>11.30M</td><td>Atlanta–Sandy Springs–Roswell</td><td>57%</td><td>4.82M</td><td>8th → 11th</td><td>▼ 3</td></tr>
+                            <tr><td>North Carolina</td><td>11.20M</td><td>Charlotte–Concord–Gastonia</td><td>22%</td><td>8.71M</td><td>9th → 6th</td><td>▲ 3</td></tr>
+                            <tr><td>Michigan</td><td>10.13M</td><td>Detroit–Warren–Dearborn</td><td>43%</td><td>5.74M</td><td>10th → 8th</td><td>▲ 2</td></tr>
+                            <tr><td>New Jersey</td><td>9.55M</td><td>New York–Newark–Jersey City</td><td>74%</td><td>2.44M</td><td>11th → 27th</td><td>▼ 16</td></tr>
+                            <tr><td>Virginia</td><td>8.88M</td><td>Washington–Arlington–Alexandria</td><td>36%</td><td>5.70M</td><td>12th → 9th</td><td>▲ 3</td></tr>
+                            <tr><td>Washington</td><td>8.00M</td><td>Seattle–Tacoma–Bellevue</td><td>52%</td><td>3.84M</td><td>13th → 18th</td><td>▼ 5</td></tr>
+                            <tr><td>Arizona</td><td>7.62M</td><td>Phoenix–Mesa–Chandler</td><td>69%</td><td>2.39M</td><td>14th → 28th</td><td>▼ 14</td></tr>
+                            <tr><td>Tennessee</td><td>7.32M</td><td>Nashville–Davidson–Murfreesboro–Franklin</td><td>30%</td><td>5.12M</td><td>15th → 10th</td><td>▲ 5</td></tr>
+                            <tr><td>Massachusetts</td><td>7.15M</td><td>Boston–Cambridge–Newton</td><td>64%</td><td>2.58M</td><td>16th → 24th</td><td>▼ 8</td></tr>
+                            <tr><td>Indiana</td><td>6.97M</td><td>Indianapolis–Carmel–Greenwood</td><td>32%</td><td>4.77M</td><td>17th → 12th</td><td>▲ 5</td></tr>
+                            <tr><td>Missouri</td><td>6.27M</td><td>St. Louis</td><td>34%</td><td>4.13M</td><td>18th → 15th</td><td>▲ 3</td></tr>
+                            <tr><td>Maryland</td><td>6.27M</td><td>Baltimore–Columbia–Towson</td><td>46%</td><td>3.41M</td><td>19th → 21st</td><td>▼ 2</td></tr>
+                            <tr><td>Colorado</td><td>6.01M</td><td>Denver–Aurora–Centennial</td><td>51%</td><td>2.92M</td><td>20th → 22nd</td><td>▼ 2</td></tr>
+                            <tr><td>Wisconsin</td><td>5.97M</td><td>Milwaukee–Waukesha</td><td>26%</td><td>4.40M</td><td>21st → 14th</td><td>▲ 7</td></tr>
+                            <tr><td>Minnesota</td><td>5.83M</td><td>Minneapolis–St. Paul–Bloomington</td><td>63%</td><td>2.18M</td><td>22nd → 33rd</td><td>▼ 11</td></tr>
+                            <tr><td>South Carolina</td><td>5.57M</td><td>Greenville–Anderson–Greer</td><td>18%</td><td>4.56M</td><td>23rd → 13th</td><td>▲ 10</td></tr>
+                            <tr><td>Alabama</td><td>5.19M</td><td>Birmingham</td><td>23%</td><td>4.00M</td><td>24th → 17th</td><td>▲ 7</td></tr>
+                            <tr><td>Louisiana</td><td>4.62M</td><td>New Orleans–Metairie</td><td>21%</td><td>3.65M</td><td>25th → 19th</td><td>▲ 6</td></tr>
+                            <tr><td>Kentucky</td><td>4.61M</td><td>Louisville/Jefferson County</td><td>24%</td><td>3.49M</td><td>26th → 20th</td><td>▲ 6</td></tr>
+                            <tr><td>Oregon</td><td>4.27M</td><td>Portland–Vancouver–Hillsboro</td><td>47%</td><td>2.28M</td><td>27th → 31st</td><td>▼ 4</td></tr>
+                            <tr><td>Oklahoma</td><td>4.12M</td><td>Oklahoma City</td><td>37%</td><td>2.61M</td><td>28th → 23rd</td><td>▲ 5</td></tr>
+                            <tr><td>Connecticut</td><td>3.69M</td><td>Hartford–West Hartford–East Hartford</td><td>32%</td><td>2.52M</td><td>29th → 25th</td><td>▲ 4</td></tr>
+                            <tr><td>Utah</td><td>3.54M</td><td>Salt Lake City–Murray</td><td>37%</td><td>2.23M</td><td>30th → 32nd</td><td>▼ 2</td></tr>
+                            <tr><td>Nevada</td><td>3.28M</td><td>Las Vegas–Henderson–North Las Vegas</td><td>73%</td><td>0.87M</td><td>31st → 41st</td><td>▼ 10</td></tr>
+                            <tr><td>Iowa</td><td>3.24M</td><td>Des Moines–West Des Moines</td><td>23%</td><td>2.48M</td><td>32nd → 26th</td><td>▲ 6</td></tr>
+                            <tr><td>Arkansas</td><td>3.11M</td><td>Little Rock–North Little Rock–Conway</td><td>25%</td><td>2.34M</td><td>33rd → 30th</td><td>▲ 3</td></tr>
+                            <tr><td>Kansas</td><td>2.98M</td><td>Kansas City</td><td>32%</td><td>2.04M</td><td>34th → 34th</td><td>–</td></tr>
+                            <tr><td>Mississippi</td><td>2.95M</td><td>Jackson</td><td>21%</td><td>2.34M</td><td>35th → 29th</td><td>▲ 6</td></tr>
+                            <tr><td>New Mexico</td><td>2.13M</td><td>Albuquerque</td><td>44%</td><td>1.20M</td><td>36th → 36th</td><td>–</td></tr>
+                            <tr><td>Idaho</td><td>2.03M</td><td>Boise City</td><td>43%</td><td>1.17M</td><td>37th → 37th</td><td>–</td></tr>
+                            <tr><td>Nebraska</td><td>2.02M</td><td>Omaha</td><td>44%</td><td>1.13M</td><td>38th → 38th</td><td>–</td></tr>
+                            <tr><td>West Virginia</td><td>1.77M</td><td>Charleston</td><td>11%</td><td>1.57M</td><td>39th → 35th</td><td>▲ 4</td></tr>
+                            <tr><td>Hawaii</td><td>1.43M</td><td>Urban Honolulu</td><td>69%</td><td>0.44M</td><td>40th → 47th</td><td>▼ 7</td></tr>
+                            <tr><td>New Hampshire</td><td>1.42M</td><td>Boston–Cambridge–Newton</td><td>32%</td><td>0.96M</td><td>41st → 39th</td><td>▲ 2</td></tr>
+                            <tr><td>Maine</td><td>1.41M</td><td>Portland–South Portland</td><td>41%</td><td>0.84M</td><td>42nd → 42nd</td><td>–</td></tr>
+                            <tr><td>Montana</td><td>1.14M</td><td>Billings</td><td>17%</td><td>0.95M</td><td>43rd → 40th</td><td>▲ 3</td></tr>
+                            <tr><td>Rhode Island</td><td>1.11M</td><td>Providence–Warwick</td><td>100%</td><td>0.00M</td><td>44th → 50th</td><td>▼ 6</td></tr>
+                            <tr><td>Delaware</td><td>1.06M</td><td>Philadelphia–Camden–Wilmington</td><td>55%</td><td>0.47M</td><td>45th → 46th</td><td>▼ 1</td></tr>
+                            <tr><td>South Dakota</td><td>0.94M</td><td>Sioux Falls</td><td>33%</td><td>0.63M</td><td>46th → 43rd</td><td>▲ 3</td></tr>
+                            <tr><td>North Dakota</td><td>0.80M</td><td>Fargo</td><td>25%</td><td>0.60M</td><td>47th → 44th</td><td>▲ 3</td></tr>
+                            <tr><td>Alaska</td><td>0.74M</td><td>Anchorage</td><td>55%</td><td>0.33M</td><td>48th → 49th</td><td>▼ 1</td></tr>
+                            <tr><td>Vermont</td><td>0.64M</td><td>Burlington–South Burlington</td><td>35%</td><td>0.42M</td><td>49th → 48th</td><td>▲ 1</td></tr>
+                            <tr><td>Wyoming</td><td>0.59M</td><td>Cheyenne</td><td>17%</td><td>0.49M</td><td>50th → 45th</td><td>▲ 5</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="h080-discovery hanten-body">
+                    <p><strong>How we counted.</strong> "Metro area" means the Census Bureau's metropolitan statistical
+                        area: a big city plus the suburbs around it. For each state, the biggest metro is the one with the most
+                        residents <em>inside that state</em>, and only that in-state part is subtracted. So New Jersey's is the New
+                        York City metro's New Jersey counties, Virginia's is the Washington, D.C., suburbs in Virginia, Delaware's
+                        is the Wilmington area of the Philadelphia metro, and New Hampshire's is the Boston metro's two New
+                        Hampshire counties. All five of Rhode Island's counties are in metro Providence, so nothing is left. The
+                        second ranking compares each state's "everyone else" with every other state's "everyone else."</p>
+                </div>
+            </details>
+
+            <details class="h080-explore" data-html2canvas-ignore="true">
+                <summary>Explore more about where people actually live</summary>
+                <p><a href="../H010/index.html" target="_blank" rel="noopener noreferrer">Half of the World Lives Here</a> shows how
+                    concentrated the world's population is, and <a href="../H014/index.html" target="_blank" rel="noopener noreferrer">Density Extremes</a> shows how much of the U.S. has almost no one in it.</p>
+            </details>
+
+            <details class="h080-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H081/index.html" target="_blank" rel="noopener noreferrer">Is Australia really empty?</a></li>
+                    <li><a href="../H014/index.html" target="_blank" rel="noopener noreferrer">How can the same country look almost empty — and unbelievably crowded?</a></li>
+                    <li><a href="../H049/index.html" target="_blank" rel="noopener noreferrer">Can a single Indian state outpopulate most countries on Earth?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: U.S. Census Bureau, Vintage 2025 population estimates (July 1, 2025): state totals
+                (NST-EST2025-ALLDATA) and county-level metropolitan statistical area totals (cbsa-est2025-alldata), using
+                the 2023 metro area definitions. In-state metro populations are sums of each metro's counties in that
+                state.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H080-state-without-biggest-metro.png", title = "How big is a state without its biggest city?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

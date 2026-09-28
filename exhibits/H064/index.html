@@ -41,10 +41,10 @@
             display: flex;
             gap: 1.4rem;
             flex-wrap: wrap;
+            justify-content: center;
             font-size: 0.78rem;
             color: var(--hanten-muted);
             margin: 0 0 0.3rem;
-            padding-left: 0.2rem;
         }
 
         .h064-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
@@ -77,10 +77,60 @@
             fill: var(--hanten-muted);
         }
 
+        .h064-total-label {
+            font-family: var(--hanten-font);
+            font-size: 10.5px;
+            fill: var(--hanten-muted);
+        }
+
+        .h064-track-swatch { width: 18px; height: 10px; border-radius: 3px; display: inline-block; background: var(--h064-track); border: 1px solid var(--hanten-border); }
+
         @media (max-width: 600px) {
             .h064-panel { padding: 1rem 0.7rem 0.8rem; }
         }
+
+        /* Narrow screens: larger chart text so it stays readable */
+        #h064-chart.is-narrow .h064-country-name { font-size: 16px; }
+        #h064-chart.is-narrow .h064-rank-line,
+        #h064-chart.is-narrow .h064-axis-label,
+        #h064-chart.is-narrow .h064-total-label { font-size: 12.5px; }
+        #h064-chart.is-narrow .h064-value-label { font-size: 12.5px; }
+
+        .h064-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h064-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h064-discovery p:last-child { margin-bottom: 0; }
+        .h064-discovery strong { color: var(--hanten-text); }
     </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h064-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h064-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h064-explore p { margin: .55rem 0 0; }
+.h064-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
 </head>
 
 <body>
@@ -101,44 +151,56 @@
 
             <div class="hanten-graphic hanten-panel h064-panel">
                 <div class="h064-legend">
+                    <span><span class="h064-track-swatch"></span>Total area (including inland water)</span>
                     <span><span class="h064-tick-swatch"></span>Land area (water excluded)</span>
                     <span><span class="h064-swatch" style="background:var(--h064-arable)"></span>Arable land</span>
                 </div>
                 <svg viewBox="0 0 640 420" id="h064-chart" role="img" aria-labelledby="h064-chart-title h064-chart-desc">
                     <title id="h064-chart-title">Total area, land area, and arable land for the six largest countries by total area</title>
-                    <desc id="h064-chart-desc">Russia, Canada, the United States, China, Brazil, and Australia ranked by total area, with land area and arable land shown as a fraction of each country's total territory. Canada ranks 2nd by total area but falls to 5th by arable land; the United States rises to 1st by arable land despite ranking 3rd by total area.</desc>
+                    <desc id="h064-chart-desc">Russia, Canada, the United States, China, Brazil, and Australia ranked by total area, with every bar drawn to the same scale so bar length matches real area; a tick marks each country's land area and a teal bar its arable land. Canada ranks 2nd by total area but falls to 5th by arable land; the United States rises to 1st by arable land despite ranking 3rd by total area.</desc>
                 </svg>
             </div>
 
-            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">Three rankings, three different runners-up</h2>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
-                Every bar above starts at the country's full claimed territory (the light track, always 100%).
-                The tick mark shows how much is dry land once inland water is subtracted. The teal bar shows how
-                much of the <em>original</em> territory is actually arable — land that could grow crops, the
-                roughest available proxy for "usable."
-            </p>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
-                Canada's slide isn't a data quirk — it's two real geographic facts compounding. About 9% of
-                Canada's total area is fresh water (it holds more lakes than the rest of the world's countries
-                combined), which alone drops it from 2nd to 4th once you count land only. Most of what's left is
-                boreal forest, tundra, or Arctic permafrost — only about 4.3% of Canada's land is arable, one of
-                the lowest shares of any large country. The United States, by contrast, has plenty of temperate,
-                non-mountainous land suited to agriculture: over 16% of its land is arable, more than triple
-                Canada's share — enough to make the 3rd-largest country by total area the single largest by
-                usable farmland.
-            </p>
-
-            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
-                <p class="hanten-takeaway" style="margin:0;">
-                    Canada is the world's 2nd-biggest country by total area — and only its 5th-biggest by
-                    farmable land.
-                </p>
+            <div class="h064-discovery hanten-body">
+                <p><strong>Canada is the world's 2nd-biggest country by total area, and only its 5th-biggest by farmable land.</strong> About 9% of its area is fresh water, which drops it to 4th by land alone, and only about 4.3% of its land is arable. The United States, with over 16% of its land arable, has the most farmland of all.</p>
+                <p>Every ranking of "biggest" answers a narrower question than it seems to. Before accepting one, ask what's being counted: total area, dry land, or land people can actually use.</p>
             </div>
 
             <p class="hanten-reflection">
-                When a country's rank changes depending on what you're counting, which version of "biggest"
-                is the one people actually mean?
+                When a country’s rank depends on what you count, which “biggest” do people mean?
             </p>
+
+            <details class="h064-explore" data-html2canvas-ignore="true">
+                <summary>Three rankings, three different runners-up</summary>
+                <p><strong>Canada is the world's 2nd-biggest country by total area — and only its
+                    5th-biggest by farmable land.</strong> Every bar above is drawn to the same scale, so its
+                    length is the country's real total area. The tick mark shows how much is dry land once
+                    inland water is subtracted. The teal bar shows how much is actually arable — land that
+                    could grow crops, the roughest available proxy for "usable." Notice how small the teal
+                    bars are next to the full territories.</p>
+                <p>Canada's slide isn't a data quirk — it's two real geographic facts compounding. About 9%
+                    of Canada's total area is fresh water (it holds more lakes than the rest of the world's
+                    countries combined), which alone drops it from 2nd to 4th once you count land only. Most
+                    of what's left is boreal forest, tundra, or Arctic permafrost — only about 4.3% of
+                    Canada's land is arable, one of the lowest shares of any large country. The United
+                    States, by contrast, has plenty of temperate, non-mountainous land suited to
+                    agriculture: over 16% of its land is arable, more than triple Canada's share — enough
+                    to make the 3rd-largest country by total area the single largest by usable farmland.</p>
+            </details>
+
+            <details class="h064-explore" data-html2canvas-ignore="true">
+                <summary>Explore how the same problem repeats for economies and states</summary>
+                <p>The same instability runs through <a href="../H065/index.html" target="_blank" rel="noopener noreferrer">Richest Country</a>. Almost none of geography&rsquo;s biggest superlatives survive a change of definition unscathed.</p>
+            </details>
+
+            <details class="h064-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H065/index.html" target="_blank" rel="noopener noreferrer">What's the richest country?</a></li>
+                    <li><a href="../H061/index.html" target="_blank" rel="noopener noreferrer">How tall is the tallest mountain?</a></li>
+                    <li><a href="../H074/index.html" target="_blank" rel="noopener noreferrer">What is the largest desert on Earth?</a></li>
+                </ul>
+            </details>
 
             <p class="hanten-source">
                 Sources: Worldometer and Visual Capitalist for total and land area figures; TheGlobalEconomy.com
@@ -169,52 +231,111 @@
             ];
 
             const svg = document.getElementById("h064-chart");
-            const left = 200, right = 610, top = 20, rowH = 62, barH = 14;
-            const bottom = top + data.length * rowH;
+            const KM2_PER_SQMI = 2.589988;
+            const sqmi = km2 => km2 / KM2_PER_SQMI;
+            const round3 = n => { const p = Math.pow(10, Math.floor(Math.log10(n)) - 2); return Math.round(n / p) * p; };
+            const fmtBig = n => (round3(n) / 1e6).toPrecision(3) + "M";
+            const fmtSmall = n => round3(n).toLocaleString("en-US");
+            const maxTotal = Math.max(...data.map(d => d.total));
 
-            let html = "";
+            function render() {
+                const narrow = svg.parentElement.clientWidth < 520;
+                svg.classList.toggle("is-narrow", narrow);
+                const W = narrow ? 420 : 640;
+                // Wide: names in a left column. Narrow: names sit above each full-width bar.
+                const left = narrow ? 6 : 176, right = W - 10;
+                const top = 14, rowH = narrow ? 120 : 70, barH = 14;
+                const scale = (right - left) / maxTotal; // same scale for every bar
+                let html = "";
 
-            data.forEach((d, i) => {
-                const rowY = top + i * rowH + 32;
-                const barY = rowY;
-                const landFrac = d.land / d.total;
-                const arableFrac = d.arable / d.total;
-                const trackW = right - left;
+                // light gridlines every 2 million sq mi
+                const gridTop = top, gridBottom = top + data.length * rowH;
+                for (let m = 0; sqmi(maxTotal) >= m * 1e6; m += 2) {
+                    const gx = left + m * 1e6 * KM2_PER_SQMI * scale;
+                    html += `<line x1="${gx.toFixed(1)}" y1="${gridTop}" x2="${gx.toFixed(1)}" y2="${gridBottom + 6}" stroke="var(--hanten-border)" stroke-width="1" stroke-dasharray="${m === 0 ? "none" : "2 3"}"/>`;
+                    html += `<text x="${gx.toFixed(1)}" y="${gridBottom + 24}" text-anchor="${m === 0 ? "start" : "middle"}" class="h064-axis-label">${m === 0 ? "0" : m + "M sq mi"}</text>`;
+                }
 
-                html += `<text x="${left - 12}" y="${rowY - 8}" text-anchor="end" class="h064-country-name">${d.name}</text>`;
-                html += `<text x="${left - 12}" y="${rowY + 6}" text-anchor="end" class="h064-rank-line">${d.ranks}</text>`;
+                data.forEach((d, i) => {
+                    const rowTop = top + i * rowH;
+                    const barY = narrow ? rowTop + 44 : rowTop + 26;
+                    const totalW = d.total * scale, landW = d.land * scale, arableW = d.arable * scale;
 
-                html += `<rect x="${left}" y="${barY}" width="${trackW}" height="${barH}" rx="4" fill="var(--h064-track)"/>`;
-                html += `<rect x="${left}" y="${barY}" width="${(trackW * arableFrac).toFixed(1)}" height="${barH}" rx="4" fill="var(--h064-arable)"/>`;
+                    if (narrow) {
+                        html += `<text x="${left}" y="${rowTop + 16}" class="h064-country-name">${d.name}</text>`;
+                        html += `<text x="${left}" y="${rowTop + 32}" class="h064-rank-line">${d.ranks}</text>`;
+                    } else {
+                        html += `<text x="${left - 12}" y="${barY + 2}" text-anchor="end" class="h064-country-name">${d.name}</text>`;
+                        html += `<text x="${left - 12}" y="${barY + 17}" text-anchor="end" class="h064-rank-line">${d.ranks}</text>`;
+                    }
 
-                const tickX = left + trackW * landFrac;
-                html += `<line x1="${tickX.toFixed(1)}" y1="${barY - 10}" x2="${tickX.toFixed(1)}" y2="${barY + barH + 10}" stroke="var(--hanten-text)" stroke-width="2"/>`;
+                    // total area (track), drawn to scale
+                    html += `<rect x="${left}" y="${barY}" width="${totalW.toFixed(1)}" height="${barH}" rx="4" fill="var(--h064-track)" stroke="var(--hanten-border)" stroke-width="1"/>`;
+                    // arable land, same scale
+                    html += `<rect x="${left}" y="${barY}" width="${Math.max(arableW, 2).toFixed(1)}" height="${barH}" rx="3" fill="var(--h064-arable)"/>`;
+                    // land area tick
+                    const tickX = left + landW;
+                    html += `<line x1="${tickX.toFixed(1)}" y1="${barY - 6}" x2="${tickX.toFixed(1)}" y2="${barY + barH + 6}" stroke="var(--hanten-text)" stroke-width="2"/>`;
 
-                const labelX = left + trackW * arableFrac + 8;
-                html += `<text x="${labelX.toFixed(1)}" y="${barY + barH + 10}" class="h064-value-label">${(arableFrac * 100).toFixed(1)}%</text>`;
+                    // total area label, right-aligned above the end of the bar
+                    const totalText = `Total ${fmtBig(sqmi(d.total))} sq mi (${fmtBig(d.total)} km²)`;
+                    if (narrow) {
+                        html += `<text x="${left}" y="${barY + barH + 36}" class="h064-total-label">${totalText}</text>`;
+                    } else {
+                        html += `<text x="${(left + totalW).toFixed(1)}" y="${barY - 9}" text-anchor="end" class="h064-total-label">${totalText}</text>`;
+                    }
+                    // arable label under the bar
+                    const pctLand = (d.arable / d.land * 100).toFixed(1);
+                    html += `<text x="${left}" y="${barY + barH + 18}" class="h064-value-label">Arable ${fmtSmall(sqmi(d.arable))} sq mi (${fmtSmall(d.arable)} km²) · ${pctLand}% of land</text>`;
+                });
+
+                svg.setAttribute("viewBox", `0 0 ${W} ${gridBottom + 34}`);
+                svg.innerHTML = html;
+            }
+
+            let lastNarrow = null;
+            window.addEventListener("resize", () => {
+                const n = svg.parentElement.clientWidth < 520;
+                if (n !== lastNarrow) { lastNarrow = n; render(); }
             });
-
-            // axis
-            const axisY = bottom + 6;
-            html += `<line x1="${left}" y1="${axisY}" x2="${right}" y2="${axisY}" stroke="var(--hanten-border)" stroke-width="1"/>`;
-            [0, 25, 50, 75, 100].forEach(pct => {
-                const px = left + (right - left) * (pct / 100);
-                html += `<text x="${px.toFixed(1)}" y="${axisY + 20}" text-anchor="middle" class="h064-axis-label">${pct}%</text>`;
-            });
-
-            svg.setAttribute("viewBox", `0 0 640 ${axisY + 34}`);
-            svg.innerHTML = html;
+            render();
         })();
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "What's the biggest country?",
-            filename: "H064-biggest-country.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H064-biggest-country.png", title = "What's the biggest country?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

@@ -5,7 +5,7 @@
 const HantenFeatured = {
   pool: [
     {
-      href: "sea-of-japan.html",
+      href: "exhibits/H033/",
       title: "The sea between Japan and Korea has two official names",
       colors: ["#c1442d", "#0b3d5c"],
       quiz: {
@@ -15,7 +15,7 @@ const HantenFeatured = {
       },
     },
     {
-      href: "persian-gulf.html",
+      href: "exhibits/H033/",
       title: "The gulf between Iran and Arabia has two names in active use",
       colors: ["#6b4fa0", "#c98a23"],
       quiz: {
@@ -25,7 +25,7 @@ const HantenFeatured = {
       },
     },
     {
-      href: "gulf-of-mexico.html",
+      href: "exhibits/H033/",
       title: "Depending where you open Google Maps, this gulf has a different name",
       colors: ["#2f7d5c", "#3b6ea3"],
       quiz: {
@@ -35,7 +35,7 @@ const HantenFeatured = {
       },
     },
     {
-      href: "senkaku-diaoyu.html",
+      href: "exhibits/H033/",
       title: "An uninhabited island group with three names and three claimants",
       colors: ["#3b6ea3", "#c1442d", "#2f7d5c"],
       quiz: {
@@ -45,17 +45,7 @@ const HantenFeatured = {
       },
     },
     {
-      href: "derry-londonderry.html",
-      title: "Northern Ireland's second-largest city has two names in daily use",
-      colors: ["#3b6ea3", "#2f7d5c"],
-      quiz: {
-        prompt: "How many names does this city go by in daily use?",
-        choices: ["One", "Two", "Three"],
-        correct: 1,
-      },
-    },
-    {
-      href: "mount-everest.html",
+      href: "exhibits/H036/",
       title: "The world's tallest mountain has three names",
       colors: ["#c1442d", "#c98a23", "#6b4fa0"],
       quiz: {
@@ -65,7 +55,7 @@ const HantenFeatured = {
       },
     },
     {
-      href: "crimea.html",
+      href: "exhibits/H037/",
       title: "The same peninsula looks different depending whose map you open",
       colors: ["#a13d3d", "#3b6ea3"],
       quiz: {
@@ -75,7 +65,7 @@ const HantenFeatured = {
       },
     },
     {
-      href: "kashmir.html",
+      href: "exhibits/H038/",
       title: "The world's most militarized border looks different depending whose map you open",
       colors: ["#c9862c", "#2f7d5c"],
       quiz: {
@@ -85,7 +75,7 @@ const HantenFeatured = {
       },
     },
     {
-      href: "arunachal-pradesh.html",
+      href: "exhibits/H038/",
       title: "India's easternmost state doesn't exist on Chinese maps",
       colors: ["#c9862c", "#b0392f"],
       quiz: {

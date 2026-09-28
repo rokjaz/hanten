@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hanten — Can you win most of the seats without most of the votes?</title>
+<title>H003 — Can You Win Most of the Seats Without Most of the Votes?</title>
 <meta name="description" content="The same 36 voters can produce three different seat outcomes when only the district boundaries change.">
 <link rel="stylesheet" href="../../assets/css/hanten.css">
 <style>
   :root {
     --ink: #1c2733;
     --ink-soft: #4a5a6b;
-    --paper: #f1f0ed;
+    --paper: var(--hanten-paper);
     --paper-raised: #ffffff;
     --line: rgba(28,39,51,0.14);
     --accent: #6b7280;
@@ -155,7 +155,7 @@
 .caption{max-width:760px;margin:1rem auto 0;font-size:.9rem!important}
 .hanten-reflection{margin:1rem auto 0!important;text-align:center!important;font-size:.95rem!important;line-height:1.45!important;font-weight:500!important;color:var(--ink-soft)!important}
 .hanten-image-actions button{background:#fff!important;color:var(--ink)!important;border-color:rgba(28,39,51,.18)!important}
-.hanten-export-card{position:fixed;left:-10000px;top:0;width:1080px;padding:64px 70px 58px;box-sizing:border-box;background:#f1f0ed;color:var(--ink);font-family:var(--hanten-font)}
+.hanten-export-card{position:fixed;left:-10000px;top:0;width:1080px;padding:64px 70px 58px;box-sizing:border-box;background:var(--hanten-paper);color:var(--ink);font-family:var(--hanten-font)}
 .hanten-export-card .hanten-question{margin:0 0 14px;font-size:44px!important;line-height:1.08!important}
 .hanten-export-card .hanten-subtitle{margin:0 0 26px;font-size:22px!important;line-height:1.4!important;color:var(--ink-soft)!important}
 .hanten-export-card .caption{font-size:17px!important;margin-top:24px!important}
@@ -415,7 +415,7 @@ main.hanten-exhibit .tally{
   width:1080px !important;
   padding:30px 70px 54px !important;
   box-sizing:border-box !important;
-  background:#f1f0ed !important;
+  background:var(--hanten-paper) !important;
   color:var(--ink) !important;
   font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif) !important;
 }
@@ -466,6 +466,147 @@ main.hanten-exhibit .source-note{
   margin-right:auto !important;
   text-align:left !important;
 }
+
+/* Design Standards 19 (merged H015) */
+:root {
+    --h015-district: #a64b36;
+    --h015-district-soft: #ead2cb;
+    --h015-state: #b9c0b8;
+    --h015-line: #dddddd;
+    --h015-ink-soft: #666666;
+    --h015-panel: #f7f7f7;
+    --h015-accent: #0e6f78;
+    --h015-accent-soft: #edf5f5;
+  }
+.h015-continuation {
+    max-width: var(--hanten-text-width);
+    margin: 0 auto .7rem;
+    padding: .55rem .75rem;
+    background: transparent;
+    color: var(--h015-ink-soft);
+    font-size: .8rem;
+    line-height: 1.42;
+  }
+.h015-continuation strong {
+    color: var(--hanten-text);
+  }
+.h015-continuation a {
+    color: var(--h015-accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+.h015-continuation a:hover {
+    text-decoration: underline;
+  }
+.h015-panels {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .65rem;
+    align-items: stretch;
+  }
+.h015-panel {
+    background: var(--hanten-paper);
+    border: 1px solid var(--hanten-border);
+    padding: .65rem;
+    display: flex;
+    flex-direction: column;
+  }
+.h015-panel-head {
+    min-height: 3.35rem;
+    text-align: center;
+  }
+.h015-panel h2 {
+    margin: 0;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--hanten-text);
+  }
+.h015-years {
+    margin-top: 0.3rem;
+    font-family: var(--hanten-font);
+    font-size: clamp(0.67rem, 1vw, 0.76rem);
+    line-height: 1.35;
+    color: var(--h015-ink-soft);
+  }
+.h015-map-wrap {
+    width: 100%;
+    margin: .15rem auto .5rem;
+    background: transparent;
+    border: 0;
+  }
+.h015-map {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+.h015-story {
+    margin: auto 0 0;
+    font-size: .8rem;
+    line-height: 1.5;
+    color: var(--h015-ink-soft);
+  }
+.h015-story strong {
+    color: var(--hanten-text);
+  }
+.h015-reveal {
+    max-width: var(--hanten-text-width);
+    margin: var(--hanten-space-md) auto 0;
+    padding: .15rem 0;
+    background: transparent;
+    border-left: 0;
+    color: var(--h015-ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+.h015-reveal strong, .h015-principle strong {
+    color: var(--hanten-text);
+  }
+.h015-principle {
+    max-width: var(--hanten-text-width);
+    margin: var(--hanten-space-md) auto 0;
+    padding-top: var(--hanten-space-sm);
+    border-top: 1px solid var(--h015-line);
+    color: var(--h015-ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+@media (max-width: 900px) {
+.h015-panels {
+      grid-template-columns: 1fr;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+.h015-panel-head {
+      min-height: 0;
+      margin-bottom: 0.4rem;
+    }
+.h015-map-wrap {
+      max-width: 520px;
+    }
+}
+.h015-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h015-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h015-explore p { margin: .55rem 0 0; }
+.h015-explore a { color: var(--hanten-accent, #0e7c86); }
+
+/* Design Standards 19 (H015 dropdown) */
+.h003-real { margin: .7rem 0 .2rem; }
+.h003-real p { margin: .55rem 0 0; }
+.h003-real .h015-panels { margin: .6rem 0; }
+
+/* Design Standards 19 (H015 map fills) */
+.h015-map-wrap .state-ctx { fill: none; stroke: var(--h015-state); stroke-width: 0.85; }
+.h015-map-wrap .district { fill: var(--h015-district-soft); stroke: var(--h015-district); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
 </style>
 
 </head>
@@ -484,14 +625,15 @@ main.hanten-exhibit .source-note{
   <div class="maps" id="maps"></div>
 
   <div class="caption">
-    <p><strong>Nothing changed except the district boundaries.</strong> The same voters produced a 2–2 split, a 3–1 Red result, and a 3–1 Blue result.</p>
-  </div>
+    <p><strong>Same voters, three different winners: whoever draws the lines can pick the result.</strong> The same voters produced a 2–2 split, a 3–1 Red result, and a 3–1 Blue result.</p>
+                <p>The same is true of school attendance zones, sales territories, and any contest decided district by district: the boundaries can matter as much as the votes.</p>
+            </div>
 
   <p class="hanten-reflection">
-    When can rearranging the same pieces change the result?
-  </p>
+                Who draws the lines in the contests that matter to you?
+            </p>
 
-  <details class="h003-explore">
+  <details class="h003-explore" data-html2canvas-ignore="true">
     <summary>How can boundaries change the result?</summary>
 
     <p>
@@ -501,17 +643,84 @@ main.hanten-exhibit .source-note{
     </p>
 
     <p>
-      <strong>See it in the real world:</strong>
-      <a href="../H015/index.html"
-         target="_blank" rel="noopener noreferrer">H015 shows three actual U.S. congressional districts drawn to their real boundaries.</a>
-    </p>
-
-    <p>
       <strong>See the same principle somewhere unexpected:</strong>
       <a href="../H021/index.html"
          target="_blank" rel="noopener noreferrer">H021 shows how winning the units that count can matter more than the overall total in the 1960 World Series.</a>
     </p>
   </details>
+
+  <details class="h003-explore" data-html2canvas-ignore="true">
+    <summary>Could a real congressional district look like this?</summary>
+    <div class="h003-real">
+    <p><strong>Yes. These three actual U.S. congressional districts are drawn to their real boundaries.</strong></p>
+    <div class="h015-panels" id="h015-panels" aria-label="Three real U.S. congressional district shapes">
+
+      <section class="h015-panel">
+        <div class="h015-panel-head">
+          <h2>Illinois 4th — “The Earmuffs”</h2>
+          <div class="h015-years">113th Congress · 2013–2015 · Chicago</div>
+        </div>
+
+        <div class="h015-map-wrap">
+          <svg id="map-IL4" class="h015-map" viewBox="0 0 300 300"
+               role="img" aria-label="Illinois 4th Congressional District, known as the Earmuffs"></svg>
+        </div>
+
+        <p class="h015-story">
+          Two separate arcs of Chicago — one largely Puerto Rican, one heavily Mexican-American —
+          were joined in a single district by a <strong>narrow connecting corridor</strong>.
+        </p>
+      </section>
+
+      <section class="h015-panel">
+        <div class="h015-panel-head">
+          <h2>Maryland 3rd</h2>
+          <div class="h015-years">113th Congress · 2013–2015 · Baltimore area</div>
+        </div>
+
+        <div class="h015-map-wrap">
+          <svg id="map-MD3" class="h015-map" viewBox="0 0 300 300"
+               role="img" aria-label="Maryland 3rd Congressional District"></svg>
+        </div>
+
+        <p class="h015-story">
+          One of the least compact congressional districts of its era, its boundary looped through
+          disconnected-looking pieces of the Baltimore–Washington region before being substantially redrawn after 2020.
+        </p>
+      </section>
+
+      <section class="h015-panel">
+        <div class="h015-panel-head">
+          <h2>North Carolina 12th</h2>
+          <div class="h015-years">113th Congress · 2013–2015 · I-85 corridor</div>
+        </div>
+
+        <div class="h015-map-wrap">
+          <svg id="map-NC12" class="h015-map" viewBox="0 0 300 300"
+               role="img" aria-label="North Carolina 12th Congressional District"></svg>
+        </div>
+
+        <p class="h015-story">
+          A long, narrow district following the I-85 corridor. This version became part of the racial-gerrymandering case
+          <strong><em>Cooper v. Harris</em> (2017)</strong>, in which the Supreme Court invalidated the district.
+        </p>
+      </section>
+
+    </div>
+    <p>The strange shapes are real, but shape alone doesn&rsquo;t explain why they exist. An unusual boundary can reflect partisan strategy, minority representation, voting-rights law, geography, or several forces at once.</p>
+    </div>
+  </details>
+
+            <details class="h003-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H017/index.html" target="_blank" rel="noopener noreferrer">What would America look like if every state had the same population?</a></li>
+                    <li><a href="../H022/index.html" target="_blank" rel="noopener noreferrer">Can you get more hits, or more votes, and still lose?</a></li>
+                    <li><a href="../H059/index.html" target="_blank" rel="noopener noreferrer">How much more does a Wyoming vote count than a Texas vote?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source" style="max-width:760px;margin:.9rem auto 0">Sources: The 36 voters and three grid maps are invented to show the mechanism. Real districts: 113th Congress congressional district boundaries (2013–2015), U.S. Census data via the unitedstates/districts open-data project. Historical context includes congressional and court records, including <em>Cooper v. Harris</em> (2017).</p>
 
   <div class="h003-save">
     <div id="save-image-slot"></div>
@@ -624,7 +833,49 @@ main.hanten-exhibit .source-note{
 
 
 
-<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/d3.v7.min.js"></script>
+    <script src="../../assets/js/topojson-client.min.js"></script>
+    <script src="../../assets/geodata/us/us-counties-10m.js"></script>
+    <script src="../../assets/geodata/districts2012.js"></script>
+    <script>(()=>{
+  const statesMesh = topojson.mesh(
+    US_COUNTIES_TOPOLOGY,
+    US_COUNTIES_TOPOLOGY.objects.states,
+    (a, b) => a !== b
+  );
+
+  function drawPanel(id, feature, padFactor) {
+    const size = 300;
+    const svg = d3.select("#map-" + id);
+
+    const projection = d3.geoAlbers();
+    projection.fitExtent(
+      [
+        [size * padFactor, size * padFactor],
+        [size * (1 - padFactor), size * (1 - padFactor)]
+      ],
+      feature
+    );
+
+    const path = d3.geoPath(projection);
+
+    svg.append("path")
+      .datum(statesMesh)
+      .attr("class", "state-ctx")
+      .attr("d", path);
+
+    svg.append("path")
+      .datum(feature)
+      .attr("class", "district")
+      .attr("d", path);
+  }
+
+  drawPanel("IL4", GERRY_DISTRICTS.IL4, 0.18);
+  drawPanel("MD3", GERRY_DISTRICTS.MD3, 0.15);
+  drawPanel("NC12", GERRY_DISTRICTS.NC12, 0.12);
+})();</script>
+    <script>document.querySelectorAll("details").forEach(d=>d.addEventListener("toggle",()=>window.dispatchEvent(new Event("resize"))));</script>
+    <script src="../../assets/js/html2canvas.min.js"></script>
 
 <script>
 (() => {
@@ -715,7 +966,7 @@ main.hanten-exhibit .source-note{
     const lineHeight=19;
     let x=0, y=0;
     const parts=[
-      {text:"Nothing changed except the district boundaries.", bold:true},
+      {text:"Same voters, three different winners: whoever draws the lines can pick the result.", bold:true},
       {text:" The same voters produced a 2–2 split, a 3–1 Red result, and a 3–1 Blue result.", bold:false}
     ];
 
@@ -738,7 +989,7 @@ main.hanten-exhibit .source-note{
 
     const reflection=document.createElement("div");
     reflection.className="hanten-export-reflection";
-    reflection.textContent="When can rearranging the same pieces change the result?";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     document.body.appendChild(card);

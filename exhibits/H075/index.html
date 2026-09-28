@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H075 — Is London North of Vancouver?</title>
+
+    <meta
+        name="description"
+        content="London sits north of every major Canadian city except Edmonton, including Vancouver and Calgary. Its mild winters come from the Atlantic, not its latitude."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H075-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h075-water: #d9e7ec;
+            --h075-land: #e6e8e1;
+            --h075-cold: #2f6fa8;
+            --h075-warm: #d9822b;
+            --h075-lat: #5b6670;
+        }
+
+        .h075-stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .h075-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h075-stat-n {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            font-size: 1.45rem;
+            line-height: 1.15;
+        }
+        .h075-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.35rem; line-height: 1.4; }
+
+        .h075-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h075-panel svg { display: block; width: 100%; height: auto; }
+        .h075-chart-title {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+            margin: 0 0 0.6rem;
+        }
+        .h075-map-frame {
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--hanten-border);
+            background: var(--h075-water);
+        }
+
+        .h075-label, .h075-sub, .h075-temp, .h075-lat-label, .h075-current {
+            font-family: var(--hanten-font);
+            paint-order: stroke;
+            stroke: rgba(255, 255, 255, 0.85);
+            stroke-width: 3px;
+            stroke-linejoin: round;
+        }
+        .h075-label { font-weight: 700; fill: var(--hanten-text); }
+        .h075-sub { fill: #555555; }
+        .h075-temp { font-weight: 800; }
+        .h075-lat-label { font-weight: 700; fill: var(--h075-lat); }
+        .h075-current { font-style: italic; font-weight: 700; }
+        .h075-water-label { font-family: var(--hanten-font); font-style: italic; fill: rgba(14, 124, 134, 0.7); letter-spacing: 0.08em; }
+
+        .h075-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.4rem;
+            margin-top: 0.55rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+        .h075-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h075-dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; }
+        .h075-line { display: inline-block; width: 22px; height: 0; border-top: 2.5px solid; }
+        .h075-dash { display: inline-block; width: 22px; height: 0; border-top: 1.5px dashed var(--h075-lat); }
+
+        .h075-name { font-family: var(--hanten-font); font-weight: 700; fill: var(--hanten-text); }
+        .h075-muted { font-family: var(--hanten-font); fill: var(--hanten-muted); }
+        .h075-val { font-family: var(--hanten-font); font-weight: 700; }
+        .h075-gap { font-family: var(--hanten-font); font-weight: 800; fill: var(--hanten-text); }
+
+        .h075-aha {
+            max-width: var(--hanten-text-width);
+            margin: 1.3rem auto 0;
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+        .h075-aha p { margin: 0 0 0.6rem; }
+        .h075-aha p:last-child { margin-bottom: 0; }
+
+        .h075-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h075-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h075-table th, .h075-table td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h075-table th {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h075-table td { font-variant-numeric: tabular-nums; }
+        .h075-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .h075-table tr:last-child td { border-bottom: none; }
+
+        .h075-discovery { margin: .7rem 0 .2rem; font-size: .9rem; }
+        .h075-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h075-discovery p:last-child { margin-bottom: 0; }
+        .h075-discovery strong { color: var(--hanten-text); }
+
+        @media (max-width: 720px) {
+            .h075-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 600px) {
+            .h075-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h075-table-panel { padding: 0.3rem 0.4rem; }
+            .h075-table { font-size: 0.78rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h075-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h075-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h075-explore p { margin: .55rem 0 0; }
+.h075-explore a { color: var(--hanten-accent, #0e7c86); }
+.h075-explore + .h075-explore { margin-top: 0; border-top: none; }
+
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2),
+.hanten-exhibit table td:nth-child(3),
+.hanten-exhibit table td:nth-child(4) { text-align: center; }
+
+/* Design Standards 19 (merged H044 map) */
+:root {
+    --h044-land: #d6dbd0;
+    --h044-land-line: #aeb6a5;
+    --h044-land-context: #c9cec1;
+    --h044-land-context-line: #b7bcae;
+    --h044-sea: #cde3ee;
+    --h044-line: #b24b36;
+    --h044-south: #1a6d8a;
+    --h044-north: #6b4c8a;
+    --h044-ref: #b24b36;
+  }
+
+  .h044-wrap {
+    width: min(100%, 960px);
+    margin: 0 auto;
+    padding: 1rem 1rem 1.1rem;
+  }
+
+  .h044-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .h044-map {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .h044-rank {
+    border-top: 1px solid var(--hanten-border);
+    padding-top: 0.9rem;
+  }
+
+  .h044-rank-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--hanten-muted);
+    margin: 0 0 0.6rem;
+    text-align: center;
+  }
+
+  .h044-rank-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.4rem 1.3rem;
+  }
+
+  .h044-rank-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .h044-rank-row .name {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--hanten-text);
+  }
+
+  .h044-rank-row .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .h044-rank-row .lat {
+    font-variant-numeric: tabular-nums;
+    color: var(--hanten-muted);
+    white-space: nowrap;
+  }
+
+  .h044-rank-divider {
+    flex-basis: 100%;
+    margin: 0.2rem 0;
+    padding: 0.3rem 0;
+    border-top: 2px solid var(--h044-line);
+    border-bottom: 2px solid var(--h044-line);
+    text-align: center;
+    font-family: var(--hanten-font);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--h044-line);
+  }
+
+  .h044-rank-row.ref .name { font-weight: 700; }
+
+  .h044-context-country {
+    fill: var(--h044-land-context);
+    stroke: var(--h044-land-context-line);
+    stroke-width: 0.7;
+  }
+
+  .h044-region-label {
+    font-family: var(--hanten-font);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    fill: var(--hanten-muted);
+    opacity: 0.85;
+  }
+
+  .h044-leader {
+    stroke: var(--hanten-muted, #6a716f);
+    stroke-width: 1;
+    opacity: 0.8;
+  }
+  .h044-leader-dot { fill: var(--hanten-muted, #6a716f); opacity: 0.8; }
+
+  .h044-line-label {
+    font-family: var(--hanten-font);
+    font-weight: 700;
+    font-size: 11.5px;
+    fill: var(--h044-line);
+  }
+
+  .h044-city-label {
+    font-family: var(--hanten-font);
+    font-weight: 700;
+    font-size: 11px;
+    fill: var(--hanten-text);
+  }
+
+  .h044-city-label.ref { font-size: 12px; }
+  .h044-city-label.tight { font-size: 9.5px; font-weight: 600; }
+
+  .h044-city-sub {
+    font-family: var(--hanten-font);
+    font-size: 9.5px;
+    fill: var(--hanten-muted);
+  }
+
+  .h044-sealabel {
+    font-family: var(--hanten-font);
+    font-style: italic;
+    font-size: 11.5px;
+    fill: var(--hanten-muted);
+    opacity: 0.75;
+  }
+
+  .h044-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--hanten-border);
+    font-size: 0.78rem;
+    color: var(--hanten-muted);
+  }
+
+  .h044-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .h044-legend .swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .h044-legend .line {
+    width: 16px;
+    height: 0;
+    border-top: 2px dashed var(--h044-line);
+    display: inline-block;
+  }
+
+  .h044-split {
+    max-width: var(--hanten-text-width);
+    margin: 1.15rem auto 0;
+  }
+
+  .h044-split-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--hanten-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .h044-split-bar {
+    display: flex;
+    height: 38px;
+    border: 1px solid var(--hanten-border);
+    overflow: hidden;
+  }
+
+  .h044-split-seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--hanten-font);
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .h044-split-seg.south { background: var(--h044-south); }
+  .h044-split-seg.north { background: var(--h044-north); }
+
+  .h044-split-caption {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    font-family: var(--hanten-font);
+    font-size: 0.76rem;
+    color: var(--hanten-muted);
+  }
+
+  .h044-split-captions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+  }
+
+  .h044-split-caption .dot.south { background: var(--h044-south); }
+
+  .h044-split-caption .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--h044-north);
+    flex-shrink: 0;
+  }
+
+/* Design Standards 19 (H075 climate dropdown) */
+.h075-dd-graphic { margin: .8rem 0 .3rem; display: flex; flex-direction: column; gap: .8rem; }
+.h075-dd-graphic .h075-stats { margin: 0; }
+@media (max-width: 760px) { .h075-dd-graphic .h075-stats { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
+/* Design Standards 19 (dropdown text color) */
+.h075-dd-graphic { color: var(--hanten-text); }
+</style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Is London north of Vancouver, Calgary, and Toronto?
+        </h1>
+
+        <p class="hanten-subtitle">
+            On a mental map, Europe feels level with southern Canada. It&rsquo;s much farther north: London is north of
+            every major Canadian city except Edmonton, even Vancouver and Calgary.
+        </p>
+
+        <div id="h075-capture">
+
+            <div class="hanten-graphic">
+                <section class="h044-wrap hanten-panel" aria-label="Map of Canada and the United Kingdom with a horizontal reference line at the latitude of London">
+        <div class="h044-layout">
+          <svg class="h044-map" id="h044-map" viewBox="0 0 1060 287" role="img" aria-labelledby="h044-map-title h044-map-desc">
+            <title id="h044-map-title">Map of Canada and the United Kingdom, with neighboring countries for context</title>
+            <desc id="h044-map-desc">A horizontal line marks London's latitude, 51.51 degrees north. Toronto, Montreal, Ottawa, Quebec City, Halifax, Vancouver, Victoria, Calgary, and Winnipeg sit below that line; only Edmonton sits above it. The United States, Greenland, and continental Europe as far east as Poland are shown muted for geographic context.</desc>
+          </svg>
+          <div class="h044-rank" id="h044-rank">
+            <p class="h044-rank-title">North to south, by latitude</p>
+            <div class="h044-rank-list" id="h044-rank-list"></div>
+          </div>
+        </div>
+        <div class="h044-legend">
+          <span><span class="line"></span>London's latitude — 51.51°N</span>
+          <span><span class="swatch" style="background: var(--h044-ref);"></span>London</span>
+          <span><span class="swatch" style="background: var(--h044-south);"></span>South of London</span>
+          <span><span class="swatch" style="background: var(--h044-north);"></span>North of London</span>
+        </div>
+      </section>
+            </div>
+
+            <div class="h044-split">
+      <div class="h044-split-title">Estimated share of Canadians, by latitude vs. London</div>
+      <div class="h044-split-bar">
+        <div class="h044-split-seg south" style="flex:92"></div>
+        <div class="h044-split-seg north" style="flex:8"></div>
+      </div>
+      <div class="h044-split-captions">
+        <div class="h044-split-caption"><span class="dot south"></span>South of London — ~34M people (~92%)</div>
+        <div class="h044-split-caption"><span class="dot"></span>North of London — ~2.8M people (~8%)</div>
+      </div>
+    </div>
+
+            <div class="h075-aha">
+                <p><strong>Only one major Canadian city, Edmonton, is farther north than London.</strong> London feels farther south because its winters are mild, but that mildness comes from the Atlantic, not from latitude. Winds blowing east off a relatively warm ocean keep Western Europe far warmer than North American cities at the same latitude.</p>
+                <p>We tend to guess latitude from weather, and weather depends on oceans and winds as much as on distance from the equator. When a place feels farther south than it is, check the number.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                Which cities do you place north or south by their weather rather than their latitude?
+            </p>
+
+            <details class="h075-explore" data-html2canvas-ignore="true">
+                <summary>Does latitude decide how cold a city gets?</summary>
+                <div class="h075-discovery hanten-body">
+                    <p><strong>No. Cities at the same latitude can have very different winters.</strong> New York and Madrid are almost exactly as far north as each other, yet Madrid&rsquo;s January is 10&deg;F warmer. Halifax and Bordeaux share a latitude too, and their Januarys are 20&deg;F apart. Madrid even sits more than 2,000 feet (650 m) up and far from the sea, which should make it colder.</p>
+                </div>
+                <div class="h075-dd-graphic">
+                <div class="h075-stats">
+                    <div class="hanten-panel h075-stat">
+                        <div class="h075-stat-n">20 mi</div>
+                        <div class="h075-stat-l">how much farther north New York is than Madrid (32 km)</div>
+                    </div>
+                    <div class="hanten-panel h075-stat">
+                        <div class="h075-stat-n" style="color:var(--h075-warm)">+10°F</div>
+                        <div class="h075-stat-l">Madrid's average January vs. New York's (+5.6°C)</div>
+                    </div>
+                    <div class="hanten-panel h075-stat">
+                        <div class="h075-stat-n">13 mi</div>
+                        <div class="h075-stat-l">how much farther north Bordeaux is than Halifax (21 km)</div>
+                    </div>
+                    <div class="hanten-panel h075-stat">
+                        <div class="h075-stat-n" style="color:var(--h075-warm)">+20°F</div>
+                        <div class="h075-stat-l">Bordeaux's average January vs. Halifax's (+11.2°C)</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h075-panel">
+                    <div class="h075-map-frame">
+                        <svg id="h075-map" viewBox="0 0 860 428" role="img" aria-labelledby="h075-map-title h075-map-desc">
+                            <title id="h075-map-title">Map of the North Atlantic with two shared lines of latitude</title>
+                            <desc id="h075-map-desc">New York and Madrid both sit near 40.6 degrees north; Halifax and Bordeaux both sit near 44.7 degrees north. The Gulf Stream and North Atlantic Current carry warm water from off Florida toward Europe, while the cold Labrador Current flows south past Newfoundland toward Nova Scotia. Average January temperatures: New York 34°F, Madrid 44°F, Halifax 25°F, Bordeaux 45°F.</desc>
+                            <path d="M71.3,179.6L102.4,179.6L104.3,175.7L106.2,176.0L107.5,175.0L108.8,175.9L109.5,174.1L110.5,173.7L110.4,172.0L113.2,169.5L114.4,167.1L114.8,162.4L116.6,159.8L117.2,156.1L124.7,145.6L126.6,146.1L126.6,148.2L127.7,149.1L134.5,147.2L138.7,150.9L138.8,169.6L142.4,171.3L142.0,175.9L143.5,177.5L144.2,176.9L145.4,177.3L145.5,181.3L146.7,182.1L144.7,184.2L143.0,183.9L140.2,185.7L138.4,185.5L137.7,187.2L136.3,188.2L135.3,186.6L133.2,187.3L132.4,186.5L131.6,189.9L128.9,188.8L129.9,187.4L129.0,187.2L129.4,185.6L127.4,187.5L125.7,193.0L122.0,194.9L121.6,193.7L120.9,195.1L120.7,193.6L119.9,195.5L119.3,194.7L119.1,196.6L118.5,196.0L117.5,196.4L117.6,195.5L116.7,195.8L114.6,198.0L115.3,198.7L112.2,202.5L109.2,209.7L110.1,211.9L111.2,211.8L111.3,212.5L109.2,213.5L107.0,216.6L110.1,218.0L111.2,220.6L110.9,221.3L113.1,224.5L114.4,224.9L117.3,223.5L116.2,220.7L115.0,220.1L116.2,220.0L117.5,221.7L117.8,225.6L113.3,226.3L110.9,227.6L110.4,225.1L105.9,228.2L106.0,224.6L104.9,225.5L103.7,224.0L103.9,225.2L102.4,229.7L93.0,231.1L88.7,231.0L82.3,234.6L78.3,238.4L79.4,234.2L78.5,231.5L78.9,236.1L75.6,241.5L75.8,242.5L78.2,242.5L78.5,243.2L77.4,251.7L77.2,249.1L75.7,254.1L75.0,255.2L74.2,255.0L74.0,257.2L72.3,258.6L70.4,262.6L68.9,263.3L69.4,260.6L67.1,259.7L63.3,255.8L64.3,251.7L66.9,250.6L67.7,249.0L64.5,251.1L62.7,253.7L64.6,261.3L67.5,265.7L66.6,268.2L67.7,268.4L68.0,270.5L67.7,271.4L67.3,270.8L66.8,272.9L65.0,275.5L62.7,282.5L60.5,284.4L59.3,288.1L58.9,284.7L62.0,277.1L60.1,276.8L60.6,275.2L59.3,274.1L60.0,271.4L58.1,272.6L56.1,270.4L56.1,268.1L58.5,267.8L56.6,265.9L55.3,266.6L55.7,265.1L57.0,264.6L56.3,263.4L55.4,263.9L55.6,262.5L56.8,262.7L57.3,261.5L57.3,260.9L56.5,261.7L56.3,259.9L57.9,257.5L59.8,257.4L58.6,256.9L59.9,255.5L58.9,255.6L59.0,254.5L58.0,254.8L57.7,256.6L56.5,257.3L56.2,256.5L55.9,258.1L55.4,257.0L54.5,259.5L53.1,258.9L54.5,260.9L54.0,262.2L53.2,261.7L53.8,263.4L53.7,269.1L54.8,271.3L53.0,270.4L52.0,268.0L52.1,269.0L54.6,272.7L55.3,275.2L51.1,272.8L50.2,271.0L49.9,272.4L48.9,270.3L46.6,270.8L46.7,268.9L48.7,265.7L48.6,264.1L48.4,265.7L46.3,268.1L46.2,271.6L48.4,271.5L49.8,273.7L53.3,275.1L56.1,277.9L55.3,280.9L53.8,280.8L49.5,275.1L47.8,274.1L53.3,281.0L55.7,282.3L55.0,282.9L56.2,284.3L56.1,285.3L54.7,284.9L54.2,286.5L51.2,283.2L52.7,285.8L55.4,288.2L55.9,289.5L54.7,290.4L52.5,287.2L46.4,285.7L52.1,287.8L53.9,291.7L56.2,290.9L58.6,291.4L63.2,306.6L61.3,302.6L59.2,294.9L58.7,297.5L60.4,302.5L57.2,300.2L57.2,302.0L56.0,301.4L56.4,302.5L54.9,302.2L53.2,303.8L52.0,303.0L51.5,300.9L51.5,304.6L58.0,304.5L57.8,308.3L58.6,307.9L58.8,305.5L60.1,304.6L61.0,306.2L60.8,308.9L56.9,313.0L53.9,312.4L53.0,310.5L51.4,311.9L48.5,310.6L53.6,314.1L52.5,316.9L51.0,318.0L48.2,315.7L49.1,317.5L51.4,318.7L54.2,318.0L55.1,318.8L54.3,320.0L51.5,321.9L47.6,321.9L46.0,323.4L44.8,321.6L45.2,324.4L41.5,327.8L39.8,332.5L39.5,329.4L39.0,332.9L35.1,332.8L30.9,335.5L28.0,339.9L27.4,342.1L27.1,339.9L26.6,343.6L23.6,345.5L23.3,346.8L21.5,348.5L20.2,348.1L20.1,350.1L16.0,352.4L13.3,352.3L14.9,353.5L13.9,355.4L13.2,353.9L12.6,354.7L11.7,353.1L12.8,356.4L11.2,357.8L10.5,360.1L8.7,361.0L9.1,362.3L7.8,363.4L8.1,364.7L7.2,365.7L8.1,365.8L6.0,368.3L7.0,369.5L6.2,370.8L5.5,370.4L4.7,375.9L7.3,389.8L10.7,400.1L14.4,407.9L13.8,410.9L15.1,416.0L13.6,412.2L13.6,407.4L12.8,409.9L12.8,406.6L11.6,404.1L11.5,405.8L18.7,428.5L19.1,434.4L18.3,444.6L18.0,443.9L16.4,449.2L8.0,449.2L6.2,444.6L2.8,442.5L1.8,440.2L1.3,436.3L0.4,435.5L1.7,432.8L-0.1,434.8L-0.8,432.5L-0.1,429.0L-1.8,429.3L-1.8,430.7L-2.8,430.2L-7.0,421.5L-3.9,416.9L-6.2,414.9L-6.5,418.5L-7.3,418.6L-8.2,416.8L-6.5,407.9L-6.4,402.4L-14.7,391.2L-14.7,165.3L-14.7,169.0L-5.4,174.9L-1.3,199.4L-4.0,206.3L-5.3,212.5L-10.5,217.0L-11.2,219.2L-11.2,221.5L-10.1,223.4L-6.7,225.6L-4.3,225.6L7.1,218.2L17.1,216.1L29.0,210.0L30.1,208.6L29.1,207.1L27.6,200.9L30.8,199.2L34.6,198.6L50.6,198.6L54.1,192.7L57.2,189.3L59.8,187.7L66.7,181.1L71.3,179.6ZM92.7,235.1L92.1,236.0L92.7,236.1L94.9,234.6L98.7,234.1L91.1,237.8L86.1,239.7L79.2,240.9L80.1,240.2L79.4,239.8L78.0,240.7L79.4,237.8L81.2,236.7L81.6,237.2L82.3,236.1L91.6,235.1L95.0,232.8L92.7,235.1ZM758.2,52.7L756.3,54.5L754.6,54.3L755.4,52.2L758.1,49.7L759.0,51.6L758.2,52.7ZM775.3,88.1L769.2,91.3L766.5,91.0L763.3,88.6L760.0,88.9L761.4,87.6L758.5,86.5L756.4,86.6L753.5,88.1L751.3,87.0L749.9,84.6L751.6,83.0L758.5,80.2L760.8,78.4L762.5,75.4L761.5,74.5L761.3,70.3L755.6,71.8L759.6,67.1L764.6,64.9L768.9,64.3L771.1,65.5L770.4,63.6L771.4,63.2L772.8,64.9L774.5,64.8L772.9,64.3L771.4,62.0L772.8,59.0L771.6,57.4L773.0,55.8L773.3,52.8L770.4,53.5L766.5,48.8L766.3,47.5L767.5,44.6L769.4,42.8L771.7,42.1L766.7,42.2L762.7,44.5L761.0,44.5L759.8,43.6L757.2,44.8L754.3,43.6L753.4,45.8L751.2,43.4L750.8,41.7L752.0,41.6L755.7,34.5L753.6,31.8L754.2,28.6L756.6,28.5L754.0,26.9L754.5,25.5L750.4,29.2L750.3,26.7L752.5,24.4L748.8,27.4L748.7,30.8L747.1,36.1L746.2,36.9L745.0,36.5L745.8,32.8L747.6,30.4L746.4,30.2L747.3,24.2L750.7,17.2L746.1,20.3L744.0,19.9L743.0,18.1L741.4,17.7L745.4,15.9L744.1,15.2L746.7,12.4L747.0,10.6L744.7,8.6L744.7,7.4L746.8,6.3L745.2,4.6L746.6,1.6L751.0,1.6L748.5,-1.0L749.2,-3.3L752.4,-3.6L751.6,-5.3L751.9,-7.2L752.7,-8.0L755.3,-7.0L757.5,-7.9L758.0,-7.1L771.5,-8.8L770.9,-5.7L770.0,-4.4L762.4,0.6L761.9,2.0L763.7,2.5L761.0,5.8L769.2,4.0L771.7,4.5L781.1,4.1L783.1,5.4L784.0,7.3L776.9,18.8L775.2,20.5L769.0,22.6L773.2,22.1L775.4,23.2L775.2,24.1L772.2,25.0L768.5,27.3L764.3,26.3L766.1,27.4L771.6,28.3L773.6,27.3L776.0,27.3L780.4,29.0L785.2,33.6L789.3,45.6L794.8,48.3L800.5,53.7L799.4,55.0L802.5,60.7L798.7,58.9L794.9,59.1L798.5,59.5L804.0,64.5L804.8,66.9L801.8,70.4L804.1,71.7L806.8,69.6L811.7,69.7L814.9,70.6L818.1,73.6L818.4,76.4L816.6,81.7L814.2,83.5L813.4,83.3L813.8,85.1L813.0,85.6L810.7,85.6L808.7,86.7L810.1,87.2L810.1,88.8L805.5,90.3L806.5,90.0L808.1,91.4L810.1,91.8L815.2,91.7L815.0,94.2L811.6,96.1L810.7,97.8L808.9,97.7L803.4,100.0L799.4,99.3L793.7,100.0L787.5,98.2L788.3,99.2L786.5,100.2L781.5,100.5L782.2,101.9L781.5,102.2L778.4,101.8L777.6,102.3L772.1,100.7L768.1,101.8L765.4,107.2L764.3,107.4L760.4,105.1L755.2,106.6L752.4,108.3L751.3,110.0L750.3,110.3L748.3,109.1L746.4,109.9L746.1,108.7L749.2,107.2L753.5,103.2L756.6,99.8L757.2,97.1L759.4,96.4L760.4,94.1L763.8,93.6L770.7,93.9L777.6,86.5L775.3,88.1ZM760.3,64.7L761.8,64.9L761.4,65.5L758.6,67.2L756.9,65.5L756.7,63.8L759.2,63.3L760.3,64.7ZM771.5,-14.2L773.8,-13.6L774.1,-12.5L770.1,-12.8L769.7,-13.8L768.8,-13.4L769.0,-15.6L771.5,-15.2L771.5,-14.2ZM751.5,35.3L749.3,34.8L748.7,32.9L749.4,31.7L750.9,32.2L751.5,35.3ZM744.9,22.9L739.7,23.6L740.9,22.7L741.4,20.9L739.7,20.0L739.7,19.4L741.7,18.7L745.1,20.9L744.9,22.9ZM741.5,28.6L742.2,31.9L739.7,33.1L739.9,30.8L737.9,31.8L738.2,30.3L741.5,28.6ZM743.0,30.2L742.3,30.3L742.0,29.1L743.6,28.0L743.3,27.0L745.4,26.0L743.0,30.2ZM740.8,-5.0L739.5,-2.6L737.3,-1.3L738.8,-1.0L738.6,-0.3L732.8,3.3L732.1,2.6L734.4,1.1L732.4,-0.0L733.1,-0.7L732.2,-1.1L732.1,-2.5L732.8,-3.2L735.6,-2.6L735.1,-4.2L740.4,-6.9L740.8,-5.0ZM741.3,6.8L741.4,9.5L745.9,10.3L743.2,13.2L742.6,13.1L742.4,11.0L739.6,11.0L738.4,9.3L736.1,8.8L735.3,7.7L737.0,6.8L736.7,6.0L739.0,5.5L739.2,4.6L740.3,4.8L741.3,6.8ZM730.9,4.4L732.0,5.2L731.2,6.5L727.9,5.5L728.4,4.8L730.9,4.4ZM730.5,12.2L729.2,12.0L728.9,8.6L730.3,8.7L730.5,12.2ZM740.6,54.1L736.4,54.5L736.4,53.0L734.9,52.3L732.9,49.7L731.0,51.1L731.4,52.0L729.8,53.4L727.0,53.3L724.6,52.3L721.8,49.0L725.6,47.1L724.1,45.6L727.6,44.7L729.3,41.1L730.8,40.2L732.0,40.8L733.5,38.9L738.1,38.1L741.5,38.5L745.5,44.0L745.6,44.8L743.9,46.4L746.8,46.1L747.9,48.4L747.8,49.2L745.9,47.7L746.1,50.0L747.0,50.2L746.6,51.5L744.4,52.0L742.5,54.6L740.6,54.1ZM791.0,101.0L789.1,102.4L786.1,101.4L788.5,99.9L791.0,101.0ZM874.7,166.4L870.3,167.2L867.5,163.6L867.4,160.1L864.2,159.9L862.3,161.3L862.7,162.4L861.9,163.2L860.1,163.9L859.7,162.9L860.9,162.0L860.7,159.5L861.6,157.4L864.0,155.4L864.5,152.7L866.5,151.7L869.8,147.6L868.8,146.6L870.3,145.3L873.1,146.0L874.7,144.4ZM832.1,251.7L834.6,251.9L835.2,253.0L833.1,257.3L831.4,258.4L828.7,257.3L827.8,255.1L825.8,256.0L824.5,254.7L829.8,250.0L832.6,249.3L832.1,251.7ZM843.3,251.0L839.2,249.3L839.0,247.9L842.7,248.3L843.3,251.0ZM815.5,263.7L815.1,264.6L813.6,264.3L813.6,263.0L814.5,261.5L816.7,260.9L817.2,262.1L815.5,263.7ZM783.8,201.7L784.6,203.1L787.6,204.0L786.9,206.3L787.4,206.8L788.7,205.9L789.9,207.0L793.9,208.1L795.6,210.1L798.4,209.7L801.0,211.6L807.5,211.6L808.2,209.5L814.6,211.6L815.5,215.1L818.0,214.2L820.8,216.2L822.9,215.3L827.3,216.4L827.8,215.5L829.6,214.8L832.7,215.2L833.7,217.1L832.3,217.6L832.2,218.9L833.1,221.9L830.7,224.3L823.9,228.5L821.7,231.0L811.5,234.1L808.3,237.4L810.1,238.8L807.2,240.3L798.2,255.4L799.4,261.7L803.3,265.9L796.3,272.0L793.4,279.6L794.3,281.5L793.8,282.0L788.4,282.5L785.3,284.9L782.4,291.0L780.0,293.8L777.4,292.6L774.1,294.2L770.6,293.6L767.8,294.3L764.0,293.6L758.7,294.1L755.7,297.1L753.1,297.1L750.8,298.2L749.0,302.2L748.2,302.0L748.0,303.0L746.4,303.7L742.3,301.5L740.1,295.8L739.0,295.3L738.7,294.0L740.6,291.4L738.9,292.6L734.1,287.6L734.3,286.4L733.2,287.5L729.0,287.8L728.0,282.1L730.1,277.7L731.1,276.3L732.7,275.8L733.4,273.8L731.9,273.9L729.6,270.1L730.2,266.5L732.5,263.9L733.0,261.8L731.3,260.7L729.7,256.2L727.7,253.5L731.8,253.2L733.2,251.6L734.0,248.5L732.6,246.5L734.8,244.0L733.7,234.8L740.6,227.2L739.7,226.1L737.4,225.7L736.7,221.9L731.5,221.4L730.9,222.6L729.0,223.4L724.0,222.7L721.7,223.7L721.0,222.6L721.9,220.9L720.6,219.2L714.9,222.1L714.5,219.7L716.4,217.3L715.2,217.2L716.0,215.4L715.2,214.6L715.3,212.3L713.1,212.9L714.1,210.1L713.0,209.9L711.1,207.6L711.7,204.9L714.6,202.7L716.7,202.9L719.7,201.8L720.7,201.2L720.7,199.3L726.1,196.7L732.4,199.7L744.2,198.4L757.2,201.6L766.1,200.1L771.6,202.2L773.3,201.0L778.5,202.8L783.8,201.7ZM641.7,409.4L640.9,412.5L638.6,414.5L636.2,409.9L639.6,409.1L641.9,406.9L643.8,406.7L641.7,409.4ZM667.3,402.0L666.7,402.9L665.9,402.6L666.3,400.6L669.1,398.8L669.8,397.5L669.6,400.7L667.3,402.0ZM662.6,412.3L661.3,413.8L659.7,413.2L662.3,411.6L664.5,404.9L665.9,404.4L666.2,406.5L665.2,411.1L662.6,412.3ZM650.9,412.6L651.0,416.4L649.3,418.1L648.4,418.0L646.9,416.2L646.9,414.7L648.1,412.5L650.9,412.6ZM627.1,407.8L625.4,404.1L626.2,402.9L627.4,402.9L628.1,404.6L627.1,407.8ZM633.4,347.3L638.2,348.9L636.8,350.4L635.0,350.2L633.0,348.7L633.4,347.3ZM715.6,221.9L720.6,219.2L721.9,220.9L721.0,222.6L721.7,223.7L724.0,222.7L729.0,223.4L730.9,222.6L731.5,221.4L736.7,221.9L737.4,225.7L739.7,226.1L740.7,227.6L733.7,234.8L734.8,244.0L732.6,246.5L734.0,248.5L733.2,251.6L731.8,253.2L727.7,253.5L729.7,256.2L731.3,260.7L733.0,261.8L732.5,263.9L730.2,266.5L729.6,270.1L731.9,273.9L733.4,273.8L732.7,275.8L731.1,276.3L728.6,280.2L728.0,282.1L729.0,287.8L724.8,290.2L717.3,288.6L713.4,289.8L715.2,284.3L715.4,280.1L714.6,277.0L715.3,273.9L714.6,270.2L716.7,270.6L715.4,269.3L711.3,270.2L711.0,267.3L713.2,266.1L714.0,262.6L715.4,261.5L713.9,262.4L712.1,266.1L709.9,266.8L708.8,266.3L709.7,257.9L712.0,255.1L715.0,247.2L714.7,245.2L716.5,238.4L716.7,233.8L715.3,227.2L715.8,225.3L714.5,224.4L715.6,221.9ZM536.8,267.5L534.5,267.3L533.7,265.8L536.3,265.5L537.1,266.2L536.8,267.5ZM526.3,270.2L527.1,270.7L525.5,271.1L523.3,270.8L522.4,269.2L523.8,268.8L526.3,270.2ZM550.7,278.6L555.3,278.7L555.2,279.7L552.8,280.3L549.9,279.7L548.8,277.9L550.7,278.6ZM874.7,-20.7L874.3,-0.3L869.8,-0.3L868.6,-2.1L867.1,-0.9L865.8,-1.3L866.4,-3.6L863.8,-3.7L860.5,-5.2L856.0,-8.6L855.3,-11.4L856.2,-14.0L861.0,-12.0L863.6,-13.8L861.0,-13.2L858.9,-14.7L859.5,-18.0L862.9,-20.7L855.7,-17.8L853.8,-16.1L851.9,-16.1L852.3,-20.7ZM859.9,100.2L857.5,100.1L856.5,98.9L857.6,97.4L858.0,94.6L854.9,92.8L852.3,92.9L850.5,90.3L848.7,91.2L847.8,90.0L846.7,90.9L845.4,90.2L844.2,90.8L844.1,91.8L840.5,90.6L838.7,91.1L836.4,90.5L835.1,89.3L838.0,88.5L841.8,90.4L843.1,90.2L840.5,88.5L842.2,88.3L839.9,85.5L845.2,78.7L848.0,69.9L849.1,70.4L850.8,69.6L853.7,67.8L855.4,65.4L858.8,63.9L868.0,63.0L869.5,64.6L871.7,65.2L871.6,69.1L870.1,73.9L867.3,74.2L866.8,75.6L867.3,76.5L869.8,77.1L870.0,79.2L867.1,81.8L867.8,83.2L867.2,84.2L863.5,85.3L861.6,84.6L859.5,85.7L861.9,90.5L860.7,93.6L861.3,94.7L858.6,96.3L860.5,98.1L859.9,100.2ZM842.7,91.4L842.1,92.5L839.5,93.9L836.4,92.8L834.9,93.3L834.1,91.5L842.7,91.4ZM779.7,316.4L780.5,318.3L783.8,321.3L783.3,323.3L784.4,325.2L783.9,326.6L785.4,337.7L785.0,341.1L787.2,348.5L791.0,352.9L789.2,354.7L789.4,357.9L777.4,357.5L773.4,358.3L771.9,361.6L767.7,363.4L764.5,363.6L763.8,364.6L763.9,370.4L765.9,372.3L765.5,373.7L762.4,374.4L759.1,377.3L752.8,380.5L750.7,384.7L748.1,387.6L742.7,389.3L738.0,389.5L737.6,391.7L736.5,392.9L731.6,392.2L720.6,401.1L716.6,405.1L716.5,419.4L715.2,419.4L715.4,426.8L709.4,427.2L705.4,430.5L703.3,429.7L701.2,430.4L696.2,428.2L690.0,430.1L690.6,433.5L686.8,440.8L683.8,441.8L682.1,449.2L657.4,449.2L660.5,438.8L668.7,432.1L672.6,419.4L674.8,415.8L684.2,412.8L688.5,410.3L693.1,404.8L698.9,399.9L701.7,395.5L706.9,385.5L707.0,380.8L704.9,377.1L705.5,367.3L706.8,363.3L710.0,358.1L711.0,351.4L718.2,342.0L733.9,332.1L739.3,321.0L743.5,307.0L746.4,306.4L748.6,305.0L749.8,305.4L749.2,307.6L750.0,309.4L754.1,314.0L756.1,315.0L759.0,315.6L765.3,314.0L768.2,314.9L770.0,314.6L772.3,312.2L773.6,316.1L779.7,316.4ZM715.2,419.4L716.5,419.4L716.5,442.3L683.9,442.3L683.9,449.2L682.1,449.2L683.8,441.8L686.8,440.8L690.6,433.5L690.0,430.1L696.2,428.2L701.2,430.4L703.3,429.7L705.4,430.5L709.4,427.2L715.4,426.8L715.2,419.4ZM683.9,449.2L683.9,442.3L716.5,442.3L716.5,424.5L746.2,449.2ZM861.1,108.9L862.0,111.7L864.8,113.4L863.4,118.1L861.8,117.5L860.1,118.2L857.9,116.9L858.8,115.5L857.3,113.2L857.5,111.7L859.8,108.3L861.1,108.9ZM870.0,166.9L871.0,167.5L874.7,166.4L874.6,196.7L874.7,191.4L872.9,191.6L868.8,188.8L868.2,186.4L870.1,183.6L869.7,182.1L867.2,180.8L866.2,178.7L866.8,177.7L868.2,177.8L870.5,176.4L871.2,174.4L867.7,169.4L867.9,168.4L870.0,166.9ZM730.8,40.2L729.3,41.1L727.6,44.7L724.1,45.6L725.6,47.1L721.8,49.0L724.6,52.3L727.0,53.3L729.8,53.4L731.4,52.0L731.0,51.1L732.9,49.7L734.9,52.3L736.4,53.0L736.4,54.5L739.8,54.0L741.0,54.5L739.3,56.1L741.3,61.1L742.5,70.1L740.6,75.4L738.2,78.2L739.6,79.5L734.0,80.7L733.3,79.5L732.9,80.6L727.8,81.6L726.8,83.0L722.6,85.3L719.2,84.5L719.8,86.5L715.2,88.7L710.5,89.9L705.2,90.1L708.3,87.3L702.5,88.4L707.6,84.7L702.8,86.1L700.3,85.7L699.9,84.7L704.5,81.2L699.8,81.1L700.2,80.1L702.3,79.0L705.9,79.5L704.6,77.3L707.2,75.4L715.5,73.5L713.5,72.5L711.7,74.1L707.9,73.9L704.5,75.1L708.9,71.5L709.6,70.5L708.9,69.8L710.5,67.8L714.1,66.2L708.4,65.8L707.3,64.5L704.9,64.4L705.6,63.6L702.7,63.4L702.5,61.5L706.4,60.7L704.5,60.0L704.6,59.1L707.8,58.0L707.8,56.9L704.5,57.2L705.0,54.0L704.3,54.2L703.9,52.7L702.7,53.1L702.8,52.3L703.7,51.5L707.9,51.0L710.3,51.2L712.0,52.4L713.4,51.3L717.9,51.9L717.1,50.5L720.9,48.3L721.9,46.4L718.7,46.9L715.7,45.9L719.5,43.0L719.3,41.2L720.5,39.4L725.6,38.9L725.5,38.0L726.4,37.9L727.5,39.8L726.5,41.9L728.3,40.8L727.9,38.0L730.0,37.3L729.4,36.5L729.9,36.4L733.3,38.2L730.8,40.2ZM874.7,122.9L873.7,122.3L870.1,122.8L868.7,121.5L867.2,122.2L865.2,118.9L863.4,118.1L864.8,113.4L862.5,112.3L861.1,109.3L861.7,107.4L863.6,106.2L863.3,104.3L861.7,103.3L862.3,102.3L859.9,100.2L860.5,98.1L858.6,96.3L861.3,94.7L860.7,93.6L861.9,90.5L859.5,85.7L861.6,84.6L863.5,85.3L867.2,84.2L867.8,83.2L867.1,81.8L870.0,79.2L869.8,77.1L867.3,76.5L866.9,74.4L870.1,73.9L871.6,69.1L871.7,65.2L870.3,63.9L870.8,61.4L871.8,60.1L874.7,59.5ZM874.7,144.4L873.1,146.0L870.3,145.3L868.8,146.6L869.8,147.6L866.5,151.7L864.5,152.7L864.0,155.4L861.6,157.4L860.7,159.5L860.9,162.0L859.7,162.9L860.1,163.9L861.9,163.2L862.7,162.4L862.3,161.3L864.2,159.9L867.6,160.2L867.5,163.6L870.0,166.9L867.9,168.4L867.7,169.4L871.3,174.1L870.5,176.4L868.2,177.8L866.8,177.7L866.2,178.7L867.2,180.8L869.7,182.1L870.1,183.6L868.2,186.4L868.8,188.8L872.9,191.6L874.7,191.4L874.6,196.7L871.5,198.2L867.0,202.1L865.6,204.6L861.1,206.3L858.1,206.0L854.2,204.2L853.4,202.5L850.9,202.2L850.8,201.2L847.4,202.2L842.6,200.7L841.0,199.1L839.6,199.5L833.2,204.6L831.2,208.5L831.6,213.0L832.7,215.2L829.6,214.8L827.8,215.5L827.3,216.4L822.9,215.3L821.2,216.2L818.0,214.2L818.1,212.8L816.0,212.2L815.3,212.9L814.6,211.6L808.8,209.5L807.9,209.6L807.5,211.6L801.0,211.6L798.4,209.7L795.6,210.1L793.9,208.1L789.9,207.0L788.7,205.9L788.0,206.8L787.1,206.6L787.6,204.0L784.6,203.1L783.8,201.7L785.4,201.3L786.9,199.5L789.2,185.8L790.8,184.0L790.1,182.9L789.2,184.3L790.8,172.3L793.3,174.4L794.6,178.4L796.0,179.7L793.6,173.2L789.7,169.8L789.5,169.0L791.3,169.4L790.2,161.5L783.9,158.7L781.2,154.6L781.6,151.5L779.9,149.8L781.5,148.2L784.3,149.0L782.1,147.7L776.9,147.7L776.6,146.8L777.6,145.5L776.4,144.7L774.3,144.9L774.1,143.4L772.4,143.7L770.5,142.4L767.7,142.2L763.2,140.5L759.2,140.7L758.1,138.6L755.6,137.7L759.1,135.9L756.6,134.2L759.9,134.0L758.4,133.1L755.2,133.2L754.8,132.0L755.2,130.7L757.1,129.6L765.1,128.4L769.8,126.6L772.0,127.3L775.1,130.8L777.5,129.2L781.0,129.3L781.8,130.2L782.7,128.6L783.5,129.5L787.9,129.2L786.1,127.1L785.9,121.6L783.6,117.6L783.2,114.9L789.1,115.0L790.2,119.0L799.8,120.3L805.4,118.2L802.6,117.4L803.2,114.7L807.4,112.5L813.5,110.6L816.9,107.1L816.8,100.3L817.7,98.3L820.1,96.9L826.0,95.4L826.7,98.5L828.3,100.2L829.1,100.7L831.7,99.8L833.4,103.2L836.5,104.0L837.4,106.3L840.0,105.9L842.2,107.2L842.2,111.1L845.8,111.1L848.5,108.4L848.2,111.1L848.9,113.5L853.0,115.0L855.2,117.3L857.9,116.9L860.1,118.2L862.4,117.6L865.2,118.9L867.2,122.2L868.7,121.5L870.1,122.8L873.7,122.3L874.7,122.9ZM-14.7,-20.7L-14.7,38.0L-9.6,38.3L-8.5,39.2L-5.6,39.4L-3.0,41.5L-2.1,44.0L-4.1,51.9L-1.4,57.8L-1.6,65.5L-2.8,68.7L3.9,76.9L3.8,78.4L1.7,79.8L5.2,80.1L10.1,83.3L13.8,87.5L15.2,91.4L11.2,95.0L14.9,92.5L18.5,92.8L21.1,94.3L25.9,100.0L22.1,94.2L23.0,91.0L24.5,88.9L26.0,88.1L28.9,90.3L30.3,94.0L30.7,91.4L31.9,89.9L29.5,86.0L34.7,79.3L33.9,78.6L33.6,76.1L31.8,73.9L32.0,71.1L30.3,68.5L28.3,60.0L28.9,57.8L29.8,57.6L28.6,56.2L29.4,55.2L27.0,53.9L27.9,52.9L25.8,51.6L22.4,46.0L34.4,41.3L41.3,37.4L47.3,32.3L51.2,27.7L53.3,22.7L53.0,11.3L49.9,3.3L47.3,-0.3L43.5,-3.3L34.1,-9.0L34.9,-12.5L41.4,-19.1L40.8,-20.7L120.3,-20.7L120.4,-18.5L123.7,-18.0L121.8,-12.0L120.7,-11.3L119.4,-13.2L118.6,-11.8L115.8,-10.5L119.3,-9.5L124.4,-12.2L130.0,-12.5L132.8,-10.8L134.5,-7.3L133.7,-3.1L132.2,-1.1L126.6,1.3L132.8,-0.7L135.1,-5.6L136.6,-6.7L137.9,-4.1L136.2,-1.9L139.2,-5.6L140.0,0.1L141.0,-3.0L149.3,-6.8L152.8,-10.9L155.5,-9.1L156.3,-6.0L157.1,-7.9L155.9,-11.3L157.8,-11.7L157.1,-12.6L157.9,-13.5L159.3,-13.4L159.1,-14.1L162.4,-14.7L160.2,-15.4L159.3,-16.8L160.2,-16.8L161.1,-18.7L162.1,-18.2L161.5,-20.3L163.5,-20.2L165.4,-19.0L163.3,-20.7L178.2,-20.7L176.4,-19.1L178.1,-18.6L178.1,-17.7L180.4,-18.4L181.6,-16.5L179.4,-14.9L176.2,-14.6L183.3,-14.8L182.7,-14.2L183.6,-12.8L182.9,-12.0L185.2,-12.1L186.9,-9.3L181.9,-6.3L180.4,-4.6L183.6,-6.5L184.4,-5.7L189.7,-6.6L187.5,-2.8L183.1,-0.2L190.7,-2.1L192.5,0.4L195.9,1.2L196.4,1.9L195.5,3.2L195.8,5.4L192.1,7.1L190.6,7.1L196.2,8.0L196.9,8.7L195.7,10.4L199.1,11.3L202.0,13.7L201.6,18.2L194.8,18.0L191.9,17.0L192.6,16.1L190.6,16.6L198.0,20.4L195.4,21.4L196.0,21.8L201.1,22.7L198.3,23.7L198.3,24.4L201.7,24.7L202.3,27.0L200.8,27.7L203.4,28.3L204.4,29.5L207.7,28.5L209.5,31.4L210.3,30.3L211.7,30.6L211.0,32.5L213.1,34.8L209.0,40.6L212.9,38.2L217.4,37.2L218.0,38.7L220.5,39.0L216.6,44.0L222.2,38.7L224.8,39.4L226.9,43.7L230.7,44.6L232.6,43.3L234.9,43.2L236.2,45.4L240.4,47.1L237.5,49.9L233.1,50.4L230.3,52.1L228.4,54.6L225.6,54.8L219.9,57.6L216.7,57.6L214.4,59.0L213.6,60.9L211.1,60.1L214.0,62.4L212.2,63.7L212.5,64.4L211.8,65.4L213.6,64.9L216.7,62.1L221.6,60.2L228.2,55.6L235.2,54.0L231.4,53.7L231.5,52.5L240.3,53.0L243.0,58.2L239.2,60.7L241.1,62.6L245.9,58.9L249.0,58.5L250.6,60.5L253.0,61.0L254.4,62.6L256.1,66.2L255.1,69.1L256.0,74.0L250.9,75.4L256.6,76.4L257.0,77.0L256.3,77.9L254.0,77.5L257.3,80.3L253.9,83.9L244.6,90.4L239.8,90.3L233.7,92.4L229.6,92.7L223.2,99.8L216.8,104.8L216.1,106.2L214.2,107.0L207.1,107.1L198.1,109.1L196.2,107.3L188.5,106.4L184.4,106.5L183.3,107.2L177.3,106.2L174.2,106.8L163.5,106.1L158.7,107.0L156.8,106.5L155.1,107.8L151.5,107.6L147.2,110.7L143.0,119.6L134.1,121.7L134.7,122.3L131.5,123.6L127.7,126.8L123.4,132.9L120.5,135.5L107.3,131.9L109.1,133.1L112.4,133.3L117.6,135.4L119.5,136.9L117.3,141.8L112.9,146.2L110.4,150.1L104.9,154.8L98.9,156.4L95.7,158.1L91.1,161.9L88.1,163.0L83.3,169.5L81.0,169.8L77.8,172.7L75.1,172.3L78.2,173.7L78.4,174.9L71.3,179.6L68.4,180.1L64.5,182.8L54.1,192.7L50.6,198.6L34.6,198.6L30.8,199.2L27.6,200.9L29.1,207.1L30.1,208.6L29.0,210.0L17.1,216.1L7.1,218.2L-4.3,225.6L-6.7,225.6L-10.1,223.4L-11.2,221.5L-11.2,219.2L-10.5,217.0L-5.3,212.5L-4.0,206.3L-1.3,199.4L-4.7,178.5L-5.4,174.9L-14.7,169.0L-14.7,165.3ZM204.2,166.6L206.5,166.1L204.9,167.5L205.5,168.1L204.3,169.3L204.7,169.9L207.8,169.3L210.5,166.3L207.8,166.4L209.4,165.0L210.1,163.0L212.1,161.5L212.8,163.1L216.3,163.6L215.6,165.6L216.5,166.7L211.2,170.6L208.4,171.5L202.5,171.7L200.8,169.8L200.4,166.7L201.2,163.5L206.5,154.8L209.4,152.0L211.0,152.0L211.7,155.7L210.2,162.1L209.4,163.5L204.2,166.6ZM145.4,177.3L143.0,177.3L142.0,175.9L142.4,171.3L138.8,169.6L138.7,150.9L134.5,147.2L127.7,149.1L126.6,148.2L126.6,146.1L124.7,145.6L117.2,156.1L116.6,159.8L114.8,162.4L114.4,167.1L113.2,169.5L110.4,172.0L110.5,173.7L109.5,174.1L108.8,175.9L107.5,175.0L106.2,176.0L104.3,175.7L102.4,179.6L71.3,179.6L80.5,174.2L82.5,173.8L86.4,165.7L90.6,163.3L96.7,158.2L104.9,155.4L112.2,151.6L122.4,138.7L128.8,133.1L134.5,129.5L150.5,122.6L161.0,120.7L167.7,121.7L173.4,125.5L173.9,127.1L170.9,126.6L173.5,128.7L172.5,132.4L169.7,133.2L167.9,135.5L163.6,137.9L161.5,137.8L157.1,135.6L155.6,136.8L152.0,136.6L149.5,137.9L152.8,137.4L157.8,139.4L160.2,142.8L166.1,140.3L165.7,141.1L167.4,141.0L169.0,142.0L167.6,144.2L167.0,146.9L163.0,150.6L164.3,151.3L167.8,151.2L167.1,153.6L167.9,156.2L168.8,156.6L169.6,160.9L170.6,162.5L176.7,163.6L177.6,164.4L175.4,165.6L178.8,167.8L180.7,167.6L182.8,169.3L188.6,169.4L188.1,170.7L190.7,171.1L195.9,167.7L197.6,170.6L200.4,170.2L201.8,171.7L202.5,173.6L200.7,174.6L204.2,174.9L204.9,175.6L182.7,184.6L179.8,184.0L180.4,186.0L179.7,186.9L177.7,186.4L175.9,184.6L174.9,186.8L174.3,185.4L173.1,185.9L172.6,187.3L173.2,188.9L167.5,195.3L165.3,197.3L163.8,197.3L162.9,198.1L162.8,199.7L161.4,200.2L158.9,199.6L157.5,196.3L156.6,196.0L156.0,197.1L155.1,196.1L154.5,191.5L155.4,188.4L157.7,185.6L154.9,187.5L155.5,186.5L157.2,185.0L160.1,184.1L161.2,183.0L159.0,183.9L159.7,183.0L167.1,178.0L171.5,176.1L171.5,175.0L172.7,175.4L172.4,177.8L174.6,179.4L174.1,177.6L175.0,176.7L182.1,174.6L170.0,174.0L168.6,175.2L167.4,174.8L167.8,173.1L172.8,168.1L171.2,168.5L169.7,166.6L170.1,168.4L168.3,170.8L157.5,176.6L155.3,175.3L156.1,173.9L154.6,175.0L155.0,176.5L152.1,178.3L151.4,177.7L147.8,178.7L147.4,177.7L145.4,177.3ZM259.4,89.3L258.2,91.4L253.8,92.2L254.1,94.0L255.9,94.1L256.0,96.3L246.9,110.5L245.8,113.8L246.1,115.9L252.3,109.0L252.9,109.7L252.5,111.4L254.8,110.3L256.4,111.1L258.9,110.8L252.7,115.8L255.4,115.1L255.1,116.4L253.2,118.1L255.9,117.3L257.2,118.4L260.2,117.6L260.5,119.2L261.6,117.4L261.9,118.7L260.4,123.3L262.1,121.0L263.6,120.2L264.0,120.7L268.7,117.1L269.3,119.8L270.5,118.5L274.0,118.3L277.4,119.9L277.8,122.4L274.6,125.9L272.1,127.3L275.1,127.0L274.0,128.4L276.5,129.1L275.6,130.9L272.5,132.8L283.1,129.4L282.1,132.7L277.5,135.3L277.8,137.0L274.9,137.9L277.2,138.0L275.0,141.2L275.9,143.0L276.8,143.1L280.6,138.2L284.2,136.2L284.7,136.6L281.9,141.9L281.7,145.0L282.2,145.7L283.9,144.4L285.5,141.4L286.2,141.7L286.8,144.4L284.3,150.6L283.8,154.5L282.3,156.8L280.3,155.9L277.6,157.0L277.6,150.0L273.5,154.2L271.9,153.7L275.1,145.9L273.7,141.6L271.8,140.1L268.9,146.4L268.1,146.8L269.0,144.5L267.3,146.4L265.3,146.7L260.8,153.3L256.2,153.9L254.6,153.0L254.9,151.8L259.1,149.8L262.0,145.8L265.1,144.1L266.0,142.8L264.4,143.4L260.3,142.9L259.6,145.1L258.2,145.6L255.4,144.7L252.8,145.1L255.4,143.8L255.5,140.7L253.9,141.5L252.9,141.1L251.5,142.9L246.5,144.2L231.3,142.7L231.3,141.9L228.6,143.4L223.6,144.1L221.6,141.8L221.2,139.7L222.1,138.3L231.3,131.0L223.1,131.0L223.1,130.5L226.3,127.9L225.7,129.2L227.5,129.9L230.6,123.2L234.6,124.6L233.6,123.3L234.7,121.2L232.7,120.8L232.5,119.0L234.4,116.9L236.6,117.6L235.3,114.7L240.1,103.6L241.1,102.2L242.6,102.1L241.4,100.9L243.8,98.7L244.0,96.6L246.0,95.0L247.4,92.1L253.8,88.9L257.1,90.2L257.4,88.7L258.8,88.5L259.4,89.3ZM197.4,123.1L193.3,123.3L185.3,121.3L180.2,118.9L178.1,116.1L171.2,112.1L174.6,111.4L187.1,114.6L197.2,120.5L198.4,122.5L197.4,123.1ZM177.8,159.4L179.0,158.1L184.4,160.0L193.9,159.1L195.2,160.0L190.3,163.0L190.1,165.5L190.8,165.9L190.3,166.2L187.6,166.2L186.6,164.9L185.5,164.9L186.7,164.1L185.1,162.8L185.9,161.5L183.0,163.1L184.2,163.2L183.6,163.6L179.4,162.7L177.9,160.8L178.3,160.4L174.8,160.0L174.6,157.6L172.1,157.0L172.4,155.2L176.0,151.2L176.1,153.2L175.1,155.1L176.9,157.0L176.8,158.8L177.8,159.4ZM12.4,72.6L8.8,72.1L-0.4,68.4L1.5,66.5L8.4,66.3L12.1,70.2L12.4,72.6ZM31.0,25.6L30.2,25.8L31.3,22.3L32.6,21.6L32.5,24.0L31.0,25.6ZM29.9,24.0L27.6,29.2L26.6,28.7L27.9,25.8L27.5,24.7L24.5,29.4L21.8,30.3L24.5,26.4L24.0,25.9L20.5,29.4L19.5,28.9L24.3,23.1L24.8,20.2L24.1,25.2L25.5,23.8L26.7,19.3L29.7,21.8L29.9,24.0ZM19.8,24.8L18.7,24.7L19.0,23.7L23.7,21.2L22.6,23.1L19.8,24.8ZM196.3,148.1L197.7,148.4L195.4,148.8L196.2,146.2L199.9,143.3L201.4,143.2L198.5,145.1L196.3,148.1ZM82.4,173.2L78.6,173.6L83.3,169.9L82.4,173.2ZM198.0,6.2L198.8,6.6L199.0,8.1L197.5,8.0L195.3,6.2L198.0,6.2ZM25.6,83.6L23.0,82.8L26.7,81.7L25.6,83.6ZM842.7,91.4L844.1,91.8L844.2,90.8L845.4,90.2L846.7,90.9L847.8,90.0L848.7,91.2L850.5,90.3L852.3,92.9L854.9,92.8L858.3,95.0L856.5,98.9L857.5,100.1L859.9,100.2L862.3,102.3L861.7,103.3L863.3,104.3L863.6,106.2L861.7,107.4L861.1,108.9L859.8,108.3L857.5,111.7L857.3,113.2L858.8,115.5L857.9,116.9L855.2,117.3L853.0,115.0L848.9,113.5L848.2,111.1L848.5,108.4L845.8,111.1L842.2,111.1L842.2,107.2L840.0,105.9L837.4,106.3L836.5,104.0L833.4,103.2L831.7,99.8L829.1,100.7L826.7,98.5L826.0,95.4L832.9,91.9L834.1,91.5L834.9,93.3L836.4,92.8L839.5,93.9L842.1,92.5L842.7,91.4ZM46.7,443.6L44.9,441.9L46.5,440.1L46.5,434.5L43.9,430.6L39.6,429.8L40.4,429.3L43.6,429.8L48.2,434.9L48.5,437.7L47.2,438.9L46.7,443.6ZM34.3,432.2L39.6,432.0L39.8,433.1L31.8,435.3L29.5,432.7L31.3,434.2L32.9,433.2L33.3,431.2L34.3,432.2ZM818.0,214.2L815.5,215.1L815.3,212.9L816.0,212.2L818.1,212.8L818.0,214.2ZM874.7,331.7L874.7,449.2L746.2,449.2L716.5,424.5L716.6,405.1L720.6,401.1L731.6,392.2L736.5,392.9L737.6,391.7L738.0,389.5L742.7,389.3L748.1,387.6L750.7,384.7L752.8,380.5L759.1,377.3L762.4,374.4L765.5,373.7L765.9,372.3L763.9,370.4L763.8,364.6L764.5,363.6L767.7,363.4L771.9,361.6L773.4,358.3L777.4,357.5L789.4,357.9L789.2,354.7L791.0,352.9L787.2,348.5L785.0,341.1L785.4,337.7L783.9,326.6L784.4,325.2L783.3,323.3L783.8,321.3L780.5,318.3L779.7,316.4L782.7,316.6L785.0,315.3L790.7,309.9L797.2,306.0L800.9,306.4L804.4,301.8L813.7,296.9L826.7,295.8L830.4,293.2L835.8,293.1L838.3,291.7L847.9,291.7L853.1,295.1L860.6,292.1L864.8,289.1L865.6,290.2L869.1,291.3L872.1,290.7L871.8,289.0L874.7,289.7Z" fill="var(--h075-land)" stroke="#b9bdb3" stroke-width="0.5"/>
+                            <g id="h075-overlay"></g>
+                        </svg>
+                    </div>
+                    <div class="h075-legend">
+                        <span><span class="h075-dash"></span>Shared line of latitude</span>
+                        <span><span class="h075-line" style="border-color:var(--h075-warm)"></span>Warm current</span>
+                        <span><span class="h075-line" style="border-color:var(--h075-cold)"></span>Cold current</span>
+                        <span>Temperatures are average January days</span>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h075-panel">
+                    <p class="h075-chart-title">Same latitude, very different winters, similar summers</p>
+                    <svg id="h075-chart" viewBox="0 0 760 300" role="img" aria-labelledby="h075-chart-title h075-chart-desc">
+                        <title id="h075-chart-title">Average January and July temperatures for two pairs of cities at the same latitude</title>
+                        <desc id="h075-chart-desc">At about 40.6 degrees north, New York averages 34°F in January and Madrid 44°F, a 10 degree gap; in July they average 78°F and 79°F. At about 44.7 degrees north, Halifax averages 25°F in January and Bordeaux 45°F, a 20 degree gap; in July they average 66°F and 71°F.</desc>
+                    </svg>
+                    <div class="h075-legend">
+                        <span><span class="h075-dot" style="background:var(--h075-cold)"></span>North American city</span>
+                        <span><span class="h075-dot" style="background:var(--h075-warm)"></span>European city</span>
+                    </div>
+                </div>
+                </div>
+            </details>
+
+            <details class="h075-explore" data-html2canvas-ignore="true">
+                <summary>Why Europe's winters are milder</summary>
+                <div class="h075-discovery hanten-body">
+                    <p><strong>Winds come from the west.</strong> At these latitudes the prevailing winds blow west to
+                        east. Western Europe's winter air arrives off the Atlantic, which stays relatively warm in
+                        winter. New York and Halifax sit on the <em>downwind</em> side of a huge continent, so their
+                        coldest air comes from Canada's frozen interior.</p>
+                    <p><strong>Ocean currents move heat.</strong> The Gulf Stream carries warm water north from the
+                        tropics and, as the North Atlantic Current, toward northwestern Europe, where it helps keep the
+                        ocean, and the air above it, milder. The cold Labrador Current flows the other way, down past
+                        Newfoundland toward Nova Scotia, which helps explain why Halifax's gap with Bordeaux is twice
+                        New York's gap with Madrid.</p>
+                    <p><strong>Scientists still debate the split.</strong> A well-known 2002 study (Seager and
+                        colleagues) argued that the winds and the shape of the continents do more of the work than the
+                        Gulf Stream itself. Either way, the answer is the ocean and the wind, not latitude.</p>
+                    <p><strong>Summer is a different story.</strong> In July, the sun is high everywhere at these
+                        latitudes, and the gaps shrink to about 2°F (1°C) for New York and Madrid and 5°F (3°C) for
+                        Halifax and Bordeaux.</p>
+                </div>
+            </details>
+
+            <details class="h075-explore" data-html2canvas-ignore="true">
+                <summary>See the numbers for each city</summary>
+                <div class="hanten-panel h075-table-panel">
+                    <table class="h075-table">
+                        <thead>
+                            <tr><th>City</th><th>Latitude</th><th>January average</th><th>July average</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>New York</td><td>40.71° N</td><td>33.7°F (0.9°C)</td><td>77.5°F (25.3°C)</td></tr>
+                            <tr><td>Madrid</td><td>40.42° N</td><td>43.7°F (6.5°C)</td><td>79.2°F (26.2°C)</td></tr>
+                            <tr><td>Halifax</td><td>44.65° N</td><td>24.6°F (−4.1°C)</td><td>65.8°F (18.8°C)</td></tr>
+                            <tr><td>Bordeaux</td><td>44.84° N</td><td>44.8°F (7.1°C)</td><td>71.1°F (21.7°C)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details class="h075-explore" data-html2canvas-ignore="true">
+                <summary>How were the map and population split made?</summary>
+                <div class="h075-discovery hanten-body">
+                    <p><strong>How the population split was estimated.</strong> Province populations from the 2021 census were assigned to the side of 51.51°N where each province's people mostly live. Ontario, Quebec, British Columbia, Manitoba, and Atlantic Canada sit almost entirely south of London. Alberta and Saskatchewan are split by the line (Calgary and Regina south, Edmonton and Saskatoon north), so each is counted half on each side. Only those halves and the three territories land north of London.</p>
+                    <p><strong>Paris is far north too.</strong> At 48.86&deg;N it sits north of six of these ten Canadian cities; only Vancouver, Calgary, Winnipeg, and Edmonton are farther north.</p>
+                    <p><strong>About the map.</strong> It uses an equirectangular projection and simplified Natural Earth outlines, so shapes are recognizable rather than survey-accurate. City dots and London's line are plotted from real coordinates; Vancouver and Victoria are nudged a few pixels apart so both stay legible.</p>
+                </div>
+            </details>
+
+            <details class="h075-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H066/index.html" target="_blank" rel="noopener noreferrer">Is South America east of Florida?</a></li>
+                    <li><a href="../H043/index.html" target="_blank" rel="noopener noreferrer">Is Reno, Nevada west of Los Angeles?</a></li>
+                    <li><a href="../H023/index.html" target="_blank" rel="noopener noreferrer">How many Greenlands fit inside Africa?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: London map: city coordinates from standard published latitude/longitude data (London 51.5072°N; Toronto 43.6532°N; Montreal 45.5019°N; Ottawa 45.4215°N; Quebec City 46.8139°N; Halifax 44.6488°N; Vancouver 49.2827°N; Victoria 48.4283°N; Calgary 51.0447°N; Winnipeg 49.8956°N; Edmonton 53.5461°N). Population-share estimate derived from Statistics Canada 2021 census province and census-metropolitan-area totals, apportioned north/south of 51.51°N; an editorial estimate, not a published census cross-tabulation. Country shapes: Natural Earth. Climate comparison: Temperature averages are daily means from Wikipedia climate tables: New York (Central Park,
+                NOAA, 1991–2020); Madrid (Retiro, AEMET, 1991–2020); Halifax (Citadel Hill, Environment Canada,
+                1981–2010); Bordeaux (Mérignac, Météo-France, 1991–2020). Madrid elevation 2,188 ft (667 m).
+                City coordinates from Wikipedia. Distances are the north–south difference in latitude. Seager, R.
+                et al. (2002), "Is the Gulf Stream responsible for Europe's mild winters?" Quarterly Journal of the
+                Royal Meteorological Society. Map: coastlines from Natural Earth; ocean current paths are simplified
+                and approximate.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/d3.v7.min.js"></script>
+    <script src="../../assets/geodata/countries.js"></script>
+    <script>
+  (() => {
+    // Map frame: [west lon, south lat, east lon, north lat]. Runs from the
+    // Bering Strait (so all of Alaska shows) to just past Poland in the east,
+    // and from the mid-US up to the top of Greenland. The height is derived
+    // from this frame so the equirectangular map is never stretched.
+    const CROP = [-171, 34, 21, 86];
+    const width = 1060;
+    const height = Math.round(width * (CROP[3] - CROP[1]) / (CROP[2] - CROP[0]));
+    const svg = d3.select("#h044-map").attr("viewBox", `0 0 ${width} ${height}`);
+
+    const feats = COUNTRIES_GEOJSON.features;
+    const canada = feats.find(f => f.properties.NAME === "Canada");
+    const ukRaw = feats.find(f => f.properties.NAME === "United Kingdom");
+
+    // The United Kingdom's geometry at this resolution is just Great Britain
+    // and Northern Ireland — no distant overseas territories to filter out,
+    // unlike France (kept below as muted context, where this filter still
+    // matters).
+    const uk = ukRaw;
+
+    function mainlandFrance(feature) {
+      const polys = feature.geometry.coordinates.filter(poly => {
+        const [lon, lat] = poly[0][0];
+        return lon > -6 && lon < 12 && lat > 40 && lat < 52;
+      });
+      return { type: "Feature", properties: feature.properties, geometry: { type: "MultiPolygon", coordinates: polys } };
+    }
+    const franceContext = mainlandFrance(feats.find(f => f.properties.NAME === "France"));
+
+    // Every other country is drawn as muted context so Canada and the UK
+    // read as part of a continent each rather than as two islands afloat in
+    // open ocean. Drawing all of them (the SVG clips anything outside the
+    // frame) means no country inside the frame can ever be left out as a gap.
+    const contextCountries = feats
+      .filter(f => f !== canada && f !== ukRaw && f.properties.NAME !== "France")
+      .concat([franceContext]);
+
+    function bboxFeature(lon0, lat0, lon1, lat1) {
+      return { type: "Feature", geometry: { type: "Polygon", coordinates: [[[lon0, lat0], [lon0, lat1], [lon1, lat1], [lon1, lat0], [lon0, lat0]]] } };
+    }
+    // Straight lon/lat scaling (not fitSize on a bbox polygon — d3 treats
+    // that polygon's edges as great circles, which bulge north and silently
+    // widen the frame).
+    const kx = width / ((CROP[2] - CROP[0]) * Math.PI / 180);
+    const projection = d3.geoEquirectangular()
+      .scale(kx)
+      .center([(CROP[0] + CROP[2]) / 2, (CROP[1] + CROP[3]) / 2])
+      .translate([width / 2, height / 2]);
+    const path = d3.geoPath(projection);
+
+    svg.append("rect")
+      .attr("x", 0).attr("y", 0).attr("width", width).attr("height", height)
+      .attr("fill", "var(--h044-sea)");
+
+    svg.append("g")
+      .attr("class", "h044-context-countries")
+      .selectAll("path")
+      .data(contextCountries)
+      .join("path")
+      .attr("class", "h044-context-country")
+      .attr("d", path)
+      .attr("stroke-linejoin", "round");
+
+    svg.append("g")
+      .selectAll("path")
+      .data([canada, uk])
+      .join("path")
+      .attr("d", path)
+      .attr("fill", "var(--h044-land)")
+      .attr("stroke", "var(--h044-land-line)")
+      .attr("stroke-width", 1)
+      .attr("stroke-linejoin", "round");
+
+    // London's latitude, extended across the whole map
+    const londonLat = 51.5072;
+    const [, lineY] = projection([0, londonLat]);
+    svg.append("line")
+      .attr("x1", 0).attr("x2", width)
+      .attr("y1", lineY).attr("y2", lineY)
+      .attr("stroke", "var(--h044-line)")
+      .attr("stroke-width", 2)
+      .attr("stroke-dasharray", "7 6");
+    svg.append("text")
+      .attr("class", "h044-line-label")
+      // Sits in open mid-Atlantic water so it can't collide with the UK or
+      // the London dot now that the frame ends just east of Britain.
+      .attr("x", projection([-28, 0])[0]).attr("y", lineY - 9)
+      .attr("text-anchor", "middle")
+      .text("LONDON — 51.51°N");
+
+    // Region labels are placed by lon/lat so they stay put if the frame changes.
+    // CANADA sits over the middle of the mainland; ATLANTIC OCEAN sits in open
+    // water below London's line.
+    const [canX, canY] = projection([-104, 61]);
+    const [seaX, seaY] = projection([-38, 44]);
+    svg.append("text").attr("class", "h044-region-label").attr("id", "h044-canada-label").attr("x", canX).attr("y", canY).attr("text-anchor", "middle").text("CANADA");
+    svg.append("text").attr("class", "h044-sealabel").attr("id", "h044-ocean-label").attr("x", seaX).attr("y", seaY).attr("text-anchor", "middle").text("ATLANTIC OCEAN");
+
+    // UNITED KINGDOM: two lines out in the North Atlantic, with a leader line
+    // pointing to Great Britain so the label doesn't crowd London.
+    const [ukLabX, ukLabY] = projection([-17, 60.5]);
+    const [ukTipX, ukTipY] = projection([-3.2, 55.2]);
+    svg.append("line").attr("class", "h044-leader")
+      .attr("x1", ukLabX + 12).attr("y1", ukLabY + 14)
+      .attr("x2", ukTipX).attr("y2", ukTipY);
+    svg.append("circle").attr("class", "h044-leader-dot")
+      .attr("cx", ukTipX).attr("cy", ukTipY).attr("r", 1.8);
+    const ukText = svg.append("text").attr("class", "h044-region-label").attr("id", "h044-uk-label")
+      .attr("x", ukLabX).attr("y", ukLabY - 6).attr("text-anchor", "middle");
+    ukText.append("tspan").attr("x", ukLabX).attr("dy", 0).text("UNITED");
+    ukText.append("tspan").attr("x", ukLabX).attr("dy", 15).text("KINGDOM");
+
+    const CITIES = [
+      { name: "London", lat: 51.5072, lon: -0.1275, kind: "ref", dx: 9, dy: 19, anchor: "start" },
+      { name: "Toronto", lat: 43.6532, lon: -79.3832, kind: "south", dx: -6, dy: 13, anchor: "end", tight: true },
+      { name: "Montreal", lat: 45.5019, lon: -73.5674, kind: "south", dx: 6, dy: 13, anchor: "start", tight: true, nudgeX: 3 },
+      { name: "Ottawa", lat: 45.4215, lon: -75.6972, kind: "south", dx: -6, dy: -7, anchor: "end", tight: true, nudgeX: -3 },
+      { name: "Quebec City", lat: 46.8139, lon: -71.2080, kind: "south", dx: 6, dy: -7, anchor: "start", tight: true },
+      { name: "Halifax", lat: 44.6488, lon: -63.5752, kind: "south", dx: 7, dy: 4, anchor: "start" },
+      { name: "Vancouver", lat: 49.2827, lon: -123.1207, kind: "south", dx: -8, dy: 3, anchor: "end", nudgeY: -3 },
+      { name: "Victoria", lat: 48.4283, lon: -123.3647, kind: "south", dx: -8, dy: 14, anchor: "end", nudgeY: 3 },
+      { name: "Calgary", lat: 51.0447, lon: -114.0719, kind: "south", dx: 7, dy: 17, anchor: "start" },
+      { name: "Edmonton", lat: 53.5461, lon: -113.4938, kind: "north", dx: 7, dy: -8, anchor: "start" },
+      { name: "Winnipeg", lat: 49.8956, lon: -97.1386, kind: "south", dx: 7, dy: 13, anchor: "start" }
+    ];
+
+    const COLOR = { south: "var(--h044-south)", north: "var(--h044-north)", ref: "var(--h044-ref)" };
+
+    CITIES.forEach(c => {
+      let [x, y] = projection([c.lon, c.lat]);
+      // A few cities sit close enough together at this projection scale
+      // that their dots would touch (Vancouver/Victoria: ~0.85° of latitude
+      // apart; Ottawa/Montreal: ~1.9° of longitude, ~0.08° of latitude
+      // apart) — nudge those apart on-screen so both markers and labels
+      // stay legible. The coordinates used for the line-vs-city comparison,
+      // and the labeled lat values, are the real, un-nudged ones.
+      if (c.nudgeY) y += c.nudgeY;
+      if (c.nudgeX) x += c.nudgeX;
+      const r = c.kind === "ref" ? 5.5 : 4.5;
+      svg.append("circle").attr("cx", x).attr("cy", y).attr("r", r)
+        .attr("fill", COLOR[c.kind]).attr("stroke", "#fff").attr("stroke-width", 1.5);
+      const labelClass = "h044-city-label" + (c.kind === "ref" ? " ref" : "") + (c.tight ? " tight" : "");
+      svg.append("text")
+        .attr("class", labelClass)
+        .attr("x", x + c.dx).attr("y", y + c.dy)
+        .attr("text-anchor", c.anchor)
+        .text(c.name);
+    });
+
+    // Ranked list, north to south
+    const rankHost = document.getElementById("h044-rank-list");
+    const ranked = CITIES.slice().sort((a, b) => b.lat - a.lat);
+    ranked.forEach(c => {
+      if (c.kind === "ref") {
+        const div = document.createElement("div");
+        div.className = "h044-rank-divider";
+        div.textContent = `LONDON — ${c.lat.toFixed(2)}°N`;
+        rankHost.appendChild(div);
+        return;
+      }
+      const row = document.createElement("div");
+      row.className = "h044-rank-row" + (c.kind === "ref" ? " ref" : "");
+      row.innerHTML = `<span class="name"><span class="dot" style="background:${COLOR[c.kind]}"></span>${c.name}</span><span class="lat">${c.lat.toFixed(2)}°N</span>`;
+      rankHost.appendChild(row);
+    });
+  })();
+</script>
+
+    <script>
+        (() => {
+            const M = {"W": 860, "H": 428, "cities": {"nyc": [78.1, 238.9], "mad": [765.2, 243.0], "hal": [179.9, 184.5], "bdx": [795.7, 181.9]}, "gulf": "M25.4,425.7 C25.7,419.2 24.1,401.0 27.4,387.0 C30.6,372.9 38.4,353.8 45.0,341.4 C51.5,328.9 56.0,322.7 66.5,312.3 C76.9,302.0 90.9,289.3 107.5,279.2 C124.1,269.0 143.3,259.4 166.1,251.5 C188.9,243.7 219.9,239.6 244.3,232.2 C268.8,224.8 289.9,218.4 312.7,207.3 C335.5,196.3 356.7,179.7 381.1,165.8 C405.6,152.0 431.6,137.1 459.3,124.4 C487.0,111.7 518.0,101.4 547.3,89.8 C576.6,78.3 609.2,66.8 635.2,55.3 C661.3,43.8 692.2,26.5 703.6,20.7", "lab": "M219.9,2.8 C224.3,8.5 237.3,25.3 246.3,37.3 C255.2,49.3 266.3,60.6 273.6,74.6 C281.0,88.7 286.2,108.3 290.3,121.6 C294.3,135.0 301.7,145.6 298.1,154.8 C294.5,164.0 281.0,170.7 268.8,176.9 C256.5,183.1 239.4,188.0 224.8,192.1 C210.1,196.3 188.1,200.2 180.8,201.8", "grat": {"30": 387.0, "35": 317.9, "40": 248.8, "45": 179.7, "50": 110.6, "55": 41.5}, "lons": {"-80": 19.5, "-70": 117.3, "-60": 215.0, "-50": 312.7, "-40": 410.5, "-30": 508.2, "-20": 605.9, "-10": 703.6, "0": 801.4}, "y406": 241.0, "y447": 183.3};
+            const NS = "http://www.w3.org/2000/svg";
+
+            // ---------- map ----------
+            const mapSvg = document.getElementById("h075-map");
+            const overlay = document.getElementById("h075-overlay");
+            const frame = document.querySelector(".h075-map-frame");
+            function el(parent, tag, attrs, text) {
+                const e = document.createElementNS(NS, tag);
+                for (const k in attrs) e.setAttribute(k, attrs[k]);
+                if (text != null) e.textContent = text;
+                parent.appendChild(e);
+                return e;
+            }
+            function drawMap() {
+                overlay.innerHTML = "";
+                const fw = frame.clientWidth || M.W;
+                const narrow = fw < 540;
+                const s = Math.min(2.3, Math.max(1, (M.W / fw) * 0.85));
+                const T = (x, y, str, cls, fs, anchor, fill) => el(overlay, "text", { x, y, class: cls, "font-size": fs * s, "text-anchor": anchor || "start", ...(fill ? { fill } : {}) }, str);
+
+                // arrowheads
+                const defs = el(overlay, "defs", {});
+                [["warm", "var(--h075-warm)"], ["cold", "var(--h075-cold)"]].forEach(([k, c]) => {
+                    const m = el(defs, "marker", { id: "h075-arrow-" + k, viewBox: "0 0 10 10", refX: 6, refY: 5, markerWidth: 4.5, markerHeight: 4.5, orient: "auto" });
+                    el(m, "path", { d: "M0,0 L10,5 L0,10 Z", fill: c });
+                });
+                el(overlay, "path", { d: M.gulf, fill: "none", stroke: "var(--h075-warm)", "stroke-width": 3 * Math.sqrt(s), "stroke-linecap": "round", opacity: 0.85, "marker-end": "url(#h075-arrow-warm)" });
+                el(overlay, "path", { d: M.lab, fill: "none", stroke: "var(--h075-cold)", "stroke-width": 3 * Math.sqrt(s), "stroke-linecap": "round", opacity: 0.85, "marker-end": "url(#h075-arrow-cold)" });
+
+                // latitude lines
+                [[M.y406, "40.6° N"], [M.y447, "44.7° N"]].forEach(([y, lab]) => {
+                    el(overlay, "line", { x1: 0, y1: y, x2: M.W, y2: y, stroke: "var(--h075-lat)", "stroke-width": 1.3, "stroke-dasharray": "6 5" });
+                    T(M.W * 0.64, y - 6 * s, lab, "h075-lat-label", 12, "middle");
+                });
+
+                T(M.W * (narrow ? 0.66 : 0.5), M.H * 0.86, "ATLANTIC OCEAN", "h075-water-label", 13, "middle");
+                T(M.W * (narrow ? 0.37 : 0.29), M.H * (narrow ? 0.67 : 0.64), "Gulf Stream", "h075-current", 12, "start", "var(--h075-warm)");
+                T(M.W * 0.64, M.H * 0.12, narrow ? "N. Atlantic Current" : "North Atlantic Current", "h075-current", 12, "end", "var(--h075-warm)");
+                T(narrow ? M.W * 0.235 : M.W * 0.33, narrow ? M.H * 0.1 : M.H * 0.2, narrow ? "Labrador C." : "Labrador Current", "h075-current", 12, narrow ? "end" : "start", "var(--h075-cold)");
+
+                const c = M.cities, r = 5 * Math.sqrt(s);
+                const dot = (k, col) => el(overlay, "circle", { cx: c[k][0], cy: c[k][1], r, fill: col, stroke: "#ffffff", "stroke-width": 1.8 });
+                dot("nyc", "var(--h075-cold)"); dot("hal", "var(--h075-cold)");
+                dot("mad", "var(--h075-warm)"); dot("bdx", "var(--h075-warm)");
+
+                // labels: 44.7 pair above the line, 40.6 pair below
+                const hx = narrow ? c.hal[0] : c.hal[0] - 9, ha = narrow ? "middle" : "end";
+                const hu = 0;
+                T(hx, c.hal[1] - (24 + hu) * s, "Halifax", "h075-label", 13, ha);
+                T(hx, c.hal[1] - (9 + hu) * s, "Jan 25°F (−4°C)", "h075-temp", 12, ha, "var(--h075-cold)");
+                T(c.bdx[0] - 9, c.bdx[1] - 24 * s, "Bordeaux", "h075-label", 13, "end");
+                T(c.bdx[0] - 9, c.bdx[1] - 9 * s, "Jan 45°F (7°C)", "h075-temp", 12, "end", "var(--h075-warm)");
+                if (narrow) {
+                    // not enough room above the dot on phones: label sits in open ocean with a leader line
+                    el(overlay, "line", { x1: c.nyc[0] + 3, y1: c.nyc[1] + 5, x2: 112, y2: 300, stroke: "#6b7280", "stroke-width": 1.2 });
+                    T(116, 318, "New York", "h075-label", 13, "start");
+                    T(116, 318 + 15 * s, "Jan 34°F (1°C)", "h075-temp", 12, "start", "var(--h075-cold)");
+                } else {
+                    T(c.nyc[0] + 8, c.nyc[1] - 22 * s, "New York", "h075-label", 13, "start");
+                    T(c.nyc[0] + 8, c.nyc[1] - 7 * s, "Jan 34°F (1°C)", "h075-temp", 12, "start", "var(--h075-cold)");
+                }
+                T(c.mad[0], c.mad[1] + 20 * s, "Madrid", "h075-label", 13, "middle");
+                T(c.mad[0], c.mad[1] + 35 * s, "Jan 44°F (7°C)", "h075-temp", 12, "middle", "var(--h075-warm)");
+            }
+
+            // ---------- dumbbell chart ----------
+            const chart = document.getElementById("h075-chart");
+            const rows = [
+                { group: "40.6° N", season: "January", a: ["New York", 33.7], b: ["Madrid", 43.7], gap: "+10°F" },
+                { group: "40.6° N", season: "July", a: ["New York", 77.5], b: ["Madrid", 79.2], gap: "+2°F" },
+                { group: "44.7° N", season: "January", a: ["Halifax", 24.6], b: ["Bordeaux", 44.8], gap: "+20°F" },
+                { group: "44.7° N", season: "July", a: ["Halifax", 65.8], b: ["Bordeaux", 71.1], gap: "+5°F" }
+            ];
+            function drawChart() {
+                const narrow = chart.parentElement.clientWidth < 540;
+                const W = narrow ? 440 : 760;
+                const xL = narrow ? 112 : 170, xR = W - (narrow ? 44 : 48);
+                const lo = 20, hi = 85;
+                const x = v => xL + (xR - xL) * (v - lo) / (hi - lo);
+                const fs = narrow ? 1.18 : 1;
+                const top = 40, rowH = narrow ? 62 : 56, groupGap = 22;
+                let h = "";
+                const yOf = i => top + i * rowH + (i >= 2 ? groupGap : 0) + rowH / 2;
+                const yEnd = yOf(3) + rowH / 2;
+                for (let t = 20; t <= 80; t += 20) {
+                    h += `<line x1="${x(t)}" y1="${top - 6}" x2="${x(t)}" y2="${yEnd}" stroke="var(--hanten-border)" stroke-width="1"/>`;
+                    h += `<text x="${x(t)}" y="${yEnd + 16 * fs}" text-anchor="middle" class="h075-muted" font-size="${11 * fs}">${t}°F</text>`;
+                }
+                h += `<line x1="${x(32)}" y1="${top - 6}" x2="${x(32)}" y2="${yEnd}" stroke="var(--h075-cold)" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>`;
+                h += `<text x="${x(32)}" y="${top - 12}" text-anchor="middle" class="h075-muted" font-size="${10.5 * fs}">freezing</text>`;
+                rows.forEach((r, i) => {
+                    const y = yOf(i);
+                    if (i === 0 || i === 2) h += `<text x="10" y="${y - rowH / 2 + 4}" class="h075-name" font-size="${12.5 * fs}">${r.group}</text>`;
+                    h += `<text x="${xL - 14}" y="${y + 4}" text-anchor="end" class="h075-muted" font-size="${12.5 * fs}">${r.season}</text>`;
+                    const xa = x(r.a[1]), xb = x(r.b[1]);
+                    h += `<line x1="${xa}" y1="${y}" x2="${xb}" y2="${y}" stroke="#c7ccd0" stroke-width="${6 * fs}" stroke-linecap="round"/>`;
+                    h += `<circle cx="${xa}" cy="${y}" r="${7 * fs}" fill="var(--h075-cold)" stroke="#fff" stroke-width="2"/>`;
+                    h += `<circle cx="${xb}" cy="${y}" r="${7 * fs}" fill="var(--h075-warm)" stroke="#fff" stroke-width="2"/>`;
+                    const wide = xb - xa > 60 * fs;
+                    // labels: city + value above each dot
+                    if (wide) {
+                        h += `<text x="${xa}" y="${y - 12 * fs}" text-anchor="middle" class="h075-val" fill="var(--h075-cold)" font-size="${11.5 * fs}">${r.a[0]} ${Math.round(r.a[1])}°</text>`;
+                        h += `<text x="${xb}" y="${y - 12 * fs}" text-anchor="middle" class="h075-val" fill="var(--h075-warm)" font-size="${11.5 * fs}">${r.b[0]} ${Math.round(r.b[1])}°</text>`;
+                    } else if (xb + 110 * fs < W) {
+                        h += `<text x="${xb + 12 * fs}" y="${y - 3 * fs}" class="h075-val" fill="var(--h075-cold)" font-size="${11.5 * fs}">${r.a[0]} ${Math.round(r.a[1])}°</text>`;
+                        h += `<text x="${xb + 12 * fs}" y="${y + 11 * fs}" class="h075-val" fill="var(--h075-warm)" font-size="${11.5 * fs}">${r.b[0]} ${Math.round(r.b[1])}°</text>`;
+                    } else {
+                        h += `<text x="${xa - 12 * fs}" y="${y - 3 * fs}" text-anchor="end" class="h075-val" fill="var(--h075-cold)" font-size="${11.5 * fs}">${r.a[0]} ${Math.round(r.a[1])}°</text>`;
+                        h += `<text x="${xa - 12 * fs}" y="${y + 11 * fs}" text-anchor="end" class="h075-val" fill="var(--h075-warm)" font-size="${11.5 * fs}">${r.b[0]} ${Math.round(r.b[1])}°</text>`;
+                    }
+                    if (wide || xb + 110 * fs < W) h += `<text x="${(xa + xb) / 2}" y="${y + 22 * fs}" text-anchor="middle" class="h075-gap" font-size="${12.5 * fs}">${r.gap}</text>`;
+                    else h += `<text x="${xb + 12 * fs}" y="${y + 5}" class="h075-gap" font-size="${12.5 * fs}">${r.gap}</text>`;
+                });
+                chart.setAttribute("viewBox", `0 0 ${W} ${yEnd + 26 * fs}`);
+                const t = chart.querySelector("title").outerHTML, ds = chart.querySelector("desc").outerHTML;
+                chart.innerHTML = t + ds + h;
+            }
+
+            drawMap(); drawChart();
+            let lastW = frame.clientWidth;
+            window.addEventListener("resize", () => {
+                if (Math.abs(frame.clientWidth - lastW) > 20) { lastW = frame.clientWidth; drawMap(); drawChart(); }
+            });
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H075-london-north-of-canada.png", title = "Is London north of Vancouver, Calgary, and Toronto?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

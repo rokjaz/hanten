@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>H060 — Did the NFL's Overtime Fix Actually Fix Anything?</title>
+    <title>H060 — The NFL Fixed the Coin-Toss Advantage in Overtime. Did It Stay Fixed?</title>
 
     <meta
         name="description"
@@ -61,15 +61,54 @@
             font-size: 12px;
             font-weight: 800;
         }
+
+        /* Narrow screens: slightly larger small text so it stays readable */
+        #h060-chart.is-narrow .h060-axis-label { font-size: 11.5px; }
+        #h060-chart.is-narrow .h060-era-sub { font-size: 11px; }
+
+        .h060-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h060-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h060-discovery p:last-child { margin-bottom: 0; }
+        .h060-discovery strong { color: var(--hanten-text); }
     </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h060-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h060-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h060-explore p { margin: .55rem 0 0; }
+.h060-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
 </head>
 
 <body>
 
     <main class="hanten-exhibit">
 
-        <h1 class="hanten-question">
-            The NFL fixed the coin-toss advantage in overtime. Did it stay fixed?
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            The NFL fixed the coin-toss advantage in overtime. Did it stay&nbsp;fixed?
         </h1>
 
         <p class="hanten-subtitle">
@@ -88,30 +127,44 @@
                 </p>
             </div>
 
-            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">Shortening the clock brought the imbalance back</h2>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
-                Under sudden death (2005–2011), whoever scored first won, and a coin-toss-winning offense often only
-                needed a field goal. The league fixed this in 2010–2012: the second team now gets a possession
-                unless the first team scores a touchdown. It worked — the coin-toss winner's win rate dropped to a
-                near-even 51.2% from 2012–2016.
-            </p>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
-                Then, in 2017, the league shortened overtime from 15 minutes to 10 — a change aimed at player safety,
-                unrelated to fairness. With less time on the clock, the second team gets fewer chances to answer a
-                scoring drive. From 2017–2024, the coin-toss winner's win rate climbed to 59.7% — worse than the
-                original sudden-death era the 2010 rule was designed to fix. In the playoffs under the post-2010
-                rule, coin-toss winners went 10–1 before the NFL made a further postseason-only tweak in 2022.
-            </p>
-
-            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
-                <p class="hanten-takeaway" style="margin:0;">
-                    By 2024, winning the coin toss was a bigger advantage than it was before the league ever tried to fix it.
-                </p>
+            <div class="h060-discovery hanten-body">
+                <p><strong>By 2024, winning the coin toss was a bigger advantage than it was before the league tried to fix it.</strong> The 2010–2012 rule change cut the coin-toss winner's edge to a near-even 51.2%. Then a 2017 change aimed at player safety shortened overtime from 15 minutes to 10, leaving the second team less time to answer, and the coin-toss winner's rate climbed to 59.7%.</p>
+                <p>A fix only holds while the conditions it was built for hold. When a rule changes for an unrelated reason, check whether it quietly undoes an earlier fix; a solved problem can come back without anyone deciding it should.</p>
             </div>
 
             <p class="hanten-reflection">
-                A system has many knobs — does fixing one really lock the others in place?
+                When a rule changes for one reason, what else might it quietly change?
             </p>
+
+            <details class="h060-explore" data-html2canvas-ignore="true">
+                <summary>Shortening the clock brought the imbalance back</summary>
+                <p><strong>By 2024, winning the coin toss was a bigger advantage than it was before the
+                    league ever tried to fix it.</strong> Under sudden death (2005–2011), whoever scored
+                    first won, and a coin-toss-winning offense often only needed a field goal. The league
+                    fixed this in 2010–2012: the second team now gets a possession unless the first team
+                    scores a touchdown. It worked — the coin-toss winner's win rate dropped to a near-even
+                    51.2% from 2012–2016.</p>
+                <p>Then, in 2017, the league shortened overtime from 15 minutes to 10 — a change aimed at
+                    player safety, unrelated to fairness. With less time on the clock, the second team gets
+                    fewer chances to answer a scoring drive. From 2017–2024, the coin-toss winner's win
+                    rate climbed to 59.7% — worse than the original sudden-death era the 2010 rule was
+                    designed to fix. In the playoffs under the post-2010 rule, coin-toss winners went 10–1
+                    before the NFL made a further postseason-only tweak in 2022.</p>
+            </details>
+
+            <details class="h060-explore" data-html2canvas-ignore="true">
+                <summary>Explore how a &ldquo;fixed&rdquo; fact can quietly stop being true</summary>
+                <p>It is the same &ldquo;fixed, then quietly not&rdquo; pattern as our <a href="../H048/index.html" target="_blank" rel="noopener noreferrer">Tokyo vs Canada</a> exhibit: a true statement — the coin toss is fair now, Tokyo outpopulates Canada — can keep being repeated well past the point where a separate, unrelated change already made it false.</p>
+            </details>
+
+            <details class="h060-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H079/index.html" target="_blank" rel="noopener noreferrer">Can a new road make traffic worse?</a></li>
+                    <li><a href="../H089/index.html" target="_blank" rel="noopener noreferrer">Stealing is never worse than splitting. So why does it lose?</a></li>
+                    <li><a href="../H048/index.html" target="_blank" rel="noopener noreferrer">Does one Japanese metro area still outpopulate all of Canada?</a></li>
+                </ul>
+            </details>
 
             <p class="hanten-source">
                 Sources: win-loss-tie records by era — 2005–2011 sudden death, 53-46-1 (53.5%); 2012–2016 modified
@@ -134,52 +187,94 @@
     <script>
         (() => {
             const eras = [
-                { label: "2005–2011", sub: "Sudden death", pct: 53.5, record: "53-46-1" },
-                { label: "2012–2016", sub: "Fixed rule, 15-min OT", pct: 51.2, record: "40-38-5" },
-                { label: "2017–2024", sub: "Fixed rule, 10-min OT", pct: 59.7, record: "67-44-7" },
-                { label: "Playoffs 2010–2021", sub: "Fixed rule (pre-2022 tweak)", pct: 90.9, record: "10-1" },
+                { label: ["2005–2011"], sub: ["Sudden death"], pct: 53.5, record: "53-46-1" },
+                { label: ["2012–2016"], sub: ["Fixed rule,", "15-min OT"], pct: 51.2, record: "40-38-5" },
+                { label: ["2017–2024"], sub: ["Fixed rule,", "10-min OT"], pct: 59.7, record: "67-44-7" },
+                { label: ["Playoffs", "2010–2021"], sub: ["Fixed rule,", "pre-2022 tweak"], pct: 90.9, record: "10-1" },
             ];
 
             const svg = document.getElementById("h060-chart");
-            const chartLeft = 50, chartRight = 610, chartTop = 30, chartBottom = 260;
-            const maxPct = 100;
-            const barW = (chartRight - chartLeft) / eras.length;
-            const yFor = pct => chartBottom - (pct / maxPct) * (chartBottom - chartTop);
+            const isNarrow = () => svg.parentElement.clientWidth < 520;
 
-            let html = "";
-            [0, 25, 50, 75, 100].forEach(v => {
-                const y = yFor(v);
-                html += `<line x1="${chartLeft}" y1="${y}" x2="${chartRight}" y2="${y}" stroke="var(--hanten-border)" stroke-width="1"/>`;
-                html += `<text x="${chartLeft - 8}" y="${y + 4}" class="h060-axis-label" text-anchor="end">${v}%</text>`;
+            // Narrow screens get a narrower drawing so the text stays readable
+            function draw() {
+                const narrow = isNarrow();
+                svg.classList.toggle("is-narrow", narrow);
+                const W = narrow ? 440 : 640;
+                const chartLeft = 40, chartRight = W - 66, chartTop = 30, chartBottom = 250;
+                const H = chartBottom + (narrow ? 104 : 96);
+                svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+                const barW = (chartRight - chartLeft) / eras.length;
+                const yFor = pct => chartBottom - (pct / 100) * (chartBottom - chartTop);
+
+                let html = "";
+                [0, 25, 50, 75, 100].forEach(v => {
+                    const y = yFor(v);
+                    html += `<line x1="${chartLeft}" y1="${y}" x2="${chartRight}" y2="${y}" stroke="var(--hanten-border)" stroke-width="1"/>`;
+                    html += `<text x="${chartLeft - 6}" y="${y + 4}" class="h060-axis-label" text-anchor="end">${v}%</text>`;
+                });
+                const fairY = yFor(50);
+                html += `<line x1="${chartLeft}" y1="${fairY}" x2="${chartRight}" y2="${fairY}" stroke="var(--hanten-text)" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+                html += `<text x="${chartRight + 5}" y="${fairY + 4}" class="h060-axis-label">FAIR (50%)</text>`;
+
+                eras.forEach((e, i) => {
+                    const cx = chartLeft + (i + 0.5) * barW;
+                    const barWidth = barW * 0.55;
+                    const y = yFor(e.pct);
+                    const color = e.pct > 55 ? "var(--h060-warm)" : "var(--h060-fair)";
+                    html += `<rect x="${(cx - barWidth / 2).toFixed(1)}" y="${y.toFixed(1)}" width="${barWidth.toFixed(1)}" height="${(chartBottom - y).toFixed(1)}" fill="${color}"/>`;
+                    html += `<text x="${cx.toFixed(1)}" y="${(y - 8).toFixed(1)}" class="h060-pct-label" text-anchor="middle" fill="${color}">${e.pct}%</text>`;
+                    let ty = chartBottom + 19;
+                    e.label.forEach(line => { html += `<text x="${cx.toFixed(1)}" y="${ty}" class="h060-era-label" text-anchor="middle">${line}</text>`; ty += 15; });
+                    ty += 1;
+                    e.sub.concat(`(${e.record})`).forEach(line => { html += `<text x="${cx.toFixed(1)}" y="${ty}" class="h060-era-sub" text-anchor="middle">${line}</text>`; ty += narrow ? 13.5 : 12.5; });
+                });
+
+                svg.innerHTML = html;
+            }
+            draw();
+            let lastNarrow = isNarrow();
+            window.addEventListener("resize", () => {
+                const n = isNarrow();
+                if (n !== lastNarrow) { lastNarrow = n; draw(); }
             });
-            const fairY = yFor(50);
-            html += `<line x1="${chartLeft}" y1="${fairY}" x2="${chartRight}" y2="${fairY}" stroke="var(--hanten-text)" stroke-width="1.5" stroke-dasharray="5 4"/>`;
-            html += `<text x="${chartRight + 4}" y="${fairY + 4}" class="h060-axis-label">FAIR (50%)</text>`;
-
-            eras.forEach((e, i) => {
-                const cx = chartLeft + (i + 0.5) * barW;
-                const barWidth = barW * 0.5;
-                const y = yFor(e.pct);
-                const color = e.pct > 55 ? "var(--h060-warm)" : "var(--h060-fair)";
-                html += `<rect x="${(cx - barWidth / 2).toFixed(1)}" y="${y.toFixed(1)}" width="${barWidth.toFixed(1)}" height="${(chartBottom - y).toFixed(1)}" fill="${color}"/>`;
-                html += `<text x="${cx.toFixed(1)}" y="${(y - 8).toFixed(1)}" class="h060-pct-label" text-anchor="middle" fill="${color}">${e.pct}%</text>`;
-                html += `<text x="${cx.toFixed(1)}" y="${chartBottom + 20}" class="h060-era-label" text-anchor="middle">${e.label}</text>`;
-                html += `<text x="${cx.toFixed(1)}" y="${chartBottom + 34}" class="h060-era-sub" text-anchor="middle">${e.sub}</text>`;
-                html += `<text x="${cx.toFixed(1)}" y="${chartBottom + 47}" class="h060-era-sub" text-anchor="middle">(${e.record})</text>`;
-            });
-
-            svg.innerHTML = html;
         })();
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "The NFL fixed the coin-toss advantage in overtime. Did it stay fixed?",
-            filename: "H060-nfl-overtime-coin-toss.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H060-nfl-overtime-coin-toss.png", title = "The NFL fixed the coin-toss advantage in overtime. Did it stay fixed?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

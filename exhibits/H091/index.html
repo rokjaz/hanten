@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H091 — What's the Most Dangerous Animal?</title>
+
+    <meta
+        name="description"
+        content="Mosquitoes kill far more people than sharks: malaria alone killed about 610,000 people in 2024, sharks killed 4. But a shark bite is about 40 times as likely to kill as a case of malaria. 'Most dangerous' depends on the question."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H091-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h091-total: #b23b32;
+            --h091-per: #0b4f57;
+        }
+
+        .h091-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h091-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h091-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h091-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h091-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h091-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h091-charts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h091-charts svg { max-width: 700px; margin: 0 auto; }
+        .h091-panel { padding: 1.1rem 1.1rem 0.9rem; }
+        .h091-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h091-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.9rem; line-height: 1.4; }
+
+        .h091-panel svg { display: block; width: 100%; height: auto; }
+        .h091-lab { font-family: var(--hanten-font); font-size: 14px; font-weight: 800; fill: var(--hanten-text); }
+        .h091-sub { font-family: var(--hanten-font); font-size: 11.5px; fill: var(--hanten-muted); }
+        .h091-val { font-family: var(--hanten-font); font-size: 13.5px; font-weight: 800; }
+
+        .h091-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h091-aha p { margin: 0 0 0.6rem; }
+        .h091-aha p:last-child { margin-bottom: 0; }
+
+        .h091-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h091-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h091-explore p { margin: .55rem 0 0; }
+        .h091-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h091-explore + .h091-explore { margin-top: 0; border-top: none; }
+        .h091-explore strong { color: var(--hanten-text); }
+
+        .h091-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h091-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h091-table th, .h091-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h091-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h091-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .h091-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .h091-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 760px) {
+            .h091-charts { grid-template-columns: minmax(0, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .h091-stats { grid-template-columns: minmax(0, 1fr); }
+            .h091-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h091-table-panel { padding: 0.3rem 0.4rem; }
+            .h091-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(3),
+.hanten-exhibit table td:nth-child(4) { text-align: center; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Mosquitoes kill hundreds of thousands of people a year. Sharks kill a handful. Which is more dangerous?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Both charts below use real numbers, and they rank the animals in opposite order. "Most dangerous" can mean
+            two different questions: how many people it kills in total, or how likely one encounter is to kill you.
+        </p>
+
+        <div id="h091-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h091-stats-cap">Two true answers</p>
+                <div class="h091-stats">
+                    <div class="hanten-panel h091-stat">
+                        <div class="h091-stat-k">Killed by malaria</div>
+                        <div class="h091-stat-n" style="color:var(--h091-total)">610,000</div>
+                        <div class="h091-stat-l">people in 2024, a disease spread by mosquitoes</div>
+                    </div>
+                    <div class="hanten-panel h091-stat">
+                        <div class="h091-stat-k">Killed by sharks</div>
+                        <div class="h091-stat-n" style="color:var(--h091-total)">4</div>
+                        <div class="h091-stat-l">people in 2024, in unprovoked bites</div>
+                    </div>
+                    <div class="hanten-panel h091-stat">
+                        <div class="h091-stat-k">Chance it's fatal</div>
+                        <div class="h091-stat-n" style="color:var(--h091-per)">About 40×</div>
+                        <div class="h091-stat-l">higher for a shark bite than for a case of malaria</div>
+                    </div>
+                </div>
+
+                <div class="h091-charts">
+                    <div class="hanten-panel h091-panel">
+                        <p class="h091-panel-title">Question 1: How many people does it kill?</p>
+                        <p class="h091-panel-sub">Deaths per year, worldwide</p>
+                        <svg viewBox="0 0 700 200" role="img" aria-labelledby="h091-a-title">
+                            <title id="h091-a-title">Deaths per year worldwide: mosquitoes, through malaria alone, 610,000; humans, through homicide, 458,000; snakes, 81,000 to 138,000; dogs, through rabies, about 44,000; sharks, 4.</title>
+<text class="h091-lab" x="0" y="15">Mosquitoes</text>
+<text class="h091-sub" x="0" y="29">malaria alone</text>
+<rect x="150" y="3" width="420.0" height="20" rx="2" fill="var(--h091-total)"/>
+<text class="h091-val" x="576.0" y="18" fill="var(--h091-total)">610,000</text>
+<text class="h091-lab" x="0" y="55">Humans</text>
+<text class="h091-sub" x="0" y="69">homicides</text>
+<rect x="150" y="43" width="315.3" height="20" rx="2" fill="var(--h091-total)"/>
+<text class="h091-val" x="471.3" y="58" fill="var(--h091-total)">458,000</text>
+<text class="h091-lab" x="0" y="95">Snakes</text>
+<text class="h091-sub" x="0" y="109">snakebites</text>
+<rect x="150" y="83" width="75.7" height="20" rx="2" fill="var(--h091-total)"/>
+<text class="h091-val" x="231.7" y="98" fill="var(--h091-total)">81,000–138,000</text>
+<text class="h091-lab" x="0" y="135">Dogs</text>
+<text class="h091-sub" x="0" y="149">rabies</text>
+<rect x="150" y="123" width="30.3" height="20" rx="2" fill="var(--h091-total)"/>
+<text class="h091-val" x="186.3" y="138" fill="var(--h091-total)">44,000</text>
+<text class="h091-lab" x="0" y="175">Sharks</text>
+<text class="h091-sub" x="0" y="189">unprovoked bites</text>
+<rect x="150" y="163" width="2.0" height="20" rx="2" fill="var(--h091-total)"/>
+<text class="h091-val" x="158.0" y="178" fill="var(--h091-total)">4</text>
+                        </svg>
+                    </div>
+                    <div class="hanten-panel h091-panel">
+                        <p class="h091-panel-title">Question 2: If it gets you, how likely is it to kill you?</p>
+                        <p class="h091-panel-sub">Share of bites or infections that end in death</p>
+                        <svg viewBox="0 0 700 120" role="img" aria-labelledby="h091-b-title">
+                            <title id="h091-b-title">Share of bites or infections that end in death: an unprovoked shark bite, 8.5 percent (4 of 47 in 2024); a snakebite, 1.5 to 2.6 percent; a case of malaria, 0.2 percent. The ranking is the reverse of the total-deaths chart.</title>
+<text class="h091-lab" x="0" y="15">Sharks</text>
+<text class="h091-sub" x="0" y="29">per unprovoked bite</text>
+<rect x="150" y="3" width="420.0" height="20" rx="2" fill="var(--h091-per)"/>
+<text class="h091-val" x="576.0" y="18" fill="var(--h091-per)">8.5% (4 of 47)</text>
+<text class="h091-lab" x="0" y="55">Snakes</text>
+<text class="h091-sub" x="0" y="69">per snakebite</text>
+<rect x="150" y="43" width="98.8" height="20" rx="2" fill="var(--h091-per)"/>
+<text class="h091-val" x="254.8" y="58" fill="var(--h091-per)">1.5–2.6%</text>
+<text class="h091-lab" x="0" y="95">Mosquitoes</text>
+<text class="h091-sub" x="0" y="109">per malaria case</text>
+<rect x="150" y="83" width="10.9" height="20" rx="2" fill="var(--h091-per)"/>
+<text class="h091-val" x="166.9" y="98" fill="var(--h091-per)">0.2%</text>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h091-aha">
+                <p><strong>"Most dangerous" is two different questions wearing the same words.</strong> Mosquitoes kill
+                    by far the most people because they bite billions of times a year, even though any single bite is
+                    very unlikely to kill. Sharks almost never meet people, but when one bites, it's far more likely to be
+                    fatal. Both rankings are true; they answer different questions.</p>
+                <p>The same switch happens with cars and planes, common and rare diseases, or big and small risks at
+                    work: total harm and risk per encounter can point in opposite directions. Before trusting a
+                    "most dangerous" ranking, ask whether it counts total deaths or the odds for one person.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                Which matters more for your own safety: how many people something kills, or how often you run into it?
+            </p>
+
+            <details class="h091-explore" data-html2canvas-ignore="true">
+                <summary>The numbers behind both charts</summary>
+                <div class="hanten-panel h091-table-panel">
+                    <table class="h091-table">
+                        <thead>
+                            <tr><th>Animal</th><th>Encounters per year</th><th>Deaths per year</th><th>Share fatal</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Mosquitoes (malaria)</td><td>282 million malaria cases (2024)</td><td>610,000</td><td>0.2%</td></tr>
+                            <tr><td>Humans (homicide)</td><td>–</td><td>458,000 (2021)</td><td>–</td></tr>
+                            <tr><td>Snakes</td><td>about 5.4 million bites</td><td>81,410 to 137,880</td><td>1.5% to 2.6%</td></tr>
+                            <tr><td>Dogs (rabies)</td><td>–</td><td>about 44,000</td><td>–</td></tr>
+                            <tr><td>Sharks</td><td>47 unprovoked bites (2024)</td><td>4</td><td>8.5%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Malaria is only one of the diseases mosquitoes spread; dengue and others add more deaths. Almost all
+                    rabies deaths (99%) come from dog bites or scratches. The shark figure is based on very few bites,
+                    so it jumps around from year to year.</p>
+            </details>
+
+            <details class="h091-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H095/index.html" target="_blank" rel="noopener noreferrer">California has more car thefts than anywhere else in the U.S. Is it the riskiest place to park?</a></li>
+                    <li><a href="../H099/index.html" target="_blank" rel="noopener noreferrer">"Deadly shark attacks doubled." Did the oceans get twice as dangerous?</a></li>
+                    <li><a href="../H070/index.html" target="_blank" rel="noopener noreferrer">Which country pollutes the most?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: World Health Organization fact sheets on malaria (2024 estimates), snakebite envenoming, and
+                rabies (2021 Global Health Estimates); UNODC, Global Study on Homicide 2023 (2021 data); Florida Museum
+                of Natural History, International Shark Attack File, 2024 worldwide summary.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H091-most-dangerous-animal.png", title = "What's the most dangerous animal?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

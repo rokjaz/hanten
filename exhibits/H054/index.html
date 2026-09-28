@@ -1,248 +1,558 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>H054 — The Missing Bullet Holes</title>
+<title>H054 — The Missing Bullet Holes</title>
+<meta name="description" content="WWII engineers wanted to armor where returning bombers were hit. A statistician saw the opposite lesson: the areas without holes mattered most, because planes hit there rarely made it back.">
 
-    <meta
-        name="description"
-        content="WWII engineers wanted to armor where returning bombers were hit. A statistician argued the opposite — armor where they weren't, because planes hit there never made it back."
-    >
+<link rel="stylesheet" href="../../assets/css/hanten.css">
 
-    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style>
+  /*
+     H054-SPECIFIC STYLES
 
-    <style>
-        /*
-           H054-SPECIFIC STYLES
+     These styles belong to this exhibit rather than the shared
+     Hanten framework. If later exhibits repeatedly need one of
+     these patterns (the compare band especially), consider
+     promoting it to hanten.css.
+  */
 
-           These styles belong to this exhibit rather than the shared
-           Hanten framework. If later exhibits repeatedly need one of
-           these patterns, we can consider promoting it to hanten.css.
-        */
+  :root {
+    --h054-damage: #c9342f;
+    --h054-armor: var(--hanten-accent, #0e7c86);
+    --h054-line: rgba(28,39,51,0.14);
+    --h054-panel: #ffffff;
+  }
 
-        :root {
-            --h054-damage: #a3392b;
-            --h054-armor: var(--hanten-accent);
-        }
+  .h054-page {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
 
-        .h054-diagrams {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 0.9rem;
-        }
+  /* ---- Diagram pair ---- */
+  .h054-diagrams {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
 
-        @media (max-width: 720px) {
-            .h054-diagrams {
-                grid-template-columns: 1fr;
-            }
-        }
+  .h054-card {
+    padding: 1.1rem 1.1rem 0.9rem;
+    background: var(--h054-panel);
+  }
 
-        .h054-card {
-            padding: 1.1rem 1.1rem 0.9rem;
-        }
+  .h054-card-label {
+    margin: 0 0 0.7rem;
+    font-family: var(--hanten-font);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--hanten-muted);
+  }
 
-        .h054-card-label {
-            margin: 0 0 0.7rem;
-            font-family: var(--hanten-font);
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: var(--hanten-muted);
-        }
+  .h054-card svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
 
-        .h054-card svg {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
+  .h054-legend {
+    margin-top: 0.7rem;
+    display: flex;
+    justify-content: center;
+    font-size: 0.78rem;
+    color: var(--hanten-muted);
+  }
 
-        .h054-legend {
-            margin-top: 0.7rem;
-            display: flex;
-            justify-content: center;
-            font-size: 0.78rem;
-            color: var(--hanten-muted);
-        }
+  .h054-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
 
-        .h054-legend span {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
+  .h054-swatch {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+  }
 
-        .h054-swatch {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            display: inline-block;
-        }
+  .h054-note {
+    max-width: var(--hanten-text-width);
+    margin: 0.8rem auto 0;
+    text-align: center;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--hanten-muted);
+  }
 
-        .h054-note {
-            max-width: var(--hanten-text-width);
-            margin: 0.8rem auto 0;
-            text-align: center;
-            font-size: 0.8rem;
-            font-style: italic;
-            color: var(--hanten-muted);
-        }
-    </style>
+  /* ---- Compare band (echoes the bowling exhibit's pins/score comparison) ---- */
+  .h054-compare {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: stretch;
+    margin-top: 0.9rem;
+    background: var(--h054-panel);
+    border: 1px solid var(--h054-line);
+  }
+
+  .h054-compare-side {
+    padding: 1.1rem 1.2rem;
+    text-align: center;
+    display: grid;
+    align-content: center;
+  }
+
+  .h054-compare-label {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: var(--hanten-muted);
+    font-family: var(--hanten-font);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .h054-compare-value {
+    display: block;
+    font-family: var(--hanten-font);
+    font-weight: 800;
+    font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+    line-height: 1.25;
+  }
+
+  .h054-compare-side.damage .h054-compare-value { color: var(--h054-damage); }
+  .h054-compare-side.armor .h054-compare-value { color: var(--h054-armor); }
+
+  .h054-vs {
+    display: grid;
+    place-items: center;
+    padding: 0 1.15rem;
+    font-weight: 800;
+    color: var(--hanten-muted);
+  }
+
+  /* ---- Explore / aha / save, matching the bowling exhibit's rhythm ---- */
+  .h054-explore {
+    max-width: 840px;
+    margin: 0.9rem auto 0;
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--h054-line);
+    border-bottom: 1px solid var(--h054-line);
+    color: var(--hanten-muted);
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .h054-explore p { margin: 0.65rem 0 0; }
+
+  .h054-explore summary {
+    cursor: pointer;
+    color: var(--hanten-text, #1c2733);
+    font-weight: 750;
+  }
+
+  .h054-explore strong {
+    color: var(--hanten-text, #1c2733);
+  }
+
+  .h054-aha {
+    max-width: 840px;
+    margin: 1.15rem auto 0;
+    padding: 0.15rem 0;
+    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: var(--hanten-text, #1c2733);
+  }
+
+  .h054-aha p { margin: 0 0 0.55rem; }
+  .h054-aha p:last-child { margin-bottom: 0; }
+
+  .h054-aha strong {
+    color: var(--hanten-text, #1c2733);
+  }
+
+  .h054-source {
+    max-width: 840px;
+    margin: 0.9rem auto 0;
+    text-align: left;
+    font-size: 0.7rem;
+    line-height: 1.45;
+    color: #7b838a;
+  }
+
+  main.hanten-exhibit > .hanten-question,
+  main.hanten-exhibit > .hanten-subtitle {
+    max-width: 900px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+    text-wrap: balance;
+  }
+
+  @media (max-width: 720px) {
+    .h054-diagrams,
+    .h054-compare {
+      grid-template-columns: 1fr;
+    }
+
+    .h054-vs {
+      padding: 0.6rem;
+      border-top: 1px solid var(--h054-line);
+      border-bottom: 1px solid var(--h054-line);
+    }
+  }
+</style>
+
+<style>
+  .hanten-image-actions { display: flex; justify-content: flex-end; gap: 0.55rem; flex-wrap: wrap; }
+  .hanten-image-actions button {
+    appearance: none;
+    border: 1px solid var(--hanten-border, rgba(28,39,51,.16));
+    background: #fff;
+    color: var(--hanten-text, #1c2733);
+    font-family: var(--hanten-font, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif);
+    font-size: .76rem;
+    font-weight: 700;
+    padding: .55rem .8rem;
+    cursor: pointer;
+  }
+  .hanten-image-actions button:hover,
+  .hanten-image-actions button:focus-visible { background: #fff; border-color: var(--hanten-accent, #0e7c86); color: var(--hanten-accent, #0e7c86); }
+  .hanten-image-actions button:disabled { opacity: .55; cursor: wait; }
+
+  /* Standalone PNG composition (hidden off-screen; only used by html2canvas) */
+  .hanten-export-card {
+    position: fixed;
+    left: -10000px;
+    top: 0;
+    width: 1080px;
+    padding: 30px 70px 54px;
+    box-sizing: border-box;
+    background: #eef1ec;
+    color: #1c2733;
+    font-family: var(--hanten-font, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif);
+  }
+  .hanten-export-card .h054-export-graphic { width: 900px; margin: 0 auto; }
+  .hanten-export-card .h054-diagrams { grid-template-columns: 1fr 1fr !important; }
+  .hanten-export-card .h054-compare { grid-template-columns: 1fr auto 1fr !important; }
+  .hanten-export-textcol { width: 760px; margin-left: auto; margin-right: auto; text-align: left; }
+  .hanten-export-aha { margin-top: 16px; font-size: 14px; line-height: 1.5; color: #1c2733; }
+  .hanten-export-aha strong { color: #1c2733; }
+  .hanten-export-aha p { margin: 0 0 8px; }
+  .hanten-export-aha p:last-child { margin-bottom: 0; }
+  .hanten-export-reflection { margin-top: 8px; text-align: center; font-size: 14px; line-height: 1.4; font-weight: 400; color: #59616b; }
+  .hanten-export-source { width: 760px; margin: 24px auto 0; text-align: left; font-size: 11px; line-height: 1.4; color: #6a716f; text-wrap: pretty; }
+
+/* Design Standards 19 (text column) */
+.hanten-exhibit .h054-aha { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; }
+</style>
 </head>
 
 <body>
+<main class="hanten-exhibit h054-page">
 
-    <main class="hanten-exhibit">
+  <h1 class="hanten-question">Where should you armor the bomber — where the bullet holes are, or where they aren't?</h1>
 
-        <h1 class="hanten-question">
-            Where should you armor the bomber — where the bullet holes are, or where they aren't?
-        </h1>
+  <p class="hanten-subtitle">
+    During World War II, the damage on bombers that made it home looked like a guide to where armor was needed.
+    A statistician named Abraham Wald saw what that data was missing: the planes that never came back.
+  </p>
 
-        <p class="hanten-subtitle">
-            In 1943, engineers mapped the damage on bombers that made it home. A statistician named
-            Abraham Wald looked at the same map and reached the opposite conclusion.
-        </p>
+  <div class="hanten-graphic h054-graphic">
 
-        <div id="h054-capture">
+    <div class="h054-diagrams">
+      <div class="hanten-panel h054-card">
+        <p class="h054-card-label">What came home: damage on returning planes</p>
+        <svg viewBox="30 30 940 600" id="h054-plane-damage" role="img" aria-labelledby="h054-damage-title">
+          <title id="h054-damage-title">A four-engine bomber with bullet holes on the wings, fuselage, and tail, and none on the engines or cockpit</title>
+        </svg>
+        <div class="h054-legend"><span><span class="h054-swatch" style="background:var(--h054-damage)"></span>Bullet holes found on returning planes</span></div>
+      </div>
 
-            <div class="hanten-graphic">
-                <div class="h054-diagrams">
-                    <div class="hanten-panel h054-card">
-                        <p class="h054-card-label">What the military saw: damage on planes that came home</p>
-                        <svg viewBox="0 0 600 320" id="h054-plane-damage" role="img" aria-labelledby="h054-damage-title">
-                            <title id="h054-damage-title">Bullet holes clustered on the wingtips, rear fuselage, and tail of returning bombers</title>
-                        </svg>
-                        <div class="h054-legend">
-                            <span><span class="h054-swatch" style="background:var(--h054-damage)"></span>Bullet holes found on returning planes</span>
-                        </div>
-                    </div>
+      <div class="hanten-panel h054-card">
+        <p class="h054-card-label">What Wald found: the areas without holes</p>
+        <svg viewBox="30 30 940 600" id="h054-plane-armor" role="img" aria-labelledby="h054-armor-title">
+          <title id="h054-armor-title">The same bomber with the engines and cockpit highlighted, the areas with no holes on returning planes</title>
+        </svg>
+        <div class="h054-legend"><span><span class="h054-swatch" style="background:var(--h054-armor)"></span>Most vulnerable: engines and cockpit</span></div>
+      </div>
+    </div>
+    <p class="h054-note">The bomber and bullet holes are illustrative, not historical damage counts.</p>
 
-                    <div class="hanten-panel h054-card">
-                        <p class="h054-card-label">What Wald recommended: armor where the holes weren't</p>
-                        <svg viewBox="0 0 600 320" id="h054-plane-armor" role="img" aria-labelledby="h054-armor-title">
-                            <title id="h054-armor-title">Recommended armor placed on the engines, cockpit, and front fuselage — areas nearly undamaged among returning planes</title>
-                        </svg>
-                        <div class="h054-legend">
-                            <span><span class="h054-swatch" style="background:var(--h054-armor)"></span>Reinforced: engines, cockpit, fuel system</span>
-                        </div>
-                    </div>
-                </div>
-                <p class="h054-note">Diagram is a stylized schematic in the style of Wald's original figure, not a specific aircraft's blueprint.</p>
-            </div>
+    <section class="h054-compare" aria-label="Where the damage was seen compared with where the planes were most vulnerable">
+      <div class="h054-compare-side damage">
+        <span class="h054-compare-label">Where the holes were</span>
+        <span class="h054-compare-value">Wings · Fuselage · Tail</span>
+      </div>
+      <div class="h054-vs">VS.</div>
+      <div class="h054-compare-side armor">
+        <span class="h054-compare-label">Where the planes were most vulnerable</span>
+        <span class="h054-compare-value">Engines · Cockpit</span>
+      </div>
+    </section>
 
-            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">The missing data was the whole answer</h2>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
-                Every plane the military could inspect had already survived its damage. A hole in the wing or tail was
-                evidence that a plane <em>could</em> take a hit there and still fly home. The spots with almost no
-                holes — the engines, the cockpit, the fuel system — weren't lucky. Planes hit there went down and
-                never made it back to be counted.
-            </p>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
-                Wald, working for Columbia's Statistical Research Group, told the Navy to armor the
-                <strong>undamaged</strong> areas on returning planes, not the damaged ones. His recommendation was
-                adopted and is credited with saving many aircrews.
-            </p>
 
-            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
-                <p class="hanten-takeaway" style="margin:0;">
-                    The safest-looking spots on the chart were actually the most dangerous ones — because a
-                    dataset built entirely from survivors can't show you what killed everyone else.
-                </p>
-            </div>
 
-            <p class="hanten-reflection">
-                Before trusting a pattern, what had to survive in order to be counted in it?
+    <div class="h054-aha">
+      <p><strong>The safest-looking spots on the plane were actually the most dangerous ones.</strong>
+      A dataset built entirely from survivors can't show you what killed everyone else.</p>
+      <p>The same trap shows up anywhere the failures drop out of the data: interview only employees who stayed, and you miss why people quit; study only companies that succeeded, and you miss the ones that took the same risks and failed.</p>
+    </div>
+
+    <p class="hanten-reflection">
+                What had to survive to be counted in the data you’re looking at?
             </p>
 
-            <p class="hanten-source">
-                Sources: Abraham Wald, Columbia University Statistical Research Group, WWII aircraft vulnerability
-                analysis (1943). Account per AMS's "The Legend of Abraham Wald" (Feature Column) and War History
-                Online. Damage clusters (wingtips, rear fuselage, tail) and recommended reinforcement zones
-                (engines, cockpit, fuel system) reflect the widely cited account of Wald's analysis; the diagram
-                itself is illustrative, not a reproduction of Wald's original data.
-            </p>
+            <details class="h054-explore" data-html2canvas-ignore="true"><summary>Why does the armor go where the holes aren't?</summary>
+      <p class="hanten-body">
+        <strong>The rule:</strong> the obvious reading is to armor where the holes are, since that's
+        where the damage is concentrated. But every plane engineers could inspect had already survived
+        its damage. A hole in the wing or tail was evidence that a plane <em>could</em> take a hit there
+        and still fly home. The spots with almost no holes, like the engines and the cockpit,
+        weren't lucky. Planes hit there were more likely to go down and never make it back to be counted.
+      </p>
+      <p>
+        Wald, working with the Statistical Research Group at Columbia University, developed a method for
+        estimating how vulnerable each part of a plane was using only the damage on planes that survived.
+        His analysis found the engine area especially vulnerable: hits there were much less likely to show
+        up among the planes that returned. The popular retelling adds that his advice was adopted and saved
+        many crews, but the historical record of what happened next is thin.
+      </p>
+      <p>It is the same selection effect, working in the opposite direction, as our <a href="../H056/index.html" target="_blank" rel="noopener noreferrer">Regression to the Mean</a> exhibit: survivorship bias hides the data that never made it back to be counted, while regression to the mean over-weights whichever data point happened to land on the extreme end of ordinary luck.</p>
+    </details>
 
-        </div>
+    <details class="h054-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H094/index.html" target="_blank" rel="noopener noreferrer">If 94% of published studies say a drug works, is the question settled?</a></li>
+                    <li><a href="../H055/index.html" target="_blank" rel="noopener noreferrer">How can men be admitted at a much higher rate overall — while women do as well or better in most departments?</a></li>
+                    <li><a href="../H056/index.html" target="_blank" rel="noopener noreferrer">If no player’s skill ever changes, why does their “best season ever” almost never happen twice?</a></li>
+                </ul>
+            </details>
 
-        <div class="hanten-utility">
-            <div id="save-image-slot"></div>
-        </div>
+            <p class="hanten-source h054-source">
+      Sources: Abraham Wald, <i>A Method of Estimating Plane Vulnerability Based on Damage of Survivors</i>,
+      Statistical Research Group, Columbia University (WWII), reprinted by the Center for Naval Analyses, 1980;
+      "The Legend of Abraham Wald," AMS Feature Column. The bomber drawing and bullet-hole pattern are
+      illustrative, not Wald's data.
+    </p>
 
-    </main>
+    <div class="hanten-utility"><div id="save-image-slot"></div></div>
+  </div>
+</main>
 
-    <script>
-        (() => {
-            function mulberry32(seed) {
-                return function () {
-                    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
-                    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-                    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-                    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-                };
-            }
-            const rand = mulberry32(42);
+<script>
+  (() => {
+    /* Bomber drawing borrowed from the H054 interactive, so both pieces
+       show the same aircraft. It is drawn twice: once with bullet holes,
+       once with the armor zones highlighted. */
+    const SVG_NS = "http://www.w3.org/2000/svg";
+    function el(tag, attrs = {}) {
+      const n = document.createElementNS(SVG_NS, tag);
+      Object.entries(attrs).forEach(([k, v]) => n.setAttribute(k, v));
+      return n;
+    }
 
-            function planeSVG() {
-                return `
-                    <rect x="120" y="142" width="440" height="36" rx="18" fill="var(--hanten-border-soft)"/>
-                    <polygon points="220,142 320,142 360,30 260,30" fill="var(--hanten-border-soft)"/>
-                    <polygon points="220,178 320,178 360,290 260,290" fill="var(--hanten-border-soft)"/>
-                    <polygon points="460,142 500,142 518,92 482,92" fill="var(--hanten-border-soft)"/>
-                    <polygon points="460,178 500,178 518,228 482,228" fill="var(--hanten-border-soft)"/>
-                    <ellipse cx="150" cy="160" rx="16" ry="12" fill="var(--hanten-panel)" stroke="var(--hanten-muted)" stroke-width="1"/>
-                    <circle cx="270" cy="108" r="11" fill="var(--hanten-panel)" stroke="var(--hanten-muted)" stroke-width="1"/>
-                    <circle cx="325" cy="55" r="11" fill="var(--hanten-panel)" stroke="var(--hanten-muted)" stroke-width="1"/>
-                    <circle cx="270" cy="212" r="11" fill="var(--hanten-panel)" stroke="var(--hanten-muted)" stroke-width="1"/>
-                    <circle cx="325" cy="265" r="11" fill="var(--hanten-panel)" stroke="var(--hanten-muted)" stroke-width="1"/>
-                `;
-            }
+    // Outline of each part of the plane (same shapes as the interactive).
+    const PARTS = {
+      leftEngines: [
+        "M260,178 Q278,164 294,178 Q302,188 302,208 L302,220 L258,228 L258,208 Q258,188 260,178 Z",
+        "M368,160 Q386,144 404,160 Q412,172 412,194 L412,209 L360,216 L360,194 Q360,172 368,160 Z"
+      ],
+      rightEngines: [
+        "M632,160 Q614,144 596,160 Q588,172 588,194 L588,209 L640,216 L640,194 Q640,172 632,160 Z",
+        "M740,178 Q722,164 706,178 Q698,188 698,208 L698,220 L742,228 L742,208 Q742,188 740,178 Z"
+      ],
+      leftWing: ["M466,202 L414,210 L360,216 L302,224 L244,232 L176,244 L104,258 Q62,266 40,286 Q52,306 96,316 L226,342 L356,368 L466,390 Z"],
+      rightWing: ["M534,202 L586,210 L640,216 L698,224 L756,232 L824,244 L896,258 Q938,266 960,286 Q948,306 904,316 L774,342 L644,368 L534,390 Z"],
+      tail: ["M480,474 L430,486 L356,504 Q326,512 310,530 Q320,550 354,554 L472,566 L500,620 L528,566 L646,554 Q680,550 690,530 Q674,512 644,504 L570,486 L520,474 L512,548 L500,606 L488,548 Z"],
+      fuselage: ["M468,188 Q480,202 484,220 L478,430 Q478,486 488,548 L500,606 L512,548 Q522,486 522,430 L516,220 Q520,202 532,188 L534,390 Q530,454 520,516 L500,620 L480,516 Q470,454 466,390 Z"],
+      cockpit: ["M468,188 C470,142 474,96 482,66 Q500,34 518,66 C526,96 530,142 532,188 Q518,204 500,208 Q482,204 468,188 Z"]
+    };
 
-            function dotsInRect(x0, y0, x1, y1, n, color, r) {
-                let s = "";
-                for (let i = 0; i < n; i++) {
-                    const x = x0 + rand() * (x1 - x0);
-                    const y = y0 + rand() * (y1 - y0);
-                    s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${color}" opacity="0.85"/>`;
-                }
-                return s;
-            }
+    // Drawing order: engines first so the wings sit on top of them.
+    const ORDER = ["leftEngines", "rightEngines", "leftWing", "rightWing", "tail", "fuselage", "cockpit"];
 
-            const damageZones = [
-                [255, 25, 365, 90],
-                [255, 230, 365, 295],
-                [345, 144, 458, 176],
-                [462, 88, 522, 142],
-                [462, 178, 522, 232],
-            ];
+    // Illustrative bullet holes (same as the interactive): wings, fuselage, tail.
+    const HOLES = [
+      [92,282],[113,296],[137,287],[162,305],[188,292],[213,314],[241,298],[269,320],[304,271],[327,252],[342,286],[365,314],[401,262],[423,294],[446,326],
+      [557,270],[582,301],[616,281],[653,316],[703,270],[742,298],[781,254],[806,271],[829,292],[851,266],[874,306],[895,280],[916,300],
+      [486,238],[514,274],[489,318],[513,369],[487,421],[511,462],
+      [389,527],[444,542],[611,521]
+    ];
 
-            const damageEl = document.getElementById("h054-plane-damage");
-            let damageDots = "";
-            damageZones.forEach(z => damageDots += dotsInRect(z[0], z[1], z[2], z[3], 11, "var(--h054-damage)", 3.4));
-            damageEl.innerHTML = planeSVG() + damageDots;
+    function drawBomber(svg, { holes = false, armor = [] } = {}) {
+      svg.setAttribute("viewBox", "30 30 940 600");
+      const gradId = svg.id + "-metal";
+      const defs = el("defs");
+      const grad = el("linearGradient", { id: gradId, x1: "0", y1: "0", x2: "1", y2: "1" });
+      grad.append(
+        el("stop", { offset: "0%", "stop-color": "#d7d4c7" }),
+        el("stop", { offset: "52%", "stop-color": "#b9b6aa" }),
+        el("stop", { offset: "100%", "stop-color": "#8f918b" })
+      );
+      defs.appendChild(grad);
+      svg.appendChild(defs);
 
-            const armorEl = document.getElementById("h054-plane-armor");
-            const armorHighlights = `
-                <ellipse cx="150" cy="160" rx="20" ry="15" fill="none" stroke="var(--h054-armor)" stroke-width="4"/>
-                <ellipse cx="215" cy="160" rx="30" ry="16" fill="none" stroke="var(--h054-armor)" stroke-width="4"/>
-                <circle cx="270" cy="108" r="15" fill="none" stroke="var(--h054-armor)" stroke-width="4"/>
-                <circle cx="325" cy="55" r="15" fill="none" stroke="var(--h054-armor)" stroke-width="4"/>
-                <circle cx="270" cy="212" r="15" fill="none" stroke="var(--h054-armor)" stroke-width="4"/>
-                <circle cx="325" cy="265" r="15" fill="none" stroke="var(--h054-armor)" stroke-width="4"/>
-            `;
-            armorEl.innerHTML = planeSVG() + armorHighlights;
-        })();
-    </script>
+      ORDER.forEach(id => {
+        PARTS[id].forEach(d => svg.appendChild(el("path", {
+          d, fill: `url(#${gradId})`, stroke: "#334b58", "stroke-width": "3.5", "stroke-linejoin": "round"
+        })));
+        // Armor highlight goes right on top of its own part, so an engine's
+        // highlight is still partly covered by the wing drawn after it.
+        if (armor.includes(id)) {
+          PARTS[id].forEach(d => svg.appendChild(el("path", {
+            d, fill: "rgba(14,124,134,0.35)", stroke: "var(--h054-armor)", "stroke-width": "6", "stroke-linejoin": "round"
+          })));
+        }
+      });
 
-    <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
-    <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "Where should you armor the bomber — where the bullet holes are, or where they aren't?",
-            filename: "H054-survivorship-bias.png"
+      // Panel lines
+      [[500,205,500,585],[466,222,72,286],[534,222,928,286],[350,510,472,548],[650,510,528,548],
+       [126,270,126,320],[204,252,204,336],[796,252,796,336],[874,270,874,320],
+       [332,230,332,362],[668,230,668,362]].forEach(a => svg.appendChild(el("line", {
+        x1: a[0], y1: a[1], x2: a[2], y2: a[3], stroke: "#70756f", "stroke-width": "1.05", opacity: ".42"
+      })));
+
+      // Cockpit windows
+      svg.appendChild(el("path", { d: "M482,70 Q500,44 518,70 L524,158 Q514,176 500,180 Q486,176 476,158 Z", fill: "#294351", stroke: "#182f3a", "stroke-width": "3" }));
+      [486,496,506,516].forEach(x => svg.appendChild(el("line", { x1: x, y1: "66", x2: x - 3, y2: "162", stroke: "#b9c8cc", "stroke-width": "2", opacity: ".9" })));
+      [94,120,146].forEach(y => svg.appendChild(el("line", { x1: "478", y1: y, x2: "522", y2: y, stroke: "#b9c8cc", "stroke-width": "2", opacity: ".9" })));
+
+      // Propellers
+      [[278,166],[386,148],[614,148],[722,166]].forEach(([x, y]) => {
+        svg.appendChild(el("line", { x1: x - 43, y1: y, x2: x + 43, y2: y, stroke: "#202b30", "stroke-width": "8", "stroke-linecap": "round" }));
+        svg.appendChild(el("line", { x1: x - 43, y1: y, x2: x - 35, y2: y, stroke: "#d39a19", "stroke-width": "8", "stroke-linecap": "round" }));
+        svg.appendChild(el("line", { x1: x + 35, y1: y, x2: x + 43, y2: y, stroke: "#d39a19", "stroke-width": "8", "stroke-linecap": "round" }));
+        svg.appendChild(el("circle", { cx: x, cy: y, r: "8", fill: "#202b30" }));
+      });
+
+      // Center line, top turret, tail gun
+      svg.appendChild(el("line", { x1: "500", y1: "210", x2: "500", y2: "555", stroke: "#77786f", "stroke-width": "1.2", opacity: ".5" }));
+      svg.appendChild(el("ellipse", { cx: "500", cy: "326", rx: "13", ry: "18", fill: "#56636a", stroke: "#2f4652", "stroke-width": "2" }));
+      svg.appendChild(el("circle", { cx: "500", cy: "326", r: "6", fill: "#263b45" }));
+      svg.appendChild(el("ellipse", { cx: "500", cy: "552", rx: "9", ry: "15", fill: "#56636a", stroke: "#2f4652", "stroke-width": "2" }));
+
+      if (holes) {
+        HOLES.forEach(([x, y]) => {
+          svg.appendChild(el("circle", { cx: x, cy: y, r: "7", fill: "#c9342f", stroke: "#fff", "stroke-width": "3" }));
+          svg.appendChild(el("circle", { cx: x, cy: y, r: "2.3", fill: "#7f1714" }));
         });
-    </script>
+      }
+    }
+
+    drawBomber(document.getElementById("h054-plane-damage"), { holes: true });
+    drawBomber(document.getElementById("h054-plane-armor"), { armor: ["leftEngines", "rightEngines", "cockpit"] });
+  })();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+<script>
+(() => {
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+  slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+  const save = document.createElement("button"), share = document.createElement("button");
+  save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+  slot.append(save, share);
+  const filename = "H054-survivorship-bias.png";
+  const title = "Where should you armor the bomber — where the bullet holes are, or where they aren't?";
+
+  async function blob() {
+    const diagrams = document.querySelector(".h054-diagrams");
+    const note = document.querySelector(".h054-note");
+    const compare = document.querySelector(".h054-compare");
+    const aha = document.querySelector(".h054-aha");
+    const source = document.querySelector(".h054-source");
+    if (!diagrams || !compare) throw new Error("Export content not found.");
+
+    const card = document.createElement("div");
+    card.className = "hanten-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800; titleCanvas.height = 168;
+    titleCanvas.style.width = "900px"; titleCanvas.style.height = "84px";
+    titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+    const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+    t.font = '750 30px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+    t.fillText("Where should you armor the bomber —", 450, 21);
+    t.fillText("where the bullet holes are, or where they aren't?", 450, 61);
+    card.appendChild(titleCanvas);
+
+    const sub = document.createElement("canvas");
+    sub.width = 1800; sub.height = 88;
+    sub.style.width = "900px"; sub.style.height = "44px";
+    sub.style.display = "block"; sub.style.margin = "0 auto 20px";
+    const s = sub.getContext("2d"); s.scale(2, 2);
+    s.font = '400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+    s.fillText("During WWII, damage on bombers that made it home looked like a guide to armor.", 450, 12);
+    s.fillText("Abraham Wald saw what that data was missing: the planes that never came back.", 450, 32);
+    card.appendChild(sub);
+
+    const graphic = document.createElement("div");
+    graphic.className = "h054-export-graphic";
+    graphic.appendChild(diagrams.cloneNode(true));
+    if (note) graphic.appendChild(note.cloneNode(true));
+    graphic.appendChild(compare.cloneNode(true));
+    card.appendChild(graphic);
+
+    if (aha) {
+      const textcol = document.createElement("div");
+      textcol.className = "hanten-export-textcol";
+      const ac = aha.cloneNode(true);
+      ac.className = "hanten-export-aha";
+      textcol.appendChild(ac);
+      card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "hanten-export-reflection";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    card.appendChild(reflection);
+
+    if (source) {
+      const sc = source.cloneNode(true);
+      sc.className = "hanten-export-source";
+      card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+    try {
+      const canvas = await html2canvas(card, {
+        backgroundColor: null,
+        scale: 2,
+        useCORS: true,
+        width: card.scrollWidth,
+        height: card.scrollHeight
+      });
+      return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+    } finally {
+      card.remove();
+    }
+  }
+
+  function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000); }
+  save.onclick = async () => { save.disabled = true; try { download(await blob()); } finally { save.disabled = false; } };
+  share.onclick = async () => {
+    share.disabled = true;
+    try {
+      const b = await blob(), f = new File([b], filename, { type: "image/png" });
+      if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] });
+      else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead."); }
+    } catch (e) { if (!e || e.name !== "AbortError") console.error(e); }
+    finally { share.disabled = false; }
+  };
+})();
+</script>
 
 </body>
 </html>

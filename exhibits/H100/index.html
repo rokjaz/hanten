@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H100 — Is "80% Lean" Ground Beef a Low-Fat Food?</title>
+
+    <meta
+        name="description"
+        content="80/20 ground beef is 80% lean by weight, but about 71% of its calories come from fat. Most of the 'lean' is water. The label picks the unit that sounds best."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H100-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h100-fat: #b23b32;
+            --h100-pro: #0b4f57;
+            --h100-water: #d6e6ea;
+        }
+
+        .h100-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h100-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h100-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h100-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h100-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h100-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h100-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h100-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h100-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.9rem; }
+
+        .h100-panel svg { display: block; width: 100%; max-width: 680px; height: auto; margin: 0 auto; }
+        .h100-gt { font-family: var(--hanten-font); font-size: 14px; font-weight: 800; fill: var(--hanten-text); }
+        .h100-gs { font-family: var(--hanten-font); font-size: 12px; fill: var(--hanten-muted); }
+        .h100-seg { font-family: var(--hanten-font); font-size: 13px; font-weight: 800; }
+
+        .h100-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h100-aha p { margin: 0 0 0.6rem; }
+        .h100-aha p:last-child { margin-bottom: 0; }
+
+        .h100-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h100-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h100-explore p { margin: .55rem 0 0; }
+        .h100-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h100-explore + .h100-explore { margin-top: 0; border-top: none; }
+        .h100-explore strong { color: var(--hanten-text); }
+
+        .h100-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h100-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h100-table th, .h100-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h100-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h100-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .h100-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .h100-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 600px) {
+            .h100-stats { grid-template-columns: minmax(0, 1fr); }
+            .h100-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h100-table-panel { padding: 0.3rem 0.4rem; }
+            .h100-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2),
+.hanten-exhibit table td:nth-child(3),
+.hanten-exhibit table td:nth-child(4) { text-align: center; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Ground beef labeled "80% lean." Is it a low-fat food?
+        </h1>
+
+        <p class="hanten-subtitle">
+            The label is accurate: by weight, 80/20 ground beef is 80% lean and 20% fat. But weight isn't the only way
+            to measure it. Count calories instead, and fat is most of what you're eating.
+        </p>
+
+        <div id="h100-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h100-stats-cap">Raw 80/20 ground beef</p>
+                <div class="h100-stats">
+                    <div class="hanten-panel h100-stat">
+                        <div class="h100-stat-k">By weight</div>
+                        <div class="h100-stat-n" style="color:var(--h100-pro)">80% lean</div>
+                        <div class="h100-stat-l">what the package shows</div>
+                    </div>
+                    <div class="hanten-panel h100-stat">
+                        <div class="h100-stat-k">By calories</div>
+                        <div class="h100-stat-n" style="color:var(--h100-fat)">About 71% fat</div>
+                        <div class="h100-stat-l">180 of its 254 calories per 3.5 oz (100 g) come from fat</div>
+                    </div>
+                    <div class="hanten-panel h100-stat">
+                        <div class="h100-stat-k">Most of the "lean"</div>
+                        <div class="h100-stat-n">Is water</div>
+                        <div class="h100-stat-l">about 62% of the beef's weight, with no calories at all</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h100-panel">
+                    <p class="h100-panel-title">The same beef, measured two ways</p>
+                    <p class="h100-panel-sub">Each bar is the whole 3.5 oz (100 g) of beef</p>
+                    <svg viewBox="0 0 640 200" role="img" aria-labelledby="h100-chart-title">
+                        <title id="h100-chart-title">Two stacked bars for 100 grams of raw 80/20 ground beef. By weight: 20% fat, 17% protein, and 63% water and other. By calories: about 71% from fat and about 29% from protein.</title>
+<text class="h100-gt" x="0" y="16">By weight: what "80% lean" measures</text>
+<text class="h100-gs" x="0" y="33">Per 3.5 oz (100 g) of raw 80/20 ground beef</text>
+<rect x="0.0" y="42" width="128.0" height="40" fill="var(--h100-fat)"/>
+<text class="h100-seg" x="8.0" y="67" fill="#fff">Fat 20%</text>
+<rect x="128.0" y="42" width="110.1" height="40" fill="var(--h100-pro)"/>
+<text class="h100-seg" x="136.0" y="67" fill="#fff">Protein 17%</text>
+<rect x="238.1" y="42" width="401.9" height="40" fill="var(--h100-water)"/>
+<text class="h100-seg" x="246.1" y="67" fill="var(--hanten-text,#1c2733)">Water and other 63%</text>
+<text class="h100-gt" x="0" y="126">By calories: where the energy comes from</text>
+<text class="h100-gs" x="0" y="143">254 calories in the same 3.5 oz (100 g)</text>
+<rect x="0.0" y="152" width="454.4" height="40" fill="var(--h100-fat)"/>
+<text class="h100-seg" x="8.0" y="177" fill="#fff">Fat about 71%</text>
+<rect x="454.4" y="152" width="185.6" height="40" fill="var(--h100-pro)"/>
+<text class="h100-seg" x="462.4" y="177" fill="#fff">Protein about 29%</text>
+                    </svg>
+                </div>
+
+            </div>
+
+            <div class="h100-aha">
+                <p><strong>A true number can come in the unit that sounds best.</strong> "80% lean" measures weight, and
+                    most of that weight is water, which has no calories. Fat has more than twice the calories per gram of
+                    protein, so the 20% of fat by weight supplies about 71% of the calories.</p>
+                <p>The same choice shows up on plenty of labels: 2% milk is 2% fat by weight but gets about a third of its
+                    calories from fat, and a snack can be "95% fat-free" by weight while much of its energy comes from fat.
+                    When a label picks one unit, ask what the same fact looks like in another, equally true one.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                What label have you read that might sound very different if it used a different unit?
+            </p>
+
+            <details class="h100-explore" data-html2canvas-ignore="true">
+                <summary>How leaner blends compare</summary>
+                <div class="hanten-panel h100-table-panel">
+                    <table class="h100-table">
+                        <thead>
+                            <tr><th>Label</th><th>Fat by weight</th><th>Calories per 3.5 oz (100 g), raw</th><th>Share of calories from fat</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>80% lean / 20% fat</td><td>20%</td><td>254</td><td>About 71%</td></tr>
+                            <tr><td>90% lean / 10% fat</td><td>10%</td><td>176</td><td>About 51%</td></tr>
+                            <tr><td>93% lean / 7% fat</td><td>7%</td><td>152</td><td>About 41%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Share of calories from fat is the fat grams × 9 calories, divided by total calories. U.S. labeling rules
+                    say that when a package states a lean percentage, it must show the fat percentage right next to it, in
+                    the same size and style of lettering.</p>
+            </details>
+
+            <details class="h100-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H092/index.html" target="_blank" rel="noopener noreferrer">Tic Tacs are about 90% sugar. So why does the label say 0 g sugar?</a></li>
+                    <li><a href="../H096/index.html" target="_blank" rel="noopener noreferrer">A vaccine is "95% effective." Does that mean 5 out of every 100 vaccinated people still get sick?</a></li>
+                    <li><a href="../H086/index.html" target="_blank" rel="noopener noreferrer">The unemployment rate is 4.1%. Does that mean almost everyone who wants a job has one?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: U.S. Department of Agriculture, FoodData Central, "Beef, ground, 80% lean meat / 20% fat, raw"
+                and the 90% and 93% lean equivalents; USDA Food Safety and Inspection Service, nutrition labeling rules
+                for ground or chopped meat (Federal Register, 2001 proposal and final rule).
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H100-80-percent-lean.png", title = "Is 80% lean ground beef a low-fat food?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

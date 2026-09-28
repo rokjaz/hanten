@@ -1,295 +1,384 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H056 — There Is No Cover Jinx | Hanten</title>
+<meta name="description" content="Athletes who peak spectacularly tend to have a quieter year after. It looks like a jinx. It's regression to the mean, and you can watch the exact mechanism in a live simulation.">
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+<style>
+  :root{
+    --h056-ink:#1c2733;
+    --h056-ink-soft:#526170;
+    --h056-line:rgba(28,39,51,.14);
+    --h056-paper-raised:#ffffff;
+    --h056-peak:#c1442d;
+    --h056-after:#0e7c86;
+  }
 
-    <title>H056 — There Is No Cover Jinx</title>
+  .h056-panel{
+    background:var(--h056-paper-raised);
+    border:1px solid var(--h056-line);
+    padding:1.2rem 1.1rem 1rem;
+  }
 
-    <meta
-        name="description"
-        content="Athletes who peak spectacularly tend to have a quieter year after. It looks like a jinx. It's regression to the mean, and you can watch the exact mechanism in a live simulation."
-    >
+  .h056-stat-row{
+    display:flex;
+    justify-content:center;
+    gap:2.4rem;
+    flex-wrap:wrap;
+    text-align:center;
+    margin-bottom:.6rem;
+  }
+  .h056-stat-num{
+    font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    font-size:clamp(1.7rem,4.4vw,2.2rem);
+    font-weight:750;
+    line-height:1.1;
+  }
+  .h056-stat-num.peak{ color:var(--h056-peak); }
+  .h056-stat-num.after{ color:var(--h056-after); }
+  .h056-stat-num.mean{ color:var(--h056-ink-soft); }
+  .h056-stat-cap{
+    margin-top:.3rem;
+    max-width:14ch;
+    margin-left:auto;
+    margin-right:auto;
+    font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    font-size:.68rem;
+    font-weight:700;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--h056-ink-soft);
+  }
 
-    <link rel="stylesheet" href="../../assets/css/hanten.css">
+  .h056-panel svg{ display:block; width:100%; height:auto; }
+  .h056-axis-label{ font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif); font-size:10.5px; fill:var(--h056-ink-soft); }
+  .h056-mean-label{ font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif); font-size:10px; font-weight:700; fill:var(--h056-ink-soft); }
 
-    <style>
-        /*
-           H056-SPECIFIC STYLES
+  .h056-caption{
+    max-width:760px;
+    margin:.7rem auto 0;
+    text-align:center;
+    font-size:.82rem;
+    color:var(--h056-ink-soft);
+  }
 
-           These styles belong to this exhibit rather than the shared
-           Hanten framework. If later exhibits repeatedly need one of
-           these patterns, we can consider promoting it to hanten.css.
-        */
+  .h056-controls{
+    display:flex;
+    justify-content:center;
+    margin-top:1rem;
+  }
+  .h056-run-btn{
+    font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    font-size:.8rem;
+    font-weight:700;
+    padding:.6rem 1rem;
+    border:1px solid var(--h056-after);
+    background:#fff;
+    color:var(--h056-after);
+    cursor:pointer;
+  }
+  .h056-run-btn:hover,
+  .h056-run-btn:focus-visible{
+    background:var(--h056-after);
+    color:#fff;
+  }
+  .h056-run-btn:disabled{ opacity:.6; cursor:wait; }
 
-        :root {
-            --h056-peak: #a3392b;
-            --h056-after: var(--hanten-accent);
-        }
+  .h056-aha{
+    max-width:840px;
+    margin:1.15rem auto 0;
+    padding:.15rem 0;
+    text-align:left;
+    font-size:.95rem;
+    line-height:1.45;
+    color:var(--h056-ink);
+  }
+  .h056-aha strong{ color:var(--h056-ink); }
+  .h056-aha p{ margin:0 0 .55rem; }
+  .h056-aha p:last-child{ margin-bottom:0; }
 
-        .h056-panel {
-            padding: 1.2rem 1.1rem 1rem;
-        }
+  .h056-explore{
+    max-width:840px;
+    margin:.9rem auto 0;
+    padding:.6rem 0;
+    border-top:1px solid var(--h056-line);
+    border-bottom:1px solid var(--h056-line);
+    color:var(--h056-ink-soft);
+    font-size:.84rem;
+    line-height:1.5;
+  }
+  .h056-explore summary{ cursor:pointer; color:var(--h056-ink); font-weight:750; }
+  .h056-explore p{ margin:.65rem 0 0; }
 
-        .h056-stat-row {
-            display: flex;
-            justify-content: center;
-            gap: 2.4rem;
-            flex-wrap: wrap;
-            text-align: center;
-            margin-bottom: 0.6rem;
-        }
+  .h056-source{
+    max-width: 840px;
+    margin:.9rem auto 0;
+    text-align: left;
+    font-size:.7rem;
+    line-height:1.45;
+    color:#7b838a;
+  }
 
-        .h056-stat-num {
-            font-size: clamp(1.7rem, 4.4vw, 2.2rem);
-            font-weight: 700;
-            line-height: 1.1;
-        }
+  @media (max-width:620px){
+    .h056-stat-row{ gap:1.2rem; }
+  }
+</style>
 
-        .h056-stat-num.peak { color: var(--h056-peak); }
-        .h056-stat-num.after { color: var(--h056-after); }
-        .h056-stat-num.mean { color: var(--hanten-muted); }
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
 
-        .h056-stat-cap {
-            margin-top: 0.3rem;
-            max-width: 14ch;
-            margin-left: auto;
-            margin-right: auto;
-            font-family: var(--hanten-font);
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            color: var(--hanten-muted);
-        }
+<style>
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:900px !important;margin-left:auto !important;margin-right:auto !important;
+  text-align:center !important;text-wrap:balance;
+}
 
-        .h056-panel svg {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
+.hanten-export-card{
+ position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
+ background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-card .h056-panel{margin:0;background:#fff}
+.hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+.hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-aha p{margin:0 0 8px}
+.hanten-export-aha p:last-child{margin-bottom:0}
+.hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+.hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
 
-        .h056-axis-label {
-            font-family: var(--hanten-font);
-            font-size: 10.5px;
-            fill: var(--hanten-muted);
-        }
+/* Design Standards 19 (text column) */
+.hanten-exhibit .h056-aha { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; }
+</style>
 
-        .h056-mean-label {
-            font-family: var(--hanten-font);
-            font-size: 10px;
-            font-weight: 700;
-            fill: var(--hanten-muted);
-        }
-
-        .h056-caption {
-            max-width: var(--hanten-text-width);
-            margin: 0.7rem auto 0;
-            text-align: center;
-            font-size: 0.82rem;
-            color: var(--hanten-muted);
-        }
-
-        .h056-controls {
-            display: flex;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-
-        .h056-run-btn {
-            font-family: var(--hanten-font);
-            font-size: 0.8rem;
-            font-weight: 700;
-            padding: 0.6rem 1rem;
-            border: 1px solid var(--hanten-accent);
-            background: #fff;
-            color: var(--hanten-accent);
-            cursor: pointer;
-        }
-
-        .h056-run-btn:hover,
-        .h056-run-btn:focus-visible {
-            background: var(--hanten-accent);
-            color: #fff;
-        }
-
-        .h056-run-btn:disabled {
-            opacity: 0.6;
-            cursor: wait;
-        }
-    </style>
 </head>
-
 <body>
 
-    <main class="hanten-exhibit">
+<main class="hanten-exhibit">
+  <h1 class="hanten-question">If no player’s skill ever changes, why does their “best season ever” almost never happen twice?</h1>
+  <p class="hanten-subtitle">Athletes who land on a magazine cover after a career-best season often follow it with a quieter one — a predictable pattern, not a jinx.</p>
 
-        <h1 class="hanten-question">
-            If no player's skill ever changes, why does their "best season ever" almost never happen twice?
-        </h1>
+  <div class="hanten-graphic">
 
-        <p class="hanten-subtitle">
-            Athletes who land on a magazine cover after a career-best season often follow it with a quieter one.
-            Fans call it a jinx. It's a predictable statistical pattern with no jinx anywhere in the code.
-        </p>
-
-        <div id="h056-capture">
-
-            <div class="hanten-graphic hanten-panel h056-panel">
-                <div class="h056-stat-row">
-                    <div>
-                        <div class="h056-stat-num peak" id="h056-stat-peak">–</div>
-                        <div class="h056-stat-cap">Avg. score, their record-breaking season</div>
-                    </div>
-                    <div>
-                        <div class="h056-stat-num after" id="h056-stat-after">–</div>
-                        <div class="h056-stat-cap">Avg. score, the very next season</div>
-                    </div>
-                    <div>
-                        <div class="h056-stat-num mean" id="h056-stat-mean">–</div>
-                        <div class="h056-stat-cap">League average, both seasons</div>
-                    </div>
-                </div>
-                <svg viewBox="0 0 640 300" id="h056-slope-chart" role="img" aria-labelledby="h056-slope-title">
-                    <title id="h056-slope-title">Slope chart showing top-5% performers' scores dropping from their peak season to the next, while staying above the league average</title>
-                </svg>
-                <p class="h056-caption" id="h056-explain-note">Loading simulation…</p>
-                <div class="h056-controls">
-                    <button type="button" class="h056-run-btn" id="h056-run-btn">Run a new simulation (20,000 players)</button>
-                </div>
-            </div>
-
-            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.3rem auto 0;">No player in this simulation got worse</h2>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
-                Every simulated player has one fixed true skill level for their entire career. Each season's score
-                is just that fixed skill plus random noise — good luck or bad luck, drawn fresh every time.
-                Nothing decays, nothing is cursed, and nothing "knows" it was on a cover.
-            </p>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
-                Pick the top 5% of one season's scores and you've mostly picked the players who got lucky that
-                year, not just the most skilled ones. Next season, that luck resets — so their scores fall back
-                toward their true skill, which was always a bit closer to average than their peak season made it
-                look.
-            </p>
-
-            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
-                <p class="hanten-takeaway" style="margin:0;">
-                    The top performers are still above average next season — just not as spectacularly as their
-                    peak suggested.
-                </p>
-            </div>
-
-            <p class="hanten-reflection">
-                Any time you select the most extreme outcome, should you expect the next measurement to look
-                less extreme — jinx or no jinx?
-            </p>
-
-            <p class="hanten-source">
-                Sources: the "Sports Illustrated cover jinx" is a long-documented piece of sports folklore (see
-                Sports Illustrated's own reporting and Psychology Today, "The Sports Illustrated Cover Jinx,"
-                2016) that statisticians commonly cite as a real-world illustration of regression to the mean —
-                the same effect Francis Galton first identified in 1886 comparing parents' and children's
-                heights. Rather than rely on unverified real cover statistics, this exhibit simulates the
-                underlying mechanism directly (fixed skill + random noise per season), so the numbers above are
-                exact and reproducible from this page's own visible source.
-            </p>
-
+    <div class="h056-panel">
+      <div class="h056-stat-row">
+        <div>
+          <div class="h056-stat-num peak" id="h056-stat-peak">–</div>
+          <div class="h056-stat-cap">Avg. score, their record-breaking season</div>
         </div>
-
-        <div class="hanten-utility">
-            <div id="save-image-slot"></div>
+        <div>
+          <div class="h056-stat-num after" id="h056-stat-after">–</div>
+          <div class="h056-stat-cap">Avg. score, the very next season</div>
         </div>
+        <div>
+          <div class="h056-stat-num mean" id="h056-stat-mean">–</div>
+          <div class="h056-stat-cap">League average, both seasons</div>
+        </div>
+      </div>
+      <svg viewBox="0 0 640 300" id="h056-slope-chart" role="img" aria-labelledby="h056-slope-title">
+        <title id="h056-slope-title">Slope chart showing top-5% performers' scores dropping from their peak season to the next, while staying above the league average</title>
+      </svg>
+      <p class="h056-caption" id="h056-explain-note">Loading simulation…</p>
+      <div class="h056-controls">
+        <button type="button" class="h056-run-btn" id="h056-run-btn">Run a new simulation (20,000 players)</button>
+      </div>
+    </div>
 
-    </main>
+    <div class="h056-aha">
+      <p><strong>There's no jinx anywhere in this code — just a fixed skill number and a fresh random draw each season.</strong> The top performers are still above the league average next season; they just aren't as spectacular as their record season made them look.</p>
+      <p>The same thing happens anywhere you select for an extreme result — a hot sales quarter, a breakout test score, a viral post. Expect the next measurement to look more ordinary. That's a statistical pattern, not a jinx, a slump, or a sign that something changed.</p>
+    </div>
 
-    <script>
-        (() => {
-            function mulberry32(seed) {
-                return function () {
-                    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
-                    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-                    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-                    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-                };
-            }
+    <p class="hanten-reflection">
+                After someone’s career-best year, what should you expect next year?
+            </p>
 
-            function gauss(rand, mean, sd) {
-                const u1 = Math.max(rand(), 1e-9), u2 = rand();
-                const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-                return mean + z * sd;
-            }
+    <details class="h056-explore" data-html2canvas-ignore="true">
+      <summary>Why does the top group specifically fall back?</summary>
+      <p>Every simulated player has one fixed true skill level for their entire career. Each season's score is just that fixed skill plus random noise — good luck or bad luck, drawn fresh every time. Nothing decays, nothing is cursed, and nothing "knows" it was on a cover. Pick the top 5% of one season's scores and you've mostly picked the players who got lucky that year, not just the most skilled ones. Next season, that luck resets, so their scores fall back toward their true skill, which was always a bit closer to average than their peak season made it look.</p>
+    <p>It is the same selection effect as our <a href="../H054/index.html" target="_blank" rel="noopener noreferrer">Survivorship Bias</a> exhibit, pointed the other way: that one hides the cases filtered out entirely, while this one over-weights whichever case happened to land on the extreme end of ordinary luck. Both make a data set look like it is telling a different story than the noise it is actually built from.</p></details>
 
-            const N = 20000;
-            const svg = document.getElementById("h056-slope-chart");
-            const btn = document.getElementById("h056-run-btn");
+    <details class="h056-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H102/index.html" target="_blank" rel="noopener noreferrer">A neighborhood has an unusual number of cancer cases. Is something there causing them?</a></li>
+                    <li><a href="../H054/index.html" target="_blank" rel="noopener noreferrer">Where should you armor the bomber — where the bullet holes are, or where they aren't?</a></li>
+                    <li><a href="../H099/index.html" target="_blank" rel="noopener noreferrer">"Deadly shark attacks doubled." Did the oceans get twice as dangerous?</a></li>
+                </ul>
+            </details>
 
-            function runSimulation(seed) {
-                const rand = mulberry32(seed);
-                const players = [];
-                for (let i = 0; i < N; i++) {
-                    const skill = gauss(rand, 100, 10);
-                    players.push({ skill, s1: skill + gauss(rand, 0, 15), s2: skill + gauss(rand, 0, 15) });
-                }
-                players.sort((a, b) => b.s1 - a.s1);
-                const topGroup = players.slice(0, Math.round(N * 0.05));
+            <p class="hanten-source h056-source">
+      Sources: the "Sports Illustrated cover jinx" is a long-documented piece of sports folklore (see Sports Illustrated's own reporting and Psychology Today, "The Sports Illustrated Cover Jinx," October 2016) that statisticians commonly cite as a real-world illustration of regression to the mean — the same effect Francis Galton first identified in 1886 comparing parents' and children's heights. Rather than rely on unverified real cover statistics, this exhibit simulates the underlying mechanism directly (fixed skill + random noise per season) with a seeded random-number generator. The first numbers shown are exactly reproducible from this page's own code; the "Run a new simulation" button draws fresh random players each time.
+    </p>
 
-                const avgPeak = topGroup.reduce((s, p) => s + p.s1, 0) / topGroup.length;
-                const avgAfter = topGroup.reduce((s, p) => s + p.s2, 0) / topGroup.length;
-                const leagueMean = players.reduce((s, p) => s + p.s1, 0) / players.length;
+    <div class="hanten-utility"><div id="save-image-slot"></div></div>
+  </div>
+</main>
 
-                document.getElementById("h056-stat-peak").textContent = avgPeak.toFixed(1);
-                document.getElementById("h056-stat-after").textContent = avgAfter.toFixed(1);
-                document.getElementById("h056-stat-mean").textContent = leagueMean.toFixed(1);
-                document.getElementById("h056-explain-note").textContent =
-                    `The top 5% averaged ${avgPeak.toFixed(1)} in their record season, fell to ${avgAfter.toFixed(1)} the next — but that's still ${(avgAfter - leagueMean).toFixed(1)} points above the league average of ${leagueMean.toFixed(1)}. They were genuinely good. They just weren't as good as their peak season made them look.`;
+<script>
+(() => {
+  function mulberry32(seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
 
-                const sample = [];
-                const step = Math.max(1, Math.floor(topGroup.length / 24));
-                for (let i = 0; i < topGroup.length && sample.length < 24; i += step) sample.push(topGroup[i]);
+  function gauss(rand, mean, sd) {
+    const u1 = Math.max(rand(), 1e-9), u2 = rand();
+    const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+    return mean + z * sd;
+  }
 
-                const minV = 60, maxV = 160;
-                const yFor = v => 260 - ((v - minV) / (maxV - minV)) * 230;
-                const xLeft = 180, xRight = 460;
+  const N = 20000;
+  const svg = document.getElementById("h056-slope-chart");
+  const btn = document.getElementById("h056-run-btn");
 
-                let html = "";
-                html += `<line x1="${xLeft}" y1="${yFor(leagueMean)}" x2="${xRight}" y2="${yFor(leagueMean)}" stroke="var(--hanten-muted)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
-                html += `<text x="${xRight + 8}" y="${yFor(leagueMean) + 4}" class="h056-mean-label">LEAGUE AVG</text>`;
-                html += `<text x="${xLeft}" y="24" class="h056-axis-label" text-anchor="middle">RECORD SEASON</text>`;
-                html += `<text x="${xRight}" y="24" class="h056-axis-label" text-anchor="middle">NEXT SEASON</text>`;
+  function runSimulation(seed) {
+    const rand = mulberry32(seed);
+    const players = [];
+    for (let i = 0; i < N; i++) {
+      const skill = gauss(rand, 100, 10);
+      players.push({ skill, s1: skill + gauss(rand, 0, 15), s2: skill + gauss(rand, 0, 15) });
+    }
+    players.sort((a, b) => b.s1 - a.s1);
+    const topGroup = players.slice(0, Math.round(N * 0.05));
 
-                sample.forEach(p => {
-                    const y1 = yFor(p.s1), y2 = yFor(p.s2);
-                    html += `<line x1="${xLeft}" y1="${y1.toFixed(1)}" x2="${xRight}" y2="${y2.toFixed(1)}" stroke="var(--h056-peak)" stroke-width="1.3" opacity="0.55"/>`;
-                    html += `<circle cx="${xLeft}" cy="${y1.toFixed(1)}" r="3" fill="var(--h056-peak)"/>`;
-                    html += `<circle cx="${xRight}" cy="${y2.toFixed(1)}" r="3" fill="var(--h056-after)"/>`;
-                });
+    const avgPeak = topGroup.reduce((s, p) => s + p.s1, 0) / topGroup.length;
+    const avgAfter = topGroup.reduce((s, p) => s + p.s2, 0) / topGroup.length;
+    const leagueMean = players.reduce((s, p) => s + p.s1, 0) / players.length;
 
-                svg.innerHTML = html;
-            }
+    document.getElementById("h056-stat-peak").textContent = avgPeak.toFixed(1);
+    document.getElementById("h056-stat-after").textContent = avgAfter.toFixed(1);
+    document.getElementById("h056-stat-mean").textContent = leagueMean.toFixed(1);
+    document.getElementById("h056-explain-note").textContent =
+      `The top 5% averaged ${avgPeak.toFixed(1)} in their record season, fell to ${avgAfter.toFixed(1)} the next — but that's still ${(avgAfter - leagueMean).toFixed(1)} points above the league average of ${leagueMean.toFixed(1)}. They were genuinely good. They just weren't as good as their peak season made them look.`;
 
-            runSimulation(7);
+    const sample = [];
+    const step = Math.max(1, Math.floor(topGroup.length / 24));
+    for (let i = 0; i < topGroup.length && sample.length < 24; i += step) sample.push(topGroup[i]);
 
-            btn.addEventListener("click", () => {
-                btn.disabled = true;
-                btn.textContent = "Simulating…";
-                setTimeout(() => {
-                    runSimulation(Math.floor(Math.random() * 1e9));
-                    btn.disabled = false;
-                    btn.textContent = "Run a new simulation (20,000 players)";
-                }, 30);
-            });
-        })();
-    </script>
+    // Chart range grows to fit any unusually high or low score, so no dot
+    // ever lands on top of the column labels or off the chart.
+    const vals = sample.flatMap(p => [p.s1, p.s2]).concat(leagueMean);
+    const minV = Math.min(60, Math.floor(Math.min(...vals) - 5));
+    const maxV = Math.max(160, Math.ceil(Math.max(...vals) + 5));
+    const yFor = v => 275 - ((v - minV) / (maxV - minV)) * 230;
+    const xLeft = 180, xRight = 460;
 
-    <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
-    <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "If no player's skill ever changes, why does their \"best season ever\" almost never happen twice?",
-            filename: "H056-regression-to-the-mean.png"
-        });
-    </script>
+    let html = "";
+    html += `<line x1="${xLeft}" y1="${yFor(leagueMean)}" x2="${xRight}" y2="${yFor(leagueMean)}" stroke="var(--h056-ink-soft)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+    html += `<text x="${xRight + 8}" y="${yFor(leagueMean) + 4}" class="h056-mean-label">LEAGUE AVG</text>`;
+    html += `<text x="${xLeft}" y="24" class="h056-axis-label" text-anchor="middle">RECORD SEASON</text>`;
+    html += `<text x="${xRight}" y="24" class="h056-axis-label" text-anchor="middle">NEXT SEASON</text>`;
+
+    sample.forEach(p => {
+      const y1 = yFor(p.s1), y2 = yFor(p.s2);
+      html += `<line x1="${xLeft}" y1="${y1.toFixed(1)}" x2="${xRight}" y2="${y2.toFixed(1)}" stroke="var(--h056-peak)" stroke-width="1.3" opacity="0.55"/>`;
+      html += `<circle cx="${xLeft}" cy="${y1.toFixed(1)}" r="3" fill="var(--h056-peak)"/>`;
+      html += `<circle cx="${xRight}" cy="${y2.toFixed(1)}" r="3" fill="var(--h056-after)"/>`;
+    });
+
+    svg.innerHTML = html;
+  }
+
+  runSimulation(7);
+
+  btn.addEventListener("click", () => {
+    btn.disabled = true;
+    btn.textContent = "Simulating…";
+    setTimeout(() => {
+      runSimulation(Math.floor(Math.random() * 1e9));
+      btn.disabled = false;
+      btn.textContent = "Run a new simulation (20,000 players)";
+    }, 30);
+  });
+})();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+<script>
+(() => {
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+  slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+  const save = document.createElement("button"), share = document.createElement("button");
+  save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+  slot.append(save, share);
+  const filename = "H056-regression-to-the-mean.png", title = "If no player’s skill ever changes, why does their “best season ever” almost never happen twice?";
+
+  async function blob() {
+    const panel = document.querySelector(".h056-panel");
+    const aha = document.querySelector(".h056-aha");
+    const source = document.querySelector(".h056-source");
+    if (!panel) throw new Error("Export content not found.");
+
+    const card = document.createElement("div");
+    card.className = "hanten-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800; titleCanvas.height = 252;
+    titleCanvas.style.width = "900px"; titleCanvas.style.height = "126px";
+    titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+    const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+    t.font = '750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+    t.fillText("If no player’s skill ever changes,", 450, 21);
+    t.fillText("why does their “best season ever”", 450, 63);
+    t.fillText("almost never happen twice?", 450, 105);
+    card.appendChild(titleCanvas);
+
+    const sub = document.createElement("canvas");
+    sub.width = 1800; sub.height = 112; sub.style.width = "900px"; sub.style.height = "56px";
+    sub.style.display = "block"; sub.style.margin = "0 auto 20px";
+    const s = sub.getContext("2d"); s.scale(2, 2);
+    s.font = '400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+    s.fillText("Athletes who land on a magazine cover after a career-best season", 450, 14);
+    s.fillText("often follow it with a quieter one — a predictable pattern, not a jinx.", 450, 42);
+    card.appendChild(sub);
+
+    const panelClone = panel.cloneNode(true);
+    const controlsClone = panelClone.querySelector(".h056-controls");
+    if (controlsClone) controlsClone.remove();
+    card.appendChild(panelClone);
+
+    if (aha) {
+      const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+      const ahaClone = document.createElement("div"); ahaClone.className = "hanten-export-aha";
+      ahaClone.innerHTML = aha.innerHTML;
+      textcol.appendChild(ahaClone); card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "hanten-export-reflection";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    card.appendChild(reflection);
+
+    if (source) {
+      const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+    try {
+      const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+      return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+    } finally { card.remove(); }
+  }
+  function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+  save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+  share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+})();
+</script>
 
 </body>
 </html>

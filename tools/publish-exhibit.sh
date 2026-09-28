@@ -21,7 +21,7 @@ if [[ ! "$ID" =~ ^H[0-9]{3}$ ]]; then
   exit 1
 fi
 
-MASTER="$HOME/Library/CloudStorage/GoogleDrive-rokjaz@gmail.com/My Drive/Hanten"
+MASTER="${HANTEN_MASTER:-$HOME/Library/CloudStorage/GoogleDrive-rokjaz@gmail.com/My Drive/Hanten}"
 MAPS="$MASTER/02 Maps"
 
 SOURCE_DIR="$(find "$MAPS" -maxdepth 1 -type d -name "${ID}*" -print -quit)"
@@ -31,16 +31,21 @@ if [[ -z "$SOURCE_DIR" ]]; then
   exit 1
 fi
 
-SOURCE_HTML="$SOURCE_DIR/${ID}_v2.html"
+# Source file: H###.html (the standardized master). An older
+# H###_v2.html is used only if H###.html is missing.
+SOURCE_HTML="$SOURCE_DIR/${ID}.html"
+
+if [[ ! -f "$SOURCE_HTML" && -f "$SOURCE_DIR/${ID}_v2.html" ]]; then
+  SOURCE_HTML="$SOURCE_DIR/${ID}_v2.html"
+fi
 
 if [[ ! -f "$SOURCE_HTML" ]]; then
   echo
   echo "NOT READY FOR PUBLICATION: $ID"
   echo
-  echo "Required standardized file does not exist:"
-  echo "  $SOURCE_HTML"
+  echo "No ${ID}.html found in:"
+  echo "  $SOURCE_DIR"
   echo
-  echo "$ID must complete the Hanten v2 standardization pass before publication."
   echo "No website files were changed."
   exit 2
 fi
@@ -97,7 +102,7 @@ for rel in refs:
 
     dst.parent.mkdir(parents=True, exist_ok=True)
 
-    if dst.exists():
+    if dst.exists() and rel != "css/hanten.css":
         print(f"KEEP existing website asset: {dst}")
     else:
         shutil.copy2(src, dst)
@@ -131,7 +136,7 @@ p = Path(sys.argv[1])
 s = p.read_text(encoding="utf-8")
 
 pattern = re.compile(
-    r'\.\./H(\d{3})[^/"\']*/H\1(?:_v2)?\.html'
+    r'\.\./H(\d{3})[^/"]*/H\1(?:_v2)?\.html'
 )
 
 s, count = pattern.subn(

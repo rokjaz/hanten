@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H081 — Is Australia Really Empty?</title>
+
+    <meta
+        name="description"
+        content="Australia averages about 9 people per square mile, but 74% of Australians live on about 0.1% of its land, and the typical Australian lives where there are more than 5,000 people per square mile."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H081-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h081-c4: #0b4f57;   /* 2,500+ per sq mi */
+            --h081-c3: #2f8a86;   /* 250 to 2,500 */
+            --h081-c2: #86bfb2;   /* 25 to 250 */
+            --h081-c1: #cfe4dc;   /* under 25 */
+            --h081-c0: #e6e3da;   /* no one */
+            --h081-hi: #b23b32;
+        }
+
+        .h081-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h081-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h081-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h081-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h081-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h081-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h081-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h081-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h081-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 1rem; }
+
+        .h081-row { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 0.8rem; align-items: center; margin-bottom: 0.4rem; }
+        .h081-name { font-weight: 800; font-size: 0.95rem; line-height: 1.2; }
+        .h081-name span { display: block; font-weight: 500; font-size: 0.75rem; color: var(--hanten-muted); }
+        .h081-bar { display: flex; height: 44px; border-radius: 4px; overflow: hidden; background: var(--h081-c0); }
+        .h081-bar > div { display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; white-space: nowrap; overflow: hidden; }
+        .h081-s4 { background: var(--h081-c4); color: #ffffff; }
+        .h081-s3 { background: var(--h081-c3); color: #ffffff; }
+        .h081-s2 { background: var(--h081-c2); color: #1f2a2a; }
+        .h081-s1 { background: var(--h081-c1); color: #1f2a2a; }
+        .h081-s0 { background: var(--h081-c0); color: var(--hanten-muted); }
+        .h081-note { margin: 0.1rem 0 1.1rem calc(8.5rem + 0.8rem); font-size: 0.78rem; color: var(--hanten-muted); line-height: 1.4; }
+        .h081-note strong { color: var(--h081-hi); }
+        .h081-note:last-of-type { margin-bottom: 0.2rem; }
+
+        .h081-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.2rem; margin-top: 0.9rem; padding-top: 0.8rem; border-top: 1px solid var(--hanten-border); font-size: 0.78rem; color: var(--hanten-muted); }
+        .h081-legend > span { display: inline-flex; align-items: center; gap: 0.4rem; }
+        .h081-sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+
+        .h081-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h081-aha p { margin: 0 0 0.6rem; }
+        .h081-aha p:last-child { margin-bottom: 0; }
+
+        .h081-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h081-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h081-explore p { margin: .55rem 0 0; }
+        .h081-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h081-explore + .h081-explore { margin-top: 0; border-top: none; }
+        .h081-explore strong { color: var(--hanten-text); }
+
+        .h081-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h081-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h081-table th, .h081-table td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h081-table th { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h081-table td { font-variant-numeric: tabular-nums; }
+        .h081-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .h081-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 720px) {
+            .h081-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 600px) {
+            .h081-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h081-row { grid-template-columns: minmax(0, 1fr); gap: 0.35rem; }
+            .h081-note { margin-left: 0; }
+            .h081-table-panel { padding: 0.3rem 0.4rem; }
+            .h081-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2),
+.hanten-exhibit table td:nth-child(3),
+.hanten-exhibit table td:nth-child(4),
+.hanten-exhibit table td:nth-child(5) { text-align: center; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Is Australia really empty?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Australia has about 9 people per square mile, one of the lowest averages of any country. But that average
+            describes a place almost no Australian lives. Most of them live somewhere very crowded.
+        </p>
+
+        <div id="h081-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h081-stats-cap">The average vs. where Australians actually live</p>
+                <div class="h081-stats">
+                    <div class="hanten-panel h081-stat">
+                        <div class="h081-stat-k">The average</div>
+                        <div class="h081-stat-n" style="color:var(--h081-hi)">9 / sq mi</div>
+                        <div class="h081-stat-l">(3.5 per km²) All the people spread evenly over all the land</div>
+                    </div>
+                    <div class="hanten-panel h081-stat">
+                        <div class="h081-stat-k">The typical Australian</div>
+                        <div class="h081-stat-n" style="color:var(--h081-c4)">5,100 / sq mi</div>
+                        <div class="h081-stat-l">(2,000 per km²) Half of Australians live somewhere at least this crowded</div>
+                    </div>
+                    <div class="hanten-panel h081-stat">
+                        <div class="h081-stat-k">Half of Australians</div>
+                        <div class="h081-stat-n">0.06%</div>
+                        <div class="h081-stat-l">live on this share of the land: about 1,700 sq mi (4,300 km²), a bit more than Rhode Island</div>
+                    </div>
+                    <div class="hanten-panel h081-stat">
+                        <div class="h081-stat-k">Nobody lives there</div>
+                        <div class="h081-stat-n">96%</div>
+                        <div class="h081-stat-l">of the land: 2.86 million of 2.97 million sq mi have no residents</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h081-panel">
+                    <p class="h081-panel-title">Australia's land and people, split by how crowded each spot is</p>
+                    <p class="h081-panel-sub">Each bar is 100%. The same colors mean the same crowdedness in both bars.</p>
+
+                    <div class="h081-row">
+                        <div class="h081-name">The land<span>2.97 million sq mi</span></div>
+                        <div class="h081-bar" role="img" aria-label="Share of Australia's land: 0.1% has 2,500 or more people per square mile, 0.2% has 250 to 2,500, 0.6% has 25 to 250, 2.8% has fewer than 25, and 96.3% has no one.">
+                            <div class="h081-s4" style="width:0.115%"></div><div class="h081-s3" style="width:0.193%"></div><div class="h081-s2" style="width:0.598%"></div><div class="h081-s1" style="width:2.799%"></div><div class="h081-s0" style="width:96.295%">No one lives here: 96%</div>
+                        </div>
+                    </div>
+                    <p class="h081-note">&uarr; The darkest slice, where <strong>74% of Australians live</strong>, is 0.1% of the land, too thin to see.</p>
+
+                    <div class="h081-row">
+                        <div class="h081-name">The people<span>27.2 million</span></div>
+                        <div class="h081-bar" role="img" aria-label="Share of Australia's people: 73.7% live where there are 2,500 or more people per square mile, 19.1% at 250 to 2,500, 4.8% at 25 to 250, 2.3% at fewer than 25, and none where no one lives.">
+                            <div class="h081-s4" style="width:73.705%">74%</div><div class="h081-s3" style="width:19.145%">19%</div><div class="h081-s2" style="width:4.804%">5%</div><div class="h081-s1" style="width:2.345%"></div>
+                        </div>
+                    </div>
+                    <p class="h081-note">Only 2% of Australians live in the lightly settled 3% of the land, and none in the empty 96%.</p>
+
+                    <div class="h081-legend">
+                        <span><i class="h081-sw" style="background:var(--h081-c4)"></i>2,500+ people per sq mi</span>
+                        <span><i class="h081-sw" style="background:var(--h081-c3)"></i>250 to 2,500</span>
+                        <span><i class="h081-sw" style="background:var(--h081-c2)"></i>25 to 250</span>
+                        <span><i class="h081-sw" style="background:var(--h081-c1)"></i>Under 25</span>
+                        <span><i class="h081-sw" style="background:var(--h081-c0)"></i>No one</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h081-aha">
+                <p><strong>An average spreads the people evenly over the land, but people don't spread out evenly.</strong>
+                    Australia's 9 people per square mile counts the empty outback as if people lived there. Ask instead how
+                    crowded it is where the typical Australian lives, and the answer is over 5,000 per square mile.</p>
+                <p>An average can describe a place where almost no one is. Before trusting one, ask what it was averaged over.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                What other average describes something almost no one actually experiences?
+            </p>
+
+            <details class="h081-explore" data-html2canvas-ignore="true">
+                <summary>See the numbers behind the bars</summary>
+                <div class="hanten-panel h081-table-panel">
+                    <table class="h081-table">
+                        <thead>
+                            <tr><th>People per sq mi</th><th>Land</th><th>Share of land</th><th>People</th><th>Share of people</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>2,500 or more</td><td>3,400 sq mi (8,800 km²)</td><td>0.1%</td><td>20.0M</td><td>73.7%</td></tr>
+                            <tr><td>250 to 2,500</td><td>5,700 sq mi (14,900 km²)</td><td>0.2%</td><td>5.2M</td><td>19.1%</td></tr>
+                            <tr><td>25 to 250</td><td>17,800 sq mi (46,000 km²)</td><td>0.6%</td><td>1.3M</td><td>4.8%</td></tr>
+                            <tr><td>Under 25</td><td>83,100 sq mi (215,300 km²)</td><td>2.8%</td><td>0.6M</td><td>2.3%</td></tr>
+                            <tr><td>No one</td><td>2,860,300 sq mi (7,408,100 km²)</td><td>96.3%</td><td>0</td><td>0%</td></tr>
+                            <tr><td>All of Australia</td><td>2,970,400 sq mi (7,693,200 km²)</td><td>100%</td><td>27.2M</td><td>100%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p><strong>How we counted.</strong> The Australian Bureau of Statistics splits the whole country into
+                    squares 1 kilometer on a side (about 0.39 sq mi each) and estimates how many people live in each one.
+                    Each square is sorted by how crowded it is, then its land and its people are added to that group.
+                    "The typical Australian" is the median: half of all Australians live in squares at least that crowded.
+                    Weighting every square by its number of residents gives a similar answer, about 6,200 people per sq mi
+                    (2,400 per km²). The grid is modeled from mid-2024 population estimates, so small squares can be off,
+                    but the overall pattern is not.</p>
+            </details>
+
+            <details class="h081-explore" data-html2canvas-ignore="true">
+                <summary>Explore more about where people actually live</summary>
+                <p><a href="../H080/index.html" target="_blank" rel="noopener noreferrer">How Big Is a State Without Its Biggest
+                    City?</a> shows how much of a state's population can sit in one metro area, <a href="../H014/index.html" target="_blank" rel="noopener noreferrer">Density Extremes</a> shows how much of the U.S. has almost no one in it, and <a href="../H010/index.html" target="_blank" rel="noopener noreferrer">Half
+                    of the World Lives Here</a> shows the same pattern for the whole planet.</p>
+            </details>
+
+            <details class="h081-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H010/index.html" target="_blank" rel="noopener noreferrer">Could half the world’s population really fit inside one circle?</a></li>
+                    <li><a href="../H080/index.html" target="_blank" rel="noopener noreferrer">How big is a state without its biggest city?</a></li>
+                    <li><a href="../H014/index.html" target="_blank" rel="noopener noreferrer">How can the same country look almost empty — and unbelievably crowded?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Australian Bureau of Statistics, Australian population grid 2024 (1 km grid cells modeled from
+                June 2024 estimated resident population by SA1), via the Digital Atlas of Australia; Australian Bureau of
+                Statistics, Regional population, 2024–25 (national density of 3.6 people per km² at June 2025);
+                U.S. Census Bureau, state area measurements (Rhode Island, 1,545 sq mi total area).
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H081-is-australia-empty.png", title = "Is Australia really empty?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

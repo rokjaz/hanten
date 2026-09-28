@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H082 — Does Averaging 0% Mean You Broke Even?</title>
+
+    <meta
+        name="description"
+        content="An investment that gains 50% and then loses 50% averages 0% a year, but $100 ends up as $75. Percentage gains and losses don't cancel out."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H082-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h082-line: #0b4f57;
+            --h082-up: #2f8a86;
+            --h082-hi: #b23b32;
+            --h082-base: #9a958b;
+        }
+
+        .h082-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h082-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h082-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h082-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h082-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h082-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h082-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h082-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h082-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+
+        .h082-panel svg { display: block; width: 100%; height: auto; }
+        .h082-axis { font-family: var(--hanten-font); font-size: 11px; fill: var(--hanten-muted); }
+        .h082-xlab { font-family: var(--hanten-font); font-size: 12px; font-weight: 700; fill: var(--hanten-text); }
+        .h082-xsub { font-family: var(--hanten-font); font-size: 11px; fill: var(--hanten-muted); }
+        .h082-val { font-family: var(--hanten-font); font-size: 15px; font-weight: 800; }
+        .h082-ann { font-family: var(--hanten-font); font-size: 11.5px; font-weight: 700; }
+        .h082-base-lab { font-family: var(--hanten-font); font-size: 10.5px; font-weight: 700; fill: var(--h082-base); }
+
+        .h082-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h082-aha p { margin: 0 0 0.6rem; }
+        .h082-aha p:last-child { margin-bottom: 0; }
+
+        .h082-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h082-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h082-explore p { margin: .55rem 0 0; }
+        .h082-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h082-explore + .h082-explore { margin-top: 0; border-top: none; }
+        .h082-explore strong { color: var(--hanten-text); }
+
+        .h082-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h082-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h082-table th, .h082-table td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h082-table th { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h082-table td { font-variant-numeric: tabular-nums; }
+        .h082-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .h082-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 600px) {
+            .h082-stats { grid-template-columns: minmax(0, 1fr); }
+            .h082-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h082-table-panel { padding: 0.3rem 0.4rem; }
+            .h082-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2),
+.hanten-exhibit table td:nth-child(3) { text-align: center; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            If an investment averages 0% a year, did you break even?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Up 50% one year, down 50% the next. The two returns average out to 0%, which sounds like breaking even.
+            But each percentage is taken from a different starting balance, so they don't cancel out.
+        </p>
+
+        <div id="h082-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h082-stats-cap">The average return vs. what's actually in the account</p>
+                <div class="h082-stats">
+                    <div class="hanten-panel h082-stat">
+                        <div class="h082-stat-k">The average</div>
+                        <div class="h082-stat-n">0% / yr</div>
+                        <div class="h082-stat-l">+50% and −50%, added up and divided by two</div>
+                    </div>
+                    <div class="hanten-panel h082-stat">
+                        <div class="h082-stat-k">What $100 became</div>
+                        <div class="h082-stat-n" style="color:var(--h082-hi)">$75</div>
+                        <div class="h082-stat-l">A loss of a quarter of the money in two years</div>
+                    </div>
+                    <div class="hanten-panel h082-stat">
+                        <div class="h082-stat-k">The real yearly rate</div>
+                        <div class="h082-stat-n" style="color:var(--h082-hi)">−13% / yr</div>
+                        <div class="h082-stat-l">The steady return that would also turn $100 into $75 in two years</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h082-panel">
+                    <p class="h082-panel-title">$100 invested, year by year</p>
+                    <p class="h082-panel-sub">The same 50% takes away more dollars than it added, because it is 50% of a bigger balance.</p>
+
+                    <svg viewBox="0 0 640 310" role="img" aria-labelledby="h082-chart-title">
+                        <title id="h082-chart-title">Line chart: $100 grows by $50 to $150 after a 50% gain, then drops by $75 to $75 after a 50% loss, ending $25 below the starting $100, shown as a dashed line.</title>
+
+                        <!-- grid: value v maps to y = 250 - v * 1.2 -->
+                        <g stroke="var(--hanten-border, #e4e1d8)" stroke-width="1">
+                            <line x1="70" y1="250" x2="610" y2="250"/>
+                            <line x1="70" y1="190" x2="610" y2="190"/>
+                            <line x1="70" y1="70"  x2="610" y2="70"/>
+                        </g>
+                        <text class="h082-axis" x="60" y="254" text-anchor="end">$0</text>
+                        <text class="h082-axis" x="60" y="194" text-anchor="end">$50</text>
+                        <text class="h082-axis" x="60" y="134" text-anchor="end">$100</text>
+                        <text class="h082-axis" x="60" y="74"  text-anchor="end">$150</text>
+
+                        <!-- starting-balance baseline -->
+                        <line x1="70" y1="130" x2="610" y2="130" stroke="var(--h082-base)" stroke-width="1.5" stroke-dasharray="6 5"/>
+                        <text class="h082-base-lab" x="608" y="123" text-anchor="end">STARTING $100</text>
+
+                        <!-- the two moves -->
+                        <polyline points="110,130 340,70 570,160" fill="none" stroke="var(--h082-line)" stroke-width="3" stroke-linejoin="round"/>
+
+                        <!-- change annotations -->
+                        <text class="h082-ann" x="200" y="76" text-anchor="middle" fill="var(--h082-up)">+$50</text>
+                        <text class="h082-ann" x="200" y="90" text-anchor="middle" fill="var(--hanten-muted)" style="font-weight:500">50% of $100</text>
+                        <text class="h082-ann" x="505" y="80" text-anchor="middle" fill="var(--h082-hi)">−$75</text>
+                        <text class="h082-ann" x="505" y="94" text-anchor="middle" fill="var(--hanten-muted)" style="font-weight:500">50% of $150</text>
+
+                        <!-- points and values -->
+                        <circle cx="110" cy="130" r="6" fill="var(--h082-line)"/>
+                        <circle cx="340" cy="70"  r="6" fill="var(--h082-up)"/>
+                        <circle cx="570" cy="160" r="6" fill="var(--h082-hi)"/>
+                        <text class="h082-val" x="110" y="156" text-anchor="middle" fill="var(--h082-line)">$100</text>
+                        <text class="h082-val" x="340" y="56"  text-anchor="middle" fill="var(--h082-up)">$150</text>
+                        <text class="h082-val" x="570" y="186" text-anchor="middle" fill="var(--h082-hi)">$75</text>
+
+                        <!-- x labels -->
+                        <text class="h082-xlab" x="110" y="276" text-anchor="middle">Start</text>
+                        <text class="h082-xlab" x="340" y="276" text-anchor="middle">After year 1</text>
+                        <text class="h082-xsub" x="340" y="292" text-anchor="middle">up 50%</text>
+                        <text class="h082-xlab" x="570" y="276" text-anchor="middle">After year 2</text>
+                        <text class="h082-xsub" x="570" y="292" text-anchor="middle">down 50%</text>
+                    </svg>
+                </div>
+
+            </div>
+
+            <div class="h082-aha">
+                <p><strong>A percentage is always a percentage of something, and after a gain or a loss that something has changed.</strong>
+                    The 50% gain was 50% of $100. The 50% loss was 50% of $150. So a 50% loss needs a 100% gain to recover,
+                    not another 50%, and the "average return" can say 0% while a quarter of the money is gone.</p>
+                <p>The bigger the swings, the bigger the gap. After the S&amp;P 500 fell about 37% in 2008, it needed a gain
+                    of about 59% just to get back to even. The same math applies to anything that grows or shrinks by
+                    percentages: prices, pay, populations, a store's sales. Before trusting an average of percentages, ask
+                    what actually happened to the total.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                If prices rise 10% one year and fall 10% the next, are they back where they started?
+            </p>
+
+            <details class="h082-explore" data-html2canvas-ignore="true">
+                <summary>How big a gain does it take to recover from a loss?</summary>
+                <div class="hanten-panel h082-table-panel">
+                    <table class="h082-table">
+                        <thead>
+                            <tr><th>Loss</th><th>$100 becomes</th><th>Gain needed to get back to $100</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>−10%</td><td>$90</td><td>+11%</td></tr>
+                            <tr><td>−20%</td><td>$80</td><td>+25%</td></tr>
+                            <tr><td>−25%</td><td>$75</td><td>+33%</td></tr>
+                            <tr><td>−37%</td><td>$63</td><td>+59%</td></tr>
+                            <tr><td>−50%</td><td>$50</td><td>+100%</td></tr>
+                            <tr><td>−75%</td><td>$25</td><td>+300%</td></tr>
+                            <tr><td>−90%</td><td>$10</td><td>+900%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details class="h082-explore" data-html2canvas-ignore="true">
+                <summary>Two different kinds of "average return"</summary>
+                <p>The <strong>simple average</strong> adds the yearly percentages and divides: (+50% + −50%) ÷ 2 = 0%.
+                    The <strong>compound average</strong> asks what one steady rate, repeated every year, would land on the
+                    same ending balance: $100 × 1.5 × 0.5 = $75, and the steady rate that also gets there is about −13.4%
+                    a year (√0.75 − 1). The compound average is never higher than the simple one, and the more the returns
+                    swing, the further apart they get. Only the compound average tells you what happened to the money.</p>
+            </details>
+
+            <details class="h082-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H065/index.html" target="_blank" rel="noopener noreferrer">What's the richest country?</a></li>
+                    <li><a href="../H084/index.html" target="_blank" rel="noopener noreferrer">"Up 40% this month!" Did this stock really have a great month?</a></li>
+                    <li><a href="../H001/index.html" target="_blank" rel="noopener noreferrer">What’s the average income at this BBQ?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Calculations shown on this page; S&amp;P 500 2008 total return of about −37%, S&amp;P Dow Jones
+                Indices historical index returns.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H082-average-vs-actual-return.png", title = "If an investment averages 0% a year, did you break even?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

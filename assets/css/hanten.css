@@ -1,6 +1,14 @@
 /* ==========================================================
    HANTEN CSS FRAMEWORK
-   Version 0.3
+   Version 0.5
+
+   v0.5: no orphaned words (balanced wrapping on the question,
+   subtitle and reflection; pretty wrapping on paragraphs), and
+   adjacent dropdowns share one divider line instead of two.
+
+   v0.4: bakes in the Exhibit Page Standards (Design Standards
+   section 19): one sans font, no accent bars, centered table
+   headers, left-aligned Sources line, white Save/Share buttons.
 
    Purpose:
    Shared visual foundation for Hanten exhibits.
@@ -10,6 +18,7 @@
    - Primary visual enters the first desktop viewport whenever practical.
    - Soft paper background + restrained teal-green borders create
      a recognizable Hanten visual language.
+   - One sans-serif family for all exhibit text (no serif/mono).
    - Editorial hierarchy is standardized without making exhibits rigid.
    ========================================================== */
 
@@ -159,8 +168,8 @@ canvas {
 }
 
 .hanten-takeaway-box {
-    background: var(--hanten-accent-soft);
-    border-left: 3px solid var(--hanten-accent);
+    /* Aha text sits on the page background: no tint, no accent bar. */
+    background: transparent;
 }
 
 /* ==========================================================
@@ -207,6 +216,64 @@ canvas {
     color: var(--hanten-muted);
 }
 
+/* Sources line sits in the text column, left-aligned, so its left
+   edge lines up with the aha text and dropdowns (Design Standards 19). */
+.hanten-exhibit .hanten-source {
+    max-width: var(--hanten-text-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: left;
+}
+
+/* Dropdowns share the text column with the aha text and Sources line. */
+.hanten-exhibit details {
+    max-width: var(--hanten-text-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Related exhibits list inside a dropdown (Design Standards 19). */
+.hanten-exhibit .hanten-related {
+    margin: 0.55rem 0 0;
+    padding-left: 1.1rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
+}
+
+.hanten-exhibit .hanten-related li {
+    margin: 0.3rem 0 0;
+}
+
+.hanten-exhibit .hanten-related a {
+    color: var(--hanten-accent);
+}
+
+/* One sans font for everything, including controls and chart text. */
+.hanten-exhibit button,
+.hanten-exhibit input,
+.hanten-exhibit select,
+.hanten-exhibit svg text {
+    font-family: var(--hanten-font);
+}
+
+/* Tables: centered column headers. Data cells follow the column type:
+   text columns (names, labels, descriptions) left-aligned; short-value
+   columns (numbers, percentages, ranks, years, dates) centered. Mark
+   value columns with class="hanten-num" on the td (or per-exhibit
+   nth-child rules). */
+.hanten-exhibit td.hanten-num {
+    text-align: center;
+}
+.hanten-exhibit thead th {
+    text-align: center;
+}
+
+.hanten-exhibit td {
+    font-variant-numeric: tabular-nums;
+}
+
 /* ==========================================================
    7. UTILITY ACTIONS
 
@@ -225,6 +292,10 @@ canvas {
 .hanten-utility a {
     font-size: 0.75rem;
     opacity: 0.72;
+}
+
+.hanten-utility button {
+    background: #ffffff;
 }
 
 .hanten-utility button:hover,
@@ -260,4 +331,27 @@ canvas {
     .hanten-reflection {
         font-size: 0.92rem;
     }
+}
+
+/* ==========================================================
+   9. TEXT WRAPPING AND DROPDOWN DIVIDERS (v0.5)
+   ========================================================== */
+
+/* No orphans: short centered lines wrap evenly, and body
+   paragraphs avoid leaving one word alone on the last line. */
+.hanten-exhibit .hanten-question,
+.hanten-exhibit .hanten-subtitle,
+.hanten-exhibit .hanten-reflection {
+    text-wrap: balance;
+}
+
+.hanten-exhibit p,
+.hanten-exhibit li {
+    text-wrap: pretty;
+}
+
+/* Stacked dropdowns: one divider line between them, not two. */
+.hanten-exhibit details + details {
+    margin-top: 0 !important;
+    border-top: 0 !important;
 }

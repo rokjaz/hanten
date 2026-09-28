@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H070 — Which Country Pollutes the Most?</title>
+
+    <meta
+        name="description"
+        content="Rank countries by total CO₂ and China wins by a mile. Rank them per person and China drops to the middle of the pack, while India goes from 3rd to last."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H070-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h070-up: #d9822b;
+            --h070-down: #0e7c86;
+            --h070-same: #9aa3a6;
+        }
+
+        .h070-panel {
+            padding: 1.1rem 1.1rem 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .h070-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h070-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .h070-stat { padding: 0.95rem 1rem; text-align: center; }
+        .h070-stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h070-stat-n {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1.15;
+            margin-top: 0.3rem;
+        }
+        .h070-stat-country { font-weight: 700; font-size: 0.9rem; margin-top: 0.1rem; }
+        .h070-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.35rem; line-height: 1.4; }
+
+        .h070-col-head {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            fill: var(--hanten-muted);
+        }
+        .h070-name {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            fill: var(--hanten-text);
+        }
+        .h070-val {
+            font-family: var(--hanten-font);
+            fill: var(--hanten-muted);
+        }
+        .h070-row { cursor: pointer; }
+        .h070-row.is-dim { opacity: 0.18; }
+
+        .h070-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.4rem;
+            margin-top: 0.4rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+        .h070-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h070-swatch { display: inline-block; width: 20px; height: 3px; border-radius: 2px; }
+        .h070-hint { text-align: center; font-size: 0.74rem; color: var(--hanten-muted); margin: 0.35rem 0 0; }
+
+        .h070-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; }
+        .h070-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h070-table th, .h070-table td { text-align: center; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); white-space: nowrap; }
+        .h070-table th {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h070-table td { font-variant-numeric: tabular-nums; }
+        .h070-table td:first-child { font-weight: 700; }
+        .h070-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 720px) {
+            .h070-stats { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .h070-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h070-table-panel { padding: 0.3rem 0.6rem; }
+        }
+
+        .h070-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h070-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h070-discovery p:last-child { margin-bottom: 0; }
+        .h070-discovery strong { color: var(--hanten-text); }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h070-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h070-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h070-explore p { margin: .55rem 0 0; }
+.h070-explore a { color: var(--hanten-accent, #0e7c86); }
+
+/* Design Standards 19 (table alignment) */
+.hanten-exhibit thead th { text-align: center; }
+.hanten-exhibit tbody td { text-align: left; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2),
+.hanten-exhibit table td:nth-child(3),
+.hanten-exhibit table td:nth-child(4),
+.hanten-exhibit table td:nth-child(5) { text-align: center; }
+</style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Which country pollutes the most?
+        </h1>
+
+        <p class="hanten-subtitle">
+            "The world's biggest polluter" has two true answers that barely agree. Count total tonnes of CO₂
+            and it's China, by a mile. Count tonnes per person and China drops to the middle of the pack, while
+            India falls from 3rd to last.
+        </p>
+
+        <div id="h070-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="h070-stats">
+                    <div class="hanten-panel h070-stat">
+                        <div class="h070-stat-label">Largest total emitter</div>
+                        <div class="h070-stat-n" style="color:var(--h070-down)">12,289 Mt</div>
+                        <div class="h070-stat-country">China</div>
+                        <div class="h070-stat-l">About 32% of the world's CO₂ from fossil fuels and industry, more than the next three countries combined</div>
+                    </div>
+                    <div class="hanten-panel h070-stat">
+                        <div class="h070-stat-label">Highest per person (of these ten)</div>
+                        <div class="h070-stat-n" style="color:var(--h070-up)">20.4 t</div>
+                        <div class="h070-stat-country">Saudi Arabia</div>
+                        <div class="h070-stat-l">Per resident per year, more than twice China's rate, yet only 6th by total among these ten</div>
+                    </div>
+                    <div class="hanten-panel h070-stat">
+                        <div class="h070-stat-label">The other extreme</div>
+                        <div class="h070-stat-n" style="color:var(--h070-down)">2.2 t</div>
+                        <div class="h070-stat-country">India</div>
+                        <div class="h070-stat-l">3rd-largest total emitter on Earth, yet under half the world average of 4.7 t per person</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h070-panel">
+                    <svg id="h070-slope" viewBox="0 0 680 620" role="img" aria-labelledby="h070-slope-title h070-slope-desc">
+                        <title id="h070-slope-title">Rank by total CO₂ emissions vs. rank by CO₂ per person for ten major economies, 2024</title>
+                        <desc id="h070-slope-desc">China ranks 1st by total emissions but 7th of these ten per person. India ranks 3rd by total but last per person. Saudi Arabia ranks 6th by total but 1st per person. Australia ranks last by total but 2nd per person.</desc>
+                    </svg>
+                    <div class="h070-legend">
+                        <span><span class="h070-swatch" style="background:var(--h070-up)"></span>Ranks higher per person than by total</span>
+                        <span><span class="h070-swatch" style="background:var(--h070-down)"></span>Ranks lower per person than by total</span>
+                    </div>
+                    <p class="h070-hint">Tap or hover a country to follow its line</p>
+                </div>
+
+            </div>
+
+            <div class="h070-discovery hanten-body">
+                <p><strong>Total emissions and per-person emissions answer two different questions.</strong> Totals measure how much CO₂ a country adds to the atmosphere; per-person figures measure how carbon-intensive a typical resident's life is. India is 3rd in the world by total but under half the global average per person, while Saudi Arabia and Australia rank 6th and 10th by total among these ten, and 1st and 2nd per person.</p>
+                <p>Citing only one of the two numbers can make the same country sound uniquely responsible or barely involved. Any comparison of places with very different populations, whether crime, spending, or energy use, needs both the total and the rate.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                When someone names “the biggest polluter,” do they mean in total or per person?
+            </p>
+
+            <details class="h070-explore" data-html2canvas-ignore="true">
+                <summary>See the numbers for all ten countries</summary>
+                <div class="hanten-panel h070-table-panel">
+                    <table class="h070-table">
+                        <thead>
+                            <tr><th>Country</th><th>Total CO₂</th><th>Rank by total</th><th>CO₂ per person</th><th>Rank per person</th></tr>
+                        </thead>
+                        <tbody id="h070-table-body"></tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details class="h070-explore" data-html2canvas-ignore="true">
+                <summary>Two different questions, two different leaderboards</summary>
+                <p><strong>Total emissions answer a physical question:</strong> how much CO₂ did a country add to
+                    the atmosphere this year? That's the number that matters for the climate, since the atmosphere
+                    doesn't care how many people produced it. <strong>Per-person emissions answer a different
+                    question:</strong> how carbon-intensive is the typical resident's life, regardless of how many
+                    residents there are. A country can top one list and sit near the bottom of the other, and
+                    neither number is wrong.</p>
+                <p><strong>India is the sharpest example.</strong> Its total is enormous, 3rd in the world, mostly
+                    because it has more people than any other country. Divide by that population and each
+                    resident's share is under half the global average. Citing only the total makes India sound
+                    uniquely responsible; citing only the per-person figure makes its impact vanish. Both together
+                    are the honest picture.</p>
+                <p><strong>Saudi Arabia and Australia sit at the opposite extreme:</strong> 6th and 10th by total
+                    among these ten, but 1st and 2nd per person. They're wealthy, energy-intensive economies where
+                    high individual use isn't diluted by a huge population.</p>
+            </details>
+
+            <details class="h070-explore" data-html2canvas-ignore="true">
+                <summary>Explore more rankings that flip when you divide by population</summary>
+                <p>The same total-versus-per-person reversal decides <a href="../H065/index.html" target="_blank" rel="noopener noreferrer">Richest Country</a>, where the biggest economy doesn't make the top five per person. And <a href="../H095/index.html" target="_blank" rel="noopener noreferrer">Rate vs Raw Count</a> shows why a big raw number can hide a small rate, and the other way around.</p>
+            </details>
+
+            <details class="h070-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H095/index.html" target="_blank" rel="noopener noreferrer">California has more car thefts than anywhere else in the U.S. Is it the riskiest place to park?</a></li>
+                    <li><a href="../H091/index.html" target="_blank" rel="noopener noreferrer">Mosquitoes kill hundreds of thousands of people a year. Sharks kill a handful. Which is more dangerous?</a></li>
+                    <li><a href="../H065/index.html" target="_blank" rel="noopener noreferrer">What's the richest country?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Our World in Data CO₂ dataset, based on the Global Carbon Project's Global Carbon Budget
+                (2024 data): annual CO₂ emissions from fossil fuels and industry, total and per person, and the
+                world average of 4.7 tonnes per person. Totals and per-person figures come from the same dataset
+                and year, so they're directly comparable. Land-use change and other greenhouse gases are not
+                included. Rankings are within the ten countries shown; worldwide, Indonesia and Iran also emit
+                more in total than Saudi Arabia, and the global per-person list is topped by small oil and gas
+                states such as Qatar. Mt = million metric tons; t = metric tons.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script>
+        (() => {
+            // OWID / Global Carbon Budget, 2024. total in million tonnes CO2, pc in tonnes per person
+            const data = [
+                { name: "China", total: 12289, pc: 8.66 },
+                { name: "United States", total: 4904, pc: 14.20 },
+                { name: "India", total: 3193, pc: 2.20 },
+                { name: "Russia", total: 1781, pc: 12.30 },
+                { name: "Japan", total: 962, pc: 7.77 },
+                { name: "Saudi Arabia", total: 692, pc: 20.38 },
+                { name: "South Korea", total: 584, pc: 11.29 },
+                { name: "Germany", total: 572, pc: 6.77 },
+                { name: "Canada", total: 533, pc: 13.42 },
+                { name: "Australia", total: 387, pc: 14.48 }
+            ];
+            const byTotal = data.slice().sort((a, b) => b.total - a.total);
+            const byPc = data.slice().sort((a, b) => b.pc - a.pc);
+            data.forEach(d => { d.rt = byTotal.indexOf(d) + 1; d.rp = byPc.indexOf(d) + 1; });
+
+            const svg = document.getElementById("h070-slope");
+            const fmtMt = v => v.toLocaleString("en-US") + " Mt";
+            const fmtT = v => v.toFixed(1) + " t";
+            let focus = null;
+
+            function render() {
+                const narrow = svg.parentElement.clientWidth < 540;
+                const W = narrow ? 440 : 680;
+                const xL = narrow ? 150 : 210, xR = W - xL;
+                const top = narrow ? 50 : 46, rowH = narrow ? 56 : 56;
+                const fsName = narrow ? 14 : 13.5, fsVal = narrow ? 12.5 : 11.5, fsHead = narrow ? 12 : 11.5;
+                const yOf = r => top + (r - 1) * rowH + 14;
+                let h = "";
+                h += `<text x="${xL}" y="22" text-anchor="middle" class="h070-col-head" font-size="${fsHead}">BY TOTAL</text>`;
+                h += `<text x="${xR}" y="22" text-anchor="middle" class="h070-col-head" font-size="${fsHead}">PER PERSON</text>`;
+
+                // draw focused row last so it's on top
+                const order = data.slice().sort((a, b) => (a === focus) - (b === focus));
+                order.forEach(d => {
+                    const color = d.rp < d.rt ? "var(--h070-up)" : d.rp > d.rt ? "var(--h070-down)" : "var(--h070-same)";
+                    const y1 = yOf(d.rt), y2 = yOf(d.rp);
+                    const dim = focus && focus !== d ? " is-dim" : "";
+                    h += `<g class="h070-row${dim}" data-name="${d.name}">`;
+                    h += `<line x1="${xL}" y1="${y1}" x2="${xR}" y2="${y2}" stroke="${color}" stroke-width="${focus === d ? 4 : 2.6}" stroke-linecap="round"/>`;
+                    h += `<circle cx="${xL}" cy="${y1}" r="6" fill="${color}" stroke="#ffffff" stroke-width="2"/>`;
+                    h += `<circle cx="${xR}" cy="${y2}" r="6" fill="${color}" stroke="#ffffff" stroke-width="2"/>`;
+                    h += `<text x="${xL - 14}" y="${y1 - 2}" text-anchor="end" class="h070-name" font-size="${fsName}">${d.name}</text>`;
+                    h += `<text x="${xL - 14}" y="${y1 + 13}" text-anchor="end" class="h070-val" font-size="${fsVal}">#${d.rt} · ${fmtMt(d.total)}</text>`;
+                    h += `<text x="${xR + 14}" y="${y2 - 2}" class="h070-name" font-size="${fsName}">${d.name}</text>`;
+                    h += `<text x="${xR + 14}" y="${y2 + 13}" class="h070-val" font-size="${fsVal}">#${d.rp} · ${fmtT(d.pc)}</text>`;
+                    // wide invisible hit area along the line
+                    h += `<line x1="${xL}" y1="${y1}" x2="${xR}" y2="${y2}" stroke="transparent" stroke-width="16"/>`;
+                    h += `</g>`;
+                });
+
+                svg.setAttribute("viewBox", `0 0 ${W} ${yOf(10) + 30}`);
+                const t = svg.querySelector("title").outerHTML, ds = svg.querySelector("desc").outerHTML;
+                svg.innerHTML = t + ds + h;
+                svg.querySelectorAll(".h070-row").forEach(g => {
+                    const d = data.find(x => x.name === g.dataset.name);
+                    g.addEventListener("mouseenter", () => { if (focus !== d) { focus = d; render(); } });
+                    g.addEventListener("click", e => { e.stopPropagation(); focus = focus === d ? null : d; render(); });
+                });
+            }
+            svg.addEventListener("mouseleave", () => { if (focus) { focus = null; render(); } });
+            document.addEventListener("click", () => { if (focus) { focus = null; render(); } });
+
+            document.getElementById("h070-table-body").innerHTML = byTotal.map(d =>
+                `<tr><td>${d.name}</td><td>${fmtMt(d.total)}</td><td>${d.rt}</td><td>${fmtT(d.pc)}</td><td>${d.rp}</td></tr>`
+            ).join("");
+
+            render();
+            let lastNarrow = null;
+            window.addEventListener("resize", () => {
+                const n = svg.parentElement.clientWidth < 540;
+                if (n !== lastNarrow) { lastNarrow = n; render(); }
+            });
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H070-per-capita-vs-total-emissions.png", title = "Which country pollutes the most?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

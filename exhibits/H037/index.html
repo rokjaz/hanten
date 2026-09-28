@@ -22,8 +22,8 @@
     --h037-ocean: #cde3ee;
     --h037-russia: #a13d3d;
     --h037-russia-soft: #e3a49c;
-    --h037-ukraine: #3b6ea3;
-    --h037-ukraine-soft: #b7c9dc;
+    --h037-ukraine: #93701e;
+    --h037-ukraine-soft: #e3d3a0;
   }
 
   body { background: var(--hanten-paper, #f4f3ef); }
@@ -128,7 +128,6 @@
   .h037-card {
     background: var(--h037-panel);
     border: 1px solid var(--h037-line);
-    border-top: 4px solid var(--card-color);
     padding: 1.05rem 1.15rem;
   }
 
@@ -154,29 +153,33 @@
   }
 
   .h037-reveal {
-    max-width: 840px;
-    margin: 1.35rem auto 0;
-    padding: 1rem 1.1rem;
-    background: var(--h037-accent-soft);
-    border-left: 3px solid var(--h037-accent);
-    color: var(--h037-muted);
+    max-width: 760px;
+    margin: .75rem auto 0;
+    padding: .15rem 0;
+    color: var(--hanten-text, var(--h037-ink));
     font-size: .95rem;
-    line-height: 1.6;
+    line-height: 1.45;
+    text-align: left;
   }
 
-  .h037-reveal strong { color: var(--h037-ink); }
+  .h037-reveal p { margin: 0 0 .55rem; }
+  .h037-reveal p:last-child { margin-bottom: 0; }
 
-  .h037-principle {
-    max-width: 840px;
-    margin: 1.05rem auto 0;
-    padding-top: .9rem;
-    border-top: 1px solid var(--h037-line);
-    color: var(--h037-muted);
-    font-size: .9rem;
-    line-height: 1.55;
+  .h037-reveal strong { color: var(--hanten-text, var(--h037-ink)); }
+
+  .h037-explore {
+    max-width: 760px;
+    margin: .7rem auto 0;
+    padding: .55rem 0;
+    border-top: 1px solid var(--hanten-border);
+    border-bottom: 1px solid var(--hanten-border);
+    color: var(--hanten-muted);
+    font-size: .8rem;
+    line-height: 1.45;
   }
 
-  .h037-principle strong { color: var(--h037-ink); }
+  .h037-explore summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); }
+  .h037-explore p { margin: .65rem 0 0; }
 
   .h037-source {
     max-width: 860px;
@@ -185,12 +188,6 @@
     color: #7b838a;
     font-size: .7rem;
     line-height: 1.45;
-  }
-
-  #save-image-slot {
-    max-width: 960px;
-    margin: .55rem auto .75rem;
-    text-align: right;
   }
 
   @media (max-width: 780px) {
@@ -203,6 +200,27 @@
     }
   }
 </style>
+
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+<style>
+.hanten-export-card{
+ position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
+ background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+.hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-aha p{margin:0 0 8px}
+.hanten-export-aha p:last-child{margin-bottom:0}
+.hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+.hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+</style>
 </head>
 
 <body>
@@ -211,7 +229,7 @@
   <h1 class="hanten-question">Whose country is Crimea on the map?</h1>
 
   <p class="hanten-subtitle">
-    The same peninsula can be drawn three different ways depending on what the boundary is meant to represent.
+    The same peninsula can be drawn three different ways, depending on what the boundary is meant to&nbsp;show.
   </p>
 
   <div class="hanten-graphic">
@@ -242,7 +260,8 @@
           <div class="who">Russian-map treatment</div>
           <h2>Fully integrated</h2>
           <p>
-            The original exhibit says Russian government maps show Crimea with the same ordinary treatment as Russian territory, without a special disputed boundary.
+            Russian government maps show Crimea with the same solid, ordinary border as any other Russian region —
+            nothing marks it as different or contested.
           </p>
         </div>
 
@@ -250,7 +269,8 @@
           <div class="who">Ukrainian-map treatment</div>
           <h2>Part of Ukraine</h2>
           <p>
-            The original exhibit says Ukrainian maps do not draw a national boundary separating Crimea from the rest of Ukraine, reflecting Ukraine’s claim to the peninsula.
+            Ukrainian maps draw no line separating Crimea from the rest of the country — it's simply Ukraine,
+            the same as any other oblast, occupied or not.
           </p>
         </div>
 
@@ -258,26 +278,41 @@
           <div class="who">International-map treatment</div>
           <h2>Dashed or disputed</h2>
           <p>
-            The original exhibit says many international maps use a dashed or otherwise distinct boundary to show the gap between territorial recognition and on-the-ground administration.
+            Most international map providers draw a distinct dashed border, acknowledging Russia's on-the-ground
+            control since 2014 without endorsing the annexation.
           </p>
         </div>
       </div>
 
       <div class="h037-reveal">
-        <strong>The coastline does not change. The meaning of the boundary does.</strong>
-        Crimea is internationally recognized as part of Ukraine, while Russia has controlled and administered the peninsula since 2014.
-        A map must decide whether its line is showing legal recognition, a territorial claim, or control on the ground.
-      </div>
+        <p><strong>The coastline does not change. The meaning of the boundary does.</strong> Russia annexed Crimea in March 2014, days after Russian forces took control of the peninsula and a disputed referendum was held under military occupation. The UN General Assembly responded with Resolution 68/262, affirming Ukraine's territorial integrity within its internationally recognized borders, including Crimea — and the vast majority of the world's governments still do not recognize the annexation as legitimate.</p>
+                <p>A map has to draw every border one way or another, so even a thin dashed line takes a position. Whenever a map shows a disputed place, ask whose view it's drawn from.</p>
+            </div>
 
       <p class="hanten-reflection">
-        When a disputed border appears on a map, what kind of fact is the line actually showing?
-      </p>
+                What is the line on your map actually claiming?
+            </p>
 
-      <div class="h037-source">
-        Source basis preserved from the original H037 exhibit: UN General Assembly Resolution 68/262 (2014);
-        Russian Federal State Statistics Service regional listings; Ukrainian State Geocadastre.
-        Country shapes: Natural Earth 1:10m, stored locally in Hanten Shared Assets. Crimea outline: geoBoundaries Ukraine ADM1, simplified in the original exhibit.
-      </div>
+      <details class="h037-explore" data-html2canvas-ignore="true">
+        <summary>Explore how the annexation happened, and how this pattern shows up elsewhere</summary>
+        <p>
+          Russian forces took control of the peninsula in late February and early March 2014, and a referendum on joining Russia was held under that occupation days later — a vote most of the world does not recognize as free or legitimate. Russia formally annexed Crimea on March 18, 2014.
+        </p>
+        <p>In practice, that leaves cartographers picking a side just by drawing a line: Russian state maps show no distinction at all, Ukrainian maps show no distinction either, in the opposite direction, and everyone else tends to split the difference with a dashed or dotted boundary — the standard cartographic signal for "administered by one party, claimed by another." The same signal shows up in <a href="../H033/index.html" target="_blank" rel="noopener noreferrer">the Senkaku, Diaoyu, or Diaoyutai Islands</a>, where administration and recognized sovereignty likewise point in different directions — a map's line can show legal recognition, a territorial claim, or control on the ground, and rarely all three at once. The recognition count tells its own version of the same story: <a href="../H098/index.html" target="_blank" rel="noopener noreferrer">Northern Cyprus</a> is recognized as a country by exactly one government, Turkey — the same one whose army created it in 1974, much as Crimea's annexation is recognized by only a handful of Russia-aligned states. Even the "neutral" option isn't really neutral: a dashed line still defaults to the boundary the UN and most governments recognize, quietly siding with Ukraine's claim over Russia's control, just less loudly than a solid line would. There's no version of this map that takes no position — only versions that are more or less obvious about which position they've taken.</p>
+      </details>
+
+      <details class="h037-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H038/index.html" target="_blank" rel="noopener noreferrer">Where is the border in Kashmir?</a></li>
+                    <li><a href="../H033/index.html" target="_blank" rel="noopener noreferrer">Gulf of Mexico or Gulf of America?</a></li>
+                    <li><a href="../H098/index.html" target="_blank" rel="noopener noreferrer">Somaliland has run its own government since 1991. Is it a country?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h037-source">
+        Sources: UN General Assembly Resolution 68/262 (2014); Russian Federal State Statistics Service regional listings; Ukrainian State Geocadastre. Country shapes: Natural Earth 1:10m, stored locally in Hanten Shared Assets. Crimea boundary: geoBoundaries (Ukraine ADM1, "Autonomous Republic of Crimea" + "Sevastopol", dissolved and simplified).
+      </p>
 
       <div class="hanten-utility"><div id="save-image-slot"></div></div>
 
@@ -313,7 +348,7 @@
 
   const COUNTRY_LABELS = [
     { name: "Ukraine", lon: 31.7, lat: 48.5 },
-    { name: "Russia", lon: 40.0, lat: 47.0 }
+    { name: "Russia", lon: 40.2, lat: 46.0 }
   ];
 
   const CITIES = [
@@ -334,6 +369,13 @@
 
     const visibleFeats = feats.filter(f => {
       const [[lo0, la0], [lo1, la1]] = d3.geoBounds(f);
+      // Countries that wrap the antimeridian (Russia, spanning ~20°E to
+      // ~169°W) get a bounding box where lo0 > lo1; in that case longitude
+      // no longer usefully bounds them, so fall back to a latitude-only
+      // check rather than wrongly excluding them from every crop.
+      if (lo0 > lo1) {
+        return la0 <= CROP[3] + 5 && la1 >= CROP[1] - 5;
+      }
       return lo0 <= CROP[2] + 5 &&
              lo1 >= CROP[0] - 5 &&
              la0 <= CROP[3] + 5 &&
@@ -387,19 +429,83 @@
     });
   }
 
-  drawPanel("#map-russia", 210, 190, "var(--h037-russia-soft)", "var(--h037-russia)", null);
+  drawPanel("#map-russia", 210, 190, "var(--h037-russia-soft)", "none", null);
   drawPanel("#map-ukraine", 210, 190, "var(--h037-ukraine-soft)", "none", null);
   drawPanel("#map-global", 210, 190, "var(--h037-land)", "var(--h037-muted)", "3,2");
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
-<script src="../../assets/js/save-image.js"></script>
+
 <script>
-  HantenSaveImage.init({
-    target: ".hanten-exhibit",
-    title: "Whose country is Crimea on the map?",
-    filename: "H037-crimea-dispute.png"
-  });
+(() => {
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+  slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+  const save = document.createElement("button"), share = document.createElement("button");
+  save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+  slot.append(save, share);
+  const filename = "H037-crimea-dispute.png", title = "Whose country is Crimea on the map?";
+
+  async function blob() {
+    const mapsWrap = document.getElementById("h037-maps-wrap");
+    const cards = document.querySelector(".h037-cards");
+    const reveal = document.querySelector(".h037-reveal");
+    const source = document.querySelector(".h037-source");
+    if (!mapsWrap) throw new Error("Export content not found.");
+
+    const card = document.createElement("div");
+    card.className = "hanten-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800; titleCanvas.height = 84;
+    titleCanvas.style.width = "900px"; titleCanvas.style.height = "42px";
+    titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+    const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+    t.font = '750 30px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+    t.fillText("Whose country is Crimea on the map?", 450, 21);
+    card.appendChild(titleCanvas);
+
+    const sub = document.createElement("canvas");
+    sub.width = 1800; sub.height = 84; sub.style.width = "900px"; sub.style.height = "42px";
+    sub.style.display = "block"; sub.style.margin = "0 auto 16px";
+    const s = sub.getContext("2d"); s.scale(2, 2);
+    s.font = '400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+    s.fillText("The same peninsula can be drawn three different ways depending on the boundary's meaning.", 450, 21);
+    card.appendChild(sub);
+
+    const shell = document.createElement("div");
+    shell.appendChild(mapsWrap.cloneNode(true));
+    if (cards) shell.appendChild(cards.cloneNode(true));
+    card.appendChild(shell);
+
+    if (reveal) {
+      const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+      const revealClone = document.createElement("div"); revealClone.className = "hanten-export-aha";
+      revealClone.innerHTML = reveal.innerHTML;
+      textcol.appendChild(revealClone); card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "hanten-export-reflection";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    card.appendChild(reflection);
+
+    if (source) {
+      const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+    try {
+      const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+      return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+    } finally { card.remove(); }
+  }
+  function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+  save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+  share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+})();
 </script>
 
 </body>

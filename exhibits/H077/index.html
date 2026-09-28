@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H077 — How Fast Is the Fly?</title>
+
+    <meta
+        name="description"
+        content="A fly hovering in the aisle of a 550 mph airplane is moving at 0 mph and 550 mph at the same time. Speed only means something relative to something else."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H077-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h077-seat: #0e7c86;
+            --h077-ground: #d9822b;
+            --h077-sky: #dfe9ec;
+            --h077-earth: #d8cfb6;
+        }
+
+        .h077-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h077-panel svg { display: block; width: 100%; height: auto; }
+        .h077-panel-title {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+            margin: 0 0 0.7rem;
+        }
+
+        .h077-frames {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-top: 0.9rem;
+        }
+        .h077-frame { border-radius: 6px; padding: 0.8rem 0.9rem; text-align: center; }
+        .h077-frame-seat { background: #e8f3f3; border: 1px solid #c6e0e0; }
+        .h077-frame-ground { background: #fbf0e3; border: 1px solid #efd6b8; }
+        .h077-who {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .h077-frame-seat .h077-who { color: var(--h077-seat); }
+        .h077-frame-ground .h077-who { color: var(--h077-ground); }
+        .h077-big { font-family: var(--hanten-font); font-weight: 800; font-size: 2rem; line-height: 1.1; margin-top: 0.2rem; }
+        .h077-frame-seat .h077-big { color: var(--h077-seat); }
+        .h077-frame-ground .h077-big { color: var(--h077-ground); }
+        .h077-small { font-size: 0.8rem; color: var(--hanten-muted); margin-top: 0.2rem; line-height: 1.35; }
+
+        .h077-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.9rem; }
+        .h077-table th, .h077-table td { text-align: left; padding: 0.5rem 0.55rem; border-bottom: 1px solid var(--hanten-border); }
+        .h077-table th {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h077-table td { font-variant-numeric: tabular-nums; }
+        .h077-table td:first-child { font-weight: 700; }
+        .h077-table tr:last-child td { border-bottom: none; }
+        .h077-seat-c { color: var(--h077-seat); font-weight: 700; }
+        .h077-ground-c { color: var(--h077-ground); font-weight: 700; }
+
+        .h077-ladder { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.6rem; }
+        .h077-step {
+            border: 1px solid var(--hanten-border);
+            border-radius: 6px;
+            padding: 0.75rem 0.7rem;
+            text-align: center;
+            background: #ffffff;
+        }
+        .h077-step-rel { font-size: 0.72rem; font-weight: 700; color: var(--hanten-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+        .h077-step-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.35rem; line-height: 1.15; margin-top: 0.3rem; color: var(--hanten-text); }
+        .h077-step-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.35; }
+
+        .h077-aha {
+            max-width: var(--hanten-text-width);
+            margin: 1.3rem auto 0;
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+        .h077-aha p { margin: 0 0 0.6rem; }
+        .h077-aha p:last-child { margin-bottom: 0; }
+
+        .h077-discovery { margin: .7rem 0 .2rem; font-size: .9rem; }
+        .h077-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h077-discovery p:last-child { margin-bottom: 0; }
+        .h077-discovery strong { color: var(--hanten-text); }
+
+        @media (max-width: 720px) {
+            .h077-ladder { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 600px) {
+            .h077-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h077-big { font-size: 1.6rem; }
+            .h077-sc { font-size: 23px; }
+            .h077-table { font-size: 0.8rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h077-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h077-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h077-explore p { margin: .55rem 0 0; }
+.h077-explore a { color: var(--hanten-accent, #0e7c86); }
+.h077-explore + .h077-explore { margin-top: 0; border-top: none; }
+
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2),
+.hanten-exhibit table td:nth-child(3) { text-align: center; }
+</style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            How fast is the fly?
+        </h1>
+
+        <p class="hanten-subtitle">
+            An airplane cruises at 550 mph. Inside, a fly hovers in the aisle, perfectly still next to your seat.
+            Is the fly going 0 mph or 550 mph?
+        </p>
+
+        <div id="h077-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="hanten-panel h077-panel">
+                    <svg viewBox="0 0 760 250" role="img" aria-labelledby="h077-scene-title">
+                        <title id="h077-scene-title">An airplane flying at 550 mph with a fly hovering in the aisle, seen by a passenger in the plane and by a person on the ground</title>
+                        <rect x="0" y="0" width="760" height="250" rx="6" fill="var(--h077-sky)"/>
+                        <rect x="0" y="200" width="760" height="50" fill="var(--h077-earth)"/>
+                        <g fill="#ffffff" opacity="0.75">
+                            <rect x="70" y="30" width="80" height="16" rx="8"/>
+                            <rect x="560" y="44" width="110" height="18" rx="9"/>
+                            <rect x="330" y="18" width="60" height="14" rx="7"/>
+                        </g>
+                        <!-- airplane -->
+                        <g transform="translate(120 62)">
+                            <path d="M20,40 C20,18 50,6 90,6 L420,6 C455,6 490,20 510,44 L525,62 C515,74 495,80 470,80 L60,80 C35,80 20,66 20,40 Z" fill="#fbfaf6" stroke="#5b6670" stroke-width="2.5"/>
+                            <path d="M40,6 L10,-34 L50,-34 L110,6 Z" fill="#fbfaf6" stroke="#5b6670" stroke-width="2.5" stroke-linejoin="round"/>
+                            <path d="M330,62 L255,122 L300,122 L380,62 Z" fill="#eef0ec" stroke="#5b6670" stroke-width="2.5" stroke-linejoin="round"/>
+                            <g fill="#9bc0cc" stroke="#5b6670" stroke-width="1.5">
+                                <rect x="120" y="24" width="20" height="16" rx="7"/><rect x="152" y="24" width="20" height="16" rx="7"/>
+                                <rect x="184" y="24" width="20" height="16" rx="7"/><rect x="216" y="24" width="20" height="16" rx="7"/>
+                                <rect x="330" y="24" width="20" height="16" rx="7"/><rect x="362" y="24" width="20" height="16" rx="7"/>
+                                <rect x="394" y="24" width="20" height="16" rx="7"/><rect x="426" y="24" width="20" height="16" rx="7"/>
+                            </g>
+                            <path d="M470,22 L500,22 L512,40 L480,40 Z" fill="#9bc0cc" stroke="#5b6670" stroke-width="1.5"/>
+                            <!-- fly in the aisle -->
+                            <g transform="translate(282 50)">
+                                <ellipse cx="0" cy="0" rx="7" ry="4.5" fill="#242826"/>
+                                <ellipse cx="-4" cy="-5" rx="5" ry="3" fill="#ffffff" stroke="#555" stroke-width="0.8" transform="rotate(-25 -4 -5)"/>
+                                <ellipse cx="4" cy="-5" rx="5" ry="3" fill="#ffffff" stroke="#555" stroke-width="0.8" transform="rotate(25 4 -5)"/>
+                            </g>
+                            <line x1="282" y1="40" x2="282" y2="-6" stroke="#242826" stroke-width="1"/>
+                        </g>
+                        <text class="h077-sc" x="402" y="50" text-anchor="middle" font-family="var(--hanten-font)" font-weight="800" font-size="14" fill="#242826">the fly</text>
+                        <!-- plane speed arrow -->
+                        <line x1="560" y1="178" x2="690" y2="178" stroke="#5b6670" stroke-width="2.5"/>
+                        <path d="M690,171 L704,178 L690,185 Z" fill="#5b6670"/>
+                        <text class="h077-sc" x="625" y="170" text-anchor="middle" font-family="var(--hanten-font)" font-weight="800" font-size="14" fill="#3f474e">plane: 550 mph</text>
+                        <!-- observers -->
+                        <g transform="translate(168 122)">
+                            <circle cx="0" cy="0" r="12" fill="var(--h077-seat)"/>
+                            <text x="0" y="4.5" text-anchor="middle" font-family="var(--hanten-font)" font-weight="800" font-size="12" fill="#ffffff">A</text>
+                        </g>
+                        <text class="h077-sc" x="184" y="126" font-family="var(--hanten-font)" font-weight="700" font-size="12.5" fill="var(--h077-seat)">you, in your seat</text>
+                        <g transform="translate(90 225)">
+                            <circle cx="0" cy="0" r="12" fill="var(--h077-ground)"/>
+                            <text x="0" y="4.5" text-anchor="middle" font-family="var(--hanten-font)" font-weight="800" font-size="12" fill="#ffffff">B</text>
+                        </g>
+                        <text class="h077-sc" x="107" y="229" font-family="var(--hanten-font)" font-weight="700" font-size="12.5" fill="#8a4e12">someone standing on the ground</text>
+                    </svg>
+
+                    <div class="h077-frames">
+                        <div class="h077-frame h077-frame-seat">
+                            <div class="h077-who">A · Measured from your seat</div>
+                            <div class="h077-big">0 mph</div>
+                            <div class="h077-small">The fly hangs in the air right next to you.</div>
+                        </div>
+                        <div class="h077-frame h077-frame-ground">
+                            <div class="h077-who">B · Measured from the ground</div>
+                            <div class="h077-big">550 mph</div>
+                            <div class="h077-small">The fly is carried along with the plane, the air, and you.</div>
+                        </div>
+                    </div>
+
+                    <table class="h077-table">
+                        <thead>
+                            <tr><th>If the fly…</th><th>Speed from your seat</th><th>Speed from the ground</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>hovers</td><td class="h077-seat-c">0 mph</td><td class="h077-ground-c">550 mph</td></tr>
+                            <tr><td>flies 2 mph toward the cockpit</td><td class="h077-seat-c">2 mph forward</td><td class="h077-ground-c">552 mph</td></tr>
+                            <tr><td>flies 2 mph toward the tail</td><td class="h077-seat-c">2 mph backward</td><td class="h077-ground-c">548 mph, still forward</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="hanten-panel h077-panel">
+                    <p class="h077-panel-title">And how fast are you moving right now, sitting still?</p>
+                    <div class="h077-ladder">
+                        <div class="h077-step">
+                            <div class="h077-step-rel">Relative to your chair</div>
+                            <div class="h077-step-n">0 mph</div>
+                            <div class="h077-step-l">You're not going anywhere.</div>
+                        </div>
+                        <div class="h077-step">
+                            <div class="h077-step-rel">Relative to Earth's axis</div>
+                            <div class="h077-step-n">≈ 800 mph</div>
+                            <div class="h077-step-l">Earth's spin at U.S. latitudes; about 1,040 mph at the equator (1,670 km/h)</div>
+                        </div>
+                        <div class="h077-step">
+                            <div class="h077-step-rel">Relative to the Sun</div>
+                            <div class="h077-step-n">≈ 67,000 mph</div>
+                            <div class="h077-step-l">Earth's orbit (107,000 km/h)</div>
+                        </div>
+                        <div class="h077-step">
+                            <div class="h077-step-rel">Relative to the Milky Way's center</div>
+                            <div class="h077-step-n">≈ 500,000 mph</div>
+                            <div class="h077-step-l">The Sun's trip around the galaxy (about 830,000 km/h)</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h077-aha">
+                <p><strong>A speed is only a speed compared to something.</strong> The fly is going 0 mph compared to
+                    your seat and 550 mph compared to the ground, and both are true at the same time. Neither one is
+                    the "real" speed; they answer different questions. Physicists call the thing you measure from a
+                    <em>reference frame</em>.</p>
+                <p>The same goes for many numbers that sound absolute, like "fast," "expensive," or "a big increase."
+                    Before you trust one, ask: compared to what?</p>
+            </div>
+
+            <p class="hanten-reflection">
+                What number have you heard lately that didn't say what it was compared to?
+            </p>
+
+            <details class="h077-explore" data-html2canvas-ignore="true">
+                <summary>Why doesn't the fly smash into the back of the plane?</summary>
+                <div class="h077-discovery hanten-body">
+                    <p><strong>The fly was already moving at 550 mph before it took off from your armrest.</strong> So
+                        was the air in the cabin, and so were you. Everything inside the sealed cabin shares the
+                        plane's motion, so to the fly, the cabin air feels perfectly still, just like the air in your
+                        kitchen.</p>
+                    <p><strong>You only feel changes in speed, not speed itself.</strong> At a steady cruise you can
+                        pour a drink and it falls straight into the cup. You notice motion when the plane speeds up,
+                        slows down, or turns. That's also why you can't feel Earth carrying you around the Sun at
+                        67,000 mph.</p>
+                    <p><strong>This idea is old.</strong> Galileo described it in 1632 using a ship: shut yourself below
+                        deck with some flies and butterflies, and nothing they do will tell you whether the ship is
+                        moving smoothly or tied up at the dock.</p>
+                </div>
+            </details>
+
+            <details class="h077-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H018/index.html" target="_blank" rel="noopener noreferrer">How can the same two numbers tell two completely different stories?</a></li>
+                    <li><a href="../H084/index.html" target="_blank" rel="noopener noreferrer">"Up 40% this month!" Did this stock really have a great month?</a></li>
+                    <li><a href="../H087/index.html" target="_blank" rel="noopener noreferrer">The Gall-Peters map shows every country at its true size. Is it the more accurate map?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Typical airliner cruising speed about 550 mph (885 km/h). Earth's rotation speed (about
+                1,040 mph / 1,670 km/h at the equator, less toward the poles: about 800 mph at 40° latitude), Earth's
+                average orbital speed (29.8 km/s, about 67,000 mph), and the Sun's speed around the Milky Way (about
+                230 km/s, about 500,000 mph) from NASA and Wikipedia, "Earth" and "Galactic year." Galileo's ship
+                example from his <em>Dialogue Concerning the Two Chief World Systems</em> (1632).
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H077-how-fast-is-the-fly.png", title = "How fast is the fly?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

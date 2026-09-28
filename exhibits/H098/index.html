@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H098 — Whose Map Is Right?</title>
+
+    <meta
+        name="description"
+        content="Somaliland has governed itself since 1991, but only one UN member recognizes it. Whether a place counts as a country, or whose territory it is, depends on which government you ask, so there isn't one world map."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H098-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h098-yes: #2f8a86;
+            --h098-no: #b23b32;
+        }
+
+        .h098-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h098-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h098-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h098-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h098-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h098-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h098-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h098-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h098-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.8rem; }
+
+        .h098-scroll { overflow-x: auto; }
+        .h098-grid { width: 100%; border-collapse: collapse; font-size: 0.88rem; color: var(--hanten-text); min-width: 620px; }
+        .h098-grid th, .h098-grid td { padding: 0.65rem 0.6rem; border-bottom: 1px solid var(--hanten-border); vertical-align: middle; }
+        .h098-grid th { text-align: center; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h098-grid td { text-align: left; }
+        .h098-grid td.h098-place { font-weight: 800; white-space: nowrap; }
+        .h098-grid td.h098-claim { color: var(--hanten-muted); font-size: 0.82rem; }
+        .h098-grid td.h098-count { font-size: 0.82rem; }
+        .h098-grid tr:last-child td { border-bottom: none; }
+        .h098-y { color: var(--h098-yes); font-weight: 800; font-size: 1.05rem; }
+        .h098-n { color: var(--h098-no); font-weight: 800; font-size: 1.05rem; }
+        .h098-key { font-size: 0.78rem; color: var(--hanten-muted); text-align: center; margin: 0.7rem 0 0; }
+
+        .h098-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h098-aha p { margin: 0 0 0.6rem; }
+        .h098-aha p:last-child { margin-bottom: 0; }
+
+        .h098-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h098-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h098-explore p { margin: .55rem 0 0; }
+        .h098-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h098-explore + .h098-explore { margin-top: 0; border-top: none; }
+        .h098-explore strong { color: var(--hanten-text); }
+
+        @media (max-width: 600px) {
+            .h098-stats { grid-template-columns: minmax(0, 1fr); }
+            .h098-panel { padding: 0.9rem 0.6rem 0.8rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(3),
+.hanten-exhibit table td:nth-child(4),
+.hanten-exhibit table td:nth-child(5) { text-align: center; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Somaliland has run its own government since 1991. Is it a country?
+        </h1>
+
+        <p class="hanten-subtitle">
+            It depends on who you ask. Recognizing a country, or deciding whose territory a place is, is a choice
+            each government makes for itself. So there isn't one world map; there's a different one for almost
+            every foreign ministry.
+        </p>
+
+        <div id="h098-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h098-stats-cap">Somaliland, by the numbers</p>
+                <div class="h098-stats">
+                    <div class="hanten-panel h098-stat">
+                        <div class="h098-stat-k">Governing itself</div>
+                        <div class="h098-stat-n" style="color:var(--h098-yes)">Since 1991</div>
+                        <div class="h098-stat-l">with its own government, currency, passports and elections</div>
+                    </div>
+                    <div class="hanten-panel h098-stat">
+                        <div class="h098-stat-k">UN members that recognize it</div>
+                        <div class="h098-stat-n" style="color:var(--h098-no)">1 of 193</div>
+                        <div class="h098-stat-l">Israel, since December 2025</div>
+                    </div>
+                    <div class="hanten-panel h098-stat">
+                        <div class="h098-stat-k">On most world maps</div>
+                        <div class="h098-stat-n" style="color:var(--h098-no)">Part of Somalia</div>
+                        <div class="h098-stat-l">because most governments still say it is</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h098-panel">
+                    <p class="h098-panel-title">Six disputed places, and who agrees with each claim</p>
+                    <p class="h098-panel-sub">Official positions as of 2026; these change as diplomacy shifts</p>
+                    <div class="h098-scroll">
+                        <table class="h098-grid">
+                            <thead>
+                                <tr><th>Place</th><th>The claim</th><th>United States</th><th>Russia</th><th>China</th><th>UN members that agree</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="h098-place">Taiwan</td><td class="h098-claim">A country separate from China</td><td class="h098-n">✗</td><td class="h098-n">✗</td><td class="h098-n">✗</td><td class="h098-count">11</td></tr>
+                                <tr><td class="h098-place">Kosovo</td><td class="h098-claim">Independent from Serbia</td><td class="h098-y">✓</td><td class="h098-n">✗</td><td class="h098-n">✗</td><td class="h098-count">About 110, count disputed</td></tr>
+                                <tr><td class="h098-place">Western Sahara</td><td class="h098-claim">Part of Morocco</td><td class="h098-y">✓</td><td class="h098-n">✗</td><td class="h098-n">✗</td><td class="h098-count">A few, including Israel</td></tr>
+                                <tr><td class="h098-place">Northern Cyprus</td><td class="h098-claim">Independent from Cyprus</td><td class="h098-n">✗</td><td class="h098-n">✗</td><td class="h098-n">✗</td><td class="h098-count">1 (Turkey)</td></tr>
+                                <tr><td class="h098-place">Crimea</td><td class="h098-claim">Part of Russia</td><td class="h098-n">✗</td><td class="h098-y">✓</td><td class="h098-n">✗</td><td class="h098-count">A handful of Russia's allies</td></tr>
+                                <tr><td class="h098-place">Somaliland</td><td class="h098-claim">Independent from Somalia</td><td class="h098-n">✗</td><td class="h098-n">✗</td><td class="h098-n">✗</td><td class="h098-count">1 (Israel)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="h098-key"><span class="h098-y">✓</span> officially recognizes the claim &nbsp;·&nbsp; <span class="h098-n">✗</span> does not</p>
+                </div>
+
+            </div>
+
+            <div class="h098-aha">
+                <p><strong>A border on a map can be a fact on the ground and a matter of opinion at the same time.</strong>
+                    Somaliland runs its own affairs, but whether it's a country depends on which government you ask. No
+                    row in the table is unanimous, and no two of these powers agree on every row: the U.S. is almost
+                    alone on Western Sahara, Russia on Crimea, and the world splits on Kosovo.</p>
+                <p>The same is true of names, holidays and even time zones: things that feel settled are often choices
+                    that different authorities make differently. When a map, list or label looks official, ask who drew
+                    it, and whether someone else would draw it another way.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                Which borders on the map you learned in school might look different on a map printed somewhere else?
+            </p>
+
+            <details class="h098-explore" data-html2canvas-ignore="true">
+                <summary>More on each dispute</summary>
+                <p><strong>Taiwan:</strong> 12 governments have formal ties with Taiwan; 11 are UN members (the 12th is
+                    the Holy See). The U.S. doesn't formally recognize it but keeps close unofficial ties.</p>
+                <p><strong>Kosovo:</strong> declared independence from Serbia in 2008. Kosovo counts more recognitions
+                    than Serbia does, because Serbia counts countries it says have withdrawn theirs.</p>
+                <p><strong>Western Sahara:</strong> the U.S. recognized Moroccan sovereignty in 2020 and Israel in 2023.
+                    In 2025 the UN Security Council backed Morocco's autonomy plan as a basis for talks; Russia and China
+                    abstained.</p>
+                <p><strong>Northern Cyprus:</strong> declared independence in 1983; only Turkey recognizes it.</p>
+                <p><strong>Crimea:</strong> annexed by Russia in 2014. That year the UN General Assembly declared the
+                    annexation vote invalid, 100 votes to 11, with 58 abstaining.</p>
+                <p><strong>Somaliland:</strong> declared independence from Somalia in 1991. Israel became the first UN
+                    member to recognize it, in December 2025; the U.S. still backs a single Somalia.</p>
+                <p>Some online maps even change the borders they show depending on which country you view them from.</p>
+            </details>
+
+            <details class="h098-explore" data-html2canvas-ignore="true">
+                <summary>Western Sahara: a 1,700-mile wall no map calls a border</summary>
+                <p><strong>Three maps, three different legal claims.</strong> Morocco&rsquo;s maps show its &ldquo;Southern Provinces&rdquo; with no internal border. The Polisario Front, which declared the Sahrawi Arab Democratic Republic in 1976, shows an independent state recognized by the African Union and dozens of countries. The UN lists the territory as Africa&rsquo;s last unresolved decolonization case.</p>
+                <p><strong>The berm.</strong> Morocco controls roughly 80% of the territory, including the whole coastline and every major city, behind a sand wall about 1,700 miles (2,700 km) long, roughly New York to Denver, lined with millions of landmines. A UN mission was set up in 1991 to hold a referendum on the territory&rsquo;s future; the vote has never happened, stalled over who counts as an eligible voter. A ceasefire held from 1991 until fighting resumed in November 2020.</p>
+            </details>
+
+            <details class="h098-explore" data-html2canvas-ignore="true">
+                <summary>Northern Cyprus: a line through the capital</summary>
+                <p><strong>One island, one or two countries depending on the map.</strong> The Republic of Cyprus, an EU member, claims the whole island and treats the north as occupied since Turkey&rsquo;s 1974 invasion. The Turkish Republic of Northern Cyprus declared independence in 1983; only Turkey recognizes it, and UN Security Council resolutions call the declaration legally invalid.</p>
+                <p><strong>The Green Line.</strong> A UN-patrolled buffer zone runs about 112 miles (180 km) across the island and straight through the capital, Nicosia, where it narrows to a few yards between checkpoints. Crossing points didn&rsquo;t open until 2003. A UN reunification plan went to a vote in 2004: Turkish Cypriots approved it, Greek Cypriots rejected it, and the island stayed divided. Cyprus joined the EU days later, but EU law applies only in the south.</p>
+            </details>
+
+            <details class="h098-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H037/index.html" target="_blank" rel="noopener noreferrer">Whose country is Crimea on the map?</a></li>
+                    <li><a href="../H038/index.html" target="_blank" rel="noopener noreferrer">Where is the border in Kashmir?</a></li>
+                    <li><a href="../H033/index.html" target="_blank" rel="noopener noreferrer">Gulf of Mexico or Gulf of America?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Wikipedia, "International recognition of Somaliland" and "International recognition of
+                Kosovo"; Taiwan government portal (diplomatic allies); American Society of International Law, UN
+                Security Council Resolution 2797 (October 31, 2025); UN General Assembly Resolution 68/262 (March 27,
+                2014). Western Sahara: UN Non-Self-Governing Territories list and MINURSO mandate documents; Council on Foreign Relations, "What Does the Western Sahara Conflict Mean for Africa?"; U.S. Department of State proclamation on Western Sahara (10 December 2020). Country shapes: Natural Earth. Northern Cyprus: UN Security Council Resolutions 541 (1983) and 550 (1984); UNFICYP mandate and Green Line buffer zone documentation; reporting on the 1974 Turkish invasion of Cyprus (37% territory, ~30,000 troops), the 2003 opening of crossing points, and the 2004 Annan Plan referendum. Country shapes: Natural Earth, which lists "Cyprus" and "N. Cyprus" as separate features.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H098-whose-map.png", title = "Somaliland has run its own government since 1991. Is it a country?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

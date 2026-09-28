@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H102 — Is a Cancer Cluster Proof of a Cause?</title>
+
+    <meta
+        name="description"
+        content="The Texas sharpshooter fires at a barn, then paints the target around the tightest group of holes. Of 567 suspected U.S. cancer clusters investigated from 1990 to 2011, only one turned up a clear cause."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H102-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h102-hi: #b23b32;
+            --h102-mid: #0b4f57;
+            --h102-grey: #9fb8bb;
+            --h102-barn: #8a3b2b;
+            --h102-plank: #74301f;
+            --h102-hole: #1c1b19;
+        }
+
+        .h102-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h102-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h102-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h102-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h102-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h102-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h102-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h102-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h102-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.9rem; }
+
+        .h102-panel svg { display: block; width: 100%; max-width: 680px; height: auto; margin: 0 auto; }
+        .h102-lab { font-family: var(--hanten-font); font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .h102-val { font-family: var(--hanten-font); font-size: 14px; font-weight: 800; }
+
+        .h102-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h102-aha p { margin: 0 0 0.6rem; }
+        .h102-aha p:last-child { margin-bottom: 0; }
+
+        .h102-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h102-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h102-explore p { margin: .55rem 0 0; }
+        .h102-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h102-explore + .h102-explore { margin-top: 0; border-top: none; }
+        .h102-explore strong { color: var(--hanten-text); }
+
+        @media (max-width: 600px) {
+            .h102-stats { grid-template-columns: minmax(0, 1fr); }
+            .h102-panel { padding: 0.9rem 0.6rem 0.8rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            A neighborhood has an unusual number of cancer cases. Is something there causing them?
+        </h1>
+
+        <p class="hanten-subtitle">
+            It feels that way. But random events clump together by chance, and with thousands of neighborhoods to
+            look at, some are bound to look unusual. Spotting a cluster after the fact is like the Texas sharpshooter,
+            who fires at a barn and then paints a target around the tightest group of holes.
+        </p>
+
+        <div id="h102-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h102-stats-cap">Suspected cancer clusters investigated in the U.S., 1990–2011</p>
+                <div class="h102-stats">
+                    <div class="hanten-panel h102-stat">
+                        <div class="h102-stat-k">Investigated</div>
+                        <div class="h102-stat-n" style="color:var(--h102-mid)">567</div>
+                        <div class="h102-stat-l">cancers of concern, in 428 investigations</div>
+                    </div>
+                    <div class="hanten-panel h102-stat">
+                        <div class="h102-stat-k">Really higher than expected</div>
+                        <div class="h102-stat-n" style="color:var(--h102-mid)">72</div>
+                        <div class="h102-stat-l">about 1 in 8</div>
+                    </div>
+                    <div class="hanten-panel h102-stat">
+                        <div class="h102-stat-k">Clear cause found</div>
+                        <div class="h102-stat-n" style="color:var(--h102-hi)">1</div>
+                        <div class="h102-stat-l">3 were linked to a suspected cause, and only 1 of those clearly</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h102-panel">
+                    <p class="h102-panel-title">The Texas sharpshooter's barn</p>
+                    <p class="h102-panel-sub">70 holes placed completely at random. Then the target was painted around the tightest group.</p>
+                    <svg viewBox="0 0 640 260" role="img" aria-labelledby="h102-barn-title">
+                        <title id="h102-barn-title">A red barn wall with 70 bullet holes scattered completely at random. A target has been painted afterward around the tightest group, where 8 holes fall inside a circle that would hold about 3 on average, so the shooter looks like a marksman.</title>
+<rect x="0" y="0" width="640" height="260" rx="4" fill="var(--h102-barn)"/>
+<line x1="64" y1="0" x2="64" y2="260" stroke="var(--h102-plank)" stroke-width="1.5"/>
+<line x1="128" y1="0" x2="128" y2="260" stroke="var(--h102-plank)" stroke-width="1.5"/>
+<line x1="192" y1="0" x2="192" y2="260" stroke="var(--h102-plank)" stroke-width="1.5"/>
+<line x1="256" y1="0" x2="256" y2="260" stroke="var(--h102-plank)" stroke-width="1.5"/>
+<line x1="320" y1="0" x2="320" y2="260" stroke="var(--h102-plank)" stroke-width="1.5"/>
+<line x1="384" y1="0" x2="384" y2="260" stroke="var(--h102-plank)" stroke-width="1.5"/>
+<line x1="448" y1="0" x2="448" y2="260" stroke="var(--h102-plank)" stroke-width="1.5"/>
+<line x1="512" y1="0" x2="512" y2="260" stroke="var(--h102-plank)" stroke-width="1.5"/>
+<line x1="576" y1="0" x2="576" y2="260" stroke="var(--h102-plank)" stroke-width="1.5"/>
+<circle cx="50" cy="137" r="40" fill="#ffffff" fill-opacity="0.85"/>
+<circle cx="50" cy="137" r="32" fill="var(--h102-hi)" fill-opacity="0.85"/>
+<circle cx="50" cy="137" r="24" fill="#ffffff" fill-opacity="0.85"/>
+<circle cx="50" cy="137" r="16" fill="var(--h102-hi)" fill-opacity="0.85"/>
+<circle cx="50" cy="137" r="8" fill="#ffffff" fill-opacity="0.85"/>
+<circle cx="214.3" cy="53.2" r="4" fill="var(--h102-hole)"/>
+<circle cx="410.6" cy="35.9" r="4" fill="var(--h102-hole)"/>
+<circle cx="341.5" cy="100.5" r="4" fill="var(--h102-hole)"/>
+<circle cx="54.8" cy="131.6" r="4" fill="var(--h102-hole)"/>
+<circle cx="42.5" cy="115.4" r="4" fill="var(--h102-hole)"/>
+<circle cx="61.9" cy="40.0" r="4" fill="var(--h102-hole)"/>
+<circle cx="274.7" cy="201.9" r="4" fill="var(--h102-hole)"/>
+<circle cx="94.3" cy="69.1" r="4" fill="var(--h102-hole)"/>
+<circle cx="396.5" cy="228.5" r="4" fill="var(--h102-hole)"/>
+<circle cx="366.3" cy="107.3" r="4" fill="var(--h102-hole)"/>
+<circle cx="605.8" cy="30.2" r="4" fill="var(--h102-hole)"/>
+<circle cx="535.1" cy="83.7" r="4" fill="var(--h102-hole)"/>
+<circle cx="106.6" cy="45.9" r="4" fill="var(--h102-hole)"/>
+<circle cx="205.1" cy="199.5" r="4" fill="var(--h102-hole)"/>
+<circle cx="128.4" cy="148.0" r="4" fill="var(--h102-hole)"/>
+<circle cx="403.3" cy="101.9" r="4" fill="var(--h102-hole)"/>
+<circle cx="348.6" cy="33.8" r="4" fill="var(--h102-hole)"/>
+<circle cx="55.8" cy="65.3" r="4" fill="var(--h102-hole)"/>
+<circle cx="428.2" cy="114.1" r="4" fill="var(--h102-hole)"/>
+<circle cx="208.5" cy="148.8" r="4" fill="var(--h102-hole)"/>
+<circle cx="291.9" cy="85.9" r="4" fill="var(--h102-hole)"/>
+<circle cx="496.6" cy="173.8" r="4" fill="var(--h102-hole)"/>
+<circle cx="166.5" cy="146.4" r="4" fill="var(--h102-hole)"/>
+<circle cx="335.1" cy="212.5" r="4" fill="var(--h102-hole)"/>
+<circle cx="457.7" cy="83.3" r="4" fill="var(--h102-hole)"/>
+<circle cx="608.1" cy="46.0" r="4" fill="var(--h102-hole)"/>
+<circle cx="270.9" cy="186.6" r="4" fill="var(--h102-hole)"/>
+<circle cx="111.2" cy="127.6" r="4" fill="var(--h102-hole)"/>
+<circle cx="43.5" cy="167.0" r="4" fill="var(--h102-hole)"/>
+<circle cx="478.7" cy="146.1" r="4" fill="var(--h102-hole)"/>
+<circle cx="545.3" cy="89.0" r="4" fill="var(--h102-hole)"/>
+<circle cx="437.2" cy="150.8" r="4" fill="var(--h102-hole)"/>
+<circle cx="367.9" cy="120.4" r="4" fill="var(--h102-hole)"/>
+<circle cx="524.0" cy="227.8" r="4" fill="var(--h102-hole)"/>
+<circle cx="304.5" cy="166.1" r="4" fill="var(--h102-hole)"/>
+<circle cx="56.4" cy="174.3" r="4" fill="var(--h102-hole)"/>
+<circle cx="408.3" cy="238.5" r="4" fill="var(--h102-hole)"/>
+<circle cx="513.2" cy="82.6" r="4" fill="var(--h102-hole)"/>
+<circle cx="251.5" cy="167.1" r="4" fill="var(--h102-hole)"/>
+<circle cx="33.5" cy="121.6" r="4" fill="var(--h102-hole)"/>
+<circle cx="120.8" cy="45.8" r="4" fill="var(--h102-hole)"/>
+<circle cx="55.4" cy="189.0" r="4" fill="var(--h102-hole)"/>
+<circle cx="97.6" cy="74.5" r="4" fill="var(--h102-hole)"/>
+<circle cx="254.6" cy="211.7" r="4" fill="var(--h102-hole)"/>
+<circle cx="68.3" cy="118.8" r="4" fill="var(--h102-hole)"/>
+<circle cx="349.7" cy="214.3" r="4" fill="var(--h102-hole)"/>
+<circle cx="511.6" cy="210.1" r="4" fill="var(--h102-hole)"/>
+<circle cx="187.1" cy="111.4" r="4" fill="var(--h102-hole)"/>
+<circle cx="235.3" cy="214.5" r="4" fill="var(--h102-hole)"/>
+<circle cx="594.6" cy="53.2" r="4" fill="var(--h102-hole)"/>
+<circle cx="125.7" cy="71.0" r="4" fill="var(--h102-hole)"/>
+<circle cx="160.0" cy="126.7" r="4" fill="var(--h102-hole)"/>
+<circle cx="373.5" cy="77.8" r="4" fill="var(--h102-hole)"/>
+<circle cx="22.5" cy="112.2" r="4" fill="var(--h102-hole)"/>
+<circle cx="241.6" cy="144.6" r="4" fill="var(--h102-hole)"/>
+<circle cx="591.9" cy="171.9" r="4" fill="var(--h102-hole)"/>
+<circle cx="329.3" cy="155.9" r="4" fill="var(--h102-hole)"/>
+<circle cx="425.7" cy="31.9" r="4" fill="var(--h102-hole)"/>
+<circle cx="559.7" cy="191.6" r="4" fill="var(--h102-hole)"/>
+<circle cx="544.7" cy="195.5" r="4" fill="var(--h102-hole)"/>
+<circle cx="255.4" cy="107.8" r="4" fill="var(--h102-hole)"/>
+<circle cx="82.1" cy="159.5" r="4" fill="var(--h102-hole)"/>
+<circle cx="57.3" cy="34.8" r="4" fill="var(--h102-hole)"/>
+<circle cx="145.3" cy="55.7" r="4" fill="var(--h102-hole)"/>
+<circle cx="224.0" cy="31.6" r="4" fill="var(--h102-hole)"/>
+<circle cx="20.1" cy="53.3" r="4" fill="var(--h102-hole)"/>
+<circle cx="80.9" cy="100.0" r="4" fill="var(--h102-hole)"/>
+<circle cx="35.3" cy="212.4" r="4" fill="var(--h102-hole)"/>
+<circle cx="388.4" cy="52.7" r="4" fill="var(--h102-hole)"/>
+<circle cx="171.4" cy="96.4" r="4" fill="var(--h102-hole)"/>
+                    </svg>
+                    <p class="h102-panel-sub" style="margin:0.7rem 0 0;">Inside the painted target: 8 holes, where random scatter puts about 3 on average. Nothing aimed them there.</p>
+                </div>
+
+                <div class="hanten-panel h102-panel">
+                    <p class="h102-panel-title">What happened when real clusters were checked</p>
+                    <p class="h102-panel-sub">567 suspected cancer clusters investigated by U.S. state and federal agencies, 1990–2011</p>
+                    <svg viewBox="0 0 700 160" role="img" aria-labelledby="h102-funnel-title">
+                        <title id="h102-funnel-title">Bar chart: of 567 cancers of concern investigated, 72 were confirmed to be higher than expected, 3 were linked at least partly to a suspected cause, and 1 had a clear cause.</title>
+<text class="h102-lab" x="0" y="17">Cancers of concern investigated</text>
+<rect x="300" y="3" width="330.0" height="22" rx="2" fill="var(--h102-grey)"/>
+<text class="h102-val" x="636.0" y="19" fill="var(--h102-grey)">567</text>
+<text class="h102-lab" x="0" y="57">Confirmed to be higher than expected</text>
+<rect x="300" y="43" width="41.9" height="22" rx="2" fill="var(--h102-mid)"/>
+<text class="h102-val" x="347.9" y="59" fill="var(--h102-mid)">72</text>
+<text class="h102-lab" x="0" y="97">Linked, at least partly, to a suspected cause</text>
+<rect x="300" y="83" width="3.0" height="22" rx="2" fill="var(--h102-hi)"/>
+<text class="h102-val" x="309.0" y="99" fill="var(--h102-hi)">3</text>
+<text class="h102-lab" x="0" y="137">With a clear cause</text>
+<rect x="300" y="123" width="3.0" height="22" rx="2" fill="var(--h102-hi)"/>
+<text class="h102-val" x="309.0" y="139" fill="var(--h102-hi)">1</text>
+                    </svg>
+                </div>
+
+            </div>
+
+            <div class="h102-aha">
+                <p><strong>A pattern you find after looking everywhere isn't evidence the way a prediction is.</strong>
+                    Random events don't spread out evenly; they clump. Look across thousands of neighborhoods and some
+                    will have far more cases than average by chance alone. That's why most suspected cancer clusters
+                    turn out not to be real, and even among the real ones, a cause is rarely found.</p>
+                <p>The same trap catches "hot streaks" in sports, lucky stock pickers, and towns where "everyone" seems to
+                    get the same illness. Before trusting a striking pattern, ask whether someone predicted it before
+                    looking, or drew the target after the shots were fired.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                What pattern have you noticed that might look different if you counted all the places it didn't happen?
+            </p>
+
+            <details class="h102-explore" data-html2canvas-ignore="true">
+                <summary>Does this mean cancer clusters should be ignored?</summary>
+                <p>No. Real environmental causes of cancer do exist, and health agencies take reports seriously. But
+                    with small numbers of cases in each neighborhood, random ups and downs are large, and people naturally
+                    notice the places where cases pile up rather than the far more common places where they don't. The
+                    review behind these numbers concluded that decades of cluster investigations had rarely found a cause,
+                    and that better methods, like watching whole populations over time, are more likely to find real
+                    risks.</p>
+                <p>The barn above was made by placing 70 dots at random with a fixed seed, then drawing the target around
+                    the circle that happened to hold the most dots. <a href="../H099/index.html" target="_blank" rel="noopener noreferrer">Did
+                    shark attack deaths really double?</a> shows the same luck at work in small yearly counts.</p>
+            </details>
+
+            <details class="h102-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H085/index.html" target="_blank" rel="noopener noreferrer">Ice cream sales and drownings rise and fall together. Does ice cream cause drowning?</a></li>
+                    <li><a href="../H056/index.html" target="_blank" rel="noopener noreferrer">If no player’s skill ever changes, why does their “best season ever” almost never happen twice?</a></li>
+                    <li><a href="../H041/index.html" target="_blank" rel="noopener noreferrer">If a medical test is 99% accurate and you test positive, what are the chances you actually have the disease?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: M. Goodman et al., "Cancer clusters in the USA: What do the last twenty years of state and federal
+                investigations tell us?" Critical Reviews in Toxicology, 2012 (428 investigations of 567 cancers of
+                concern, January 1990 to September 2011). Barn graphic is a random simulation.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H102-texas-sharpshooter.png", title = "Is a cancer cluster proof of a cause?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

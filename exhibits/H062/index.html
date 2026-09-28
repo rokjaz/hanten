@@ -81,15 +81,56 @@
         @media (max-width: 600px) {
             .h062-panel { padding: 1rem 0.8rem 0.9rem; }
         }
+
+        /* Narrow screens: larger chart text so it stays readable */
+        #h062-chart.is-narrow .h062-point-label { font-size: 13px; }
+        #h062-chart.is-narrow .h062-axis-label { font-size: 12.5px; }
+        #h062-chart.is-narrow .h062-river-label { font-size: 16px; }
+        #h062-chart.is-narrow .h062-band-label { font-size: 13px; }
+
+        .h062-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h062-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h062-discovery p:last-child { margin-bottom: 0; }
+        .h062-discovery strong { color: var(--hanten-text); }
     </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h062-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h062-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h062-explore p { margin: .55rem 0 0; }
+.h062-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
 </head>
 
 <body>
 
     <main class="hanten-exhibit">
 
-        <h1 class="hanten-question">
-            Which river is actually the longest — the Nile or the Amazon?
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Which river is actually the longest&nbsp;— the Nile or the&nbsp;Amazon?
         </h1>
 
         <p class="hanten-subtitle">
@@ -100,9 +141,9 @@
         <div id="h062-capture">
 
             <div class="hanten-graphic hanten-panel h062-panel">
-                <svg viewBox="0 0 640 300" id="h062-chart" role="img" aria-labelledby="h062-chart-title h062-chart-desc">
+                <svg viewBox="0 0 640 320" id="h062-chart" role="img" aria-labelledby="h062-chart-title h062-chart-desc">
                     <title id="h062-chart-title">Range of published lengths for the Nile and the Amazon</title>
-                    <desc id="h062-chart-desc">The Nile's published length ranges from 6,650 to 6,853 km. The Amazon's published length ranges from 6,400 to 6,992 km, a wider span that fully contains the Nile's range.</desc>
+                    <desc id="h062-chart-desc">The Nile's published length ranges from 4,132 to 4,258 miles (6,650 to 6,853 km). The Amazon's published length ranges from about 4,000 to 4,345 miles (6,400 to 6,992 km), a wider span that fully contains the Nile's range.</desc>
                 </svg>
                 <div class="h062-legend">
                     <span><span class="h062-swatch" style="background:var(--h062-nile)"></span>Nile — published range</span>
@@ -110,37 +151,49 @@
                 </div>
             </div>
 
-            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">Why there's no clean answer</h2>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
-                A river doesn't come with a factory-installed length. Two judgment calls decide the number, and
-                reasonable experts have made different calls on both. <strong>Where does it end?</strong> The
-                Amazon empties into the Atlantic through a mouth so wide — dozens of kilometers across, split
-                into multiple channels — that there's no single point where "river" clearly becomes "ocean."
-                Pick a different outlet channel and the length changes.
-            </p>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
-                <strong>Where does it begin?</strong> A river's "source" is whichever headwater stream you decide
-                is the true beginning — a judgment call, not a fact you can look up. A 2014 Brazilian-led
-                expedition traced a new Amazon source to a snow-capped peak in southern Peru, instantly adding
-                hundreds of kilometers to the total.
-            </p>
-
-            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
-                <p class="hanten-takeaway" style="margin:0;">
-                    Every commonly published Nile figure falls inside the range of published Amazon figures —
-                    so "longer" depends entirely on which legitimate measurement you pick, not on a settled fact.
-                </p>
+            <div class="h062-discovery hanten-body">
+                <p><strong>Every commonly published Nile figure falls inside the range of published Amazon figures,</strong> so "longer" depends on which legitimate measurement you pick. Two judgment calls decide a river's length: where it ends, and which headwater stream counts as its source.</p>
+                <p>Many numbers that sound measured are really a definition plus a measurement. When two credible sources disagree, ask whether they're measuring the same thing, from the same starting point to the same end.</p>
             </div>
 
             <p class="hanten-reflection">
-                If two rivers can't agree on where they start or stop, how many other "settled" rankings are
-                really just a choice of definition?
+                What “settled” ranking is really a choice about where to start and stop?
             </p>
+
+            <details class="h062-explore" data-html2canvas-ignore="true">
+                <summary>Why there's no clean answer</summary>
+                <p><strong>Every commonly published Nile figure falls inside the range of published Amazon
+                    figures</strong> — so "longer" depends entirely on which legitimate measurement you
+                    pick, not on a settled fact. A river doesn't come with a factory-installed length. Two
+                    judgment calls decide the number, and reasonable experts have made different calls on
+                    both. <strong>Where does it end?</strong> The Amazon empties into the Atlantic through a
+                    mouth so wide, split into multiple channels around large islands, that there's
+                    no single point where "river" clearly becomes "ocean." Pick a different outlet channel
+                    and the length changes.</p>
+                <p><strong>Where does it begin?</strong> A river's "source" is whichever headwater stream
+                    you decide is the true beginning — a judgment call, not a fact you can look up. A 2007
+                    Brazilian-led expedition traced a new Amazon source to a snow-capped peak in southern
+                    Peru, instantly adding about 176 miles (284 km) to the total.</p>
+            </details>
+
+            <details class="h062-explore" data-html2canvas-ignore="true">
+                <summary>Explore how the same problem repeats for coastlines and countries</summary>
+                <p>The same measurement problem gets even stranger one exhibit over, in <a href="../H063/index.html" target="_blank" rel="noopener noreferrer">Coastline Paradox</a>: a coastline&rsquo;s measured length does not just depend on where you decide it starts and ends, it keeps growing the shorter a ruler you use to trace it.</p>
+            </details>
+
+            <details class="h062-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H061/index.html" target="_blank" rel="noopener noreferrer">How tall is the tallest mountain?</a></li>
+                    <li><a href="../H063/index.html" target="_blank" rel="noopener noreferrer">How long is a coastline, really?</a></li>
+                    <li><a href="../H086/index.html" target="_blank" rel="noopener noreferrer">The unemployment rate is 4.1%. Does that mean almost everyone who wants a job has one?</a></li>
+                </ul>
+            </details>
 
             <p class="hanten-source">
                 Sources: Encyclopaedia Britannica, "How Long Is the Amazon River?"; National Geographic, "Amazon
-                Longer Than Nile River, Scientists Say." The 2007 Brazilian recalculation (6,853 km for the Nile;
-                6,992 km for the Amazon) was never formally published and several geographers have urged caution
+                Longer Than Nile River, Scientists Say" (June 2007). The 2007 Brazilian recalculation (4,258 miles / 6,853 km for the Nile;
+                4,345 miles / 6,992 km for the Amazon) was never formally published and several geographers have urged caution
                 about its precision — it's included here because it's widely cited, not because it's the most
                 reliable figure.
             </p>
@@ -156,61 +209,107 @@
     <script>
         (() => {
             const svg = document.getElementById("h062-chart");
-            const left = 66, right = 600, top = 40, bottom = 258;
-            const domainMin = 6300, domainMax = 7050;
-            const x = km => left + ((km - domainMin) / (domainMax - domainMin)) * (right - left);
+            const isNarrow = () => svg.parentElement.clientWidth < 520;
 
-            const nile = { min: 6650, max: 6853, y: 118, points: [
-                { km: 6650, label: "6,650 km", note: "traditional figure" },
-                { km: 6853, label: "6,853 km", note: "Brazilian team's recalculation" }
+            // Lengths in miles (km in parentheses). Miles position each point on the chart.
+            const nile = { min: 4132, max: 4258, points: [
+                { mi: 4132, top: ["4,132 mi", "(6,650 km)"], note: ["traditional", "figure"] },
+                { mi: 4258, top: ["4,258 mi", "(6,853 km)"], note: ["2007 Brazilian", "recalculation"] }
             ] };
-            const amazon = { min: 6400, max: 6992, y: 208, points: [
-                { km: 6400, label: "6,400 km", note: "conservative estimate" },
-                { km: 6800, label: "6,800 km", note: "2014 expedition" },
-                { km: 6992, label: "6,992 km", note: "2007 study" }
+            const amazon = { min: 4000, max: 4345, points: [
+                { mi: 4000, top: ["~4,000 mi", "(~6,400 km)"], note: ["conservative", "estimate"] },
+                { mi: 4225, top: ["4,225 mi", "(6,800 km)"], note: ["2007", "expedition"] },
+                { mi: 4345, top: ["4,345 mi", "(6,992 km)"], note: ["2007 Brazilian", "study"] }
             ] };
 
-            let html = "";
+            // Narrow screens get a narrower drawing so the text stays readable
+            function draw() {
+                const narrow = isNarrow();
+                svg.classList.toggle("is-narrow", narrow);
+                const W = narrow ? 440 : 640;
+                const left = narrow ? 78 : 66, right = W - 22, top = 40, bottom = 278;
+                svg.setAttribute("viewBox", `0 0 ${W} 320`);
+                const domainMin = 3900, domainMax = 4420;
+                const x = mi => left + ((mi - domainMin) / (domainMax - domainMin)) * (right - left);
+                nile.y = 122; amazon.y = 222;
+                const lh = narrow ? 14 : 13;
 
-            // overlap band: Nile's full range, which sits inside Amazon's range
-            html += `<rect x="${x(nile.min).toFixed(1)}" y="${top}" width="${(x(nile.max) - x(nile.min)).toFixed(1)}" height="${bottom - top}" fill="var(--h062-band)"/>`;
-            html += `<text x="${((x(nile.min) + x(nile.max)) / 2).toFixed(1)}" y="${top - 12}" text-anchor="middle" class="h062-band-label">every Nile figure falls in here</text>`;
+                let html = "";
 
-            // axis
-            html += `<line x1="${left}" y1="${bottom}" x2="${right}" y2="${bottom}" stroke="var(--hanten-border)" stroke-width="1"/>`;
-            [6400, 6600, 6800, 7000].forEach(v => {
-                const px = x(v).toFixed(1);
-                html += `<text x="${px}" y="${bottom + 22}" text-anchor="middle" class="h062-axis-label">${v.toLocaleString()}</text>`;
-            });
-            html += `<text x="${right + 4}" y="${bottom + 44}" class="h062-axis-label">km</text>`;
+                // overlap band: Nile's full range, which sits inside Amazon's range
+                html += `<rect x="${x(nile.min).toFixed(1)}" y="${top}" width="${(x(nile.max) - x(nile.min)).toFixed(1)}" height="${bottom - top}" fill="var(--h062-band)"/>`;
+                html += `<text x="${((x(nile.min) + x(nile.max)) / 2).toFixed(1)}" y="${top - 12}" text-anchor="middle" class="h062-band-label">every Nile figure falls in here</text>`;
 
-            function drawRow(river, label, color) {
-                const x1 = x(river.min), x2 = x(river.max);
-                html += `<text x="${left - 8}" y="${river.y - 9}" text-anchor="end" class="h062-river-label">${label}</text>`;
-                html += `<rect x="${x1.toFixed(1)}" y="${(river.y - 7).toFixed(1)}" width="${(x2 - x1).toFixed(1)}" height="14" rx="7" fill="${color}"/>`;
-                river.points.forEach(p => {
-                    const px = x(p.km);
-                    html += `<circle cx="${px.toFixed(1)}" cy="${river.y}" r="5.5" fill="var(--hanten-panel)" stroke="${color}" stroke-width="2.5"/>`;
-                    html += `<text x="${px.toFixed(1)}" y="${river.y - 18}" text-anchor="middle" class="h062-point-label">${p.label}</text>`;
-                    html += `<text x="${px.toFixed(1)}" y="${river.y + 30}" text-anchor="middle" class="h062-point-label">${p.note}</text>`;
+                // axis (miles)
+                html += `<line x1="${left}" y1="${bottom}" x2="${right}" y2="${bottom}" stroke="var(--hanten-border)" stroke-width="1"/>`;
+                [4000, 4100, 4200, 4300, 4400].forEach(v => {
+                    const px = x(v).toFixed(1);
+                    html += `<text x="${px}" y="${bottom + 20}" text-anchor="middle" class="h062-axis-label">${v.toLocaleString()}</text>`;
                 });
+                html += `<text x="${right}" y="${bottom + 37}" text-anchor="end" class="h062-axis-label">miles</text>`;
+
+                function drawRow(river, label, color) {
+                    const x1 = x(river.min), x2 = x(river.max);
+                    html += `<text x="${left - 8}" y="${river.y + 5}" text-anchor="end" class="h062-river-label">${label}</text>`;
+                    html += `<rect x="${x1.toFixed(1)}" y="${(river.y - 7).toFixed(1)}" width="${(x2 - x1).toFixed(1)}" height="14" rx="7" fill="${color}"/>`;
+                    river.points.forEach(p => {
+                        const px = x(p.mi).toFixed(1);
+                        html += `<circle cx="${px}" cy="${river.y}" r="5.5" fill="var(--hanten-panel)" stroke="${color}" stroke-width="2.5"/>`;
+                        html += `<text x="${px}" y="${river.y - 16 - lh}" text-anchor="middle" class="h062-point-label" style="font-weight:700;fill:var(--hanten-text)">${p.top[0]}</text>`;
+                        html += `<text x="${px}" y="${river.y - 16}" text-anchor="middle" class="h062-point-label">${p.top[1]}</text>`;
+                        html += `<text x="${px}" y="${river.y + 25}" text-anchor="middle" class="h062-point-label">${p.note[0]}</text>`;
+                        html += `<text x="${px}" y="${river.y + 25 + lh}" text-anchor="middle" class="h062-point-label">${p.note[1]}</text>`;
+                    });
+                }
+
+                drawRow(nile, "Nile", "var(--h062-nile)");
+                drawRow(amazon, "Amazon", "var(--h062-amazon)");
+
+                svg.innerHTML = html;
             }
-
-            drawRow(nile, "Nile", "var(--h062-nile)");
-            drawRow(amazon, "Amazon", "var(--h062-amazon)");
-
-            svg.innerHTML = html;
+            draw();
+            let lastNarrow = isNarrow();
+            window.addEventListener("resize", () => {
+                const n = isNarrow();
+                if (n !== lastNarrow) { lastNarrow = n; draw(); }
+            });
         })();
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "Which river is actually the longest — the Nile or the Amazon?",
-            filename: "H062-longest-river.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H062-longest-river.png", title = "Which river is actually the longest — the Nile or the Amazon?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

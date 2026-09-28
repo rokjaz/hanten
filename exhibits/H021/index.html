@@ -1,400 +1,537 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>H021 — 1960 World Series</title>
+<title>H021 — The 1960 World Series | Hanten</title>
+<meta name="description" content="The Yankees outscored the Pirates 55–27 across the 1960 World Series. The Pirates still won, four games to three.">
 
-    <link
-        rel="stylesheet"
-        href="../../assets/css/hanten.css"
-    >
+<link rel="stylesheet" href="../../assets/css/hanten.css">
 
-    <style>
-        :root {
-            --h021-ink: #1f2933;
-            --h021-soft: #66717d;
-            --h021-line: #d8dde2;
-            --h021-paper: #ffffff;
-            --h021-pirates: #b07a00;
-            --h021-yankees: #284664;
-        }
+<style>
+  :root {
+    --h021-ink: #1f2933;
+    --h021-soft: #66717d;
+    --h021-line: #d8dde2;
+    --h021-paper: #ffffff;
+    --h021-pirates: #b07a00;
+    --h021-yankees: #284664;
+  }
 
-        .h021-wrap {
-            width: min(900px, 100%);
-            margin: 0 auto;
-        }
+  .h021-wrap {
+    width: min(900px, 100%);
+    margin: 0 auto;
+  }
 
-        .h021-board {
-            margin-top: .55rem;
-            border-top: 1px solid var(--h021-line);
-            border-bottom: 1px solid var(--h021-line);
-        }
+  .h021-board {
+    margin-top: .55rem;
+    border-top: 1px solid var(--h021-line);
+    border-bottom: 1px solid var(--h021-line);
+  }
 
-        .h021-row {
-            display: grid;
-            grid-template-columns: 84px minmax(120px, 1fr) minmax(120px, 1fr) 110px;
-            align-items: center;
-            min-height: 43px;
-            border-bottom: 1px solid var(--h021-line);
-        }
+  .h021-row {
+    display: grid;
+    grid-template-columns: 84px minmax(120px, 1fr) minmax(120px, 1fr) 110px;
+    align-items: center;
+    min-height: 43px;
+    border-bottom: 1px solid var(--h021-line);
+  }
 
-        .h021-row:last-child {
-            border-bottom: 0;
-        }
+  .h021-row:last-child {
+    border-bottom: 0;
+  }
 
-        .h021-cell {
-            padding: .48rem .65rem;
-        }
+  .h021-cell {
+    padding: .48rem .65rem;
+  }
 
-        .h021-head {
-            min-height: 38px;
-            color: var(--h021-soft);
-            font-size: 0.76rem;
-            font-weight: 700;
-            letter-spacing: 0.07em;
-            text-transform: uppercase;
-        }
+  .h021-head {
+    min-height: 38px;
+    color: var(--h021-soft);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
 
-        .h021-game {
-            color: var(--h021-soft);
-            font-size: 0.84rem;
-            font-weight: 700;
-            letter-spacing: 0.03em;
-        }
+  .h021-game {
+    color: var(--h021-soft);
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
 
-        .h021-team {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            gap: 1rem;
-            font-variant-numeric: tabular-nums;
-        }
+  .h021-team {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    font-variant-numeric: tabular-nums;
+  }
 
-        .h021-name {
-            font-size: 0.95rem;
-            font-weight: 650;
-        }
+  .h021-name {
+    font-size: 0.95rem;
+    font-weight: 650;
+  }
 
-        .h021-score {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 1.08rem;
-            font-weight: 800;
-        }
+  .h021-score {
+    font-family: var(--hanten-font);
+    font-size: 1.08rem;
+    font-weight: 800;
+  }
 
-        .h021-pirates {
-            color: var(--h021-pirates);
-        }
+  .h021-pirates {
+    color: var(--h021-pirates);
+  }
 
-        .h021-yankees {
-            color: var(--h021-yankees);
-        }
+  .h021-yankees {
+    color: var(--h021-yankees);
+  }
 
-        .h021-winner {
-            font-size: 0.78rem;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            text-align: right;
-        }
+  .h021-winner {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-align: right;
+  }
 
-        .h021-summary {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: .65rem;
-            margin-top: .7rem;
-        }
+  .h021-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .65rem;
+    margin-top: .7rem;
+  }
 
-        .h021-summary-card {
-            border-top: 3px solid var(--h021-line);
-            padding-top: .5rem;
-        }
+  .h021-summary-card {
+    border-top: 1px solid var(--h021-line);
+    padding-top: .5rem;
+  }
 
-        .h021-summary-card.pirates {
-            border-top-color: var(--h021-pirates);
-        }
+  .h021-summary-team {
+    margin-bottom: .3rem;
+    font-size: 0.88rem;
+    font-weight: 750;
+  }
 
-        .h021-summary-card.yankees {
-            border-top-color: var(--h021-yankees);
-        }
+  .h021-statline {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .18rem 0;
+    border-bottom: 1px solid var(--h021-line);
+  }
 
-        .h021-summary-team {
-            margin-bottom: .3rem;
-            font-size: 0.88rem;
-            font-weight: 750;
-        }
+  .h021-statline:last-child {
+    border-bottom: 0;
+  }
 
-        .h021-statline {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: .18rem 0;
-            border-bottom: 1px solid var(--h021-line);
-        }
+  .h021-stat-label {
+    color: var(--h021-soft);
+    font-size: 0.8rem;
+  }
 
-        .h021-statline:last-child {
-            border-bottom: 0;
-        }
+  .h021-stat-value {
+    font-family: var(--hanten-font);
+    font-size: 1rem;
+    font-weight: 800;
+  }
 
-        .h021-stat-label {
-            color: var(--h021-soft);
-            font-size: 0.8rem;
-        }
+  .h021-aha {
+    max-width: 820px;
+    margin: .8rem auto 0;
+    padding: .15rem 0;
+    background: transparent;
+    color: var(--h021-ink);
+    font-size: .95rem;
+    line-height: 1.45;
+    text-align: left;
+  }
 
-        .h021-stat-value {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 1rem;
-            font-weight: 800;
-        }
+  .h021-aha p { margin: 0 0 .55rem; }
+  .h021-aha p:last-child { margin-bottom: 0; }
 
-        .h021-aha {
-            margin: .8rem auto 0;
-            max-width: 760px;
-            padding: .15rem 0 .15rem 1rem;
-            border-left: 3px solid var(--hanten-accent);
-            text-align: left;
-            font-size: .95rem;
-            line-height: 1.45;
-            font-weight: 400;
-            color: var(--h021-ink);
-        }
+  .h021-aha strong {
+    font-weight: 850;
+  }
 
-        .h021-aha strong {
-            font-weight: 850;
-        }
+  .h021-source {
+    margin-top: .7rem;
+    color: var(--h021-soft);
+    font-size: 0.72rem;
+    line-height: 1.45;
+    text-align: left;
+  }
 
-        .h021-source {
-            margin-top: .7rem;
-            color: var(--h021-soft);
-            font-size: 0.72rem;
-            line-height: 1.45;
-            text-align: left;
-        }
+  .h021-details {
+    max-width: 760px;
+    margin: .7rem auto 0;
+    padding: .6rem 0;
+    border-top: 1px solid var(--h021-line);
+    border-bottom: 1px solid var(--h021-line);
+    color: var(--hanten-muted, var(--h021-soft));
+    font-size: .8rem;
+    line-height: 1.45;
+  }
 
-        .h021-details {
-            max-width: 760px;
-            margin: .7rem auto 0;
-            color: var(--hanten-muted);
-            font-size: .8rem;
-            line-height: 1.45;
-        }
+  .h021-details summary {
+    cursor: pointer;
+    color: var(--h021-ink);
+    font-weight: 700;
+  }
 
-        .h021-details summary {
-            cursor: pointer;
-            font-weight: 700;
-        }
+  .h021-details p {
+    margin: .45rem 0 0;
+  }
 
-        .h021-details p {
-            margin: .45rem 0 0;
-        }
+  .hanten-source a,
+  .h021-source a {
+    color: var(--h021-yankees);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 
-        @media (max-width: 720px) {
-            .h021-row {
-                grid-template-columns: 54px 1fr 1fr 72px;
-            }
+  @media (max-width: 720px) {
+    .h021-row {
+      grid-template-columns: 54px 1fr 1fr 72px;
+    }
 
-            .h021-cell {
-                padding: 0.62rem 0.45rem;
-            }
+    .h021-cell {
+      padding: 0.62rem 0.45rem;
+    }
 
-            .h021-name {
-                display: none;
-            }
+    .h021-name {
+      display: none;
+    }
 
-            .h021-team {
-                justify-content: center;
-            }
+    .h021-team {
+      justify-content: center;
+    }
 
-            .h021-winner {
-                font-size: 0.68rem;
-            }
-        }
+    .h021-winner {
+      font-size: 0.68rem;
+    }
+  }
 
-        @media (max-width: 520px) {
-            .h021-summary {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  @media (max-width: 520px) {
+    .h021-summary {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--h021-yankees);color:var(--h021-yankees)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+<style>
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:900px !important;margin-left:auto !important;margin-right:auto !important;
+  text-align:center !important;text-wrap:balance;
+}
+.hanten-reflection{
+  max-width:760px;margin:1rem auto 0 !important;text-align:center !important;font-size:.95rem !important;
+  line-height:1.45 !important;font-weight:500 !important;color:var(--h021-soft) !important;
+}
+
+.hanten-export-card{
+ position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
+ background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-card .h021-wrap{margin:0}
+.hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+.hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-aha p{margin:0 0 8px}
+.hanten-export-aha p:last-child{margin-bottom:0}
+.hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+.hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+</style>
+
+<style>
+.h021-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h021-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h021-explore p { margin: .55rem 0 0; }
+.h021-explore a { color: var(--hanten-accent, #0e7c86); }
+
+/* Design Standards 19 (text column) */
+.hanten-exhibit .h021-aha { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
+</style>
 </head>
 
 <body>
 
-    <main class="hanten-exhibit">
+<main class="hanten-exhibit">
 
-        <h1 class="hanten-question">
-            The Yankees outscored the Pirates 55–27.
-            How did the Pirates win the World Series?
-        </h1>
+    <h1 class="hanten-question">
+        The Yankees outscored the Pirates 55–27.
+        How did the Pirates win the World Series?
+    </h1>
 
-        <p class="hanten-subtitle">
-            Compare the score of each game with the total runs across the series.
-        </p>
+    <p class="hanten-subtitle">
+        New York won three games by a combined score of 38–3. Pittsburgh won four games by a combined score of 24–17.
+    </p>
 
-        <div class="hanten-graphic">
+    <div class="hanten-graphic">
 
-            <div class="h021-wrap" id="h021-graphic">
+        <div class="h021-wrap" id="h021-graphic">
 
-                <div class="h021-board">
+            <div class="h021-board">
 
-                    <div class="h021-row h021-head">
-                        <div class="h021-cell">Game</div>
-                        <div class="h021-cell">Pittsburgh</div>
-                        <div class="h021-cell">New York</div>
-                        <div class="h021-cell" style="text-align:right;">Winner</div>
-                    </div>
-
-                    <div class="h021-row">
-                        <div class="h021-cell h021-game">1</div>
-                        <div class="h021-cell h021-team h021-pirates">
-                            <span class="h021-name">Pirates</span><span class="h021-score">6</span>
-                        </div>
-                        <div class="h021-cell h021-team h021-yankees">
-                            <span class="h021-name">Yankees</span><span class="h021-score">4</span>
-                        </div>
-                        <div class="h021-cell h021-winner h021-pirates">Pirates</div>
-                    </div>
-
-                    <div class="h021-row">
-                        <div class="h021-cell h021-game">2</div>
-                        <div class="h021-cell h021-team h021-pirates">
-                            <span class="h021-name">Pirates</span><span class="h021-score">3</span>
-                        </div>
-                        <div class="h021-cell h021-team h021-yankees">
-                            <span class="h021-name">Yankees</span><span class="h021-score">16</span>
-                        </div>
-                        <div class="h021-cell h021-winner h021-yankees">Yankees</div>
-                    </div>
-
-                    <div class="h021-row">
-                        <div class="h021-cell h021-game">3</div>
-                        <div class="h021-cell h021-team h021-pirates">
-                            <span class="h021-name">Pirates</span><span class="h021-score">0</span>
-                        </div>
-                        <div class="h021-cell h021-team h021-yankees">
-                            <span class="h021-name">Yankees</span><span class="h021-score">10</span>
-                        </div>
-                        <div class="h021-cell h021-winner h021-yankees">Yankees</div>
-                    </div>
-
-                    <div class="h021-row">
-                        <div class="h021-cell h021-game">4</div>
-                        <div class="h021-cell h021-team h021-pirates">
-                            <span class="h021-name">Pirates</span><span class="h021-score">3</span>
-                        </div>
-                        <div class="h021-cell h021-team h021-yankees">
-                            <span class="h021-name">Yankees</span><span class="h021-score">2</span>
-                        </div>
-                        <div class="h021-cell h021-winner h021-pirates">Pirates</div>
-                    </div>
-
-                    <div class="h021-row">
-                        <div class="h021-cell h021-game">5</div>
-                        <div class="h021-cell h021-team h021-pirates">
-                            <span class="h021-name">Pirates</span><span class="h021-score">5</span>
-                        </div>
-                        <div class="h021-cell h021-team h021-yankees">
-                            <span class="h021-name">Yankees</span><span class="h021-score">2</span>
-                        </div>
-                        <div class="h021-cell h021-winner h021-pirates">Pirates</div>
-                    </div>
-
-                    <div class="h021-row">
-                        <div class="h021-cell h021-game">6</div>
-                        <div class="h021-cell h021-team h021-pirates">
-                            <span class="h021-name">Pirates</span><span class="h021-score">0</span>
-                        </div>
-                        <div class="h021-cell h021-team h021-yankees">
-                            <span class="h021-name">Yankees</span><span class="h021-score">12</span>
-                        </div>
-                        <div class="h021-cell h021-winner h021-yankees">Yankees</div>
-                    </div>
-
-                    <div class="h021-row">
-                        <div class="h021-cell h021-game">7</div>
-                        <div class="h021-cell h021-team h021-pirates">
-                            <span class="h021-name">Pirates</span><span class="h021-score">10</span>
-                        </div>
-                        <div class="h021-cell h021-team h021-yankees">
-                            <span class="h021-name">Yankees</span><span class="h021-score">9</span>
-                        </div>
-                        <div class="h021-cell h021-winner h021-pirates">Pirates</div>
-                    </div>
-
+                <div class="h021-row h021-head">
+                    <div class="h021-cell">Game</div>
+                    <div class="h021-cell">Pittsburgh</div>
+                    <div class="h021-cell">New York</div>
+                    <div class="h021-cell" style="text-align:right;">Winner</div>
                 </div>
 
-                <div class="h021-summary">
-
-                    <div class="h021-summary-card pirates">
-                        <div class="h021-summary-team h021-pirates">Pittsburgh Pirates</div>
-                        <div class="h021-statline">
-                            <span class="h021-stat-label">Total runs</span>
-                            <span class="h021-stat-value">27</span>
-                        </div>
-                        <div class="h021-statline">
-                            <span class="h021-stat-label">Games won</span>
-                            <span class="h021-stat-value">4</span>
-                        </div>
+                <div class="h021-row">
+                    <div class="h021-cell h021-game">1</div>
+                    <div class="h021-cell h021-team h021-pirates">
+                        <span class="h021-name">Pirates</span><span class="h021-score">6</span>
                     </div>
-
-                    <div class="h021-summary-card yankees">
-                        <div class="h021-summary-team h021-yankees">New York Yankees</div>
-                        <div class="h021-statline">
-                            <span class="h021-stat-label">Total runs</span>
-                            <span class="h021-stat-value">55</span>
-                        </div>
-                        <div class="h021-statline">
-                            <span class="h021-stat-label">Games won</span>
-                            <span class="h021-stat-value">3</span>
-                        </div>
+                    <div class="h021-cell h021-team h021-yankees">
+                        <span class="h021-name">Yankees</span><span class="h021-score">4</span>
                     </div>
-
+                    <div class="h021-cell h021-winner h021-pirates">Pirates</div>
                 </div>
 
-                <p class="h021-aha">
-                    <strong>55–27 Yankees in runs. 4–3 Pirates in games.</strong><br>
-                    New York concentrated its runs in three blowouts. Pittsburgh distributed enough runs to win four separate games.
-                </p>
+                <div class="h021-row">
+                    <div class="h021-cell h021-game">2</div>
+                    <div class="h021-cell h021-team h021-pirates">
+                        <span class="h021-name">Pirates</span><span class="h021-score">3</span>
+                    </div>
+                    <div class="h021-cell h021-team h021-yankees">
+                        <span class="h021-name">Yankees</span><span class="h021-score">16</span>
+                    </div>
+                    <div class="h021-cell h021-winner h021-yankees">Yankees</div>
+                </div>
 
-                <p class="hanten-reflection">
-                    When does adding everything together measure something different from what actually decides the outcome?
-                </p>
+                <div class="h021-row">
+                    <div class="h021-cell h021-game">3</div>
+                    <div class="h021-cell h021-team h021-pirates">
+                        <span class="h021-name">Pirates</span><span class="h021-score">0</span>
+                    </div>
+                    <div class="h021-cell h021-team h021-yankees">
+                        <span class="h021-name">Yankees</span><span class="h021-score">10</span>
+                    </div>
+                    <div class="h021-cell h021-winner h021-yankees">Yankees</div>
+                </div>
 
-                <details class="h021-details">
-                    <summary>See why total runs do not decide a series</summary>
-                    <p>
-                        Each World Series game is a separate contest. Winning 16–3 counts as one win, just like winning 3–2.
-                        Once a team has scored enough to win a game, additional runs increase the series run total but do not create additional wins.
-                    </p>
-                </details>
+                <div class="h021-row">
+                    <div class="h021-cell h021-game">4</div>
+                    <div class="h021-cell h021-team h021-pirates">
+                        <span class="h021-name">Pirates</span><span class="h021-score">3</span>
+                    </div>
+                    <div class="h021-cell h021-team h021-yankees">
+                        <span class="h021-name">Yankees</span><span class="h021-score">2</span>
+                    </div>
+                    <div class="h021-cell h021-winner h021-pirates">Pirates</div>
+                </div>
 
-                <p class="hanten-source h021-source">
-                    1960 World Series final scores as supplied in the original H021 source exhibit.
-                </p>
+                <div class="h021-row">
+                    <div class="h021-cell h021-game">5</div>
+                    <div class="h021-cell h021-team h021-pirates">
+                        <span class="h021-name">Pirates</span><span class="h021-score">5</span>
+                    </div>
+                    <div class="h021-cell h021-team h021-yankees">
+                        <span class="h021-name">Yankees</span><span class="h021-score">2</span>
+                    </div>
+                    <div class="h021-cell h021-winner h021-pirates">Pirates</div>
+                </div>
 
-                <div class="hanten-utility">
-                    <div id="save-image-slot"></div>
+                <div class="h021-row">
+                    <div class="h021-cell h021-game">6</div>
+                    <div class="h021-cell h021-team h021-pirates">
+                        <span class="h021-name">Pirates</span><span class="h021-score">0</span>
+                    </div>
+                    <div class="h021-cell h021-team h021-yankees">
+                        <span class="h021-name">Yankees</span><span class="h021-score">12</span>
+                    </div>
+                    <div class="h021-cell h021-winner h021-yankees">Yankees</div>
+                </div>
+
+                <div class="h021-row">
+                    <div class="h021-cell h021-game">7</div>
+                    <div class="h021-cell h021-team h021-pirates">
+                        <span class="h021-name">Pirates</span><span class="h021-score">10</span>
+                    </div>
+                    <div class="h021-cell h021-team h021-yankees">
+                        <span class="h021-name">Yankees</span><span class="h021-score">9</span>
+                    </div>
+                    <div class="h021-cell h021-winner h021-pirates">Pirates</div>
                 </div>
 
             </div>
 
+            <div class="h021-summary">
+
+                <div class="h021-summary-card pirates">
+                    <div class="h021-summary-team h021-pirates">Pittsburgh Pirates</div>
+                    <div class="h021-statline">
+                        <span class="h021-stat-label">Total runs</span>
+                        <span class="h021-stat-value">27</span>
+                    </div>
+                    <div class="h021-statline">
+                        <span class="h021-stat-label">Games won</span>
+                        <span class="h021-stat-value">4</span>
+                    </div>
+                </div>
+
+                <div class="h021-summary-card yankees">
+                    <div class="h021-summary-team h021-yankees">New York Yankees</div>
+                    <div class="h021-statline">
+                        <span class="h021-stat-label">Total runs</span>
+                        <span class="h021-stat-value">55</span>
+                    </div>
+                    <div class="h021-statline">
+                        <span class="h021-stat-label">Games won</span>
+                        <span class="h021-stat-value">3</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h021-aha">
+                <p><strong>55–27 Yankees in runs. 4–3 Pirates in games.</strong> New York concentrated its runs in three blowouts — 16–3, 10–0, 12–0. Pittsburgh distributed enough runs to win four separate games, sealed by Bill Mazeroski's walk-off home run in Game 7. The Pirates' −28 run differential is still the largest ever posted by a World Series winner.</p>
+                <p>Same shape as our <a href="../H003/index.html" target="_blank" rel="noopener noreferrer">gerrymandering</a> and <a href="../H006/index.html" target="_blank" rel="noopener noreferrer">bowling</a> exhibits: when a contest is decided by winning individual rounds rather than adding up every point scored, how a total is distributed can matter more than how large it is.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                In the contests you follow, what actually decides the winner?
+            </p>
+
+            <details class="h021-explore" data-html2canvas-ignore="true">
+                <summary>Explore how this shows up in real district maps</summary>
+                <p>It is the same mechanism our <a href="../H003/index.html" target="_blank" rel="noopener noreferrer">Gerrymandering</a> exhibit shows with voters and districts: winning the units that count — games, or districts — can matter far more than winning the underlying total, whether that total is runs scored or votes cast.</p>
+            </details>
+
+            <details class="h021-details" data-html2canvas-ignore="true">
+                <summary>See why total runs do not decide a series</summary>
+                <p>
+                    Each World Series game is a separate contest. Winning 16–3 counts as one win, just like winning 3–2.
+                    Once a team has scored enough to win a game, additional runs increase the series run total but do not create additional wins.
+                </p>
+                <p>
+                    It gets stranger: Yankees second baseman Bobby Richardson was named Series MVP — the only time a player from the losing team has won the award. He batted .367 and drove in a record 12 runs, mostly in the blowout wins that inflated New York's run total without deciding the series.
+                </p>
+            </details>
+
+            <details class="h021-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H022/index.html" target="_blank" rel="noopener noreferrer">Can you get more hits, or more votes, and still lose?</a></li>
+                    <li><a href="../H006/index.html" target="_blank" rel="noopener noreferrer">Can two bowlers knock down the same 50 pins and finish 70 points apart?</a></li>
+                    <li><a href="../H003/index.html" target="_blank" rel="noopener noreferrer">Can you win most of the seats without winning most of the votes?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h021-source">
+                Sources: scores, dates, and MVP result from Baseball Reference and the National Baseball Hall of Fame's official 1960 World Series records. Run totals (55–27) and the −28 run differential are computed directly from the seven final scores above.
+            </p>
+
+            <div class="hanten-utility">
+                <div id="save-image-slot"></div>
+            </div>
+
         </div>
 
-    </main>
+    </div>
 
-    <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
-    <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "The Yankees outscored the Pirates 55–27. How did the Pirates win the World Series?",
-            filename: "H021-1960-world-series.png"
-        });
-    </script>
+</main>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+<script>
+(() => {
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+  slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+  const save = document.createElement("button"), share = document.createElement("button");
+  save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+  slot.append(save, share);
+  const filename = "H021-1960-world-series.png", title = "The Yankees outscored the Pirates 55–27. How did the Pirates win the World Series?";
+
+  async function blob() {
+    const board = document.querySelector(".h021-board");
+    const summary = document.querySelector(".h021-summary");
+    const aha = document.querySelector(".h021-aha");
+    const source = document.querySelector(".h021-source");
+    if (!board || !summary) throw new Error("Export content not found.");
+
+    const card = document.createElement("div");
+    card.className = "hanten-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800; titleCanvas.height = 168;
+    titleCanvas.style.width = "900px"; titleCanvas.style.height = "84px";
+    titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+    const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+    t.font = '750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+    t.fillText("The Yankees outscored the Pirates 55–27.", 450, 21);
+    t.fillText("How did the Pirates win the World Series?", 450, 61);
+    card.appendChild(titleCanvas);
+
+    const sub = document.createElement("canvas");
+    sub.width = 1800; sub.height = 112; sub.style.width = "900px"; sub.style.height = "56px";
+    sub.style.display = "block"; sub.style.margin = "0 auto 20px";
+    const s = sub.getContext("2d"); s.scale(2, 2);
+    s.font = '400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+    s.fillText("New York won three games by a combined score of 38–3.", 450, 14);
+    s.fillText("Pittsburgh won four games by a combined score of 24–17.", 450, 42);
+    card.appendChild(sub);
+
+    const wrap = document.createElement("div");
+    wrap.className = "h021-wrap";
+    const boardClone = board.cloneNode(true);
+    const summaryClone = summary.cloneNode(true);
+    wrap.appendChild(boardClone);
+    wrap.appendChild(summaryClone);
+    card.appendChild(wrap);
+
+    if (aha) {
+      const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+      const ahaClone = document.createElement("div"); ahaClone.className = "hanten-export-aha";
+      ahaClone.innerHTML = aha.innerHTML;
+      textcol.appendChild(ahaClone); card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "hanten-export-reflection";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    card.appendChild(reflection);
+
+    if (source) {
+      const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+    try {
+      const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+      return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+    } finally { card.remove(); }
+  }
+  function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+  save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+  share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+})();
+</script>
 
 </body>
 </html>

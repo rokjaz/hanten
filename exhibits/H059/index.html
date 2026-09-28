@@ -8,7 +8,7 @@
 
     <meta
         name="description"
-        content="A Wyoming elector represents about 197,000 people. A Texas elector represents over 800,000 — a four-to-one gap, built into the Constitution's math, mapped across every state."
+        content="A Wyoming elector represents about 197,000 people. A Texas elector represents over 800,000 — a four-to-one gap, built into the rules for dividing up electoral votes, mapped across every state."
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
@@ -23,7 +23,8 @@
         */
 
         :root {
-            --h059-low: #0e7c86;
+            --h059-low: #2b5c9e;
+            --h059-mid: #7b4b94;
             --h059-high: #a3392b;
         }
 
@@ -91,62 +92,137 @@
             margin-top: 0.3rem;
         }
 
+        .h059-question-balance { text-wrap: balance; }
+
         .h059-extremes {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.8rem;
-            margin-top: 1rem;
+            gap: 1.4rem;
+            margin-top: 1.2rem;
         }
 
         @media (max-width: 620px) {
             .h059-extremes {
                 grid-template-columns: 1fr;
+                gap: 1rem;
             }
         }
 
         .h059-extreme-col {
-            border-top: 1px solid var(--hanten-border);
-            padding-top: 0.6rem;
+            border: 1px solid var(--hanten-border);
+            padding: 0.75rem 0.9rem 0.4rem;
+            background: #ffffff;
         }
 
         .h059-extreme-label {
-            margin: 0 0 0.4rem;
+            margin: 0 0 0.5rem;
             font-family: var(--hanten-font);
             font-size: 0.68rem;
             font-weight: 700;
             letter-spacing: 0.05em;
             text-transform: uppercase;
-            color: var(--hanten-muted);
         }
+        .h059-extreme-col.is-most .h059-extreme-label { color: var(--h059-low); }
+        .h059-extreme-col.is-least .h059-extreme-label { color: var(--h059-high); }
+
+        .h059-extreme-head,
+        .h059-extreme-row {
+            display: grid;
+            grid-template-columns: 1.4rem 1fr auto;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .h059-extreme-head {
+            font-size: 0.66rem;
+            color: var(--hanten-muted);
+            padding-bottom: 0.3rem;
+            border-bottom: 1px solid var(--hanten-border);
+        }
+        .h059-extreme-head span:last-child { text-align: right; }
 
         .h059-extreme-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 0.6rem;
             font-size: 0.86rem;
-            padding: 0.28rem 0;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid var(--hanten-border);
+        }
+        .h059-extreme-row:last-child { border-bottom: 0; }
+
+        .h059-extreme-rank {
+            color: var(--hanten-muted);
+            font-size: 0.72rem;
+            font-variant-numeric: tabular-nums;
         }
 
-        .h059-extreme-row span:last-child {
-            color: var(--hanten-muted);
+        .h059-extreme-num {
+            text-align: right;
+            font-weight: 700;
             font-variant-numeric: tabular-nums;
             white-space: nowrap;
         }
+        .h059-extreme-col.is-most .h059-extreme-num { color: var(--h059-low); }
+        .h059-extreme-col.is-least .h059-extreme-num { color: var(--h059-high); }
+
+        .h059-discovery {
+            max-width: 840px; margin: 1.15rem auto 0; padding: .15rem 0;
+            color: var(--hanten-text, #1c2733); font-size: .95rem; line-height: 1.45; text-align: left;
+        }
+        .h059-discovery p { margin: 0 0 .55rem; }
+        .h059-discovery p:last-child { margin-bottom: 0; }
+        .h059-discovery strong { color: var(--hanten-text, #1c2733); }
+
+        .h059-source {
+            max-width: 840px; margin: .9rem auto 0; text-align: left;
+            color: #7b838a; font-size: .7rem; line-height: 1.45;
+        }
     </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h059-explore {
+  max-width: 840px;
+  margin: .9rem auto 0;
+  padding: .6rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .84rem;
+  line-height: 1.5;
+}
+.h059-explore summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); }
+.h059-explore p { margin: .65rem 0 0; }
+.h059-explore a { color: var(--hanten-accent, #0e7c86); }
+
+/* Design Standards 19 (text column) */
+.hanten-exhibit .h059-discovery { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; }
+</style>
 </head>
 
 <body>
 
     <main class="hanten-exhibit">
 
-        <h1 class="hanten-question">
-            How much more does a Wyoming vote count than a Texas vote?
+        <h1 class="hanten-question h059-question-balance">
+            How much more does a Wyoming vote count than a Texas&nbsp;vote?
         </h1>
 
         <p class="hanten-subtitle">
             Every state gets at least 3 electoral votes no matter how few people live there. That floor means small
             states end up with far more electoral power per resident than large ones — a real, measurable, and
-            permanent gap, mapped here across every state.
+            lasting gap, mapped here across every state.
         </p>
 
         <div id="h059-capture">
@@ -163,47 +239,60 @@
                     <span class="h059-legend-bar" id="h059-legend-bar"></span>
                     <span class="h059-legend-label" id="h059-legend-max"></span>
                 </div>
-                <p class="h059-legend-caption">People represented per electoral vote — teal is fewer people per vote (more electoral power), red is more people per vote (less electoral power)</p>
+                <p class="h059-legend-caption">People represented per electoral vote — blue is fewer people per vote (more electoral power), purple is near the national average, red is more people per vote (less electoral power)</p>
 
                 <div class="h059-extremes">
-                    <div class="h059-extreme-col">
+                    <div class="h059-extreme-col is-most">
                         <p class="h059-extreme-label">Most electoral power per resident</p>
+                        <div class="h059-extreme-head"><span>#</span><span>State</span><span>People per electoral vote</span></div>
                         <div id="h059-most-power"></div>
                     </div>
-                    <div class="h059-extreme-col">
+                    <div class="h059-extreme-col is-least">
                         <p class="h059-extreme-label">Least electoral power per resident</p>
+                        <div class="h059-extreme-head"><span>#</span><span>State</span><span>People per electoral vote</span></div>
                         <div id="h059-least-power"></div>
                     </div>
                 </div>
             </div>
 
-            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">The floor of 3 electoral votes does the work</h2>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
-                Every state gets 2 electoral votes for its senators and at least 1 for a House seat, regardless of
-                population — that floor is what gives Wyoming, Vermont, and the other smallest states outsized
-                weight per resident. Large states don't get a matching ceiling: their electoral votes grow with
-                population, but total electors are capped at 538, so growth gets spread thin.
-            </p>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
-                Congressional apportionment (and electoral votes with it) is also only recalculated once per decade,
-                on the 2020 census. States that have grown quickly since then — Texas among them — end up
-                under-represented relative to their <em>current</em> population even before the small-state floor
-                effect is considered.
-            </p>
-
-            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
-                <p class="hanten-takeaway" style="margin:0;" id="h059-takeaway">
-                    The gap between the most and least "weighted" vote is roughly 4-to-1 — and it's built into the
-                    Constitution's math, not an accident of any particular election.
-                </p>
+            <div class="h059-discovery hanten-body">
+                <p><strong>The floor of 3 electoral votes does the work.</strong> <span id="h059-takeaway">The gap between the most and least "weighted" vote is roughly 4-to-1, and it comes from the rules themselves, not an accident of any particular election.</span></p>
+                <p>Any system that guarantees every member a minimum share hands the most weight per person to its smallest members. The US Senate (two seats per state, whatever the size) and the UN General Assembly (one vote per country) work the same way.</p>
             </div>
 
             <p class="hanten-reflection">
-                A representation system with a floor and a cap will always favor whoever sits closest to the floor —
-                who does that describe here?
+                Who gains when every member is guaranteed a minimum share?
             </p>
 
-            <p class="hanten-source" id="h059-source">
+            <details class="h059-explore" data-html2canvas-ignore="true">
+                <summary>Why small states get extra weight</summary>
+                <p>Every state gets 2 electoral votes for its senators and at least 1 for a House seat,
+                    regardless of population — that floor is what gives Wyoming, Vermont, and the other
+                    smallest states outsized weight per resident. Meanwhile, the House has been capped
+                    at 435 seats by law since 1929, which keeps the total at 538 electors. As the country
+                    grows, each House seat, and so each large-state elector, has to cover more and more
+                    people.</p>
+                <p>Congressional apportionment (and electoral votes with it) is also only recalculated once
+                    per decade, on the 2020 census. States that have grown quickly since then — Texas among
+                    them — end up under-represented relative to their <em>current</em> population even
+                    before the small-state floor effect is considered.</p>
+            </details>
+
+            <details class="h059-explore" data-html2canvas-ignore="true">
+                <summary>Explore the same total-versus-rate split elsewhere</summary>
+                <p>It is the same total-versus-per-capita gap as our <a href="../H095/index.html" target="_blank" rel="noopener noreferrer">car-theft</a> exhibit: give every state, or every country, a fixed floor regardless of size, and whoever is smallest ends up with the most outsized share per person.</p>
+            </details>
+
+            <details class="h059-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H022/index.html" target="_blank" rel="noopener noreferrer">Can you get more hits, or more votes, and still lose?</a></li>
+                    <li><a href="../H003/index.html" target="_blank" rel="noopener noreferrer">Can you win most of the seats without winning most of the votes?</a></li>
+                    <li><a href="../H095/index.html" target="_blank" rel="noopener noreferrer">California has more car thefts than anywhere else in the U.S. Is it the riskiest place to park?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h059-source" id="h059-source">
                 Sources: electoral vote counts per state reflect the fixed 2020 census apportionment, in effect for
                 the 2024 and 2028 presidential elections (538 total). Population figures are 2026 estimates (World
                 Population Review, itself built on Census Bureau population-estimate methodology) — current
@@ -283,28 +372,28 @@
             document.getElementById("h059-headline-stats").innerHTML = `
                 <div><div class="h059-stat-num" style="color:var(--h059-low)">${Math.round(wy.ratio).toLocaleString()}</div><div class="h059-stat-cap">people per electoral vote, Wyoming</div></div>
                 <div><div class="h059-stat-num" style="color:var(--h059-high)">${Math.round(mostUnder.ratio).toLocaleString()}</div><div class="h059-stat-cap">people per electoral vote, ${mostUnder.name}</div></div>
-                <div><div class="h059-stat-num" style="color:var(--hanten-muted)">${Math.round(nationalAvg).toLocaleString()}</div><div class="h059-stat-cap">national average</div></div>
+                <div><div class="h059-stat-num" style="color:var(--hanten-muted, #4a5a6b)">${Math.round(nationalAvg).toLocaleString()}</div><div class="h059-stat-cap">national average</div></div>
             `;
 
             document.getElementById("h059-takeaway").innerHTML =
-                `The gap between the most and least "weighted" vote is roughly <strong>${(mostUnder.ratio / wy.ratio).toFixed(1)}-to-1</strong> — Wyoming's electors represent about that many fewer people each than ${mostUnder.name}'s — and it's built into the Constitution's math, not an accident of any particular election.`;
+                `The gap between the most and least "weighted" vote is roughly <strong>${(mostUnder.ratio / wy.ratio).toFixed(1)}-to-1</strong> — each ${mostUnder.name} elector represents about that many times as many people as each Wyoming elector — and it comes from the rules themselves (the Constitution's two-senator floor plus a House size fixed by law), not an accident of any particular election.`;
 
             const mostPowerList = rows.slice(0, 5);
             const leastPowerList = rows.slice(-5).reverse();
-            const fmt = r => `<div class="h059-extreme-row"><span>${r.name}</span><span>${Math.round(r.ratio).toLocaleString()}/vote</span></div>`;
+            const fmt = (r, i) => `<div class="h059-extreme-row"><span class="h059-extreme-rank">${i + 1}</span><span>${r.name}</span><span class="h059-extreme-num">${Math.round(r.ratio).toLocaleString()}</span></div>`;
             document.getElementById("h059-most-power").innerHTML = mostPowerList.map(fmt).join("");
             document.getElementById("h059-least-power").innerHTML = leastPowerList.map(fmt).join("");
 
-            // Color scale: teal (low ratio, more power) -> red (high ratio, less power)
+            // Color scale: blue (low ratio, more power) -> purple (national average) -> red (high ratio, less power)
             const colorScale = d3.scaleLinear()
-                .domain([minRatio, maxRatio])
-                .range(["#0e7c86", "#a3392b"])
-                .interpolate(d3.interpolateRgb);
+                .domain([minRatio, nationalAvg, maxRatio])
+                .range(["#2b5c9e", "#7b4b94", "#a3392b"])
+                .interpolate(d3.interpolateLab);
 
             document.getElementById("h059-legend-min").textContent = `${Math.round(minRatio / 1000)}K`;
             document.getElementById("h059-legend-max").textContent = `${Math.round(maxRatio / 1000)}K`;
             document.getElementById("h059-legend-bar").style.background =
-                `linear-gradient(to right, ${colorScale(minRatio)}, ${colorScale((minRatio + maxRatio) / 2)}, ${colorScale(maxRatio)})`;
+                `linear-gradient(to right, ${colorScale(minRatio)}, ${colorScale(nationalAvg)} ${((nationalAvg - minRatio) / (maxRatio - minRatio) * 100).toFixed(1)}%, ${colorScale(maxRatio)})`;
 
             // Build the map: merge counties into states via topojson, project with Albers USA
             const width = 660, height = 420;
@@ -341,13 +430,39 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "How much more does a Wyoming vote count than a Texas vote?",
-            filename: "H059-electoral-college-weight.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H059-electoral-college-weight.png", title = "How much more does a Wyoming vote count than a Texas vote?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

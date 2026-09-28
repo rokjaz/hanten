@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>H020 — ISS Is a 4-Hour Drive</title>
+<title>H020 — ISS Is a 4-Hour Drive | Hanten</title>
 <meta name="description" content="If you could drive straight up at highway speed, the International Space Station is less than four hours away.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
@@ -36,8 +36,8 @@
   }
 
   .h020-panel {
-    background: var(--hanten-paper);
-    border: 1px solid var(--hanten-border);
+    background: var(--hanten-paper, #f4f3ef);
+    border: 1px solid var(--hanten-border, rgba(28,39,51,.16));
     padding: .6rem .7rem .65rem;
   }
 
@@ -57,7 +57,7 @@
 
   .h020-stat {
     display: block;
-    font-family: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    font-family: var(--hanten-font);
     font-size: clamp(1.55rem, 3.4vw, 2.35rem);
     line-height: 1;
     font-weight: 850;
@@ -85,7 +85,7 @@
   }
 
   .h020-label {
-    font-family: var(--hanten-font);
+    font-family: var(--hanten-font, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif);
     font-size: 13px;
     fill: var(--h020-muted);
   }
@@ -105,22 +105,24 @@
     font-weight: 800;
   }
 
-  .h020-reveal {
+  .h020-aha {
     max-width: 820px;
     margin: .8rem auto 0;
-    padding: .15rem 0 .15rem 1rem;
+    padding: .15rem 0;
     background: transparent;
-    border-left: 3px solid var(--hanten-accent);
     color: #4e555a;
     font-size: .95rem;
     line-height: 1.45;
   }
 
-  .h020-reveal strong {
+  .h020-aha p { margin: 0 0 .55rem; }
+  .h020-aha p:last-child { margin-bottom: 0; }
+
+  .h020-aha strong {
     color: var(--h020-ink);
   }
 
-  .h020-reveal .h020-punch {
+  .h020-aha .h020-punch {
     color: var(--h020-space);
     font-weight: 850;
   }
@@ -128,18 +130,29 @@
   .h020-details {
     max-width: 760px;
     margin: .75rem auto 0;
-    color: var(--hanten-muted);
+    padding: .6rem 0;
+    border-top: 1px solid var(--h020-line);
+    border-bottom: 1px solid var(--h020-line);
+    color: var(--hanten-muted, var(--h020-muted));
     font-size: .8rem;
     line-height: 1.45;
   }
 
   .h020-details summary {
     cursor: pointer;
-    font-weight: 700;
+    color: var(--h020-ink);
+    font-weight: 750;
   }
 
   .h020-details p {
     margin: .45rem 0 0;
+  }
+
+  .hanten-source a,
+  .h020-source a {
+    color: var(--h020-space);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   @media (max-width: 820px) {
@@ -153,12 +166,57 @@
       margin: 0 auto;
     }
   }
+</style>
 
-  @media (max-width: 540px) {
-    .h020-comparison {
-      grid-template-columns: 1fr;
-    }
-  }
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--h020-space);color:var(--h020-space)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+<style>
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:900px !important;margin-left:auto !important;margin-right:auto !important;
+  text-align:center !important;text-wrap:balance;
+}
+.hanten-reflection{
+  max-width:760px;margin:1rem auto 0 !important;text-align:center !important;font-size:.95rem !important;
+  line-height:1.45 !important;font-weight:500 !important;color:var(--h020-muted) !important;
+}
+
+.hanten-export-card{
+ position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
+ background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-card .h020-shell{margin:0}
+.hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+.hanten-export-aha{font-size:14px;line-height:1.5;color:#4e555a;margin-top:16px}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-aha p{margin:0 0 8px}
+.hanten-export-aha p:last-child{margin-bottom:0}
+.hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+.hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+</style>
+
+<style>
+.h020-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h020-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h020-explore p { margin: .55rem 0 0; }
+.h020-explore a { color: var(--hanten-accent, #0e7c86); }
+
+/* Design Standards 19 (text column) */
+.hanten-exhibit .h020-aha { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
 </style>
 </head>
 
@@ -170,7 +228,7 @@
   </h1>
 
   <p class="hanten-subtitle">
-    Translate 408 km into two distances that are easier to picture.
+    Photos make it look like deep space. It's actually only 254 miles (408 km) up — closer than some countries are to their own nearest neighbor.
   </p>
 
   <div class="hanten-graphic">
@@ -183,7 +241,7 @@
             <span class="h020-panel-kicker">Drive straight up at 65 mph</span>
             <span class="h020-stat">3 <small>hr</small> 54 <small>min</small></span>
             <p class="h020-panel-copy">
-              The ISS orbits about 408 km (254 miles) above Earth.
+              The ISS orbits about 254 miles (408 km) above Earth.
             </p>
           </div>
 
@@ -205,13 +263,13 @@
                   stroke="var(--h020-muted)" stroke-width="1.5"/>
             <path d="M 280 554 L 245 530 L 130 530"
                   fill="none" stroke="var(--h020-muted)" stroke-width="1"/>
-            <text x="124" y="525" text-anchor="end" class="h020-label">Mt. Everest · 8.8 km</text>
-            <text x="124" y="541" text-anchor="end" class="h020-label">Jet cruise · ≈11 km</text>
+            <text x="124" y="525" text-anchor="end" class="h020-label">Mt. Everest · 5.5 mi</text>
+            <text x="124" y="541" text-anchor="end" class="h020-label">Jet cruise · ≈7 mi</text>
 
             <!-- Karman line -->
             <line x1="267" x2="343" y1="439" y2="439"
                   stroke="var(--h020-road)" stroke-width="2" stroke-dasharray="4 4"/>
-            <text x="354" y="435" class="h020-label h020-label--road">100 km</text>
+            <text x="354" y="435" class="h020-label h020-label--road">62 mi</text>
             <text x="354" y="451" class="h020-label">Kármán line</text>
 
             <!-- car -->
@@ -227,7 +285,7 @@
             <circle cx="305" cy="50" r="8" fill="var(--h020-space)"/>
             <line x1="318" x2="392" y1="50" y2="50"
                   stroke="var(--h020-space)" stroke-width="1.5"/>
-            <text x="401" y="46" class="h020-label h020-label--space">ISS · 408 km</text>
+            <text x="401" y="46" class="h020-label h020-label--space">ISS · 254 mi</text>
             <text x="401" y="63" class="h020-label">about 254 miles up</text>
 
             <text x="305" y="594" text-anchor="middle" class="h020-label h020-label--strong">
@@ -239,7 +297,7 @@
         <article class="h020-panel">
           <div class="h020-panel-head">
             <span class="h020-panel-kicker">Shrink Earth to a basketball</span>
-            <span class="h020-stat">7.6 <small>mm</small></span>
+            <span class="h020-stat">0.3 <small>in</small></span>
             <p class="h020-panel-copy">
               That's how far above the ball's surface the ISS would orbit.
             </p>
@@ -262,7 +320,7 @@
             <line x1="240" x2="240" y1="87" y2="55"
                   stroke="var(--h020-space)" stroke-width="1.5"/>
             <text x="240" y="32" text-anchor="middle" class="h020-label h020-label--space">
-              ISS orbit · 7.6 mm above the surface
+              ISS orbit · 0.3 in (7.6 mm) above the surface
             </text>
             <text x="240" y="50" text-anchor="middle" class="h020-label">
               about the width of a pencil
@@ -279,30 +337,44 @@
 
       </section>
 
-      <div class="h020-reveal">
-        <strong>The ISS is in space, but it is not very far from Earth.</strong>
-        At ordinary highway speed, the imaginary trip takes
-        <span class="h020-punch">less than four hours.</span>
-        Shrink Earth to a basketball and low Earth orbit is only a pencil-width away.
-      </div>
+      <div class="h020-aha">
+        <p><strong>Reaching the ISS&rsquo;s height is a four-hour drive. Staying there takes 17,500 mph.</strong> At highway speed, the vertical trip takes <span class="h020-punch">less than four hours</span>; the hard part of spaceflight is going sideways fast enough to keep missing Earth. Shrink Earth to a basketball and low Earth orbit is only a pencil-width away.</p>
+        <p>The Kármán line — the internationally recognized edge of space, 62 miles (100 km) up — is itself less than a quarter of the way to the ISS. Space starts a lot closer than orbit does.</p>
+                <p>Big numbers get easier to judge once you set them against a familiar scale, like a drive or a basketball. When a distance feels unimaginable, translate it into something you've actually experienced.</p>
+            </div>
 
       <p class="hanten-reflection">
-        What sounds impossibly far away until you translate it into a familiar scale?
-      </p>
+                What distance feels huge until you picture driving it?
+            </p>
 
-      <details class="h020-details">
+            <details class="h020-explore" data-html2canvas-ignore="true">
+                <summary>Explore the same distance from other places on Earth</summary>
+                <p>This is the same comparison as the <a href="../H002/index.html" target="_blank" rel="noopener noreferrer">Point Nemo</a> exhibit&rsquo;s ISS dropdown, run from thirteen different places on Earth: from wherever you are used to measuring distance, low Earth orbit is very likely a lot closer than the postcard view of Earth from space makes it look.</p>
+            </details>
+
+      <details class="h020-details" data-html2canvas-ignore="true">
         <summary>See the assumptions behind the comparison</summary>
         <p>
           The driving analogy assumes a constant 65 mph on an imaginary road straight upward.
           It ignores atmosphere, gravity, orbital mechanics, traffic, and the fact that the ISS is moving.
-          The basketball comparison scales Earth's 12,742 km mean diameter to an official-size basketball
+          The basketball comparison scales Earth's 7,918-mile (12,742 km) mean diameter to an official-size basketball
           about 9.4 inches across.
         </p>
       </details>
 
-      <div class="hanten-source">
-        Source basis from the original H020 exhibit: ISS altitude 408 km; Kármán line 100 km;
-        Earth's mean diameter 12,742 km; driving comparison at 65 mph.
+      <details class="h020-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H011/index.html" target="_blank" rel="noopener noreferrer">Could all the other planets fit between Earth and the Moon?</a></li>
+                    <li><a href="../H002/index.html" target="_blank" rel="noopener noreferrer">How far can you get from everyone?</a></li>
+                    <li><a href="../H078/index.html" target="_blank" rel="noopener noreferrer">How far apart are a million and a billion?</a></li>
+                </ul>
+            </details>
+
+            <div class="hanten-source">
+        Sources: ISS altitude of 254 mi (408 km), the same figure used in our <a href="../H002/index.html" target="_blank" rel="noopener noreferrer">Point Nemo</a> exhibit.
+        Driving time assumes a constant 65 mph with no traffic, atmosphere, or physics getting in the way.
+        Basketball diameter: official NBA/FIBA size (9.4 in across). Earth's mean diameter: 7,918 mi (12,742 km).
       </div>
 
       <div class="hanten-utility">
@@ -314,13 +386,77 @@
 </main>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
-<script src="../../assets/js/save-image.js"></script>
+
 <script>
-  HantenSaveImage.init({
-    target: ".hanten-exhibit",
-    title: "How long would it take to drive to the International Space Station?",
-    filename: "H020-iss-four-hour-drive.png"
-  });
+(() => {
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+  slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+  const save = document.createElement("button"), share = document.createElement("button");
+  save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+  slot.append(save, share);
+  const filename = "H020-iss-four-hour-drive.png", title = "How long would it take to drive to the International Space Station?";
+
+  async function blob() {
+    const panels = document.querySelector(".h020-panels");
+    const aha = document.querySelector(".h020-aha");
+    const source = document.querySelector(".hanten-source");
+    if (!panels) throw new Error("Export content not found.");
+
+    const card = document.createElement("div");
+    card.className = "hanten-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800; titleCanvas.height = 168;
+    titleCanvas.style.width = "900px"; titleCanvas.style.height = "84px";
+    titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+    const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+    t.font = '750 34px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+    t.fillText("How long would it take to drive to the", 450, 21);
+    t.fillText("International Space Station?", 450, 61);
+    card.appendChild(titleCanvas);
+
+    const sub = document.createElement("canvas");
+    sub.width = 1800; sub.height = 112; sub.style.width = "900px"; sub.style.height = "56px";
+    sub.style.display = "block"; sub.style.margin = "0 auto 20px";
+    const s = sub.getContext("2d"); s.scale(2, 2);
+    s.font = '400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+    s.fillText("Photos make it look like deep space. It's actually only 254 miles up —", 450, 14);
+    s.fillText("closer than some countries are to their own nearest neighbor.", 450, 42);
+    card.appendChild(sub);
+
+    const panelsClone = panels.cloneNode(true);
+    panelsClone.className = "h020-panels";
+    card.appendChild(panelsClone);
+
+    if (aha) {
+      const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+      const ahaClone = document.createElement("div"); ahaClone.className = "hanten-export-aha";
+      ahaClone.innerHTML = aha.innerHTML;
+      textcol.appendChild(ahaClone); card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "hanten-export-reflection";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    card.appendChild(reflection);
+
+    if (source) {
+      const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+    try {
+      const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+      return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+    } finally { card.remove(); }
+  }
+  function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+  save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+  share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+})();
 </script>
 
 </body>

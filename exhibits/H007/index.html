@@ -18,7 +18,7 @@
 
     <link
         rel="stylesheet"
-        href="../../04 Shared Assets/css/hanten.css"
+        href="../../assets/css/hanten.css"
     >
 
     <style>
@@ -448,6 +448,22 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 }
 </style>
 
+
+<style>
+.h007-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h007-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h007-explore p { margin: .55rem 0 0; }
+.h007-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
 </head>
 
 
@@ -481,7 +497,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 <table class="h007-tally">
                 <tr class="total">
                     <td>Africa total</td>
-                    <td>30.4M km²</td>
+                    <td>11.7M sq mi</td>
                 </tr>
 
                 <tr class="subtract">
@@ -489,7 +505,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
                         <span class="h007-swatch" style="background: var(--h007-usa);"></span>
                         United States (lower 48)
                     </td>
-                    <td>8.1M km²</td>
+                    <td>3.1M sq mi</td>
                 </tr>
 
                 <tr class="subtract">
@@ -497,7 +513,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
                         <span class="h007-swatch" style="background: var(--h007-china);"></span>
                         China
                     </td>
-                    <td>9.6M km²</td>
+                    <td>3.7M sq mi</td>
                 </tr>
 
                 <tr class="subtract">
@@ -505,12 +521,12 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
                         <span class="h007-swatch" style="background: var(--h007-india);"></span>
                         India
                     </td>
-                    <td>3.3M km²</td>
+                    <td>1.3M sq mi</td>
                 </tr>
 
                 <tr class="remaining">
                     <td>Still uncovered</td>
-                    <td>≈9.4M km²</td>
+                    <td>≈3.6M sq mi</td>
                 </tr>
             </table>
             </div>
@@ -521,15 +537,30 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 
         <div class="h007-caption h007-takeaway hanten-body">
             <p><strong>United States + China + India all fit inside Africa.</strong><br>
-                About 9.4 million km² is still uncovered. Familiar world maps can make Africa feel smaller because many common projections enlarge places farther from the equator.
+                About 3.6 million sq mi (9.4 million km²) is still uncovered, enough to hold France, Germany, Spain, the U.K., and Italy almost five times over. Familiar world maps can make Africa feel smaller because many common projections enlarge places farther from the equator.
             </p>
+            <p>The same projections that stretch area near the poles also stretch straight lines: on a Mercator-style map, <a href="../H046/index.html" target="_blank" rel="noopener noreferrer">the shortest flight between two cities can look like a wild detour toward the North Pole</a> — one map, two different kinds of lie, both hiding behind lines that otherwise look perfectly ordinary.</p>
         </div>
 
         <p class="hanten-reflection">
-            What changes when we compare things at the same scale?
-        </p>
+                What do you think of as “big” that you’ve never seen at true scale?
+            </p>
 
-        <p class="hanten-source h007-source">
+            <details class="h007-explore" data-html2canvas-ignore="true">
+                <summary>Explore how the same illusion shows up elsewhere</summary>
+                <p>It is the same equal-area trick, run in the other direction, in our <a href="../H023/index.html" target="_blank" rel="noopener noreferrer">Africa is 14 Greenlands</a> exhibit — same continent, same method, an even more startling number. Once a familiar map has lied about area once, it is hard to stop noticing it lying about area everywhere else.</p>
+            </details>
+
+        <details class="h007-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H023/index.html" target="_blank" rel="noopener noreferrer">Greenland looks almost as large as Africa on many world maps. How many Greenlands actually fit inside Africa?</a></li>
+                    <li><a href="../H076/index.html" target="_blank" rel="noopener noreferrer">Is Canada much bigger than Brazil?</a></li>
+                    <li><a href="../H087/index.html" target="_blank" rel="noopener noreferrer">The Gall-Peters map shows every country at its true size. Is it the more accurate map?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h007-source">
             Sources: area figures rounded from the CIA World Factbook; country shapes from Natural Earth.
             All shapes are drawn using equal-area projections at the same scale.
         </p>
@@ -625,9 +656,9 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
   }
 }
 </script>
-<script src="../../04 Shared Assets/js/d3.v7.min.js"></script>
+<script src="../../assets/js/d3.v7.min.js"></script>
 
-    <script src="../../04 Shared Assets/geodata/world/countries-10m.js"></script>
+    <script src="../../assets/geodata/world/countries-10m.js"></script>
 
 
     <script>
@@ -823,7 +854,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 
 
     <script
-        src="../../04 Shared Assets/js/html2canvas.min.js"
+        src="../../assets/js/html2canvas.min.js"
     ></script>
 
     
@@ -883,7 +914,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 
    const reflection=document.createElement("div");
    reflection.className="hanten-export-reflection";
-   reflection.textContent="What changes when we compare things at the same scale?";
+   reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
    card.appendChild(reflection);
 
    if(source){

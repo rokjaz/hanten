@@ -57,7 +57,7 @@
             font-size: clamp(1.7rem, 4.2vw, 2.3rem);
             font-weight: 700;
             line-height: 1.05;
-            color: var(--hanten-accent);
+            color: var(--hanten-accent, #0e7c86);
         }
 
         .h058-stat-cap {
@@ -70,6 +70,8 @@
         .h058-panel svg {
             display: block;
             width: 100%;
+            max-width: 520px; /* keeps the square scatter plot from filling the whole screen */
+            margin: 0 auto;
             height: auto;
         }
 
@@ -111,7 +113,53 @@
             font-size: 0.7rem;
             color: var(--hanten-muted);
         }
+
+        .h058-discovery {
+            max-width: 840px; margin: 1.15rem auto 0; padding: .15rem 0;
+            color: var(--hanten-text, #1c2733); font-size: .95rem; line-height: 1.45; text-align: left;
+        }
+        .h058-discovery p { margin: 0 0 .55rem; }
+        .h058-discovery p:last-child { margin-bottom: 0; }
+        .h058-discovery strong { color: var(--hanten-text, #1c2733); }
+
+        .h058-source {
+            max-width: 840px; margin: .9rem auto 0; text-align: left;
+            color: #7b838a; font-size: .7rem; line-height: 1.45;
+        }
     </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h058-explore {
+  max-width: 840px;
+  margin: .9rem auto 0;
+  padding: .6rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .84rem;
+  line-height: 1.5;
+}
+.h058-explore summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); }
+.h058-explore p { margin: .65rem 0 0; }
+.h058-explore a { color: var(--hanten-accent, #0e7c86); }
+
+/* Design Standards 19 (text column) */
+.hanten-exhibit .h058-discovery { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; }
+</style>
 </head>
 
 <body>
@@ -143,11 +191,11 @@
                             <div class="h058-stat-cap">have fewer friends than their friends' median</div>
                         </div>
                     </div>
-                    <p class="h058-note">Only people in the top ~10% of friend counts (over 780 friends, in that dataset) tended to have friends with smaller networks than their own, on average.</p>
+                    <p class="h058-note">Only people with nearly 700 friends or more, a small minority of users, tended to have friends with smaller networks than their own, on average.</p>
                 </div>
 
                 <div class="hanten-panel h058-panel">
-                    <p class="h058-panel-label">Why: a 300-person simulated network, built live, with no popularity rule</p>
+                    <p class="h058-panel-label">Why: a 300-person simulated network, built live in your browser</p>
                     <div class="h058-sim-stats" id="h058-sim-stats"></div>
                     <svg viewBox="0 0 460 460" id="h058-scatter" role="img" aria-labelledby="h058-scatter-title">
                         <title id="h058-scatter-title">Scatter plot of each simulated person's own friend count against their friends' average friend count, with most points above the equal line</title>
@@ -157,32 +205,45 @@
 
             </div>
 
-            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">Popular people count more times — once per friend they have</h2>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
-                Build a network where new connections are just a little more likely to attach to already-well-connected
-                people — the same simple rule that produces real social networks, airline route maps, and citation
-                networks. No node "tries" to be popular; the rule never mentions popularity at all.
-            </p>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
-                Now average, for each person, how many friends <em>their</em> friends have. A person with 200 friends
-                gets counted in that average 200 times — once in every friend list they belong to. A person with 3
-                friends gets counted only 3 times. The well-connected minority dominates everyone else's average,
-                which pulls almost everybody's "my friends' average" above their own friend count.
-            </p>
-
-            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
-                <p class="hanten-takeaway" style="margin:0;">
-                    It is mathematically guaranteed that most people in almost any social network have friends who
-                    are, on average, more connected than they are — no bias, no illusion, just arithmetic.
-                </p>
+            <div class="h058-discovery hanten-body">
+                <p><strong>In any network where some people have more friends than others, your friends will, on average, have more friends than you do.</strong> It's arithmetic, not bias: a person with 200 friends is counted in 200 friend lists, and a person with 3 friends only 3 times, so the well-connected few pull almost everyone's "my friends' average" above their own count.</p>
+                <p>The same weighting shows up anywhere you sample by "being there": most students sit in classes bigger than the college's average class size, because big classes hold more students to report them. Before trusting an average someone experienced, ask whether the busy, crowded, or well-connected cases got counted more than once.</p>
             </div>
 
             <p class="hanten-reflection">
-                When a sample is drawn "one friend at a time," is it a random sample of people — or a sample weighted
-                by how connected they are?
+                Why do your friends seem busier and more popular than you?
             </p>
 
-            <p class="hanten-source">
+            <details class="h058-explore" data-html2canvas-ignore="true">
+                <summary>Popular people count more times, once per friend they have</summary>
+                <p><strong>In any network where some people have more friends than others, your friends will,
+                    on average, have more friends than the typical person</strong> — no bias, no illusion,
+                    just arithmetic. The simulation above builds a network where each newcomer is a little
+                    more likely to connect to people who already have many friends, a simple rule often used
+                    to model social networks, airline routes, and citation networks. Nobody in it is trying
+                    to be popular, and yet most people end up with better-connected friends.</p>
+                <p>Now average, for each person, how many friends <em>their</em> friends have. A person
+                    with 200 friends gets counted in that average 200 times — once in every friend list
+                    they belong to. A person with 3 friends gets counted only 3 times. The well-connected
+                    minority dominates everyone else's average, which pulls almost everybody's "my friends'
+                    average" above their own friend count.</p>
+            </details>
+
+            <details class="h058-explore" data-html2canvas-ignore="true">
+                <summary>Explore how the same sampling trap shows up elsewhere</summary>
+                <p>It's a cousin of our <a href="../H055/index.html" target="_blank" rel="noopener noreferrer">Simpson&rsquo;s Paradox</a> exhibit: in both, how a population gets combined or sampled — one friend at a time, or one admissions department at a time — can quietly shape the answer before a single number gets calculated.</p>
+            </details>
+
+            <details class="h058-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H055/index.html" target="_blank" rel="noopener noreferrer">How can men be admitted at a much higher rate overall — while women do as well or better in most departments?</a></li>
+                    <li><a href="../H054/index.html" target="_blank" rel="noopener noreferrer">Where should you armor the bomber — where the bullet holes are, or where they aren't?</a></li>
+                    <li><a href="../H005/index.html" target="_blank" rel="noopener noreferrer">How many people does it take before a shared birthday is more likely than not?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h058-source">
                 Sources: Johan Ugander, Brian Karrer, Lars Backstrom, Cameron Marlow, "The Anatomy of the Facebook
                 Social Graph," arXiv:1111.4503 (2011), analyzing the full active Facebook user graph at the time
                 (~721 million users). Phenomenon first described by Scott L. Feld, "Why Your Friends Have More
@@ -258,16 +319,16 @@
             const yFor = d => pad + plotSize - (d / maxDeg) * plotSize;
 
             let html = "";
-            html += `<line x1="${xFor(0)}" y1="${yFor(0)}" x2="${xFor(maxDeg)}" y2="${yFor(maxDeg)}" stroke="var(--hanten-muted)" stroke-width="1.3" stroke-dasharray="4 4"/>`;
+            html += `<line x1="${xFor(0)}" y1="${yFor(0)}" x2="${xFor(maxDeg)}" y2="${yFor(maxDeg)}" stroke="var(--hanten-muted, #4a5a6b)" stroke-width="1.3" stroke-dasharray="4 4"/>`;
             html += `<text x="${xFor(maxDeg) - 4}" y="${yFor(maxDeg) - 8}" class="h058-axis-label" text-anchor="end">EQUAL</text>`;
-            html += `<line x1="${pad}" y1="${pad + plotSize}" x2="${pad + plotSize}" y2="${pad + plotSize}" stroke="var(--hanten-border)" stroke-width="1"/>`;
-            html += `<line x1="${pad}" y1="${pad}" x2="${pad}" y2="${pad + plotSize}" stroke="var(--hanten-border)" stroke-width="1"/>`;
+            html += `<line x1="${pad}" y1="${pad + plotSize}" x2="${pad + plotSize}" y2="${pad + plotSize}" stroke="var(--hanten-border, rgba(28,39,51,.16))" stroke-width="1"/>`;
+            html += `<line x1="${pad}" y1="${pad}" x2="${pad}" y2="${pad + plotSize}" stroke="var(--hanten-border, rgba(28,39,51,.16))" stroke-width="1"/>`;
             html += `<text x="${pad + plotSize / 2}" y="${pad + plotSize + 32}" class="h058-axis-label" text-anchor="middle">MY FRIEND COUNT →</text>`;
             html += `<text x="${pad - 32}" y="${pad + plotSize / 2}" class="h058-axis-label" text-anchor="middle" transform="rotate(-90 ${pad - 32} ${pad + plotSize / 2})">MY FRIENDS' AVERAGE →</text>`;
 
             for (let i = 0; i < N; i++) {
                 const x = xFor(degree[i]), y = yFor(avgFriendDeg[i]);
-                const color = avgFriendDeg[i] > degree[i] ? "var(--h058-warm)" : "var(--hanten-accent)";
+                const color = avgFriendDeg[i] > degree[i] ? "var(--h058-warm)" : "var(--hanten-accent, #0e7c86)";
                 html += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="${color}" opacity="0.62"/>`;
             }
             svg.innerHTML = html;
@@ -275,13 +336,39 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "Do your friends really have more friends than you?",
-            filename: "H058-friendship-paradox.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H058-friendship-paradox.png", title = "Do your friends really have more friends than you?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

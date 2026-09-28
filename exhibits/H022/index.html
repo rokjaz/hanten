@@ -1,111 +1,244 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>H022 — Hits vs Runs</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<title>H022 — Can You Get More Hits, or More Votes, and Still Lose? | Hanten</title>
+<meta name="description" content="A team can get more hits and still lose the game. A candidate can get more votes and still lose the presidency. Baseball counts runs, and the Electoral College counts states.">
 
-    <style>
-        .h022-graphic {
-            width: min(720px, 100%);
-            margin: .55rem auto 0;
-        }
+<link rel="stylesheet" href="../../assets/css/hanten.css">
 
-        .h022-scorecard {
-            display: grid;
-            grid-template-columns: minmax(0, 1.25fr) minmax(90px, .7fr) minmax(90px, .7fr);
-            align-items: center;
-            border-top: 1px solid rgba(28, 39, 51, .18);
-        }
+<style>
+  :root {
+    --h022-ink: #1c2733;
+    --h022-soft: #66717c;
+    --h022-line: rgba(28,39,51,0.14);
+    --h022-paper: #ffffff;
+    --h022-pirates: #b8860b;
+    --h022-yankees: #1e3a5f;
+    --h022-rep: #a3453a;
+    --h022-dem: #2d5f8a;
+  }
 
-        .h022-scorecard:last-of-type {
-            border-bottom: 1px solid rgba(28, 39, 51, .18);
-        }
+  .h022-wrap {
+    width: min(920px, 100%);
+    margin: 0 auto;
+  }
 
-        .h022-cell {
-            padding: .65rem .75rem;
-        }
+  .h022-panel {
+    background: var(--h022-paper);
+    border: 1px solid var(--h022-line);
+    padding: .8rem .9rem 1rem;
+    margin-bottom: .8rem;
+  }
 
-        .h022-label {
-            font-size: .72rem;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            color: #66717c;
-            font-weight: 700;
-        }
+  .h022-panel h2 {
+    font-family: var(--hanten-font);
+    font-size: 1rem;
+    margin: 0 0 .7rem;
+    color: var(--h022-ink);
+  }
 
-        .h022-team {
-            font-size: clamp(1.15rem, 2.6vw, 1.55rem);
-            font-weight: 700;
-        }
+  .h022-scorecard {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(90px, .7fr) minmax(90px, .7fr);
+    align-items: center;
+    border-top: 1px solid var(--h022-line);
+  }
 
-        .h022-number {
-            font-size: clamp(1.5rem, 4vw, 2.15rem);
-            line-height: 1;
-            font-weight: 750;
-            font-variant-numeric: tabular-nums;
-        }
+  .h022-scorecard:last-of-type {
+    border-bottom: 1px solid var(--h022-line);
+  }
 
-        .h022-winner {
-            margin: .75rem auto 0;
-            padding: .15rem 0 .15rem 1rem;
-            text-align: left;
-            font-size: .95rem;
-            font-weight: 700;
-            background: transparent;
-            border-left: 3px solid var(--hanten-accent);
-        }
+  .h022-cell {
+    padding: .6rem .7rem;
+  }
 
-        .h022-details {
-            max-width: 660px;
-            margin: .7rem auto 0;
-            color: var(--hanten-muted);
-            font-size: .8rem;
-            line-height: 1.45;
-        }
+  .h022-label {
+    font-size: .7rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--h022-soft);
+    font-weight: 700;
+  }
 
-        .h022-details summary {
-            cursor: pointer;
-            font-weight: 700;
-        }
+  .h022-team {
+    font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+    font-weight: 700;
+  }
 
-        .h022-details p {
-            margin: .45rem 0 0;
-        }
+  .h022-away { color: var(--h022-pirates); }
+  .h022-home { color: var(--h022-yankees); }
 
-        @media (max-width: 560px) {
-            .h022-scorecard {
-                grid-template-columns: 1.2fr .8fr .8fr;
-            }
+  .h022-number {
+    font-family: var(--hanten-font);
+    font-size: clamp(1.3rem, 3.6vw, 1.75rem);
+    line-height: 1;
+    font-weight: 750;
+    font-variant-numeric: tabular-nums;
+  }
 
-            .h022-cell {
-                padding: .8rem .55rem;
-            }
-        }
-    </style>
+  .h022-winner {
+    margin: .7rem 0 0;
+    padding: .15rem 0;
+    text-align: left;
+    font-size: .92rem;
+    font-weight: 700;
+    color: var(--h022-ink);
+  }
+
+  .h022-slopes { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
+  @media (max-width: 760px) { .h022-slopes { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 460px) { .h022-slopes { grid-template-columns: 1fr; } }
+
+  .h022-slope-card { border: 1px solid var(--h022-line); padding: .55rem .5rem .35rem; }
+  .h022-slope-card svg { width: 100%; height: auto; display: block; }
+  .h022-slope-title { font-family: var(--hanten-font); font-size: .74rem; font-weight: 700; text-align: center; margin-bottom: .25rem; color: var(--h022-ink); }
+  .h022-slope-names { text-align: center; font-size: .68rem; color: var(--h022-soft); margin-top: .3rem; line-height: 1.35; }
+
+  table.h022-elections {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: .2rem;
+    font-size: .82rem;
+  }
+  table.h022-elections th, table.h022-elections td {
+    text-align: left;
+    padding: .5rem .6rem;
+    border-bottom: 1px solid var(--h022-line);
+  }
+  table.h022-elections th {
+    font-family: var(--hanten-font);
+    font-size: .62rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--h022-soft);
+  }
+  table.h022-elections tr:last-child td { border-bottom: none; }
+  table.h022-elections td.num { font-family: var(--hanten-font); }
+
+  .h022-aha {
+    max-width: 840px;
+    margin: .8rem auto 0;
+    padding: .15rem 0;
+    background: transparent;
+    color: var(--h022-ink);
+    font-size: .95rem;
+    line-height: 1.45;
+    text-align: left;
+  }
+  .h022-aha p { margin: 0 0 .55rem; }
+  .h022-aha p:last-child { margin-bottom: 0; }
+  .h022-aha strong { font-weight: 850; }
+
+  .h022-details {
+    max-width: 760px;
+    margin: .7rem auto 0;
+    padding: .6rem 0;
+    border-top: 1px solid var(--h022-line);
+    border-bottom: 1px solid var(--h022-line);
+    color: var(--hanten-muted, var(--h022-soft));
+    font-size: .8rem;
+    line-height: 1.45;
+  }
+  .h022-details summary { cursor: pointer; color: var(--h022-ink); font-weight: 700; }
+  .h022-details p { margin: .45rem 0 0; }
+
+  .h022-source { margin-top: .7rem; color: var(--h022-soft); font-size: .72rem; line-height: 1.45; text-align: left; }
+
+  .hanten-source a, .h022-source a { color: var(--h022-yankees); text-decoration: underline; text-underline-offset: 2px; }
+</style>
+
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--h022-yankees);color:var(--h022-yankees)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+<style>
+main.hanten-exhibit > .hanten-question,
+main.hanten-exhibit > .hanten-subtitle{
+  max-width:920px !important;margin-left:auto !important;margin-right:auto !important;
+  text-align:center !important;text-wrap:balance;
+}
+.hanten-reflection{
+  max-width:760px;margin:1rem auto 0 !important;text-align:center !important;font-size:.95rem !important;
+  line-height:1.45 !important;font-weight:500 !important;color:var(--h022-soft) !important;
+}
+
+.hanten-export-card{
+ position:fixed;left:-10000px;top:0;width:1120px;padding:30px 70px 54px;box-sizing:border-box;
+ background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-card .h022-wrap{margin:0;width:100%}
+.hanten-export-textcol{width:min(780px,100%);margin-left:auto;margin-right:auto;text-align:left}
+.hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-aha p{margin:0 0 8px}
+.hanten-export-aha p:last-child{margin-bottom:0}
+.hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+.hanten-export-source{width:780px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+</style>
+
+<style>
+.h022-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h022-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h022-explore p { margin: .55rem 0 0; }
+.h022-explore a { color: var(--hanten-accent, #0e7c86); }
+
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(4) { text-align: center; }
+
+/* Design Standards 19 (text column) */
+.hanten-exhibit .h022-aha { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
+
+/* Design Standards 19 (H022 generic line score) */
+.h022-ls-title { margin: .9rem 0 .35rem; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--h022-soft); font-weight: 700; }
+.h022-ls-scroll { overflow-x: auto; }
+table.h022-linescore { width: 100%; border-collapse: collapse; font-size: .85rem; font-variant-numeric: tabular-nums; }
+table.h022-linescore th { font-size: .66rem; color: var(--h022-soft); font-weight: 700; text-align: center; padding: .3rem .25rem; border-bottom: 1px solid var(--h022-line); }
+table.h022-linescore td { padding: .35rem .25rem; text-align: center; border-bottom: 1px solid var(--h022-line); color: var(--h022-soft); }
+table.h022-linescore td.h022-ls-team { text-align: left; white-space: nowrap; color: var(--h022-ink); padding-right: .6rem; }
+table.h022-linescore tr.h022-ls-runs td { font-weight: 750; color: var(--h022-ink); }
+table.h022-linescore tr.h022-ls-away.h022-ls-runs td { border-bottom: 2px solid var(--h022-line); }
+table.h022-linescore td.h022-ls-tot { font-weight: 750; color: var(--h022-ink); border-left: 1px solid var(--h022-line); }
+table.h022-linescore td.h022-hot { background: rgba(30,58,95,.10); color: var(--h022-yankees); font-weight: 800; }
+.h022-away, .h022-home { font-weight: 700; }
+</style>
 </head>
 
 <body>
 
-    <main class="hanten-exhibit">
+<main class="hanten-exhibit">
 
-        <h1 class="hanten-question">
-            If one baseball team gets more hits, why doesn't it necessarily win?
-        </h1>
+    <h1 class="hanten-question">
+        Can you get more hits, or more votes, and still lose?
+    </h1>
 
-        <p class="hanten-subtitle">
-            Compare hits with the runs they produced in Game 7 of the 1960 World Series.
-        </p>
+    <p class="hanten-subtitle">
+        Baseball counts runs, not hits. The Electoral College counts states won, not total votes. Same shape, different games.
+    </p>
 
-        <div class="hanten-graphic">
+    <div class="hanten-graphic">
 
-            <div
-                class="h022-graphic"
-                role="img"
-                aria-label="In Game 7 of the 1960 World Series, the Yankees had 13 hits and scored 9 runs. The Pirates had 11 hits and scored 10 runs, winning the game."
-            >
+        <div class="h022-wrap" id="h022-graphic">
+
+            <div class="h022-panel">
+                <h2>The baseball version: one example game</h2>
 
                 <div class="h022-scorecard" aria-hidden="true">
                     <div class="h022-cell h022-label">Team</div>
@@ -114,57 +247,234 @@
                 </div>
 
                 <div class="h022-scorecard">
-                    <div class="h022-cell h022-team">Yankees</div>
-                    <div class="h022-cell h022-number">13</div>
-                    <div class="h022-cell h022-number">9</div>
+                    <div class="h022-cell h022-team h022-away">Visitors</div>
+                    <div class="h022-cell h022-number">12</div>
+                    <div class="h022-cell h022-number">2</div>
                 </div>
 
                 <div class="h022-scorecard">
-                    <div class="h022-cell h022-team">Pirates</div>
-                    <div class="h022-cell h022-number">11</div>
-                    <div class="h022-cell h022-number">10</div>
+                    <div class="h022-cell h022-team h022-home">Home</div>
+                    <div class="h022-cell h022-number">5</div>
+                    <div class="h022-cell h022-number">4</div>
                 </div>
 
-                <div class="h022-winner">
-                    Pittsburgh had fewer hits — and won the game, 10–9.
+                <p class="h022-ls-title">Inning by inning</p>
+                <div class="h022-ls-scroll">
+                    <table class="h022-linescore">
+                        <thead><tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>Total</th></tr></thead>
+                        <tbody>
+                        <tr class="h022-ls-away"><td class="h022-ls-team"><span class="h022-away">Visitors</span> hits</td><td class="hanten-num">2</td><td class="hanten-num">1</td><td class="hanten-num">2</td><td class="hanten-num">1</td><td class="hanten-num">2</td><td class="hanten-num">1</td><td class="hanten-num">1</td><td class="hanten-num">1</td><td class="hanten-num">1</td><td class="hanten-num h022-ls-tot">12</td></tr>
+                        <tr class="h022-ls-away h022-ls-runs"><td class="h022-ls-team"><span class="h022-away">Visitors</span> runs</td><td class="hanten-num">0</td><td class="hanten-num">0</td><td class="hanten-num">1</td><td class="hanten-num">0</td><td class="hanten-num">0</td><td class="hanten-num">0</td><td class="hanten-num">1</td><td class="hanten-num">0</td><td class="hanten-num">0</td><td class="hanten-num h022-ls-tot">2</td></tr>
+                        <tr class="h022-ls-home"><td class="h022-ls-team"><span class="h022-home">Home</span> hits</td><td class="hanten-num">0</td><td class="hanten-num">0</td><td class="hanten-num">0</td><td class="hanten-num h022-hot">3</td><td class="hanten-num">0</td><td class="hanten-num">0</td><td class="hanten-num">1</td><td class="hanten-num">1</td><td class="hanten-num">x</td><td class="hanten-num h022-ls-tot">5</td></tr>
+                        <tr class="h022-ls-home h022-ls-runs"><td class="h022-ls-team"><span class="h022-home">Home</span> runs</td><td class="hanten-num">0</td><td class="hanten-num">0</td><td class="hanten-num">0</td><td class="hanten-num h022-hot">3</td><td class="hanten-num">0</td><td class="hanten-num">0</td><td class="hanten-num">1</td><td class="hanten-num">0</td><td class="hanten-num">x</td><td class="hanten-num h022-ls-tot">4</td></tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <p class="hanten-reflection">
-                    What are you counting — and is it actually what determines the outcome?
+                <p class="h022-winner">The visitors had more than twice as many hits and lost 4&ndash;2. Home bunched three hits into the 4th inning; the visitors never got more than two in any inning.</p>
+            </div>
+
+            <div class="h022-panel">
+                <h2>The election version — four times the popular-vote winner lost</h2>
+                <div class="h022-slopes" id="h022-slopes"></div>
+            </div>
+
+            <div class="h022-aha">
+                <p><strong>Hits don&rsquo;t win games and votes don&rsquo;t win presidencies; runs and states do.</strong> A hit only becomes a run if it&rsquo;s bunched with other hits or comes with runners already on base, so a team can scatter 12 hits across nine innings and score twice. A popular vote only produces electoral votes if it helps win a state; a landslide in a safe state adds to the national total without moving a single electoral vote.</p>
+                <p>Whenever a contest is decided by winning units (runs, states, districts) rather than by adding everything up, the total and the winner can point in different directions. Before trusting a total, check what the scoreboard actually counts.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                What are you counting, and is it what decides the outcome?
+            </p>
+
+            <details class="h022-explore" data-html2canvas-ignore="true">
+                <summary>How did 12 hits turn into only 2 runs?</summary>
+                <p><strong>The visitors spread their hits out.</strong> They had at least one hit in every inning, but never more than two. A single with two outs, or a single followed by a strikeout and a double play, leaves the runner stranded. Their only runs came from a single followed by a double in the 3rd and a solo home run in the 7th.</p>
+                <p><strong>Home bunched theirs.</strong> In the 4th inning a walk and three straight hits, the last a two-run double, produced three runs. A solo home run in the 7th made it 4&ndash;2. Their other hit, in the 8th, didn&rsquo;t score.</p>
+                <p>This game is made up, but the pattern is common: a hit is a chance to score, not a run. Walks, extra-base hits, outs, and above all the order in which things happen decide how many runs a team gets from its hits.</p>
+            </details>
+
+            <details class="h022-explore" data-html2canvas-ignore="true">
+                <summary>Every instance, in full</summary>
+                <table class="h022-elections">
+                    <thead>
+                        <tr><th>Year</th><th>Won the popular vote</th><th>Won the presidency</th><th>Popular vote margin</th></tr>
+                    </thead>
+                    <tbody id="h022-elections-body"></tbody>
+                </table>
+                <p>1876 is the only case where the popular-vote winner had an outright majority (over 50%), not just a plurality — Samuel Tilden remains the only candidate in American history to lose the presidency after winning a majority of the popular vote. A fifth election, 1824, is often mentioned alongside these: Andrew Jackson won both the popular vote and the most electoral votes, but fell short of a majority, and the House of Representatives chose John Quincy Adams instead — a different mechanism than the other four, so it's kept separate here.</p>
+            </details>
+
+            <details class="h022-explore" data-html2canvas-ignore="true">
+                <summary>Explore how this shows up elsewhere</summary>
+                <p>It is the same structural gap between a total and the units that actually decide an outcome as our <a href="../H059/index.html" target="_blank" rel="noopener noreferrer">Electoral College Cartogram</a>, and the same sequence-over-total logic as <a href="../H006/index.html" target="_blank" rel="noopener noreferrer">two bowlers turning identical pins into a 70-point gap</a>: whenever a scoring system counts units instead of raw totals, order and distribution can matter more than the sum ever did.</p>
+            </details>
+
+            <details class="h022-details" data-html2canvas-ignore="true">
+                <summary>See how the vote-share charts are scaled</summary>
+                <p>
+                    Each slope chart's vertical axis runs from 35% to 65%, not 0% to 100%. All four elections are close by definition — zooming out to the full range would crush every point into a tight cluster near the middle. Zooming in gives real pixel separation between percentages that are only a point or two apart.
                 </p>
+            </details>
 
-                <details class="h022-details">
-                    <summary>See why hits and runs measure different things</summary>
-                    <p>
-                        A hit helps create scoring opportunities, but a hit is not itself a run.
-                        Walks, extra-base hits, sequencing, outs, and other events affect how many runs a team produces.
-                        In this game, New York had more hits while Pittsburgh scored the extra run that decided the game.
-                    </p>
-                </details>
+            <details class="h022-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H006/index.html" target="_blank" rel="noopener noreferrer">Can two bowlers knock down the same 50 pins and finish 70 points apart?</a></li>
+                    <li><a href="../H059/index.html" target="_blank" rel="noopener noreferrer">How much more does a Wyoming vote count than a Texas vote?</a></li>
+                    <li><a href="../H003/index.html" target="_blank" rel="noopener noreferrer">Can you win most of the seats without winning most of the votes?</a></li>
+                </ul>
+            </details>
 
-                <p class="hanten-source">
-                    Game 7, 1960 World Series: New York Yankees 13 hits, 9 runs;
-                    Pittsburgh Pirates 11 hits, 10 runs.
-                </p>
+            <p class="hanten-source h022-source">
+                Sources: The baseball game is an illustrative example built to show a common pattern, not a real box score. Election results from National Archives Electoral College records and the American Presidency Project (UCSB). Popular vote percentages are of the national total vote, not of the two-candidate total.
+            </p>
 
-                <div class="hanten-utility">
-                    <div id="save-image-slot"></div>
-                </div>
-
+            <div class="hanten-utility">
+                <div id="save-image-slot"></div>
             </div>
 
         </div>
 
-    </main>
+    </div>
 
-    <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
-    <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "If one baseball team gets more hits, why doesn't it necessarily win?",
-            filename: "H022-hits-vs-runs.png"
-        });
+</main>
+
+<script>
+(() => {
+  const ELECTIONS = [
+    { year: 1876, winner: "Hayes", winnerParty: "R", winnerPct: 47.92, winnerEV: 185,
+      loser: "Tilden", loserParty: "D", loserPct: 50.92, loserEV: 184, totalEV: 369, loserPop: 4286808, winnerPop: 4034142 },
+    { year: 1888, winner: "Harrison", winnerParty: "R", winnerPct: 47.80, winnerEV: 233,
+      loser: "Cleveland", loserParty: "D", loserPct: 48.63, loserEV: 168, totalEV: 401, loserPop: 5538163, winnerPop: 5443633 },
+    { year: 2000, winner: "Bush", winnerParty: "R", winnerPct: 47.87, winnerEV: 271,
+      loser: "Gore", loserParty: "D", loserPct: 48.38, loserEV: 266, totalEV: 538, loserPop: 50999897, winnerPop: 50456002 },
+    { year: 2016, winner: "Trump", winnerParty: "R", winnerPct: 46.09, winnerEV: 304,
+      loser: "Clinton", loserParty: "D", loserPct: 48.18, loserEV: 227, totalEV: 538, loserPop: 65853514, winnerPop: 62984828 },
+  ];
+
+  const ns = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent) {
+    const e = document.createElementNS(ns, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  const partyColor = p => p === "R" ? "var(--h022-rep)" : "var(--h022-dem)";
+
+  const slopesEl = document.getElementById("h022-slopes");
+  ELECTIONS.forEach(e => {
+    const card = document.createElement("div");
+    card.className = "h022-slope-card";
+    const title = document.createElement("div");
+    title.className = "h022-slope-title";
+    title.textContent = e.year;
+    card.appendChild(title);
+
+    const svg = el("svg", { viewBox: "0 0 220 170" });
+    const M = { top: 14, bottom: 26 };
+    const plotH = 170 - M.top - M.bottom;
+    const xL = 56, xR = 164;
+    const DOMAIN_MIN = 35, DOMAIN_MAX = 65;
+    const y = pct => M.top + plotH - ((pct - DOMAIN_MIN) / (DOMAIN_MAX - DOMAIN_MIN)) * plotH;
+
+    [40, 50, 60].forEach(v => {
+      const gy = y(v);
+      el("line", { x1: xL, x2: xR, y1: gy, y2: gy, stroke: "rgba(28,39,51,0.08)" }, svg);
+    });
+
+    const winnerEVpct = e.winnerEV / e.totalEV * 100;
+    const loserEVpct = e.loserEV / e.totalEV * 100;
+    const winnerColor = partyColor(e.winnerParty), loserColor = partyColor(e.loserParty);
+
+    el("line", { x1: xL, x2: xR, y1: y(e.winnerPct), y2: y(winnerEVpct), stroke: winnerColor, "stroke-width": 2.5 }, svg);
+    el("line", { x1: xL, x2: xR, y1: y(e.loserPct), y2: y(loserEVpct), stroke: loserColor, "stroke-width": 2.5 }, svg);
+    el("circle", { cx: xL, cy: y(e.winnerPct), r: 3.2, fill: winnerColor }, svg);
+    el("circle", { cx: xR, cy: y(winnerEVpct), r: 3.2, fill: winnerColor }, svg);
+    el("circle", { cx: xL, cy: y(e.loserPct), r: 3.2, fill: loserColor }, svg);
+    el("circle", { cx: xR, cy: y(loserEVpct), r: 3.2, fill: loserColor }, svg);
+
+    function placeLabels(yA, yB, colorA, colorB, textA, textB, x, anchor) {
+      const minGap = 11;
+      let posA = yA, posB = yB;
+      if (Math.abs(yA - yB) < minGap) {
+        const mid = (yA + yB) / 2;
+        if (yA <= yB) { posA = mid - minGap / 2; posB = mid + minGap / 2; }
+        else { posA = mid + minGap / 2; posB = mid - minGap / 2; }
+      }
+      const dx = anchor === "end" ? -6 : 6;
+      const tA = el("text", { x: x + dx, y: posA + 3, "text-anchor": anchor, style: `font:8px var(--hanten-font); fill:${colorA}; font-weight:700` }, svg);
+      tA.textContent = textA;
+      const tB = el("text", { x: x + dx, y: posB + 3, "text-anchor": anchor, style: `font:8px var(--hanten-font); fill:${colorB}; font-weight:700` }, svg);
+      tB.textContent = textB;
+    }
+
+    placeLabels(y(e.winnerPct), y(e.loserPct), winnerColor, loserColor, `${e.winnerPct}%`, `${e.loserPct}%`, xL, "end");
+    placeLabels(y(winnerEVpct), y(loserEVpct), winnerColor, loserColor, `${e.winnerEV} EV`, `${e.loserEV} EV`, xR, "start");
+
+    const capL = el("text", { x: xL, y: 170 - 6, "text-anchor": "middle", style: "font:8px var(--hanten-font); fill:#66717c" }, svg);
+    capL.textContent = "Popular vote";
+    const capR = el("text", { x: xR, y: 170 - 6, "text-anchor": "middle", style: "font:8px var(--hanten-font); fill:#66717c" }, svg);
+    capR.textContent = "Electoral vote";
+
+    card.appendChild(svg);
+
+    const names = document.createElement("div");
+    names.className = "h022-slope-names";
+    names.innerHTML = `<span style="color:${partyColor(e.loserParty)}; font-weight:700">${e.loser}</span> won more votes —<br><span style="color:${partyColor(e.winnerParty)}; font-weight:700">${e.winner}</span> won the presidency`;
+    card.appendChild(names);
+
+    slopesEl.appendChild(card);
+  });
+
+  const body = document.getElementById("h022-elections-body");
+  ELECTIONS.forEach(e => {
+    const tr = document.createElement("tr");
+    const margin = e.loserPop - e.winnerPop;
+    tr.innerHTML = `<td class="num">${e.year}</td>
+      <td>${e.loser} (${e.loserParty}) — ${e.loserPct}%, ${e.loserEV} EV</td>
+      <td>${e.winner} (${e.winnerParty}) — ${e.winnerPct}%, ${e.winnerEV} EV</td>
+      <td class="num">+${margin.toLocaleString()}</td>`;
+    body.appendChild(tr);
+  });
+})();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+
+<script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H022-hits-vs-runs.png", title = "Can you get more hits, or more votes, and still lose?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

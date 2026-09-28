@@ -10,7 +10,7 @@
         content="Ten neighbors are having a backyard BBQ. Then one extraordinarily rich guest walks in. What happens to the average?"
     >
 
-    <link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
 
     <style>
         :root {
@@ -283,7 +283,7 @@
 <style>
 /* H001 v2 — cool measurement/math palette */
 body{
-  background:#eef2f3 !important;
+  background:var(--hanten-paper) !important;
 }
 .h001-stage,
 .h001-readout,
@@ -304,7 +304,7 @@ body{
 
 /* Export hierarchy */
 .hanten-export-card{
-  background:#eef2f3 !important;
+  background:var(--hanten-paper) !important;
 }
 .hanten-export-card .hanten-question{
   font-size:44px !important;
@@ -590,6 +590,154 @@ body{
 }
 </style>
 
+
+<style id="hanten-source-alignment-standard">
+main.hanten-exhibit .h001-source-note{
+  max-width:760px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:left !important;
+}
+
+/* Design Standards 19 (text column) */
+.hanten-exhibit .h001-caption { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; }
+
+/* Design Standards 19 (merged H069) */
+:root {
+            --h069-mean: #d9822b;
+            --h069-median: #0e7c86;
+            --h069-gap: rgba(217, 130, 43, 0.14);
+        }
+.h069-panel {
+            padding: 1.1rem 1.1rem 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+.h069-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+.h069-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+        }
+.h069-panel-title {
+            margin: 0 0 0.15rem;
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+.h069-panel-sub {
+            margin: 0;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+.h069-switch {
+            display: inline-flex;
+            border: 1px solid var(--hanten-border);
+            border-radius: 6px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+.h069-switch button {
+            appearance: none;
+            border: none;
+            background: #ffffff;
+            color: var(--hanten-text);
+            font-family: var(--hanten-font);
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 0.45rem 0.75rem;
+            cursor: pointer;
+        }
+.h069-switch button + button { border-left: 1px solid var(--hanten-border); }
+.h069-switch button.is-active { background: var(--hanten-accent); color: #ffffff; }
+.h069-axis {
+            font-family: var(--hanten-font);
+            fill: var(--hanten-muted);
+        }
+.h069-end-label {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+        }
+.h069-gap-label {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            fill: #9a5a17;
+        }
+.h069-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.4rem;
+            margin-top: 0.6rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+.h069-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+.h069-swatch-line { display: inline-block; width: 20px; height: 3px; border-radius: 2px; }
+.h069-swatch-gap { display: inline-block; width: 16px; height: 12px; border-radius: 3px; background: var(--h069-gap); border: 1px solid rgba(217, 130, 43, 0.35); }
+.h069-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+.h069-stat { padding: 0.9rem 1rem; text-align: center; }
+.h069-stat-n {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            font-size: 1.45rem;
+            line-height: 1.1;
+        }
+.h069-stat-n .h069-arrow { color: var(--hanten-muted); font-weight: 600; padding: 0 0.2rem; }
+.h069-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.25rem; line-height: 1.35; }
+.h069-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; }
+.h069-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.h069-table th, .h069-table td { text-align: center; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); white-space: nowrap; }
+.h069-table th {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+.h069-table td { font-variant-numeric: tabular-nums; }
+.h069-table tr:last-child td { border-bottom: none; }
+@media (max-width: 640px) {
+.h069-stats { grid-template-columns: 1fr; }
+.h069-panel { padding: 0.9rem 0.7rem 0.8rem; }
+.h069-table-panel { padding: 0.3rem 0.6rem; }
+}
+.h069-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+.h069-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+.h069-discovery p:last-child { margin-bottom: 0; }
+.h069-discovery strong { color: var(--hanten-text); }
+.h069-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h069-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h069-explore p { margin: .55rem 0 0; }
+.h069-explore a { color: var(--hanten-accent, #0e7c86); }
+
+/* Design Standards 19 (H069 dropdown) */
+.h001-real { margin: .7rem 0 .2rem; }
+.h001-real .h069-stats { margin: .2rem 0 .8rem; }
+.h001-real p { margin: .55rem 0 0; }
+.h069-table td:not(:first-child) { text-align: center; }
+</style>
+
 </head>
 
 <body>
@@ -642,22 +790,101 @@ body{
                 <div class="h001-caption">
                     <p><strong>No one else at the BBQ got richer.</strong> Only the summary changed.</p>
                     <p>The mean jumped from $86,400 to $4,600,000. The median barely moved, from $80,500 to $87,000.</p>
+                    <p>It happens with real incomes too: since 1990, mean U.S. household income has grown more than twice as fast as the median. The same goes for home prices, salaries, and wait times: a single extreme value can drag the mean far from what's typical. When an "average" could be hiding outliers, it's worth asking whether it's a mean or a median.</p>
                 </div>
 
                 <p class="hanten-reflection">
-                    When someone tells you the “average,” what do you need to know before deciding what it means?
-                </p>
+                When you hear an “average,” how would you know if one outlier is behind it?
+            </p>
 
-                <details class="h001-explore">
+                <details class="h001-explore" data-html2canvas-ignore="true">
                     <summary>Mean or median?</summary>
                     <p>
                         The mean uses every value, so an extreme value can move it dramatically.
                         The median is the middle value, so it is much less sensitive to a single outlier.
                         Neither is automatically better: the useful measure depends on the question.
                     </p>
+                <p style="margin:.6rem 0 0;">The same distortion shows up whenever a chart or number gets to pick its own scale: an <a href="../H018/index.html" target="_blank" rel="noopener noreferrer">axis that doesn't start at zero can make a small gap look enormous</a>, the same way one outlier can make an average look typical. Ask what is being included, and starting from where, before trusting either kind of number.</p></details>
+
+                <details class="h001-explore" data-html2canvas-ignore="true">
+                    <summary>Does this happen with real U.S. incomes?</summary>
+                    <div class="h001-real">
+                    <p><strong>Yes, on a national scale.</strong> When a headline says &ldquo;average household income,&rdquo; it almost always means the mean, which was about $121,000 in 2025. The household in the exact middle made about $83,600, and the gap between the two has been widening for 35 years.</p>
+                    <div class="hanten-panel h069-panel">
+                    <div class="h069-head">
+                        <div>
+                            <p class="h069-panel-title">U.S. household income: mean vs. median</p>
+                            <p class="h069-panel-sub" id="h069-sub">In 2025 dollars (adjusted for inflation)</p>
+                        </div>
+                        <div class="h069-switch" role="group" aria-label="Dollar type">
+                            <button type="button" class="is-active" data-mode="real" aria-pressed="true">Inflation-adjusted</button>
+                            <button type="button" data-mode="nominal" aria-pressed="false">Nominal dollars</button>
+                        </div>
+                    </div>
+                    <svg id="h069-chart" viewBox="0 0 680 340" role="img" aria-labelledby="h069-chart-title h069-chart-desc">
+                        <title id="h069-chart-title">U.S. mean vs. median household income, 1990–2025</title>
+                        <desc id="h069-chart-desc">In 2025 dollars, mean household income rose from about $90,200 in 1990 to about $121,000 in 2025, up 34%, while median household income rose from about $73,000 to about $83,600, up 15%. The gap between them roughly doubled, from about $17,200 to about $37,400.</desc>
+                    </svg>
+                    <div class="h069-legend">
+                        <span><span class="h069-swatch-line" style="background:var(--h069-mean)"></span>Mean (what "average" usually means)</span>
+                        <span><span class="h069-swatch-line" style="background:var(--h069-median)"></span>Median (the household in the middle)</span>
+                        <span><span class="h069-swatch-gap"></span>The gap</span>
+                    </div>
+                </div>
+                    <div class="h069-stats">
+                    <div class="hanten-panel h069-stat">
+                        <div class="h069-stat-n" style="color:var(--h069-mean)">+34%</div>
+                        <div class="h069-stat-l">growth in mean household income since 1990, after inflation</div>
+                    </div>
+                    <div class="hanten-panel h069-stat">
+                        <div class="h069-stat-n" style="color:var(--h069-median)">+15%</div>
+                        <div class="h069-stat-l">growth in median household income since 1990, after inflation</div>
+                    </div>
+                    <div class="hanten-panel h069-stat">
+                        <div class="h069-stat-n">1.24×<span class="h069-arrow">→</span>1.45×</div>
+                        <div class="h069-stat-l">mean ÷ median, 1990 to 2025</div>
+                    </div>
+                </div>
+                    <p><strong>The mean has no ceiling.</strong> It's total income divided by every household, so each
+                    very high earner pulls it up, and a single $10 million household moves it far more than it
+                    moves the median. The median only tracks the household in the exact middle, and it changes
+                    only when incomes near the middle change. When income growth is concentrated at the top, as
+                    it has been in the U.S. for decades, the mean rises faster than the median, and the space
+                    between the two lines shows how concentrated that growth has been.</p>
+                <p><strong>Inflation makes the gap look even bigger than it is.</strong> In nominal dollars, the
+                    gap grew from about $6,800 to $37,400, more than five times over. But a 1990 dollar bought far
+                    more than a 2025 dollar. In today's dollars the 1990 gap was about $17,200, so it roughly
+                    doubled rather than growing fivefold. The ratio between the two (1.24× to 1.45×) is unaffected
+                    by inflation, and it rose at every point on the chart.</p>
+                <p><strong>Why it matters:</strong> reports of "average income," "average wealth," or "average pay
+                    raises" usually quote the mean, which can climb sharply even when most people's circumstances
+                    barely move. After inflation, the typical household's income rose 15% over these 35 years,
+                    and the real median was lower in 2015 than it was in 2000, even as the mean kept climbing.</p>
+                    </div>
                 </details>
 
-                <p class="h001-source-note">Example incomes are invented; the arithmetic is exact.</p>
+                <details class="h001-explore" data-html2canvas-ignore="true">
+                    <summary>See the U.S. income numbers by year</summary>
+                    <div class="hanten-panel h069-table-panel">
+                    <table class="h069-table">
+                        <thead>
+                            <tr><th>Year</th><th>Median</th><th>Mean</th><th>Gap</th><th>Mean ÷ median</th></tr>
+                        </thead>
+                        <tbody id="h069-table-body"></tbody>
+                    </table>
+                </div>
+                </details>
+
+            <details class="h001-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H065/index.html" target="_blank" rel="noopener noreferrer">What's the richest country?</a></li>
+                    <li><a href="../H090/index.html" target="_blank" rel="noopener noreferrer">Life expectancy in 1900 was under 48. Did people back then really die at 40?</a></li>
+                    <li><a href="../H082/index.html" target="_blank" rel="noopener noreferrer">If an investment averages 0% a year, did you break even?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h001-source-note">Sources: BBQ example incomes are invented; the arithmetic is exact. U.S. household income: DQYDJ, "Household Income by Year" (mean and median U.S. household income, nominal and in 2025 dollars), compiled from U.S. Census Bureau Current Population Survey Annual Social and Economic Supplement (CPS ASEC) microdata via IPUMS CPS, University of Minnesota. Years are survey years; each figure describes income earned in the previous calendar year. U.S. Census Bureau, "Income in the United States: 2024" (P60-286), used as a cross-check on the median.</p>
 
                 <div class="h001-save-image">
                     <div id="save-image-slot"></div>
@@ -720,7 +947,112 @@ body{
         
     
 
-<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
+<script>
+        (() => {
+            const years = [1990, 2000, 2010, 2015, 2020, 2025];
+            const data = {
+                nominal: {
+                    median: [28838, 40551, 49578, 53600, 68400, 83592],
+                    mean: [35640, 53797, 67867, 75665, 97974, 120952]
+                },
+                real: {
+                    median: [72987, 76358, 72537, 71077, 83907, 83592],
+                    mean: [90202, 101300, 99296, 100336, 120186, 120952]
+                }
+            };
+            let mode = "real";
+
+            const svg = document.getElementById("h069-chart");
+            const sub = document.getElementById("h069-sub");
+            const tbody = document.getElementById("h069-table-body");
+            const fmtK = v => "$" + (v / 1000).toFixed(1) + "K";
+            const fmt$ = v => "$" + Math.round(v).toLocaleString("en-US");
+
+            function render() {
+                const d = data[mode];
+                const narrow = svg.parentElement.clientWidth < 520;
+                const W = narrow ? 440 : 680, H = narrow ? 320 : 340;
+                const left = narrow ? 44 : 56, right = W - (narrow ? 76 : 82), top = 20, bottom = H - 36;
+                const fsAxis = narrow ? 12.5 : 11, fsEnd = narrow ? 14 : 13, fsGap = narrow ? 12.5 : 11.5;
+                const yMax = 130000;
+                const x = yr => left + (yr - 1990) / 35 * (right - left);
+                const y = v => bottom - v / yMax * (bottom - top);
+                let h = "";
+
+                for (let v = 0; v <= yMax; v += 25000) {
+                    h += `<line x1="${left}" y1="${y(v).toFixed(1)}" x2="${right}" y2="${y(v).toFixed(1)}" stroke="var(--hanten-border)" stroke-width="1" ${v ? 'stroke-dasharray="2 3"' : ""}/>`;
+                    h += `<text x="${left - 8}" y="${(y(v) + 4).toFixed(1)}" text-anchor="end" class="h069-axis" font-size="${fsAxis}">${v ? "$" + v / 1000 + "K" : "$0"}</text>`;
+                }
+                years.forEach(yr => {
+                    if (narrow && (yr === 2015)) return;
+                    h += `<text x="${x(yr).toFixed(1)}" y="${bottom + 20}" text-anchor="middle" class="h069-axis" font-size="${fsAxis}">${yr}</text>`;
+                });
+
+                const meanPts = years.map((yr, i) => [x(yr), y(d.mean[i])]);
+                const medPts = years.map((yr, i) => [x(yr), y(d.median[i])]);
+                const pts = a => a.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
+
+                h += `<polygon points="${pts(meanPts)} ${pts(medPts.slice().reverse())}" fill="var(--h069-gap)"/>`;
+                h += `<polyline points="${pts(meanPts)}" fill="none" stroke="var(--h069-mean)" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>`;
+                h += `<polyline points="${pts(medPts)}" fill="none" stroke="var(--h069-median)" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>`;
+                meanPts.forEach((p, i) => { h += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${i === 5 || i === 0 ? 4.5 : 3}" fill="var(--h069-mean)" stroke="#ffffff" stroke-width="1.5"><title>Mean, ${years[i]}: ${fmt$(d.mean[i])}</title></circle>`; });
+                medPts.forEach((p, i) => { h += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${i === 5 || i === 0 ? 4.5 : 3}" fill="var(--h069-median)" stroke="#ffffff" stroke-width="1.5"><title>Median, ${years[i]}: ${fmt$(d.median[i])}</title></circle>`; });
+
+                // end labels (right side)
+                const [mx, my] = meanPts[5], [dx, dy] = medPts[5];
+                h += `<text x="${mx + 9}" y="${my + 4}" class="h069-end-label" font-size="${fsEnd}" fill="var(--h069-mean)">${fmtK(d.mean[5])}</text>`;
+                h += `<text x="${dx + 9}" y="${dy + 4}" class="h069-end-label" font-size="${fsEnd}" fill="var(--h069-median)">${fmtK(d.median[5])}</text>`;
+
+                // start values, inside the plot
+                const [m0x, m0y] = meanPts[0], [d0x, d0y] = medPts[0];
+                const startClose = Math.abs(d0y - m0y) < 30;
+                h += `<text x="${m0x + 8}" y="${m0y - (startClose ? 14 : 9)}" class="h069-end-label" font-size="${fsEnd - 1}" fill="var(--h069-mean)">${fmtK(d.mean[0])}</text>`;
+                h += `<text x="${d0x + 8}" y="${d0y + (startClose ? 20 : 18)}" class="h069-end-label" font-size="${fsEnd - 1}" fill="var(--h069-median)">${fmtK(d.median[0])}</text>`;
+
+                // gap labels: 2025 inside the ribbon, 1990 inside it if there's room, else under the median label
+                const gap0 = d.mean[0] - d.median[0], gap5 = d.mean[5] - d.median[5];
+                // 2025 gap goes under the median end label, outside the plot
+                h += `<text x="${dx + 9}" y="${dy + 20}" class="h069-gap-label" font-size="${fsGap}">gap ${fmtK(gap5)}</text>`;
+                if (!startClose) {
+                    h += `<text x="${m0x + 8}" y="${((m0y + d0y) / 2 + 4).toFixed(1)}" class="h069-gap-label" font-size="${fsGap}">1990 gap ${fmtK(gap0)}</text>`;
+                } else {
+                    h += `<text x="${d0x + 8}" y="${d0y + 36}" class="h069-gap-label" font-size="${fsGap}">1990 gap ${fmtK(gap0)}</text>`;
+                }
+
+                svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+                const t = svg.querySelector("title").outerHTML, ds = svg.querySelector("desc").outerHTML;
+                svg.innerHTML = t + ds + h;
+
+                sub.textContent = mode === "real"
+                    ? "In 2025 dollars (adjusted for inflation)"
+                    : "In nominal dollars (not adjusted for inflation)";
+
+                tbody.innerHTML = years.map((yr, i) => {
+                    const gap = d.mean[i] - d.median[i];
+                    return `<tr><td>${yr}</td><td>${fmt$(d.median[i])}</td><td>${fmt$(d.mean[i])}</td><td>${fmt$(gap)}</td><td>${(d.mean[i] / d.median[i]).toFixed(2)}×</td></tr>`;
+                }).join("");
+            }
+
+            const buttons = [...document.querySelectorAll(".h069-switch button")];
+            buttons.forEach(b => b.addEventListener("click", () => {
+                mode = b.dataset.mode;
+                buttons.forEach(o => {
+                    o.classList.toggle("is-active", o === b);
+                    o.setAttribute("aria-pressed", o === b ? "true" : "false");
+                });
+                render();
+            }));
+
+            render();
+            let lastNarrow = null;
+            window.addEventListener("resize", () => {
+                const n = svg.parentElement.clientWidth < 520;
+                if (n !== lastNarrow) { lastNarrow = n; render(); }
+            });
+        })();
+    </script>
+    <script>document.querySelectorAll("details").forEach(d=>d.addEventListener("toggle",()=>window.dispatchEvent(new Event("resize"))));</script>
+    <script src="../../assets/js/html2canvas.min.js"></script>
 
 <script>
 (() => {
@@ -846,41 +1178,57 @@ body{
     ahaWrap.style.paddingLeft="0";
     ahaWrap.style.borderLeft="none";
 
+    const maxWidth=835;
+    const lineHeight=20;
+
+    const parts = [
+      { text:"No one else at the BBQ got richer.", bold:true },
+      { text:"Only the summary changed. The mean jumped from $86,400 to $4,600,000. The median barely moved, from $80,500 to $87,000.", bold:false },
+      { text:"The same thing happens with home prices, salaries, and wait times: a single extreme value can drag the mean far from what's typical. When an “average” could be hiding outliers, it's worth asking whether it's a mean or a median.", bold:false }
+    ];
+
+    function fontFor(part){
+      return (part.bold ? "750 " : "400 ") + '14px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    }
+
+    // Measure first (on a throwaway context) so the canvas can be sized to fit
+    // however many lines this text wraps to, instead of a fixed height that
+    // could clip a longer aha paragraph.
+    const measureCtx=document.createElement("canvas").getContext("2d");
+    const commands=[];
+    let mx=0, my=0;
+    parts.forEach(part=>{
+      const font=fontFor(part);
+      measureCtx.font=font;
+      const words=part.text.split(" ");
+      words.forEach((word,index)=>{
+        let token=((index===0 && mx===0) ? "" : " ") + word;
+        let w=measureCtx.measureText(token).width;
+        if(mx+w>maxWidth && mx>0){
+          mx=0; my+=lineHeight;
+          token=word;
+          w=measureCtx.measureText(token).width;
+        }
+        commands.push({ text:token, x:mx, y:my, font });
+        mx+=w;
+      });
+    });
+    const totalHeight=my+lineHeight;
+
     const ahaCanvas=document.createElement("canvas");
     ahaCanvas.width=1700;
-    ahaCanvas.height=104;
+    ahaCanvas.height=Math.ceil(totalHeight*2);
     ahaCanvas.style.width="850px";
-    ahaCanvas.style.height="52px";
+    ahaCanvas.style.height=totalHeight+"px";
     ahaCanvas.style.display="block";
 
     const aCtx=ahaCanvas.getContext("2d");
     aCtx.scale(2,2);
     aCtx.fillStyle="#1c2733";
     aCtx.textBaseline="top";
-
-    const maxWidth=835;
-    const lineHeight=20;
-    let x=0, y=0;
-
-    const parts = [
-      { text:"No one else at the BBQ got richer.", bold:true },
-      { text:"Only the summary changed. The mean jumped from $86,400 to $4,600,000. The median barely moved, from $80,500 to $87,000.", bold:false }
-    ];
-
-    parts.forEach(part=>{
-      aCtx.font=(part.bold ? "750 " : "400 ") + '14px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
-      const words=part.text.split(" ");
-      words.forEach((word,index)=>{
-        let token=((index===0 && x===0) ? "" : " ") + word;
-        let w=aCtx.measureText(token).width;
-        if(x+w>maxWidth && x>0){
-          x=0; y+=lineHeight;
-          token=word;
-          w=aCtx.measureText(token).width;
-        }
-        aCtx.fillText(token,x,y);
-        x+=w;
-      });
+    commands.forEach(cmd=>{
+      aCtx.font=cmd.font;
+      aCtx.fillText(cmd.text, cmd.x, cmd.y);
     });
 
     ahaWrap.appendChild(ahaCanvas);
@@ -888,7 +1236,7 @@ body{
 
     const reflection=document.createElement("div");
     reflection.className="hanten-export-reflection";
-    reflection.textContent="When someone tells you the “average,” what do you need to know before deciding what it means?";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     document.body.appendChild(card);

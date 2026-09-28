@@ -7,7 +7,7 @@
 <title>H014 — Density Extremes</title>
 <meta name="description" content="The same 3,144 U.S. counties can make America look almost empty or intensely crowded, depending on which density threshold you choose.">
 
-<link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
+<link rel="stylesheet" href="../../assets/css/hanten.css">
 
 <style>
   :root {
@@ -57,7 +57,7 @@
 
   .h014-threshold {
     margin-top: 0.35rem;
-    font-family: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    font-family: var(--hanten-font);
     font-size: clamp(0.68rem, 1vw, 0.78rem);
     line-height: 1.35;
     color: var(--h014-ink-soft);
@@ -92,7 +92,7 @@
 
   .h014-num {
     display: block;
-    font-family: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    font-family: var(--hanten-font);
     font-size: clamp(1.45rem, 2.6vw, 2rem);
     font-weight: 700;
     line-height: 1;
@@ -332,6 +332,38 @@
 }
 </style>
 
+
+<style id="hanten-source-alignment-standard">
+main.hanten-exhibit .hanten-source{
+  max-width:760px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:left !important;
+}
+</style>
+
+
+<style>
+.h014-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h014-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h014-explore p { margin: .55rem 0 0; }
+.h014-explore a { color: var(--hanten-accent, #0e7c86); }
+
+/* Design Standards 19 (standard Save/Share buttons) */
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer;opacity:1;border-radius:0}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
 </head>
 
 <body>
@@ -430,11 +462,17 @@
   </div>
 
   <div class="h014-context">
-    <strong>America is both almost empty and intensely crowded.</strong><br>
-    Nothing about the country changes between these maps. Only the slice of the distribution we choose to see.
+    <p style="margin:0 0 .6rem;"><strong>Nearly half of U.S. land holds just 1.3% of Americans, while 1.8% of the land holds almost 40%.</strong> Nothing about the country changes between these maps; only the density cutoff does.</p>
+    <p style="margin:0;">A threshold is a choice, and it decides the story a map tells. Before trusting a map of &ldquo;empty&rdquo; or &ldquo;crowded&rdquo; places, ask where the cutoff was set.</p>
   </div>
 
-  <details class="h014-explainer">
+
+
+  <p class="hanten-reflection">
+                Who chose the cutoff in the last chart that surprised you?
+            </p>
+
+            <details class="h014-explainer" data-html2canvas-ignore="true">
     <summary>How should I read these three maps?</summary>
 
     <div class="h014-explainer-body">
@@ -465,28 +503,139 @@
     </div>
   </details>
 
-  <p class="hanten-reflection">
-    How much can a threshold change the picture without changing the underlying data?
-  </p>
+            <details class="h014-explainer" data-html2canvas-ignore="true">
+        <summary>Why 10 people per square mile for “nearly empty”?</summary>
+        <p>
+          The threshold is close to the population-density benchmark historically associated with the U.S. frontier.
+          It is not a claim that these counties are literally empty; it is a way to make the uneven distribution of population visible.
+        </p>
+      <p style="margin:.6rem 0 0;">The same gap between land and people shows up at the scale of the whole planet: <a href="../H010/index.html" target="_blank" rel="noopener noreferrer">one circle drawn around southern China holds more than half of humanity</a>, while still covering plenty of nearly empty land. A map colored by territory instead of population is quietly measuring the wrong thing.</p></details>
 
-  <div class="hanten-source">
+            <details class="h014-explainer" data-html2canvas-ignore="true">
+        <summary>On the Extremely Dense map, which cities are highlighted, and which surprising ones aren’t?</summary>
+
+        <div class="h014-explainer-body">
+
+          <div class="h014-place">
+            <p style="margin:.7rem 0 0;"><strong>Phoenix, Las Vegas, and San Diego — major cities that aren’t highlighted</strong></p>
+            <p>
+              All three sit inside very large counties. Phoenix is in
+              <strong>Maricopa County</strong>, Las Vegas in <strong>Clark County</strong>,
+              and San Diego in <strong>San Diego County</strong>. Their dense urban
+              populations are averaged together with much larger, less-populated areas,
+              pulling countywide density below this map’s 1,000-person threshold.
+              <strong>The city can be dense even when its county isn’t.</strong>
+            </p>
+          </div>
+
+          <div class="h014-place">
+            <p style="margin:.7rem 0 0;"><strong>Denver and Broomfield — why are those small dark spots there?</strong></p>
+            <p>
+              Both have unusually compact city-county boundaries. Denver is a
+              consolidated city and county, while <strong>Broomfield</strong> is also
+              organized as the City and County of Broomfield. With much less surrounding
+              rural land included, their countywide densities remain above the threshold.
+              Broomfield is the smaller dark area just north of Denver.
+            </p>
+          </div>
+
+          <div class="h014-place">
+            <p style="margin:.7rem 0 0;"><strong>Virginia — what are all those tiny dark shapes?</strong></p>
+            <p>
+              Virginia has many <strong>independent cities</strong> that the Census treats
+              as county equivalents. That is why places such as Alexandria
+              (~10,394/sq mi), Falls Church (~7,177), Charlottesville (~4,391),
+              Richmond (~3,826), Roanoke (~2,285), and Lynchburg (~1,624)
+              appear as tiny separate units.
+            </p>
+          </div>
+
+          <div class="h014-place">
+            <p style="margin:.7rem 0 0;"><strong>New York City — one city becomes five county units</strong></p>
+            <p>
+              The five boroughs correspond to five county-level units:
+              New York, Kings, Bronx, Queens, and Richmond.
+              Manhattan’s New York County exceeds <strong>70,000 people per square mile</strong>,
+              while all five clear the threshold easily.
+            </p>
+          </div>
+
+          <div class="h014-place">
+            <p style="margin:.7rem 0 0;"><strong>Los Angeles — a large county that is still highlighted</strong></p>
+            <p>
+              <strong>Los Angeles County</strong> covers a large area, but its population
+              is concentrated enough to average about <strong>2,380 people per square mile</strong>.
+              That makes it a useful contrast with Phoenix and Maricopa County.
+            </p>
+          </div>
+
+          <div class="h014-place">
+            <p style="margin:.7rem 0 0;"><strong>Baltimore and St. Louis — cities that function like counties</strong></p>
+            <p>
+              Both <strong>Baltimore city</strong> (~6,983/sq mi) and
+              <strong>St. Louis city</strong> (~4,565/sq mi) are independent
+              county-equivalent units, so they show up as compact dark shapes.
+            </p>
+          </div>
+
+          <div class="h014-place">
+            <p style="margin:.7rem 0 0;"><strong>Some sprawling Sun Belt metros are highlighted</strong></p>
+            <p>
+              Dallas County (~2,985/sq mi), Harris County around Houston (~2,833),
+              Fulton County around Atlanta (~2,049), Miami-Dade (~1,414),
+              and Davidson County around Nashville (~1,415) all exceed the threshold.
+            </p>
+          </div>
+
+          <div class="h014-place">
+            <p style="margin:.7rem 0 0;"><strong>Connecticut looks different in current Census geography</strong></p>
+            <p>
+              Beginning with newer Census geography, Connecticut’s
+              <strong>nine planning regions</strong> are treated as county equivalents.
+              These maps use 2023 boundaries so the map and its 2023 density data describe
+              the same geographic units.
+            </p>
+          </div>
+
+          <p class="h014-places-lesson">
+            <strong>The highlighted areas do not simply show where cities are.</strong>
+            They show where dense populations happen to line up with county or
+            county-equivalent boundaries. Change the unit—from counties to cities,
+            census tracts, or urban areas—and the map changes too.
+          </p>
+
+        </div>
+      </details>
+
+  <details class="h014-explainer" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H010/index.html" target="_blank" rel="noopener noreferrer">Could half the world’s population really fit inside one circle?</a></li>
+                    <li><a href="../H081/index.html" target="_blank" rel="noopener noreferrer">Is Australia really empty?</a></li>
+                    <li><a href="../H017/index.html" target="_blank" rel="noopener noreferrer">What would America look like if every state had the same population?</a></li>
+                </ul>
+            </details>
+
+            <div class="hanten-source">
     Sources: U.S. Census Bureau, Vintage 2023 Population Estimates and 2023 Gazetteer Files.
     County and county-equivalent boundaries: U.S. Census Bureau, 2023 cartographic boundary files.
     Puerto Rico excluded because it is not covered by this population-estimates release.
     Connecticut is shown using its nine Census county-equivalent planning regions.
   </div>
 
-  <div class="h014-actions">
-    <button type="button" id="h014-save">Save Image</button>
-    <button type="button" id="h014-share">Share Image</button>
-  </div>
+  <div class="hanten-utility" data-html2canvas-ignore="true">
+        <div id="save-image-slot" class="hanten-image-actions">
+          <button type="button" id="h014-save">Save Image</button>
+          <button type="button" id="h014-share">Share Image</button>
+        </div>
+      </div>
 </main>
 
-<script src="../../04 Shared Assets/js/d3.v7.min.js"></script>
+<script src="../../assets/js/d3.v7.min.js"></script>
 
-<script src="../../04 Shared Assets/geodata/us/us-counties-2023.js"></script>
-<script src="../../04 Shared Assets/geodata/county-density.js"></script>
-<script src="../../04 Shared Assets/geodata/county-area.js"></script>
+<script src="../../assets/geodata/us/us-counties-2023.js"></script>
+<script src="../../assets/geodata/county-density.js"></script>
+<script src="../../assets/geodata/county-area.js"></script>
 
 <script>
   const width = 460;
@@ -589,7 +738,7 @@
   });
 </script>
 
-<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/html2canvas.min.js"></script>
 
 <script>
 (() => {
@@ -660,8 +809,7 @@
 
     const reflection = document.createElement("div");
     reflection.className = "h014-export-reflection";
-    reflection.textContent =
-      "How much can a threshold change the picture without changing the underlying data?";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     if(source){

@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H096 — What Does "95% Effective" Actually Mean?</title>
+
+    <meta
+        name="description"
+        content="In the Pfizer-BioNTech COVID-19 vaccine trial, the vaccine was 95% effective. That didn't mean 5% of vaccinated people got sick: 8 of 18,198 did, compared with 162 of 18,325 who got a placebo. '95%' compares the two groups."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H096-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h096-placebo: #b23b32;
+            --h096-vax: #0b4f57;
+        }
+
+        .h096-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h096-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h096-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h096-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h096-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h096-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h096-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h096-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h096-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.9rem; }
+
+        .h096-panel svg { display: block; width: 100%; max-width: 680px; height: auto; margin: 0 auto; }
+        .h096-lab { font-family: var(--hanten-font); font-size: 14px; font-weight: 800; fill: var(--hanten-text); }
+        .h096-sub { font-family: var(--hanten-font); font-size: 11.5px; fill: var(--hanten-muted); }
+        .h096-val { font-family: var(--hanten-font); font-size: 14px; font-weight: 800; }
+        .h096-ann { font-family: var(--hanten-font); font-size: 12px; font-weight: 700; fill: var(--hanten-muted); }
+        .h096-axis { font-family: var(--hanten-font); font-size: 11px; fill: var(--hanten-muted); }
+
+        .h096-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h096-aha p { margin: 0 0 0.6rem; }
+        .h096-aha p:last-child { margin-bottom: 0; }
+
+        .h096-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h096-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h096-explore p { margin: .55rem 0 0; }
+        .h096-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h096-explore + .h096-explore { margin-top: 0; border-top: none; }
+        .h096-explore strong { color: var(--hanten-text); }
+
+        .h096-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h096-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h096-table th, .h096-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h096-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h096-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .h096-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .h096-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 600px) {
+            .h096-stats { grid-template-columns: minmax(0, 1fr); }
+            .h096-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h096-table-panel { padding: 0.3rem 0.4rem; }
+            .h096-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2) { text-align: center; }
+
+/* Design Standards 19 (merged H097) */
+:root {
+            --h097-case: #0b4f57;
+            --h097-extra: #b23b32;
+            --h097-dot: #e6e3da;
+            --h097-myth: #d9a441;
+        }
+.h097-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+.h097-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+.h097-stat { padding: 0.95rem 0.9rem; text-align: center; }
+.h097-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+.h097-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+.h097-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+.h097-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+.h097-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+.h097-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.9rem; }
+.h097-panel svg { display: block; width: 100%; max-width: 760px; height: auto; margin: 0 auto; }
+.h097-gt { font-family: var(--hanten-font); font-size: 14px; font-weight: 800; fill: var(--hanten-text); }
+.h097-gs { font-family: var(--hanten-font); font-size: 12px; font-weight: 600; fill: var(--hanten-muted); }
+.h097-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.2rem; margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--hanten-border); font-size: 0.78rem; color: var(--hanten-muted); }
+.h097-legend > span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.h097-sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+.h097-big { font-family: var(--hanten-font); font-size: 17px; font-weight: 800; }
+.h097-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+.h097-aha p { margin: 0 0 0.6rem; }
+.h097-aha p:last-child { margin-bottom: 0; }
+.h097-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+.h097-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h097-explore p { margin: .55rem 0 0; }
+.h097-explore a { color: var(--hanten-accent, #0e7c86); }
+.h097-explore + .h097-explore { margin-top: 0; border-top: none; }
+.h097-explore strong { color: var(--hanten-text); }
+.h097-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+.h097-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+.h097-table th, .h097-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+.h097-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+.h097-table td { text-align: left; font-variant-numeric: tabular-nums; }
+.h097-table td:first-child { font-weight: 700; }
+.h097-table tr:last-child td { border-bottom: none; }
+@media (max-width: 600px) {
+.h097-stats { grid-template-columns: minmax(0, 1fr); }
+.h097-panel { padding: 0.9rem 0.6rem 0.8rem; }
+.h097-table-panel { padding: 0.3rem 0.4rem; }
+.h097-table { font-size: 0.76rem; }
+}
+
+/* Design Standards 19 (H097 dropdown) */
+.h096-more { margin: .7rem 0 .2rem; }
+.h096-more p { margin: .55rem 0 0; }
+.h096-more .h097-stats { margin-top: .3rem; }
+.h096-more .h097-panel { margin-top: .8rem; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            A vaccine is "95% effective." Does that mean 5 out of every 100 vaccinated people still get sick?
+        </h1>
+
+        <p class="hanten-subtitle">
+            It sounds like it should. But "95% effective" doesn't describe the vaccinated group by itself. It compares
+            two groups: how many people got sick with the vaccine versus without it.
+        </p>
+
+        <div id="h096-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h096-stats-cap">Pfizer-BioNTech COVID-19 vaccine trial, 2020</p>
+                <div class="h096-stats">
+                    <div class="hanten-panel h096-stat">
+                        <div class="h096-stat-k">Placebo group</div>
+                        <div class="h096-stat-n" style="color:var(--h096-placebo)">162 of 18,325</div>
+                        <div class="h096-stat-l">got COVID-19, about 0.9%</div>
+                    </div>
+                    <div class="hanten-panel h096-stat">
+                        <div class="h096-stat-k">Vaccine group</div>
+                        <div class="h096-stat-n" style="color:var(--h096-vax)">8 of 18,198</div>
+                        <div class="h096-stat-l">got COVID-19, about 0.04%, not 5%</div>
+                    </div>
+                    <div class="hanten-panel h096-stat">
+                        <div class="h096-stat-k">"Effective"</div>
+                        <div class="h096-stat-n">95%</div>
+                        <div class="h096-stat-l">fewer cases in the vaccine group than in the placebo group</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h096-panel">
+                    <p class="h096-panel-title">COVID-19 cases per 10,000 people in each group</p>
+                    <p class="h096-panel-sub">During the trial's first report, a median of about 2 months of follow-up</p>
+
+                    <svg viewBox="0 0 680 190" role="img" aria-labelledby="h096-chart-title">
+                        <title id="h096-chart-title">Bar chart: about 88 COVID-19 cases per 10,000 people in the placebo group versus about 4 per 10,000 in the vaccine group. The vaccine group had 95% fewer cases. A dashed line marks where 5% of the vaccinated group, 500 per 10,000, would be, far off the scale of either bar.</title>
+
+                        <text class="h096-lab" x="0" y="34">Placebo</text>
+                        <text class="h096-sub" x="0" y="50">18,325 people</text>
+                        <rect x="130" y="18" width="442" height="30" rx="2" fill="var(--h096-placebo)"/>
+                        <text class="h096-val" x="580" y="38" fill="var(--h096-placebo)">88</text>
+
+                        <text class="h096-lab" x="0" y="94">Vaccine</text>
+                        <text class="h096-sub" x="0" y="110">18,198 people</text>
+                        <rect x="130" y="78" width="22" height="30" rx="2" fill="var(--h096-vax)"/>
+                        <text class="h096-val" x="160" y="98" fill="var(--h096-vax)">4</text>
+                        <text class="h096-ann" x="190" y="98">← 95% fewer cases</text>
+
+                        <line x1="130" y1="126" x2="572" y2="126" stroke="var(--hanten-border, #e4e1d8)"/>
+                        <text class="h096-axis" x="130" y="142" text-anchor="middle">0</text>
+                        <text class="h096-axis" x="351" y="142" text-anchor="middle">44</text>
+                        <text class="h096-axis" x="572" y="142" text-anchor="middle">88</text>
+                        <text class="h096-ann" x="130" y="164">The misreading, "5 in 100 vaccinated get sick," would be 500 per 10,000:</text>
+                        <text class="h096-ann" x="130" y="181">a bar more than 5 times as long as the placebo bar.</text>
+                    </svg>
+                </div>
+
+            </div>
+
+            <div class="h096-aha">
+                <p><strong>"95% effective" compares two groups; it isn't the share of vaccinated people who got sick.</strong>
+                    In this trial, the vaccinated group had 95% fewer cases than the placebo group. Only 8 of more than
+                    18,000 vaccinated people got COVID-19 during the trial, not 5 in every 100.</p>
+                <p>The flip side matters too: 95% of what? The absolute numbers depend on how common the disease is and
+                    how long you watch. Over two months, most people in both groups stayed healthy. The same 95% cut
+                    means more cases prevented when a disease is spreading widely than when it's rare. The same gap works in reverse: a processed-meat habit that raises cancer risk "18%" adds about 1 case per 100 people. For any "percent
+                    effective" or "percent more or less risk" claim, from medicines to seat belts to smoke alarms, ask what the
+                    risk was to begin with.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                What "percent risk" headline would you read differently if you knew the starting risk?
+            </p>
+
+            <details class="h096-explore" data-html2canvas-ignore="true">
+                <summary>Three ways to describe the same trial result</summary>
+                <div class="hanten-panel h096-table-panel">
+                    <table class="h096-table">
+                        <thead>
+                            <tr><th>Way to say it</th><th>Number</th><th>What it tells you</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Relative risk reduction</td><td>95%</td><td>How much the vaccine cut the chance of getting sick, compared with no vaccine</td></tr>
+                            <tr><td>Absolute risk, each group</td><td>0.9% vs. 0.04%</td><td>How many people in each group actually got sick during the trial</td></tr>
+                            <tr><td>Absolute risk reduction</td><td>0.84 percentage points</td><td>The difference between the groups: about 84 fewer cases per 10,000 people over about 2 months</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>All three are true descriptions of the same result. The relative number stays fairly steady from place
+                    to place; the absolute numbers grow the longer people are followed and the more the virus spreads.
+                    Protection against COVID-19 infection also changed later as the virus mutated and immunity faded,
+                    which is why later studies reported different effectiveness numbers.</p>
+            </details>
+
+            <details class="h096-explore" data-html2canvas-ignore="true">
+                <summary>Does a hot dog a day really raise your cancer risk by 18%?</summary>
+                <div class="h096-more">
+                <p><strong>Yes, but 18% of a small starting risk.</strong> The World Health Organization&rsquo;s cancer agency found that eating 1.8 oz (50 g) of processed meat a day, about one hot dog, raises bowel cancer risk by 18%. That turns 56 lifetime cases in 1,000 people into 66: about 1 more person in every 100, not 18.</p>
+                <p class="h097-stats-cap">Processed meat and lifetime bowel cancer risk</p>
+                <div class="h097-stats">
+                    <div class="hanten-panel h097-stat">
+                        <div class="h097-stat-k">The headline</div>
+                        <div class="h097-stat-n" style="color:var(--h097-extra)">+18%</div>
+                        <div class="h097-stat-l">higher risk for each 1.8 oz (50 g) a day, about one hot dog</div>
+                    </div>
+                    <div class="hanten-panel h097-stat">
+                        <div class="h097-stat-k">The starting risk</div>
+                        <div class="h097-stat-n" style="color:var(--h097-case)">56 in 1,000</div>
+                        <div class="h097-stat-l">people who eat the least processed meat get bowel cancer in their lifetime</div>
+                    </div>
+                    <div class="hanten-panel h097-stat">
+                        <div class="h097-stat-k">The difference</div>
+                        <div class="h097-stat-n" style="color:var(--h097-extra)">10 in 1,000</div>
+                        <div class="h097-stat-l">more cases among those who eat the most: 66 instead of 56</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h097-panel">
+                    <p class="h097-panel-title">What the headline sounds like vs. what actually changes</p>
+                    <p class="h097-panel-sub">Each bar is 100 people, over a lifetime</p>
+
+                    <svg viewBox="0 0 700 290" role="img" aria-labelledby="h097-chart-title">
+<title id="h097-chart-title">Three bars, each representing 100 people. What "18% higher risk" can sound like: 18 of 100 people. People who eat the least processed meat: about 5.6 in 100 get bowel cancer in their lifetime. People who eat the most: about 6.6 in 100, just 1 more person in every 100.</title>
+<text class="h097-gt" x="0" y="16">What "18% higher risk" can sound like</text>
+<text class="h097-gs" x="0" y="33">18 more people out of every 100</text>
+<rect x="0" y="42" width="700" height="34" rx="3" fill="var(--h097-dot)"/>
+<rect x="0.0" y="42" width="126.0" height="34" fill="var(--h097-myth)"/>
+<text class="h097-big" x="136.0" y="66" fill="var(--h097-myth)">18 in 100</text>
+<text class="h097-gt" x="0" y="116">Eat the least processed meat</text>
+<text class="h097-gs" x="0" y="133">About 5.6 in 100 get bowel cancer in their lifetime</text>
+<rect x="0" y="142" width="700" height="34" rx="3" fill="var(--h097-dot)"/>
+<rect x="0.0" y="142" width="39.2" height="34" fill="var(--h097-case)"/>
+<text class="h097-big" x="49.2" y="166" fill="var(--h097-case)">5.6 in 100</text>
+<text class="h097-gt" x="0" y="216">Eat the most processed meat</text>
+<text class="h097-gs" x="0" y="233">About 6.6 in 100: the 18% increase is the red sliver</text>
+<rect x="0" y="242" width="700" height="34" rx="3" fill="var(--h097-dot)"/>
+<rect x="0.0" y="242" width="39.2" height="34" fill="var(--h097-case)"/>
+<rect x="39.2" y="242" width="7.0" height="34" fill="var(--h097-extra)"/>
+<text class="h097-big" x="56.2" y="266" fill="var(--h097-extra)">6.6 in 100: just 1 more</text>
+</svg>
+
+                    <div class="h097-legend">
+                        <span><i class="h097-sw" style="background:var(--h097-case)"></i>Would get bowel cancer either way</span>
+                        <span><i class="h097-sw" style="background:var(--h097-extra)"></i>Extra cases linked to eating the most processed meat</span>
+                        <span><i class="h097-sw" style="background:var(--h097-dot)"></i>No bowel cancer</span>
+                    </div>
+                </div>
+                <div class="hanten-panel h097-table-panel">
+                    <table class="h097-table">
+                        <thead>
+                            <tr><th>Way to say it</th><th>Number</th><th>What it compares</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Relative risk increase</td><td>+18%</td><td>The risk for people who eat more processed meat, compared with those who eat less</td></tr>
+                            <tr><td>Absolute risk, each group</td><td>5.6% vs. 6.6%</td><td>The share of each group who get bowel cancer in their lifetime</td></tr>
+                            <tr><td>Absolute risk increase</td><td>1 percentage point</td><td>About 10 extra cases for every 1,000 people</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>The 18% is for each 1.8 oz (50 g) of processed meat eaten daily. The 56 and 66 in 1,000 figures are
+                    Cancer Research UK's estimates for the UK's lowest and highest processed-meat eaters. Other factors,
+                    like age, family history, weight and exercise, also change a person's starting risk.</p>
+                </div>
+            </details>
+
+            <details class="h096-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H100/index.html" target="_blank" rel="noopener noreferrer">Ground beef labeled "80% lean." Is it a low-fat food?</a></li>
+                    <li><a href="../H041/index.html" target="_blank" rel="noopener noreferrer">If a medical test is 99% accurate and you test positive, what are the chances you actually have the disease?</a></li>
+                    <li><a href="../H099/index.html" target="_blank" rel="noopener noreferrer">"Deadly shark attacks doubled." Did the oceans get twice as dangerous?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: F. P. Polack et al., "Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine," New England
+                Journal of Medicine, December 31, 2020 (8 cases among 18,198 vaccine recipients and 162 among 18,325
+                placebo recipients, 7 or more days after the second dose; median follow-up about 2 months). Processed meat: International Agency for Research on Cancer (World Health Organization), press release 240, October 26, 2015; Cancer Research UK, "Processed meat and cancer – what you need to know," October 26, 2015; Harvard T.H. Chan School of Public Health, The Nutrition Source (50 g is about one hot dog).
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script>document.querySelectorAll("details").forEach(d=>d.addEventListener("toggle",()=>window.dispatchEvent(new Event("resize"))));</script>
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H096-percent-effective.png", title = "What does \u201c95% effective\u201d actually mean?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

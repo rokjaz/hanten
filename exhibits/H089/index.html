@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H089 — Stealing Is Never Worse Than Splitting. So Why Does It Lose?</title>
+
+    <meta
+        name="description"
+        content="In a single round of split or steal, stealing is never worse for you than splitting. Over eight rounds against a partner who copies your last move, always stealing earns $100 and always splitting earns $400."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H089-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h089-split: #2f8a86;
+            --h089-steal: #b23b32;
+        }
+
+        .h089-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h089-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h089-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h089-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h089-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h089-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h089-row2 { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h089-row2 .h089-matrix, .h089-row2 .h089-matrix-note { max-width: 560px; margin-left: auto; margin-right: auto; }
+        .h089-row2 svg { max-width: 760px; margin: 0 auto; }
+        .h089-panel { padding: 1.1rem 1.1rem 0.9rem; }
+        .h089-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h089-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.8rem; line-height: 1.4; }
+
+        .h089-matrix { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h089-matrix th, .h089-matrix td { padding: 0.55rem 0.5rem; border: 1px solid var(--hanten-border); text-align: left; }
+        .h089-matrix th { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h089-matrix td { font-variant-numeric: tabular-nums; }
+        .h089-matrix .sp { color: var(--h089-split); font-weight: 800; }
+        .h089-matrix .st { color: var(--h089-steal); font-weight: 800; }
+        .h089-matrix-note { font-size: 0.75rem; color: var(--hanten-muted); margin: 0.6rem 0 0; line-height: 1.4; }
+
+        .h089-mirror { font-size: 0.85rem; line-height: 1.5; margin: 0; }
+        .h089-panel svg { display: block; width: 100%; height: auto; }
+        .h089-row-t { font-family: var(--hanten-font); font-size: 14px; font-weight: 800; fill: var(--hanten-text); }
+        .h089-rl { font-family: var(--hanten-font); font-size: 11.5px; fill: var(--hanten-muted); }
+        .h089-rn { font-family: var(--hanten-font); font-size: 11.5px; font-weight: 700; fill: var(--hanten-muted); text-anchor: middle; }
+        .h089-chip { font-family: var(--hanten-font); font-size: 10.5px; font-weight: 700; fill: #ffffff; text-anchor: middle; }
+        .h089-pay { font-family: var(--hanten-font); font-size: 12.5px; font-weight: 800; fill: var(--hanten-text); text-anchor: middle; }
+        .h089-tot-l { font-family: var(--hanten-font); font-size: 11.5px; font-weight: 800; letter-spacing: 0.05em; fill: var(--hanten-muted); text-transform: uppercase; }
+        .h089-tot { font-family: var(--hanten-font); font-size: 26px; font-weight: 800; }
+
+        .h089-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h089-aha p { margin: 0 0 0.6rem; }
+        .h089-aha p:last-child { margin-bottom: 0; }
+
+        .h089-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h089-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h089-explore p { margin: .55rem 0 0; }
+        .h089-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h089-explore + .h089-explore { margin-top: 0; border-top: none; }
+        .h089-explore strong { color: var(--hanten-text); }
+
+        .h089-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h089-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h089-table th, .h089-table td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); vertical-align: top; }
+        .h089-table th { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h089-table td { font-variant-numeric: tabular-nums; }
+        .h089-table td:first-child { font-weight: 700; }
+        .h089-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 720px) {
+            .h089-row2 { grid-template-columns: minmax(0, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .h089-stats { grid-template-columns: minmax(0, 1fr); }
+            .h089-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h089-table-panel { padding: 0.3rem 0.4rem; }
+            .h089-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table.h089-matrix:not([class*="h089-matrix-"]) td:nth-child(2),
+.hanten-exhibit table.h089-matrix:not([class*="h089-matrix-"]) td:nth-child(3),
+.hanten-exhibit table.h089-table:not([class*="h089-table-"]) td:nth-child(3),
+.hanten-exhibit table.h089-table:not([class*="h089-table-"]) td:nth-child(4) { text-align: center; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Stealing is never worse than splitting. So why does it lose?
+        </h1>
+
+        <p class="hanten-subtitle">
+            In one round of split or steal, stealing always pays at least as well as splitting, whatever the other
+            player does. That's true. It stops being good advice the moment the game is played more than once.
+        </p>
+
+        <div id="h089-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h089-stats-cap">One true fact, two very different results</p>
+                <div class="h089-stats">
+                    <div class="hanten-panel h089-stat">
+                        <div class="h089-stat-k">In a single round</div>
+                        <div class="h089-stat-n" style="color:var(--h089-steal)">Steal wins</div>
+                        <div class="h089-stat-l">never worse than splitting, and sometimes $50 better</div>
+                    </div>
+                    <div class="hanten-panel h089-stat">
+                        <div class="h089-stat-k">Steal every round</div>
+                        <div class="h089-stat-n" style="color:var(--h089-steal)">$100</div>
+                        <div class="h089-stat-l">over 8 rounds against The Mirror</div>
+                    </div>
+                    <div class="hanten-panel h089-stat">
+                        <div class="h089-stat-k">Split every round</div>
+                        <div class="h089-stat-n" style="color:var(--h089-split)">$400</div>
+                        <div class="h089-stat-l">over the same 8 rounds, 4 times as much</div>
+                    </div>
+                </div>
+
+                <div class="h089-row2">
+                    <div class="hanten-panel h089-panel">
+                        <p class="h089-panel-title">One round: $100 on the table</p>
+                        <table class="h089-matrix">
+                            <thead>
+                                <tr><th></th><th>They split</th><th>They steal</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><th class="sp">You split</th><td>You $50, them $50</td><td>You $0, them $100</td></tr>
+                                <tr><th class="st">You steal</th><td><strong>You $100</strong>, them $0</td><td><strong>You $0</strong>, them $0</td></tr>
+                            </tbody>
+                        </table>
+                        <p class="h089-matrix-note">Whatever they do, stealing gets you the same or more. If they split, $100 beats $50. If they steal, you get $0 either way.</p>
+                    </div>
+                    <div class="hanten-panel h089-panel">
+                        <p class="h089-panel-title">Eight rounds against The Mirror</p>
+                        <p class="h089-panel-sub">The Mirror splits in round 1, then copies whatever you did the round before.</p>
+                        <svg viewBox="0 0 640 296" role="img" aria-labelledby="h089-rounds-title">
+                            <title id="h089-rounds-title">Two eight-round games against The Mirror. Always stealing: you take $100 in round 1 while The Mirror splits, then The Mirror steals every round after and you get $0, for a total of $100. Always splitting: The Mirror splits every round too and you get $50 each round, for a total of $400.</title>
+<text class="h089-rl" x="0" y="14">Round</text><text class="h089-rn" x="134" y="14">1</text><text class="h089-rn" x="188" y="14">2</text><text class="h089-rn" x="242" y="14">3</text><text class="h089-rn" x="296" y="14">4</text><text class="h089-rn" x="350" y="14">5</text><text class="h089-rn" x="404" y="14">6</text><text class="h089-rn" x="458" y="14">7</text><text class="h089-rn" x="512" y="14">8</text>
+<text class="h089-row-t" x="0" y="40">Always steal</text>
+<text class="h089-rl" x="0" y="70">You</text>
+<rect x="110" y="54" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="134" y="70">Steal</text>
+<rect x="164" y="54" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="188" y="70">Steal</text>
+<rect x="218" y="54" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="242" y="70">Steal</text>
+<rect x="272" y="54" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="296" y="70">Steal</text>
+<rect x="326" y="54" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="350" y="70">Steal</text>
+<rect x="380" y="54" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="404" y="70">Steal</text>
+<rect x="434" y="54" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="458" y="70">Steal</text>
+<rect x="488" y="54" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="512" y="70">Steal</text>
+<text class="h089-rl" x="0" y="100">The Mirror</text>
+<rect x="110" y="84" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="134" y="100">Split</text>
+<rect x="164" y="84" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="188" y="100">Steal</text>
+<rect x="218" y="84" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="242" y="100">Steal</text>
+<rect x="272" y="84" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="296" y="100">Steal</text>
+<rect x="326" y="84" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="350" y="100">Steal</text>
+<rect x="380" y="84" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="404" y="100">Steal</text>
+<rect x="434" y="84" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="458" y="100">Steal</text>
+<rect x="488" y="84" width="48" height="24" rx="3" fill="var(--h089-steal)"/><text class="h089-chip" x="512" y="100">Steal</text>
+<text class="h089-rl" x="0" y="134">You got</text>
+<text class="h089-pay" x="134" y="134">$100</text>
+<text class="h089-pay" x="188" y="134">$0</text>
+<text class="h089-pay" x="242" y="134">$0</text>
+<text class="h089-pay" x="296" y="134">$0</text>
+<text class="h089-pay" x="350" y="134">$0</text>
+<text class="h089-pay" x="404" y="134">$0</text>
+<text class="h089-pay" x="458" y="134">$0</text>
+<text class="h089-pay" x="512" y="134">$0</text>
+<text class="h089-tot-l" x="560" y="84">Total</text><text class="h089-tot" x="560" y="112" fill="var(--h089-steal)">$100</text>
+<text class="h089-row-t" x="0" y="172">Always split</text>
+<text class="h089-rl" x="0" y="202">You</text>
+<rect x="110" y="186" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="134" y="202">Split</text>
+<rect x="164" y="186" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="188" y="202">Split</text>
+<rect x="218" y="186" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="242" y="202">Split</text>
+<rect x="272" y="186" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="296" y="202">Split</text>
+<rect x="326" y="186" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="350" y="202">Split</text>
+<rect x="380" y="186" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="404" y="202">Split</text>
+<rect x="434" y="186" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="458" y="202">Split</text>
+<rect x="488" y="186" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="512" y="202">Split</text>
+<text class="h089-rl" x="0" y="232">The Mirror</text>
+<rect x="110" y="216" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="134" y="232">Split</text>
+<rect x="164" y="216" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="188" y="232">Split</text>
+<rect x="218" y="216" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="242" y="232">Split</text>
+<rect x="272" y="216" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="296" y="232">Split</text>
+<rect x="326" y="216" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="350" y="232">Split</text>
+<rect x="380" y="216" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="404" y="232">Split</text>
+<rect x="434" y="216" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="458" y="232">Split</text>
+<rect x="488" y="216" width="48" height="24" rx="3" fill="var(--h089-split)"/><text class="h089-chip" x="512" y="232">Split</text>
+<text class="h089-rl" x="0" y="266">You got</text>
+<text class="h089-pay" x="134" y="266">$50</text>
+<text class="h089-pay" x="188" y="266">$50</text>
+<text class="h089-pay" x="242" y="266">$50</text>
+<text class="h089-pay" x="296" y="266">$50</text>
+<text class="h089-pay" x="350" y="266">$50</text>
+<text class="h089-pay" x="404" y="266">$50</text>
+<text class="h089-pay" x="458" y="266">$50</text>
+<text class="h089-pay" x="512" y="266">$50</text>
+<text class="h089-tot-l" x="560" y="216">Total</text><text class="h089-tot" x="560" y="244" fill="var(--h089-split)">$400</text>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h089-aha">
+                <p><strong>The best move for one round can be the worst habit over many.</strong> Stealing wins a single
+                    round, but against The Mirror the first steal turns a partner who splits into one who steals back.
+                    After that you both get $0, round after round. Splitting gives up a one-time $50 and keeps $50
+                    coming every round.</p>
+                <p>The same trap shows up anywhere people deal with each other more than once: a business overcharging
+                    a regular customer, a coworker taking credit for shared work, a country breaking a trade deal. The
+                    move that wins today can cost everything after. Before trusting "this is always the best move," ask
+                    whether the game ends after one round.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                Where in your life does a choice that wins once cost you in every round that follows?
+            </p>
+
+            <details class="h089-explore" data-html2canvas-ignore="true">
+                <summary>Other ways to play against The Mirror</summary>
+                <div class="hanten-panel h089-table-panel">
+                    <table class="h089-table">
+                        <thead>
+                            <tr><th>Your plan</th><th>What happens</th><th>You get</th><th>The Mirror gets</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Always steal</td><td>One $100 grab, then $0 forever</td><td>$100</td><td>$0</td></tr>
+                            <tr><td>Steal once in round 1, then split</td><td>$100, then The Mirror steals once and you get $0, then $50 a round</td><td>$400</td><td>$400</td></tr>
+                            <tr><td>Always split</td><td>$50 every round</td><td>$400</td><td>$400</td></tr>
+                            <tr><td>Split, then steal in round 8</td><td>$50 a round, then a $100 grab The Mirror can't answer</td><td>$450</td><td>$350</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>A steal in the very last round pays, because there's no next round for The Mirror to copy it. That
+                    only works if you know exactly when the game ends and your partner doesn't react to it. When both
+                    players know the last round, each has a reason to steal in it, then in the round before, and so on,
+                    and the cooperation can unravel. That's one reason long-running relationships, with no fixed end,
+                    tend to stay more cooperative.</p>
+            </details>
+
+            <details class="h089-explore" data-html2canvas-ignore="true">
+                <summary>Where The Mirror comes from</summary>
+                <p>The Mirror plays a strategy called <strong>tit for tat</strong>. Around 1980, political scientist Robert
+                    Axelrod ran computer tournaments where strategies played a repeated version of this kind of game
+                    against each other. Tit for tat, one of the simplest entries, won both tournaments. The split-or-steal
+                    setup is also the final round of the British game show <em>Golden Balls</em>, where it was played only
+                    once, the situation in which stealing's logic is hardest to beat.</p>
+                <p><a href="../H079/index.html" target="_blank" rel="noopener noreferrer">Braess's paradox</a> shows the same pattern on the road:
+                    each driver picking the route that's best for them can leave everyone stuck in slower traffic.</p>
+            </details>
+
+            <details class="h089-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H079/index.html" target="_blank" rel="noopener noreferrer">Can a new road make traffic worse?</a></li>
+                    <li><a href="../H072/index.html" target="_blank" rel="noopener noreferrer">How do you catch a liar when there's no evidence?</a></li>
+                    <li><a href="../H060/index.html" target="_blank" rel="noopener noreferrer">The NFL fixed the coin-toss advantage in overtime. Did it stay fixed?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Payoffs and results calculated from the rules shown; Robert Axelrod, <em>The Evolution of
+                Cooperation</em> (1984), for the tit-for-tat tournaments; the split-or-steal format from ITV's
+                <em>Golden Balls</em>.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H089-split-or-steal.png", title = "Stealing is never worse than splitting. So why does it lose?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

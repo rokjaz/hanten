@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>H027 — Statehood Order</title>
+    <meta name="description" content="The original 13 states joined in under three years. The remaining 37 took another 169. The order of admission looks orderly; the timing was anything but.">
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
 
@@ -40,7 +41,7 @@
             padding: .48rem .78rem;
             border-radius: 0;
             cursor: pointer;
-            font: 650 .72rem/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+            font: 650 .72rem/1 var(--hanten-font);
         }
 
         .h027-controls button:hover,
@@ -81,7 +82,7 @@
         }
 
         .h027-state-label {
-            font: 750 10.5px/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+            font: 750 10.5px/1 var(--hanten-font);
             fill: var(--h027-ink);
             pointer-events: none;
             paint-order: stroke;
@@ -140,20 +141,23 @@
 
         .h027-gap-arrow {
             color: var(--h027-highlight);
-            font: 800 .78rem/1.15 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+            font: 800 .78rem/1.15 var(--hanten-font);
             text-align: center;
             white-space: nowrap;
         }
 
         .h027-reveal {
-            max-width: 760px;
+            max-width: 800px;
             margin: .75rem auto 0;
-            padding: .15rem 0 .15rem 1rem;
-            border-left: 3px solid var(--hanten-accent);
+            padding: .15rem 0;
             color: var(--hanten-text);
             font-size: .95rem;
             line-height: 1.45;
+            text-align: left;
         }
+
+        .h027-reveal p { margin: 0 0 .55rem; }
+        .h027-reveal p:last-child { margin-bottom: 0; }
 
         .h027-explore {
             max-width: 760px;
@@ -216,7 +220,7 @@
 
         .h027-statehood-order {
             color: var(--hanten-accent);
-            font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+            font-family: var(--hanten-font);
             font-weight: 750;
         }
 
@@ -255,6 +259,30 @@
             }
         }
     </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:#153e5c;color:#153e5c}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+    </style>
+
+    <style>
+    .hanten-export-card{
+     position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
+     background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    .hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+    .hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+    .hanten-export-aha strong{color:#1c2733}
+    .hanten-export-aha p{margin:0 0 8px}
+    .hanten-export-aha p:last-child{margin-bottom:0}
+    .hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+    .hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+    
+/* Design Standards 19 (text column) */
+.hanten-exhibit .h027-reveal { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
+</style>
 </head>
 
 <body>
@@ -304,32 +332,29 @@
             </div>
 
             <div class="h027-reveal">
-                <strong>The sequence looks orderly. The timing was not.</strong><br>
-                The original 13 entered in less than three years. After Arizona became No. 48 in 1912,
-                the country waited <strong>47 years</strong> for Alaska — then only seven and a half months for Hawaii.
+                <p><strong>The sequence looks orderly. The timing was not.</strong> The original 13 entered in under three years — Delaware first, on December 7, 1787; Rhode Island last of the 13, on May 29, 1790. It then took another 169 years to add the remaining 37. After Arizona became No. 48 in February 1912, the country waited <strong>47 years</strong> for Alaska, admitted January 3, 1959 — then only seven and a half months for Hawaii, on August 21, 1959.</p>
+                <p>A numbered list makes growth look steady by hiding exactly this: the gaps between the numbers can be wildly uneven even when the sequence itself is perfectly orderly.</p>
             </div>
 
             <p class="hanten-reflection">
-                What does an ordered list hide when the intervals between events are unequal?
+                What list have you read in order without checking the time between items?
             </p>
 
-            <details class="h027-explore">
+            <details class="h027-explore" data-html2canvas-ignore="true">
                 <summary>Explore the statehood stories</summary>
 
                 <div class="h027-explore-grid">
                     <section>
                         <h3>Two Dakotas, one day</h3>
                         <p>
-                            North Dakota and South Dakota were both admitted on November 2, 1889.
-                            By convention they are numbered 39th and 40th.
+                            North Dakota and South Dakota were both admitted on November 2, 1889 — and, as the story goes, deliberately so: President Benjamin Harrison reportedly had the papers shuffled before signing so no one could ever say which territory became a state first. By convention the two are ordered alphabetically, North Dakota 39th and South Dakota 40th.
                         </p>
                     </section>
 
                     <section>
                         <h3>West Virginia becomes No. 35</h3>
                         <p>
-                            Its territory had been part of Virginia, but West Virginia entered the Union
-                            as a separate state on June 20, 1863.
+                            Its territory had been part of Virginia — one of the original 13 — since 1788. When Virginia seceded to join the Confederacy in 1861, its Unionist mountain counties refused to go along, set up a rival government, and supplied their own consent to split off. Lincoln signed West Virginia into the Union on June 20, 1863.
                         </p>
                     </section>
                 </div>
@@ -337,11 +362,19 @@
                 <section class="h027-statehood-list">
                     <h3>All 50 states in admission order</h3>
                     <div class="h027-statehood-grid" id="h027-statehood-list"></div>
-                </section>
+                </section></details>
+
+            <details class="h027-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H006/index.html" target="_blank" rel="noopener noreferrer">Can two bowlers knock down the same 50 pins and finish 70 points apart?</a></li>
+                    <li><a href="../H084/index.html" target="_blank" rel="noopener noreferrer">"Up 40% this month!" Did this stock really have a great month?</a></li>
+                    <li><a href="../H018/index.html" target="_blank" rel="noopener noreferrer">How can the same two numbers tell two completely different stories?</a></li>
+                </ul>
             </details>
 
-            <div class="h027-source">
-                Source basis from the original H027 exhibit: U.S. state admission dates attributed there to the U.S. National Archives
+            <div class="hanten-source h027-source">
+                Sources: U.S. state admission dates attributed there to the U.S. National Archives
                 and the standard historical record of Congressional admission acts.
             </div>
 
@@ -451,13 +484,80 @@
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
-<script src="../../assets/js/save-image.js"></script>
+
 <script>
-HantenSaveImage.init({
-    target: ".hanten-exhibit",
-    title: "Did the United States grow one state at a time?",
-    filename: "H027-statehood-order.png"
-});
+(() => {
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+  slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+  const save = document.createElement("button"), share = document.createElement("button");
+  save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+  slot.append(save, share);
+  const filename = "H027-statehood-order.png", title = "Did the United States grow one state at a time?";
+
+  async function blob() {
+    const capture = document.getElementById("h027-capture");
+    const legend = document.querySelector(".h027-legend");
+    const gap = document.querySelector(".h027-gap");
+    const reveal = document.querySelector(".h027-reveal");
+    const source = document.querySelector(".h027-source");
+    if (!capture) throw new Error("Export content not found.");
+
+    const card = document.createElement("div");
+    card.className = "hanten-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800; titleCanvas.height = 84;
+    titleCanvas.style.width = "900px"; titleCanvas.style.height = "42px";
+    titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+    const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+    t.font = '750 32px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+    t.fillText("Did the United States grow one state at a time?", 450, 21);
+    card.appendChild(titleCanvas);
+
+    const sub = document.createElement("canvas");
+    sub.width = 1800; sub.height = 84; sub.style.width = "900px"; sub.style.height = "42px";
+    sub.style.display = "block"; sub.style.margin = "0 auto 16px";
+    const s = sub.getContext("2d"); s.scale(2, 2);
+    s.font = '400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+    s.fillText("Put the order of admission onto the map — then look at the timing.", 450, 21);
+    card.appendChild(sub);
+
+    const shell = document.createElement("div");
+    shell.className = "h027-shell";
+    shell.appendChild(capture.cloneNode(true));
+    if (legend) shell.appendChild(legend.cloneNode(true));
+    if (gap) shell.appendChild(gap.cloneNode(true));
+    card.appendChild(shell);
+
+    if (reveal) {
+      const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+      const revealClone = document.createElement("div"); revealClone.className = "hanten-export-aha";
+      revealClone.innerHTML = reveal.innerHTML;
+      textcol.appendChild(revealClone); card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "hanten-export-reflection";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    card.appendChild(reflection);
+
+    if (source) {
+      const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+    try {
+      const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+      return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+    } finally { card.remove(); }
+  }
+  function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+  save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+  share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+})();
 </script>
 
 </body>

@@ -8,7 +8,7 @@
 
     <meta
         name="description"
-        content="Drag the ruler shorter. The coastline doesn't change, but the measured length keeps climbing — because a shorter ruler catches bays and headlands the last one skipped over."
+        content="Pick a shorter ruler. The coastline doesn't change, but the measured length keeps climbing — because a shorter ruler catches bays and headlands the last one skipped over."
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
@@ -26,6 +26,7 @@
             --h063-land: #d8dfd2;
             --h063-sea: #eaf1f0;
             --h063-line: var(--hanten-text);
+            --h063-ruler: #d9822b;
         }
 
         .h063-panel {
@@ -101,8 +102,9 @@
             font-family: var(--hanten-font);
             font-weight: 700;
             font-size: 1.05rem;
-            min-width: 5.5rem;
+            min-width: 8.6rem;
             text-align: right;
+            white-space: nowrap;
             color: var(--hanten-text);
         }
 
@@ -117,18 +119,32 @@
             border-top: 1px solid var(--hanten-border);
         }
 
+        .h063-stat-hero {
+            text-align: center;
+            margin: 0 0 0.9rem;
+        }
+
         .h063-stat-value {
             font-family: var(--hanten-font);
-            font-weight: 700;
-            font-size: 1.7rem;
+            font-weight: 800;
+            font-size: 2.6rem;
             color: var(--hanten-accent);
             line-height: 1.05;
+            letter-spacing: -0.01em;
         }
 
         .h063-stat-label {
+            font-family: var(--hanten-font);
             font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
             color: var(--hanten-muted);
-            margin-top: 0.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        @media (max-width: 600px) {
+            .h063-stat-value { font-size: 2rem; }
         }
 
         .h063-provenance {
@@ -159,23 +175,159 @@
             fill: var(--hanten-text);
         }
 
+        .h063-map-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.4rem;
+            margin-top: 0.6rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+        .h063-map-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h063-legend-line { display: inline-block; width: 20px; border-radius: 2px; }
+        .h063-legend-coast { height: 2px; background: var(--h063-line); }
+        .h063-legend-ruler { height: 4px; background: var(--h063-ruler); }
+
+        .h063-step-count {
+            margin: 0.6rem 0 0;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--hanten-text);
+        }
+
+        .h063-ruler-label {
+            margin: 0 0 0.5rem;
+            font-family: var(--hanten-font);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h063-ruler-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.5rem;
+        }
+        .h063-ruler-btn {
+            appearance: none;
+            border: 1px solid var(--hanten-border);
+            border-radius: 6px;
+            background: #ffffff;
+            color: var(--hanten-text);
+            font-family: var(--hanten-font);
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 0.55rem 0.4rem;
+            cursor: pointer;
+            line-height: 1.2;
+        }
+        .h063-ruler-btn span {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--hanten-muted);
+        }
+        .h063-ruler-btn:hover { border-color: var(--rc); }
+        .h063-ruler-btn.is-active {
+            background: var(--rt);
+            border-color: var(--rc);
+            box-shadow: inset 0 0 0 1px var(--rc);
+        }
+        .h063-ruler-btn .h063-ruler-bar {
+            position: relative;
+            display: block;
+            height: 5px;
+            max-width: 100%;
+            margin: 0.55rem auto 0.2rem;
+            border-radius: 3px;
+            background: var(--rc);
+        }
+        .h063-ruler-btn .h063-ruler-bar::before,
+        .h063-ruler-btn .h063-ruler-bar::after {
+            content: "";
+            position: absolute;
+            top: -1.5px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--rc);
+        }
+        .h063-ruler-btn .h063-ruler-bar::before { left: 0; }
+        .h063-ruler-btn .h063-ruler-bar::after { right: 0; }
+        .h063-ruler-note {
+            margin: 0.5rem 0 0;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--hanten-muted);
+        }
+
+        .h063-km {
+            font-size: 0.72em;
+            font-weight: 600;
+            color: var(--hanten-muted);
+        }
+
         @media (max-width: 600px) {
             .h063-panel { padding: 1rem 0.8rem; }
-            .h063-slider-row { gap: 0.6rem; }
+            .h063-slider-row { gap: 0.6rem; flex-wrap: wrap; }
+            .h063-slider-row label { flex-basis: 100%; }
+            .h063-ruler-readout { min-width: 0; }
         }
+
+        /* Narrow screens: larger chart text so it stays readable */
+        #h063-curve-svg.is-narrow .h063-pt-label { font-size: 13px; }
+        #h063-curve-svg.is-narrow .h063-axis-label { font-size: 12.5px; }
+
+        .h063-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h063-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h063-discovery p:last-child { margin-bottom: 0; }
+        .h063-discovery strong { color: var(--hanten-text); }
     </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h063-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h063-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h063-explore p { margin: .55rem 0 0; }
+.h063-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
 </head>
 
 <body>
 
     <main class="hanten-exhibit">
 
-        <h1 class="hanten-question">
-            How long is a coastline, really?
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            How long is a coastline,&nbsp;really?
         </h1>
 
         <p class="hanten-subtitle">
-            Drag the ruler shorter. The coastline below doesn't change — but the measured length keeps
+            Pick a shorter ruler. The coastline below doesn't change — but the measured length keeps
             climbing, because a shorter ruler catches bays and headlands the last one skipped over.
         </p>
 
@@ -184,76 +336,90 @@
             <div class="hanten-graphic">
 
                 <div class="hanten-panel h063-panel">
+                    <div class="h063-stat-hero" aria-live="polite">
+                        <div class="h063-stat-label">Measured coastline length</div>
+                        <div class="h063-stat-value" id="h063-stat-value">255 mi <span class="h063-km">(410 km)</span></div>
+                    </div>
                     <div class="h063-map-frame">
                         <svg id="h063-coast-svg" viewBox="0 0 640 260" role="img" aria-label="Illustrative coastline that gains detail as the ruler shortens">
                             <rect x="0" y="0" width="640" height="260" fill="var(--h063-sea)"/>
                             <polygon id="h063-land-poly" fill="var(--h063-land)" points=""/>
-                            <polyline id="h063-coast-line" fill="none" stroke="var(--h063-line)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" points=""/>
+                            <polyline id="h063-coast-line" fill="none" stroke="var(--h063-line)" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round" points=""/>
+                            <g id="h063-ruler-path"></g>
                         </svg>
+                    </div>
+                    <p class="h063-step-count" id="h063-step-count"></p>
+                    <div class="h063-map-legend">
+                        <span><span class="h063-legend-line h063-legend-coast"></span>Actual coastline (never changes)</span>
+                        <span><span class="h063-legend-line h063-legend-ruler" id="h063-legend-ruler"></span>Ruler laid end to end along it</span>
                     </div>
 
                     <div class="h063-controls">
-                        <div class="h063-slider-row">
-                            <label for="h063-ruler">Ruler length</label>
-                            <input type="range" id="h063-ruler" min="0" max="4" step="1" value="1">
-                            <span class="h063-ruler-readout" id="h063-ruler-readout">100 km</span>
+                        <p class="h063-ruler-label" id="h063-ruler-label">Choose a ruler length</p>
+                        <div class="h063-ruler-buttons" role="group" aria-labelledby="h063-ruler-label">
+                            <button type="button" class="h063-ruler-btn is-active" data-idx="0" aria-pressed="true" style="--rc:#d9822b;--rt:#fbf0e4">50 mi<span>(80 km)</span><i class="h063-ruler-bar" aria-hidden="true"></i></button>
+                            <button type="button" class="h063-ruler-btn" data-idx="1" aria-pressed="false" style="--rc:#c0398a;--rt:#f8e8f1">25 mi<span>(40 km)</span><i class="h063-ruler-bar" aria-hidden="true"></i></button>
+                            <button type="button" class="h063-ruler-btn" data-idx="2" aria-pressed="false" style="--rc:#6b4fc4;--rt:#efebf9">10 mi<span>(16 km)</span><i class="h063-ruler-bar" aria-hidden="true"></i></button>
+                            <button type="button" class="h063-ruler-btn" data-idx="3" aria-pressed="false" style="--rc:#2a78c8;--rt:#e7f0fa">5 mi<span>(8 km)</span><i class="h063-ruler-bar" aria-hidden="true"></i></button>
                         </div>
+                        <p class="h063-ruler-note">Each ruler is drawn to the same scale as the map.</p>
                     </div>
 
-                    <div class="h063-stat-row">
-                        <div>
-                            <div class="h063-stat-value" id="h063-stat-value">2,800 km</div>
-                            <div class="h063-stat-label">total measured length of Britain's west coast</div>
-                        </div>
-                        <div class="h063-provenance h063-cited" id="h063-provenance">published measurement</div>
-                    </div>
                 </div>
 
                 <div class="hanten-panel h063-panel">
-                    <svg viewBox="0 0 640 200" id="h063-curve-svg" role="img" aria-labelledby="h063-curve-title h063-curve-desc">
+                    <svg viewBox="0 0 640 210" id="h063-curve-svg" role="img" aria-labelledby="h063-curve-title h063-curve-desc">
                         <title id="h063-curve-title">Measured coastline length vs. ruler length</title>
-                        <desc id="h063-curve-desc">As ruler length halves from 200 km to 12.5 km, the measured length of Britain's west coast rises from about 2,350 km to about 4,700 km.</desc>
+                        <desc id="h063-curve-desc">As the ruler shrinks from 50 miles (80 km) to 5 miles (8 km), the measured length of the same coastline keeps rising.</desc>
                     </svg>
                 </div>
 
             </div>
 
-            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">Why the number never settles</h2>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
-                A coastline is jagged at every scale — bays inside bays, headlands inside headlands, down past
-                what any map can show. Measure it with a 200&nbsp;km ruler and you walk straight across small
-                inlets smaller than that; switch to a 50&nbsp;km ruler and you catch bends the longer ruler
-                missed, so the total goes <em>up</em>. Every time you halve the ruler, you catch another layer
-                of detail the previous ruler was too coarse to see.
-            </p>
-            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
-                Mathematicians call this a coastline's <strong>fractal dimension</strong>: Great Britain's west
-                coast measures at roughly 1.25 (a straight line would be 1.0; a shape so wrinkled it starts
-                filling a whole area would approach 2.0). This is also why national "coastline length" rankings
-                are shakier than they look — two countries' published figures are only comparable if both were
-                measured at the same resolution, and in practice that's often not true.
-            </p>
-
-            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
-                <p class="hanten-takeaway" style="margin:0;">
-                    There's no ruler length short enough to make the measurement stop growing.
-                </p>
+            <div class="h063-discovery hanten-body">
+                <p><strong>There's no ruler length short enough to make the measurement stop growing.</strong> A coastline is jagged at every scale. Measure it with a 50-mile (80&nbsp;km) ruler and you walk straight across inlets; switch to a 10-mile (16&nbsp;km) ruler and you catch bends the longer ruler missed, so the total goes <em>up</em>.</p>
+                <p>Any number measured at a chosen level of detail works the same way. Two countries' published coastline lengths are only comparable if both were measured at the same resolution, so when a figure depends on how closely you look, ask what scale it was measured at.</p>
             </div>
 
             <p class="hanten-reflection">
-                If a coastline doesn't have one true length, what other numbers on this page are quietly
-                a function of how finely you chose to measure?
+                What number would change if you measured it more closely?
             </p>
 
+            <details class="h063-explore" data-html2canvas-ignore="true">
+                <summary>Why the number never settles</summary>
+                <p>Real coastlines behave the same way. Measured with a 62-mile (100&nbsp;km) ruler, Great
+                    Britain's coastline comes out to about 1,740 miles (2,800&nbsp;km); with a 31-mile
+                    (50&nbsp;km) ruler, about 2,110 miles (3,400&nbsp;km).</p>
+                <p>Mathematicians call this a coastline's <strong>fractal dimension</strong>: Great
+                    Britain's west coast measures at roughly 1.25 (a straight line would be 1.0; a shape so
+                    wrinkled it starts filling a whole area would approach 2.0). This is also why national
+                    "coastline length" rankings are shakier than they look — two countries' published
+                    figures are only comparable if both were measured at the same resolution, and in
+                    practice that's often not true.</p>
+            </details>
+
+            <details class="h063-explore" data-html2canvas-ignore="true">
+                <summary>Explore how the same problem repeats for countries</summary>
+                <p>The same &ldquo;pick a definition, get a different answer&rdquo; pattern decides an even bigger superlative in <a href="../H064/index.html" target="_blank" rel="noopener noreferrer">Biggest Country</a>: whether you count water, and how much land is actually farmable, can knock the textbook #2 country clean off the podium.</p>
+            </details>
+
+            <details class="h063-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H062/index.html" target="_blank" rel="noopener noreferrer">Which river is actually the longest — the Nile or the Amazon?</a></li>
+                    <li><a href="../H061/index.html" target="_blank" rel="noopener noreferrer">How tall is the tallest&nbsp;mountain?</a></li>
+                    <li><a href="../H074/index.html" target="_blank" rel="noopener noreferrer">What is the largest desert on Earth?</a></li>
+                </ul>
+            </details>
+
             <p class="hanten-source">
-                The illustrative coastline shape above is a generated fractal (a randomly displaced midpoint
-                curve), not a literal map of Britain, used to visualize the same mechanism. The two measured
-                figures shown (100&nbsp;km → ~2,800&nbsp;km, 50&nbsp;km → ~3,400&nbsp;km) are published values
-                for Britain's west coast cited in the Wikipedia "Coastline paradox" article, tracing to Lewis
-                Fry Richardson's original measurements as analyzed by Benoit Mandelbrot (1967). The 200&nbsp;km,
-                25&nbsp;km, and 12.5&nbsp;km figures are computed from those two points using Britain's own
-                fractal dimension (D≈1.25), not independently published — treat them as a reasonable model,
-                not a separate citation.
+                Sources: the coastline above is a generated sample (a randomly displaced midpoint curve), not a
+                real map; its lengths are measured directly from the drawing, with the width of the drawing set
+                to about 240 miles (380&nbsp;km). Great Britain's figures — ~1,740 miles (2,800&nbsp;km) with a
+                62-mile (100&nbsp;km) ruler and ~2,110 miles (3,400&nbsp;km) with a 31-mile (50&nbsp;km) ruler —
+                are cited in the Wikipedia "Coastline paradox" article, tracing to Lewis Fry Richardson's original
+                measurements as analyzed by Benoit Mandelbrot (1967), who also estimated the fractal dimension of
+                Britain's west coast at about 1.25.
             </p>
 
         </div>
@@ -275,7 +441,7 @@
                     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
                 };
             }
-            const rand = mulberry32(20260818);
+            const rand = mulberry32(23);
 
             function subdivide(points, roughness) {
                 const out = [points[0]];
@@ -296,84 +462,217 @@
             }
 
             const base = [[36, 128], [148, 92], [260, 162], [372, 84], [488, 144], [604, 100]];
-            const roughness = [0.34, 0.27, 0.21, 0.16];
+            // extra levels add fine detail below the shortest ruler, so even the shortest ruler cuts corners
+            const roughness = [0.5, 0.42, 0.36, 0.3, 0.26, 0.22];
             const levels = [base];
             for (let i = 0; i < roughness.length; i++) {
                 levels.push(subdivide(levels[levels.length - 1], roughness[i]));
             }
 
-            const rulerLabels = ["200 km", "100 km", "50 km", "25 km", "12.5 km"];
-            const statValues = ["2,350 km", "2,800 km", "3,400 km", "3,960 km", "4,700 km"];
-            const provenance = [
-                "modeled (D≈1.25)", "published measurement", "published measurement",
-                "modeled (D≈1.25)", "modeled (D≈1.25)"
-            ];
-            const citedFlags = [false, true, true, false, false];
+            const rulerMi = ["50 mi", "25 mi", "10 mi", "5 mi"];
+            const rulerKm = ["80 km", "40 km", "16 km", "8 km"];
+            const rulerMiNum = [50, 25, 10, 5];
+            // Filled in below by measuring the drawn coastline with each ruler
+            let statMi = [], statKm = [], measuredMi = [];
 
             const coastLine = document.getElementById("h063-coast-line");
             const landPoly = document.getElementById("h063-land-poly");
-            const rulerInput = document.getElementById("h063-ruler");
-            const rulerReadout = document.getElementById("h063-ruler-readout");
+            const rulerButtons = [...document.querySelectorAll(".h063-ruler-btn")];
+            let currentIdx = 0;
             const statValue = document.getElementById("h063-stat-value");
-            const provenanceEl = document.getElementById("h063-provenance");
 
-            function renderCoast(idx) {
-                const pts = levels[idx];
-                coastLine.setAttribute("points", pts.map(p => p[0] + "," + p[1]).join(" "));
-                const land = pts.slice();
-                land.push([604, 260], [36, 260]);
-                landPoly.setAttribute("points", land.map(p => p[0] + "," + p[1]).join(" "));
+            // The actual coastline: the most detailed level, drawn once and never changed
+            const coast = levels[levels.length - 1];
 
-                rulerReadout.textContent = rulerLabels[idx];
-                statValue.textContent = statValues[idx];
-                provenanceEl.textContent = provenance[idx];
-                provenanceEl.classList.toggle("h063-cited", citedFlags[idx]);
+            // Keep separate stretches of coastline from touching or crossing (e.g. a narrow
+            // peninsula neck): nudge any point that comes too close to a far-away segment.
+            (function separate(p, gap) {
+                function nearest(q, a, b) {
+                    const dx = b[0] - a[0], dy = b[1] - a[1], L = dx * dx + dy * dy;
+                    let t = L ? ((q[0] - a[0]) * dx + (q[1] - a[1]) * dy) / L : 0;
+                    t = Math.max(0, Math.min(1, t));
+                    const cx = a[0] + t * dx, cy = a[1] + t * dy;
+                    return [Math.hypot(q[0] - cx, q[1] - cy), cx, cy];
+                }
+                for (let it = 0; it < 200; it++) {
+                    let moved = false;
+                    for (let i = 1; i < p.length - 1; i++) {
+                        for (let j = 0; j < p.length - 1; j++) {
+                            if (Math.abs(j - i) < 6 || Math.abs(j + 1 - i) < 6) continue;
+                            const [d, cx, cy] = nearest(p[i], p[j], p[j + 1]);
+                            if (d < gap && d > 1e-6) {
+                                const k = (gap - d) / 2 / d;
+                                p[i][0] += (p[i][0] - cx) * k;
+                                p[i][1] += (p[i][1] - cy) * k;
+                                moved = true;
+                            }
+                        }
+                    }
+                    if (!moved) break;
+                }
+            })(coast, 5);
+            coastLine.setAttribute("points", coast.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" "));
+            landPoly.setAttribute("points", coast.concat([[604, 260], [36, 260]]).map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" "));
+
+            // Ruler lengths in drawing units (each one half the last), matching the slider steps
+            // Ruler lengths in drawing units, proportional to 50, 25, 10, and 5 miles
+            const rulerUnits = [120, 60, 24, 12];
+            const rulerColors = ["#d9822b", "#c0398a", "#6b4fc4", "#2a78c8"];
+
+            // Size the ruler bar inside each button to match the map's scale
+            const coastSvg = document.getElementById("h063-coast-svg");
+            const rulerBars = rulerButtons.map(b => b.querySelector(".h063-ruler-bar"));
+            function sizeRulerBars() {
+                const mapW = coastSvg.getBoundingClientRect().width;
+                rulerBars.forEach((bar, i) => { bar.style.width = (rulerUnits[i] * mapW / 640).toFixed(1) + "px"; });
+            }
+            sizeRulerBars();
+            window.addEventListener("resize", sizeRulerBars);
+
+            // "Walk the dividers": from the current point, find the next point on the coastline
+            // exactly one ruler length away (straight line), step there, and repeat to the end.
+            function walkRuler(pts, r) {
+                const out = [pts[0]];
+                let cur = pts[0], seg = 0;
+                while (true) {
+                    let next = null;
+                    for (let j = seg; j < pts.length - 1; j++) {
+                        const a = j === seg ? cur : pts[j], b = pts[j + 1];
+                        if (Math.hypot(b[0] - cur[0], b[1] - cur[1]) >= r) {
+                            const dx = b[0] - a[0], dy = b[1] - a[1];
+                            const fx = a[0] - cur[0], fy = a[1] - cur[1];
+                            const A = dx * dx + dy * dy, B = 2 * (fx * dx + fy * dy), C = fx * fx + fy * fy - r * r;
+                            const t = (-B + Math.sqrt(Math.max(0, B * B - 4 * A * C))) / (2 * A);
+                            next = [a[0] + t * dx, a[1] + t * dy];
+                            seg = j;
+                            break;
+                        }
+                    }
+                    if (!next) break;
+                    out.push(next);
+                    cur = next;
+                }
+                return { steps: out.length - 1, pts: out, end: pts[pts.length - 1] };
             }
 
-            rulerInput.addEventListener("input", function () {
-                renderCoast(parseInt(this.value, 10));
-                renderCurve(parseInt(this.value, 10));
+            // Measured length = (whole ruler lengths + the partial one at the end) × ruler size
+            const fmt = n => n.toLocaleString("en-US");
+            measuredMi = rulerUnits.map((u, i) => {
+                const w = walkRuler(coast, u);
+                const last = w.pts[w.pts.length - 1];
+                const partial = Math.hypot(w.end[0] - last[0], w.end[1] - last[1]) / u;
+                return Math.round(((w.steps + partial) * rulerMiNum[i]) / 5) * 5;
             });
+            statMi = measuredMi.map(m => `${fmt(m)} mi`);
+            statKm = measuredMi.map(m => `${fmt(Math.round((m * 1.609344) / 5) * 5)} km`);
+
+            const rulerPath = document.getElementById("h063-ruler-path");
+            const stepCount = document.getElementById("h063-step-count");
+
+            function renderCoast(idx) {
+                const walk = walkRuler(coast, rulerUnits[idx]);
+                const all = walk.pts.concat([walk.end]);
+                const pts = all.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
+                const dotR = idx >= 2 ? 1.8 : 3;
+                let g = `<polyline points="${pts}" fill="none" stroke="${rulerColors[idx]}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>`;
+                walk.pts.forEach(p => { g += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${dotR}" fill="${rulerColors[idx]}"/>`; });
+                rulerPath.innerHTML = g;
+                stepCount.textContent = `The ${rulerMi[idx]} ruler fits along this coastline ${walk.steps} times, plus a partial length at the end`;
+
+                statValue.innerHTML = `${statMi[idx]} <span class="h063-km">(${statKm[idx]})</span>`;
+                statValue.style.color = rulerColors[idx];
+                document.getElementById("h063-legend-ruler").style.background = rulerColors[idx];
+                rulerButtons.forEach((b, i) => {
+                    b.classList.toggle("is-active", i === idx);
+                    b.setAttribute("aria-pressed", i === idx ? "true" : "false");
+                });
+            }
+
+            rulerButtons.forEach(b => b.addEventListener("click", () => {
+                currentIdx = parseInt(b.dataset.idx, 10);
+                renderCoast(currentIdx);
+                renderCurve(currentIdx);
+            }));
 
             // curve chart: measured length vs. ruler length
             const curveSvg = document.getElementById("h063-curve-svg");
-            const cLeft = 56, cRight = 600, cTop = 22, cBottom = 148;
-            const dotX = [cLeft, cLeft + (cRight - cLeft) * 0.25, cLeft + (cRight - cLeft) * 0.5, cLeft + (cRight - cLeft) * 0.75, cRight];
-            const rawVals = [2350, 2800, 3400, 3960, 4700];
-            const minV = 2200, maxV = 4850;
-            const yFor = v => cBottom - ((v - minV) / (maxV - minV)) * (cBottom - cTop);
-            const dotY = rawVals.map(yFor);
+            const rawKm = measuredMi;
+            const minV = Math.min(...measuredMi) * 0.9, maxV = Math.max(...measuredMi) * 1.04;
 
             function renderCurve(activeIdx) {
+                // Narrow screens get a narrower drawing so the text stays readable
+                const narrow = curveSvg.parentElement.clientWidth < 520;
+                curveSvg.classList.toggle("is-narrow", narrow);
+                const W = narrow ? 440 : 640;
+                curveSvg.setAttribute("viewBox", `0 0 ${W} 210`);
+                const cLeft = narrow ? 40 : 56, cRight = W - (narrow ? 40 : 40), cTop = 34, cBottom = 150;
+                const yFor = v => cBottom - ((v - minV) / (maxV - minV)) * (cBottom - cTop);
+                const dotX = rawKm.map((_, i) => cLeft + (cRight - cLeft) * i / (rawKm.length - 1));
+                const dotY = rawKm.map(yFor);
+                const lh = narrow ? 14 : 13;
+
                 let html = "";
                 html += `<line x1="${cLeft}" y1="${cBottom}" x2="${cRight}" y2="${cBottom}" stroke="var(--hanten-border)" stroke-width="1"/>`;
                 const linePts = dotX.map((x, i) => x.toFixed(1) + "," + dotY[i].toFixed(1)).join(" ");
-                html += `<polyline points="${linePts}" fill="none" stroke="var(--hanten-accent)" stroke-width="2.2" stroke-linecap="round"/>`;
+                html += `<polyline points="${linePts}" fill="none" stroke="var(--hanten-muted)" stroke-opacity="0.5" stroke-width="2.2" stroke-linecap="round"/>`;
                 dotX.forEach((x, i) => {
                     const active = i === activeIdx;
                     const r = active ? 6.5 : 4;
-                    const fill = active ? "var(--hanten-accent)" : "var(--hanten-panel)";
-                    html += `<circle cx="${x.toFixed(1)}" cy="${dotY[i].toFixed(1)}" r="${r}" fill="${fill}" stroke="var(--hanten-accent)" stroke-width="2"/>`;
-                    html += `<text x="${x.toFixed(1)}" y="${(dotY[i] - 12).toFixed(1)}" text-anchor="middle" class="h063-pt-label">${rawVals[i].toLocaleString()}</text>`;
-                    html += `<text x="${x.toFixed(1)}" y="${cBottom + 20}" text-anchor="middle" class="h063-axis-label">${rulerLabels[i]}</text>`;
+                    const fill = active ? rulerColors[i] : "#ffffff";
+                    html += `<circle cx="${x.toFixed(1)}" cy="${dotY[i].toFixed(1)}" r="${r}" fill="${fill}" stroke="${rulerColors[i]}" stroke-width="2"/>`;
+                    html += `<text x="${x.toFixed(1)}" y="${(dotY[i] - 12 - lh).toFixed(1)}" text-anchor="middle" class="h063-pt-label">${statMi[i]}</text>`;
+                    html += `<text x="${x.toFixed(1)}" y="${(dotY[i] - 12).toFixed(1)}" text-anchor="middle" class="h063-axis-label">(${statKm[i]})</text>`;
+                    html += `<text x="${x.toFixed(1)}" y="${cBottom + 20}" text-anchor="middle" class="h063-axis-label" style="font-weight:700">${rulerMi[i]}</text>`;
+                    html += `<text x="${x.toFixed(1)}" y="${cBottom + 20 + lh}" text-anchor="middle" class="h063-axis-label">(${rulerKm[i]})</text>`;
                 });
                 curveSvg.innerHTML = html;
             }
 
-            const initial = parseInt(rulerInput.value, 10);
-            renderCoast(initial);
-            renderCurve(initial);
+            let lastNarrow = null;
+            window.addEventListener("resize", () => {
+                const n = curveSvg.parentElement.clientWidth < 520;
+                if (n !== lastNarrow) { lastNarrow = n; renderCurve(currentIdx); }
+            });
+
+            renderCoast(currentIdx);
+            renderCurve(currentIdx);
         })();
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "How long is a coastline, really?",
-            filename: "H063-coastline-paradox.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H063-coastline-paradox.png", title = "How long is a coastline, really?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

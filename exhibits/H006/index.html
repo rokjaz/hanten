@@ -7,13 +7,13 @@
 <title>H006 — Bowling Strikes</title>
 <meta name="description" content="Two bowlers knock down exactly 50 pins. One scores 50. The other scores 120.">
 
-<link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
+<link rel="stylesheet" href="../../assets/css/hanten.css">
 
 <style>
   :root {
     --ink: #1c2733;
     --ink-soft: #4a5a6b;
-    --paper: #eef0f4;
+    --paper: var(--hanten-paper);
     --paper-raised: #ffffff;
     --line: rgba(28,39,51,0.14);
     --accent: #596f96;
@@ -220,7 +220,7 @@
   }
 
   body {
-    background: #eef0f4;
+    background: var(--hanten-paper);
   }
 
   .h006-graphic {
@@ -364,7 +364,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
   width:1080px;
   padding:30px 70px 54px;
   box-sizing:border-box;
-  background:#eef0f4;
+  background:var(--hanten-paper);
   color:#1c2733;
   font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
 }
@@ -573,7 +573,18 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
     </div>
   </section>
 
-  <details class="h006-explore"><summary>Why does the order change the score?</summary><section class="explain">
+
+
+  <div class="h006-aha">
+    <strong>In bowling, when you knock pins down matters as much as how many.</strong>
+    Bowling scores what happens next, not just what happened.
+  </div>
+
+  <p class="hanten-reflection">
+                Where in your life does the order of things matter more than the total?
+            </p>
+
+            <details class="h006-explore" data-html2canvas-ignore="true"><summary>Why does the order change the score?</summary><section class="explain">
     <div class="rule hanten-body">
       <strong>The rule:</strong>
       A strike earns the next two balls as bonus. Bowler B's strikes are followed by
@@ -581,17 +592,19 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
       allowing later strikes to increase the value of earlier ones.
     </div>
 
-  </section></details>
+  </section><p style="margin:.6rem 0 0;">The same trick shows up any time a scoring rule rewards sequence rather than totals: <a href="../H022/index.html" target="_blank" rel="noopener noreferrer">a baseball team can out-hit its opponent and still lose</a>, because runs, like bowling frames, only count when the good outcomes land in the right order.</p></details>
 
-  <div class="h006-aha">
-    <strong>The same events can produce different outcomes when the system depends on sequence.</strong>
-    Bowling scores what happens next, not just what happened.
-  </div>
+  <details class="h006-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H021/index.html" target="_blank" rel="noopener noreferrer">The Yankees outscored the Pirates 55–27. How did the Pirates win the World Series?</a></li>
+                    <li><a href="../H022/index.html" target="_blank" rel="noopener noreferrer">Can you get more hits, or more votes, and still lose?</a></li>
+                    <li><a href="../H089/index.html" target="_blank" rel="noopener noreferrer">Stealing is never worse than splitting. So why does it lose?</a></li>
+                </ul>
+            </details>
 
-  <p class="hanten-reflection">Where else does order matter?</p>
-
-  <div class="source h006-source">
-    Scoring rule: a strike scores 10 pins plus the next two balls. Both examples use exactly five strikes and five gutter frames.
+            <div class="hanten-source source h006-source">
+    Sources: standard ten-pin scoring rules (United States Bowling Congress). A strike scores 10 pins plus the next two balls. Both examples use exactly five strikes and five gutter frames.
   </div>
 
   <div class="h006-save"><div id="save-image-slot"></div></div>
@@ -714,7 +727,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
   renderScorecard("frames-b", "final-b", rollsB);
 </script>
 
-<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/html2canvas.min.js"></script>
 
 
 
@@ -776,7 +789,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 
    const reflection=document.createElement("div");
    reflection.className="hanten-export-reflection";
-   reflection.textContent="Where else does order matter?";
+   reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
    card.appendChild(reflection);
 
    if(source){

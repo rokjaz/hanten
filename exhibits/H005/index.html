@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>H005 — Shared Birthday Paradox | Hanten</title>
 <meta name="description" content="Most people guess you'd need close to 183. It's 253 pairs of people, not 365 dates, that get you there.">
-<link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
+<link rel="stylesheet" href="../../assets/css/hanten.css">
 <style>
   :root {
     --ink: #1c2733;
     --ink-soft: #4a5a6b;
-    --paper: #eef0f4;
+    --paper: var(--hanten-paper);
     --paper-raised: #ffffff;
     --line: rgba(28,39,51,0.14);
     --accent: #596f96;
@@ -123,6 +123,53 @@
   .caption p { margin: 0 0 0.6rem; }
   .caption p:last-child { margin-bottom: 0; }
   .source { margin-top: 0.8rem; font-family:var(--hanten-font); font-size: 0.75rem; color: var(--ink-soft); }
+
+  .h005-compare{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    margin-top:.8rem;
+  }
+  .h005-compare-side{
+    padding:.9rem 1.1rem;
+    text-align:center;
+  }
+  .h005-compare-label{
+    font-size:.7rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    font-weight:700;
+    color:var(--ink-soft);
+    margin-bottom:.35rem;
+  }
+  .h005-compare-value{
+    font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    font-size:2rem;
+    font-weight:750;
+    line-height:1;
+    transition:color .15s ease;
+  }
+  .h005-compare-side.people .h005-compare-value{ color:var(--accent); }
+  .h005-compare-side.pairs .h005-compare-value{ color:var(--warn); }
+  .h005-compare-copy{ margin-top:.3rem; font-size:.78rem; color:var(--ink-soft); }
+  .h005-vs{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 .9rem;
+    font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    font-weight:750;
+    font-size:.82rem;
+    color:var(--ink-soft);
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+  }
+  @media (max-width:560px){
+    .h005-compare{ grid-template-columns:1fr; }
+    .h005-vs{ border-left:none; border-right:none; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:.4rem 0; }
+  }
+
   .h005-explore{margin-top:.75rem;padding:.6rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink-soft);font-size:.82rem;line-height:1.5}.h005-explore summary{cursor:pointer;color:var(--ink);font-weight:750}.h005-save { margin-top:.75rem; display:flex; justify-content:flex-end; }
   .h005-save button { font-size:.75rem; opacity:.72; }
   .h005-save button:hover, .h005-save button:focus-visible { opacity:1; }
@@ -157,7 +204,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 
 .hanten-export-card{
  position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
- background:#eef0f4;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+ background:var(--hanten-paper);color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
 }
 .hanten-export-card #panel{margin:0;background:#fff}
 .hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
@@ -254,6 +301,12 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
 .hanten-reflection .keep-together{
   white-space:nowrap;
 }
+
+/* Design Standards 19 (table headers) */
+.hanten-exhibit thead th { text-align: center; }
+
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2) { text-align: center; }
 </style>
 
 </head>
@@ -280,23 +333,53 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
       <svg id="chart" viewBox="0 0 700 280" role="img" aria-label="Probability of at least two people sharing a birthday rises rapidly with group size and passes 50 percent at 23 people."></svg>
     </div>
 
-    <details class="h005-explore"><summary>Explore other probability thresholds</summary><table class="thresholds">
-      <thead>
-        <tr><th>Odds of a shared birthday</th><th>People needed</th></tr>
-      </thead>
-      <tbody id="thresholds-body"></tbody>
-    </table></details>
+
+  </div>
+
+  <div class="h005-compare">
+    <div class="h005-compare-side people">
+      <div class="h005-compare-label">People in the room</div>
+      <div class="h005-compare-value" id="h005-compare-people">23</div>
+      <div class="h005-compare-copy">grows one at a time</div>
+    </div>
+    <div class="h005-vs">VS.</div>
+    <div class="h005-compare-side pairs">
+      <div class="h005-compare-label">Possible pairs among them</div>
+      <div class="h005-compare-value" id="h005-compare-pairs">253</div>
+      <div class="h005-compare-copy">grows by the square</div>
+    </div>
   </div>
 
   <div class="caption">
     <p><strong>It's about pairs, not dates.</strong> With 23 people there are 23×22÷2 = 253 different pairs of people. The number of possible pairs grows much faster than the number of people, so the chance of at least one match crosses 50% surprisingly quickly.</p>
-    
-    <details class="h005-explore"><summary>How is this calculated?</summary><p>This assumes birthdays are spread evenly across 365 days (no Feb 29 and no real-world seasonal clustering), the standard simplification used in the classic problem.</p><p class="formula-note">P(shared) = 1 − (365 × 364 × … × (365−n+1)) / 365ⁿ, computed exactly for each n.</p></details>
+    <p>This same collision math turns up anywhere you're checking many pairs instead of one: pharmacy name-and-birthdate mix-ups, hash collisions in computing, and DNA database matches all run into it.</p>
+
+
   </div>
 
-  <p class="hanten-reflection">What changes when the number of possible comparisons grows faster than <span class="keep-together">the number of things being compared?</span></p>
+  <p class="hanten-reflection">
+                Where else are you checking many pairs instead of just one?
+            </p>
 
-  <div class="source h005-source">
+            <details class="h005-explore" data-html2canvas-ignore="true"><summary>Explore other probability thresholds</summary><table class="thresholds">
+      <thead>
+        <tr><th>Odds of a shared birthday</th><th>People needed</th></tr>
+      </thead>
+      <tbody id="thresholds-body"></tbody>
+    </table><p style="margin:.6rem 0 0;">It is the same species of trap as <a href="../H040/index.html" target="_blank" rel="noopener noreferrer">the Monty Hall problem</a>: a result that keeps feeling wrong even after the math settles it, because gut instinct evaluates the choice in front of it and quietly ignores the information hiding in everything that did not happen.</p></details>
+
+            <details class="h005-explore" data-html2canvas-ignore="true"><summary>How is this calculated?</summary><p>This assumes birthdays are spread evenly across 365 days (no Feb 29 and no real-world seasonal clustering), the standard simplification used in the classic problem.</p><p class="formula-note">P(shared) = 1 − (365 × 364 × … × (365−n+1)) / 365ⁿ, computed exactly for each n.</p></details>
+
+  <details class="h005-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H093/index.html" target="_blank" rel="noopener noreferrer">Pharmacies check your name and birth date. Is that enough to tell you apart from everyone else?</a></li>
+                    <li><a href="../H040/index.html" target="_blank" rel="noopener noreferrer">After a goat is revealed, should you stay or switch?</a></li>
+                    <li><a href="../H041/index.html" target="_blank" rel="noopener noreferrer">If a medical test is 99% accurate and you test positive, what are the chances you actually have the disease?</a></li>
+                </ul>
+            </details>
+
+            <div class="hanten-source source h005-source">
     Sources: <a href="https://mathworld.wolfram.com/BirthdayProblem.html" target="_blank" rel="noopener noreferrer">Wolfram MathWorld — Birthday Problem</a>;
     <a href="https://www.scientificamerican.com/article/bring-science-home-probability-birthday-paradox/" target="_blank" rel="noopener noreferrer">Scientific American — Probability and the Birthday Paradox</a>.
     Standard 365-day model; leap day and real-world seasonal birthday variation are omitted.
@@ -349,13 +432,13 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
     const p = g / 4;
     const gy = y(p);
     svg.appendChild(el("line", { x1: M.left, x2: W - M.right, y1: gy, y2: gy, stroke: "rgba(28,39,51,0.10)" }));
-    const label = el("text", { x: M.left - 8, y: gy + 4, "text-anchor": "end", style: "font:10px ui-monospace,monospace; fill:#4a5a6b" });
+    const label = el("text", { x: M.left - 8, y: gy + 4, "text-anchor": "end", style: "font:10px var(--hanten-font); fill:#4a5a6b" });
     label.textContent = Math.round(p * 100) + "%";
     svg.appendChild(label);
   }
   // x labels every 10 people
   for (let n = 0; n <= MAX_N; n += 10) {
-    const label = el("text", { x: x(n), y: H - 24, "text-anchor": "middle", style: "font:10px ui-monospace,monospace; fill:#4a5a6b" });
+    const label = el("text", { x: x(n), y: H - 24, "text-anchor": "middle", style: "font:10px var(--hanten-font); fill:#4a5a6b" });
     label.textContent = n;
     svg.appendChild(label);
   }
@@ -371,7 +454,7 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
 
   // 50% reference line
   svg.appendChild(el("line", { x1: M.left, x2: W - M.right, y1: y(0.5), y2: y(0.5), stroke: "var(--warn)", "stroke-width": 1, "stroke-dasharray": "4,3" }));
-  const fiftyLabel = el("text", { x: W - M.right, y: y(0.5) - 6, "text-anchor": "end", style: "font:11px ui-monospace,monospace; fill:var(--warn)" });
+  const fiftyLabel = el("text", { x: W - M.right, y: y(0.5) - 6, "text-anchor": "end", style: "font:11px var(--hanten-font); fill:var(--warn)" });
   fiftyLabel.textContent = "50%";
   svg.appendChild(fiftyLabel);
 
@@ -382,7 +465,7 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
   // fixed marker at n=23
   svg.appendChild(el("circle", { cx: x(23), cy: y(probs[23]), r: 4, fill: "var(--warn)" }));
   svg.appendChild(el("line", { x1: x(23), x2: x(23), y1: y(probs[23]), y2: H - M.bottom, stroke: "var(--warn)", "stroke-width": 1, "stroke-dasharray": "3,3" }));
-  const label23 = el("text", { x: x(23) - 12, y: y(probs[23]) - 24, "text-anchor": "end", style: "font:11px ui-monospace,monospace; fill:var(--warn)" });
+  const label23 = el("text", { x: x(23) - 12, y: y(probs[23]) - 24, "text-anchor": "end", style: "font:11px var(--hanten-font); fill:var(--warn)" });
   label23.textContent = "23 → 50.7%";
   svg.appendChild(label23);
 
@@ -394,6 +477,8 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
   const slider = document.getElementById("slider");
   const numberInput = document.getElementById("number-input");
   const pctValueEl = document.getElementById("pct-value");
+  const comparePeopleEl = document.getElementById("h005-compare-people");
+  const comparePairsEl = document.getElementById("h005-compare-pairs");
 
   function clampN(value) {
     const n = Math.round(Number(value));
@@ -410,6 +495,9 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
     pctValueEl.textContent = (p * 100).toFixed(1) + "%";
     currentDot.setAttribute("cx", x(n));
     currentDot.setAttribute("cy", y(p));
+
+    if (comparePeopleEl) comparePeopleEl.textContent = n.toLocaleString();
+    if (comparePairsEl) comparePairsEl.textContent = ((n * (n - 1)) / 2).toLocaleString();
   }
 
   slider.addEventListener("input", () => render(slider.value));
@@ -420,7 +508,7 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
   render(23);
 </script>
 
-<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/html2canvas.min.js"></script>
 
 
 
@@ -435,6 +523,7 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
  const target="#panel", filename="H005_v2.png", title="How many people does it take before a shared birthday is more likely than not?";
  async function blob(){
    const panel=document.querySelector("#panel");
+   const compare=document.querySelector(".h005-compare");
    const caption=document.querySelector(".caption");
    const source=document.querySelector(".h005-source");
    if(!panel) throw new Error("Export content not found.");
@@ -486,17 +575,25 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
 
    card.appendChild(panelClone);
 
+   if(compare){
+     const compareClone=compare.cloneNode(true);
+     compareClone.style.maxWidth="760px";
+     compareClone.style.margin="16px auto 0";
+     card.appendChild(compareClone);
+   }
+
    if(caption){
      const textcol=document.createElement("div"); textcol.className="hanten-export-textcol";
      const aha=document.createElement("div"); aha.className="hanten-export-aha";
-     const p=caption.querySelector("p");
-     if(p) aha.innerHTML=p.innerHTML;
+     const paras=Array.from(caption.querySelectorAll(":scope > p"));
+     aha.innerHTML=paras.map(p=>`<p style="margin:0 0 10px">${p.innerHTML}</p>`).join("");
+     if(aha.lastElementChild) aha.lastElementChild.style.marginBottom="0";
      textcol.appendChild(aha); card.appendChild(textcol);
    }
 
    const reflection=document.createElement("div");
    reflection.className="hanten-export-reflection";
-   reflection.textContent="What changes when the number of possible comparisons grows faster than the number of things being compared?";
+   reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
    card.appendChild(reflection);
 
    if(source){

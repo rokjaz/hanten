@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>H002 — Point Nemo</title>
 <meta name="description" content="At Point Nemo, the nearest people can sometimes be astronauts aboard the International Space Station.">
-<link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
+<link rel="stylesheet" href="../../assets/css/hanten.css">
 <style>
 :root{--h002-ink:#1c2733;--h002-muted:#5f6b76;--h002-line:rgba(28,39,51,.14);--h002-ocean:#d9edf5;--h002-land:#d9ddd4;--h002-land-line:#b8c0b5;--h002-graticule:rgba(28,39,51,.10);--h002-nemo:#c1442d;--h002-land-ring:#0e7c86;--h002-iss-ring:#c98a23;--h002-panel:#fff}
 body{background:var(--hanten-paper,#f4f3ef)}
@@ -45,7 +45,7 @@ main.hanten-exhibit{max-width:1180px;margin:0 auto}.h002-shell{width:min(100%,94
 <style>
 /* H002 v2 — ocean/scale palette */
 body{
-  background:#edf3f4 !important;
+  background:var(--hanten-paper) !important;
 }
 .h002-map-wrap{
   background:#ffffff !important;
@@ -70,7 +70,7 @@ body{
   width:1080px;
   padding:30px 78px 56px;
   box-sizing:border-box;
-  background:#edf3f4;
+  background:var(--hanten-paper);
   color:var(--hanten-text,#1c2733);
   font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
 }
@@ -95,8 +95,8 @@ body{
 }
 .hanten-export-card .hanten-export-aha{
   margin-top:24px;
-  padding-left:18px;
-  border-left:4px solid #5d8f98;
+  padding-left:0;
+  border-left:none;
   font-size:17px;
   line-height:1.45;
   color:#35464d;
@@ -137,6 +137,12 @@ main.hanten-exhibit > .hanten-subtitle{
 }
 .h002-reveal strong{
   color:var(--h002-ink) !important;
+}
+.h002-reveal p{
+  margin:0 0 .5rem !important;
+}
+.h002-reveal p:last-child{
+  margin-bottom:0 !important;
 }
 
 /* Closing reflection uses the shared Hanten reflection treatment. */
@@ -238,26 +244,324 @@ main.hanten-exhibit > .hanten-subtitle{
 .hanten-export-card .hanten-export-reflection{
   text-align:center!important;
 }
+
+/* Design Standards 19 (merged H019) */
+:root {
+    --h019-ink: #1f1f1f;
+    --h019-muted: #667078;
+    --h019-line: rgba(31,31,31,0.14);
+    --h019-ocean: #edf3f4;
+    --h019-land: #d9ddd5;
+    --h019-land-line: #bcc3ba;
+    --h019-nz: #b88712;
+    --h019-nz-soft: #f5ecd5;
+    --h019-other: #2f7c84;
+    --h019-panel: #ffffff;
+  }
+.h019-page {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+.h019-shell {
+    width: min(100%, 900px);
+    margin: 0 auto;
+  }
+.h019-map-frame {
+    background: var(--h019-ocean);
+    border: 1px solid var(--hanten-border);
+    padding: .45rem;
+    position: relative;
+  }
+#h019-map {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+.h019-sphere { fill: var(--h019-ocean); }
+.h019-graticule { fill: none; stroke: rgba(31,31,31,0.08); stroke-width: 0.5; }
+.h019-country { fill: var(--h019-land); stroke: #ffffff; stroke-width: 0.35; }
+.h019-country--other { fill: var(--h019-other); transition: fill .25s ease; }
+.h019-country--nz { fill: var(--h019-nz); }
+.h019-map-frame:not(.revealed) .h019-country--other {
+    fill: var(--h019-land) !important;
+  }
+.h019-marker { fill: var(--h019-other); stroke: #ffffff; stroke-width: 1.5; vector-effect: non-scaling-stroke; transition: opacity .25s ease; }
+.h019-marker--nz { fill: var(--h019-nz); }
+.h019-marker-ring { fill: none; stroke: var(--h019-other); stroke-width: 1.5; opacity: 0.75; vector-effect: non-scaling-stroke; transition: opacity .25s ease; }
+.h019-marker-ring--nz { stroke: var(--h019-nz); stroke-width: 2.1; }
+.h019-map-frame:not(.revealed) .h019-marker:not(.h019-marker--nz), .h019-map-frame:not(.revealed) .h019-marker-ring:not(.h019-marker-ring--nz) {
+    opacity: 0;
+  }
+.h019-nz-label {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    font-weight: 750;
+    fill: var(--h019-ink);
+    paint-order: stroke;
+    stroke: rgba(255,255,255,0.94);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+  }
+.h019-legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.7rem 1.5rem;
+    margin: .5rem auto 0;
+    font-size: .76rem;
+    color: var(--h019-muted);
+  }
+.h019-toggle-row {
+    display: flex;
+    justify-content: center;
+    margin: .6rem auto 0;
+  }
+.h019-toggle {
+    appearance: none;
+    border: 1px solid var(--h019-line);
+    background: #fff;
+    color: var(--h019-ink);
+    font: 700 .78rem/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    padding: .5rem .9rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+.h019-toggle:hover, .h019-toggle:focus-visible {
+    border-color: var(--h019-other);
+    color: var(--h019-other);
+    outline: none;
+  }
+.h019-toggle[aria-pressed="true"] {
+    background: var(--h019-other);
+    border-color: var(--h019-other);
+    color: #fff;
+  }
+.h019-key { display: inline-flex; align-items: center; gap: 0.45rem; }
+.h019-swatch { width: 11px; height: 11px; border-radius: 50%; flex: 0 0 11px; }
+.h019-compare {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: stretch;
+    max-width: 760px;
+    margin: .9rem auto 0;
+    border: 1px solid var(--h019-line);
+    background: var(--h019-panel);
+  }
+.h019-compare-side {
+    padding: .7rem .8rem;
+    text-align: center;
+  }
+.h019-compare-label {
+    display: block;
+    margin-bottom: 0.2rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+    color: var(--h019-muted);
+  }
+.h019-compare-value {
+    display: block;
+    font-family: var(--hanten-font);
+    font-size: clamp(1.5rem, 3.6vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+.h019-compare-side.iss .h019-compare-value { color: var(--h019-other); }
+.h019-compare-side.aus .h019-compare-value { color: var(--h019-nz); }
+.h019-compare-copy {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.82rem;
+    color: var(--h019-muted);
+  }
+.h019-vs {
+    display: grid;
+    place-items: center;
+    padding: 0 1.1rem;
+    font-weight: 800;
+    color: var(--h019-muted);
+  }
+.h019-aha {
+    max-width: 820px;
+    margin: .9rem auto 0;
+    padding: .15rem 0;
+    font-size: .95rem;
+    line-height: 1.45;
+    color: #4e555a;
+  }
+.h019-aha strong { color: var(--h019-ink); }
+.h019-aha .h019-punch { color: var(--h019-nz); font-weight: 800; }
+.h019-explore {
+    max-width: 900px;
+    margin: .8rem auto 0;
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--h019-line);
+    border-bottom: 1px solid var(--h019-line);
+    color: var(--h019-muted);
+    font-size: 0.82rem;
+  }
+.h019-explore summary {
+    cursor: pointer;
+    color: var(--h019-ink);
+    font-weight: 750;
+  }
+.h019-table-wrap {
+    margin-top: .7rem;
+    overflow-x: auto;
+    border: 1px solid var(--h019-line);
+    background: #ffffff;
+  }
+.h019-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.h019-table th, .h019-table td {
+    padding: 0.55rem 0.7rem;
+    border-bottom: 1px solid var(--h019-line);
+    text-align: left;
+    white-space: nowrap;
+  }
+.h019-table th {
+    font-family: var(--hanten-font);
+    font-size: 0.67rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--h019-muted);
+    background: #fafafa;
+  }
+.h019-table tr:last-child td { border-bottom: none; }
+.h019-table tr.h019-row-nz { background: var(--h019-nz-soft); }
+.h019-table .place { font-weight: 700; color: var(--h019-ink); }
+.h019-table .distance { font-family: var(--hanten-font); font-weight: 750; color: var(--h019-other); }
+.h019-table .h019-row-nz .distance { color: var(--h019-nz); }
+.h019-source {
+    max-width: 820px;
+    margin: 1.5rem auto 0;
+    text-align: left;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--h019-muted);
+  }
+.h019-save {
+    margin-top: .75rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+.h019-save button { font-size: .75rem; opacity: .72; }
+.h019-save button:hover, .h019-save button:focus-visible { opacity: 1; }
+@media (max-width: 720px) {
+.h019-compare { grid-template-columns: 1fr; }
+.h019-vs { padding: .6rem; border-top: 1px solid var(--h019-line); border-bottom: 1px solid var(--h019-line); }
+.h019-map-frame { padding: 0.25rem; }
+.h019-nz-label { font-size: 11px; }
+.h019-table { font-size: 0.76rem; }
+}
+.hanten-exhibit .h019-aha { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; }
+
+/* Design Standards 19 (H019 dropdown) */
+.h002-iss-extra { margin: .7rem 0 .2rem; }
+.h002-iss-extra p { margin: .55rem 0 0; }
+.h002-iss-extra .h019-map-frame { margin-top: .4rem; }
 </style>
 
 </head>
 <body>
 <main class="hanten-exhibit">
 <h1 class="hanten-question">How far can you get from everyone?</h1>
-<p class="hanten-subtitle">At one spot in the South Pacific, the nearest land is thousands of kilometers away.</p>
+<p class="hanten-subtitle">At one spot in the South Pacific, the nearest land is more than 1,600 miles away.</p>
 <div class="hanten-graphic"><div class="h002-shell">
-<div class="h002-map-wrap" id="h002-capture"><svg id="h002-map" viewBox="0 0 900 540" role="img" aria-labelledby="h002-title h002-desc"><title id="h002-title">Point Nemo distance comparison</title><desc id="h002-desc">An azimuthal equidistant map centered on Point Nemo. A large ring marks roughly 2,688 kilometers to the nearest land, while a much smaller ring marks about 408 kilometers, the approximate altitude of the International Space Station used for this comparison.</desc></svg></div>
-<div class="h002-legend"><span><span class="h002-key h002-key--land"></span>Nearest land ≈ 2,688 km</span><span><span class="h002-key h002-key--iss"></span>ISS altitude ≈ 408 km</span></div>
-<div class="h002-reveal"><strong>At Point Nemo, the closest people can sometimes be in orbit.</strong> The nearest land is more than six times farther away than the ISS is above Earth.</div>
-<p class="hanten-reflection">What feels far away only because you haven’t compared it to something else?</p>
-<details class="h002-explore"><summary>How are these distances being compared?</summary><p>The 2,688 km distance is measured across Earth’s surface from Point Nemo to the nearest land. The ISS figure is its approximate altitude above Earth, about 408 km in this comparison. They are different kinds of distance, but the rings are drawn to the same scale to make the size contrast visible.</p></details>
-<div class="h002-source">
+<div class="h002-map-wrap" id="h002-capture"><svg id="h002-map" viewBox="0 0 900 540" role="img" aria-labelledby="h002-title h002-desc"><title id="h002-title">Point Nemo distance comparison</title><desc id="h002-desc">An azimuthal equidistant map centered on Point Nemo. A large ring marks roughly 1,670 miles (2,688 km) to the nearest land, while a much smaller ring marks about 254 miles (408 km), the approximate altitude of the International Space Station used for this comparison.</desc></svg></div>
+<div class="h002-legend"><span><span class="h002-key h002-key--land"></span>Nearest land ≈ 1,670 mi (2,688 km)</span><span><span class="h002-key h002-key--iss"></span>ISS altitude ≈ 254 mi (408 km)</span></div>
+<div class="h002-reveal">
+  <p><strong>At Point Nemo, the closest people can sometimes be in orbit.</strong> The nearest land is more than six times farther away than the ISS is above Earth.</p>
+  <p>The same trick works with any big number: a distance, a file size, a population count can all feel abstract until you compare it to something familiar. It's the comparison, not the number itself, that tells you whether something is actually close or far, big or small.</p>
+</div>
+<p class="hanten-reflection">
+                What seems far away only because you’ve never compared it to anything?
+            </p>
+<details class="h002-explore" data-html2canvas-ignore="true"><summary>How are these distances being compared?</summary><p>The 1,670-mile (2,688 km) distance is measured across Earth’s surface from Point Nemo to the nearest land. The ISS figure is its approximate altitude above Earth, about 254 miles (408 km) in this comparison. They are different kinds of distance, but the rings are drawn to the same scale to make the size contrast visible.</p><p style="margin:.6rem 0 0;">The same fix works for almost any huge number: find a comparison that is actually familiar. <a href="../H011/index.html" target="_blank" rel="noopener noreferrer">The distance between Earth and the Moon</a> sounds enormous until you check how much of it is empty space versus how much is just the two bodies themselves.</p></details>
+<details class="h002-explore" data-html2canvas-ignore="true">
+<summary>Is the space station ever closer than the nearest country?</summary>
+<div class="h002-iss-extra">
+<p><strong>Yes, in 13 places.</strong> When the ISS passes over New Zealand, it is about 254 miles (408 km) overhead, roughly 129 miles (208 km) closer than the nearest point of Australia, 383 miles away. Twelve other places, mostly remote islands, share the distinction: their nearest neighboring country is farther away than the space station.</p>
+<div class="h019-map-frame" id="h019-map-wrap">
+        <svg
+          id="h019-map"
+          viewBox="0 0 960 500"
+          role="img"
+          aria-label="World map showing thirteen places whose nearest other country is farther away than the International Space Station is overhead"
+        ></svg>
+      </div>
+
+      <div class="h019-legend" aria-label="Map legend">
+        <span class="h019-key">
+          <span class="h019-swatch" style="background:var(--h019-nz)"></span>
+          New Zealand
+        </span>
+        <span class="h019-key">
+          <span class="h019-swatch" style="background:var(--h019-other)"></span>
+          12 other qualifying places
+        </span>
+        <span class="h019-key">
+          <span class="h019-swatch" style="background:var(--h019-land); border:1px solid var(--h019-land-line)"></span>
+          Everywhere else
+        </span>
+      </div>
+
+      <div class="h019-toggle-row">
+        <button type="button" id="h019-toggle-others" class="h019-toggle" aria-pressed="false">
+          Show the other 12 places
+        </button>
+      </div>
+
+      <section class="h019-compare" aria-label="Distance comparison">
+        <div class="h019-compare-side iss">
+          <span class="h019-compare-label">ISS overhead</span>
+          <span class="h019-compare-value">254 mi</span>
+          <span class="h019-compare-copy">above Earth</span>
+        </div>
+        <div class="h019-vs">VS.</div>
+        <div class="h019-compare-side aus">
+          <span class="h019-compare-label">Nearest point of Australia</span>
+          <span class="h019-compare-value">383 mi</span>
+          <span class="h019-compare-copy">from New Zealand</span>
+        </div>
+      </section>
+<p>Whether something feels far away often depends on the category it belongs to, not the distance. Space sounds remote and a neighboring country sounds close, but the numbers can say otherwise.</p>
+</div>
+</details>
+<details class="h002-explore" data-html2canvas-ignore="true">
+<summary>See all 13 places where the ISS is closer</summary>
+<div class="h019-table-wrap">
+          <table class="h019-table">
+            <thead>
+              <tr>
+                <th>Place</th>
+                <th>Nearest country</th>
+                <th>Distance</th>
+              </tr>
+            </thead>
+            <tbody id="h019-table-body"></tbody>
+          </table>
+        </div>
+</details>
+
+            <details class="h002-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H011/index.html" target="_blank" rel="noopener noreferrer">Could all the other planets fit between Earth and the Moon?</a></li>
+                    <li><a href="../H020/index.html" target="_blank" rel="noopener noreferrer">How long would it take to drive to the International Space Station?</a></li>
+                    <li><a href="../H042/index.html" target="_blank" rel="noopener noreferrer">How can two islands 2.4 miles apart be a day apart?</a></li>
+                </ul>
+            </details>
+
+            <div class="hanten-source h002-source">
   <strong>Sources:</strong>
   <a href="https://oceanservice.noaa.gov/facts/nemo.html" target="_blank" rel="noopener noreferrer">NOAA National Ocean Service</a>
-  for Point Nemo’s coordinates and its roughly 2,688 km distance from the nearest land;
+  for Point Nemo’s coordinates and its roughly 1,670 mi (2,688 km) distance from the nearest land;
   <a href="https://www.nasa.gov/reference/international-space-station/" target="_blank" rel="noopener noreferrer">NASA</a>
-  for the ISS orbital altitude range (about 370–460 km; this exhibit uses 408 km as an illustrative comparison value).
-  World boundaries use the shared Hanten 1:10m countries dataset.
+  for the ISS orbital altitude range (about 230–286 mi, or 370–460 km; this exhibit uses 254 mi, or 408 km, as an illustrative comparison value).
+  World boundaries use the shared Hanten 1:10m countries dataset. ISS-vs-nearest-country comparison: Natural Earth 1:10m admin-0 boundaries with closest-point distances converted to great-circle kilometers. ISS comparison altitude: 254 mi (408 km). &ldquo;Nearest country&rdquo; means the shortest distance between actual coastlines or borders, not capitals. Tokelau is excluded from New Zealand&rsquo;s geometry because its distant position would distort the nearest-neighbor comparison.
 </div>
 <div class="h002-save"><div id="save-image-slot"></div></div>
 </div></div>
@@ -347,8 +651,8 @@ main.hanten-exhibit > .hanten-subtitle{
   "map": "#h002-map"
 }
 </script>
-<script src="../../04 Shared Assets/js/d3.v7.min.js"></script>
-<script src="../../04 Shared Assets/geodata/world/countries-10m.js"></script>
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/geodata/world/countries-10m.js"></script>
 <script>
 (()=>{"use strict";
 const LABEL_DATA = JSON.parse(
@@ -360,7 +664,121 @@ const pctY = y => y / 100 * 540;
 const POINT_NEMO={lon:-123.3933,lat:-48.8767,name:"Point Nemo"},NEAREST_LAND_KM=2688,ISS_ALTITUDE_KM=408,EARTH_RADIUS_KM=6371,width=900,height=540,VIEW_KM=7200;const svg=d3.select("#h002-map"),viewRadiusPx=Math.min(width,height)*.46,scale=viewRadiusPx/(VIEW_KM/EARTH_RADIUS_KM);const projection=d3.geoAzimuthalEquidistant().rotate([-POINT_NEMO.lon,-POINT_NEMO.lat]).scale(scale).translate([width/2,height/2]);const path=d3.geoPath(projection),kmToPx=km=>scale*(km/EARTH_RADIUS_KM),[cx,cy]=projection([POINT_NEMO.lon,POINT_NEMO.lat]);svg.append("path").datum({type:"Sphere"}).attr("class","h002-sphere").attr("d",path);svg.append("path").datum(d3.geoGraticule10()).attr("class","h002-graticule").attr("d",path);svg.append("g").selectAll("path").data(COUNTRIES_10M_GEOJSON.features).join("path").attr("class","h002-land").attr("d",path);const landR=kmToPx(NEAREST_LAND_KM),issR=kmToPx(ISS_ALTITUDE_KM);svg.append("circle").attr("class","h002-ring h002-ring--land").attr("cx",cx).attr("cy",cy).attr("r",landR);svg.append("text").attr("class","h002-label h002-label--land").attr("data-hanten-label","nearestLand").attr("x",pctX(LABEL_DATA.nearestLand.x)).attr("y",pctY(LABEL_DATA.nearestLand.y)).attr("text-anchor",LABEL_DATA.nearestLand.align==="center"?"middle":LABEL_DATA.nearestLand.align).style("font-size",LABEL_DATA.nearestLand.fontSize+"px").text(LABEL_DATA.nearestLand.text);svg.append("circle").attr("class","h002-ring h002-ring--iss").attr("cx",cx).attr("cy",cy).attr("r",issR);svg.append("text").attr("class","h002-label h002-label--iss").attr("data-hanten-label","iss").attr("x",pctX(LABEL_DATA.iss.x)).attr("y",pctY(LABEL_DATA.iss.y)).attr("text-anchor",LABEL_DATA.iss.align==="center"?"middle":LABEL_DATA.iss.align).style("font-size",LABEL_DATA.iss.fontSize+"px").text(LABEL_DATA.iss.text);svg.append("circle").attr("class","h002-marker").attr("cx",cx).attr("cy",cy).attr("r",5);svg.append("text").attr("class","h002-marker-label").attr("data-hanten-label","pointNemo").attr("x",pctX(LABEL_DATA.pointNemo.x)).attr("y",pctY(LABEL_DATA.pointNemo.y)).attr("text-anchor",LABEL_DATA.pointNemo.align==="center"?"middle":LABEL_DATA.pointNemo.align).style("font-size",LABEL_DATA.pointNemo.fontSize+"px").text(LABEL_DATA.pointNemo.text)})();
 </script>
 
-<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
+<script src="../../assets/geodata/countries.js"></script>
+    <script>(()=>{
+  const ISS_ALTITUDE_KM = 408;
+
+  const WINNERS = [
+    { code: "SHN", name: "Saint Helena", nearest: "Liberia", km: 1542.3, marker: [-5.7, -15.96] },
+    { code: "SGS", name: "South Georgia & South Sandwich Is.", nearest: "Falkland Islands", km: 1339.6, marker: [-36.49, -54.43] },
+    { code: "BMU", name: "Bermuda", nearest: "United States", km: 1035.8, marker: [-64.73, 32.32] },
+    { code: "CPT", name: "Clipperton Island", nearest: "Mexico", km: 953.5, marker: [-109.22, 10.3] },
+    { code: "NFK", name: "Norfolk Island", nearest: "New Zealand", km: 686.5, marker: [167.96, -29.04] },
+    { code: "NZL", name: "New Zealand", nearest: "Australia", km: 616.4, marker: [172.6, -41.5] },
+    { code: "CPV", name: "Cabo Verde", nearest: "Senegal", km: 569.6, marker: [-25.18, 17.06] },
+    { code: "IOT", name: "British Indian Ocean Territory", nearest: "Maldives", km: 522.0, marker: [71.35, -6.19] },
+    { code: "PCN", name: "Pitcairn Islands", nearest: "French Polynesia", km: 437.4, marker: [-128.32, -24.37] },
+    { code: "PYF", name: "French Polynesia", nearest: "Pitcairn Islands", km: 437.4, marker: [-139.01, -9.78] },
+    { code: "COK", name: "Cook Islands", nearest: "Kiribati", km: 433.4, marker: [-159.79, -21.22] },
+    { code: "HMD", name: "Heard Island & McDonald Is.", nearest: "French Southern & Antarctic Lands", km: 421.3, marker: [73.52, -53.08] },
+    { code: "NIU", name: "Niue", nearest: "Tonga", km: 420.3, marker: [-169.86, -19.06] }
+  ];
+
+  const winnerCodes = new Set(WINNERS.map(d => d.code));
+  const width = 960;
+  const height = 500;
+
+  const svg = d3.select("#h019-map");
+  const projection = d3.geoEqualEarth()
+    .rotate([-20, 0])
+    .fitExtent([[8, 8], [width - 8, height - 8]], { type: "Sphere" });
+
+  const path = d3.geoPath(projection);
+
+  svg.append("path")
+    .datum({ type: "Sphere" })
+    .attr("class", "h019-sphere")
+    .attr("d", path);
+
+  svg.append("path")
+    .datum(d3.geoGraticule10())
+    .attr("class", "h019-graticule")
+    .attr("d", path);
+
+  svg.append("g")
+    .selectAll("path")
+    .data(COUNTRIES_GEOJSON.features.filter(d => d.properties.ADM0_A3 !== "ATA"))
+    .join("path")
+    .attr("class", d => {
+      const code = d.properties.ADM0_A3;
+      if (code === "NZL") return "h019-country h019-country--nz";
+      if (winnerCodes.has(code)) return "h019-country h019-country--other";
+      return "h019-country";
+    })
+    .attr("d", path);
+
+  const markerLayer = svg.append("g");
+
+  WINNERS.forEach(d => {
+    const point = projection(d.marker);
+    if (!point) return;
+
+    const isNZ = d.code === "NZL";
+    const [x, y] = point;
+
+    markerLayer.append("circle")
+      .attr("class", "h019-marker-ring" + (isNZ ? " h019-marker-ring--nz" : ""))
+      .attr("cx", x)
+      .attr("cy", y)
+      .attr("r", isNZ ? 11 : 6.5);
+
+    markerLayer.append("circle")
+      .attr("class", "h019-marker" + (isNZ ? " h019-marker--nz" : ""))
+      .attr("cx", x)
+      .attr("cy", y)
+      .attr("r", isNZ ? 4.5 : 3.2);
+  });
+
+  const nz = projection([172.6, -41.5]);
+  if (nz) {
+    svg.append("text")
+      .attr("class", "h019-nz-label")
+      .attr("x", nz[0] + 16)
+      .attr("y", nz[1] + 5)
+      .text("NEW ZEALAND");
+  }
+
+  const tbody = document.getElementById("h019-table-body");
+
+  WINNERS
+    .slice()
+    .sort((a, b) => b.km - a.km)
+    .forEach(d => {
+      const tr = document.createElement("tr");
+      if (d.code === "NZL") tr.className = "h019-row-nz";
+
+      tr.innerHTML = `
+        <td class="place">${d.name}</td>
+        <td>${d.nearest}</td>
+        <td class="distance">${Math.round(d.km*0.621371).toLocaleString()} mi (${Math.round(d.km).toLocaleString()} km)</td>
+      `;
+
+      tbody.appendChild(tr);
+    });
+})();</script>
+    <script>(()=>{
+  const mapFrame = document.getElementById("h019-map-wrap");
+  const toggleBtn = document.getElementById("h019-toggle-others");
+  if (mapFrame && toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      const revealed = mapFrame.classList.toggle("revealed");
+      toggleBtn.setAttribute("aria-pressed", String(revealed));
+      toggleBtn.textContent = revealed ? "Hide the other 12 places" : "Show the other 12 places";
+    });
+  }
+})();</script>
+    <script>document.querySelectorAll("details").forEach(d=>d.addEventListener("toggle",()=>window.dispatchEvent(new Event("resize"))));</script>
+    <script src="../../assets/js/html2canvas.min.js"></script>
 
 <script>
 (() => {
@@ -425,7 +843,7 @@ const POINT_NEMO={lon:-123.3933,lat:-48.8767,name:"Point Nemo"},NEAREST_LAND_KM=
     subCtx.fillStyle="#4f6268";
     subCtx.textAlign="center";
     subCtx.textBaseline="middle";
-    subCtx.fillText("At one spot in the South Pacific, the nearest land is thousands of kilometers away.",450,14);
+    subCtx.fillText("At one spot in the South Pacific, the nearest land is more than 1,600 miles away.",450,14);
     card.appendChild(subtitleCanvas);
 
     const mapBox=document.createElement("div");
@@ -441,12 +859,13 @@ const POINT_NEMO={lon:-123.3933,lat:-48.8767,name:"Point Nemo"},NEAREST_LAND_KM=
 
     const aha=document.createElement("div");
     aha.className="hanten-export-aha";
-    aha.innerHTML="<strong>At Point Nemo, the closest people can sometimes be in orbit.</strong> The nearest land is more than six times farther away than the ISS is above Earth.";
+    aha.innerHTML='<p style="margin:0 0 10px"><strong>At Point Nemo, the closest people can sometimes be in orbit.</strong> The nearest land is more than six times farther away than the ISS is above Earth.</p>'
+      + '<p style="margin:0">The same trick works with any big number: a distance, a file size, a population count can all feel abstract until you compare it to something familiar. It\'s the comparison, not the number itself, that tells you whether something is actually close or far, big or small.</p>';
     card.appendChild(aha);
 
     const reflection=document.createElement("div");
     reflection.className="hanten-export-reflection";
-    reflection.textContent="What feels far away only because you haven’t compared it to something else?";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     document.body.appendChild(card);

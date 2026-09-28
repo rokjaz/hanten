@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H099 — Did Shark Attack Deaths Really Double?</title>
+
+    <meta
+        name="description"
+        content="Headlines said deadly shark attacks doubled in 2023. They did: from 5 to 10 worldwide. The next year they fell 60%, to 4, then rose 125%, to 9. With numbers this small, huge percentage swings are mostly luck."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H099-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h099-bar: #0b4f57;
+            --h099-up: #b23b32;
+            --h099-down: #2f8a86;
+            --h099-avg: #9a958b;
+        }
+
+        .h099-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h099-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h099-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h099-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h099-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h099-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h099-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h099-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h099-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+
+        .h099-panel svg { display: block; width: 100%; max-width: 660px; height: auto; margin: 0 auto; }
+        .h099-axis { font-family: var(--hanten-font); font-size: 11px; fill: var(--hanten-muted); }
+        .h099-yr { font-family: var(--hanten-font); font-size: 13px; font-weight: 800; fill: var(--hanten-text); }
+        .h099-val { font-family: var(--hanten-font); font-size: 16px; font-weight: 800; }
+        .h099-hl { font-family: var(--hanten-font); font-size: 17px; font-weight: 800; }
+        .h099-avgl { font-family: var(--hanten-font); font-size: 11px; font-weight: 700; fill: var(--h099-avg); }
+
+        .h099-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h099-aha p { margin: 0 0 0.6rem; }
+        .h099-aha p:last-child { margin-bottom: 0; }
+
+        .h099-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h099-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h099-explore p { margin: .55rem 0 0; }
+        .h099-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h099-explore + .h099-explore { margin-top: 0; border-top: none; }
+        .h099-explore strong { color: var(--hanten-text); }
+
+        .h099-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h099-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h099-table th, .h099-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h099-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h099-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .h099-table td:first-child { font-weight: 700; }
+        .h099-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 600px) {
+            .h099-stats { grid-template-columns: minmax(0, 1fr); }
+            .h099-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h099-table-panel { padding: 0.3rem 0.4rem; }
+            .h099-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table td:nth-child(2),
+.hanten-exhibit table td:nth-child(3),
+.hanten-exhibit table td:nth-child(4),
+.hanten-exhibit table td:nth-child(5) { text-align: center; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            "Deadly shark attacks doubled." Did the oceans get twice as dangerous?
+        </h1>
+
+        <p class="hanten-subtitle">
+            The headline was true: worldwide deaths from unprovoked shark bites went from 5 to 10. But when the
+            starting number is tiny, a few more or a few less makes an enormous percentage, up or down.
+        </p>
+
+        <div id="h099-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h099-stats-cap">Deaths from unprovoked shark bites, worldwide</p>
+                <div class="h099-stats">
+                    <div class="hanten-panel h099-stat">
+                        <div class="h099-stat-k">2023 headline</div>
+                        <div class="h099-stat-n" style="color:var(--h099-up)">Doubled</div>
+                        <div class="h099-stat-l">5 deaths in 2022 became 10</div>
+                    </div>
+                    <div class="hanten-panel h099-stat">
+                        <div class="h099-stat-k">The next year</div>
+                        <div class="h099-stat-n" style="color:var(--h099-down)">Fell 60%</div>
+                        <div class="h099-stat-l">10 became 4, the same kind of swing in reverse</div>
+                    </div>
+                    <div class="hanten-panel h099-stat">
+                        <div class="h099-stat-k">The typical year</div>
+                        <div class="h099-stat-n">About 8</div>
+                        <div class="h099-stat-l">the 2020–2024 average, worldwide</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h099-panel">
+                    <p class="h099-panel-title">Four years, three dramatic headlines</p>
+                    <p class="h099-panel-sub">Deaths from unprovoked shark bites, worldwide, with the change from the year before</p>
+                    <svg viewBox="0 0 660 280" role="img" aria-labelledby="h099-chart-title">
+                        <title id="h099-chart-title">Bar chart of worldwide deaths from unprovoked shark bites: 5 in 2022, 10 in 2023 (up 100%), 4 in 2024 (down 60%), and 9 in 2025 (up 125%). A dashed line marks the 2020 to 2024 average of 8 a year. Every year sits close to that average.</title>
+<line x1="70" y1="250" x2="640" y2="250" stroke="var(--hanten-border,#e4e1d8)"/><text class="h099-axis" x="62" y="254" text-anchor="end">0</text>
+<line x1="70" y1="214" x2="640" y2="214" stroke="var(--hanten-border,#e4e1d8)"/><text class="h099-axis" x="62" y="218" text-anchor="end">2</text>
+<line x1="70" y1="178" x2="640" y2="178" stroke="var(--hanten-border,#e4e1d8)"/><text class="h099-axis" x="62" y="182" text-anchor="end">4</text>
+<line x1="70" y1="142" x2="640" y2="142" stroke="var(--hanten-border,#e4e1d8)"/><text class="h099-axis" x="62" y="146" text-anchor="end">6</text>
+<line x1="70" y1="106" x2="640" y2="106" stroke="var(--hanten-border,#e4e1d8)"/><text class="h099-axis" x="62" y="110" text-anchor="end">8</text>
+<line x1="70" y1="70" x2="640" y2="70" stroke="var(--hanten-border,#e4e1d8)"/><text class="h099-axis" x="62" y="74" text-anchor="end">10</text>
+<line x1="70" y1="106" x2="640" y2="106" stroke="var(--h099-avg)" stroke-width="1.5" stroke-dasharray="6 4"/><text class="h099-avgl" x="76" y="100">Average, 2020–24: 8</text>
+<rect x="90" y="160" width="90" height="90" rx="2" fill="var(--h099-bar)"/>
+<text class="h099-val" x="135.0" y="182" text-anchor="middle" fill="#fff">5</text>
+<text class="h099-yr" x="135.0" y="270" text-anchor="middle">2022</text>
+<rect x="240" y="70" width="90" height="180" rx="2" fill="var(--h099-bar)"/>
+<text class="h099-val" x="285.0" y="92" text-anchor="middle" fill="#fff">10</text>
+<text class="h099-yr" x="285.0" y="270" text-anchor="middle">2023</text>
+<text class="h099-hl" x="285.0" y="60" text-anchor="middle" fill="var(--h099-up)">+100%</text>
+<rect x="390" y="178" width="90" height="72" rx="2" fill="var(--h099-bar)"/>
+<text class="h099-val" x="435.0" y="200" text-anchor="middle" fill="#fff">4</text>
+<text class="h099-yr" x="435.0" y="270" text-anchor="middle">2024</text>
+<text class="h099-hl" x="435.0" y="168" text-anchor="middle" fill="var(--h099-down)">−60%</text>
+<rect x="540" y="88" width="90" height="162" rx="2" fill="var(--h099-bar)"/>
+<text class="h099-val" x="585.0" y="110" text-anchor="middle" fill="#fff">9</text>
+<text class="h099-yr" x="585.0" y="270" text-anchor="middle">2025</text>
+<text class="h099-hl" x="585.0" y="78" text-anchor="middle" fill="var(--h099-up)">+125%</text>
+                    </svg>
+                </div>
+
+            </div>
+
+            <div class="h099-aha">
+                <p><strong>A big percentage built on a small number is mostly noise.</strong> Going from 5 deaths to 10
+                    is a 100% jump, but it's 5 more deaths in a whole year, across the entire world, and the very next year the
+                    number fell by more than half. Every year here sits close to the usual 8. Nothing about the oceans
+                    doubled or collapsed; a few unlucky or lucky events just moved a tiny number around.</p>
+                <p>The same thing happens with rare events anywhere: a small town's murders, a school's number of
+                    perfect scores, plane crashes in a single year. When a percentage sounds dramatic, ask for the raw
+                    numbers behind it, and whether they've swung like this before.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                What "doubled" or "cut in half" headline might have been a change of just a handful?
+            </p>
+
+            <details class="h099-explore" data-html2canvas-ignore="true">
+                <summary>Bites vs. deaths: bigger numbers swing less</summary>
+                <div class="hanten-panel h099-table-panel">
+                    <table class="h099-table">
+                        <thead>
+                            <tr><th>Year</th><th>Unprovoked bites</th><th>Change</th><th>Deaths</th><th>Change</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>2022</td><td>57</td><td>–</td><td>5</td><td>–</td></tr>
+                            <tr><td>2023</td><td>69</td><td>+21%</td><td>10</td><td>+100%</td></tr>
+                            <tr><td>2024</td><td>47</td><td>−32%</td><td>4</td><td>−60%</td></tr>
+                            <tr><td>2025</td><td>65</td><td>+38%</td><td>9</td><td>+125%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Bites, which run in the dozens, swing much less in percentage terms than deaths, which run in single
+                    digits. The shark researchers who track these numbers described 2023's bites as "within the range of
+                    the normal number." The more events behind a number, the less its percentage bounces around from
+                    luck alone. <a href="../H096/index.html" target="_blank" rel="noopener noreferrer">How much does an 18% higher risk
+                    really mean?</a> looks at a related trap.</p>
+            </details>
+
+            <details class="h099-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H096/index.html" target="_blank" rel="noopener noreferrer">A vaccine is "95% effective." Does that mean 5 out of every 100 vaccinated people still get sick?</a></li>
+                    <li><a href="../H102/index.html" target="_blank" rel="noopener noreferrer">A neighborhood has an unusual number of cancer cases. Is something there causing them?</a></li>
+                    <li><a href="../H095/index.html" target="_blank" rel="noopener noreferrer">California has more car thefts than anywhere else in the U.S. Is it the riskiest place to park?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Florida Museum of Natural History, International Shark Attack File yearly worldwide summaries,
+                2022–2025 (unprovoked bites and fatalities; 2020–2024 five-year averages); CBS News, "Deadly shark attacks
+                doubled in 2023," February 2024.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H099-small-base-big-percentage.png", title = "Did shark attack deaths really double?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

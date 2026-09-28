@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H095 — Where Is Your Car Most Likely to Be Stolen?</title>
+
+    <meta
+        name="description"
+        content="California had 27 times as many car thefts as Washington, D.C. in 2024. But per resident, D.C.'s theft rate was about twice California's. Raw counts mostly measure how many people live somewhere."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H095-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h095-dc: #b23b32;
+            --h095-other: #0b4f57;
+        }
+
+        .h095-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h095-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h095-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .h095-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h095-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h095-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .h095-charts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h095-panel { padding: 1.1rem 1.1rem 0.9rem; }
+        .h095-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h095-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.9rem; }
+
+        .h095-panel svg { display: block; width: 100%; max-width: 680px; height: auto; margin: 0 auto; }
+        .h095-lab { font-family: var(--hanten-font); font-size: 14px; font-weight: 800; fill: var(--hanten-text); }
+        .h095-sub { font-family: var(--hanten-font); font-size: 11.5px; fill: var(--hanten-muted); }
+        .h095-val { font-family: var(--hanten-font); font-size: 13.5px; font-weight: 800; }
+
+        .h095-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h095-aha p { margin: 0 0 0.6rem; }
+        .h095-aha p:last-child { margin-bottom: 0; }
+
+        .h095-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h095-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h095-explore p { margin: .55rem 0 0; }
+        .h095-explore a { color: var(--hanten-accent, #0e7c86); }
+        .h095-explore + .h095-explore { margin-top: 0; border-top: none; }
+        .h095-explore strong { color: var(--hanten-text); }
+
+        .h095-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .h095-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .h095-table th, .h095-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h095-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h095-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .h095-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .h095-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 600px) {
+            .h095-stats { grid-template-columns: minmax(0, 1fr); }
+            .h095-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h095-table-panel { padding: 0.3rem 0.4rem; }
+            .h095-table { font-size: 0.76rem; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    
+/* Design Standards 19 (table value columns centered) */
+.hanten-exhibit table.h095-table:not([class*="h095-table-"]) td:nth-child(2),
+.hanten-exhibit table.h095-table:not([class*="h095-table-"]) td:nth-child(3),
+.hanten-exhibit table.h095-table:not([class*="h095-table-"]) td:nth-child(4),
+.hanten-exhibit table.h095-table-2 td:nth-child(3) { text-align: center; }
+
+/* Design Standards 19 (merged H009) */
+:root {
+  --h009-ink-soft:#53616f;
+  --h009-card:#ffffff;
+  --h009-accent:#0e7c86;
+  --h009-ford-lo:#f0e0d3;
+  --h009-ford-hi:#9a3e1f;
+  --h009-other:#d6dbd0;
+  --h009-other-line:#b9c0b2;
+}
+.h009-shell {
+  width:min(100%,900px);
+  margin:0 auto;
+}
+.h009-tabs {
+  display:flex;
+  gap:.5rem;
+  flex-wrap:wrap;
+  margin:0 0 .7rem;
+}
+.h009-tabs button {
+  border:1px solid var(--hanten-border);
+  background:transparent;
+  color:var(--hanten-muted);
+  padding:.5rem .8rem;
+  font-family:var(--hanten-font);
+  font-size:.75rem;
+  font-weight:650;
+  cursor:pointer;
+}
+.h009-tabs button:hover, .h009-tabs button:focus-visible {
+  border-color:var(--hanten-accent);
+}
+.h009-tabs button.active {
+  background:var(--hanten-accent);
+  border-color:var(--hanten-accent);
+  color:#fff;
+}
+.h009-layout {
+  display:grid;
+  grid-template-columns:minmax(0,2.25fr) minmax(210px,.75fr);
+  gap:.9rem;
+  align-items:stretch;
+  padding:.7rem;
+  background:var(--hanten-paper);
+  border:1px solid var(--hanten-border);
+}
+.h009-map-card {
+  position:relative;
+  min-width:0;
+}
+.h009-rank {
+  border-left:1px solid var(--hanten-border);
+  padding-left:.9rem;
+}
+.h009-rank h2 {
+  margin:0 0 .6rem;
+  color:var(--hanten-muted);
+  font-size:.74rem;
+  line-height:1.3;
+  
+  
+}
+.h009-rank ol {
+  margin:0;
+  padding-left:1.2rem;
+  font-size:.82rem;
+  line-height:1.35;
+}
+.h009-rank li {
+  margin:0 0 .38rem;
+  padding-left:.05rem;
+}
+.h009-rank .val {
+  color:var(--hanten-accent);
+  font-family:var(--hanten-font);
+  font-weight:700;
+  white-space:nowrap;
+}
+.h009-legend {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:.45rem;
+  margin:.55rem 0 0;
+  color:var(--hanten-muted);
+  font-size:.72rem;
+}
+.h009-legend .bar {
+  width:110px;
+  height:8px;
+  background:linear-gradient(to right,var(--h009-ford-lo),var(--h009-ford-hi));
+}
+.h009-legend .swatch {
+  display:inline-block;
+  width:10px;
+  height:10px;
+  margin-right:.22rem;
+  background:var(--h009-other);
+  border:1px solid var(--h009-other-line);
+  vertical-align:-1px;
+}
+.h009-takeaway {
+  max-width:760px;
+  margin:1rem auto 0;
+  padding:.15rem 0;
+  border-left:0;
+  text-align:left;
+  color:var(--hanten-muted);
+  font-size:.9rem;
+  line-height:1.5;
+}
+.h009-takeaway p {
+  margin:0;
+}
+.h009-takeaway p + p {
+  margin-top:.35rem;
+  color:var(--hanten-muted);
+}
+.h009-source {
+  max-width:760px;
+  margin:.8rem auto 0;
+}
+@media(max-width:760px) {
+.h009-layout {grid-template-columns:1fr}
+.h009-rank {
+    border-left:0;
+    border-top:1px solid var(--hanten-border);
+    padding-left:0;
+    padding-top:.75rem;
+  }
+}
+.h009-takeaway strong {color:var(--hanten-text)}
+.h009-source {
+  max-width:760px !important;
+  margin:1.5rem auto 0 !important;
+  text-align:left !important;
+  font-size:.75rem !important;
+  line-height:1.45 !important;
+  color:var(--hanten-muted) !important;
+  text-wrap:pretty;
+}
+.h009-dual {display:grid;grid-template-columns:1fr 1fr;gap:1rem;width:min(100%,900px);margin:0 auto}
+.h009-panel {background:var(--hanten-paper);border:1px solid var(--hanten-border);padding:.75rem;min-width:0}
+.h009-panel-head {display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-bottom:.35rem}
+.h009-measure {text-transform:uppercase;letter-spacing:.05em;font-size:.78rem;font-weight:800;color:var(--hanten-muted)}
+.h009-panel-head strong {font-size:1rem;color:var(--hanten-text)}
+.h009-map {display:block;width:100%;height:auto}
+.h009-mini-rank {border-top:1px solid var(--hanten-border);padding-top:.5rem;margin-top:.15rem}
+.h009-mini-rank h2 {margin:0 0 .3rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--hanten-muted)}
+.h009-mini-rank ol {display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin:0;padding-left:1.2rem;font-size:.78rem}
+.h009-mini-rank li {padding-right:.25rem}
+.h009-mini-rank .val {display:block;color:#315f7d;font-weight:800}
+.h009-legend {max-width:900px;margin:.55rem auto 0}
+.h009-legend .bar {background:linear-gradient(to right,#dce8ee,#315f7d)}
+.h009-explore {max-width:900px;margin:1rem auto 0;border-top:1px solid var(--hanten-border);border-bottom:1px solid var(--hanten-border)}
+.h009-explore summary {cursor:pointer;padding:.75rem 0;font-size:.86rem;font-weight:750;color:var(--hanten-text)}
+.h009-data-controls {display:flex;gap:.5rem;margin:.2rem 0 .75rem}
+.h009-data-controls button {border:1px solid var(--hanten-border);background:#fff;color:var(--hanten-muted);padding:.45rem .7rem;font:700 .76rem var(--hanten-font);cursor:pointer}
+.h009-data-controls button.active {background:#315f7d;color:#fff;border-color:#315f7d}
+.h009-table-wrap {max-height:420px;overflow:auto;background:#fff;border:1px solid var(--hanten-border)}
+.h009-table {width:100%;border-collapse:collapse;font-size:.78rem}
+.h009-table th, .h009-table td {text-align:left;padding:.48rem .6rem;border-bottom:1px solid var(--hanten-border)}
+.h009-table th {position:sticky;top:0;background:#f3f5f4;color:var(--hanten-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.03em}
+.h009-table td:first-child {width:3rem;color:var(--hanten-muted)}
+.h009-table-note, .h009-unreported {font-size:.75rem;line-height:1.45;color:var(--hanten-muted)}
+.h009-unreported {margin:.6rem 0 .8rem}
+@media(max-width:760px) {
+.h009-dual {grid-template-columns:1fr}
+.h009-mini-rank ol {grid-template-columns:1fr 1fr 1fr}
+}
+
+/* Design Standards 19 (merged H009 dropdown) */
+.h095-more { margin: .7rem 0 .2rem; }
+.h095-more p { margin: .55rem 0 0; }
+.h095-more .h009-dual { margin-top: .6rem; }
+</style>
+
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            California has more car thefts than anywhere else in the U.S. Is it the riskiest place to park?
+        </h1>
+
+        <p class="hanten-subtitle">
+            The count is real. But a bigger place has more of almost everything, including car thefts. To compare
+            risk, divide by how many people live there.
+        </p>
+
+        <div id="h095-capture">
+
+            <div class="hanten-graphic">
+
+                <p class="h095-stats-cap">Motor vehicle thefts, 2024</p>
+                <div class="h095-stats">
+                    <div class="hanten-panel h095-stat">
+                        <div class="h095-stat-k">California</div>
+                        <div class="h095-stat-n" style="color:var(--h095-other)">153,048</div>
+                        <div class="h095-stat-l">thefts, the most of any state</div>
+                    </div>
+                    <div class="hanten-panel h095-stat">
+                        <div class="h095-stat-k">Washington, D.C.</div>
+                        <div class="h095-stat-n" style="color:var(--h095-dc)">5,579</div>
+                        <div class="h095-stat-l">thefts, about 1/27 as many as California</div>
+                    </div>
+                    <div class="hanten-panel h095-stat">
+                        <div class="h095-stat-k">Per 100,000 people</div>
+                        <div class="h095-stat-n" style="color:var(--h095-dc)">2× the risk</div>
+                        <div class="h095-stat-l">D.C. 794, California 388</div>
+                    </div>
+                </div>
+
+                <div class="h095-charts">
+                    <div class="hanten-panel h095-panel">
+                        <p class="h095-panel-title">Counting thefts</p>
+                        <p class="h095-panel-sub">Total vehicles stolen in 2024</p>
+                        <svg viewBox="0 0 700 120" role="img" aria-labelledby="h095-a-title">
+                            <title id="h095-a-title">Vehicles stolen in 2024: California 153,048; Texas 103,844; Washington, D.C. 5,579.</title>
+<text class="h095-lab" x="0" y="15">California</text>
+<text class="h095-sub" x="0" y="29">pop. 39.4 million</text>
+<rect x="190" y="3" width="380.0" height="20" rx="2" fill="var(--h095-other)"/>
+<text class="h095-val" x="576.0" y="18" fill="var(--h095-other)">153,048</text>
+<text class="h095-lab" x="0" y="55">Texas</text>
+<text class="h095-sub" x="0" y="69">pop. 31.3 million</text>
+<rect x="190" y="43" width="257.8" height="20" rx="2" fill="var(--h095-other)"/>
+<text class="h095-val" x="453.8" y="58" fill="var(--h095-other)">103,844</text>
+<text class="h095-lab" x="0" y="95">Washington, D.C.</text>
+<text class="h095-sub" x="0" y="109">pop. 0.7 million</text>
+<rect x="190" y="83" width="13.9" height="20" rx="2" fill="var(--h095-dc)"/>
+<text class="h095-val" x="209.9" y="98" fill="var(--h095-dc)">5,579</text>
+                        </svg>
+                    </div>
+                    <div class="hanten-panel h095-panel">
+                        <p class="h095-panel-title">Counting thefts per person</p>
+                        <p class="h095-panel-sub">Vehicles stolen per 100,000 residents in 2024</p>
+                        <svg viewBox="0 0 700 120" role="img" aria-labelledby="h095-b-title">
+                            <title id="h095-b-title">Vehicles stolen per 100,000 residents in 2024: Washington, D.C. 794; California 388; Texas 332. The order flips from the total-count chart.</title>
+<text class="h095-lab" x="0" y="15">Washington, D.C.</text>
+<text class="h095-sub" x="0" y="29">5,579 thefts</text>
+<rect x="190" y="3" width="380.0" height="20" rx="2" fill="var(--h095-dc)"/>
+<text class="h095-val" x="576.0" y="18" fill="var(--h095-dc)">794</text>
+<text class="h095-lab" x="0" y="55">California</text>
+<text class="h095-sub" x="0" y="69">153,048 thefts</text>
+<rect x="190" y="43" width="185.7" height="20" rx="2" fill="var(--h095-other)"/>
+<text class="h095-val" x="381.7" y="58" fill="var(--h095-other)">388</text>
+<text class="h095-lab" x="0" y="95">Texas</text>
+<text class="h095-sub" x="0" y="109">103,844 thefts</text>
+<rect x="190" y="83" width="158.9" height="20" rx="2" fill="var(--h095-other)"/>
+<text class="h095-val" x="354.9" y="98" fill="var(--h095-other)">332</text>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h095-aha">
+                <p><strong>A total mostly tells you how big a place is.</strong> California has 56 times as many people as
+                    Washington, D.C., so it would have far more car thefts even if the risk were the same. Divide by the
+                    number of residents and the ranking flips: a car in D.C. was about twice as likely to be stolen.</p>
+                <p>The same trap shows up in any comparison of totals between groups of different sizes: crimes by
+                    city, accidents by car brand, complaints by airline, cases by county. Before comparing two totals,
+                    ask how big each group is, and look for the number per person.</p>
+            </div>
+
+            <p class="hanten-reflection">
+                What "most" ranking have you seen that might just be a ranking of the biggest places?
+            </p>
+
+            <details class="h095-explore" data-html2canvas-ignore="true">
+                <summary>The numbers behind both charts</summary>
+                <div class="hanten-panel h095-table-panel">
+                    <table class="h095-table">
+                        <thead>
+                            <tr><th>Place</th><th>Vehicles stolen</th><th>Residents</th><th>Per 100,000 residents</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>California</td><td>153,048</td><td>39,431,263</td><td>388</td></tr>
+                            <tr><td>Texas</td><td>103,844</td><td>31,290,831</td><td>332</td></tr>
+                            <tr><td>Washington, D.C.</td><td>5,579</td><td>702,250</td><td>794</td></tr>
+                            <tr><td>Vermont</td><td>424</td><td>648,493</td><td>65</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Vermont and D.C. have about the same number of residents, but D.C. had 13 times as many thefts. That's
+                    the comparison totals can make fairly: places of similar size. Rates here are calculated from FBI theft
+                    counts and Census population estimates. The National Insurance Crime Bureau, using its own data, also
+                    ranks D.C. first and California second for theft rate in 2024.</p>
+            </details>
+
+            <details class="h095-explore" data-html2canvas-ignore="true">
+                <summary>Another way crime rankings flip: which crimes get counted</summary>
+                <div class="hanten-panel h095-table-panel">
+                    <table class="h095-table h095-table-2">
+                        <thead>
+                            <tr><th>State, 2024</th><th>Violent crime per 100,000</th><th>Property crime per 100,000</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Washington</td><td>326, below the U.S. average</td><td>2,467, 3rd highest of the 50 states</td></tr>
+                            <tr><td>Oregon</td><td>331, below the U.S. average</td><td>2,388, 4th highest</td></tr>
+                            <tr><td>Maine</td><td>100, the lowest</td><td>1,142, 5th lowest</td></tr>
+                            <tr><td>U.S. average</td><td>359</td><td>1,760</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Count only violent crime and Washington and Oregon look better than average. Count property crime, like
+                    car theft and burglary, and they're near the bottom. "Safest states" and "safest cities" lists each
+                    choose which crimes to count and how much weight to give each one, so the same place can land near the
+                    top of one list and near the bottom of another. Before trusting a ranking, check what it counted, and
+                    whether it divided by population at all.</p>
+            </details>
+
+            <details class="h095-explore" data-html2canvas-ignore="true">
+                <summary>Same trap, different product: which state buys the most Ford F-150s?</summary>
+                <div class="h095-more">
+                <p><strong>Wyoming, per person. Texas, in total.</strong> Wyoming has the highest share of F-150s among its vehicles, but Texas is so much bigger that it has far more F-150 owners. Neither answer is wrong; &ldquo;most&rdquo; changes when the measure changes.</p>
+                <section class="h009-dual" id="h009-capture" aria-label="Ford F-150 rankings compared">
+        <article class="h009-panel">
+          <div class="h009-panel-head">
+            <span class="h009-measure">Per person</span>
+            <strong>Wyoming #1</strong>
+          </div>
+          <svg id="map-share" class="h009-map" viewBox="0 0 975 610" role="img" aria-label="F-150 share by state"></svg>
+          <div class="h009-mini-rank"><h2>Top 3</h2><ol id="top3-share"></ol></div>
+        </article>
+        <article class="h009-panel">
+          <div class="h009-panel-head">
+            <span class="h009-measure">Total owners</span>
+            <strong>Texas #1</strong>
+          </div>
+          <svg id="map-est" class="h009-map" viewBox="0 0 975 610" role="img" aria-label="Estimated F-150 owners by state"></svg>
+          <div class="h009-mini-rank"><h2>Top 3</h2><ol id="top3-est"></ol></div>
+        </article>
+      </section>
+
+      <div class="h009-legend" id="legend">
+        <span>Lower</span><span class="bar"></span><span>Higher</span>
+        <span style="margin-left:.65rem"><span class="swatch"></span>F-150 share not reported</span>
+      </div>
+                <div class="h009-data-controls" role="group" aria-label="Sort state data">
+          <button type="button" class="active" data-sort="share">Per person</button>
+          <button type="button" data-sort="est">Total owners</button>
+        </div>
+        <div class="h009-table-wrap">
+          <table class="h009-table">
+            <thead><tr><th>Rank</th><th>State</th><th id="metric-heading">F-150 share</th><th>Other measure</th></tr></thead>
+            <tbody id="state-table"></tbody>
+          </table>
+        </div>
+        <p class="h009-table-note">Only states with a reported F-150 share can be ranked by these measures. States where another vehicle ranked first are listed separately because the F-150 share was not reported in the source data.</p>
+        <div id="unreported-states" class="h009-unreported"></div>
+                </div>
+            </details>
+
+            <details class="h095-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H091/index.html" target="_blank" rel="noopener noreferrer">Mosquitoes kill hundreds of thousands of people a year. Sharks kill a handful. Which is more dangerous?</a></li>
+                    <li><a href="../H070/index.html" target="_blank" rel="noopener noreferrer">Which country pollutes the most?</a></li>
+                    <li><a href="../H065/index.html" target="_blank" rel="noopener noreferrer">What's the richest country?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: FBI Crime Data Explorer, 2024 motor vehicle thefts by state (via Insurance Information Institute);
+                U.S. Census Bureau, July 1, 2024 population estimates; National Insurance Crime Bureau, "Vehicle Thefts in
+                United States Fell 17% in 2024."; USAFacts, "Which states have the highest and lowest crime rates?" (FBI 2024 violent and property crime rates). Ford F-150: iSeeCars.com used-vehicle study (1–5 year old vehicles) for vehicle popularity and market share; U.S. Census Bureau Vintage 2023 estimates for state populations. “Estimated total owners” is population × reported share, not a directly measured sales count. States where another vehicle ranked first are gray because the F-150 share was not reported there.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/d3.v7.min.js"></script>
+    <script src="../../assets/js/topojson-client.min.js"></script>
+    <script src="../../assets/geodata/us/us-counties-10m.js"></script>
+    <script src="../../assets/datasets/ford/ford-f150.js"></script>
+    <script>(()=>{
+const width=975,height=610;
+const statesFeatures=topojson.feature(
+  US_COUNTIES_TOPOLOGY,
+  US_COUNTIES_TOPOLOGY.objects.states
+).features.filter(f=>FORD_F150[f.properties.name]);
+const projection=d3.geoAlbersUsa().fitSize([width,height],{type:"FeatureCollection",features:statesFeatures});
+const path=d3.geoPath(projection);
+const leaders=Object.entries(FORD_F150).filter(([,d])=>d.isLeader);
+const unreported=Object.entries(FORD_F150).filter(([,d])=>!d.isLeader);
+
+const blueLo="#dce8ee", blueHi="#315f7d";
+const shareScale=d3.scaleLinear().domain(d3.extent(leaders,([,d])=>d.share)).range([blueLo,blueHi]).interpolate(d3.interpolateRgb);
+const estScale=d3.scaleLinear().domain(d3.extent(leaders,([,d])=>d.est)).range([blueLo,blueHi]).interpolate(d3.interpolateRgb);
+
+function drawMap(selector,metric,scale){
+  const svg=d3.select(selector);
+  svg.selectAll("*").remove();
+  svg.append("g").selectAll("path").data(statesFeatures).join("path")
+    .attr("d",path)
+    .attr("class",f=>"state"+(FORD_F150[f.properties.name].isLeader?"":" other"))
+    .attr("fill",f=>{
+      const d=FORD_F150[f.properties.name];
+      return d.isLeader?scale(d[metric]):"#d6dbd0";
+    });
+}
+function ranked(metric){
+  return leaders.slice().sort((a,b)=>b[1][metric]-a[1][metric]);
+}
+function fillTop3(id,metric){
+  const ol=document.getElementById(id); ol.innerHTML="";
+  ranked(metric).slice(0,3).forEach(([name,d])=>{
+    const li=document.createElement("li");
+    li.innerHTML=`${name} <span class="val">${metric==="share"?d.share+"%":"~"+d.est.toLocaleString()}</span>`;
+    ol.appendChild(li);
+  });
+}
+function renderTable(metric){
+  const body=document.getElementById("state-table"); body.innerHTML="";
+  document.getElementById("metric-heading").textContent=metric==="share"?"F-150 share":"Estimated owners";
+  ranked(metric).forEach(([name,d],i)=>{
+    const tr=document.createElement("tr");
+    const primary=metric==="share"?`${d.share}%`:`~${d.est.toLocaleString()}`;
+    const other=metric==="share"?`~${d.est.toLocaleString()} owners`:`${d.share}% share`;
+    tr.innerHTML=`<td>${i+1}</td><td>${name}</td><td>${primary}</td><td>${other}</td>`;
+    body.appendChild(tr);
+  });
+  document.querySelectorAll(".h009-data-controls button").forEach(b=>b.classList.toggle("active",b.dataset.sort===metric));
+}
+drawMap("#map-share","share",shareScale);
+drawMap("#map-est","est",estScale);
+fillTop3("top3-share","share");
+fillTop3("top3-est","est");
+renderTable("share");
+document.querySelectorAll(".h009-data-controls button").forEach(b=>b.addEventListener("click",()=>renderTable(b.dataset.sort)));
+document.getElementById("unreported-states").innerHTML="<strong>F-150 share not reported:</strong> "+unreported.map(([name,d])=>`${name} (${d.other} ranked first)`).join("; ");
+})();</script>
+    <script>document.querySelectorAll("details").forEach(d=>d.addEventListener("toggle",()=>window.dispatchEvent(new Event("resize"))));</script>
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H095-rate-vs-count.png", title = "Where is your car most likely to be stolen?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

@@ -75,6 +75,43 @@
             grid-template-columns: 1fr;
         }
     }
+
+    .h046-discovery {
+        max-width: var(--hanten-text-width);
+        margin: 1.15rem auto 0;
+    }
+
+    .h046-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+    .h046-discovery p:last-child { margin-bottom: 0; }
+    .h046-discovery strong { color: var(--hanten-text); }
+
+    .h046-explore {
+        max-width: var(--hanten-text-width);
+        margin: 1.1rem auto 0;
+        padding: .6rem 0;
+        border-top: 1px solid var(--hanten-border);
+        border-bottom: 1px solid var(--hanten-border);
+        color: var(--hanten-muted);
+        font-size: .84rem;
+        line-height: 1.5;
+    }
+
+    .h046-explore summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); }
+    .h046-explore p { margin: .65rem 0 0; }
+
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--h046-route,#c1442d);color:var(--h046-route,#c1442d)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    .hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+    .hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+    .hanten-export-aha strong{color:#1c2733}
+    .hanten-export-aha p{margin:0 0 8px}
+    .hanten-export-aha p:last-child{margin-bottom:0}
+    .hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+    .hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
 </style>
 </head>
 
@@ -91,8 +128,8 @@
             shortest path curves up near the North Pole, the same great-circle math a flight's autopilot uses.
         </p>
 
-        <div class="hanten-graphic">
-            <section id="h046-capture">
+        <div id="h046-capture">
+            <div class="hanten-graphic">
 
                 <div class="h046-wrap">
                     <div class="h046-panels">
@@ -130,25 +167,31 @@
                     </div>
                 </div>
 
-                <div class="hanten-takeaway-box" style="margin-top: 1rem; padding: 1rem 1.15rem;">
-                    <p class="hanten-takeaway" style="margin: 0 0 0.5rem;">
-                        Great-circle distance beats "straight" on a flat map, every time.
-                    </p>
-                    <p class="hanten-body" style="margin: 0; font-weight: 400; color: var(--hanten-muted);">
-                        New York and Beijing sit at nearly the same latitude (about 40°N), so a flat map
-                        suggests flying due west, straight across the Pacific — roughly 11,700 km. The actual
-                        shortest path, the great circle, runs up over Canada, the Arctic, and Siberia, peaking
-                        around 84°N, and covers only about <strong style="color: var(--hanten-text);">11,000 km</strong>.
-                        Any map projected onto a flat rectangle distorts something — common world-map projections
-                        distort it in exactly the way that makes polar shortcuts look like detours.
-                    </p>
+                <div class="h046-discovery hanten-body">
+                    <p><strong>Great-circle distance beats "straight" on a flat map, every time.</strong> New York and Beijing sit at nearly the same latitude (about 40°N), so a flat map suggests flying due west, straight across the Pacific — roughly 7,270 miles (11,700 km). The actual shortest path, the great circle, runs up over Canada, the Arctic, and Siberia, peaking around 84°N, and covers only about <strong>6,835 miles (11,000 km)</strong>.</p>
+                    <p>Any map projected onto a flat rectangle distorts something — common world-map projections distort it in exactly the way that makes polar shortcuts look like detours. It's the same underlying dishonesty that makes <a href="../H007/index.html" target="_blank" rel="noopener noreferrer">Africa look smaller than Greenland on a Mercator map</a>: one projection quietly trades away accurate area, this one trades away accurate distance, and both hide the swap behind a map that otherwise looks perfectly normal.</p>
                 </div>
 
                 <p class="hanten-reflection">
-                    "Looks direct" is a property of the map, not of the distance.
-                </p>
+                Which route looks direct only because of the map you’re looking at?
+            </p>
 
-                <p class="hanten-source">
+                <details class="h046-explore" data-html2canvas-ignore="true">
+                    <summary>Why a straight line on paper isn't the shortest line in reality</summary>
+                    <p>On a globe, the shortest path between two points is a great circle: the arc traced by the plane that passes through both points and the Earth's center. Flatten that globe onto a rectangle — the way an equirectangular or Mercator-style map does — and lines of longitude, which actually converge at the poles, get stretched apart to run parallel instead. A great-circle route that dips toward the pole gets stretched along with them, turning a genuinely short arc into a wide, alarming-looking bulge. Re-project the same route onto a map centered on the pole itself (an azimuthal equidistant projection, used here) and the distortion direction flips: the polar route straightens out, because now it's the equatorial regions being stretched instead.</p>
+                    <p>The route shown is computed by spherical interpolation, the same underlying math autopilots and flight-planning software use, not simply hand-drawn to look plausible. Country outlines are simplified Natural Earth data.</p>
+                <p style="margin:.6rem 0 0;">It is the same family of map-projection illusions as <a href="../H045/index.html" target="_blank" rel="noopener noreferrer">Alaska&rsquo;s Aleutian Islands crossing into the Eastern Hemisphere</a>: flatten a globe onto a rectangle, and distances, directions, and even which hemisphere something is &ldquo;in&rdquo; can all end up looking like something they are not.</p></details>
+
+                <details class="h046-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H087/index.html" target="_blank" rel="noopener noreferrer">The Gall-Peters map shows every country at its true size. Is it the more accurate map?</a></li>
+                    <li><a href="../H066/index.html" target="_blank" rel="noopener noreferrer">Is South America east of Florida?</a></li>
+                    <li><a href="../H045/index.html" target="_blank" rel="noopener noreferrer">Does Alaska cross into the Eastern Hemisphere?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h046-source">
                     Sources: great-circle path computed via spherical interpolation between JFK (40.64°N, 73.78°W)
                     and PEK (40.08°N, 116.58°E); computed distance ≈10,980 km, closely matching the published
                     great-circle distance of 11,004 km (Air Miles Calculator) — the small gap is airport-to-airport
@@ -157,7 +200,7 @@
                     Circle Mapper routing notes. Country shapes: Natural Earth.
                 </p>
 
-            </section>
+            </div>
         </div>
 
         <div class="hanten-utility">
@@ -239,13 +282,76 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
-    <script src="../../assets/js/save-image.js"></script>
+
     <script>
-        HantenSaveImage.init({
-            target: ".hanten-exhibit",
-            title: "Why does the shortest flight from New York to Beijing curve over the Arctic?",
-            filename: "H046-great-circle-flight-paths.png"
-        });
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H046-great-circle-flight-paths.png", title = "Why does the shortest flight from New York to Beijing curve over the Arctic?";
+
+      async function blob() {
+        const panels = document.querySelector(".h046-panels");
+        const discovery = document.querySelector(".h046-discovery");
+        const source = document.querySelector(".h046-source, .hanten-source");
+        if (!panels) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const titleCanvas = document.createElement("canvas");
+        titleCanvas.width = 1800; titleCanvas.height = 168;
+        titleCanvas.style.width = "900px"; titleCanvas.style.height = "84px";
+        titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+        const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+        t.font = '750 30px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+        t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+        t.fillText("Why does the shortest flight from New York", 450, 30);
+        t.fillText("to Beijing curve over the Arctic?", 450, 60);
+        card.appendChild(titleCanvas);
+
+        const sub = document.createElement("canvas");
+        sub.width = 1800; sub.height = 84; sub.style.width = "900px"; sub.style.height = "42px";
+        sub.style.display = "block"; sub.style.margin = "0 auto 16px";
+        const s = sub.getContext("2d"); s.scale(2, 2);
+        s.font = '400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+        s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+        s.fillText("The true shortest path runs up near the North Pole, not straight across the Pacific.", 450, 21);
+        card.appendChild(sub);
+
+        const shell = document.createElement("div");
+        shell.appendChild(panels.cloneNode(true));
+        card.appendChild(shell);
+
+        if (discovery) {
+          const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+          const discoveryClone = document.createElement("div"); discoveryClone.className = "hanten-export-aha";
+          discoveryClone.innerHTML = discovery.innerHTML;
+          textcol.appendChild(discoveryClone); card.appendChild(textcol);
+        }
+
+        const reflection = document.createElement("div");
+        reflection.className = "hanten-export-reflection";
+        reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+        card.appendChild(reflection);
+
+        if (source) {
+          const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+        }
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
     </script>
 
 </body>

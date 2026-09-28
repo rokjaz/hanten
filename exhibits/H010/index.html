@@ -7,10 +7,10 @@
     <title>H010 — Half the World Lives Here</title>
     <meta
         name="description"
-        content="A 4,000 kilometer circle over Asia contains more than half of humanity."
+        content="A 2,485-mile (4,000 km) circle over Asia contains more than half of humanity."
     >
 
-    <link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
 
     <style>
         :root {
@@ -279,7 +279,7 @@ main.hanten-exhibit > .hanten-subtitle{
         </h1>
 
         <p class="hanten-subtitle">
-            The Yuxi Circle: a 4,000 km radius around southern China contains more than 55% of humanity.
+            The Yuxi Circle: a 2,485-mile (4,000 km) radius around southern China contains more than 55% of humanity.
         </p>
 
         <div class="hanten-graphic">
@@ -290,7 +290,7 @@ main.hanten-exhibit > .hanten-subtitle{
                         id="h010-map"
                         viewBox="0 0 960 500"
                         role="img"
-                        aria-label="Equal Earth world map showing a 4,000 kilometer radius circle over Asia containing about 52 percent of humanity"
+                        aria-label="Equal Earth world map showing a 2,485-mile (4,000 km) radius circle over Asia containing about 55 percent of humanity"
                     ></svg>
 
                     <div class="h010-context">
@@ -312,7 +312,22 @@ main.hanten-exhibit > .hanten-subtitle{
                     </div>
                 </div>
 
-                <details class="h010-explore">
+
+
+                <div class="h010-takeaway hanten-body">
+                    <p>
+                        <strong>Population is far more geographically concentrated than a world map makes it feel.</strong>
+                    </p>
+                    <p>
+                        The circle even includes large low-density areas, which makes the concentration more striking.
+                    </p>
+                </div>
+
+                <p class="hanten-reflection">
+                Where do you picture most of the world’s people living, and when did you last check?
+            </p>
+
+            <details class="h010-explore" data-html2canvas-ignore="true">
                     <summary>What’s inside the circle?</summary>
 
                     <div class="h010-explore-grid">
@@ -340,7 +355,7 @@ main.hanten-exhibit > .hanten-subtitle{
                         </tbody>
                     </table>
                     <p class="h010-table-note">
-                        These are rounded 2020 whole-country populations for context. The 4,000 km boundary cuts through some countries, so these figures are not a subtotal of the 4.32 billion people inside the circle.
+                        These are rounded 2020 whole-country populations for context. The 2,485-mile (4,000 km) boundary cuts through some countries, so these figures are not a subtotal of the 4.32 billion people inside the circle.
                     </p>
 
                     <div class="h010-surprise">
@@ -350,24 +365,20 @@ main.hanten-exhibit > .hanten-subtitle{
                             More than half of humanity fits inside despite all that lightly populated space.
                         </p>
                     </div>
-                </details>
+                <p style="margin:.6rem 0 0;">The same land-versus-people mismatch shows up inside a single country, not just across the globe: <a href="../H014/index.html" target="_blank" rel="noopener noreferrer">most U.S. counties have almost nobody in them</a>, so a map colored by land looks nothing like a map colored by where people actually are.</p></details>
 
-                <div class="h010-takeaway hanten-body">
-                    <p>
-                        <strong>Population is far more geographically concentrated than a world map makes it feel.</strong>
-                    </p>
-                    <p>
-                        The circle even includes large low-density areas, which makes the concentration more striking.
-                    </p>
-                </div>
+                <details class="h010-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H049/index.html" target="_blank" rel="noopener noreferrer">Can a single Indian state outpopulate most countries on Earth?</a></li>
+                    <li><a href="../H081/index.html" target="_blank" rel="noopener noreferrer">Is Australia really empty?</a></li>
+                    <li><a href="../H014/index.html" target="_blank" rel="noopener noreferrer">How can the same country look almost empty — and unbelievably crowded?</a></li>
+                </ul>
+            </details>
 
-                <p class="hanten-reflection">
-                    What does a world map hide when people are distributed this unevenly?
-                </p>
-
-                <p class="hanten-source h010-source">
-                    Source: Alasdair Rae’s Yuxi Circle analysis, using WorldPop 2020 1 km population data.
-                    Rae tested more than 1,500 cities; a 4,000 km geodesic circle centered on Yuxi, Yunnan, contained about 4.32 billion people—just over 55% of the 7.8 billion world population in that dataset.
+            <p class="hanten-source h010-source">
+                    Sources: Alasdair Rae’s Yuxi Circle analysis, using WorldPop 2020 1 km population data.
+                    Rae tested more than 1,500 cities; a 4,000 km (2,485-mile) geodesic circle centered on Yuxi, Yunnan, contained about 4.32 billion people—just over 55% of the 7.8 billion world population in that dataset.
                     Country totals in the dropdown are rounded 2020 population context and are not added to calculate the circle total.
                 </p>
 
@@ -438,8 +449,8 @@ main.hanten-exhibit > .hanten-subtitle{
   }
 }
 </script>
-<script src="../../04 Shared Assets/js/d3.v7.min.js"></script>
-    <script src="../../04 Shared Assets/geodata/world/countries-10m.js"></script>
+<script src="../../assets/js/d3.v7.min.js"></script>
+    <script src="../../assets/geodata/world/countries-10m.js"></script>
 
     <script>
         const width = 960;
@@ -519,7 +530,7 @@ main.hanten-exhibit > .hanten-subtitle{
             .text(LABEL_DATA.populationLabel.text);
     </script>
 
-    <script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/html2canvas.min.js"></script>
     
 
     
@@ -573,7 +584,7 @@ main.hanten-exhibit > .hanten-subtitle{
    s.fillStyle="#53616f";
    s.textAlign="center";
    s.textBaseline="middle";
-   s.fillText("The Yuxi Circle: a 4,000 km radius around southern China contains more than 55% of humanity.",450,14);
+   s.fillText("The Yuxi Circle: a 2,485-mile (4,000 km) radius around southern China contains more than 55% of humanity.",450,14);
    card.appendChild(sub);
 
    const core=document.createElement("div");
@@ -592,7 +603,7 @@ main.hanten-exhibit > .hanten-subtitle{
 
    const reflection=document.createElement("div");
    reflection.className="hanten-export-reflection";
-   reflection.textContent="What does a world map hide when people are distributed this unevenly?";
+   reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
    card.appendChild(reflection);
 
    if(source){

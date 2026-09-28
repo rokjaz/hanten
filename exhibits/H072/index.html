@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H072 — The Ordeal: How Do You Catch a Liar With No Evidence?</title>
+
+    <meta
+        name="description"
+        content="King Solomon, medieval priests, and Van Halen all caught liars the same way: not by asking better questions, but by designing a test that only the truth could pass cheaply."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H072-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h072-truth: #0e7c86;
+            --h072-truth-soft: rgba(14, 124, 134, 0.08);
+            --h072-lie: #b5541d;
+            --h072-lie-soft: rgba(217, 130, 43, 0.10);
+        }
+
+        .h072-cases {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+        }
+
+        .h072-case {
+            padding: 1rem 1rem 0.9rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .h072-when {
+            margin: 0 0 0.2rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h072-title {
+            margin: 0 0 0.5rem;
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 1.02rem;
+            line-height: 1.25;
+        }
+        .h072-dispute {
+            margin: 0 0 0.7rem;
+            font-size: 0.84rem;
+            line-height: 1.45;
+            color: var(--hanten-muted);
+        }
+        .h072-test-label {
+            margin: 0 0 0.15rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-text);
+        }
+        .h072-test {
+            margin: 0 0 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .h072-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.45rem;
+            margin-top: auto;
+        }
+        .h072-side {
+            padding: 0.55rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+        .h072-side.is-truth { background: var(--h072-truth-soft); }
+        .h072-side.is-lie { background: var(--h072-lie-soft); }
+        .h072-side strong {
+            display: block;
+            margin-bottom: 0.15rem;
+            font-size: 0.68rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .h072-side.is-truth strong { color: var(--h072-truth); }
+        .h072-side.is-lie strong { color: var(--h072-lie); }
+
+        .h072-outcome {
+            margin: 0.7rem 0 0;
+            padding-top: 0.6rem;
+            border-top: 1px solid var(--hanten-border);
+            font-size: 0.8rem;
+            line-height: 1.45;
+            color: var(--hanten-text);
+        }
+
+        .h072-varad {
+            margin: 0.55rem 0 0.1rem;
+        }
+        .h072-bar {
+            display: flex;
+            height: 16px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .h072-bar span { display: block; height: 100%; }
+        .h072-bar-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.2rem 0.7rem;
+            margin-top: 0.35rem;
+            font-size: 0.7rem;
+            color: var(--hanten-muted);
+        }
+        .h072-bar-legend i {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 2px;
+            margin-right: 0.3rem;
+            vertical-align: -0.05em;
+        }
+
+        .h072-aha {
+            max-width: var(--hanten-text-width);
+            margin: 1rem auto 0;
+            padding: 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .h072-aha p { margin: 0 0 0.6rem; }
+        .h072-aha p:last-child { margin-bottom: 0; }
+
+        .h072-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h072-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h072-discovery p:last-child { margin-bottom: 0; }
+        .h072-discovery strong { color: var(--hanten-text); }
+
+        @media (max-width: 860px) {
+            .h072-cases { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:1080px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h072-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h072-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h072-explore p { margin: .55rem 0 0; }
+.h072-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            How do you catch a liar when there's no evidence?
+        </h1>
+
+        <p class="hanten-subtitle">
+            A king, medieval priests, and a rock band each faced a claim they couldn't check. None of them asked a
+            better question. Each designed a test that would cost the liar and the truth-teller differently, then
+            watched who flinched.
+        </p>
+
+        <div id="h072-capture">
+
+            <div class="hanten-graphic">
+                <div class="h072-cases">
+
+                    <section class="hanten-panel h072-case">
+                        <p class="h072-when">Ancient Israel · 1 Kings 3</p>
+                        <h2 class="h072-title">King Solomon and the two mothers</h2>
+                        <p class="h072-dispute">Two women who share a house each gave birth days apart. One baby died in the night. Both now claim the living child, and no one else saw either birth.</p>
+                        <p class="h072-test-label">The test</p>
+                        <p class="h072-test">Solomon calls for a sword and orders the child cut in two, half for each woman.</p>
+                        <div class="h072-split">
+                            <div class="h072-side is-truth"><strong>The real mother</strong>Begs him to give the baby to the other woman rather than see it killed.</div>
+                            <div class="h072-side is-lie"><strong>The impostor</strong>Loses nothing real either way, so she agrees: divide it.</div>
+                        </div>
+                        <p class="h072-outcome">Solomon gives the child to the woman who tried to give him up.</p>
+                    </section>
+
+                    <section class="hanten-panel h072-case">
+                        <p class="h072-when">Medieval Europe · 9th–13th centuries</p>
+                        <h2 class="h072-title">Trial by ordeal</h2>
+                        <p class="h072-dispute">An accused person with no witnesses could be sent to "God's judgment": carry a red-hot iron or plunge a hand into boiling water. If the wound healed cleanly, God had declared them innocent.</p>
+                        <p class="h072-test-label">The test</p>
+                        <p class="h072-test">Let the accused choose: undergo the ordeal, or confess and settle.</p>
+                        <div class="h072-split">
+                            <div class="h072-side is-truth"><strong>The innocent</strong>Believed God would protect them, so they took the ordeal.</div>
+                            <div class="h072-side is-lie"><strong>The guilty</strong>Believed God would expose them, so many confessed or settled first.</div>
+                        </div>
+                        <div class="h072-varad" role="img" aria-label="Of 308 ordeal cases recorded at Várad, Hungary, 100 ended before the ordeal, 130 people passed, and 78 failed.">
+                            <div class="h072-bar">
+                                <span style="width:32.5%;background:#c9ccc4"></span>
+                                <span style="width:42.2%;background:var(--h072-truth)"></span>
+                                <span style="width:25.3%;background:var(--h072-lie)"></span>
+                            </div>
+                            <div class="h072-bar-legend">
+                                <span><i style="background:#c9ccc4"></i>100 ended before the ordeal</span>
+                                <span><i style="background:var(--h072-truth)"></i>130 passed</span>
+                                <span><i style="background:var(--h072-lie)"></i>78 failed</span>
+                            </div>
+                        </div>
+                        <p class="h072-outcome">In 308 cases recorded at Várad, Hungary (1208–1235), 62.5% of those who went through the hot-iron ordeal passed. Priests knew who had chosen it, and could quietly make sure the iron wasn't that hot.</p>
+                    </section>
+
+                    <section class="hanten-panel h072-case">
+                        <p class="h072-when">U.S. concert tours · 1980s</p>
+                        <h2 class="h072-title">Van Halen's brown M&amp;Ms</h2>
+                        <p class="h072-dispute">Van Halen's stage show was heavy, high-voltage, and full of pyrotechnics. Every venue promised it had read and followed the band's long technical contract. There was no way to check every line.</p>
+                        <p class="h072-test-label">The test</p>
+                        <p class="h072-test">Bury one trivial line in the contract: M&amp;Ms backstage, "absolutely no brown ones."</p>
+                        <div class="h072-split">
+                            <div class="h072-side is-truth"><strong>A careful venue</strong>Read every line, so the bowl had no brown M&amp;Ms.</div>
+                            <div class="h072-side is-lie"><strong>A careless venue</strong>Skimmed the contract, and the brown M&amp;Ms gave it away.</div>
+                        </div>
+                        <p class="h072-outcome">Finding a brown M&amp;M meant the crew rechecked the whole setup. At one Colorado arena that skipped the specs, the stage sank into the floor, causing about $80,000 in damage.</p>
+                    </section>
+
+                </div>
+            </div>
+
+            <div class="h072-aha">
+                <p><strong>A question can be answered with a lie. A well-designed test can't be faked for free.</strong>
+                    Each test works because the truth-teller and the liar would react differently to the same
+                    situation: a real mother can't bear to see her child killed, an innocent person who believes in
+                    divine judgment has nothing to fear from it, and a venue that actually read the contract has
+                    nothing to hide.</p>
+                <p>The same idea runs through modern life: a warranty signals a maker who trusts its product, a
+                    security deposit filters out tenants who plan to skip out, and a spot check on one small detail
+                    tells you whether someone paid attention to the big ones.</p>
+            </div>
+
+            
+
+            <p class="hanten-reflection">
+                What small, checkable detail would show whether someone got the big thing right?
+            </p>
+
+            <details class="h072-explore" data-html2canvas-ignore="true">
+                <summary>What makes a test like this work</summary>
+                <p><strong>It has to cost the liar more than the truth-teller.</strong> Asking both women to describe
+                    the baby wouldn't work, because they had shared a house for days. Asking both to pay for the
+                    baby wouldn't work either; it would only reveal who had more money. The sword worked because the
+                    price was different for each of them.</p>
+                <p><strong>People have to believe in it.</strong> The ordeal only sorted the guilty from the innocent
+                    because nearly everyone believed God would reveal the truth. After the Fourth Lateran Council
+                    barred priests from taking part in 1215, the practice faded, and so did the trick.</p>
+                <p><strong>And the reason for the test can look absurd from outside.</strong> For years the brown M&amp;M
+                    rule was retold as proof of rock-star excess. It was actually a safety check.</p>
+            </details>
+
+            <details class="h072-explore" data-html2canvas-ignore="true">
+                <summary>Explore more ways incentives reveal the truth</summary>
+                <p>See <a href="../H089/index.html" target="_blank" rel="noopener noreferrer">Split or Steal</a> for a game where a player's real incentives show up in a single choice, and <a href="../H040/index.html" target="_blank" rel="noopener noreferrer">The Monty Hall Problem</a> for how the host's choice carries information.</p>
+            </details>
+
+            <details class="h072-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H089/index.html" target="_blank" rel="noopener noreferrer">Stealing is never worse than splitting. So why does it lose?</a></li>
+                    <li><a href="../H094/index.html" target="_blank" rel="noopener noreferrer">If 94% of published studies say a drug works, is the question settled?</a></li>
+                    <li><a href="../H079/index.html" target="_blank" rel="noopener noreferrer">Can a new road make traffic worse?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: 1 Kings 3:16–28 (the judgment of Solomon); Peter T. Leeson, "Ordeals," Journal of Law and
+                Economics 55, no. 3 (2012), for the Várad register (308 cases, 1208–1235: 100 ended before the ordeal,
+                130 passed, 78 failed) and how priests could influence outcomes; Snopes, "Brown Out," and Wikipedia,
+                "Van Halen test," for the 1982 tour rider ("M&amp;M's (WARNING: ABSOLUTELY NO BROWN ONES)") and
+                David Lee Roth's account of the Pueblo, Colorado, arena damage.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "H072-the-ordeal.png", title = "How do you catch a liar when there's no evidence?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

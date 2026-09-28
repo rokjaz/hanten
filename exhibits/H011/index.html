@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>H011 — Earth–Moon Gap</title>
-<link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
+<meta name="description" content="Could all the other planets fit between Earth and the Moon? It depends on where the Moon is in its orbit: at its average distance they are slightly too wide, and at its farthest they fit.">
+<link rel="stylesheet" href="../../assets/css/hanten.css">
 <style>
 :root{
   --h011-ink:#1c2733;--h011-muted:#66727f;--h011-line:var(--hanten-border);
@@ -145,6 +146,12 @@
   line-height:1.4;
   color:#6a716f;
 }
+
+/* Design Standards 19 (standard Save/Share buttons) */
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer;opacity:1;border-radius:0}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
 </style>
 
 </head>
@@ -156,9 +163,9 @@
   <div class="hanten-graphic">
     <div class="h011-shell">
       <div class="h011-controls" id="h011-controls" aria-label="Moon distance">
-        <button type="button" data-dist="363300">Closest · 363,300 km</button>
-        <button type="button" data-dist="384400" class="active">Average · 384,400 km</button>
-        <button type="button" data-dist="405500">Farthest · 405,500 km</button>
+        <button type="button" data-dist="363300">Closest · 225,700 mi</button>
+        <button type="button" data-dist="384400" class="active">Average · 238,900 mi</button>
+        <button type="button" data-dist="405500">Farthest · 252,000 mi</button>
       </div>
 
       <section class="h011-card" id="h011-capture" aria-label="Earth Moon gap scale graphic">
@@ -167,15 +174,17 @@
       </section>
 
       <div class="h011-takeaway">
-        <strong>Answer: sometimes.</strong>
+        <strong>Whether the planets fit depends on where the Moon is in its orbit.</strong>
         At the Moon’s average distance, the seven planets are slightly too wide for the clear gap.
         At its farthest distance, they fit. The familiar “fact” changes with the condition being measured.
       </div>
 
-      <p class="hanten-reflection">How many “facts” depend on a condition we rarely mention?</p>
+      <p class="hanten-reflection">
+                What “fact” do you repeat that’s only true some of the time?
+            </p>
 
-      <details class="h011-explore">
-        <summary>Why doesn’t 384,400 km mean 384,400 km of empty space?</summary>
+      <details class="h011-explore" data-html2canvas-ignore="true">
+        <summary>Why doesn’t 238,900 miles (384,400 km) mean that much empty space?</summary>
 
         <p>
           Earth–Moon distance is measured from the <strong>center of Earth to the center of the Moon</strong>.
@@ -185,31 +194,42 @@
         <div class="h011-calc">
           <section>
             <h2>Average distance</h2>
-            <div class="h011-equation">384,400 − 6,371 − 1,737 = <strong>376,292 km</strong></div>
+            <div class="h011-equation">238,855 − 3,959 − 1,079 = <strong>233,817 mi (376,292 km)</strong></div>
             <p>That is the clear gap between Earth and the Moon.</p>
-            <div class="h011-equation">380,010 − 376,292 = <strong>3,718 km too wide</strong></div>
+            <div class="h011-equation">236,127 − 233,817 = <strong>2,310 mi (3,718 km) too wide</strong></div>
           </section>
 
           <section>
             <h2>Farthest distance</h2>
-            <div class="h011-equation">405,500 − 6,371 − 1,737 = <strong>397,392 km</strong></div>
+            <div class="h011-equation">251,966 − 3,959 − 1,079 = <strong>246,928 mi (397,392 km)</strong></div>
             <p>That is the clear gap at the farthest distance used here.</p>
-            <div class="h011-equation">397,392 − 380,010 = <strong>17,382 km to spare</strong></div>
+            <div class="h011-equation">246,928 − 236,127 = <strong>10,801 mi (17,382 km) to spare</strong></div>
           </section>
         </div>
 
         <p class="h011-calc-note">
-          The seven other planets have a combined diameter of about <strong>380,010 km</strong>.
+          The seven other planets have a combined diameter of about <strong>236,127 miles (380,010 km)</strong>.
         </p>
-      </details>
+      <p style="margin:.6rem 0 0;">The same fix helps with any number too large to feel real: find something familiar to measure it against, the way <a href="../H002/index.html" target="_blank" rel="noopener noreferrer">the most isolated point in the ocean</a> only makes sense once you compare its emptiness to something nearer, like the space station passing overhead.</p></details>
 
-      <p class="h011-source">
+      <details class="h011-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H002/index.html" target="_blank" rel="noopener noreferrer">How far can you get from everyone?</a></li>
+                    <li><a href="../H020/index.html" target="_blank" rel="noopener noreferrer">How long would it take to drive to the International Space Station?</a></li>
+                    <li><a href="../H078/index.html" target="_blank" rel="noopener noreferrer">How far apart are a million and a billion?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h011-source">
         Sources: NASA planetary fact sheets / Solar System Exploration for planetary diameters and Moon dimensions; NASA lunar reference values for Earth–Moon distance. This exhibit uses 363,300 km (closest), 384,400 km (average), and 405,500 km (farthest) as center-to-center distances and shows all diameters and distances on one scale.
       </p>
 
-      <div class="hanten-utility h011-actions">
-        <button type="button" id="h011-save">Save Image</button>
-        <button type="button" id="h011-share">Share Image</button>
+      <div class="hanten-utility" data-html2canvas-ignore="true">
+        <div id="save-image-slot" class="hanten-image-actions">
+          <button type="button" id="h011-save">Save Image</button>
+          <button type="button" id="h011-share">Share Image</button>
+        </div>
       </div>
     </div>
   </div>
@@ -228,6 +248,7 @@
   const diagram=document.getElementById("h011-diagram"), result=document.getElementById("h011-result");
   const el=(tag,attrs={},text=null)=>{const n=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));if(text!==null)n.textContent=text;return n};
 
+  const MI=km=>Math.round(km*0.621371).toLocaleString();
   function render(distKm){
     diagram.replaceChildren();
     const W=1300, pxPerKm=W/distKm, kmToPx=km=>km*pxPerKm;
@@ -299,14 +320,14 @@
     const noteY=centerY-Math.max(neptune.r,moonR)-40;
     if(fits){
       diagram.appendChild(el("path",{d:`M ${neptuneRight} ${noteY+9} V ${noteY} H ${moonLeft} V ${noteY+9}`,fill:"none",stroke:"#0e7c86","stroke-width":2}));
-      diagram.appendChild(el("text",{x:(neptuneRight+moonLeft)/2,y:noteY-13,"text-anchor":"middle",fill:"#0e7c86","font-size":18,"font-weight":800,"font-family":'-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif'},`${spareKm.toLocaleString()} km to spare`));
+      diagram.appendChild(el("text",{x:(neptuneRight+moonLeft)/2,y:noteY-13,"text-anchor":"middle",fill:"#0e7c86","font-size":18,"font-weight":800,"font-family":'-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif'},`${MI(spareKm)} mi (${spareKm.toLocaleString()} km) to spare`));
     }else{
       diagram.appendChild(el("line",{x1:moonLeft,x2:moonLeft,y1:noteY-30,y2:labelBase-28,stroke:"#b94b37","stroke-width":1.8,"stroke-dasharray":"5 5"}));
-      diagram.appendChild(el("text",{x:moonLeft-10,y:noteY-39,"text-anchor":"end",fill:"#b94b37","font-size":18,"font-weight":800,"font-family":'-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif'},`${Math.abs(spareKm).toLocaleString()} km too wide`));
+      diagram.appendChild(el("text",{x:moonLeft-10,y:noteY-39,"text-anchor":"end",fill:"#b94b37","font-size":18,"font-weight":800,"font-family":'-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif'},`${MI(Math.abs(spareKm))} mi (${Math.abs(spareKm).toLocaleString()} km) too wide`));
     }
     diagram.appendChild(el("text",{x:totalWidth/2,y:height-12,"text-anchor":"middle",fill:"#66727f","font-size":15,"font-weight":500,"font-family":'-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif'},"Planet diameters and the Earth–Moon distance are shown on the same scale."));
     result.className=`h011-result ${fits?"fits":"no-fit"}`;
-    result.textContent=fits?`It fits — with ${spareKm.toLocaleString()} km to spare.`:`It doesn't fit — short by ${Math.abs(spareKm).toLocaleString()} km.`;
+    result.textContent=fits?`It fits — with ${MI(spareKm)} mi (${spareKm.toLocaleString()} km) to spare.`:`It doesn't fit — short by ${MI(Math.abs(spareKm))} mi (${Math.abs(spareKm).toLocaleString()} km).`;
   }
 
   document.querySelectorAll("#h011-controls button").forEach(button=>button.addEventListener("click",()=>{
@@ -317,7 +338,7 @@
 })();
 </script>
 
-<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/html2canvas.min.js"></script>
 <script>
 (() => {
   const save = document.getElementById("h011-save");
@@ -393,7 +414,7 @@
 
     const reflection = document.createElement("div");
     reflection.className = "h011-export-reflection";
-    reflection.textContent = "How many “facts” depend on a condition we rarely mention?";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     if(source){

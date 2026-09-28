@@ -33,14 +33,14 @@
   }
 
   .h045-hemi-label {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-family: var(--hanten-font);
     font-weight: 700;
     font-size: 11.5px;
     letter-spacing: 0.05em;
   }
 
   .h045-seam-label {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-family: var(--hanten-font);
     font-weight: 700;
     font-size: 10.5px;
     fill: var(--hanten-muted);
@@ -56,7 +56,7 @@
   }
 
   .h045-note {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-family: var(--hanten-font);
     font-size: 10px;
     fill: var(--hanten-muted);
     opacity: 0.85;
@@ -70,7 +70,7 @@
   }
 
   .h045-city-sub {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-family: var(--hanten-font);
     font-size: 10px;
     fill: var(--hanten-muted);
   }
@@ -110,7 +110,7 @@
   .h045-legend .line {
     width: 16px;
     height: 0;
-    border-top: 2px dashed var(--h045-seam);
+    border-top: 2px solid var(--h045-seam);
     display: inline-block;
   }
 
@@ -122,6 +122,40 @@
   .h045-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
   .h045-discovery p:last-child { margin-bottom: 0; }
   .h045-discovery strong { color: var(--hanten-text); }
+
+  .h045-explore {
+    max-width: var(--hanten-text-width);
+    margin: 1.1rem auto 0;
+    padding: .6rem 0;
+    border-top: 1px solid var(--hanten-border);
+    border-bottom: 1px solid var(--hanten-border);
+    color: var(--hanten-muted);
+    font-size: .84rem;
+    line-height: 1.5;
+  }
+
+  .h045-explore summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); }
+  .h045-explore p { margin: .65rem 0 0; }
+
+
+  .h045-source {
+    max-width: 840px; margin: .9rem auto 0; text-align: left;
+    color: #7b838a; font-size: .7rem; line-height: 1.45;
+  }
+
+  .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+  .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+  .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--h045-seam,#1f1f1f);color:var(--h045-seam,#1f1f1f)}
+  .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+  .hanten-export-card{position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+  .hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+  .hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+  .hanten-export-aha strong{color:#1c2733}
+  .hanten-export-aha p{margin:0 0 8px}
+  .hanten-export-aha p:last-child{margin-bottom:0}
+  .hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+  .hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
 </style>
 </head>
 
@@ -139,7 +173,7 @@
       <section class="h045-wrap hanten-panel" aria-label="Map of the far western Aleutian Islands straddling the 180th meridian">
         <svg class="h045-map" id="h045-map" viewBox="0 0 640 260" role="img" aria-labelledby="h045-map-title h045-map-desc">
           <title id="h045-map-title">Map of the far western Aleutian Islands</title>
-          <desc id="h045-map-desc">Semisopochnoi Island, at 179.77 degrees east, sits just inside the Eastern Hemisphere. Amatignak Island, at 179.15 degrees west, sits just inside the Western Hemisphere. The 180th meridian runs between them. Mainland Alaska lies far to the east, off this crop.</desc>
+          <desc id="h045-map-desc">Semisopochnoi Island, at 179.77 degrees east, sits just inside the Eastern Hemisphere. Amatignak Island, at 179.15 degrees west, sits just inside the Western Hemisphere. The 180th meridian runs between them. Mainland Alaska lies far to the east, off the map.</desc>
         </svg>
         <div class="h045-legend">
           <span><span class="line"></span>180th meridian</span>
@@ -151,15 +185,31 @@
 
     <div class="h045-discovery hanten-body">
       <p><strong>Alaska is the westernmost, easternmost, and northernmost US state.</strong> Amatignak Island (179°08′55″W) is the westernmost point in the US by longitude. Keep going west along the same island chain and, instead of running out of islands, you cross 180° and start counting east again — landing on Semisopochnoi Island (179°46′23″E), the easternmost point in the US by longitude.</p>
-      <p>Both islands are uninhabited specks in the Aleutians, roughly 40 km apart on the same island chain — yet by the numbers, one is the most western point in the country and the other is the most eastern.</p>
-    </div>
+                <p>Superlatives like “easternmost” depend on where the measuring system starts and ends. At the edge of a scale, close neighbors can end up looking like opposites.</p>
+            </div>
 
     <p class="hanten-reflection">
-      When "furthest east" and "furthest west" depend on where you draw the line that defines them — how much else does too?
-    </p>
+                What “farthest” or “first” depends on where someone decided to start counting?
+            </p>
 
-    <p class="hanten-source">
-      Sources: Semisopochnoi Island 51°57′42″N 179°46′23″E; Amatignak Island 51°16′07″N 179°08′55″W (published US geographic extreme points, per Wikipedia and WorldAtlas). Island shapes: Natural Earth 10m. The crop shows only the far-western Aleutians; mainland Alaska continues roughly 1,200 miles further east, off this view.
+    <details class="h045-explore" data-html2canvas-ignore="true">
+      <summary>Why the antimeridian works this way</summary>
+      <p>Longitude is measured east or west from the Prime Meridian (0°) at Greenwich, up to 180° in each direction — so 180°E and 180°W are the same line, halfway around the globe from Greenwich. Everything just east of it reads as a very large positive "east" number; everything just west of it reads as a very large positive "west" number. Two points a few dozen miles apart, straddling that line, end up as far apart as two longitude readings can possibly be — one near the top of the "east" scale, one near the top of the "west" scale — even though neither number reflects how close together the islands actually sit.</p>
+      <p>The map above shows only the far-western tip of the Aleutian chain, reprojected so the 180th-meridian seam doesn't split the islands visually; mainland Alaska continues roughly 1,200 miles further east, off the map. Island outlines are simplified Natural Earth data, not survey-grade boundaries.</p>
+      <p>Both islands are uninhabited specks in the Aleutians, roughly 25 miles (40 km) apart on the same island chain — yet by the numbers, one is the most western point in the country and the other is the most eastern. The 180th meridian does the same thing to time that it does to direction: cross it a little farther north, between the two <a href="../H042/index.html" target="_blank" rel="noopener noreferrer">Diomede Islands</a>, and instead of "east" flipping to "west" it's today flipping to tomorrow — the same islands are 2.4 miles apart and end up on opposite sides of the international date line. Wherever the antimeridian runs, it turns a small, arbitrary line-drawing choice into an outsized effect on the numbers next to it.</p>
+    </details>
+
+    <details class="h045-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H042/index.html" target="_blank" rel="noopener noreferrer">How can two islands 2.4 miles apart be a day apart?</a></li>
+                    <li><a href="../H046/index.html" target="_blank" rel="noopener noreferrer">Why does the shortest flight from New York to Beijing curve over the Arctic?</a></li>
+                    <li><a href="../H016/index.html" target="_blank" rel="noopener noreferrer">Can you see half the Earth and almost no land?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source h045-source">
+      Sources: Semisopochnoi Island 51°57′42″N 179°46′23″E; Amatignak Island 51°16′07″N 179°08′55″W (published US geographic extreme points, per Wikipedia and WorldAtlas). Island shapes: Natural Earth 10m. The map shows only the far-western Aleutians; mainland Alaska continues roughly 1,200 miles further east, off the map.
     </p>
   </div>
 
@@ -223,16 +273,18 @@
       .attr("stroke", "var(--h045-land-line)")
       .attr("stroke-width", 1);
 
-    svg.append("text").attr("class", "h045-region-label").attr("x", width / 2).attr("y", 52).attr("text-anchor", "middle")
+    // Sits over the western half of the chain so the 180th-meridian line
+    // doesn't run through the middle of it.
+    svg.append("text").attr("class", "h045-region-label").attr("x", (seamX + width) / 2 + 20).attr("y", 104).attr("text-anchor", "middle")
       .text("ALEUTIAN ISLANDS, ALASKA");
     svg.append("text").attr("class", "h045-note").attr("x", width - 16).attr("y", height - 12).attr("text-anchor", "end")
-      .text("mainland Alaska ≈1,200 mi east, off this crop →");
+      .text("Mainland Alaska ~1,200 mi east →");
 
     const SEMISOPOCHNOI = [179.7728, 51.955];
     const AMATIGNAK = [-179.1486, 51.269];
 
     const [sx, sy] = projection(SEMISOPOCHNOI);
-    const semisoLabelX = 244, semisoLabelY = 112;
+    const semisoLabelX = 250, semisoLabelY = 78;
     svg.append("line").attr("x1", sx).attr("y1", sy).attr("x2", semisoLabelX + 8).attr("y2", semisoLabelY + 4)
       .attr("stroke", "var(--hanten-muted)").attr("stroke-width", 1);
     svg.append("circle").attr("cx", sx).attr("cy", sy).attr("r", 4.5).attr("fill", "var(--h045-east-ink)").attr("stroke", "#fff").attr("stroke-width", 1.6);
@@ -250,13 +302,75 @@
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
-<script src="../../assets/js/save-image.js"></script>
+
 <script>
-  HantenSaveImage.init({
-    target: ".hanten-exhibit",
-    title: "Does Alaska cross into the Eastern Hemisphere?",
-    filename: "H045-alaska-both-hemispheres.png"
-  });
+(() => {
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+  slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+  const save = document.createElement("button"), share = document.createElement("button");
+  save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+  slot.append(save, share);
+  const filename = "H045-alaska-both-hemispheres.png", title = "Does Alaska cross into the Eastern Hemisphere?";
+
+  async function blob() {
+    const mapSection = document.querySelector(".h045-wrap");
+    const discovery = document.querySelector(".h045-discovery");
+    const source = document.querySelector(".h045-source, .hanten-source");
+    if (!mapSection) throw new Error("Export content not found.");
+
+    const card = document.createElement("div");
+    card.className = "hanten-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800; titleCanvas.height = 84;
+    titleCanvas.style.width = "900px"; titleCanvas.style.height = "42px";
+    titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+    const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+    t.font = '750 30px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+    t.fillText("Does Alaska cross into the Eastern Hemisphere?", 450, 21);
+    card.appendChild(titleCanvas);
+
+    const sub = document.createElement("canvas");
+    sub.width = 1800; sub.height = 84; sub.style.width = "900px"; sub.style.height = "42px";
+    sub.style.display = "block"; sub.style.margin = "0 auto 16px";
+    const s = sub.getContext("2d"); s.scale(2, 2);
+    s.font = '400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+    s.fillText("The Aleutian Islands run so far west, the chain crosses the 180th meridian.", 450, 21);
+    card.appendChild(sub);
+
+    const shell = document.createElement("div");
+    shell.appendChild(mapSection.cloneNode(true));
+    card.appendChild(shell);
+
+    if (discovery) {
+      const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+      const discoveryClone = document.createElement("div"); discoveryClone.className = "hanten-export-aha";
+      discoveryClone.innerHTML = discovery.innerHTML;
+      textcol.appendChild(discoveryClone); card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "hanten-export-reflection";
+    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    card.appendChild(reflection);
+
+    if (source) {
+      const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+    try {
+      const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+      return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+    } finally { card.remove(); }
+  }
+  function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+  save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+  share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+})();
 </script>
 
 </body>
