@@ -1894,3 +1894,18 @@ header h1 {
 .contact-submit:disabled{cursor:wait;opacity:.65}.contact-status{min-height:1.5em;margin:16px 0 0;color:#53616f;font-weight:700}
 .contact-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
 @media(max-width:600px){.contact-page{padding-top:34px}.contact-form{padding:22px}}
+
+
+/* ==========================================================
+   Theme colors (Sept 2026): each exhibit card takes the soft
+   background of its Hanten theme, matching the exhibit page.
+   ========================================================== */
+.theme-perspective  { background-color: #EDE7F4 !important; }
+.theme-time         { background-color: #F4ECDF !important; }
+.theme-scale        { background-color: #E2EEF5 !important; }
+.theme-measurement  { background-color: #E6EFE2 !important; }
+.theme-distribution { background-color: #F5E6DF !important; }
+.theme-statistics   { background-color: #E4E8F0 !important; }
+.theme-probability  { background-color: #DFF0EB !important; }
+.theme-optimization { background-color: #F1EFD8 !important; }
+.theme-systems      { background-color: #F3E4EA !important; }

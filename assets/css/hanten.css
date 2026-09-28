@@ -1,6 +1,9 @@
 /* ==========================================================
    HANTEN CSS FRAMEWORK
-   Version 0.5
+   Version 0.6
+
+   v0.6: theme backgrounds. Each exhibit's <body> carries a
+   hanten-theme-<name> class that sets the page color for its theme.
 
    v0.5: no orphaned words (balanced wrapping on the question,
    subtitle and reflection; pretty wrapping on paragraphs), and
@@ -355,3 +358,20 @@ canvas {
     margin-top: 0 !important;
     border-top: 0 !important;
 }
+
+/* ==========================================================
+   10. THEME BACKGROUNDS (v0.6)
+   Each exhibit's <body> carries hanten-theme-<theme>. The page
+   background (and the saved image) takes that theme's tint;
+   panels and charts stay white. "Unresolved" keeps the default.
+   ========================================================== */
+
+.hanten-theme-perspective  { --hanten-paper: #EDE7F4; } /* lavender */
+.hanten-theme-time         { --hanten-paper: #F4ECDF; } /* parchment */
+.hanten-theme-scale        { --hanten-paper: #E2EEF5; } /* sky */
+.hanten-theme-measurement  { --hanten-paper: #E6EFE2; } /* sage */
+.hanten-theme-distribution { --hanten-paper: #F5E6DF; } /* clay */
+.hanten-theme-statistics   { --hanten-paper: #E4E8F0; } /* slate */
+.hanten-theme-probability  { --hanten-paper: #DFF0EB; } /* mint */
+.hanten-theme-optimization { --hanten-paper: #F1EFD8; } /* straw */
+.hanten-theme-systems      { --hanten-paper: #F3E4EA; } /* rose */

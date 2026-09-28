@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="../../assets/css/hanten.css">
 <style>
 :root{--h002-ink:#1c2733;--h002-muted:#5f6b76;--h002-line:rgba(28,39,51,.14);--h002-ocean:#d9edf5;--h002-land:#d9ddd4;--h002-land-line:#b8c0b5;--h002-graticule:rgba(28,39,51,.10);--h002-nemo:#c1442d;--h002-land-ring:#0e7c86;--h002-iss-ring:#c98a23;--h002-panel:#fff}
-body{background:var(--hanten-paper,#f4f3ef)}
+body{background:var(--hanten-paper)}
 main.hanten-exhibit{max-width:1180px;margin:0 auto}.h002-shell{width:min(100%,940px);margin:0 auto}.h002-map-wrap{width:min(100%,820px);margin:0 auto;background:var(--h002-panel);border:1px solid var(--h002-line);padding:.4rem}#h002-map{display:block;width:100%;height:auto}.h002-sphere{fill:var(--h002-ocean);stroke:var(--h002-line);stroke-width:1}.h002-graticule{fill:none;stroke:var(--h002-graticule);stroke-width:.65}.h002-land{fill:var(--h002-land);stroke:var(--h002-land-line);stroke-width:.65}.h002-ring{fill:none;stroke-width:2}.h002-ring--land{stroke:var(--h002-land-ring)}.h002-ring--iss{stroke:var(--h002-iss-ring);stroke-dasharray:5 4}.h002-label{font-family:var(--hanten-font);font-size:13px;font-weight:700;}.h002-label--land{fill:var(--h002-land-ring)}.h002-label--iss{fill:var(--h002-iss-ring)}.h002-marker{fill:var(--h002-nemo);stroke:#fff;stroke-width:2.5}.h002-marker-label{font-family:var(--hanten-font);font-size:15px;font-weight:800;fill:var(--h002-ink);}.h002-legend{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin:.55rem auto 0;font-size:.84rem;color:var(--h002-muted)}.h002-key{display:inline-block;width:24px;height:0;margin-right:.45rem;vertical-align:middle;border-top:2px solid}.h002-key--land{border-color:var(--h002-land-ring)}.h002-key--iss{border-color:var(--h002-iss-ring);border-top-style:dashed}.h002-reveal{max-width:760px;margin:1.15rem auto 0;text-align:left;font-size:clamp(1.05rem,2vw,1.3rem);line-height:1.5}.h002-source{max-width:760px;margin:1rem auto 0;color:var(--h002-muted);font-size:.82rem;line-height:1.5;text-align:center}.h002-explore{max-width:760px;margin:.75rem auto 0;padding:.6rem 0;border-top:1px solid var(--h002-line);border-bottom:1px solid var(--h002-line);color:var(--h002-muted);font-size:.82rem;line-height:1.5}.h002-explore summary{cursor:pointer;color:var(--h002-ink);font-weight:750}.h002-explore p{margin:.65rem 0 0}.h002-save{max-width:760px;margin:.75rem auto 0;display:flex;justify-content:flex-end}.h002-save button{font-size:.75rem;opacity:.72}.h002-save button:hover,.h002-save button:focus-visible{opacity:1}@media(max-width:700px){.h002-label{font-size:10px}.h002-marker-label{font-size:12px}}
 </style>
 
@@ -22,7 +22,7 @@ main.hanten-exhibit{max-width:1180px;margin:0 auto}.h002-shell{width:min(100%,94
 .hanten-image-actions button{
   appearance:none;
   border:1px solid var(--hanten-border, rgba(28,39,51,.16));
-  background:var(--hanten-paper, #f4f3ef);
+  background:var(--hanten-paper);
   color:var(--hanten-text, #1c2733);
   font-family:var(--hanten-font, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif);
   font-size:.76rem;
@@ -465,7 +465,7 @@ main.hanten-exhibit > .hanten-subtitle{
 </style>
 
 </head>
-<body>
+<body class="hanten-theme-scale">
 <main class="hanten-exhibit">
 <h1 class="hanten-question">How far can you get from everyone?</h1>
 <p class="hanten-subtitle">At one spot in the South Pacific, the nearest land is more than 1,600 miles away.</p>

@@ -26,7 +26,7 @@
     --h033-america-soft: #e8cca6;
   }
 
-  body { background: var(--hanten-paper, #f4f3ef); }
+  body { background: var(--hanten-paper); }
 
   main.hanten-exhibit {
     max-width: 900px;
@@ -237,7 +237,7 @@
 <style>
 .hanten-export-card{
  position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
- background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+ background:var(--hanten-paper,#eef1ec);color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
 }
 .hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
 .hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
@@ -257,7 +257,7 @@
 </style>
 </head>
 
-<body>
+<body class="hanten-theme-perspective">
 <main class="hanten-exhibit">
 
   <h1 class="hanten-question">Gulf of Mexico or Gulf of America?</h1>

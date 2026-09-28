@@ -170,7 +170,7 @@ main.hanten-exhibit > .hanten-subtitle{
 
 .hanten-export-card{
  position:fixed;left:-10000px;top:0;width:1120px;padding:30px 70px 54px;box-sizing:border-box;
- background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+ background:var(--hanten-paper,#eef1ec);color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
 }
 .hanten-export-card .h022-wrap{margin:0;width:100%}
 .hanten-export-textcol{width:min(780px,100%);margin-left:auto;margin-right:auto;text-align:left}
@@ -221,7 +221,7 @@ table.h022-linescore td.h022-hot { background: rgba(30,58,95,.10); color: var(--
 </style>
 </head>
 
-<body>
+<body class="hanten-theme-optimization">
 
 <main class="hanten-exhibit">
 
@@ -467,7 +467,7 @@ table.h022-linescore td.h022-hot { background: rgba(30,58,95,.10); color: var(--
 
         document.body.appendChild(card);
         try {
-          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
           return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
         } finally { card.remove(); }
       }

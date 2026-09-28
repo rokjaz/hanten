@@ -23,7 +23,7 @@
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background: var(--paper);
+    background: var(--hanten-paper);
     color: var(--ink);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   }
@@ -132,7 +132,7 @@
 .hanten-image-actions button{
   appearance:none;
   border:1px solid var(--hanten-border, rgba(28,39,51,.16));
-  background:var(--hanten-paper, #f4f3ef);
+  background:var(--hanten-paper);
   color:var(--hanten-text, #1c2733);
   font-family:var(--hanten-font, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif);
   font-size:.76rem;
@@ -610,7 +610,7 @@ main.hanten-exhibit .source-note{
 </style>
 
 </head>
-<body>
+<body class="hanten-theme-distribution">
 
 <main class="hanten-exhibit">
   <h1 class="hanten-question">Can you win most of the seats without winning most of the votes?</h1>

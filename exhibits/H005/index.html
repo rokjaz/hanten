@@ -20,7 +20,7 @@
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background: var(--paper);
+    background: var(--hanten-paper);
     color: var(--ink);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   }
@@ -67,7 +67,7 @@
     flex-wrap: wrap;
     gap: 5px;
     padding: 0.6rem;
-    background: var(--paper);
+    background: var(--hanten-paper);
     border: 1px solid var(--line);
     margin-bottom: 0.8rem;
     min-height: 44px;
@@ -177,7 +177,7 @@
 
 <style>
 .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
-.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:var(--hanten-paper,#f4f3ef);color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:var(--hanten-paper);color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
 .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
 .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
 </style>
@@ -310,7 +310,7 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
 </style>
 
 </head>
-<body>
+<body class="hanten-theme-probability">
 
 <main class="hanten-exhibit">
   <h1 class="hanten-question">How many people does it take before a shared birthday is more likely than not?</h1>

@@ -424,7 +424,7 @@
 </style>
 </head>
 
-<body>
+<body class="hanten-theme-perspective">
 
     <main class="hanten-exhibit">
 
@@ -937,7 +937,7 @@
 
         document.body.appendChild(card);
         try {
-          const canvas = await html2canvas(card, { backgroundColor: "#eef1ec", scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
           return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
         } finally { card.remove(); }
       }
