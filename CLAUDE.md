@@ -4,6 +4,10 @@ Public site of counterintuitive-but-accurate maps and statistics, at **hanten.ap
 
 The full editorial philosophy, standards, and design system live in the Hanten master project on Google Drive (`Hanten/00 Foundation/`) — the Constitution, First Principles, Exhibit Framework, Website Architecture Guide, CSS Framework, Design System, and Editorial Handbook. This file only covers the mechanics of *this repo*; it doesn't restate that philosophy.
 
+## Current rule: laptop first (Sept 2026)
+
+Do not push anything to `website-v2` (the branch hanten.app publishes from) until Rock says the next build is ready. All work happens on the local `next-build` branch and is previewed on his laptop (`python3 -m http.server 8000`, then http://localhost:8000). When he approves, merge `next-build` into `website-v2` and push once.
+
 ## Stack
 
 Plain HTML/CSS/vanilla JS. No build step, no framework, no bundler. Deployed with Cloudflare Pages straight from this repo; `website-v2` is the production branch — push there to ship.
