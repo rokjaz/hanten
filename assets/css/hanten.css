@@ -1,6 +1,9 @@
 /* ==========================================================
    HANTEN CSS FRAMEWORK
-   Version 0.7
+   Version 0.8
+
+   v0.8: theme colors removed from exhibit pages (all exhibits share
+   one neutral background); the body theme class stays as a label.
 
    v0.7: theme backgrounds softened to half strength so they do not
    compete with the colors inside charts and maps.
@@ -363,18 +366,9 @@ canvas {
 }
 
 /* ==========================================================
-   10. THEME BACKGROUNDS (v0.6)
-   Each exhibit's <body> carries hanten-theme-<theme>. The page
-   background (and the saved image) takes that theme's tint;
-   panels and charts stay white. "Unresolved" keeps the default.
+   10. THEME CLASSES (v0.8)
+   Each exhibit's <body> carries hanten-theme-<theme> as a label
+   only. Exhibit pages all use the same neutral background
+   (--hanten-paper); theme colors appear on homepage and Browse
+   cards, not behind exhibit content.
    ========================================================== */
-
-.hanten-theme-perspective  { --hanten-paper: #F3F0F4; } /* lavender */
-.hanten-theme-time         { --hanten-paper: #F6F2EB; } /* parchment */
-.hanten-theme-scale        { --hanten-paper: #EEF3F4; } /* sky */
-.hanten-theme-measurement  { --hanten-paper: #EFF3EC; } /* sage */
-.hanten-theme-distribution { --hanten-paper: #F6EFEB; } /* clay */
-.hanten-theme-statistics   { --hanten-paper: #EEF0F2; } /* slate */
-.hanten-theme-probability  { --hanten-paper: #ECF4F0; } /* mint */
-.hanten-theme-optimization { --hanten-paper: #F4F3E7; } /* straw */
-.hanten-theme-systems      { --hanten-paper: #F5EEF0; } /* rose */
