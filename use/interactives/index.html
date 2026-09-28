@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hanten Interactives — Use Hanten</title>
+<style>
+:root{
+  --canvas:#eef7f8;
+  --shell:#183746;
+  --ink:#20313a;
+  --muted:#53636b;
+  --line:#c8d0d3;
+  --accent:#a9663d;
+  --white:#ffffff;
+  --soft:#f7fbfc;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--ink);
+  background:var(--canvas);
+  line-height:1.45;
+}
+a{color:inherit}
+header{
+  height:68px;
+  background:var(--shell);
+  color:#fff;
+  display:flex;
+  align-items:center;
+}
+.nav{
+  width:min(1120px,calc(100% - 48px));
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand{
+  font-size:17px;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-decoration:none;
+}
+.links{display:flex;gap:28px;align-items:center}
+.links a{
+  color:rgba(255,255,255,.88);
+  text-decoration:none;
+  font-size:14px;
+}
+.links a:last-child{color:#fff;font-weight:700}
+main{overflow:hidden}
+.hero{
+  width:min(1000px,calc(100% - 48px));
+  margin:0 auto;
+  padding:86px 0 74px;
+  text-align:center;
+}
+.eyebrow{
+  margin:0 0 16px;
+  color:var(--accent);
+  font-size:13px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+h1{
+  margin:0 auto 22px;
+  max-width:850px;
+  font-size:clamp(42px,5.5vw,68px);
+  line-height:1.02;
+  letter-spacing:-.035em;
+  color:var(--shell);
+}
+.hero p{
+  max-width:730px;
+  margin:0 auto;
+  color:var(--muted);
+  font-size:20px;
+  line-height:1.55;
+}
+.path{
+  background:var(--white);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.path-inner{
+  width:min(1000px,calc(100% - 48px));
+  margin:auto;
+  padding:32px 0 34px;
+  text-align:center;
+}
+.path h2{
+  margin:0 0 18px;
+  font-size:20px;
+  color:var(--shell);
+}
+.steps{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  color:var(--shell);
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+}
+.arrow{color:var(--accent);font-size:18px}
+.demo{
+  width:min(1000px,calc(100% - 48px));
+  margin:auto;
+  padding:78px 0 84px;
+}
+.demo-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.5fr) minmax(270px,.75fr);
+  gap:30px;
+  align-items:stretch;
+}
+.demo-card,.detail-card{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:18px;
+}
+.demo-card{padding:42px}
+.demo-card h2{
+  margin:0 0 14px;
+  color:var(--shell);
+  font-size:38px;
+  line-height:1.08;
+  letter-spacing:-.02em;
+}
+.demo-card .desc{
+  margin:0 0 26px;
+  max-width:650px;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.55;
+}
+.button{
+  display:inline-flex;
+  min-height:46px;
+  align-items:center;
+  justify-content:center;
+  padding:0 20px;
+  border-radius:8px;
+  background:var(--shell);
+  color:#fff;
+  font-size:15px;
+  font-weight:800;
+  text-decoration:none;
+}
+.note{
+  margin:13px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+.detail-card{
+  padding:32px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.detail-card .eyebrow{margin-bottom:22px}
+.detail{
+  padding:15px 0;
+  border-top:1px solid var(--line);
+}
+.detail:first-of-type{border-top:0;padding-top:0}
+.detail:last-child{padding-bottom:0}
+.detail strong{
+  display:block;
+  margin-bottom:3px;
+  color:var(--shell);
+  font-size:16px;
+}
+.detail span{
+  color:var(--muted);
+  font-size:14px;
+}
+.philosophy{
+  background:var(--white);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.philosophy-inner{
+  width:min(820px,calc(100% - 48px));
+  margin:auto;
+  padding:70px 0;
+  text-align:center;
+}
+.philosophy h2{
+  margin:0 0 15px;
+  color:var(--shell);
+  font-size:34px;
+  letter-spacing:-.02em;
+}
+.philosophy p{
+  margin:0;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.6;
+}
+.more{
+  width:min(1000px,calc(100% - 48px));
+  margin:auto;
+  padding:76px 0 90px;
+  text-align:center;
+}
+.more h2{
+  margin:0 0 16px;
+  color:var(--shell);
+  font-size:36px;
+  letter-spacing:-.02em;
+}
+.more p{
+  margin:0 auto;
+  max-width:650px;
+  color:var(--muted);
+  font-size:17px;
+}
+footer{
+  background:var(--shell);
+  color:rgba(255,255,255,.78);
+  text-align:center;
+  padding:22px 24px;
+  font-size:13px;
+  font-style:italic;
+}
+@media(max-width:760px){
+  .nav{width:min(100% - 32px,1120px)}
+  .links{gap:16px}
+  .hero,.path-inner,.demo,.philosophy-inner,.more{width:min(100% - 32px,1000px)}
+  .hero{padding:60px 0 54px}
+  .hero p{font-size:18px}
+  .demo{padding:54px 0 60px}
+  .demo-grid{grid-template-columns:1fr}
+  .demo-card{padding:28px}
+  .demo-card h2{font-size:32px}
+  .detail-card{padding:26px}
+  .philosophy-inner{padding:54px 0}
+  .more{padding:56px 0 68px}
+}
+
+/* Standard Hanten shell */
+header.hanten-shell{height:68px;background:#183746;color:#fff;display:flex;align-items:center;padding:0 28px;box-shadow:0 2px 8px #1530392e}
+header.hanten-shell .shell-brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.075em;text-decoration:none;color:#fff}
+header.hanten-shell .shell-mark{width:34px;height:34px;border:2px solid #ffffffdd;border-radius:8px;display:grid;place-items:center;font-size:16px}
+header.hanten-shell .shell-brandtag{margin-left:14px;padding-left:14px;border-left:1px solid rgba(255,255,255,.3);font-size:14px;font-style:italic;letter-spacing:0;opacity:.82}
+header.hanten-shell .shell-nav{margin-left:auto;display:flex;gap:24px;font-size:14px}
+header.hanten-shell .shell-nav a{color:#fff;text-decoration:none;opacity:.8}
+header.hanten-shell .shell-nav .active{opacity:1;font-weight:800}
+footer.hanten-shell-footer{min-height:70px;background:#183746;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:18px max(28px,calc((100% - 1160px)/2));font-size:13px;text-align:left;font-style:normal;font-weight:400}
+footer.hanten-shell-footer .shell-tag{font-style:italic;font-size:15px}
+@media(max-width:900px){header.hanten-shell .shell-brandtag{display:none}}
+@media(max-width:760px){header.hanten-shell{padding:0 18px}header.hanten-shell .shell-nav{display:none}}
+
+</style>
+</head>
+<body>
+<header class="hanten-shell"><a class="shell-brand" href="/"><span class="shell-mark">H</span><span>HANTEN</span></a><span class="shell-brandtag">Truth deserves clarity.</span><nav class="shell-nav" aria-label="Main navigation"><a href="/exhibits/">Explore</a><a class="active" href="/use/">Use Hanten</a></nav></header>
+
+<main>
+  <section class="hero">
+    <p class="eyebrow">Hanten Interactives</p>
+    <h1>Change something.<br>See what changes.</h1>
+    <p>Interactive experiences that let people make a choice, test an assumption, and discover what the result reveals.</p>
+  </section>
+
+  <section class="path">
+    <div class="path-inner">
+      <h2>An Interactive doesn't just show the idea. It lets you test it.</h2>
+      <div class="steps" aria-label="Interactive discovery path">
+        <span>Choose</span><span class="arrow">→</span>
+        <span>Test</span><span class="arrow">→</span>
+        <span>Reveal</span><span class="arrow">→</span>
+        <span>Understand</span><span class="arrow">→</span>
+        <span>Apply</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo">
+    <div class="demo-grid">
+      <article class="demo-card">
+        <p class="eyebrow">Try a complete Hanten Interactive</p>
+        <h2>H055 · Simpson's Paradox</h2>
+        <p class="desc">One treatment looks more successful overall. Then the same cases are separated into groups—and the comparison reverses. Make the decision yourself, flip between the views, and discover what the total was hiding.</p>
+        <a class="button" href="/use/interactives/H055/">Try Simpson's Paradox →</a>
+        <p class="note">Complete interactive · No setup required</p>
+      </article>
+
+      <aside class="detail-card">
+        <p class="eyebrow">Built for discovery</p>
+        <div class="detail">
+          <strong>Make a choice</strong>
+          <span>Commit before the result is explained.</span>
+        </div>
+        <div class="detail">
+          <strong>Change the view</strong>
+          <span>Interact with the same information in a different way.</span>
+        </div>
+        <div class="detail">
+          <strong>Apply the idea</strong>
+          <span>Carry the discovery into a new context.</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="philosophy">
+    <div class="philosophy-inner">
+      <p class="eyebrow">Why interactive?</p>
+      <h2>The change is part of the explanation.</h2>
+      <p>Instead of giving you the conclusion first, a Hanten Interactive lets you do something to the information and notice what happens. The interaction is there to reveal the idea—not to decorate it.</p>
+    </div>
+  </section>
+
+  <section class="more">
+    <p class="eyebrow">Want more like this?</p>
+    <h2>One discovery is only the beginning.</h2>
+  </section>
+</main>
+
+<footer class="hanten-shell-footer"><div class="shell-tag">Understanding is discovered, not delivered.</div><div>hanten.app</div></footer>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H028 — CONUS vs Greenland</title>
+    <meta name="description" content="Greenland looks enormous on many familiar world maps. At equal-area scale, the contiguous United States is about 3.7 times larger.">
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        :root {
+            --h028-ink: #17212b;
+            --h028-muted: #68717a;
+            --h028-line: rgba(23,33,43,.13);
+            --h028-accent: #0e7c86;
+            --h028-accent-soft: rgba(14,124,134,.10);
+            --h028-us: #dfe3dc;
+            --h028-us-line: #bac1b8;
+            --h028-greenland: #1f6f8b;
+            --h028-panel: #ffffff;
+        }
+
+        .h028-shell {
+            width: min(100%, 980px);
+            margin: 0 auto;
+        }
+
+        .h028-map-wrap {
+            width: 100%;
+            margin: 0 auto;
+            padding: clamp(.45rem, 1.4vw, .8rem);
+            background: var(--h028-panel);
+            border: 1px solid var(--h028-line);
+        }
+
+        #h028-map {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h028-us {
+            fill: var(--h028-us);
+            stroke: var(--h028-us-line);
+            stroke-width: .7;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .h028-greenland {
+            fill: var(--h028-greenland);
+            fill-opacity: .80;
+            stroke: #ffffff;
+            stroke-width: .9;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .h028-number {
+            font: 800 15px/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+            fill: #ffffff;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            paint-order: stroke;
+            stroke: rgba(23,33,43,.36);
+            stroke-width: 3px;
+            stroke-linejoin: round;
+            pointer-events: none;
+        }
+
+        .h028-ratio {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            gap: .45rem;
+            flex-wrap: wrap;
+            margin: .85rem auto 0;
+            color: var(--h028-muted);
+            text-align: center;
+            font-size: .82rem;
+        }
+
+        .h028-ratio strong {
+            color: var(--h028-accent);
+            font-size: 1.25rem;
+        }
+
+        #save-image-slot {
+            max-width: 980px;
+            margin: .55rem auto 0;
+            text-align: right;
+        }
+
+        .h028-reveal {
+            max-width: 820px;
+            margin: 1.15rem auto 0;
+            padding: 1rem 1.1rem;
+            background: var(--h028-accent-soft);
+            border-left: 3px solid var(--h028-accent);
+            color: #52606a;
+            font-size: .95rem;
+            line-height: 1.58;
+        }
+
+        .h028-reveal strong {
+            color: var(--h028-ink);
+        }
+
+        .h028-note {
+            max-width: 820px;
+            margin: .95rem auto 0;
+            color: var(--h028-muted);
+            font-size: .86rem;
+            line-height: 1.55;
+            text-align: center;
+        }
+
+        .h028-companion {
+            max-width: 820px;
+            margin: 1rem auto 0;
+            padding: .82rem .95rem;
+            border: 1px solid var(--h028-line);
+            background: #fff;
+            color: var(--h028-muted);
+            font-size: .86rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .h028-companion a {
+            color: var(--h028-accent);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .h028-companion a:hover {
+            text-decoration: underline;
+        }
+
+        .h028-principle {
+            max-width: 820px;
+            margin: 1.05rem auto 0;
+            padding-top: .9rem;
+            border-top: 1px solid var(--h028-line);
+            color: #59636d;
+            font-size: .9rem;
+            line-height: 1.55;
+        }
+
+        .h028-principle strong {
+            color: var(--h028-ink);
+        }
+
+        .h028-source {
+            max-width: 840px;
+            margin: .9rem auto 0;
+            text-align: center;
+            color: #7b838a;
+            font-size: .7rem;
+            line-height: 1.45;
+        }
+    </style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+    <h1 class="hanten-question">
+        Greenland looks almost as large as the Lower 48 on many world maps.
+        How many Greenlands actually fit inside?
+    </h1>
+
+    <p class="hanten-subtitle">
+        Put both at the same equal-area scale and the familiar picture changes fast.
+    </p>
+
+    <div class="hanten-graphic">
+        <div class="h028-shell">
+
+            <div class="h028-map-wrap" id="h028-capture">
+                <svg
+                    id="h028-map"
+                    viewBox="0 0 900 600"
+                    role="img"
+                    aria-labelledby="h028-title h028-desc"
+                >
+                    <title id="h028-title">Greenland compared with the contiguous United States</title>
+                    <desc id="h028-desc">
+                        The contiguous United States shown at equal-area scale with four copies of Greenland
+                        placed across it at the same scale. The fourth copy extends beyond the country because
+                        the true area ratio is about 3.7 to one.
+                    </desc>
+                </svg>
+            </div>
+
+            <div class="h028-ratio">
+                <span>Lower 48 ≈ 8.08 million km²</span>
+                <span>·</span>
+                <span>Greenland ≈ 2.17 million km²</span>
+                <span>·</span>
+                <strong>≈ 3.7 : 1</strong>
+            </div>
+
+            <div id="save-image-slot"></div>
+
+            <div class="h028-reveal">
+                <strong>The contiguous United States is about 3.7 times larger than Greenland.</strong>
+                On a Mercator map, Greenland is stretched dramatically because it sits so far north.
+                Draw both with an equal-area projection at the same scale and the illusion disappears.
+            </div>
+
+            <div class="h028-note">
+                Each numbered shape is Greenland. The copies may be rotated because this comparison is about
+                area, not orientation. The fourth copy deliberately spills beyond the U.S. outline: four full
+                Greenlands would be too much, while three would leave a substantial amount of the country uncovered.
+            </div>
+
+            <div class="h028-companion">
+                Companion exhibit:
+                <a href="../H023/index.html" target="_blank" rel="noopener noreferrer">H023 — Africa is 14 Greenlands</a>.
+                Same method. Same scale logic. A very different number.
+            </div>
+
+            <div class="h028-principle">
+                <strong>Hanten Principle: Human intuition about scale is unreliable.</strong><br>
+                A familiar map can preserve useful relationships while badly distorting area.
+                Changing the projection can change what feels large.
+            </div>
+
+            <div class="h028-source">
+                Source basis from the original H028 exhibit: contiguous U.S. area ≈ 8.08 million km²;
+                Greenland area ≈ 2.17 million km²; ratio ≈ 3.7. Areas attributed there to the CIA World Factbook.
+                Greenland shape: Natural Earth 1:10m. U.S. shape: Census state boundaries. Equal-area comparison rendered with D3.
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/js/topojson-client.min.js"></script>
+<script src="../../assets/geodata/us/us-counties-10m.js"></script>
+<script src="../../assets/geodata/countries/greenland-10m.js"></script>
+
+<script>
+(() => {
+    "use strict";
+
+    const width = 900;
+    const height = 600;
+    const svg = d3.select("#h028-map");
+
+    const EXCLUDE = new Set([
+        "Alaska",
+        "Hawaii",
+        "Puerto Rico",
+        "Guam",
+        "American Samoa",
+        "United States Virgin Islands",
+        "Commonwealth of the Northern Mariana Islands"
+    ]);
+
+    const stateGeometries = US_COUNTIES_TOPOLOGY.objects.states.geometries
+        .filter(geometry => !EXCLUDE.has(geometry.properties.name));
+
+    const continentalUS = {
+        type: "Feature",
+        geometry: topojson.merge(US_COUNTIES_TOPOLOGY, stateGeometries)
+    };
+
+    // Dedicated Natural Earth 1:10m Greenland geometry.
+    // Kept as a shared Hanten asset because the coastline is a focal visual here.
+    const greenland = GREENLAND_10M;
+
+    const baseProjection = d3.geoAzimuthalEqualArea()
+        .rotate([98, -39.5])
+        .fitExtent([[22, 22], [width - 22, height - 22]], continentalUS);
+
+    const scale = baseProjection.scale();
+    const usPath = d3.geoPath(baseProjection);
+
+    svg.append("path")
+        .datum(continentalUS)
+        .attr("class", "h028-us")
+        .attr("d", usPath);
+
+    /*
+     * Every Greenland gets its own azimuthal equal-area projection,
+     * but all four reuse the exact scale from the Lower 48.
+     * Placement and rotation are visual only; area remains comparable.
+     */
+    const placements = [
+        [175, 294,   0],
+        [414, 286,   0],
+        [650, 294,   0],
+        [438, 488,  90]
+    ];
+
+    const layer = svg.append("g");
+
+    placements.forEach(([x, y, rotation], index) => {
+        const projection = d3.geoAzimuthalEqualArea()
+            .rotate([42, -72, rotation])
+            .scale(scale)
+            .translate([x, y]);
+
+        layer.append("path")
+            .datum(greenland)
+            .attr("class", "h028-greenland")
+            .attr("d", d3.geoPath(projection));
+
+        layer.append("text")
+            .attr("class", "h028-number")
+            .attr("x", x)
+            .attr("y", y + 4)
+            .text(index + 1);
+    });
+})();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "How many Greenlands fit inside the Lower 48?",
+    filename: "H028-conus-vs-greenland.png"
+});
+</script>
+
+</body>
+</html>

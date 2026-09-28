@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H038 — Kashmir Dispute</title>
+<meta name="description" content="Kashmir can appear differently depending on the map: shown as entirely Indian, marked as contested, or divided by a dashed Line of Control.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h038-ink: #1c2733;
+    --h038-muted: #4a5a6b;
+    --h038-line: rgba(28,39,51,0.14);
+    --h038-accent: #0e7c86;
+    --h038-accent-soft: rgba(14,124,134,0.12);
+    --h038-panel: #ffffff;
+    --h038-land: #d6dbd0;
+    --h038-land-line: #b9c0b2;
+    --h038-ocean: #cde3ee;
+    --h038-india: #c9862c;
+    --h038-india-soft: #e8d0a4;
+    --h038-pakistan: #2f7d5c;
+    --h038-pakistan-soft: #a9cdbb;
+    --h038-china: #8a6f43;
+    --h038-china-soft: #d6c6a8;
+  }
+
+  body { background: var(--hanten-paper, #f4f3ef); }
+
+  main.hanten-exhibit { max-width: 900px; margin: 0 auto; }
+  main.hanten-exhibit > .hanten-question,
+  main.hanten-exhibit > .hanten-subtitle { text-align: center; margin-left: auto; margin-right: auto; }
+
+  .h038-shell { width: min(100%, 860px); margin: 0 auto; }
+
+  #h038-maps-wrap {
+    background: var(--h038-panel);
+    border: 1px solid var(--h038-line);
+    padding: .45rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: .55rem;
+  }
+
+  .h038-map-col { text-align: center; }
+  .h038-map {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--h038-line);
+    background: var(--hanten-paper, #f4f3ef);
+  }
+
+  .h038-map-label {
+    margin-top: .55rem;
+    color: var(--h038-muted);
+    font: 700 .76rem/1.35 var(--hanten-font);
+    
+  }
+
+  .ocean { fill: var(--h038-ocean); stroke: var(--h038-line); stroke-width: .8; }
+  .land { fill: var(--h038-land); stroke: var(--h038-land-line); stroke-width: .5; }
+  .land-india { fill: var(--h038-india-soft); stroke: var(--h038-india); stroke-width: .6; }
+  .land-pakistan { fill: var(--h038-pakistan-soft); stroke: var(--h038-pakistan); stroke-width: .6; }
+  .land-china { fill: var(--h038-china-soft); stroke: var(--h038-china); stroke-width: .6; }
+
+  .country-label {
+    font-family: var(--hanten-font);
+    font-size: 10px;
+    font-weight: 700;
+    text-anchor: middle;
+    fill: var(--h038-ink);
+    
+  }
+
+  .h038-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+
+  .h038-card {
+    background: var(--h038-panel);
+    border: 1px solid var(--h038-line);
+    border-top: 4px solid var(--card-color);
+    padding: 1.05rem 1.15rem;
+  }
+
+  .h038-card .who {
+    margin-bottom: .4rem;
+    color: var(--h038-muted);
+    font: 700 .76rem/1.35 var(--hanten-font);
+    
+  }
+
+  .h038-card h2 { margin: 0 0 .45rem; color: var(--h038-ink); font-family: var(--hanten-font); font-size: 1.25rem; }
+  .h038-card p { margin: 0; color: var(--h038-muted); font-size: .86rem; line-height: 1.55; }
+
+  .h038-reveal {
+    max-width: 840px;
+    margin: 1.35rem auto 0;
+    padding: 1rem 1.1rem;
+    background: var(--h038-accent-soft);
+    border-left: 3px solid var(--h038-accent);
+    color: var(--h038-muted);
+    font-size: .95rem;
+    line-height: 1.6;
+  }
+  .h038-reveal strong { color: var(--h038-ink); }
+
+  .h038-principle {
+    max-width: 840px;
+    margin: 1.05rem auto 0;
+    padding-top: .9rem;
+    border-top: 1px solid var(--h038-line);
+    color: var(--h038-muted);
+    font-size: .9rem;
+    line-height: 1.55;
+  }
+  .h038-principle strong { color: var(--h038-ink); }
+
+  .h038-source {
+    max-width: 860px;
+    margin: .9rem auto 0;
+    text-align: center;
+    color: #7b838a;
+    font-size: .7rem;
+    line-height: 1.45;
+  }
+
+  #save-image-slot { max-width: 960px; margin: .55rem auto .75rem; text-align: right; }
+
+  @media (max-width: 780px) {
+    #h038-maps-wrap, .h038-cards { grid-template-columns: 1fr; }
+    .h038-map-col { width: min(100%, 360px); margin: 0 auto; }
+  }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">Where is the border in Kashmir?</h1>
+
+  <p class="hanten-subtitle">
+    The same mountain region can look different depending on what a map means by its boundary lines.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h038-shell">
+
+      <div id="h038-maps-wrap">
+        <div class="h038-map-col">
+          <svg class="h038-map" id="map-india" viewBox="0 0 220 210" role="img"
+            aria-label="Kashmir shown using the Indian-map treatment described by the original exhibit"></svg>
+          <div class="h038-map-label">Indian-map treatment</div>
+        </div>
+
+        <div class="h038-map-col">
+          <svg class="h038-map" id="map-pakistan" viewBox="0 0 220 210" role="img"
+            aria-label="Kashmir shown using the Pakistani-map treatment described by the original exhibit"></svg>
+          <div class="h038-map-label">Pakistani-map treatment</div>
+        </div>
+
+        <div class="h038-map-col">
+          <svg class="h038-map" id="map-global" viewBox="0 0 220 210" role="img"
+            aria-label="Kashmir shown with a dashed boundary treatment described by the original exhibit"></svg>
+          <div class="h038-map-label">Common international treatment</div>
+        </div>
+      </div>
+
+      <div class="h038-cards">
+        <div class="h038-card" style="--card-color: var(--h038-india)">
+          <div class="who">Indian-map treatment</div>
+          <h2>Shown as Indian</h2>
+          <p>
+            Indian government maps depict Jammu and Kashmir and Ladakh as Indian territory rather than presenting the territorial claim as unsettled.
+          </p>
+        </div>
+
+        <div class="h038-card" style="--card-color: var(--h038-pakistan)">
+          <div class="who">Pakistani-map treatment</div>
+          <h2>Marked contested</h2>
+          <p>
+            Pakistani maps use distinct boundary treatment to signal that the region’s final status is disputed rather than settled.
+          </p>
+        </div>
+
+        <div class="h038-card" style="--card-color: var(--h038-muted)">
+          <div class="who">International-map treatment</div>
+          <h2>Line of Control</h2>
+          <p>
+            Many international maps distinguish the Line of Control from a settled international border with a dashed or disputed-boundary symbol.
+          </p>
+        </div>
+      </div>
+
+      <div class="h038-reveal">
+        <strong>The mountains do not move. The political meaning of the line does.</strong>
+        India, Pakistan, and China administer different parts of the wider Kashmir region, while territorial claims overlap.
+        The India–Pakistan Line of Control is not the same thing as a mutually accepted final international border.
+      </div>
+
+      <p class="hanten-reflection">
+        Is the line showing control, a claim, or an agreed border?
+      </p>
+
+      <div class="h038-source">
+        Source basis preserved from the original H038 exhibit: 1972 Simla Agreement; 1963 Sino-Pakistan Boundary Agreement; Survey of India cartographic guidance. Country shapes: Natural Earth 1:10m, stored locally in Hanten Shared Assets. Kashmir outline: simplified from Jammu &amp; Kashmir and Ladakh district-boundary data in the original exhibit.
+      </div>
+
+      <div class="hanten-utility"><div id="save-image-slot"></div></div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/geodata/world/countries-10m.js"></script>
+
+<script>
+  const feats = COUNTRIES_10M_GEOJSON.features;
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    return {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [[ [lon0,lat0], [lon0,lat1], [lon1,lat1], [lon1,lat0], [lon0,lat0] ]]
+      }
+    };
+  }
+
+  const KASHMIR_RING = [[74.82,32.499],[74.715,32.476],[74.652,32.563],[74.705,32.842],[74.638,32.751],[74.353,32.763],[73.957,32.987],[73.786,32.965],[73.734,33.066],[73.627,33.089],[73.657,33.208],[73.558,33.368],[73.632,33.533],[73.56,33.621],[73.589,33.884],[73.478,34.29],[73.39,34.374],[73.447,34.574],[73.65,34.568],[73.749,34.787],[74.029,34.877],[74.107,35.019],[74.065,35.048],[74.147,35.097],[73.716,35.225],[73.699,35.358],[73.784,35.525],[73.272,35.629],[73.135,35.719],[73.153,35.841],[73.089,35.883],[72.691,35.832],[72.533,35.917],[72.595,36.262],[72.693,36.25],[72.879,36.443],[72.991,36.457],[73.112,36.609],[73.084,36.699],[73.441,36.744],[73.883,36.698],[73.899,36.749],[73.689,36.912],[74.055,36.806],[74.429,36.99],[74.577,36.948],[74.586,37.045],[74.708,37.077],[74.921,36.906],[75.343,37.052],[75.473,36.81],[75.615,36.761],[75.768,36.573],[76.643,36.183],[76.8,36.048],[76.721,35.953],[76.811,35.844],[77.357,35.717],[77.485,35.532],[77.319,35.532],[77.438,35.461],[77.722,35.475],[77.732,35.524],[77.981,35.455],[77.951,35.606],[78.136,35.539],[78.198,35.669],[78.254,35.645],[78.272,35.722],[78.422,35.785],[78.959,35.892],[79.131,35.836],[79.214,35.978],[79.377,35.995],[79.421,35.896],[79.736,35.801],[79.998,35.837],[80.106,35.681],[80.29,35.607],[80.326,35.469],[80.067,34.714],[79.774,34.627],[79.793,34.485],[79.507,34.474],[79.584,34.244],[79.425,34.017],[79.17,34.073],[78.904,33.976],[79.105,33.617],[78.913,33.627],[78.988,33.333],[79.454,33.258],[79.331,33.012],[79.625,32.739],[79.447,32.532],[79.319,32.592],[78.98,32.338],[78.826,32.439],[78.766,32.697],[78.327,32.472],[78.313,32.574],[78.405,32.62],[78.388,32.757],[78.016,32.62],[77.683,32.989],[77.339,32.817],[77.157,32.912],[77.15,32.978],[76.933,33.028],[76.799,33.256],[76.747,33.179],[76.41,33.187],[76.278,33.038],[76.112,33.006],[75.954,32.873],[75.85,32.93],[75.789,32.887],[75.926,32.745],[75.93,32.631],[75.535,32.279],[75.489,32.346],[75.332,32.327],[75.132,32.409],[75.108,32.474],[74.82,32.499]];
+
+  const LAND_CLASS = {
+    India: "land-india",
+    Pakistan: "land-pakistan",
+    China: "land-china"
+  };
+
+  const CROP = [68, 27, 82, 38];
+
+  const COUNTRY_LABELS = [
+    { name: "Pakistan", lon: 70.4, lat: 29.8 },
+    { name: "India", lon: 78.6, lat: 28.4 },
+    { name: "China", lon: 80.0, lat: 37.0 }
+  ];
+
+  function drawPanel(svgId, width, height, regionFill, regionStroke, regionDash) {
+    const svg = d3.select(svgId).attr("viewBox", `0 0 ${width} ${height}`);
+    const projection = d3.geoMercator().fitSize([width, height], bboxFeature(...CROP));
+    const path = d3.geoPath(projection);
+
+    svg.append("path")
+      .datum({ type: "Sphere" })
+      .attr("class", "ocean")
+      .attr("d", path);
+
+
+    const visibleFeats = feats.filter(f => {
+      const [[lo0, la0], [lo1, la1]] = d3.geoBounds(f);
+      return lo0 <= CROP[2] + 5 &&
+             lo1 >= CROP[0] - 5 &&
+             la0 <= CROP[3] + 5 &&
+             la1 >= CROP[1] - 5;
+    });
+
+    svg.append("g")
+      .selectAll("path")
+      .data(visibleFeats)
+      .join("path")
+      .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
+      .attr("d", path);
+
+    COUNTRY_LABELS.forEach(l => {
+      const p = projection([l.lon, l.lat]);
+      if (!p) return;
+      svg.append("text")
+        .attr("class", "country-label")
+        .attr("x", p[0])
+        .attr("y", p[1])
+        .text(l.name);
+    });
+
+    const kashmirFeature = {
+      type: "Feature",
+      geometry: { type: "Polygon", coordinates: [KASHMIR_RING] }
+    };
+
+    svg.append("path")
+      .datum(kashmirFeature)
+      .attr("d", path)
+      .attr("fill", regionFill)
+      .attr("stroke", regionStroke)
+      .attr("stroke-width", 1.1)
+      .attr("stroke-linecap", "round")
+      .attr("stroke-dasharray", regionDash || null);
+  }
+
+  drawPanel("#map-india", 220, 210, "var(--h038-india-soft)", "var(--h038-india)", null);
+  drawPanel("#map-pakistan", 220, 210, "var(--h038-land)", "var(--h038-muted)", "0.6,2.6");
+  drawPanel("#map-global", 220, 210, "var(--h038-land)", "var(--h038-muted)", "4,2");
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "Where is the border in Kashmir?",
+    filename: "H038-kashmir-dispute.png"
+  });
+</script>
+
+</body>
+</html>

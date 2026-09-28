@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>H055 — Simpson's Paradox</title><style>
+/* ============================================================
+   HANTEN INTERACTIVE TEMPLATE v1.0
+   Derived from approved visual reference H054 v41.
+   Keep this file clean: add stage-specific rules only inside a
+   clearly named stage block; do not override the locked shell.
+   ============================================================ */
+:root{
+  /* Color system */
+  --canvas:#eef7f8;
+  --surface:#ffffff;
+  --soft:#f6fafb;
+  --shell:#183746;
+  --ink:#20313a;
+  --muted:#53636b;
+  --line:#c8d0d3;
+  --gold:#a9663d;
+  --correct-bg:#eef8f0;
+  --correct-line:#b9d7bf;
+  --incorrect-bg:#fff1f1;
+  --incorrect-line:#e3c4c4;
+
+  /* Locked shell */
+  --header-h:68px;
+  --footer-h:50px;
+  --content-max:1080px;
+  --stage-space:24px;
+
+  /* Locked typography */
+  --type-main:32px;          /* main question/headline */
+  --type-interaction:24px;   /* stage heading, interaction question, key aha */
+  --type-support:20px;       /* normal explanatory/supporting copy */
+  --type-secondary:18px;     /* choices and secondary labels */
+  --type-detail:16px;        /* extended/detail instructional copy */
+  --type-source:12px;        /* sources/citations/footnotes only */
+  --type-ui:14px;            /* navigation */
+}
+
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0}
+body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:var(--canvas);overflow:hidden}
+button,input{font:inherit}
+
+/* ---------- Fixed header: identity only; do not reveal the aha here ---------- */
+header{
+  position:fixed;inset:0 0 auto 0;height:var(--header-h);z-index:20;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  padding:0 28px;background:var(--shell);color:#fff;
+}
+.brand{justify-self:start;display:flex;align-items:center;gap:10px;font-size:17px;font-weight:800;letter-spacing:.12em}
+.brandMark{width:38px;height:38px;border:2px solid rgba(255,255,255,.9);border-radius:8px;display:grid;place-items:center;font-size:20px;letter-spacing:0}
+header h1{justify-self:center;margin:0;font-size:24px;line-height:1;font-weight:800;white-space:nowrap}
+.interactiveId{justify-self:end;text-align:right;font-size:13px;line-height:1.1;color:rgba(255,255,255,.88)}
+
+/* ---------- One-screen stage shell ---------- */
+main{position:fixed;inset:var(--header-h) 0 var(--footer-h) 0;overflow:hidden;background:var(--canvas)}
+.step{display:none;position:absolute;inset:0;padding:0 5vw;overflow:hidden}
+.step.active{display:block}
+.card{
+  width:100%;max-width:var(--content-max);height:100%;margin:0 auto;
+  padding:var(--stage-space) 0 10px;
+  display:flex;flex-direction:column;justify-content:flex-start;overflow:hidden;
+}
+
+/* LOCKED stage-heading geometry: 24px clear space above, then heading,
+   then 24px clear space below. Never reposition per stage. */
+.stephead{flex:0 0 auto;width:100%;margin:0 0 var(--stage-space);padding:0;text-align:center}
+.stephead h2{
+  margin:0;padding:0;font-size:var(--type-interaction);line-height:1;
+  font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)
+}
+.stageBody{min-height:0;display:flex;flex:1 1 auto;flex-direction:column;align-items:center;justify-content:flex-start;gap:18px;overflow:hidden}
+
+/* ---------- Typography roles ---------- */
+.mainQuestion{margin:0;max-width:900px;text-align:center;font-size:var(--type-main);line-height:1.12;font-weight:800}
+.interactionQuestion,.aha{margin:0;max-width:900px;text-align:center;font-size:var(--type-interaction);line-height:1.22;font-weight:800}
+.support{margin:0;max-width:900px;text-align:center;font-size:var(--type-support);line-height:1.3;font-weight:500}
+.secondary{margin:0;max-width:900px;font-size:var(--type-secondary);line-height:1.3}
+.detailCopy{margin:0;max-width:900px;font-size:var(--type-detail);line-height:1.35;font-weight:500}
+.sourceNote,.historicalSource,.footnote,.source-footnote{
+  margin:0;max-width:900px;text-align:center;font-size:var(--type-source);line-height:1.3;font-weight:400;color:var(--muted)
+}
+
+/* ---------- Functional surfaces ----------
+   White boxes group choices, comparisons, inputs, or evidence.
+   Do not box ordinary explanatory copy just for decoration. */
+.surface{
+  width:min(900px,100%);background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:14px 18px
+}
+.surfaceTitle{margin:0 0 10px;text-align:center;font-size:var(--type-support);line-height:1.2;font-weight:800}
+.choiceList{display:grid;gap:6px}
+.choiceList label{display:block;padding:7px 10px;border-radius:8px;font-size:var(--type-secondary);line-height:1.2;cursor:pointer}
+.choiceList label:hover{background:var(--soft)}
+.choiceList input{margin-right:9px}
+.twoCol{width:min(900px,100%);display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.feedback{width:min(900px,100%);padding:12px 15px;border-radius:12px;font-size:var(--type-support);line-height:1.3;text-align:center}
+.feedback.correct{background:var(--correct-bg);border:1px solid var(--correct-line)}
+.feedback.incorrect{background:var(--incorrect-bg);border:1px solid var(--incorrect-line)}
+
+/* ---------- Generic controls ---------- */
+.actionRow{display:flex;justify-content:center;gap:10px}
+.action{
+  min-width:150px;height:38px;padding:0 16px;border:1px solid var(--shell);border-radius:8px;
+  background:#fff;color:var(--shell);font-size:var(--type-ui);font-weight:800;cursor:pointer
+}
+.action.primary{background:var(--shell);color:#fff}
+.action:disabled{opacity:.42;cursor:default}
+
+/* ---------- Fixed footer ---------- */
+footer{
+  position:fixed;inset:auto 0 0 0;height:var(--footer-h);z-index:30;
+  display:grid;grid-template-columns:1fr auto;align-items:center;padding:0 24px;
+  background:var(--shell);color:#fff;box-shadow:0 -2px 8px rgba(21,43,57,.14)
+}
+.slogan{justify-self:start;font-size:12px;font-weight:400;font-style:italic;color:rgba(255,255,255,.78)}
+.footerNav{justify-self:end;display:flex;gap:10px;align-items:center}
+.site{margin-right:4px;font-size:13px;font-weight:500;color:rgba(255,255,255,.82)}
+.footerNav button{
+  width:auto;min-width:128px;height:34px;min-height:34px;padding:0 15px;
+  border:1px solid rgba(255,255,255,.7);border-radius:7px;background:#fff;color:var(--shell);
+  font-size:var(--type-ui);font-weight:800;box-shadow:0 2px 6px rgba(16,42,67,.14);cursor:pointer
+}
+.footerNav button:disabled{opacity:.42;cursor:default}
+.footerNav button[hidden]{display:none}
+
+/* ---------- Responsive safety ----------
+   Preserve typography. Fit by layout/spacing first; do not shrink the
+   locked instructional type merely to rescue an overcrowded stage. */
+@media(max-width:760px){
+  header{padding:0 16px}.brand{font-size:14px}.brandMark{width:34px;height:34px}.interactiveId{font-size:12px}
+  .twoCol{grid-template-columns:1fr;gap:12px}
+  .step{padding-left:16px;padding-right:16px}
+}
+
+/* ---------- H055 stage-specific rules ---------- */
+.results{width:min(760px,100%);display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.result,.group,.whyBox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;text-align:center}
+.result h3,.group h3,.whyBox h3{margin:0 0 8px;font-size:var(--type-support);line-height:1.2}
+.pct{font-size:var(--type-main);line-height:1;font-weight:800;color:var(--shell);margin:4px 0 8px}
+.bar,.miniBar{height:16px;background:#e5ebef;border-radius:9px;overflow:hidden}.fill,.miniFill{height:100%;background:#7da9bd}
+.choiceBtns,.toggle{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.choiceBtns button,.toggle button{min-width:150px;height:38px;padding:0 16px;border:1px solid var(--shell);border-radius:8px;background:#fff;color:var(--shell);font-size:var(--type-secondary);font-weight:800;cursor:pointer}
+.choiceBtns button.selected,.toggle button.activeT{background:var(--shell);color:#fff}
+.mixGrid{width:min(760px,100%);display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.mixBox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;text-align:center}
+.mixBox h3{margin:0 0 8px;font-size:var(--type-support)}.mixLine{font-size:var(--type-secondary);line-height:1.35;margin:4px 0}
+.groups{width:min(900px,100%);display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.row{display:grid;grid-template-columns:54px 1fr 58px;align-items:center;gap:8px;margin:8px 0;font-size:var(--type-secondary)}
+.ratioLine{font-size:var(--type-detail);line-height:1.3;margin-top:8px}
+.callout{max-width:900px;text-align:center;font-size:var(--type-support);line-height:1.3;margin:0}
+.view{width:100%;display:flex;justify-content:center}.view .results,.view .groups{width:min(820px,100%)}
+.why{width:min(760px,100%);display:grid;grid-template-columns:1fr 1fr;gap:20px}.big{font-size:var(--type-main);font-weight:800;line-height:1.05;margin:4px 0}
+.transfer{width:min(900px,100%);display:flex;flex-direction:column;gap:14px;align-items:center}
+.feedback[hidden],.aha[hidden]{display:none}
+.originalChoice{font-size:var(--type-detail);color:var(--muted)}
+@media(max-width:760px){.results,.groups,.mixGrid,.why{grid-template-columns:1fr;gap:12px}}
+
+
+/* Standard Hanten activity shell — branding only */
+.brandTag{margin-left:4px;padding-left:14px;border-left:1px solid rgba(255,255,255,.3);font-size:14px;font-style:italic;letter-spacing:0;font-weight:400;opacity:.82;white-space:nowrap}
+.activityNav{justify-self:end;display:flex;align-items:center;gap:18px}.activityNav a{color:#fff;text-decoration:none;font-size:14px;opacity:.82}.activityNav .use{font-weight:800;opacity:1}.activityId{font-size:13px;color:rgba(255,255,255,.82)}
+@media(max-width:900px){.brandTag{display:none}}@media(max-width:700px){.activityNav a{display:none}}
+
+/* Compact activity identity: keep the activity itself visually primary */
+header h1{font-size:18px!important;font-weight:750!important}
+.activityId{font-size:12px!important}
+
+</style>
+<style id="hanten-v5-neutral-transfer">
+/* Hanten production rule: transfer/application feedback is neutral by default.
+   Red/green is reserved for interactions where explicit correctness is pedagogically useful. */
+.step[data-step="6"] .feedback,
+.step[data-step="7"] .feedback,
+.step[data-step="6"] .answer,
+.step[data-step="7"] .answer,
+.step[data-step="6"] .takeaway,
+.step[data-step="7"] .takeaway,
+.step[data-step="6"] .final,
+.step[data-step="7"] .final,
+.step[data-s="6"] .feedback,
+.step[data-s="7"] .feedback,
+.step[data-s="6"] .answer,
+.step[data-s="7"] .answer,
+.step[data-s="6"] .takeaway,
+.step[data-s="7"] .takeaway,
+.step[data-s="6"] .final,
+.step[data-s="7"] .final {
+  background:#fff !important;
+  border:1px solid var(--line) !important;
+  color:var(--ink) !important;
+}
+.step[data-step="6"] .correct,.step[data-step="6"] .incorrect,
+.step[data-step="7"] .correct,.step[data-step="7"] .incorrect,
+.step[data-s="6"] .correct,.step[data-s="6"] .incorrect,
+.step[data-s="7"] .correct,.step[data-s="7"] .incorrect {
+  background:#fff !important;
+  border-color:var(--line) !important;
+  color:var(--ink) !important;
+}
+</style>
+
+
+<style>
+/* Activity-page viewport lock: title stays on one line; example gets the space */
+@media (min-width:900px){
+  header h1{white-space:nowrap!important;font-size:20px!important}
+  .card{padding-top:14px!important}
+  .stephead{margin-bottom:10px!important}
+  .stephead h2{font-size:21px!important;white-space:nowrap!important}
+  .mainQuestion{margin-top:4px!important;margin-bottom:6px!important}
+  .support{margin-top:0!important;margin-bottom:10px!important}
+}
+</style>
+</head>
+<body>
+<header><div class="brand"><span class="brandMark">H</span><span>HANTEN</span><span class="brandTag">Truth deserves clarity.</span></div><h1>Simpson's Paradox</h1><div class="activityNav"><span class="activityId">H055</span><a href="/exhibits/">Explore</a><a class="use" href="/use/">Use Hanten</a></div></header>
+<main>
+<section class="step active" data-step="1"><div class="card"><div class="stephead"><h2>Make a Decision</h2></div><div class="stageBody">
+<p class="mainQuestion">Which treatment appears more successful?</p><p class="support">Two treatments were tried. Looking only at the overall results, choose one.</p>
+<div class="results"><div class="result"><h3>Treatment A</h3><div class="pct">45%</div><div class="bar"><div class="fill" style="width:45%"></div></div><p class="secondary">45 of 100 successful</p></div><div class="result"><h3>Treatment B</h3><div class="pct">55%</div><div class="bar"><div class="fill" style="width:55%"></div></div><p class="secondary">55 of 100 successful</p></div></div>
+<div class="choiceBtns"><button data-pick="A">Treatment A</button><button data-pick="B">Treatment B</button></div></div></div></section>
+<section class="step" data-step="2"><div class="card"><div class="stephead"><h2>Commit</h2></div><div class="stageBody">
+<p class="interactionQuestion">Before seeing the success rates inside the groups, what do you predict?</p><p class="support">The same 200 cases can be separated by how difficult they were to treat.</p>
+<div class="mixGrid"><div class="mixBox"><h3>Treatment A</h3><div class="mixLine"><b>10</b> mild cases</div><div class="mixLine"><b>90</b> severe cases</div></div><div class="mixBox"><h3>Treatment B</h3><div class="mixLine"><b>90</b> mild cases</div><div class="mixLine"><b>10</b> severe cases</div></div></div>
+<div class="surface"><p class="surfaceTitle">Which pattern do you expect inside the two groups?</p><div class="choiceList"><label><input type="radio" name="prediction" value="A">Treatment A will have the higher success rate in both groups</label><label><input type="radio" name="prediction" value="B">Treatment B will have the higher success rate in both groups</label><label><input type="radio" name="prediction" value="mixed">One treatment will lead in mild cases and the other in severe cases</label></div></div></div></div></section>
+<section class="step" data-step="3"><div class="card"><div class="stephead"><h2>Look Again</h2></div><div class="stageBody">
+<p class="support originalChoice"></p><div class="groups"><div class="group"><h3>Mild cases</h3><div class="row"><b>A</b><div class="miniBar"><div class="miniFill" style="width:90%"></div></div><b>90%</b></div><div class="row"><b>B</b><div class="miniBar"><div class="miniFill" style="width:80%"></div></div><b>80%</b></div><div class="ratioLine">A: 9 / 10 &nbsp; · &nbsp; B: 72 / 90</div></div><div class="group"><h3>Severe cases</h3><div class="row"><b>A</b><div class="miniBar"><div class="miniFill" style="width:40%"></div></div><b>40%</b></div><div class="row"><b>B</b><div class="miniBar"><div class="miniFill" style="width:30%"></div></div><b>30%</b></div><div class="ratioLine">A: 36 / 90 &nbsp; · &nbsp; B: 3 / 10</div></div></div>
+<p class="aha">Treatment A has the higher success rate in both groups.</p><p class="support">Yet Treatment B has the higher success rate overall.</p></div></div></section>
+<section class="step" data-step="4"><div class="card"><div class="stephead"><h2>Flip the View</h2></div><div class="stageBody">
+<p class="support">Toggle the same data back and forth. No case changes. Only the grouping changes.</p><div class="toggle"><button class="overall activeT">Combined</button><button class="grouped">Grouped</button></div><div class="view"></div><p class="callout">B treated mostly <b>mild</b> cases, where success was common. A treated mostly <b>severe</b> cases, where success was harder. The mix changes the overall comparison.</p></div></div></section>
+<section class="step" data-step="5"><div class="card"><div class="stephead"><h2>Understand</h2></div><div class="stageBody">
+<p class="interactionQuestion">The totals hid an important difference in who received each treatment.</p><div class="why"><div class="whyBox"><h3>Treatment A</h3><div class="big">90%</div><p class="secondary">of its cases were severe</p></div><div class="whyBox"><h3>Treatment B</h3><div class="big">90%</div><p class="secondary">of its cases were mild</p></div></div><p class="aha">An overall average can reverse the pattern seen inside every group when the groups are represented in very different proportions.</p></div></div></section>
+<section class="step" data-step="6"><div class="card"><div class="stephead"><h2>Apply It</h2></div><div class="stageBody"><div class="transfer">
+<p class="support">School B has a higher overall graduation rate than School A. Before deciding which school is doing better, what would be most useful to examine?</p><div class="surface"><div class="choiceList"><label><input type="radio" name="t" value="groups">Whether the student populations contain different groups with different baseline graduation rates</label><label><input type="radio" name="t" value="size">Which school has more students</label><label><input type="radio" name="t" value="age">Which school is older</label><label><input type="radio" name="t" value="none">Nothing—the overall rate is enough</label></div></div><div class="feedback" id="answer1" hidden></div><p class="aha" id="takeaway1" hidden>When a total seems to tell a clear story, ask: “What happens when we separate the same data into groups?”</p></div></div></div></section>
+<section class="step" data-step="7"><div class="card"><div class="stephead"><h2>Apply It Again</h2></div><div class="stageBody"><div class="transfer">
+<p class="support">Two baseball hitters have these overall batting averages: <b>Player A: .280</b> &nbsp;&nbsp; <b>Player B: .300</b></p><p class="interactionQuestion">Before deciding that Player B was better in every situation, what would be most useful to examine?</p><div class="surface"><div class="choiceList"><label><input type="radio" name="t2" value="groups">How each player performed in meaningful subgroups of at-bats</label><label><input type="radio" name="t2" value="total">Which player had more total at-bats</label><label><input type="radio" name="t2" value="age">Which player is older</label><label><input type="radio" name="t2" value="none">Nothing—the overall average settles it</label></div></div><div class="feedback" id="answer2" hidden></div><p class="aha" id="takeaway2" hidden>Before trusting an overall comparison, check whether different mixtures inside the totals could be creating the result.</p></div></div></div></section>
+</main>
+<footer><div class="slogan">Understanding is discovered, not delivered.</div><div class="footerNav"><span class="site">hanten.app</span><button id="backBtn" type="button">Back</button><button id="nextBtn" type="button">Next</button><button id="restartBtn" type="button" hidden>Restart</button></div></footer>
+<script>
+const steps=[...document.querySelectorAll('.step')],backBtn=document.getElementById('backBtn'),nextBtn=document.getElementById('nextBtn'),restartBtn=document.getElementById('restartBtn');let current=0,pick='',prediction='';
+function canAdvance(){if(current===0)return !!pick;if(current===1)return !!prediction;if(current===5)return !!document.querySelector('input[name="t"]:checked');return true}
+function renderStage(){steps.forEach((s,i)=>s.classList.toggle('active',i===current));backBtn.disabled=current===0;const last=current===steps.length-1;nextBtn.hidden=last;restartBtn.hidden=!last;nextBtn.disabled=!last&&!canAdvance();nextBtn.textContent=current===4?'Apply It':current===5?'Apply It Again':'Next';if(current===3)renderOverall()}
+function updateNav(){nextBtn.disabled=!canAdvance()}
+document.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-pick]').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');pick=b.dataset.pick;document.querySelector('.originalChoice').innerHTML=`Your original choice: <b>Treatment ${pick}</b> &nbsp; · &nbsp; Your prediction: <b>${prediction||'—'}</b>`;updateNav()}));
+document.querySelectorAll('input[name="prediction"]').forEach(r=>r.addEventListener('change',()=>{prediction=r.value;document.querySelector('.originalChoice').innerHTML=`Your original choice: <b>Treatment ${pick}</b> &nbsp; · &nbsp; Your prediction: <b>${r.parentElement.textContent.trim()}</b>`;updateNav()}));
+const view=document.querySelector('.view'),overall=document.querySelector('.overall'),grouped=document.querySelector('.grouped');
+function renderOverall(){view.innerHTML=`<div class="results"><div class="result"><h3>Treatment A</h3><div class="pct">45%</div><p class="secondary">45 / 100</p></div><div class="result"><h3>Treatment B</h3><div class="pct">55%</div><p class="secondary">55 / 100</p></div></div>`;overall.classList.add('activeT');grouped.classList.remove('activeT')}
+function renderGrouped(){view.innerHTML=`<div class="groups"><div class="group"><h3>Mild cases</h3><div class="row"><b>A</b><div class="miniBar"><div class="miniFill" style="width:90%"></div></div><b>90%</b></div><div class="row"><b>B</b><div class="miniBar"><div class="miniFill" style="width:80%"></div></div><b>80%</b></div><div class="ratioLine">A: 9 / 10 · B: 72 / 90</div></div><div class="group"><h3>Severe cases</h3><div class="row"><b>A</b><div class="miniBar"><div class="miniFill" style="width:40%"></div></div><b>40%</b></div><div class="row"><b>B</b><div class="miniBar"><div class="miniFill" style="width:30%"></div></div><b>30%</b></div><div class="ratioLine">A: 36 / 90 · B: 3 / 10</div></div></div>`;grouped.classList.add('activeT');overall.classList.remove('activeT')}
+overall.addEventListener('click',renderOverall);grouped.addEventListener('click',renderGrouped);
+function wireTransfer(name,answerId,takeId){document.querySelectorAll(`input[name="${name}"]`).forEach(r=>r.addEventListener('change',()=>{const good=r.value==='groups',a=document.getElementById(answerId);a.hidden=false;a.className='feedback '+(good?'correct':'incorrect');if(name==='t')a.innerHTML=good?'<b>Yes—look inside the total.</b><br>Different mixtures of student groups can produce an overall comparison that differs from comparisons within those groups.':'<b>The total may still be hiding the important comparison.</b><br>Look at whether the schools contain different mixtures of groups with different baseline graduation rates.';else a.innerHTML=good?'<b>Yes—check the subgroups.</b><br>An overall average does not tell you whether the same ordering holds inside different kinds of at-bats.':'<b>There may be another layer inside the average.</b><br>Meaningful subgroups can reveal whether the overall result is partly driven by a different mix of situations.';document.getElementById(takeId).hidden=false;updateNav()}))}
+wireTransfer('t','answer1','takeaway1');wireTransfer('t2','answer2','takeaway2');
+backBtn.addEventListener('click',()=>{if(current>0){current--;renderStage()}});nextBtn.addEventListener('click',()=>{if(current<steps.length-1&&canAdvance()){current++;renderStage()}});restartBtn.addEventListener('click',()=>location.reload());renderStage();
+</script></body></html>

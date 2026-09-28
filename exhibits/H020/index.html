@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H020 — ISS Is a 4-Hour Drive</title>
+<meta name="description" content="If you could drive straight up at highway speed, the International Space Station is less than four hours away.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h020-ink: #1f1f1f;
+    --h020-muted: #667078;
+    --h020-line: rgba(31,31,31,0.14);
+    --h020-panel: #ffffff;
+    --h020-space: #2f7c84;
+    --h020-space-soft: #e6f1f2;
+    --h020-road: #c85a3c;
+    --h020-road-soft: #f7e8e2;
+    --h020-ball: #c97a32;
+    --h020-ball-line: #7c4519;
+  }
+
+  .h020-shell {
+    width: min(100%, 900px);
+    margin: 0 auto;
+  }
+
+  .h020-panels {
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: .65rem;
+    align-items: stretch;
+  }
+
+  .h020-panel {
+    background: var(--hanten-paper);
+    border: 1px solid var(--hanten-border);
+    padding: .6rem .7rem .65rem;
+  }
+
+  .h020-panel-head {
+    margin-bottom: .35rem;
+  }
+
+  .h020-panel-kicker {
+    display: block;
+    margin-bottom: 0.18rem;
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--h020-muted);
+  }
+
+  .h020-stat {
+    display: block;
+    font-family: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    font-size: clamp(1.55rem, 3.4vw, 2.35rem);
+    line-height: 1;
+    font-weight: 850;
+    letter-spacing: -0.05em;
+    color: var(--h020-space);
+  }
+
+  .h020-stat small {
+    font-size: 0.42em;
+    font-weight: 750;
+    letter-spacing: 0;
+  }
+
+  .h020-panel-copy {
+    margin: .25rem 0 0;
+    color: var(--h020-muted);
+    font-size: .8rem;
+    line-height: 1.45;
+  }
+
+  .h020-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .h020-label {
+    font-family: var(--hanten-font);
+    font-size: 13px;
+    fill: var(--h020-muted);
+  }
+
+  .h020-label--strong {
+    fill: var(--h020-ink);
+    font-weight: 750;
+  }
+
+  .h020-label--space {
+    fill: var(--h020-space);
+    font-weight: 800;
+  }
+
+  .h020-label--road {
+    fill: var(--h020-road);
+    font-weight: 800;
+  }
+
+  .h020-reveal {
+    max-width: 820px;
+    margin: .8rem auto 0;
+    padding: .15rem 0 .15rem 1rem;
+    background: transparent;
+    border-left: 3px solid var(--hanten-accent);
+    color: #4e555a;
+    font-size: .95rem;
+    line-height: 1.45;
+  }
+
+  .h020-reveal strong {
+    color: var(--h020-ink);
+  }
+
+  .h020-reveal .h020-punch {
+    color: var(--h020-space);
+    font-weight: 850;
+  }
+
+  .h020-details {
+    max-width: 760px;
+    margin: .75rem auto 0;
+    color: var(--hanten-muted);
+    font-size: .8rem;
+    line-height: 1.45;
+  }
+
+  .h020-details summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  .h020-details p {
+    margin: .45rem 0 0;
+  }
+
+  @media (max-width: 820px) {
+    .h020-panels {
+      grid-template-columns: 1fr;
+    }
+
+    .h020-panel {
+      max-width: 650px;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .h020-comparison {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">
+    How long would it take to drive to the International Space Station?
+  </h1>
+
+  <p class="hanten-subtitle">
+    Translate 408 km into two distances that are easier to picture.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h020-shell" id="h020-graphic">
+
+      <section class="h020-panels" aria-label="Two ways to understand the distance to the International Space Station">
+
+        <article class="h020-panel">
+          <div class="h020-panel-head">
+            <span class="h020-panel-kicker">Drive straight up at 65 mph</span>
+            <span class="h020-stat">3 <small>hr</small> 54 <small>min</small></span>
+            <p class="h020-panel-copy">
+              The ISS orbits about 408 km (254 miles) above Earth.
+            </p>
+          </div>
+
+          <svg class="h020-svg" viewBox="0 25 560 570" role="img" aria-label="Vertical scale from Earth to the International Space Station">
+            <line x1="305" x2="305" y1="565" y2="50"
+                  stroke="rgba(31,31,31,0.12)" stroke-width="10" stroke-linecap="round"/>
+            <line x1="305" x2="305" y1="565" y2="50"
+                  stroke="var(--h020-space-soft)" stroke-width="6" stroke-linecap="round"/>
+
+            <!-- ground -->
+            <line x1="260" x2="350" y1="565" y2="565"
+                  stroke="var(--h020-ink)" stroke-width="2"/>
+            <text x="250" y="570" text-anchor="end" class="h020-label h020-label--strong">Ground</text>
+
+            <!-- Everest and jet altitude -->
+            <line x1="285" x2="325" y1="554" y2="554"
+                  stroke="var(--h020-muted)" stroke-width="1.5"/>
+            <line x1="285" x2="325" y1="551" y2="551"
+                  stroke="var(--h020-muted)" stroke-width="1.5"/>
+            <path d="M 280 554 L 245 530 L 130 530"
+                  fill="none" stroke="var(--h020-muted)" stroke-width="1"/>
+            <text x="124" y="525" text-anchor="end" class="h020-label">Mt. Everest · 8.8 km</text>
+            <text x="124" y="541" text-anchor="end" class="h020-label">Jet cruise · ≈11 km</text>
+
+            <!-- Karman line -->
+            <line x1="267" x2="343" y1="439" y2="439"
+                  stroke="var(--h020-road)" stroke-width="2" stroke-dasharray="4 4"/>
+            <text x="354" y="435" class="h020-label h020-label--road">100 km</text>
+            <text x="354" y="451" class="h020-label">Kármán line</text>
+
+            <!-- car -->
+            <g transform="translate(294 357)">
+              <rect x="0" y="5" width="24" height="9" rx="2" fill="var(--h020-road)"/>
+              <rect x="5" y="0" width="14" height="7" rx="1.6" fill="var(--h020-road)"/>
+              <circle cx="5" cy="15" r="2.6" fill="var(--h020-ink)"/>
+              <circle cx="19" cy="15" r="2.6" fill="var(--h020-ink)"/>
+            </g>
+            <text x="329" y="371" class="h020-label">still climbing</text>
+
+            <!-- ISS -->
+            <circle cx="305" cy="50" r="8" fill="var(--h020-space)"/>
+            <line x1="318" x2="392" y1="50" y2="50"
+                  stroke="var(--h020-space)" stroke-width="1.5"/>
+            <text x="401" y="46" class="h020-label h020-label--space">ISS · 408 km</text>
+            <text x="401" y="63" class="h020-label">about 254 miles up</text>
+
+            <text x="305" y="594" text-anchor="middle" class="h020-label h020-label--strong">
+              Same distance. Just turned vertical.
+            </text>
+          </svg>
+        </article>
+
+        <article class="h020-panel">
+          <div class="h020-panel-head">
+            <span class="h020-panel-kicker">Shrink Earth to a basketball</span>
+            <span class="h020-stat">7.6 <small>mm</small></span>
+            <p class="h020-panel-copy">
+              That's how far above the ball's surface the ISS would orbit.
+            </p>
+          </div>
+
+          <svg class="h020-svg" viewBox="0 15 480 455" role="img" aria-label="Basketball representing Earth with the ISS orbit just outside its surface">
+            <circle cx="240" cy="252" r="165"
+                    fill="none" stroke="var(--h020-space)" stroke-width="2"
+                    stroke-dasharray="4 4"/>
+
+            <circle cx="240" cy="252" r="155" fill="var(--h020-ball)"/>
+
+            <path d="M 240 97 A 155 155 0 0 1 240 407"
+                  fill="none" stroke="var(--h020-ball-line)" stroke-width="2.5"/>
+            <path d="M 240 97 A 155 155 0 0 0 240 407"
+                  fill="none" stroke="var(--h020-ball-line)" stroke-width="2.5"/>
+            <line x1="85" x2="395" y1="252" y2="252"
+                  stroke="var(--h020-ball-line)" stroke-width="2.5"/>
+
+            <line x1="240" x2="240" y1="87" y2="55"
+                  stroke="var(--h020-space)" stroke-width="1.5"/>
+            <text x="240" y="32" text-anchor="middle" class="h020-label h020-label--space">
+              ISS orbit · 7.6 mm above the surface
+            </text>
+            <text x="240" y="50" text-anchor="middle" class="h020-label">
+              about the width of a pencil
+            </text>
+
+            <text x="240" y="440" text-anchor="middle" class="h020-label h020-label--strong">
+              Earth at official basketball size
+            </text>
+            <text x="240" y="458" text-anchor="middle" class="h020-label">
+              about 9.4 inches across
+            </text>
+          </svg>
+        </article>
+
+      </section>
+
+      <div class="h020-reveal">
+        <strong>The ISS is in space, but it is not very far from Earth.</strong>
+        At ordinary highway speed, the imaginary trip takes
+        <span class="h020-punch">less than four hours.</span>
+        Shrink Earth to a basketball and low Earth orbit is only a pencil-width away.
+      </div>
+
+      <p class="hanten-reflection">
+        What sounds impossibly far away until you translate it into a familiar scale?
+      </p>
+
+      <details class="h020-details">
+        <summary>See the assumptions behind the comparison</summary>
+        <p>
+          The driving analogy assumes a constant 65 mph on an imaginary road straight upward.
+          It ignores atmosphere, gravity, orbital mechanics, traffic, and the fact that the ISS is moving.
+          The basketball comparison scales Earth's 12,742 km mean diameter to an official-size basketball
+          about 9.4 inches across.
+        </p>
+      </details>
+
+      <div class="hanten-source">
+        Source basis from the original H020 exhibit: ISS altitude 408 km; Kármán line 100 km;
+        Earth's mean diameter 12,742 km; driving comparison at 65 mph.
+      </div>
+
+      <div class="hanten-utility">
+        <div id="save-image-slot"></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "How long would it take to drive to the International Space Station?",
+    filename: "H020-iss-four-hour-drive.png"
+  });
+</script>
+
+</body>
+</html>

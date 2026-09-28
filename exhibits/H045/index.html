@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H045 — Does Alaska Cross Into the Eastern Hemisphere?</title>
+<meta name="description" content="The Aleutian Islands run so far west that the chain crosses the 180th meridian, making Alaska the only US state with land in both the Eastern and Western Hemispheres.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h045-land: #d6dbd0;
+    --h045-land-line: #96a08c;
+    --h045-east: rgba(14, 124, 134, 0.14);
+    --h045-west: rgba(178, 75, 54, 0.12);
+    --h045-seam: #1f1f1f;
+    --h045-east-ink: #0e7c86;
+    --h045-west-ink: #b24b36;
+  }
+
+  .h045-wrap {
+    width: min(100%, 900px);
+    margin: 0 auto;
+    padding: 1rem 1rem 1.1rem;
+  }
+
+  .h045-map {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .h045-hemi-label {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-weight: 700;
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+  }
+
+  .h045-seam-label {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-weight: 700;
+    font-size: 10.5px;
+    fill: var(--hanten-muted);
+  }
+
+  .h045-region-label {
+    font-family: var(--hanten-font);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    fill: var(--hanten-muted);
+    opacity: 0.85;
+  }
+
+  .h045-note {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 10px;
+    fill: var(--hanten-muted);
+    opacity: 0.85;
+  }
+
+  .h045-city-label {
+    font-family: var(--hanten-font);
+    font-weight: 700;
+    font-size: 12.5px;
+    fill: var(--hanten-text);
+  }
+
+  .h045-city-sub {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 10px;
+    fill: var(--hanten-muted);
+  }
+
+  .h045-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--hanten-border);
+    font-size: 0.78rem;
+    color: var(--hanten-muted);
+  }
+
+  .h045-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .h045-legend .swatch {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    border-radius: 2px;
+  }
+
+  .h045-legend .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .h045-legend .line {
+    width: 16px;
+    height: 0;
+    border-top: 2px dashed var(--h045-seam);
+    display: inline-block;
+  }
+
+  .h045-discovery {
+    max-width: var(--hanten-text-width);
+    margin: 1.15rem auto 0;
+  }
+
+  .h045-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+  .h045-discovery p:last-child { margin-bottom: 0; }
+  .h045-discovery strong { color: var(--hanten-text); }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">Does Alaska cross into the Eastern Hemisphere?</h1>
+
+  <p class="hanten-subtitle">
+    The Aleutian Islands run so far west from mainland Alaska that the chain crosses the 180th meridian — the line that splits the globe into east and west — and keeps going.
+  </p>
+
+  <div id="h045-capture">
+    <div class="hanten-graphic">
+      <section class="h045-wrap hanten-panel" aria-label="Map of the far western Aleutian Islands straddling the 180th meridian">
+        <svg class="h045-map" id="h045-map" viewBox="0 0 640 260" role="img" aria-labelledby="h045-map-title h045-map-desc">
+          <title id="h045-map-title">Map of the far western Aleutian Islands</title>
+          <desc id="h045-map-desc">Semisopochnoi Island, at 179.77 degrees east, sits just inside the Eastern Hemisphere. Amatignak Island, at 179.15 degrees west, sits just inside the Western Hemisphere. The 180th meridian runs between them. Mainland Alaska lies far to the east, off this crop.</desc>
+        </svg>
+        <div class="h045-legend">
+          <span><span class="line"></span>180th meridian</span>
+          <span><span class="swatch" style="background: var(--h045-east);"></span>Eastern Hemisphere</span>
+          <span><span class="swatch" style="background: var(--h045-west);"></span>Western Hemisphere</span>
+        </div>
+      </section>
+    </div>
+
+    <div class="h045-discovery hanten-body">
+      <p><strong>Alaska is the westernmost, easternmost, and northernmost US state.</strong> Amatignak Island (179°08′55″W) is the westernmost point in the US by longitude. Keep going west along the same island chain and, instead of running out of islands, you cross 180° and start counting east again — landing on Semisopochnoi Island (179°46′23″E), the easternmost point in the US by longitude.</p>
+      <p>Both islands are uninhabited specks in the Aleutians, roughly 40 km apart on the same island chain — yet by the numbers, one is the most western point in the country and the other is the most eastern.</p>
+    </div>
+
+    <p class="hanten-reflection">
+      When "furthest east" and "furthest west" depend on where you draw the line that defines them — how much else does too?
+    </p>
+
+    <p class="hanten-source">
+      Sources: Semisopochnoi Island 51°57′42″N 179°46′23″E; Amatignak Island 51°16′07″N 179°08′55″W (published US geographic extreme points, per Wikipedia and WorldAtlas). Island shapes: Natural Earth 10m. The crop shows only the far-western Aleutians; mainland Alaska continues roughly 1,200 miles further east, off this view.
+    </p>
+  </div>
+
+  <div class="hanten-utility">
+    <div id="save-image-slot"></div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/geodata/world/countries-10m.js"></script>
+
+<script>
+  (() => {
+    const width = 640, height = 260;
+    const svg = d3.select("#h045-map").attr("viewBox", `0 0 ${width} ${height}`);
+
+    const feats = COUNTRIES_10M_GEOJSON.features;
+    const usa = feats.find(f => f.properties.NAME === "United States of America");
+
+    // The Aleutian chain runs so far west it crosses the 180th meridian.
+    // We isolate just the far-western tip of the chain (both sides of the
+    // meridian) so the crossing reads clearly; mainland Alaska and other
+    // US territories are excluded from this crop.
+    function isFarWestAleutians(poly) {
+      return poly.some(ring =>
+        ring.some(([lon, lat]) => (lon > 170 || lon < -172) && lat > 48 && lat < 55)
+      );
+    }
+    const islandPolys = usa.geometry.coordinates.filter(isFarWestAleutians);
+    const islands = { type: "Feature", geometry: { type: "MultiPolygon", coordinates: islandPolys } };
+
+    // Recentering the projection on the Pacific (rotating 180 degrees)
+    // moves the antimeridian seam away from the Aleutians, so the chain
+    // renders as one continuous shape instead of being split by the
+    // default clip at longitude 180.
+    const projection = d3.geoEquirectangular().rotate([180, 0]).fitExtent([[44, 96], [596, 190]], islands);
+    const path = d3.geoPath(projection);
+
+    const seamX = projection([180, 51])[0];
+
+    svg.append("rect").attr("x", 0).attr("y", 0).attr("width", seamX).attr("height", height).attr("fill", "var(--h045-east)");
+    svg.append("rect").attr("x", seamX).attr("y", 0).attr("width", width - seamX).attr("height", height).attr("fill", "var(--h045-west)");
+
+    svg.append("line")
+      .attr("x1", seamX).attr("x2", seamX)
+      .attr("y1", 14).attr("y2", height - 14)
+      .attr("stroke", "var(--h045-seam)")
+      .attr("stroke-width", 1.6);
+    svg.append("text").attr("class", "h045-seam-label").attr("x", seamX).attr("y", 12).attr("text-anchor", "middle").text("180TH MERIDIAN");
+
+    svg.append("text").attr("class", "h045-hemi-label").attr("x", 16).attr("y", 30).attr("fill", "var(--h045-east-ink)").text("EASTERN HEMISPHERE");
+    svg.append("text").attr("class", "h045-hemi-label").attr("x", width - 16).attr("y", 30).attr("text-anchor", "end").attr("fill", "var(--h045-west-ink)").text("WESTERN HEMISPHERE");
+
+    svg.append("g")
+      .selectAll("path")
+      .data([islands])
+      .join("path")
+      .attr("d", path)
+      .attr("fill", "var(--h045-land)")
+      .attr("stroke", "var(--h045-land-line)")
+      .attr("stroke-width", 1);
+
+    svg.append("text").attr("class", "h045-region-label").attr("x", width / 2).attr("y", 52).attr("text-anchor", "middle")
+      .text("ALEUTIAN ISLANDS, ALASKA");
+    svg.append("text").attr("class", "h045-note").attr("x", width - 16).attr("y", height - 12).attr("text-anchor", "end")
+      .text("mainland Alaska ≈1,200 mi east, off this crop →");
+
+    const SEMISOPOCHNOI = [179.7728, 51.955];
+    const AMATIGNAK = [-179.1486, 51.269];
+
+    const [sx, sy] = projection(SEMISOPOCHNOI);
+    const semisoLabelX = 244, semisoLabelY = 112;
+    svg.append("line").attr("x1", sx).attr("y1", sy).attr("x2", semisoLabelX + 8).attr("y2", semisoLabelY + 4)
+      .attr("stroke", "var(--hanten-muted)").attr("stroke-width", 1);
+    svg.append("circle").attr("cx", sx).attr("cy", sy).attr("r", 4.5).attr("fill", "var(--h045-east-ink)").attr("stroke", "#fff").attr("stroke-width", 1.6);
+    svg.append("text").attr("class", "h045-city-label").attr("x", semisoLabelX).attr("y", semisoLabelY).attr("text-anchor", "end").text("Semisopochnoi Is.");
+    svg.append("text").attr("class", "h045-city-sub").attr("x", semisoLabelX).attr("y", semisoLabelY + 15).attr("text-anchor", "end").text("179.77°E · easternmost US point");
+
+    const [ax, ay] = projection(AMATIGNAK);
+    const amatLabelX = 412, amatLabelY = 208;
+    svg.append("line").attr("x1", ax).attr("y1", ay).attr("x2", amatLabelX - 8).attr("y2", amatLabelY - 4)
+      .attr("stroke", "var(--hanten-muted)").attr("stroke-width", 1);
+    svg.append("circle").attr("cx", ax).attr("cy", ay).attr("r", 4.5).attr("fill", "var(--h045-west-ink)").attr("stroke", "#fff").attr("stroke-width", 1.6);
+    svg.append("text").attr("class", "h045-city-label").attr("x", amatLabelX).attr("y", amatLabelY).attr("text-anchor", "start").text("Amatignak Is.");
+    svg.append("text").attr("class", "h045-city-sub").attr("x", amatLabelX).attr("y", amatLabelY + 15).attr("text-anchor", "start").text("179.15°W · westernmost US point");
+  })();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "Does Alaska cross into the Eastern Hemisphere?",
+    filename: "H045-alaska-both-hemispheres.png"
+  });
+</script>
+
+</body>
+</html>

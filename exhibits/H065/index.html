@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H065 — What's the Richest Country?</title>
+
+    <meta
+        name="description"
+        content="Three legitimate ways to answer 'which country is richest,' three almost entirely different top fives. The country with the biggest economy isn't close to the top of the other two."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H065-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        .h065-boards {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+        }
+
+        @media (max-width: 720px) {
+            .h065-boards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .h065-board {
+            padding: 1.1rem 1.1rem 0.9rem;
+        }
+
+        .h065-board-title {
+            margin: 0 0 0.15rem;
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .h065-board-sub {
+            font-size: 0.72rem;
+            color: var(--hanten-muted);
+            margin-bottom: 0.85rem;
+        }
+
+        .h065-board-row {
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--hanten-border);
+        }
+
+        .h065-board-row:last-child { border-bottom: none; }
+
+        .h065-board-rank {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+            width: 1rem;
+            flex-shrink: 0;
+        }
+
+        .h065-board-country { font-weight: 600; font-size: 0.85rem; flex: 1; }
+        .h065-board-value {
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .h065-board-row.h065-highlight {
+            background: var(--hanten-accent-soft);
+            margin: 0 -0.6rem;
+            padding: 0.5rem 0.6rem;
+            border-radius: 6px;
+            border-bottom: none;
+        }
+
+        .h065-board-row.h065-highlight .h065-board-rank,
+        .h065-board-row.h065-highlight .h065-board-country {
+            color: var(--hanten-accent);
+        }
+
+        @media (max-width: 600px) {
+            .h065-board { padding: 1rem 0.9rem 0.8rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            What's the richest country?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Three legitimate ways to answer, three almost entirely different top fives. The country with the
+            biggest economy isn't close to the top of the other two lists.
+        </p>
+
+        <div id="h065-capture">
+
+            <div class="hanten-graphic">
+                <div class="h065-boards">
+
+                    <div class="hanten-panel h065-board">
+                        <p class="h065-board-title">Total GDP</p>
+                        <p class="h065-board-sub">Size of the whole economy</p>
+                        <div class="h065-board-row"><span class="h065-board-rank">1</span><span class="h065-board-country">United States</span><span class="h065-board-value">$32.4T</span></div>
+                        <div class="h065-board-row"><span class="h065-board-rank">2</span><span class="h065-board-country">China</span><span class="h065-board-value">$20.9T</span></div>
+                        <div class="h065-board-row"><span class="h065-board-rank">3</span><span class="h065-board-country">Germany</span><span class="h065-board-value">$5.5T</span></div>
+                        <div class="h065-board-row"><span class="h065-board-rank">4</span><span class="h065-board-country">Japan</span><span class="h065-board-value">$4.4T</span></div>
+                        <div class="h065-board-row"><span class="h065-board-rank">5</span><span class="h065-board-country">United Kingdom</span><span class="h065-board-value">$4.3T</span></div>
+                    </div>
+
+                    <div class="hanten-panel h065-board">
+                        <p class="h065-board-title">GDP per capita</p>
+                        <p class="h065-board-sub">Output divided by population</p>
+                        <div class="h065-board-row"><span class="h065-board-rank">1</span><span class="h065-board-country">Liechtenstein</span><span class="h065-board-value">$226,809</span></div>
+                        <div class="h065-board-row h065-highlight"><span class="h065-board-rank">2</span><span class="h065-board-country">Luxembourg</span><span class="h065-board-value">$158,733</span></div>
+                        <div class="h065-board-row"><span class="h065-board-rank">3</span><span class="h065-board-country">Ireland</span><span class="h065-board-value">$140,186</span></div>
+                        <div class="h065-board-row"><span class="h065-board-rank">4</span><span class="h065-board-country">Switzerland</span><span class="h065-board-value">$126,177</span></div>
+                        <div class="h065-board-row"><span class="h065-board-rank">5</span><span class="h065-board-country">Iceland</span><span class="h065-board-value">$110,048</span></div>
+                    </div>
+
+                    <div class="hanten-panel h065-board">
+                        <p class="h065-board-title">Median wealth per adult</p>
+                        <p class="h065-board-sub">What the typical resident owns</p>
+                        <div class="h065-board-row h065-highlight"><span class="h065-board-rank">1</span><span class="h065-board-country">Luxembourg</span><span class="h065-board-value">$394,000</span></div>
+                        <div class="h065-board-row"><span class="h065-board-rank">2</span><span class="h065-board-country">Belgium</span><span class="h065-board-value">$277,000</span></div>
+                        <div class="h065-board-row"><span class="h065-board-rank">3</span><span class="h065-board-country">Australia</span><span class="h065-board-value">$211,000</span></div>
+                        <div class="h065-board-row"><span class="h065-board-rank">4</span><span class="h065-board-country">New Zealand</span><span class="h065-board-value">$207,000</span></div>
+                        <div class="h065-board-row"><span class="h065-board-rank">5</span><span class="h065-board-country">Denmark</span><span class="h065-board-value">$204,000</span></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">Why the same country can top one list and vanish from another</h2>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
+                <strong>Total GDP</strong> just adds up everyone's output — mostly a function of population size
+                multiplied by productivity, which is why the U.S. and China dominate it regardless of how
+                wealthy any individual resident is. <strong>GDP per capita</strong> divides that output by
+                population, which flips the list toward small, specialized economies — financial hubs,
+                city-states, and countries where a small population divides a disproportionately large output.
+                None of the total-GDP top five shows up here.
+            </p>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
+                <strong>Median wealth per adult</strong> asks a third, different question: what does the person
+                exactly in the middle of the distribution actually own? This one punishes concentration.
+                Switzerland has the world's highest <em>average</em> wealth per adult ($910,000) — but its
+                <em>median</em> is only $146,000, because a relatively small number of extremely wealthy
+                residents pull the average far above what a typical Swiss adult holds. The United States shows
+                the same pattern even more starkly: it ranks 2nd in the world by average wealth per adult, but
+                falls all the way to <strong>28th</strong> when ranked by median — one of the largest
+                average-to-median drops of any country.
+            </p>
+
+            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
+                <p class="hanten-takeaway" style="margin:0;">
+                    Only Luxembourg shows up in more than one of these lists — 2nd by GDP per capita and 1st by
+                    median wealth. The United States, the clear #1 by total GDP, doesn't crack the top five on
+                    either of the other two measures.
+                </p>
+            </div>
+
+            <p class="hanten-reflection">
+                When someone says a country is "rich," which of these three questions are they actually
+                answering?
+            </p>
+
+            <p class="hanten-source">
+                Sources: StatisticsTimes.com, 2026 nominal GDP and GDP-per-capita projections (IMF-derived);
+                UBS Global Wealth Report 2026, via Visual Capitalist's "Ranked: The Richest Countries by Average
+                vs. Median Wealth" (median and average wealth per adult, including the U.S. 2nd-by-average /
+                28th-by-median finding and Switzerland's $910,000 average vs. $146,000 median).
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "What's the richest country?",
+            filename: "H065-richest-country.png"
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>H079 — How Far Apart Are a Million and a Billion, Really?</title>
+
+    <meta
+        name="description"
+        content="A billion is not a bigger million — it is a thousand millions. Three ways of feeling that gap: in time, in money, and in space."
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../assets/css/hanten.css"
+    >
+
+    <style>
+        /*
+           H079-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h079-million: #8a897f;
+            --h079-billion: var(--hanten-accent);
+            --h079-trillion: #a3392b;
+        }
+
+
+        /* Stat row */
+
+        .h079-stat-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.9rem;
+        }
+
+        @media (max-width: 760px) {
+            .h079-stat-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .h079-stat {
+            background: var(--hanten-panel);
+            border: 1px solid var(--hanten-border);
+            padding: 1.1rem 1rem;
+        }
+
+        .h079-stat-label {
+            font-family: var(--hanten-font);
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+            margin-bottom: 0.6rem;
+        }
+
+        .h079-stat-value {
+            font-family: var(--hanten-font);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--h079-billion);
+            line-height: 1.15;
+            margin-bottom: 0.3rem;
+        }
+
+        .h079-stat-value.trillion {
+            color: var(--h079-trillion);
+        }
+
+        .h079-stat-desc {
+            font-size: 0.8rem;
+            line-height: 1.45;
+            color: var(--hanten-muted);
+        }
+
+
+        /* Section intros */
+
+        .h079-section-title {
+            max-width: var(--hanten-text-width);
+            margin: 0 auto;
+            padding-top: 0.3rem;
+        }
+
+        .h079-section-note {
+            max-width: var(--hanten-text-width);
+            margin: 0 auto;
+        }
+
+
+        /* Charts */
+
+        .h079-chart-card {
+            background: var(--hanten-panel);
+            border: 1px solid var(--hanten-border);
+            padding: 1.2rem 1rem 0.9rem;
+        }
+
+        .h079-legend {
+            display: flex;
+            gap: 1.1rem;
+            flex-wrap: wrap;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+            margin: 0.7rem 0 0.1rem;
+            padding-left: 0.2rem;
+        }
+
+        .h079-legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .h079-swatch {
+            width: 9px;
+            height: 9px;
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        .h079-swatch.dot {
+            border-radius: 50%;
+        }
+
+        .h079-swatch.line {
+            width: 15px;
+            height: 0;
+            border-top: 2px dashed var(--hanten-muted);
+            border-radius: 0;
+        }
+
+        .h079-chart-card svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .h079-name {
+            font-family: var(--hanten-font);
+            font-weight: 600;
+            font-size: 12.5px;
+            fill: var(--hanten-text);
+        }
+
+        .h079-subname {
+            font-family: var(--hanten-font);
+            font-weight: 500;
+            font-size: 10.5px;
+            fill: var(--hanten-muted);
+        }
+
+        .h079-value {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 12px;
+            fill: var(--hanten-muted);
+        }
+
+        .h079-tick {
+            font-family: var(--hanten-font);
+            font-weight: 500;
+            font-size: 10px;
+            fill: var(--hanten-muted);
+        }
+
+        .h079-axis-title {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 10px;
+            letter-spacing: 0.06em;
+            fill: var(--hanten-muted);
+        }
+
+        .h079-chart-kicker {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 9.5px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .h079-chart-kicker.log {
+            fill: var(--h079-billion);
+        }
+
+        .h079-chart-kicker.linear {
+            fill: var(--hanten-muted);
+        }
+
+        .h079-scale-caption {
+            max-width: var(--hanten-text-width);
+            margin: 0.8rem auto;
+            font-size: 0.8rem;
+            line-height: 1.45;
+            font-style: italic;
+            color: var(--hanten-muted);
+        }
+
+
+        /* Callout */
+
+        .h079-callout {
+            max-width: var(--hanten-text-width);
+            margin: 0 auto;
+            border-left: 3px solid var(--h079-trillion);
+            padding: 0.85rem 1.05rem;
+            font-size: 0.88rem;
+            line-height: 1.55;
+            color: var(--hanten-muted);
+            background: var(--hanten-panel);
+        }
+
+        .h079-callout strong {
+            color: var(--hanten-text);
+        }
+
+
+        /* Table */
+
+        .h079-table-wrap {
+            overflow-x: auto;
+        }
+
+        .h079-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            min-width: 560px;
+        }
+
+        .h079-table th,
+        .h079-table td {
+            text-align: left;
+            padding: 0.65rem 0.8rem;
+            border-bottom: 1px solid var(--hanten-border);
+            white-space: nowrap;
+        }
+
+        .h079-table th {
+            font-family: var(--hanten-font);
+            font-size: 0.68rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+            font-weight: 700;
+        }
+
+        .h079-table td {
+            color: var(--hanten-muted);
+        }
+
+        .h079-table td.place {
+            color: var(--hanten-text);
+            font-weight: 700;
+        }
+
+        .h079-table tr:last-child td {
+            border-bottom: none;
+        }
+
+    </style>
+
+    <style>
+        .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+        .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:var(--hanten-paper,#f4f3ef);color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+        .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+        .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+        .hanten-export-card{
+          position:fixed;left:-10000px;top:0;width:960px;
+          padding:40px 0 60px;box-sizing:border-box;
+          background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+          font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+        }
+    </style>
+
+    <style id="h079-mobile-scaling-fix">
+        @media (max-width: 600px) {
+            .h079-stat-value { font-size: 1.15rem; }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            How Far Apart Are a Million and a Billion, Really?
+        </h1>
+
+        <p class="hanten-subtitle">
+            A billion is not a bigger million — it is a thousand millions.
+            A trillion is a thousand billions.
+        </p>
+
+        <div class="hanten-graphic hanten-panel">
+            <div class="h079-stat-row">
+                <div class="h079-stat">
+                    <div class="h079-stat-label">One million seconds</div>
+                    <div class="h079-stat-value">11.6 days</div>
+                    <div class="h079-stat-desc">About a two-week vacation.</div>
+                </div>
+                <div class="h079-stat">
+                    <div class="h079-stat-label">One billion seconds</div>
+                    <div class="h079-stat-value">31.7 years</div>
+                    <div class="h079-stat-desc">About one adult generation.</div>
+                </div>
+                <div class="h079-stat">
+                    <div class="h079-stat-label">$1 billion in $100 bills</div>
+                    <div class="h079-stat-value">1,092 m tall</div>
+                    <div class="h079-stat-desc">Taller than the Burj Khalifa (828 m).</div>
+                </div>
+                <div class="h079-stat">
+                    <div class="h079-stat-label">Nearest star, Sun shrunk to a basketball</div>
+                    <div class="h079-stat-value trillion">6,930 km</div>
+                    <div class="h079-stat-desc">Still 3 days of driving away.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="hanten-section-title h079-section-title">In time: a vacation, a generation, an ice age</h2>
+        <p class="hanten-body h079-section-note">
+            There are 86,400 seconds in a day. One million seconds is 11.57 days — about the length of a two-week
+            trip. One billion seconds is 31.69 years — essentially a generation, the age gap between a parent and a
+            child. One trillion seconds is 31,688 years — a span that reaches back past the Last Glacial Maximum,
+            the coldest point of the last Ice Age (26,000–20,000 years ago), and nearly three times further back
+            than the start of the current geological epoch, the Holocene, which began only about 11,700 years ago.
+            Each step is a clean ×1,000. None of them feel like the same-sized step.
+        </p>
+
+        <div class="hanten-graphic hanten-panel h079-chart-card">
+            <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="c1Title c1Desc">
+                <title id="c1Title">Million, billion, and trillion seconds, converted to days, on a logarithmic scale</title>
+                <desc id="c1Desc">One million seconds is 11.57 days. One billion seconds is 11,574 days, about 31.7 years. One trillion seconds is 11.57 million days, about 31,688 years — further back than the Last Glacial Maximum. Each step is exactly 1,000 times the last, appearing as an equal jump on this logarithmic scale.</desc>
+
+                <text x="110" y="14" class="h079-chart-kicker log">Logarithmic — equal steps</text>
+
+                <g stroke="var(--hanten-border)" stroke-width="1">
+                    <line x1="190" y1="20" x2="190" y2="170"/>
+                    <line x1="350" y1="20" x2="350" y2="170"/>
+                    <line x1="510" y1="20" x2="510" y2="170"/>
+                    <line x1="670" y1="20" x2="670" y2="170"/>
+                </g>
+                <text x="190" y="185" text-anchor="middle" class="h079-tick">10 days</text>
+                <text x="350" y="185" text-anchor="middle" class="h079-tick">1,000 days</text>
+                <text x="510" y="185" text-anchor="middle" class="h079-tick">100,000 days</text>
+                <text x="670" y="185" text-anchor="middle" class="h079-tick">10M days</text>
+
+                <line x1="110" y1="170" x2="710" y2="170" stroke="var(--hanten-muted)" stroke-width="1.5"/>
+
+                <!-- million -->
+                <line x1="110" y1="45" x2="195.1" y2="45" stroke="var(--h079-million)" stroke-width="10" stroke-linecap="round"/>
+                <circle cx="195.1" cy="45" r="6" fill="var(--h079-million)"/>
+                <text x="110" y="30" class="h079-name">One million seconds</text>
+                <text x="205" y="49" class="h079-value">11.6 days — a two-week trip</text>
+
+                <!-- billion -->
+                <line x1="110" y1="95" x2="435.1" y2="95" stroke="var(--h079-billion)" stroke-width="10" stroke-linecap="round"/>
+                <circle cx="435.1" cy="95" r="6" fill="var(--h079-billion)"/>
+                <text x="110" y="80" class="h079-name">One billion seconds</text>
+                <text x="445" y="99" class="h079-value">31.7 years — a generation</text>
+
+                <!-- trillion -->
+                <line x1="110" y1="145" x2="675.1" y2="145" stroke="var(--h079-trillion)" stroke-width="10" stroke-linecap="round"/>
+                <circle cx="675.1" cy="145" r="6" fill="var(--h079-trillion)"/>
+                <text x="110" y="130" class="h079-name">One trillion seconds</text>
+                <text x="670" y="130" text-anchor="end" class="h079-value">31,688 years — before the last Ice Age's peak</text>
+
+                <text x="400" y="208" text-anchor="middle" class="h079-axis-title">DURATION IN DAYS</text>
+            </svg>
+            <div class="h079-legend">
+                <span><span class="h079-swatch" style="background:var(--h079-million)"></span>million</span>
+                <span><span class="h079-swatch" style="background:var(--h079-billion)"></span>billion</span>
+                <span><span class="h079-swatch" style="background:var(--h079-trillion)"></span>trillion</span>
+            </div>
+        </div>
+
+        <p class="h079-scale-caption">The chart above spaces million, billion, and trillion evenly, because each is exactly 1,000× the last. The chart below plots the same three numbers on a plain ruler instead — true to scale, nothing compressed.</p>
+
+        <div class="hanten-graphic hanten-panel h079-chart-card">
+            <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="c1bTitle c1bDesc">
+                <title id="c1bTitle">The same million, billion, and trillion seconds figures, converted to days, on an arithmetic scale</title>
+                <desc id="c1bDesc">On a true-to-scale linear axis running to 12 million days, one million seconds (11.6 days) and one billion seconds (11,574 days) both fall within half a pixel of zero. Only one trillion seconds (11.57 million days) sits far enough out to register as a separate point — the reason the chart above uses a logarithmic scale instead.</desc>
+
+                <text x="110" y="14" class="h079-chart-kicker linear">Arithmetic — true proportion</text>
+
+                <g stroke="var(--hanten-border)" stroke-width="1">
+                    <line x1="260" y1="20" x2="260" y2="170"/>
+                    <line x1="410" y1="20" x2="410" y2="170"/>
+                    <line x1="560" y1="20" x2="560" y2="170"/>
+                    <line x1="710" y1="20" x2="710" y2="170"/>
+                </g>
+                <text x="110" y="185" text-anchor="middle" class="h079-tick">0</text>
+                <text x="260" y="185" text-anchor="middle" class="h079-tick">3M days</text>
+                <text x="410" y="185" text-anchor="middle" class="h079-tick">6M days</text>
+                <text x="560" y="185" text-anchor="middle" class="h079-tick">9M days</text>
+                <text x="710" y="185" text-anchor="middle" class="h079-tick">12M days</text>
+
+                <line x1="110" y1="170" x2="710" y2="170" stroke="var(--hanten-muted)" stroke-width="1.5"/>
+
+                <!-- million + billion: both land within 0.6px of zero -->
+                <circle cx="110.3" cy="170" r="8" fill="var(--h079-million)"/>
+                <circle cx="110.3" cy="170" r="8" fill="var(--h079-billion)" opacity="0.5"/>
+                <text x="118" y="120" class="h079-name">Million &amp; billion seconds</text>
+                <text x="118" y="133" class="h079-subname">11.6 days &amp; 31.7 years — both round to zero here</text>
+
+                <!-- trillion -->
+                <circle cx="688.7" cy="170" r="8" fill="var(--h079-trillion)"/>
+                <text x="688.7" y="120" text-anchor="end" class="h079-name" fill="var(--h079-trillion)">One trillion seconds</text>
+                <text x="688.7" y="133" text-anchor="end" class="h079-subname">31,688 years — the only visible mark</text>
+
+                <text x="400" y="208" text-anchor="middle" class="h079-axis-title">DURATION IN DAYS</text>
+            </svg>
+            <div class="h079-legend">
+                <span><span class="h079-swatch dot" style="background:var(--h079-million)"></span>million</span>
+                <span><span class="h079-swatch dot" style="background:var(--h079-billion)"></span>billion</span>
+                <span><span class="h079-swatch dot" style="background:var(--h079-trillion)"></span>trillion</span>
+            </div>
+        </div>
+
+        <h2 class="hanten-section-title h079-section-title">In money: a countertop, a skyline, low orbit</h2>
+        <p class="hanten-body h079-section-note">
+            A U.S. banknote is 0.0043 inches thick, regardless of denomination. Stack ten thousand $100 bills — one
+            million dollars — and the pile is 1.09 meters tall, about counter height. A billion dollars in the same
+            bills is 1,092 meters tall: taller than the Burj Khalifa, the world's tallest building, by more than
+            260 meters. A trillion dollars is 1,092 kilometers tall — 2.7 times the altitude at which the
+            International Space Station orbits Earth. Two multiplications by 1,000 carry the stack from "furniture"
+            to "skyscraper" to "past low Earth orbit."
+        </p>
+
+        <div class="hanten-graphic hanten-panel h079-chart-card">
+            <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="c2Title c2Desc">
+                <title id="c2Title">Height of a stack of $100 bills for one million, one billion, and one trillion dollars, on a logarithmic scale</title>
+                <desc id="c2Desc">One million dollars in one-hundred dollar bills stacks 1.09 meters tall. One billion dollars stacks 1,092 meters tall, taller than the Burj Khalifa at 828 meters. One trillion dollars stacks 1,092 kilometers tall, 2.7 times the International Space Station's altitude of about 400 kilometers.</desc>
+
+                <text x="110" y="14" class="h079-chart-kicker log">Logarithmic — equal steps</text>
+
+                <g stroke="var(--hanten-border)" stroke-width="1">
+                    <line x1="190" y1="20" x2="190" y2="170"/>
+                    <line x1="350" y1="20" x2="350" y2="170"/>
+                    <line x1="510" y1="20" x2="510" y2="170"/>
+                    <line x1="670" y1="20" x2="670" y2="170"/>
+                </g>
+                <text x="190" y="185" text-anchor="middle" class="h079-tick">1 m</text>
+                <text x="350" y="185" text-anchor="middle" class="h079-tick">100 m</text>
+                <text x="510" y="185" text-anchor="middle" class="h079-tick">10 km</text>
+                <text x="670" y="185" text-anchor="middle" class="h079-tick">1,000 km</text>
+
+                <line x1="110" y1="170" x2="710" y2="170" stroke="var(--hanten-muted)" stroke-width="1.5"/>
+
+                <!-- reference lines: Burj Khalifa, ISS -->
+                <line x1="423.4" y1="20" x2="423.4" y2="170" stroke="var(--hanten-muted)" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <text x="423.4" y="14" text-anchor="middle" class="h079-subname">Burj Khalifa</text>
+                <line x1="638.2" y1="20" x2="638.2" y2="170" stroke="var(--hanten-muted)" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <text x="638.2" y="14" text-anchor="middle" class="h079-subname">ISS altitude</text>
+
+                <!-- million -->
+                <line x1="110" y1="45" x2="193.0" y2="45" stroke="var(--h079-million)" stroke-width="10" stroke-linecap="round"/>
+                <circle cx="193.0" cy="45" r="6" fill="var(--h079-million)"/>
+                <text x="110" y="30" class="h079-name">$1 million</text>
+                <text x="203" y="49" class="h079-value">1.09 m — countertop height</text>
+
+                <!-- billion -->
+                <line x1="110" y1="95" x2="433.1" y2="95" stroke="var(--h079-billion)" stroke-width="10" stroke-linecap="round"/>
+                <circle cx="433.1" cy="95" r="6" fill="var(--h079-billion)"/>
+                <text x="110" y="80" class="h079-name">$1 billion</text>
+                <text x="443" y="99" class="h079-value">1,092 m — taller than the Burj Khalifa</text>
+
+                <!-- trillion -->
+                <line x1="110" y1="145" x2="673.1" y2="145" stroke="var(--h079-trillion)" stroke-width="10" stroke-linecap="round"/>
+                <circle cx="673.1" cy="145" r="6" fill="var(--h079-trillion)"/>
+                <text x="110" y="130" class="h079-name">$1 trillion</text>
+                <text x="480" y="164" class="h079-value">1,092 km — 2.7× the ISS's altitude</text>
+
+                <text x="400" y="208" text-anchor="middle" class="h079-axis-title">STACK HEIGHT</text>
+            </svg>
+            <div class="h079-legend">
+                <span><span class="h079-swatch" style="background:var(--h079-million)"></span>million</span>
+                <span><span class="h079-swatch" style="background:var(--h079-billion)"></span>billion</span>
+                <span><span class="h079-swatch" style="background:var(--h079-trillion)"></span>trillion</span>
+                <span><span class="h079-swatch line"></span>real-world reference height</span>
+            </div>
+        </div>
+
+        <p class="h079-scale-caption">The chart above spaces million, billion, and trillion evenly, because each is exactly 1,000× the last. The chart below plots the same three stack heights on a plain ruler instead — true to scale, nothing compressed.</p>
+
+        <div class="hanten-graphic hanten-panel h079-chart-card">
+            <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="c2bTitle c2bDesc">
+                <title id="c2bTitle">The same $100-bill stack heights for one million, one billion, and one trillion dollars, on an arithmetic scale</title>
+                <desc id="c2bDesc">On a true-to-scale linear axis running to 1,200 kilometers, a one-million-dollar stack (1.09 meters) and a one-billion-dollar stack (1,092 meters) both fall within half a pixel of zero. Only the one-trillion-dollar stack (1,092 kilometers) sits far enough out to register as a separate point.</desc>
+
+                <text x="110" y="14" class="h079-chart-kicker linear">Arithmetic — true proportion</text>
+
+                <g stroke="var(--hanten-border)" stroke-width="1">
+                    <line x1="260" y1="20" x2="260" y2="170"/>
+                    <line x1="410" y1="20" x2="410" y2="170"/>
+                    <line x1="560" y1="20" x2="560" y2="170"/>
+                    <line x1="710" y1="20" x2="710" y2="170"/>
+                </g>
+                <text x="110" y="185" text-anchor="middle" class="h079-tick">0</text>
+                <text x="260" y="185" text-anchor="middle" class="h079-tick">300 km</text>
+                <text x="410" y="185" text-anchor="middle" class="h079-tick">600 km</text>
+                <text x="560" y="185" text-anchor="middle" class="h079-tick">900 km</text>
+                <text x="710" y="185" text-anchor="middle" class="h079-tick">1,200 km</text>
+
+                <line x1="110" y1="170" x2="710" y2="170" stroke="var(--hanten-muted)" stroke-width="1.5"/>
+
+                <!-- million + billion: both land within 0.6px of zero -->
+                <circle cx="110.3" cy="170" r="8" fill="var(--h079-million)"/>
+                <circle cx="110.3" cy="170" r="8" fill="var(--h079-billion)" opacity="0.5"/>
+                <text x="118" y="120" class="h079-name">$1 million &amp; $1 billion</text>
+                <text x="118" y="133" class="h079-subname">1.09 m &amp; 1,092 m — both round to zero here</text>
+
+                <!-- trillion -->
+                <circle cx="656.1" cy="170" r="8" fill="var(--h079-trillion)"/>
+                <text x="656.1" y="120" text-anchor="end" class="h079-name" fill="var(--h079-trillion)">$1 trillion</text>
+                <text x="656.1" y="133" text-anchor="end" class="h079-subname">1,092 km — the only visible mark</text>
+
+                <text x="400" y="208" text-anchor="middle" class="h079-axis-title">STACK HEIGHT</text>
+            </svg>
+            <div class="h079-legend">
+                <span><span class="h079-swatch dot" style="background:var(--h079-million)"></span>million</span>
+                <span><span class="h079-swatch dot" style="background:var(--h079-billion)"></span>billion</span>
+                <span><span class="h079-swatch dot" style="background:var(--h079-trillion)"></span>trillion</span>
+            </div>
+        </div>
+
+        <h2 class="hanten-section-title h079-section-title">In space: shrink the Sun to a basketball, and the nearest star is still 6,930 km away</h2>
+        <p class="hanten-body h079-section-note">
+            Shrink the Sun from its true diameter (1,391,400 km) down to a 24 cm basketball, and every other
+            distance in the solar system shrinks by the same ratio: about 1 part in 5.8 billion. At that scale,
+            Earth is a 2.2 mm speck — a sesame seed — orbiting 25.8 meters away, roughly the length of a basketball
+            court. Neptune, the outermost planet, sits about 776 meters out: seven or eight football fields. The
+            whole solar system fits in a few city blocks. Proxima Centauri, the single nearest star to the Sun, is
+            4.2465 light-years away in reality. Shrunk by the same 5.8-billion-to-one ratio, it still lands 6,930
+            kilometers from the basketball — about 69 hours of nonstop highway driving, on a scale where the rest
+            of the solar system was already a rounding error.
+        </p>
+
+        <div class="hanten-graphic hanten-panel h079-chart-card">
+            <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="c3Title c3Desc">
+                <title id="c3Title">Distances in a scale model of the solar system where the Sun is a 24-centimeter basketball, on a logarithmic scale</title>
+                <desc id="c3Desc">In this model, Earth orbits 25.8 meters from the basketball Sun, about the length of a basketball court. Neptune orbits 775.9 meters out, about 8 football fields. Proxima Centauri, the nearest star, would be 6,930 kilometers away even at this scale — far off the right edge of a solar-system-sized map.</desc>
+
+                <text x="110" y="14" class="h079-chart-kicker log">Logarithmic — equal steps</text>
+
+                <g stroke="var(--hanten-border)" stroke-width="1">
+                    <line x1="110" y1="20" x2="110" y2="170"/>
+                    <line x1="281.4" y1="20" x2="281.4" y2="170"/>
+                    <line x1="452.9" y1="20" x2="452.9" y2="170"/>
+                    <line x1="624.3" y1="20" x2="624.3" y2="170"/>
+                </g>
+                <text x="110" y="185" text-anchor="middle" class="h079-tick">1 m</text>
+                <text x="281.4" y="185" text-anchor="middle" class="h079-tick">100 m</text>
+                <text x="452.9" y="185" text-anchor="middle" class="h079-tick">10 km</text>
+                <text x="624.3" y="185" text-anchor="middle" class="h079-tick">1,000 km</text>
+
+                <line x1="110" y1="170" x2="710" y2="170" stroke="var(--hanten-muted)" stroke-width="1.5"/>
+
+                <circle cx="110" cy="170" r="9" fill="var(--h079-billion)"/>
+                <text x="110" y="150" text-anchor="middle" class="h079-subname">Sun (basketball)</text>
+
+                <circle cx="231.0" cy="170" r="4" fill="var(--hanten-text)"/>
+                <text x="231.0" y="120" text-anchor="middle" class="h079-name">Earth</text>
+                <text x="231.0" y="133" text-anchor="middle" class="h079-subname">25.8 m — a sesame seed</text>
+
+                <circle cx="357.7" cy="170" r="4" fill="var(--hanten-muted)"/>
+                <text x="357.7" y="150" text-anchor="middle" class="h079-subname">Neptune, 775.9 m</text>
+
+                <circle cx="696.3" cy="170" r="7" fill="var(--h079-trillion)"/>
+                <text x="696.3" y="120" text-anchor="end" class="h079-name" fill="var(--h079-trillion)">Proxima Centauri</text>
+                <text x="696.3" y="133" text-anchor="end" class="h079-subname">6,930 km — 69 hrs of driving</text>
+
+                <text x="400" y="208" text-anchor="middle" class="h079-axis-title">DISTANCE FROM THE BASKETBALL SUN</text>
+            </svg>
+            <div class="h079-legend">
+                <span><span class="h079-swatch dot" style="background:var(--h079-billion)"></span>the Sun</span>
+                <span><span class="h079-swatch dot" style="background:var(--hanten-text)"></span>Earth</span>
+                <span><span class="h079-swatch dot" style="background:var(--hanten-muted)"></span>Neptune</span>
+                <span><span class="h079-swatch dot" style="background:var(--h079-trillion)"></span>nearest star</span>
+            </div>
+        </div>
+
+        <p class="h079-scale-caption">The chart above spaces these distances by powers of ten so all four are visible at once. The chart below plots the same four points on a plain ruler instead — true to scale, nothing compressed.</p>
+
+        <div class="hanten-graphic hanten-panel h079-chart-card">
+            <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="c3bTitle c3bDesc">
+                <title id="c3bTitle">The same basketball-Sun scale-model distances, on an arithmetic scale</title>
+                <desc id="c3bDesc">On a true-to-scale linear axis running to 8,000 kilometers, the Sun, Earth's orbit (25.8 meters) and Neptune's orbit (775.9 meters) all fall within a fraction of a pixel of zero — the entire solar system is indistinguishable from a single point. Only Proxima Centauri, the nearest star at 6,930 kilometers, sits far enough out to register as a separate mark.</desc>
+
+                <text x="110" y="14" class="h079-chart-kicker linear">Arithmetic — true proportion</text>
+
+                <g stroke="var(--hanten-border)" stroke-width="1">
+                    <line x1="260" y1="20" x2="260" y2="170"/>
+                    <line x1="410" y1="20" x2="410" y2="170"/>
+                    <line x1="560" y1="20" x2="560" y2="170"/>
+                    <line x1="710" y1="20" x2="710" y2="170"/>
+                </g>
+                <text x="110" y="185" text-anchor="middle" class="h079-tick">0</text>
+                <text x="260" y="185" text-anchor="middle" class="h079-tick">2,000 km</text>
+                <text x="410" y="185" text-anchor="middle" class="h079-tick">4,000 km</text>
+                <text x="560" y="185" text-anchor="middle" class="h079-tick">6,000 km</text>
+                <text x="710" y="185" text-anchor="middle" class="h079-tick">8,000 km</text>
+
+                <line x1="110" y1="170" x2="710" y2="170" stroke="var(--hanten-muted)" stroke-width="1.5"/>
+
+                <!-- Sun, Earth's orbit, Neptune's orbit: all land within a fraction of a pixel of zero -->
+                <circle cx="110" cy="170" r="9" fill="var(--h079-billion)"/>
+                <circle cx="110" cy="170" r="6" fill="var(--hanten-text)"/>
+                <circle cx="110" cy="170" r="3" fill="var(--hanten-muted)"/>
+                <text x="118" y="120" class="h079-name">Sun, Earth &amp; Neptune</text>
+                <text x="118" y="133" class="h079-subname">the whole solar system rounds to zero here</text>
+
+                <!-- Proxima Centauri -->
+                <circle cx="629.8" cy="170" r="7" fill="var(--h079-trillion)"/>
+                <text x="629.8" y="120" text-anchor="end" class="h079-name" fill="var(--h079-trillion)">Proxima Centauri</text>
+                <text x="629.8" y="133" text-anchor="end" class="h079-subname">6,930 km — the only visible mark</text>
+
+                <text x="400" y="208" text-anchor="middle" class="h079-axis-title">DISTANCE FROM THE BASKETBALL SUN</text>
+            </svg>
+            <div class="h079-legend">
+                <span><span class="h079-swatch dot" style="background:var(--h079-billion)"></span>the Sun</span>
+                <span><span class="h079-swatch dot" style="background:var(--hanten-text)"></span>Earth</span>
+                <span><span class="h079-swatch dot" style="background:var(--hanten-muted)"></span>Neptune</span>
+                <span><span class="h079-swatch dot" style="background:var(--h079-trillion)"></span>nearest star</span>
+            </div>
+        </div>
+
+        <div class="h079-callout hanten-panel">
+            <strong>The whole solar system is a rounding error.</strong> On this chart, Neptune — the edge of the
+            planets — sits barely past the "100 m" gridline. Proxima Centauri sits two entire gridlines further
+            than "1,000 km." Compressing the Sun by 5.8 billion times was an extreme shrink by any household
+            standard, and it still wasn't nearly enough to bring interstellar space down to a human scale.
+        </div>
+
+        <h2 class="hanten-section-title h079-section-title">The numbers, side by side</h2>
+        <div class="hanten-graphic hanten-panel h079-table-wrap">
+            <table class="h079-table">
+                <thead>
+                    <tr><th>Scale</th><th>As a duration</th><th>As a $100-bill stack</th><th>As a shrunk-Sun distance</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="place">Million (10⁶)</td><td>11.6 days</td><td>1.09 m</td><td>Earth, 25.8 m out</td></tr>
+                    <tr><td class="place">Billion (10⁹)</td><td>31.7 years</td><td>1,092 m</td><td>Neptune, 775.9 m out</td></tr>
+                    <tr><td class="place">Trillion (10¹²)</td><td>31,688 years</td><td>1,092 km</td><td>(nearest star is 6,930 km — off this model's own scale)</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="hanten-body h079-section-note">
+            Every row down this table is the same ×1,000 step. Every column reaches a wildly different kind of
+            "too big to picture" — an ice age, a spacecraft's orbit, an interstellar distance that dwarfs a scale
+            model already built to be extreme.
+        </p>
+
+        <p class="hanten-reflection">
+            Why does one extra syllable — "billion" instead of "million" — hide a thousandfold difference?
+        </p>
+
+        <p class="hanten-source h079-source">
+            Sources: time and money figures are direct arithmetic on defined constants (86,400 seconds per day, the
+            365.25-day Julian year, and U.S. banknote thickness of 0.0043 in). Last Glacial Maximum and Holocene
+            dating, Burj Khalifa height, ISS altitude, and all astronomical figures (AU, light-year, Proxima
+            Centauri's Gaia DR3 distance, the Sun's diameter) are from Wikipedia and PR Newswire. Number-cognition
+            research is Dehaene et al. (2008, <em>Science</em>), via Scientific American. The basketball-Sun scale
+            model is this piece's own calculation. Full citations and data-quality notes in
+            references/H079-references.md.
+        </p>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+
+    <script
+        src="../../assets/js/html2canvas.min.js"
+    ></script>
+
+
+    <script>
+    (() => {
+        const slot = document.getElementById("save-image-slot");
+        if (!slot || typeof html2canvas !== "function") return;
+        slot.classList.add("hanten-image-actions");
+        slot.innerHTML = "";
+        const save = document.createElement("button"), share = document.createElement("button");
+        save.type = share.type = "button";
+        save.textContent = "Save Image";
+        share.textContent = "Share Image";
+        slot.append(save, share);
+        const filename = "H079_v2.png", title = "How Far Apart Are a Million and a Billion, Really?";
+
+        async function blob() {
+            const main = document.querySelector("main.hanten-exhibit");
+            if (!main) throw new Error("Export content not found.");
+
+            const card = document.createElement("div");
+            card.className = "hanten-export-card";
+
+            const clone = main.cloneNode(true);
+            const utility = clone.querySelector(".hanten-utility");
+            if (utility) utility.remove();
+            card.appendChild(clone);
+
+            document.body.appendChild(card);
+            try {
+                const canvas = await html2canvas(card, {
+                    backgroundColor: "#eef1ec",
+                    scale: 2,
+                    useCORS: true,
+                    width: card.scrollWidth,
+                    height: card.scrollHeight,
+                    windowWidth: card.scrollWidth,
+                    windowHeight: card.scrollHeight
+                });
+                return await new Promise((ok, no) =>
+                    canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png")
+                );
+            } finally {
+                card.remove();
+            }
+        }
+
+        function download(b) {
+            const u = URL.createObjectURL(b), a = document.createElement("a");
+            a.href = u; a.download = filename;
+            document.body.appendChild(a); a.click(); a.remove();
+            setTimeout(() => URL.revokeObjectURL(u), 1000);
+        }
+
+        save.onclick = async () => {
+            save.disabled = true;
+            try { download(await blob()); } finally { save.disabled = false; }
+        };
+
+        share.onclick = async () => {
+            share.disabled = true;
+            try {
+                const b = await blob(), f = new File([b], filename, { type: "image/png" });
+                if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) {
+                    await navigator.share({ title, files: [f] });
+                } else {
+                    download(b);
+                    alert("Direct sharing is not available in this browser. The image was saved instead.");
+                }
+            } catch (e) {
+                if (!e || e.name !== "AbortError") console.error(e);
+            } finally {
+                share.disabled = false;
+            }
+        };
+    })();
+    </script>
+
+</body>
+
+</html>

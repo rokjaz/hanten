@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H043 — Is Reno West of Los Angeles?</title>
+<meta name="description" content="Reno, Nevada sits on the ocean side of Los Angeles's exact line of longitude — because California's coast bends sharply inland as it runs south.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h043-land: #d6dbd0;
+    --h043-land-line: #aeb6a5;
+    --h043-sea: #cde3ee;
+    --h043-meridian: #b24b36;
+    --h043-reno: #c4841f;
+    --h043-la: #1f6f8b;
+  }
+
+  .h043-wrap {
+    width: min(100%, 760px);
+    margin: 0 auto;
+    padding: 1rem 1rem 1.1rem;
+  }
+
+  .h043-map {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .h043-tick {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 10.5px;
+    fill: var(--hanten-muted);
+  }
+
+  .h043-state-label {
+    font-family: var(--hanten-font);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    fill: var(--hanten-muted);
+    opacity: 0.85;
+  }
+
+  .h043-meridian-label {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-weight: 700;
+    font-size: 11px;
+    fill: var(--h043-meridian);
+  }
+
+  .h043-city-label {
+    font-family: var(--hanten-font);
+    font-weight: 700;
+    font-size: 13px;
+    fill: var(--hanten-text);
+  }
+
+  .h043-city-sub {
+    font-family: var(--hanten-font);
+    font-size: 10.5px;
+    fill: var(--hanten-muted);
+  }
+
+  .h043-span-label {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 11px;
+    fill: var(--hanten-muted);
+  }
+
+  .h043-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--hanten-border);
+    font-size: 0.78rem;
+    color: var(--hanten-muted);
+  }
+
+  .h043-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .h043-legend .swatch {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px var(--hanten-border);
+  }
+
+  .h043-legend .line {
+    width: 16px;
+    height: 0;
+    border-top: 2px dashed var(--h043-meridian);
+    display: inline-block;
+  }
+
+  .h043-discovery {
+    max-width: var(--hanten-text-width);
+    margin: 1.15rem auto 0;
+  }
+
+  .h043-discovery p {
+    margin: 0 0 0.85rem;
+    color: var(--hanten-muted);
+  }
+
+  .h043-discovery p:last-child {
+    margin-bottom: 0;
+  }
+
+  .h043-discovery strong {
+    color: var(--hanten-text);
+  }
+
+  .h043-table-wrap {
+    max-width: var(--hanten-text-width);
+    margin: 1.1rem auto 0;
+    overflow-x: auto;
+  }
+
+  .h043-table {
+    width: 100%;
+    min-width: 480px;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  .h043-table caption {
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--hanten-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .h043-table th,
+  .h043-table td {
+    text-align: left;
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid var(--hanten-border);
+    white-space: nowrap;
+  }
+
+  .h043-table th {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--hanten-muted);
+  }
+
+  .h043-table td.num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .h043-table td.city {
+    color: var(--hanten-text);
+    font-weight: 700;
+  }
+
+  .h043-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .h043-table tr.highlight td {
+    background: var(--hanten-accent-soft);
+  }
+
+  .h043-west { color: #1f6f8b; font-weight: 700; }
+  .h043-east { color: var(--h043-meridian); font-weight: 700; }
+
+  @media (max-width: 640px) {
+    .h043-table {
+      font-size: 0.8rem;
+    }
+  }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">Is Reno, Nevada west of Los Angeles?</h1>
+
+  <p class="hanten-subtitle">
+    Reno reads as an "east of California" city. By longitude it isn't — draw a true north–south line through downtown Los Angeles, and Reno falls on the ocean side of it.
+  </p>
+
+  <div id="h043-capture">
+    <div class="hanten-graphic">
+      <section class="h043-wrap hanten-panel" aria-label="Map of California and Nevada with a vertical reference line at the longitude of Los Angeles">
+        <svg class="h043-map" id="h043-map" viewBox="0 0 620 660" role="img" aria-labelledby="h043-map-title h043-map-desc">
+          <title id="h043-map-title">Map of California and Nevada</title>
+          <desc id="h043-map-desc">A vertical line marks Los Angeles's exact meridian. Reno, Nevada sits west of that line, on the ocean side.</desc>
+        </svg>
+        <div class="h043-legend">
+          <span><span class="line"></span>LA's line of longitude</span>
+          <span><span class="swatch" style="background: var(--h043-reno);"></span>Reno, NV</span>
+          <span><span class="swatch" style="background: var(--h043-la);"></span>Los Angeles, CA</span>
+        </div>
+      </section>
+    </div>
+
+    <div class="h043-discovery hanten-body">
+      <p><strong>Why the coastline lies.</strong> California's coast isn't a vertical line — it leans. The northern border sits near 124.2°W; by San Diego the coast has drifted to about 117.2°W, nearly seven degrees east over roughly 800 miles of shoreline. The hinge is around Point Conception, near Santa Barbara: north of it, the coast runs roughly northwest–southeast as expected; south of it, the coast — and Los Angeles with it — swings sharply east. Reno sits in the less-drifted northern zone, just inside Nevada by Lake Tahoe, so it ends up west of a city that reads, on a mental map, as clearly "in California."</p>
+      <p><strong>It isn't only Reno.</strong> San Francisco, on the undrifted northern coast, is a full 228 miles west of LA's meridian — no surprise there. But San Diego, another 120 miles down the coast from LA, is actually about 63 miles <em>east</em> of it. And Las Vegas, which most people mentally file next to Reno, sits roughly 174 miles east of LA's meridian — more than three degrees of longitude from its fellow Nevada city.</p>
+    </div>
+
+    <div class="h043-table-wrap">
+      <table class="h043-table">
+        <caption>Longitude, vs. Los Angeles</caption>
+        <thead>
+          <tr><th>City</th><th>State</th><th>Latitude</th><th>Longitude</th><th>Vs. LA's meridian</th><th>Approx. distance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="city">Los Angeles</td><td>CA</td><td class="num">34.0522°N</td><td class="num">118.2437°W</td><td>reference</td><td class="num">—</td></tr>
+          <tr class="highlight"><td class="city">Reno</td><td>NV</td><td class="num">39.5296°N</td><td class="num">119.8138°W</td><td class="h043-west">1.57° west</td><td class="num">≈84 mi west</td></tr>
+          <tr><td class="city">San Francisco</td><td>CA</td><td class="num">37.7749°N</td><td class="num">122.4194°W</td><td class="h043-west">4.18° west</td><td class="num">≈228 mi west</td></tr>
+          <tr><td class="city">San Diego</td><td>CA</td><td class="num">32.7157°N</td><td class="num">117.1647°W</td><td class="h043-east">1.08° east</td><td class="num">≈63 mi east</td></tr>
+          <tr><td class="city">Las Vegas</td><td>NV</td><td class="num">36.1750°N</td><td class="num">115.1372°W</td><td class="h043-east">3.11° east</td><td class="num">≈174 mi east</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="hanten-reflection">
+      How much of what feels like "east" or "west" is really just a mental map you never checked against the coordinates?
+    </p>
+
+    <p class="hanten-source">
+      Sources: city coordinates from standard published latitude/longitude data. State boundaries built from US Census Bureau county cartographic boundary data (via the US Atlas TopoJSON). Distances are approximate, computed along Reno's line of latitude.
+    </p>
+  </div>
+
+  <div class="hanten-utility">
+    <div id="save-image-slot"></div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/js/topojson-client.min.js"></script>
+<script src="../../assets/geodata/us/us-counties-10m.js"></script>
+
+<script>
+  (() => {
+    const width = 620, height = 660;
+    const svg = d3.select("#h043-map").attr("viewBox", `0 0 ${width} ${height}`);
+
+    const topo = US_COUNTIES_TOPOLOGY;
+    const counties = topo.objects.counties.geometries;
+
+    const caGeoms = counties.filter(g => String(g.id).padStart(5, "0").startsWith("06"));
+    const nvGeoms = counties.filter(g => String(g.id).padStart(5, "0").startsWith("32"));
+
+    const ca = { type: "Feature", properties: { name: "California" }, geometry: topojson.merge(topo, caGeoms) };
+    const nv = { type: "Feature", properties: { name: "Nevada" }, geometry: topojson.merge(topo, nvGeoms) };
+
+    const fc = { type: "FeatureCollection", features: [ca, nv] };
+
+    const projection = d3.geoMercator().fitExtent([[36, 24], [width - 36, height - 60]], fc);
+    const path = d3.geoPath(projection);
+
+    svg.append("g")
+      .selectAll("path")
+      .data([ca, nv])
+      .join("path")
+      .attr("class", "h043-state")
+      .attr("d", path)
+      .attr("fill", "var(--h043-land)")
+      .attr("stroke", "var(--h043-land-line)")
+      .attr("stroke-width", 1.1)
+      .attr("stroke-linejoin", "round");
+
+    // longitude gridlines every 2 degrees
+    const [[lon0], [lon1]] = [projection.invert([0, height / 2]), projection.invert([width, height / 2])];
+    for (let lon = Math.ceil(lon0 / 2) * 2; lon <= Math.floor(lon1 / 2) * 2; lon += 2) {
+      const [x] = projection([lon, 37]);
+      if (x < 20 || x > width - 20) continue;
+      svg.append("line")
+        .attr("x1", x).attr("x2", x)
+        .attr("y1", 24).attr("y2", height - 60)
+        .attr("stroke", "var(--hanten-border)")
+        .attr("stroke-width", 1);
+      svg.append("text")
+        .attr("class", "h043-tick")
+        .attr("x", x).attr("y", height - 42)
+        .attr("text-anchor", "middle")
+        .text(`${Math.abs(lon)}°W`);
+    }
+    svg.append("text")
+      .attr("class", "h043-tick")
+      .attr("x", width / 2).attr("y", height - 22)
+      .attr("text-anchor", "middle")
+      .attr("font-weight", 700)
+      .attr("letter-spacing", "0.04em")
+      .text("LONGITUDE (DEGREES WEST)");
+
+    // state labels
+    const caCentroid = path.centroid(ca);
+    const nvCentroid = path.centroid(nv);
+    svg.append("text").attr("class", "h043-state-label").attr("x", caCentroid[0] - 55).attr("y", caCentroid[1] + 70)
+      .attr("transform", `rotate(-55 ${caCentroid[0] - 55} ${caCentroid[1] + 70})`).text("CALIFORNIA");
+    svg.append("text").attr("class", "h043-state-label").attr("x", nvCentroid[0] + 10).attr("y", nvCentroid[1] - 60).text("NEVADA");
+
+    // LA meridian reference line
+    const laLonLat = [-118.2437, 34.0522];
+    const renoLonLat = [-119.8138, 39.5296];
+    const [laX, laY] = projection(laLonLat);
+    const [renoX, renoY] = projection(renoLonLat);
+
+    svg.append("line")
+      .attr("x1", laX).attr("x2", laX)
+      .attr("y1", 24).attr("y2", height - 60)
+      .attr("stroke", "var(--h043-meridian)")
+      .attr("stroke-width", 2.2)
+      .attr("stroke-dasharray", "7 6");
+    svg.append("text")
+      .attr("class", "h043-meridian-label")
+      .attr("x", laX + 8).attr("y", 40)
+      .text("LA'S MERIDIAN · 118.24°W");
+
+    // span bracket between Reno and the LA meridian
+    const bracketY = renoY - 34;
+    svg.append("line").attr("x1", renoX).attr("x2", laX).attr("y1", bracketY).attr("y2", bracketY)
+      .attr("stroke", "var(--hanten-muted)").attr("stroke-width", 1.2);
+    svg.append("line").attr("x1", renoX).attr("x2", renoX).attr("y1", bracketY - 6).attr("y2", bracketY + 6)
+      .attr("stroke", "var(--hanten-muted)").attr("stroke-width", 1.2);
+    svg.append("line").attr("x1", laX).attr("x2", laX).attr("y1", bracketY - 6).attr("y2", bracketY + 6)
+      .attr("stroke", "var(--hanten-muted)").attr("stroke-width", 1.2);
+    svg.append("text").attr("class", "h043-span-label")
+      .attr("x", (renoX + laX) / 2).attr("y", bracketY - 8).attr("text-anchor", "middle")
+      .text("≈ 84 mi west");
+
+    // Reno marker
+    svg.append("circle").attr("cx", renoX).attr("cy", renoY).attr("r", 6.5)
+      .attr("fill", "var(--h043-reno)").attr("stroke", "#fff").attr("stroke-width", 2.2);
+    svg.append("text").attr("class", "h043-city-label").attr("x", renoX - 14).attr("y", renoY - 12).attr("text-anchor", "end").text("Reno");
+    svg.append("text").attr("class", "h043-city-sub").attr("x", renoX - 14).attr("y", renoY + 3).attr("text-anchor", "end").text("39.53°N, 119.81°W");
+
+    // LA marker
+    svg.append("circle").attr("cx", laX).attr("cy", laY).attr("r", 6.5)
+      .attr("fill", "var(--h043-la)").attr("stroke", "#fff").attr("stroke-width", 2.2);
+    svg.append("text").attr("class", "h043-city-label").attr("x", laX + 14).attr("y", laY - 4).text("Los Angeles");
+    svg.append("text").attr("class", "h043-city-sub").attr("x", laX + 14).attr("y", laY + 12).text("34.05°N, 118.24°W");
+
+    // ocean label
+    svg.append("text").attr("class", "h043-span-label").attr("font-style", "italic")
+      .attr("x", 60).attr("y", 70).text("Pacific Ocean");
+  })();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "Is Reno, Nevada west of Los Angeles?",
+    filename: "H043-reno-west-of-la.png"
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>H021 — 1960 World Series</title>
+
+    <link
+        rel="stylesheet"
+        href="../../assets/css/hanten.css"
+    >
+
+    <style>
+        :root {
+            --h021-ink: #1f2933;
+            --h021-soft: #66717d;
+            --h021-line: #d8dde2;
+            --h021-paper: #ffffff;
+            --h021-pirates: #b07a00;
+            --h021-yankees: #284664;
+        }
+
+        .h021-wrap {
+            width: min(900px, 100%);
+            margin: 0 auto;
+        }
+
+        .h021-board {
+            margin-top: .55rem;
+            border-top: 1px solid var(--h021-line);
+            border-bottom: 1px solid var(--h021-line);
+        }
+
+        .h021-row {
+            display: grid;
+            grid-template-columns: 84px minmax(120px, 1fr) minmax(120px, 1fr) 110px;
+            align-items: center;
+            min-height: 43px;
+            border-bottom: 1px solid var(--h021-line);
+        }
+
+        .h021-row:last-child {
+            border-bottom: 0;
+        }
+
+        .h021-cell {
+            padding: .48rem .65rem;
+        }
+
+        .h021-head {
+            min-height: 38px;
+            color: var(--h021-soft);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+
+        .h021-game {
+            color: var(--h021-soft);
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+
+        .h021-team {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .h021-name {
+            font-size: 0.95rem;
+            font-weight: 650;
+        }
+
+        .h021-score {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 1.08rem;
+            font-weight: 800;
+        }
+
+        .h021-pirates {
+            color: var(--h021-pirates);
+        }
+
+        .h021-yankees {
+            color: var(--h021-yankees);
+        }
+
+        .h021-winner {
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-align: right;
+        }
+
+        .h021-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .65rem;
+            margin-top: .7rem;
+        }
+
+        .h021-summary-card {
+            border-top: 3px solid var(--h021-line);
+            padding-top: .5rem;
+        }
+
+        .h021-summary-card.pirates {
+            border-top-color: var(--h021-pirates);
+        }
+
+        .h021-summary-card.yankees {
+            border-top-color: var(--h021-yankees);
+        }
+
+        .h021-summary-team {
+            margin-bottom: .3rem;
+            font-size: 0.88rem;
+            font-weight: 750;
+        }
+
+        .h021-statline {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: .18rem 0;
+            border-bottom: 1px solid var(--h021-line);
+        }
+
+        .h021-statline:last-child {
+            border-bottom: 0;
+        }
+
+        .h021-stat-label {
+            color: var(--h021-soft);
+            font-size: 0.8rem;
+        }
+
+        .h021-stat-value {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .h021-aha {
+            margin: .8rem auto 0;
+            max-width: 760px;
+            padding: .15rem 0 .15rem 1rem;
+            border-left: 3px solid var(--hanten-accent);
+            text-align: left;
+            font-size: .95rem;
+            line-height: 1.45;
+            font-weight: 400;
+            color: var(--h021-ink);
+        }
+
+        .h021-aha strong {
+            font-weight: 850;
+        }
+
+        .h021-source {
+            margin-top: .7rem;
+            color: var(--h021-soft);
+            font-size: 0.72rem;
+            line-height: 1.45;
+            text-align: left;
+        }
+
+        .h021-details {
+            max-width: 760px;
+            margin: .7rem auto 0;
+            color: var(--hanten-muted);
+            font-size: .8rem;
+            line-height: 1.45;
+        }
+
+        .h021-details summary {
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .h021-details p {
+            margin: .45rem 0 0;
+        }
+
+        @media (max-width: 720px) {
+            .h021-row {
+                grid-template-columns: 54px 1fr 1fr 72px;
+            }
+
+            .h021-cell {
+                padding: 0.62rem 0.45rem;
+            }
+
+            .h021-name {
+                display: none;
+            }
+
+            .h021-team {
+                justify-content: center;
+            }
+
+            .h021-winner {
+                font-size: 0.68rem;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .h021-summary {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            The Yankees outscored the Pirates 55–27.
+            How did the Pirates win the World Series?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Compare the score of each game with the total runs across the series.
+        </p>
+
+        <div class="hanten-graphic">
+
+            <div class="h021-wrap" id="h021-graphic">
+
+                <div class="h021-board">
+
+                    <div class="h021-row h021-head">
+                        <div class="h021-cell">Game</div>
+                        <div class="h021-cell">Pittsburgh</div>
+                        <div class="h021-cell">New York</div>
+                        <div class="h021-cell" style="text-align:right;">Winner</div>
+                    </div>
+
+                    <div class="h021-row">
+                        <div class="h021-cell h021-game">1</div>
+                        <div class="h021-cell h021-team h021-pirates">
+                            <span class="h021-name">Pirates</span><span class="h021-score">6</span>
+                        </div>
+                        <div class="h021-cell h021-team h021-yankees">
+                            <span class="h021-name">Yankees</span><span class="h021-score">4</span>
+                        </div>
+                        <div class="h021-cell h021-winner h021-pirates">Pirates</div>
+                    </div>
+
+                    <div class="h021-row">
+                        <div class="h021-cell h021-game">2</div>
+                        <div class="h021-cell h021-team h021-pirates">
+                            <span class="h021-name">Pirates</span><span class="h021-score">3</span>
+                        </div>
+                        <div class="h021-cell h021-team h021-yankees">
+                            <span class="h021-name">Yankees</span><span class="h021-score">16</span>
+                        </div>
+                        <div class="h021-cell h021-winner h021-yankees">Yankees</div>
+                    </div>
+
+                    <div class="h021-row">
+                        <div class="h021-cell h021-game">3</div>
+                        <div class="h021-cell h021-team h021-pirates">
+                            <span class="h021-name">Pirates</span><span class="h021-score">0</span>
+                        </div>
+                        <div class="h021-cell h021-team h021-yankees">
+                            <span class="h021-name">Yankees</span><span class="h021-score">10</span>
+                        </div>
+                        <div class="h021-cell h021-winner h021-yankees">Yankees</div>
+                    </div>
+
+                    <div class="h021-row">
+                        <div class="h021-cell h021-game">4</div>
+                        <div class="h021-cell h021-team h021-pirates">
+                            <span class="h021-name">Pirates</span><span class="h021-score">3</span>
+                        </div>
+                        <div class="h021-cell h021-team h021-yankees">
+                            <span class="h021-name">Yankees</span><span class="h021-score">2</span>
+                        </div>
+                        <div class="h021-cell h021-winner h021-pirates">Pirates</div>
+                    </div>
+
+                    <div class="h021-row">
+                        <div class="h021-cell h021-game">5</div>
+                        <div class="h021-cell h021-team h021-pirates">
+                            <span class="h021-name">Pirates</span><span class="h021-score">5</span>
+                        </div>
+                        <div class="h021-cell h021-team h021-yankees">
+                            <span class="h021-name">Yankees</span><span class="h021-score">2</span>
+                        </div>
+                        <div class="h021-cell h021-winner h021-pirates">Pirates</div>
+                    </div>
+
+                    <div class="h021-row">
+                        <div class="h021-cell h021-game">6</div>
+                        <div class="h021-cell h021-team h021-pirates">
+                            <span class="h021-name">Pirates</span><span class="h021-score">0</span>
+                        </div>
+                        <div class="h021-cell h021-team h021-yankees">
+                            <span class="h021-name">Yankees</span><span class="h021-score">12</span>
+                        </div>
+                        <div class="h021-cell h021-winner h021-yankees">Yankees</div>
+                    </div>
+
+                    <div class="h021-row">
+                        <div class="h021-cell h021-game">7</div>
+                        <div class="h021-cell h021-team h021-pirates">
+                            <span class="h021-name">Pirates</span><span class="h021-score">10</span>
+                        </div>
+                        <div class="h021-cell h021-team h021-yankees">
+                            <span class="h021-name">Yankees</span><span class="h021-score">9</span>
+                        </div>
+                        <div class="h021-cell h021-winner h021-pirates">Pirates</div>
+                    </div>
+
+                </div>
+
+                <div class="h021-summary">
+
+                    <div class="h021-summary-card pirates">
+                        <div class="h021-summary-team h021-pirates">Pittsburgh Pirates</div>
+                        <div class="h021-statline">
+                            <span class="h021-stat-label">Total runs</span>
+                            <span class="h021-stat-value">27</span>
+                        </div>
+                        <div class="h021-statline">
+                            <span class="h021-stat-label">Games won</span>
+                            <span class="h021-stat-value">4</span>
+                        </div>
+                    </div>
+
+                    <div class="h021-summary-card yankees">
+                        <div class="h021-summary-team h021-yankees">New York Yankees</div>
+                        <div class="h021-statline">
+                            <span class="h021-stat-label">Total runs</span>
+                            <span class="h021-stat-value">55</span>
+                        </div>
+                        <div class="h021-statline">
+                            <span class="h021-stat-label">Games won</span>
+                            <span class="h021-stat-value">3</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p class="h021-aha">
+                    <strong>55–27 Yankees in runs. 4–3 Pirates in games.</strong><br>
+                    New York concentrated its runs in three blowouts. Pittsburgh distributed enough runs to win four separate games.
+                </p>
+
+                <p class="hanten-reflection">
+                    When does adding everything together measure something different from what actually decides the outcome?
+                </p>
+
+                <details class="h021-details">
+                    <summary>See why total runs do not decide a series</summary>
+                    <p>
+                        Each World Series game is a separate contest. Winning 16–3 counts as one win, just like winning 3–2.
+                        Once a team has scored enough to win a game, additional runs increase the series run total but do not create additional wins.
+                    </p>
+                </details>
+
+                <p class="hanten-source h021-source">
+                    1960 World Series final scores as supplied in the original H021 source exhibit.
+                </p>
+
+                <div class="hanten-utility">
+                    <div id="save-image-slot"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "The Yankees outscored the Pirates 55–27. How did the Pirates win the World Series?",
+            filename: "H021-1960-world-series.png"
+        });
+    </script>
+
+</body>
+</html>

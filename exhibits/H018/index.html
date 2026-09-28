@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H018 — Axis Truncation</title>
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        :root {
+            --h018-ink: #1c2733;
+            --h018-soft: #5b6773;
+            --h018-line: rgba(28, 39, 51, 0.15);
+            --h018-panel: rgba(255, 255, 255, 0.72);
+            --h018-a: #1f6f8b;
+            --h018-b: #88aebe;
+            --h018-warn: #b24b36;
+        }
+
+        .h018-wrap {
+            width: min(100%, 900px);
+            margin: 0 auto;
+        }
+
+        .h018-charts {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: .7rem;
+            width: 100%;
+        }
+
+        .h018-card {
+            border: 1px solid var(--h018-line);
+            background: var(--hanten-paper);
+            padding: .65rem .7rem .55rem;
+        }
+
+        .h018-card-title {
+            margin: 0;
+            font-size: 0.78rem;
+            line-height: 1.25;
+            font-weight: 700;
+            letter-spacing: 0.045em;
+            text-transform: uppercase;
+            color: var(--h018-soft);
+        }
+
+        .h018-headline {
+            margin: 0.3rem 0 0.55rem;
+            font-family: var(--hanten-font);
+            font-size: clamp(1rem, 2vw, 1.18rem);
+            line-height: 1.25;
+            font-style: normal;
+            color: var(--h018-ink);
+        }
+
+        .h018-chart {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h018-axis-note {
+            margin-top: 0.2rem;
+            font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+            font-size: 0.72rem;
+            color: var(--h018-soft);
+        }
+
+        .h018-axis-note--warn {
+            color: var(--h018-warn);
+        }
+
+        .h018-control {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 0.8rem;
+            margin-top: .65rem;
+            padding: .55rem .7rem;
+            border: 1px solid var(--h018-line);
+            background: var(--hanten-paper);
+        }
+
+        .h018-control label,
+        .h018-readout {
+            font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+            font-size: 0.76rem;
+        }
+
+        .h018-control label {
+            color: var(--h018-soft);
+        }
+
+        .h018-readout {
+            min-width: 7.5rem;
+            text-align: right;
+            font-weight: 700;
+            color: var(--h018-ink);
+        }
+
+        .h018-control input[type="range"] {
+            width: 100%;
+            accent-color: var(--h018-warn);
+        }
+
+        .h018-discovery {
+            margin: .8rem auto 0;
+            padding: .15rem 0 .15rem 1rem;
+            border-left: 3px solid var(--hanten-accent);
+            background: transparent;
+            color: var(--h018-soft);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .h018-discovery strong {
+            color: var(--h018-ink);
+        }
+
+        @media (max-width: 760px) {
+            .h018-charts {
+                grid-template-columns: 1fr;
+            }
+
+            .h018-control {
+                grid-template-columns: 1fr;
+            }
+
+            .h018-readout {
+                min-width: 0;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="hanten-exhibit">
+        <h1 class="hanten-question">
+            How can the same two numbers tell two completely different stories?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Keep the numbers fixed. Change only where the vertical axis begins.
+        </p>
+
+        <div class="hanten-graphic">
+            <section class="h018-wrap" id="h018-capture" aria-label="Axis truncation comparison">
+                <div class="h018-charts">
+                    <article class="h018-card">
+                        <p class="h018-card-title">Axis starts at zero</p>
+                        <p class="h018-headline">“Race in dead heat”</p>
+                        <svg
+                            id="h018-chart-zero"
+                            class="h018-chart"
+                            viewBox="0 0 420 300"
+                            role="img"
+                            aria-label="Bar chart showing Candidate A at 50.9 percent and Candidate B at 49.1 percent on a zero baseline"
+                        ></svg>
+                        <div class="h018-axis-note">y-axis: 0 → 60</div>
+                    </article>
+
+                    <article class="h018-card">
+                        <p class="h018-card-title">Axis starts wherever you drag it</p>
+                        <p class="h018-headline" id="h018-headline-truncated">“Candidate A surges to commanding lead”</p>
+                        <svg
+                            id="h018-chart-truncated"
+                            class="h018-chart"
+                            viewBox="0 0 420 300"
+                            role="img"
+                            aria-label="Bar chart showing the same polling values with a movable truncated baseline"
+                        ></svg>
+                        <div class="h018-axis-note h018-axis-note--warn" id="h018-axis-note-truncated">y-axis: 48 → 51.5</div>
+                    </article>
+                </div>
+
+                <div class="h018-control">
+                    <label for="h018-axis-start">Drag the starting point of the second chart</label>
+                    <input
+                        id="h018-axis-start"
+                        type="range"
+                        min="0"
+                        max="48.5"
+                        step="0.5"
+                        value="48"
+                        aria-label="Starting value for the second chart's vertical axis"
+                    >
+                    <div class="h018-readout" id="h018-readout">starts at 48</div>
+                </div>
+
+                <div class="h018-discovery">
+                    <strong>The numbers never change. The visual story does.</strong>
+                    The gap is always 1.8 percentage points. With the axis beginning at
+                    <span id="h018-start-copy">48</span>, Candidate A’s visible bar becomes
+                    <strong><span id="h018-ratio">2.6×</span> as tall</strong> as Candidate B’s.
+                </div>
+
+                <p class="hanten-reflection">
+                    When does zooming in clarify a difference — and when does it exaggerate one?
+                </p>
+
+                <div class="hanten-source">
+                    Illustrative polling values: Candidate A 50.9%, Candidate B 49.1%.
+                    Both charts display exactly the same values; only the vertical-axis baseline changes.
+                </div>
+
+                <div class="hanten-utility">
+                    <div id="save-image-slot"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        (() => {
+            const candidateA = 50.9;
+            const candidateB = 49.1;
+            const truncatedMax = 51.5;
+
+            const width = 420;
+            const height = 300;
+            const margin = { top: 24, right: 18, bottom: 42, left: 48 };
+            const plotWidth = width - margin.left - margin.right;
+            const plotHeight = height - margin.top - margin.bottom;
+            const ns = "http://www.w3.org/2000/svg";
+
+            function addSvgElement(parent, name, attrs, text) {
+                const el = document.createElementNS(ns, name);
+                Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+                if (text !== undefined) el.textContent = text;
+                parent.appendChild(el);
+                return el;
+            }
+
+            function formatTick(value) {
+                return Number.isInteger(value) ? String(value) : value.toFixed(1);
+            }
+
+            function drawChart(svgId, yMin, yMax) {
+                const svg = document.getElementById(svgId);
+                svg.innerHTML = "";
+
+                const y = value =>
+                    margin.top + plotHeight - ((value - yMin) / (yMax - yMin)) * plotHeight;
+
+                const steps = 5;
+                for (let i = 0; i <= steps; i++) {
+                    const value = yMin + (i / steps) * (yMax - yMin);
+                    const yPos = y(value);
+
+                    addSvgElement(svg, "line", {
+                        x1: margin.left,
+                        x2: width - margin.right,
+                        y1: yPos,
+                        y2: yPos,
+                        stroke: "rgba(28,39,51,0.13)",
+                        "stroke-width": "1"
+                    });
+
+                    addSvgElement(svg, "text", {
+                        x: margin.left - 7,
+                        y: yPos + 4,
+                        "text-anchor": "end",
+                        style: "font: 11px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #5b6773;"
+                    }, formatTick(value));
+                }
+
+                const bars = [
+                    { name: "Candidate A", value: candidateA, fill: "#1f6f8b", center: 0.30 },
+                    { name: "Candidate B", value: candidateB, fill: "#88aebe", center: 0.70 }
+                ];
+
+                const barWidth = plotWidth * 0.22;
+
+                bars.forEach(bar => {
+                    const x = margin.left + plotWidth * bar.center - barWidth / 2;
+                    const visibleValue = Math.min(bar.value, yMax);
+                    const barY = y(visibleValue);
+                    const baseY = y(yMin);
+                    const barHeight = Math.max(0, baseY - barY);
+
+                    addSvgElement(svg, "rect", {
+                        x,
+                        y: barY,
+                        width: barWidth,
+                        height: barHeight,
+                        fill: bar.fill
+                    });
+
+                    addSvgElement(svg, "text", {
+                        x: x + barWidth / 2,
+                        y: Math.max(14, barY - 7),
+                        "text-anchor": "middle",
+                        style: "font: 700 13px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #1c2733;"
+                    }, `${bar.value}%`);
+
+                    addSvgElement(svg, "text", {
+                        x: x + barWidth / 2,
+                        y: height - 14,
+                        "text-anchor": "middle",
+                        style: "font: 11px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif; fill: #5b6773;"
+                    }, bar.name);
+                });
+            }
+
+            drawChart("h018-chart-zero", 0, 60);
+
+            const slider = document.getElementById("h018-axis-start");
+            const readout = document.getElementById("h018-readout");
+            const note = document.getElementById("h018-axis-note-truncated");
+            const headline = document.getElementById("h018-headline-truncated");
+            const ratioText = document.getElementById("h018-ratio");
+            const startCopy = document.getElementById("h018-start-copy");
+
+            function updateTruncatedChart() {
+                const yMin = Number(slider.value);
+                drawChart("h018-chart-truncated", yMin, truncatedMax);
+
+                readout.textContent = `starts at ${formatTick(yMin)}`;
+                note.textContent = `y-axis: ${formatTick(yMin)} → ${truncatedMax}`;
+                startCopy.textContent = formatTick(yMin);
+
+                const denominator = candidateB - yMin;
+                const ratio = denominator <= 0 ? Infinity : (candidateA - yMin) / denominator;
+
+                ratioText.textContent = Number.isFinite(ratio)
+                    ? `${ratio.toFixed(1)}×`
+                    : "∞×";
+
+                if (yMin === 0) {
+                    headline.textContent = "“Race in dead heat”";
+                } else if (ratio < 1.3) {
+                    headline.textContent = "“A holds narrow edge”";
+                } else if (ratio < 2) {
+                    headline.textContent = "“A pulls clearly ahead”";
+                } else {
+                    headline.textContent = "“Candidate A surges to commanding lead”";
+                }
+            }
+
+            slider.addEventListener("input", updateTruncatedChart);
+            updateTruncatedChart();
+        })();
+    </script>
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "How can the same two numbers tell two completely different stories?",
+            filename: "H018-axis-truncation.png"
+        });
+    </script>
+</body>
+</html>

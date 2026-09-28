@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hanten Games</title>
+<style>
+:root{--canvas:#eef7f8;--navy:#183746;--ink:#20313a;--muted:#53636b;--line:#c8d0d3;--accent:#a9663d;--white:#fff}
+*{box-sizing:border-box} body{margin:0;background:var(--canvas);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+header{height:64px;background:var(--navy);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 34px}
+.brand{font-weight:800;letter-spacing:.08em}.nav{display:flex;gap:28px}.nav a{color:white;text-decoration:none;font-size:14px;font-weight:700}
+main{max-width:1120px;margin:auto;padding:70px 28px 54px}
+.eyebrow{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.14em}
+.hero h1{font-size:58px;line-height:1.02;letter-spacing:-.035em;margin:12px 0 20px;max-width:760px}
+.hero p{font-size:19px;line-height:1.55;max-width:760px;color:var(--muted);margin:0 0 44px}
+.path{background:white;border:1px solid var(--line);border-radius:18px;padding:25px 30px;margin-bottom:54px}
+.path strong{display:block;font-size:18px;margin-bottom:17px}.steps{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--navy)}
+.arrow{color:var(--accent)}
+.feature{display:grid;grid-template-columns:1.55fr .8fr;gap:22px;margin-bottom:56px}
+.card,.side{background:white;border:1px solid var(--line);border-radius:18px;padding:30px}
+.card h2{font-size:35px;margin:9px 0 12px}.card p{font-size:17px;line-height:1.55;color:var(--muted);max-width:650px}
+.button{display:inline-block;margin-top:13px;background:var(--navy);color:white;text-decoration:none;border-radius:9px;padding:12px 18px;font-weight:800}
+.note{font-size:13px;color:var(--muted);margin-top:12px}.side h3{font-size:12px;color:var(--accent);letter-spacing:.13em;margin:0 0 20px}
+.item{padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid var(--line)}.item:last-child{border:0;margin:0;padding:0}.item b{display:block;margin-bottom:5px}.item span{font-size:14px;color:var(--muted);line-height:1.4}
+.why{border-top:1px solid var(--line);padding:48px 0 52px}.why h2{font-size:34px;margin:8px 0 13px}.why p{font-size:17px;color:var(--muted);line-height:1.55;max-width:760px}
+.more{text-align:center;background:white;border:1px solid var(--line);border-radius:18px;padding:38px 20px}.more h2{font-size:31px;margin:8px 0}
+footer{text-align:center;color:var(--muted);font-size:13px;font-style:italic;padding:0 20px 30px}
+@media(max-width:760px){header{padding:0 18px}.nav{gap:15px}main{padding:44px 18px}.hero h1{font-size:43px}.feature{grid-template-columns:1fr}.path{padding:22px}.card,.side{padding:23px}}
+
+/* Standard Hanten shell */
+header.hanten-shell{height:68px;background:#183746;color:#fff;display:flex;align-items:center;padding:0 28px;box-shadow:0 2px 8px #1530392e}
+header.hanten-shell .shell-brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.075em;text-decoration:none;color:#fff}
+header.hanten-shell .shell-mark{width:34px;height:34px;border:2px solid #ffffffdd;border-radius:8px;display:grid;place-items:center;font-size:16px}
+header.hanten-shell .shell-brandtag{margin-left:14px;padding-left:14px;border-left:1px solid rgba(255,255,255,.3);font-size:14px;font-style:italic;letter-spacing:0;opacity:.82}
+header.hanten-shell .shell-nav{margin-left:auto;display:flex;gap:24px;font-size:14px}
+header.hanten-shell .shell-nav a{color:#fff;text-decoration:none;opacity:.8}
+header.hanten-shell .shell-nav .active{opacity:1;font-weight:800}
+footer.hanten-shell-footer{min-height:70px;background:#183746;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:18px max(28px,calc((100% - 1160px)/2));font-size:13px;text-align:left;font-style:normal;font-weight:400}
+footer.hanten-shell-footer .shell-tag{font-style:italic;font-size:15px}
+@media(max-width:900px){header.hanten-shell .shell-brandtag{display:none}}
+@media(max-width:760px){header.hanten-shell{padding:0 18px}header.hanten-shell .shell-nav{display:none}}
+
+</style>
+</head>
+<body>
+<header class="hanten-shell"><a class="shell-brand" href="/"><span class="shell-mark">H</span><span>HANTEN</span></a><span class="shell-brandtag">Truth deserves clarity.</span><nav class="shell-nav" aria-label="Main navigation"><a href="/exhibits/">Explore</a><a class="active" href="/use/">Use Hanten</a></nav></header>
+<main>
+<section class="hero">
+<div class="eyebrow">HANTEN GAMES</div>
+<h1>Discover it by playing.</h1>
+<p>Games that put the idea inside the decisions. Make a choice, live with the result, and discover what the system rewards.</p>
+</section>
+
+<section class="path">
+<strong>A Hanten Game doesn't explain the lesson first. It lets the rules reveal it.</strong>
+<div class="steps"><span>CHOOSE</span><span class="arrow">→</span><span>PLAY</span><span class="arrow">→</span><span>ADAPT</span><span class="arrow">→</span><span>DISCOVER</span></div>
+</section>
+
+<section class="feature">
+<div class="card">
+<div class="eyebrow">TRY A COMPLETE HANTEN GAME</div>
+<h2>Soup Bowl</h2>
+<p>You run a restaurant. Each round, decide how much soup to buy and what size bowl to serve. Saving soup can help today—but your choices can change tomorrow's customers.</p>
+<a class="button" href="/use/games/soup-bowl/">Play Soup Bowl →</a>
+<div class="note">Complete individual game · Play against the computer</div>
+</div>
+<aside class="side">
+<h3>BUILT FOR DISCOVERY</h3>
+<div class="item"><b>Choose before you know</b><span>The event stays hidden until your decision is locked.</span></div>
+<div class="item"><b>Live with the tradeoff</b><span>Cash, soup, and loyal customers respond differently to each choice.</span></div>
+<div class="item"><b>See what lasts</b><span>Twelve rounds make short-term savings compete with longer-term value.</span></div>
+</aside>
+</section>
+
+<section class="why">
+<div class="eyebrow">WHY A GAME?</div>
+<h2>The rules make the tradeoff real.</h2>
+<p>Instead of being told which choice is best, players make repeated decisions under uncertainty and watch the consequences accumulate. The discovery comes from playing the system, not from reading its conclusion.</p>
+</section>
+
+<section class="more">
+<div class="eyebrow">WANT MORE LIKE THIS?</div>
+<h2>One discovery is only the beginning.</h2>
+</section>
+</main>
+<footer class="hanten-shell-footer"><div class="shell-tag">Understanding is discovered, not delivered.</div><div>hanten.app</div></footer>
+</body></html>

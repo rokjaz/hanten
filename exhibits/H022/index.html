@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H022 — Hits vs Runs</title>
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        .h022-graphic {
+            width: min(720px, 100%);
+            margin: .55rem auto 0;
+        }
+
+        .h022-scorecard {
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(90px, .7fr) minmax(90px, .7fr);
+            align-items: center;
+            border-top: 1px solid rgba(28, 39, 51, .18);
+        }
+
+        .h022-scorecard:last-of-type {
+            border-bottom: 1px solid rgba(28, 39, 51, .18);
+        }
+
+        .h022-cell {
+            padding: .65rem .75rem;
+        }
+
+        .h022-label {
+            font-size: .72rem;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #66717c;
+            font-weight: 700;
+        }
+
+        .h022-team {
+            font-size: clamp(1.15rem, 2.6vw, 1.55rem);
+            font-weight: 700;
+        }
+
+        .h022-number {
+            font-size: clamp(1.5rem, 4vw, 2.15rem);
+            line-height: 1;
+            font-weight: 750;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .h022-winner {
+            margin: .75rem auto 0;
+            padding: .15rem 0 .15rem 1rem;
+            text-align: left;
+            font-size: .95rem;
+            font-weight: 700;
+            background: transparent;
+            border-left: 3px solid var(--hanten-accent);
+        }
+
+        .h022-details {
+            max-width: 660px;
+            margin: .7rem auto 0;
+            color: var(--hanten-muted);
+            font-size: .8rem;
+            line-height: 1.45;
+        }
+
+        .h022-details summary {
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .h022-details p {
+            margin: .45rem 0 0;
+        }
+
+        @media (max-width: 560px) {
+            .h022-scorecard {
+                grid-template-columns: 1.2fr .8fr .8fr;
+            }
+
+            .h022-cell {
+                padding: .8rem .55rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            If one baseball team gets more hits, why doesn't it necessarily win?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Compare hits with the runs they produced in Game 7 of the 1960 World Series.
+        </p>
+
+        <div class="hanten-graphic">
+
+            <div
+                class="h022-graphic"
+                role="img"
+                aria-label="In Game 7 of the 1960 World Series, the Yankees had 13 hits and scored 9 runs. The Pirates had 11 hits and scored 10 runs, winning the game."
+            >
+
+                <div class="h022-scorecard" aria-hidden="true">
+                    <div class="h022-cell h022-label">Team</div>
+                    <div class="h022-cell h022-label">Hits</div>
+                    <div class="h022-cell h022-label">Runs</div>
+                </div>
+
+                <div class="h022-scorecard">
+                    <div class="h022-cell h022-team">Yankees</div>
+                    <div class="h022-cell h022-number">13</div>
+                    <div class="h022-cell h022-number">9</div>
+                </div>
+
+                <div class="h022-scorecard">
+                    <div class="h022-cell h022-team">Pirates</div>
+                    <div class="h022-cell h022-number">11</div>
+                    <div class="h022-cell h022-number">10</div>
+                </div>
+
+                <div class="h022-winner">
+                    Pittsburgh had fewer hits — and won the game, 10–9.
+                </div>
+
+                <p class="hanten-reflection">
+                    What are you counting — and is it actually what determines the outcome?
+                </p>
+
+                <details class="h022-details">
+                    <summary>See why hits and runs measure different things</summary>
+                    <p>
+                        A hit helps create scoring opportunities, but a hit is not itself a run.
+                        Walks, extra-base hits, sequencing, outs, and other events affect how many runs a team produces.
+                        In this game, New York had more hits while Pittsburgh scored the extra run that decided the game.
+                    </p>
+                </details>
+
+                <p class="hanten-source">
+                    Game 7, 1960 World Series: New York Yankees 13 hits, 9 runs;
+                    Pittsburgh Pirates 11 hits, 10 runs.
+                </p>
+
+                <div class="hanten-utility">
+                    <div id="save-image-slot"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "If one baseball team gets more hits, why doesn't it necessarily win?",
+            filename: "H022-hits-vs-runs.png"
+        });
+    </script>
+
+</body>
+</html>

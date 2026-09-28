@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H034 — Senkaku / Diaoyu / Diaoyutai Islands</title>
+<meta name="description" content="One small uninhabited island group has three names: Senkaku in Japan, Diaoyu in China, and Diaoyutai in Taiwan.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h034-ink: #1c2733;
+    --h034-muted: #4a5a6b;
+    --h034-line: rgba(28,39,51,0.14);
+    --h034-accent: #0e7c86;
+    --h034-accent-soft: rgba(14,124,134,0.12);
+    --h034-panel: #ffffff;
+    --h034-land: #d6dbd0;
+    --h034-land-line: #b9c0b2;
+    --h034-ocean: #cde3ee;
+    --h034-graticule: rgba(28,39,51,0.10);
+    --h034-japan: #3b6ea3;
+    --h034-japan-soft: #aac3dc;
+    --h034-china: #c1442d;
+    --h034-china-soft: #e6bcae;
+    --h034-taiwan: #2f7d5c;
+    --h034-taiwan-soft: #a9cdbb;
+  }
+
+  body { background: var(--hanten-paper, #f4f3ef); }
+
+  main.hanten-exhibit {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  main.hanten-exhibit > .hanten-question,
+  main.hanten-exhibit > .hanten-subtitle {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .h034-shell {
+    width: min(100%, 820px);
+    margin: 0 auto;
+  }
+
+  #h034-map-wrap {
+    width: min(100%, 760px);
+    margin: 0 auto;
+    background: var(--hanten-paper);
+    border: 1px solid var(--hanten-border);
+    padding: .25rem;
+  }
+
+  #map {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ocean {
+    fill: var(--h034-ocean);
+    stroke: var(--h034-line);
+    stroke-width: 1;
+  }
+
+  .graticule {
+    fill: none;
+    stroke: var(--h034-graticule);
+    stroke-width: .6;
+  }
+
+  .land {
+    fill: var(--h034-land);
+    stroke: var(--h034-land-line);
+    stroke-width: .6;
+  }
+
+  .land-japan {
+    fill: var(--h034-japan-soft);
+    stroke: var(--h034-japan);
+    stroke-width: .7;
+  }
+
+  .land-china {
+    fill: var(--h034-china-soft);
+    stroke: var(--h034-china);
+    stroke-width: .7;
+  }
+
+  .land-taiwan {
+    fill: var(--h034-taiwan-soft);
+    stroke: var(--h034-taiwan);
+    stroke-width: .7;
+  }
+
+  .country-label {
+    font-family: var(--hanten-font);
+    font-size: 15px;
+    font-weight: 700;
+    text-anchor: middle;
+    pointer-events: none;
+  }
+
+  .country-label.japan { fill: var(--h034-japan); }
+  .country-label.china { fill: var(--h034-china); }
+  .country-label.taiwan { fill: var(--h034-taiwan); }
+
+  .island-question {
+    font-family: var(--hanten-font);
+    font-size: 92px;
+    font-weight: 800;
+    fill: var(--h034-ink);
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+
+  .h034-names {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: .7rem;
+    margin-top: .7rem;
+  }
+
+  .h034-card {
+    background: var(--h034-panel);
+    border: 1px solid var(--h034-line);
+    border-top: 4px solid var(--card-color);
+    padding: .7rem .8rem;
+  }
+
+  .h034-card .who {
+    margin-bottom: .4rem;
+    color: var(--h034-muted);
+    font: 700 .7rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-transform: uppercase;
+    letter-spacing: .045em;
+  }
+
+  .h034-card h2 {
+    margin: 0 0 .45rem;
+    color: var(--h034-ink);
+    font-family: var(--hanten-font);
+    font-size: 1.08rem;
+  }
+
+  .h034-card p {
+    margin: 0;
+    color: var(--h034-muted);
+    font-size: .86rem;
+    line-height: 1.55;
+  }
+
+  .h034-reveal {
+    max-width: 760px;
+    margin: .75rem auto 0;
+    padding: .15rem 0 .15rem 1rem;
+    border-left: 3px solid var(--hanten-accent);
+    color: var(--hanten-text);
+    font-size: .95rem;
+    line-height: 1.45;
+  }
+
+  .h034-reveal strong { color: var(--hanten-text); }
+
+  .h034-explore {
+    max-width: 760px;
+    margin: .7rem auto 0;
+    padding: .55rem 0;
+    border-top: 1px solid var(--hanten-border);
+    border-bottom: 1px solid var(--hanten-border);
+    color: var(--hanten-muted);
+    font-size: .8rem;
+    line-height: 1.45;
+  }
+
+  .h034-explore summary {
+    cursor: pointer;
+    font-weight: 750;
+    color: var(--hanten-text);
+  }
+
+  .h034-explore-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: .65rem;
+  }
+
+  .h034-explore h3 {
+    margin: 0 0 .3rem;
+    color: var(--hanten-text);
+    font-size: .8rem;
+  }
+
+  .h034-explore p { margin: 0; }
+
+  .h034-source {
+    max-width: 840px;
+    margin: .9rem auto 0;
+    text-align: center;
+    color: #7b838a;
+    font-size: .7rem;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 800px) {
+    .h034-names { grid-template-columns: 1fr; }
+    #h034-map-wrap { padding: .55rem; }
+    .country-label { font-size: 13px; }
+    .h034-explore-grid { grid-template-columns: 1fr; }
+  }
+  .hanten-question {
+    font-family: var(--hanten-font) !important;
+    font-weight: 750;
+  }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">What are these islands called?</h1>
+
+  <p class="hanten-subtitle">
+    One tiny island group appears under three different names.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h034-shell">
+
+      <div id="h034-map-wrap">
+        <svg id="map" viewBox="0 0 700 560" role="img"
+          aria-label="Map between China, Taiwan, and Japan showing the location of a disputed island group with a large question mark."></svg>
+      </div>
+
+      <div class="h034-names">
+        <div class="h034-card" style="--card-color: var(--h034-japan)">
+          <div class="who">Japan · current administrator</div>
+          <h2>Senkaku Islands</h2>
+          <p>
+            Japan administers the islands as part of Ishigaki City, Okinawa Prefecture,
+            and refers to them as the Senkaku Islands.
+          </p>
+        </div>
+
+        <div class="h034-card" style="--card-color: var(--h034-china)">
+          <div class="who">China · claimant</div>
+          <h2>Diaoyu Islands</h2>
+          <p>
+            China claims the islands, cites historical records supporting its position,
+            and refers to them as the Diaoyu Islands.
+          </p>
+        </div>
+
+        <div class="h034-card" style="--card-color: var(--h034-taiwan)">
+          <div class="who">Taiwan · claimant</div>
+          <h2>Diaoyutai Islands</h2>
+          <p>
+            Taiwan maintains its own claim, places the islands within Yilan County,
+            and refers to them as the Diaoyutai Islands.
+          </p>
+        </div>
+      </div>
+
+      <div class="h034-reveal">
+        <strong>Three names. One tiny island group.</strong><br>
+        Japan administers the islands; China and Taiwan claim them. The name on a map can reveal which geographic framework the mapmaker is using.
+      </div>
+
+      <p class="hanten-reflection">
+        If the islands themselves are unchanged, what does changing their name tell you about the map?
+      </p>
+
+      <details class="h034-explore">
+        <summary>Explore why these tiny islands matter</summary>
+        <div class="h034-explore-grid">
+          <section>
+            <h3>They are uninhabited — but strategically placed</h3>
+            <p>
+              The islands themselves are tiny, but their location affects surrounding maritime space,
+              fishing access, and control of nearby waters in the East China Sea.
+            </p>
+          </section>
+          <section>
+            <h3>The dispute is larger than the land</h3>
+            <p>
+              The competing names sit on top of a sovereignty dispute involving administration,
+              national claims, and the maritime geography around the islands — not just the islands' few square miles of land.
+            </p>
+          </section>
+        </div>
+      </details>
+
+      <div class="h034-source">
+        Source basis preserved from the original H034 exhibit: official position statements from the
+        Japan Ministry of Foreign Affairs, China Ministry of Foreign Affairs, and Taiwan Ministry of Foreign Affairs.
+        Country shapes: Natural Earth 1:10m, stored locally in Hanten Shared Assets.
+      </div>
+
+      <div class="hanten-utility">
+        <div id="save-image-slot"></div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/geodata/world/countries-10m.js"></script>
+
+<script>
+(() => {
+  "use strict";
+
+  const width = 760;
+  const height = 560;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+
+  const REGION_NAMES = new Set(["Japan", "China", "Taiwan"]);
+  const feats = COUNTRIES_10M_GEOJSON.features
+    .filter(feature => REGION_NAMES.has(feature.properties.NAME));
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    return {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [lon0, lat0], [lon0, lat1], [lon1, lat1], [lon1, lat0], [lon0, lat0]
+        ]]
+      }
+    };
+  }
+
+  // Slightly tighter regional crop now that the inset is gone.
+  const projection = d3.geoMercator()
+    .fitExtent(
+      [[14, 14], [width - 14, height - 14]],
+      bboxFeature(116.5, 20.5, 131.5, 32.8)
+    );
+
+  const path = d3.geoPath(projection);
+
+  svg.append("rect")
+    .attr("x", 0).attr("y", 0)
+    .attr("width", width).attr("height", height)
+    .attr("class", "ocean");
+
+  svg.append("path")
+    .datum(d3.geoGraticule10())
+    .attr("class", "graticule")
+    .attr("d", path);
+
+  const LAND_CLASS = {
+    Japan: "land-japan",
+    China: "land-china",
+    Taiwan: "land-taiwan"
+  };
+
+  svg.append("g")
+    .selectAll("path")
+    .data(feats)
+    .join("path")
+    .attr("class", d => "land " + LAND_CLASS[d.properties.NAME])
+    .attr("d", path);
+
+  // Labels placed to avoid coastlines and border crossings.
+  const LABELS = [
+    { name: "China", lon: 118.2, lat: 25.8, side: "china" },
+    { name: "Taiwan", lon: 121.0, lat: 23.6, side: "taiwan" },
+    { name: "Japan", lon: 129.7, lat: 31.2, side: "japan" }
+  ];
+
+  LABELS.forEach(label => {
+    const point = projection([label.lon, label.lat]);
+    if (!point) return;
+
+    svg.append("text")
+      .attr("class", `country-label ${label.side}`)
+      .attr("x", point[0])
+      .attr("y", point[1])
+      .text(label.name);
+  });
+
+  // Main discovery cue.
+  const q = projection([123.48, 25.74]);
+  if (q) {
+    svg.append("text")
+      .attr("class", "island-question")
+      .attr("x", q[0])
+      .attr("y", q[1])
+      .text("?");
+  }
+})();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "What are these islands called?",
+    filename: "H034-senkaku-diaoyu-diaoyutai.png"
+  });
+</script>
+
+</body>
+</html>

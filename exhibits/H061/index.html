@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H061 — How Tall Is the Tallest Mountain?</title>
+
+    <meta
+        name="description"
+        content="It depends which 'tallest' you mean. Above sea level, base to summit, distance from the planet's center, or how much a peak stands on its own — each definition crowns a different champion."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H061-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h061-unchanged: #8a897f;
+            --h061-up: var(--hanten-accent);
+            --h061-down: #a3392b;
+        }
+
+        .h061-tiles {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.7rem;
+        }
+
+        @media (max-width: 700px) {
+            .h061-tiles {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .h061-tile {
+            padding: 1rem 1.05rem 0.95rem;
+        }
+
+        .h061-tile-label {
+            margin: 0 0 0.6rem;
+            font-family: var(--hanten-font);
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+
+        .h061-tile-value {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--hanten-accent);
+            line-height: 1.1;
+            margin-bottom: 0.25rem;
+        }
+
+        .h061-tile-mountain {
+            font-weight: 700;
+            font-size: 0.92rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .h061-tile-desc {
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: var(--hanten-muted);
+        }
+
+        .h061-chart-panel {
+            margin-top: 0.8rem;
+            padding: 1.2rem 0.9rem 0.8rem;
+        }
+
+        .h061-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.3rem;
+            flex-wrap: wrap;
+            font-size: 0.76rem;
+            color: var(--hanten-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .h061-legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .h061-swatch {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .h061-chart-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h061-col-head {
+            font-family: var(--hanten-font);
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            fill: var(--hanten-muted);
+        }
+
+        .h061-name {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 13px;
+            fill: var(--hanten-text);
+        }
+
+        .h061-value {
+            font-family: var(--hanten-font);
+            font-weight: 500;
+            font-size: 11.5px;
+            fill: var(--hanten-muted);
+        }
+
+        .h061-anno-title {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 12px;
+            fill: var(--hanten-text);
+        }
+
+        .h061-anno-body {
+            font-family: var(--hanten-font);
+            font-size: 11.5px;
+            fill: var(--hanten-muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            How tall is the tallest mountain?
+        </h1>
+
+        <p class="hanten-subtitle">
+            It depends which "tallest" you mean. Above sea level, base to summit, distance from the planet's center,
+            or how much a peak stands on its own — each definition crowns a different champion.
+        </p>
+
+        <div id="h061-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="h061-tiles">
+                    <div class="hanten-panel h061-tile">
+                        <p class="h061-tile-label">Above sea level</p>
+                        <div class="h061-tile-value">8,849 m</div>
+                        <div class="h061-tile-mountain">Mount Everest</div>
+                        <div class="h061-tile-desc">The measurement everyone means by default — highest point above mean sea level. Nepal/China border.</div>
+                    </div>
+                    <div class="hanten-panel h061-tile">
+                        <p class="h061-tile-label">Base to summit</p>
+                        <div class="h061-tile-value">~10,210 m</div>
+                        <div class="h061-tile-mountain">Mauna Kea</div>
+                        <div class="h061-tile-desc">Measured from its true base on the Pacific Ocean floor. Only the top 4,207 m shows above water.</div>
+                    </div>
+                    <div class="hanten-panel h061-tile">
+                        <p class="h061-tile-label">Farthest from Earth's center</p>
+                        <div class="h061-tile-value">+2,072 m</div>
+                        <div class="h061-tile-mountain">Chimborazo</div>
+                        <div class="h061-tile-desc">Sits near the equator, where the planet bulges outward — its summit reaches ~2,072 m farther into space than Everest's, despite being barely 6,263 m above sea level.</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h061-chart-panel">
+                    <div class="h061-legend">
+                        <span><span class="h061-swatch" style="background:var(--h061-unchanged)"></span>Unchanged</span>
+                        <span><span class="h061-swatch" style="background:var(--h061-up)"></span>Ranks higher by prominence</span>
+                        <span><span class="h061-swatch" style="background:var(--h061-down)"></span>Ranks lower by prominence</span>
+                    </div>
+                    <svg viewBox="0 0 680 400" role="img" aria-labelledby="h061-chart-title h061-chart-desc">
+                        <title id="h061-chart-title">Elevation rank vs. prominence rank for five major peaks</title>
+                        <desc id="h061-chart-desc">Everest is #1 by both measures. K2, second-highest by elevation, falls to 22nd by prominence. Aconcagua, Denali, and Kilimanjaro each rank higher by prominence than by elevation.</desc>
+
+                        <text x="170" y="30" text-anchor="middle" class="h061-col-head">BY HEIGHT ABOVE SEA LEVEL</text>
+                        <text x="510" y="30" text-anchor="middle" class="h061-col-head">BY TOPOGRAPHIC PROMINENCE</text>
+
+                        <g fill="none" stroke-width="2.5" stroke-linecap="round">
+                            <line x1="170" y1="64"  x2="510" y2="64"  stroke="var(--h061-unchanged)"/>
+                            <line x1="170" y1="130" x2="510" y2="330" stroke="var(--h061-down)"/>
+                            <line x1="170" y1="196" x2="510" y2="130" stroke="var(--h061-up)"/>
+                            <line x1="170" y1="262" x2="510" y2="196" stroke="var(--h061-up)"/>
+                            <line x1="170" y1="328" x2="510" y2="262" stroke="var(--h061-up)"/>
+                        </g>
+
+                        <g stroke="var(--hanten-panel)" stroke-width="2">
+                            <circle cx="170" cy="64"  r="6" fill="var(--h061-unchanged)"/>
+                            <circle cx="170" cy="130" r="6" fill="var(--h061-down)"/>
+                            <circle cx="170" cy="196" r="6" fill="var(--h061-up)"/>
+                            <circle cx="170" cy="262" r="6" fill="var(--h061-up)"/>
+                            <circle cx="170" cy="328" r="6" fill="var(--h061-up)"/>
+
+                            <circle cx="510" cy="64"  r="6" fill="var(--h061-unchanged)"/>
+                            <circle cx="510" cy="330" r="6" fill="var(--h061-down)"/>
+                            <circle cx="510" cy="130" r="6" fill="var(--h061-up)"/>
+                            <circle cx="510" cy="196" r="6" fill="var(--h061-up)"/>
+                            <circle cx="510" cy="262" r="6" fill="var(--h061-up)"/>
+                        </g>
+
+                        <g text-anchor="end">
+                            <text x="152" y="60" class="h061-name">Everest</text>
+                            <text x="152" y="76" class="h061-value">8,849 m</text>
+
+                            <text x="152" y="126" class="h061-name">K2</text>
+                            <text x="152" y="142" class="h061-value">8,611 m</text>
+
+                            <text x="152" y="192" class="h061-name">Aconcagua</text>
+                            <text x="152" y="208" class="h061-value">6,961 m</text>
+
+                            <text x="152" y="258" class="h061-name">Denali</text>
+                            <text x="152" y="274" class="h061-value">6,190 m</text>
+
+                            <text x="152" y="324" class="h061-name">Kilimanjaro</text>
+                            <text x="152" y="340" class="h061-value">5,895 m</text>
+                        </g>
+
+                        <g text-anchor="start">
+                            <text x="528" y="60" class="h061-name">Everest</text>
+                            <text x="528" y="76" class="h061-value">8,849 m</text>
+
+                            <text x="528" y="126" class="h061-name">Aconcagua</text>
+                            <text x="528" y="142" class="h061-value">6,961 m</text>
+
+                            <text x="528" y="192" class="h061-name">Denali</text>
+                            <text x="528" y="208" class="h061-value">6,144 m</text>
+
+                            <text x="528" y="258" class="h061-name">Kilimanjaro</text>
+                            <text x="528" y="274" class="h061-value">5,885 m</text>
+
+                            <text x="528" y="324" class="h061-name">K2</text>
+                            <text x="528" y="340" class="h061-value">4,020 m</text>
+                        </g>
+
+                        <g>
+                            <rect x="222" y="163" width="236" height="40" fill="var(--hanten-panel)" opacity="0.88"/>
+                            <text x="340" y="178" text-anchor="middle" class="h061-anno-title">K2 — Earth's 2nd-highest peak</text>
+                            <text x="340" y="195" text-anchor="middle" class="h061-anno-body">falls to 22nd worldwide by prominence</text>
+                        </g>
+                        <g>
+                            <rect x="205" y="283" width="270" height="40" fill="var(--hanten-panel)" opacity="0.88"/>
+                            <text x="340" y="298" text-anchor="middle" class="h061-anno-title">These three aren't top-100 by elevation</text>
+                            <text x="340" y="315" text-anchor="middle" class="h061-anno-body">yet each ranks in the world's top 4 by prominence</text>
+                        </g>
+                    </svg>
+                </div>
+
+            </div>
+
+            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">A fourth answer: how much a mountain stands on its own</h2>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
+                There's a fourth honest measurement, and it flips the leaderboard completely: <strong>topographic
+                prominence</strong> — roughly, how far you'd have to descend from a peak before you could climb to
+                something taller. A mountain sitting alone on a plain scores high even if it's not very elevated; a
+                mountain that's merely one bump on a long ridge of taller neighbors scores low, no matter how high
+                above sea level it sits.
+            </p>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
+                Rank the same five mountains by height above sea level, then by prominence, and three of them trade
+                places dramatically — including the world's second-highest mountain, K2, which quietly falls out of
+                the picture.
+            </p>
+
+            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
+                <p class="hanten-takeaway" style="margin:0;">
+                    "Tallest mountain" isn't one fact — it's a choice of ruler, and every ruler crowns someone different.
+                </p>
+            </div>
+
+            <p class="hanten-reflection">
+                Before repeating a "biggest" or "tallest," what definition is quietly doing the work?
+            </p>
+
+            <p class="hanten-source">
+                Sources: NOAA Ocean Service (Everest, Mauna Kea, Chimborazo); Wikipedia infoboxes for Denali,
+                Aconcagua, K2, Kilimanjaro, Mount Everest; Wikipedia "Summits farthest from the Earth's center."
+                Elevation and prominence figures are the most commonly published values as of 2026 and are
+                periodically revised by new surveys (Everest's official elevation was last updated in 2020;
+                Denali's in 2015).
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "How tall is the tallest mountain?",
+            filename: "H061-tallest-mountains.png"
+        });
+    </script>
+
+</body>
+</html>

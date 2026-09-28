@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H048 — Did Canada Pass Tokyo?</title>
+<meta name="description" content="'Greater Tokyo has more people than Canada' used to be true. Canada's record immigration-driven growth means it no longer is — and hasn't been for years.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+    :root {
+        --h048-canada: #0e7c86;
+        --h048-tokyo: #c1442d;
+        --h048-tokyo-soft: rgba(193, 68, 45, 0.12);
+    }
+
+    .h048-wrap {
+        width: min(100%, 700px);
+        margin: 0 auto;
+        padding: 1.3rem 1.3rem 1rem;
+    }
+
+    .h048-caption {
+        margin: 0 0 0.9rem;
+        text-align: center;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: var(--hanten-muted);
+    }
+
+    .h048-chart {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .h048-axis-label {
+        font-family: var(--hanten-font);
+        font-size: 11px;
+        fill: var(--hanten-muted);
+    }
+
+    .h048-band-label {
+        font-family: var(--hanten-font);
+        font-size: 11px;
+        font-weight: 700;
+        fill: var(--h048-tokyo);
+    }
+
+    .h048-point-label {
+        font-family: var(--hanten-font);
+        font-size: 11px;
+        font-weight: 700;
+        fill: var(--h048-canada);
+    }
+
+    .h048-legend {
+        display: flex;
+        justify-content: center;
+        gap: 1.6rem;
+        margin-top: 0.9rem;
+        flex-wrap: wrap;
+        font-size: 0.8rem;
+        color: var(--hanten-muted);
+    }
+
+    .h048-legend-swatch {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-right: 0.4rem;
+        vertical-align: middle;
+    }
+
+    .h048-schematic-note {
+        margin-top: 0.7rem;
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--hanten-muted);
+    }
+</style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            Does one Japanese metro area still outpopulate all of Canada?
+        </h1>
+
+        <p class="hanten-subtitle">
+            "Greater Tokyo has more people than Canada" is one of the internet's favorite scale facts.
+            It was true — Canada's rapid recent growth means it no longer is.
+        </p>
+
+        <div class="hanten-graphic">
+            <section id="h048-capture">
+
+                <div class="h048-wrap hanten-panel">
+                    <p class="h048-caption">Canada's population vs. Greater Tokyo Area, 2016–2025</p>
+
+                    <svg
+                        id="h048-chart"
+                        class="h048-chart"
+                        viewBox="0 0 640 300"
+                        role="img"
+                        aria-label="Line chart showing Canada's population rising from 35.1 million in 2016 to 41.65 million in 2025, crossing above the Greater Tokyo Area's 33.4 to 37 million range"
+                    ></svg>
+
+                    <div class="h048-legend">
+                        <span><span class="h048-legend-swatch" style="background: var(--h048-canada);"></span>Canada (population)</span>
+                        <span><span class="h048-legend-swatch" style="background: var(--h048-tokyo-soft); border: 1px solid var(--h048-tokyo);"></span>Greater Tokyo Area (range, by definition)</span>
+                    </div>
+
+                    <p class="h048-schematic-note">
+                        Canada was still below most Tokyo-area counts in 2016 (35.15M). By 2020 (38.0M)
+                        it had already passed the commonly cited "~37 million" figure — and kept climbing.
+                    </p>
+                </div>
+
+                <div class="hanten-takeaway-box" style="margin-top: 1rem; padding: 1rem 1.15rem;">
+                    <p class="hanten-takeaway" style="margin: 0 0 0.5rem;">
+                        Two trends, moving in opposite directions.
+                    </p>
+                    <p class="hanten-body" style="margin: 0; font-weight: 400; color: var(--hanten-muted);">
+                        Canada set successive record-high immigration targets from 2016 through 2023, pushing
+                        growth rates not seen since the 1950s. Japan, meanwhile, has had a shrinking population
+                        since the early 2010s — Tokyo's metro-area count has stayed roughly flat for a decade,
+                        and the UN's newest (2025) urban-boundary methodology puts it even lower, at 33.4 million.
+                        Put both lines on the same chart and the crossover isn't close:
+                        <strong style="color: var(--hanten-text);">Canada, at about 41.5 million people, now has
+                        several million more residents than even the most generous count of Greater Tokyo.</strong>
+                    </p>
+                </div>
+
+                <p class="hanten-reflection">
+                    A "fact" can be true for a decade, then quietly stop being true, while people keep repeating it.
+                </p>
+
+                <p class="hanten-source">
+                    Sources: Statistics Canada annual demographic estimates, July 1 of each year (2016: 35,151,728;
+                    2020: 38,005,238; 2023: 40,097,761; 2024: 41,288,599; 2025: 41,651,653). Greater Tokyo Area:
+                    commonly cited "~37 million" figure per Japanese national/prefectural sources (Tokyo + Kanagawa
+                    + Saitama + Chiba); UN World Urbanization Prospects 2025 revised the Tokyo urban agglomeration
+                    figure to 33.4 million using a new, stricter density-based boundary. Ranges reflect genuinely
+                    different definitions of "Greater Tokyo," not measurement error.
+                </p>
+
+            </section>
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script>
+        (() => {
+            const width = 640;
+            const height = 300;
+            const margin = { top: 24, right: 20, bottom: 32, left: 52 };
+            const plotWidth = width - margin.left - margin.right;
+            const plotHeight = height - margin.top - margin.bottom;
+            const ns = "http://www.w3.org/2000/svg";
+
+            function el(parent, name, attrs, text) {
+                const e = document.createElementNS(ns, name);
+                Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
+                if (text !== undefined) e.textContent = text;
+                parent.appendChild(e);
+                return e;
+            }
+
+            const yMin = 32, yMax = 43;
+            const y = v => margin.top + plotHeight - ((v - yMin) / (yMax - yMin)) * plotHeight;
+            const x = frac => margin.left + plotWidth * frac;
+
+            const svg = document.getElementById("h048-chart");
+
+            // gridlines + axis labels
+            [33, 37, 41, 43].forEach(v => {
+                const yy = y(v);
+                el(svg, "line", { x1: margin.left, x2: width - margin.right, y1: yy, y2: yy, stroke: "var(--hanten-border)", "stroke-width": "1" });
+                el(svg, "text", { x: margin.left - 8, y: yy + 4, "text-anchor": "end", class: "h048-axis-label" }, v + "M");
+            });
+
+            // Greater Tokyo band, 33.4M-37M
+            const bandTop = y(37), bandBottom = y(33.4);
+            el(svg, "rect", { x: margin.left, y: bandTop, width: plotWidth, height: bandBottom - bandTop, fill: "var(--h048-tokyo-soft)" });
+            el(svg, "text", { x: width - margin.right, y: bandTop + 15, "text-anchor": "end", class: "h048-band-label" }, "GREATER TOKYO AREA");
+            el(svg, "text", { x: width - margin.right, y: bandTop + 29, "text-anchor": "end", class: "h048-band-label" }, "33.4–37M, BY DEFINITION");
+
+            // Canada population line
+            const pts = [
+                { frac: 0, val: 35.15, year: "2016" },
+                { frac: 0.375, val: 38.0, year: "2020" },
+                { frac: 0.656, val: 40.1, year: "2023" },
+                { frac: 0.844, val: 41.29, year: null },
+                { frac: 1, val: 41.65, year: "2025: 41.65M" }
+            ];
+            const d = pts.map((p, i) => `${i === 0 ? "M" : "L"} ${x(p.frac)},${y(p.val)}`).join(" ");
+            el(svg, "path", { d, fill: "none", stroke: "var(--h048-canada)", "stroke-width": "3", "stroke-linecap": "round", "stroke-linejoin": "round" });
+
+            pts.forEach((p, i) => {
+                el(svg, "circle", { cx: x(p.frac), cy: y(p.val), r: i === pts.length - 1 ? 5.5 : 4.5, fill: "var(--h048-canada)" });
+            });
+
+            el(svg, "text", { x: x(0), y: y(35.15) + 18, "text-anchor": "middle", class: "h048-axis-label" }, "2016");
+            el(svg, "text", { x: x(0.375), y: y(38.0) + 18, "text-anchor": "middle", class: "h048-point-label" }, "2020");
+            el(svg, "text", { x: x(0.656), y: y(40.1) + 18, "text-anchor": "middle", class: "h048-point-label" }, "2023");
+            el(svg, "text", { x: x(1), y: y(41.65) - 12, "text-anchor": "end", class: "h048-point-label" }, "2025: 41.65M");
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "Does one Japanese metro area still outpopulate all of Canada?",
+            filename: "H048-tokyo-vs-canada.png"
+        });
+    </script>
+
+</body>
+</html>

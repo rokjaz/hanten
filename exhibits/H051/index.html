@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H051 — Falklands or Islas Malvinas?</title>
+<meta name="description" content="A small South Atlantic archipelago is British on British maps, Argentine on Argentine maps, and drawn with a note on most others. The islanders themselves voted 99.8% to stay British.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h051-ink: #1c2733;
+    --h051-muted: #4a5a6b;
+    --h051-line: rgba(28,39,51,0.14);
+    --h051-accent: #0e7c86;
+    --h051-accent-soft: rgba(14,124,134,0.12);
+    --h051-panel: #ffffff;
+    --h051-land: #d6dbd0;
+    --h051-land-line: #b9c0b2;
+    --h051-ocean: #cde3ee;
+    --h051-uk: #1f4fa0;
+    --h051-uk-soft: #b6c4e6;
+    --h051-ar: #4a9c6d;
+    --h051-ar-soft: #bfe0cd;
+  }
+
+  body { background: var(--hanten-paper, #f4f3ef); }
+  main.hanten-exhibit { max-width: 1180px; margin: 0 auto; }
+  main.hanten-exhibit > .hanten-question,
+  main.hanten-exhibit > .hanten-subtitle { text-align: center; margin-left: auto; margin-right: auto; }
+
+  .h051-shell { width: min(100%, 960px); margin: 0 auto; }
+
+  #h051-maps-wrap {
+    background: var(--h051-panel);
+    border: 1px solid var(--h051-line);
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 1rem;
+  }
+
+  .h051-map-col { text-align: center; }
+  .h051-map { width: 100%; height: auto; display: block; border: 1px solid var(--h051-line); background: var(--hanten-paper, #f4f3ef); }
+  .h051-map-label {
+    margin-top: .55rem; color: var(--h051-muted);
+    font: 700 .7rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-transform: uppercase; letter-spacing: .045em;
+  }
+
+  .ocean { fill: var(--h051-ocean); stroke: var(--h051-line); stroke-width: .8; }
+  .land { fill: var(--h051-land); stroke: var(--h051-land-line); stroke-width: .5; }
+  .land-uk { fill: var(--h051-uk-soft); stroke: var(--h051-uk); stroke-width: .8; }
+  .land-ar { fill: var(--h051-ar-soft); stroke: var(--h051-ar); stroke-width: .6; }
+
+  .country-label {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 8px; font-weight: 700; text-anchor: middle;
+    fill: var(--h051-ink); paint-order: stroke; stroke: #fff; stroke-width: 2px;
+  }
+  .island-label {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 8px; font-weight: 800; text-anchor: start;
+    paint-order: stroke; stroke: #fff; stroke-width: 2.4px;
+  }
+
+  .h051-cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem; margin-top: 1.2rem; }
+  .h051-card { background: var(--h051-panel); border: 1px solid var(--h051-line); border-top: 4px solid var(--card-color); padding: 1.05rem 1.15rem; }
+  .h051-card .who {
+    margin-bottom: .4rem; color: var(--h051-muted);
+    font: 700 .7rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-transform: uppercase; letter-spacing: .045em;
+  }
+  .h051-card h2 { margin: 0 0 .45rem; color: var(--h051-ink); font-family: ui-serif, Georgia, serif; font-size: 1.15rem; }
+  .h051-card p { margin: 0; color: var(--h051-muted); font-size: .85rem; line-height: 1.55; }
+
+  .h051-reveal {
+    max-width: 840px; margin: 1.35rem auto 0; padding: 1rem 1.1rem;
+    background: var(--h051-accent-soft); border-left: 3px solid var(--h051-accent);
+    color: var(--h051-muted); font-size: .95rem; line-height: 1.6;
+  }
+  .h051-reveal strong { color: var(--h051-ink); }
+
+  .h051-principle {
+    max-width: 840px; margin: 1.05rem auto 0; padding-top: .9rem;
+    border-top: 1px solid var(--h051-line); color: var(--h051-muted); font-size: .9rem; line-height: 1.55;
+  }
+  .h051-principle strong { color: var(--h051-ink); }
+
+  .h051-source { max-width: 860px; margin: .9rem auto 0; text-align: center; color: #7b838a; font-size: .7rem; line-height: 1.45; }
+
+  #save-image-slot { max-width: 960px; margin: .55rem auto .75rem; text-align: right; }
+
+  @media (max-width: 780px) {
+    #h051-maps-wrap, .h051-cards { grid-template-columns: 1fr; }
+    .h051-map-col { width: min(100%, 360px); margin: 0 auto; }
+  }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">Falkland Islands, or Islas Malvinas?</h1>
+
+  <p class="hanten-subtitle">
+    A cluster of islands 300 miles off Argentina's coast is drawn as unambiguously British, unambiguously Argentine, or carefully hedged — depending entirely on whose map you're reading.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h051-shell">
+
+      <div id="h051-maps-wrap">
+        <div class="h051-map-col">
+          <svg class="h051-map" id="map-uk" viewBox="0 0 260 260" role="img"
+            aria-label="The islands shown as the Falkland Islands, a British Overseas Territory"></svg>
+          <div class="h051-map-label">As shown in the UK</div>
+        </div>
+        <div class="h051-map-col">
+          <svg class="h051-map" id="map-ar" viewBox="0 0 260 260" role="img"
+            aria-label="The islands shown as Islas Malvinas, claimed as Argentine territory"></svg>
+          <div class="h051-map-label">As shown in Argentina</div>
+        </div>
+        <div class="h051-map-col">
+          <svg class="h051-map" id="map-intl" viewBox="0 0 260 260" role="img"
+            aria-label="The islands shown with both names and a note on the sovereignty dispute"></svg>
+          <div class="h051-map-label">Common international treatment</div>
+        </div>
+      </div>
+
+      <div id="save-image-slot"></div>
+
+      <div class="h051-cards">
+        <div class="h051-card" style="--card-color: var(--h051-uk)">
+          <div class="who">UK position</div>
+          <h2>Falkland Islands, British since 1833</h2>
+          <p>
+            The UK has continuously administered the islands since 1833. It points to self-determination: in a 2013 referendum, Falkland Islanders voted 99.8% (1,513 to 3, on 92% turnout) to remain a British Overseas Territory.
+          </p>
+        </div>
+        <div class="h051-card" style="--card-color: var(--h051-ar)">
+          <div class="who">Argentina's position</div>
+          <h2>Islas Malvinas, Argentine territory</h2>
+          <p>
+            Argentina claims sovereignty inherited from Spain and asserts the islands were seized by Britain in 1833. Its constitution names recovering "the Malvinas" a permanent national goal, and Argentine maps show them as part of Tierra del Fuego Province.
+          </p>
+        </div>
+        <div class="h051-card" style="--card-color: var(--h051-muted)">
+          <div class="who">International treatment</div>
+          <h2>Both names, disputed status noted</h2>
+          <p>
+            The UN lists the islands as a Non-Self-Governing Territory and has repeatedly called on the UK and Argentina to negotiate sovereignty — a call the UK rejects, citing the islanders' own vote.
+          </p>
+        </div>
+      </div>
+
+      <div class="h051-reveal">
+        <strong>The dispute escalated into a war, not just a labeling disagreement.</strong>
+        Argentina invaded the islands on 2 April 1982; Britain retook them after a 74-day conflict, ending 14 June 1982. The war killed 649 Argentine service members, 255 British service members, and 3 Falkland Islanders. More than 40 years later, both governments still maintain their original claims, and the islands still appear differently depending on whose map you open.
+      </div>
+
+      <div class="h051-principle">
+        <strong>Hanten Principle: "Whose is it?" can have two internally consistent answers at once.</strong><br>
+        Proximity, history, and the preference of the people who actually live there don't always point to the same conclusion — and a map has to pick one anyway.
+      </div>
+
+      <div class="h051-source">
+        Source basis: 2013 Falkland Islands sovereignty referendum results (UK Government / France 24); Falklands War casualty figures and timeline (Encyclopaedia Britannica); UN General Assembly resolutions on the Falkland Islands (Malvinas) question. Country shapes: Natural Earth.
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/geodata/countries.js"></script>
+
+<script>
+  const feats = COUNTRIES_GEOJSON.features;
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    return {
+      type: "Feature",
+      geometry: { type: "Polygon", coordinates: [[[lon0, lat0], [lon0, lat1], [lon1, lat1], [lon1, lat0], [lon0, lat0]]] },
+    };
+  }
+
+  const CROP = [-72, -56, -50, -36];
+  const smoothLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
+
+  function smoothLandPath(projection) {
+    return function(feature) {
+      const geom = feature.geometry;
+      if (!geom) return "";
+      const polys = geom.type === "MultiPolygon" ? geom.coordinates : [geom.coordinates];
+      return polys.map(poly => poly.map(ring => {
+        const pts = ring.map(pt => projection(pt)).filter(Boolean);
+        return pts.length >= 3 ? smoothLine(pts) : "";
+      }).join(" ")).join(" ");
+    };
+  }
+
+  function drawPanel(svgId, width, height, opts) {
+    const svg = d3.select(svgId).attr("viewBox", `0 0 ${width} ${height}`);
+    const projection = d3.geoMercator().fitSize([width, height], bboxFeature(...CROP));
+    const path = d3.geoPath(projection);
+
+    svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+
+    const visibleFeats = feats.filter(f => {
+      const [[lo0, la0], [lo1, la1]] = d3.geoBounds(f);
+      return lo0 <= CROP[2] + 5 && lo1 >= CROP[0] - 5 && la0 <= CROP[3] + 5 && la1 >= CROP[1] - 5;
+    });
+
+    svg.append("g")
+      .selectAll("path")
+      .data(visibleFeats)
+      .join("path")
+      .attr("class", d => {
+        const n = d.properties.NAME;
+        if (n === "Falkland Is.") return "land " + opts.islandClass;
+        if (n === "Argentina") return "land " + opts.argClass;
+        return "land";
+      })
+      .attr("d", smoothLandPath(projection))
+      .attr("stroke-dasharray", d => (d.properties.NAME === "Falkland Is." && opts.islandDash) ? "3,2" : null);
+
+    const [ax, ay] = projection([-64, -38.5]);
+    svg.append("text").attr("class", "country-label").attr("x", ax).attr("y", ay).text("ARGENTINA");
+
+    const [fx, fy] = projection([-59.3, -51.7]);
+    svg.append("text")
+      .attr("class", "island-label")
+      .attr("x", fx + 10).attr("y", fy)
+      .style("fill", opts.islandLabelColor)
+      .text(opts.islandLabel);
+    if (opts.islandLabel2) {
+      svg.append("text")
+        .attr("class", "island-label")
+        .attr("x", fx + 10).attr("y", fy + 11)
+        .style("font-size", "7px")
+        .style("fill", "var(--h051-muted)")
+        .text(opts.islandLabel2);
+    }
+  }
+
+  drawPanel("#map-uk", 260, 260, {
+    islandClass: "land-uk", argClass: "", islandDash: false,
+    islandLabel: "FALKLAND IS.", islandLabelColor: "var(--h051-uk)"
+  });
+  drawPanel("#map-ar", 260, 260, {
+    islandClass: "land-ar", argClass: "land-ar", islandDash: false,
+    islandLabel: "ISLAS MALVINAS", islandLabelColor: "var(--h051-ar)"
+  });
+  drawPanel("#map-intl", 260, 260, {
+    islandClass: "", argClass: "", islandDash: true,
+    islandLabel: "FALKLAND IS.", islandLabelColor: "var(--h051-ink)",
+    islandLabel2: "(Islas Malvinas)"
+  });
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "Falkland Islands, or Islas Malvinas?",
+    filename: "hanten-H051-falklands-malvinas.png"
+  });
+</script>
+
+</body>
+</html>

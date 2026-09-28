@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H041 — Base Rate Fallacy | Hanten</title>
+<meta name="description" content="A 99% accurate medical test can still leave most positive results false when the condition is rare. Explore the base rate fallacy interactively.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+:root{
+  --h041-ink:#1c2733;
+  --h041-soft:#526170;
+  --h041-panel:#ffffff;
+  --h041-line:rgba(28,39,51,.14);
+  --h041-accent:#0e7c86;
+  --h041-accent-soft:rgba(14,124,134,.12);
+  --h041-warn:#c1442d;
+  --h041-warn-soft:rgba(193,68,45,.12);
+  --h041-shadow:0 10px 28px rgba(28,39,51,.06);
+}
+
+body{background:var(--hanten-paper,#f4f3ef)}
+main.hanten-exhibit{max-width:900px;margin:0 auto}
+main.hanten-exhibit>.hanten-question,
+main.hanten-exhibit>.hanten-subtitle{text-align:center;margin-left:auto;margin-right:auto}
+
+.h041-shell{width:min(100%,820px);margin:0 auto}
+
+.h041-formal-name{
+  margin:-.45rem auto 1rem;
+  text-align:center;
+  color:var(--h041-soft);
+  font-size:.82rem;
+  font-weight:700;
+}
+.h041-question-card{
+  max-width:820px;
+  margin:0 auto 1.25rem;
+  padding:.85rem 1rem;
+  background:var(--h041-panel);
+  border-left:3px solid var(--h041-accent);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:1.12rem;
+  line-height:1.5;
+}
+
+.h041-quiz{
+  background:var(--h041-panel);
+  border:1px solid var(--h041-line);
+  box-shadow:var(--h041-shadow);
+  padding:clamp(1.1rem,3vw,1.6rem);
+}
+
+.h041-choice-row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.h041-choice{
+  appearance:none;
+  border:1px solid var(--h041-line);
+  background:var(--hanten-paper,#f4f3ef);
+  color:var(--h041-ink);
+  padding:.7rem 1rem;
+  font:700 .84rem/1.2 var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  cursor:pointer;
+}
+.h041-choice:hover:not(:disabled){border-color:var(--h041-accent)}
+.h041-choice:disabled{cursor:default}
+.h041-choice.correct{border-color:var(--h041-accent);background:var(--h041-accent-soft)}
+.h041-choice.wrong{border-color:var(--h041-warn);background:var(--h041-warn-soft)}
+
+#h041-feedback{
+  display:none;
+  margin-top:1rem;
+  padding-top:1rem;
+  border-top:1px solid var(--h041-line);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:1rem;
+}
+
+.h041-explorer{margin-top:1.6rem}
+.h041-section-label{
+  margin:0 0 .55rem;
+  color:var(--h041-soft);
+  font:800 .73rem/1.2 var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.h041-controls{
+  background:var(--h041-panel);
+  border:1px solid var(--h041-line);
+  padding:1rem 1.2rem;
+  display:grid;
+  gap:1rem;
+}
+.h041-control label{
+  display:block;
+  margin-bottom:.35rem;
+  color:var(--h041-soft);
+  font:700 .78rem/1.35 var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.h041-value{color:var(--h041-ink)}
+.h041-control select,.h041-control input[type="range"]{width:100%}
+.h041-control select{
+  padding:.55rem;
+  border:1px solid var(--h041-line);
+  background:var(--hanten-paper,#f4f3ef);
+  color:var(--h041-ink);
+  font:.82rem var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.h041-control input[type="range"]{accent-color:var(--h041-accent)}
+
+#h041-readout{margin:1.15rem 0 0}
+#h041-readout .headline{
+  margin:0 0 .45rem;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:clamp(1.2rem,3vw,1.55rem);
+}
+#h041-readout .headline strong{color:var(--h041-warn)}
+#h041-readout p:last-child{margin-bottom:0;color:var(--h041-soft)}
+
+.h041-grid{
+  display:grid;
+  grid-template-columns:repeat(40,1fr);
+  gap:1.5px;
+  margin-top:1.15rem;
+}
+.h041-cell{aspect-ratio:1;border-radius:1px}
+.h041-cell.true-neg{background:var(--h041-line)}
+.h041-cell.false-pos{background:var(--h041-warn)}
+.h041-cell.true-pos{background:var(--h041-accent)}
+.h041-cell.false-neg{background:var(--hanten-paper,#f4f3ef);border:1px solid var(--h041-soft)}
+
+.h041-legend{display:flex;flex-wrap:wrap;gap:.55rem 1.2rem;margin-top:.85rem;color:var(--h041-soft);font-size:.78rem}
+.h041-legend-item{display:flex;align-items:center;gap:.4rem}
+.h041-swatch{width:11px;height:11px;border-radius:2px;flex:none}
+.h041-swatch.true-pos{background:var(--h041-accent)}
+.h041-swatch.false-pos{background:var(--h041-warn)}
+.h041-swatch.true-neg{background:var(--h041-line)}
+.h041-swatch.false-neg{background:var(--hanten-paper,#f4f3ef);border:1px solid var(--h041-soft)}
+
+#save-image-slot{max-width:940px;margin:.55rem auto 0;text-align:right}
+
+.h041-reveal{
+  max-width:820px;
+  margin:1.35rem auto 0;
+  padding:.15rem 0 .15rem 1rem;
+  border-left:3px solid var(--h041-accent);
+  color:var(--h041-soft);
+  line-height:1.5;
+}
+.h041-reveal strong{color:var(--h041-ink)}
+.h041-explore{
+  max-width:820px;
+  margin:.75rem auto 0;
+  padding:.6rem 0;
+  border-top:1px solid var(--h041-line);
+  border-bottom:1px solid var(--h041-line);
+  color:var(--h041-soft);
+  font-size:.84rem;
+  line-height:1.5;
+}
+.h041-explore summary{cursor:pointer;font-weight:750;color:var(--h041-ink)}
+.h041-explore p{margin:.65rem 0 0}
+
+.h041-source{
+  max-width:820px;
+  margin:.95rem auto 0;
+  text-align:center;
+  color:#7b838a;
+  font-size:.7rem;
+  line-height:1.5;
+}
+
+@media(max-width:700px){
+  .h041-grid{grid-template-columns:repeat(25,1fr)}
+  .h041-choice{flex:1 1 calc(50% - .6rem)}
+}
+</style>
+</head>
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">If a medical test is 99% accurate and you test positive, what are the chances you actually have the disease?</h1>
+
+  <p class="hanten-subtitle">
+    When the disease is rare, the answer can be nowhere near 99%.
+  </p>
+
+  <div class="h041-formal-name">The Base Rate Fallacy</div>
+
+  <div class="hanten-graphic">
+    <div class="h041-shell">
+
+      <div class="h041-question-card">
+        Assume the test correctly identifies 99% of sick people and correctly clears 99% of healthy people. Only <strong>1 in 1,000</strong> people has the disease. You test positive. What is the chance you actually have it?
+      </div>
+
+      <section class="h041-quiz" aria-label="Base rate fallacy quiz">
+        <div class="h041-section-label">Make your guess</div>
+        <div class="h041-choice-row" id="h041-choices"></div>
+        <div id="h041-feedback" aria-live="polite"></div>
+      </section>
+
+      <section class="h041-explorer" id="h041-capture" aria-label="Interactive base rate explorer">
+        <div class="h041-section-label">Play with the numbers</div>
+
+        <div class="h041-controls">
+          <div class="h041-control">
+            <label>How common is the disease? <span class="h041-value" id="h041-prev-label">1 in 1,000 (0.1%)</span></label>
+            <select id="h041-prev-select">
+              <option value="0.001" selected>1 in 1,000 (0.1%) — rare</option>
+              <option value="0.01">1 in 100 (1%)</option>
+              <option value="0.05">1 in 20 (5%)</option>
+              <option value="0.1">1 in 10 (10%)</option>
+              <option value="0.33">1 in 3 (33%) — common</option>
+            </select>
+          </div>
+
+          <div class="h041-control">
+            <label>Test sensitivity and specificity <span class="h041-value" id="h041-acc-label">99.0%</span></label>
+            <input type="range" id="h041-acc-slider" min="50" max="99.9" step="0.1" value="99">
+          </div>
+        </div>
+
+        <div id="h041-readout"></div>
+        <div class="h041-grid" id="h041-grid" aria-hidden="true"></div>
+
+        <div class="h041-legend">
+          <div class="h041-legend-item"><span class="h041-swatch true-pos"></span>Positive and actually sick</div>
+          <div class="h041-legend-item"><span class="h041-swatch false-pos"></span>Positive but actually healthy</div>
+          <div class="h041-legend-item"><span class="h041-swatch false-neg"></span>Negative but actually sick</div>
+          <div class="h041-legend-item"><span class="h041-swatch true-neg"></span>Negative and actually healthy</div>
+        </div>
+      </section>
+
+      <div class="h041-reveal">
+        <strong>A 99% accurate test does not mean a positive result is 99% likely to be correct.</strong>
+        When only 1 in 1,000 people has the disease, this example gives a positive result only about a 9% chance of being a true positive.
+      </div>
+
+      <p class="hanten-reflection">
+        Before asking how strong the new evidence is, how likely was the thing you were testing for in the first place?
+      </p>
+
+      <details class="h041-explore">
+        <summary>Why does 99% accuracy become about 9%?</summary>
+        <p>
+          Imagine 1,000 people. About one actually has the disease, and a 99% sensitive test will usually find that person.
+          But about 999 people are healthy. A 1% false-positive rate incorrectly flags roughly ten of them.
+          That leaves about one true positive among roughly eleven positive results.
+        </p>
+      </details>
+
+      <div class="h041-source">
+        Source basis preserved from the original exhibit: Bayes’ theorem; Kahneman &amp; Tversky (1974) on base-rate neglect; Gigerenzer &amp; Hoffrage (1995) on probabilistic reasoning in medical-test contexts. The interactive example assumes equal sensitivity and specificity.
+      </div>
+
+      <div class="hanten-utility"><div id="save-image-slot"></div></div>
+
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  const choices=[
+    {label:"About 99%",correct:false},
+    {label:"About 50%",correct:false},
+    {label:"About 9%",correct:true},
+    {label:"About 1%",correct:false}
+  ];
+  const wrap=document.getElementById("h041-choices");
+  const feedback=document.getElementById("h041-feedback");
+  const buttons=[];
+
+  choices.forEach((choice)=>{
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="h041-choice";
+    btn.textContent=choice.label;
+    btn.addEventListener("click",()=>{
+      buttons.forEach((b,i)=>{
+        b.disabled=true;
+        if(choices[i].correct)b.classList.add("correct");
+        else if(b===btn&&!choice.correct)b.classList.add("wrong");
+      });
+      feedback.style.display="block";
+      feedback.textContent=choice.correct
+        ? "Right — about 9%. The base rate changes what a positive result means."
+        : "About 9%. The test can be very accurate and still produce more false positives than true positives when the disease is rare.";
+    });
+    wrap.appendChild(btn);
+    buttons.push(btn);
+  });
+})();
+
+const H041_N=1000;
+const prevSelect=document.getElementById("h041-prev-select");
+const accSlider=document.getElementById("h041-acc-slider");
+const prevLabel=document.getElementById("h041-prev-label");
+const accLabel=document.getElementById("h041-acc-label");
+const readout=document.getElementById("h041-readout");
+const grid=document.getElementById("h041-grid");
+
+function h041Counts(prevalence,accuracy){
+  const sick=Math.round(H041_N*prevalence);
+  const healthy=H041_N-sick;
+  const truePos=Math.round(sick*accuracy);
+  const falseNeg=sick-truePos;
+  const falsePos=Math.round(healthy*(1-accuracy));
+  const trueNeg=healthy-falsePos;
+  return {sick,healthy,truePos,falseNeg,falsePos,trueNeg};
+}
+
+function h041Render(){
+  const prevalence=parseFloat(prevSelect.value);
+  const accuracy=parseFloat(accSlider.value)/100;
+  accLabel.textContent=(accuracy*100).toFixed(1)+"%";
+  prevLabel.textContent=prevSelect.options[prevSelect.selectedIndex].text.split(" — ")[0];
+
+  const c=h041Counts(prevalence,accuracy);
+  const totalPositive=c.truePos+c.falsePos;
+  const ppv=totalPositive?100*c.truePos/totalPositive:0;
+
+  readout.innerHTML=`
+    <p class="headline">If you test positive, the chance you are actually sick is <strong>${ppv.toFixed(1)}%</strong>.</p>
+    <p>Out of ${H041_N.toLocaleString()} people, ${c.sick.toLocaleString()} are actually sick. The test produces ${c.truePos.toLocaleString()} true positive${c.truePos===1?"":"s"} and ${c.falsePos.toLocaleString()} false positive${c.falsePos===1?"":"s"}. That makes ${totalPositive.toLocaleString()} positive result${totalPositive===1?"":"s"} in all.</p>`;
+
+  const cells=[];
+  for(let i=0;i<c.truePos;i++)cells.push("true-pos");
+  for(let i=0;i<c.falsePos;i++)cells.push("false-pos");
+  for(let i=0;i<c.falseNeg;i++)cells.push("false-neg");
+  for(let i=0;i<c.trueNeg;i++)cells.push("true-neg");
+  grid.innerHTML=cells.map(cls=>`<div class="h041-cell ${cls}"></div>`).join("");
+}
+
+prevSelect.addEventListener("input",h041Render);
+accSlider.addEventListener("input",h041Render);
+h041Render();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+if(window.HantenSaveImage){
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title:"If a medical test is 99% accurate and you test positive, what are the chances you actually have the disease?",
+    filename:"H041-base-rate-fallacy.png"
+  });
+}
+</script>
+</body>
+</html>

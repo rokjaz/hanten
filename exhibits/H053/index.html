@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H053 — One Island, One Line, Two Countries?</title>
+<meta name="description" content="Cyprus appears as one undivided country, as two separate countries, or as one country plus an occupied buffer zone — depending on whether you're reading a Cypriot, Turkish, or UN map.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h053-ink: #1c2733;
+    --h053-muted: #4a5a6b;
+    --h053-line: rgba(28,39,51,0.14);
+    --h053-accent: #0e7c86;
+    --h053-accent-soft: rgba(14,124,134,0.12);
+    --h053-panel: #ffffff;
+    --h053-land: #d6dbd0;
+    --h053-land-line: #b9c0b2;
+    --h053-ocean: #cde3ee;
+    --h053-cy: #1f6f4a;
+    --h053-cy-soft: #b9dcc7;
+    --h053-trnc: #b2401f;
+    --h053-trnc-soft: #ecc2ae;
+    --h053-disputed: #e8e2d0;
+  }
+
+  body { background: var(--hanten-paper, #f4f3ef); }
+  main.hanten-exhibit { max-width: 1180px; margin: 0 auto; }
+  main.hanten-exhibit > .hanten-question,
+  main.hanten-exhibit > .hanten-subtitle { text-align: center; margin-left: auto; margin-right: auto; }
+
+  .h053-shell { width: min(100%, 960px); margin: 0 auto; }
+
+  #h053-maps-wrap {
+    background: var(--h053-panel); border: 1px solid var(--h053-line); padding: 1rem;
+    display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem;
+  }
+
+  .h053-map-col { text-align: center; }
+  .h053-map { width: 100%; height: auto; display: block; border: 1px solid var(--h053-line); background: var(--hanten-paper, #f4f3ef); }
+  .h053-map-label {
+    margin-top: .55rem; color: var(--h053-muted);
+    font: 700 .7rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-transform: uppercase; letter-spacing: .045em;
+  }
+
+  .ocean { fill: var(--h053-ocean); stroke: var(--h053-line); stroke-width: .8; }
+  .land { fill: var(--h053-land); stroke: var(--h053-land-line); stroke-width: .5; }
+  .land-cy { fill: var(--h053-cy-soft); stroke: var(--h053-cy); stroke-width: .8; }
+  .land-trnc { fill: var(--h053-trnc-soft); stroke: var(--h053-trnc); stroke-width: .8; }
+  .land-disputed { fill: var(--h053-disputed); stroke: var(--h053-muted); stroke-width: 1.4; }
+
+  .country-label {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 8.5px; font-weight: 700; text-anchor: middle;
+    fill: var(--h053-ink); paint-order: stroke; stroke: #fff; stroke-width: 2.2px;
+  }
+
+  .h053-cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem; margin-top: 1.2rem; }
+  .h053-card { background: var(--h053-panel); border: 1px solid var(--h053-line); border-top: 4px solid var(--card-color); padding: 1.05rem 1.15rem; }
+  .h053-card .who {
+    margin-bottom: .4rem; color: var(--h053-muted);
+    font: 700 .7rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-transform: uppercase; letter-spacing: .045em;
+  }
+  .h053-card h2 { margin: 0 0 .45rem; color: var(--h053-ink); font-family: ui-serif, Georgia, serif; font-size: 1.12rem; }
+  .h053-card p { margin: 0; color: var(--h053-muted); font-size: .85rem; line-height: 1.55; }
+
+  .h053-reveal {
+    max-width: 840px; margin: 1.35rem auto 0; padding: 1rem 1.1rem;
+    background: var(--h053-accent-soft); border-left: 3px solid var(--h053-accent);
+    color: var(--h053-muted); font-size: .95rem; line-height: 1.6;
+  }
+  .h053-reveal strong { color: var(--h053-ink); }
+
+  .h053-principle {
+    max-width: 840px; margin: 1.05rem auto 0; padding-top: .9rem;
+    border-top: 1px solid var(--h053-line); color: var(--h053-muted); font-size: .9rem; line-height: 1.55;
+  }
+  .h053-principle strong { color: var(--h053-ink); }
+
+  .h053-source { max-width: 860px; margin: .9rem auto 0; text-align: center; color: #7b838a; font-size: .7rem; line-height: 1.45; }
+
+  #save-image-slot { max-width: 960px; margin: .55rem auto .75rem; text-align: right; }
+
+  @media (max-width: 780px) {
+    #h053-maps-wrap, .h053-cards { grid-template-columns: 1fr; }
+    .h053-map-col { width: min(100%, 360px); margin: 0 auto; }
+  }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">One island. How many countries?</h1>
+
+  <p class="hanten-subtitle">
+    Cyprus's capital, Nicosia, is one of the last divided cities on Earth. Depending on whose map you open, the island north of that line is occupied territory, a buffer zone, or a country in its own right.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h053-shell">
+
+      <div id="h053-maps-wrap">
+        <div class="h053-map-col">
+          <svg class="h053-map" id="map-cy" viewBox="0 0 320 200" role="img"
+            aria-label="Cyprus shown as a single undivided country"></svg>
+          <div class="h053-map-label">As shown by the Republic of Cyprus</div>
+        </div>
+        <div class="h053-map-col">
+          <svg class="h053-map" id="map-trnc" viewBox="0 0 320 200" role="img"
+            aria-label="The island shown as two separate countries, Cyprus and the Turkish Republic of Northern Cyprus"></svg>
+          <div class="h053-map-label">As shown in Turkey / TRNC</div>
+        </div>
+        <div class="h053-map-col">
+          <svg class="h053-map" id="map-un" viewBox="0 0 320 200" role="img"
+            aria-label="Cyprus shown as one recognized country with a separately marked occupied north"></svg>
+          <div class="h053-map-label">UN / common international treatment</div>
+        </div>
+      </div>
+
+      <div id="save-image-slot"></div>
+
+      <div class="h053-cards">
+        <div class="h053-card" style="--card-color: var(--h053-cy)">
+          <div class="who">Republic of Cyprus</div>
+          <h2>One country, occupied in part</h2>
+          <p>
+            The internationally recognized Republic of Cyprus — an EU member since 2004 — claims the entire island. It considers the north to be Cypriot territory under Turkish military occupation since 1974, not a separate state.
+          </p>
+        </div>
+        <div class="h053-card" style="--card-color: var(--h053-trnc)">
+          <div class="who">Turkey / TRNC</div>
+          <h2>Two states on one island</h2>
+          <p>
+            The Turkish Republic of Northern Cyprus declared independence in 1983. Turkey is the only UN member state that recognizes it, maintains roughly 30,000 troops there, and treats it as a separate country on its own maps.
+          </p>
+        </div>
+        <div class="h053-card" style="--card-color: var(--h053-muted)">
+          <div class="who">UN treatment</div>
+          <h2>One state, a buffer zone, and a warning</h2>
+          <p>
+            UN Security Council resolutions declared the TRNC's 1983 declaration legally invalid and call on all states not to recognize it. A UN-patrolled buffer zone — the Green Line — physically divides the island, including the capital, Nicosia.
+          </p>
+        </div>
+      </div>
+
+      <div class="h053-reveal">
+        <strong>The line runs straight through the capital.</strong>
+        In 1974, a Greek Cypriot coup aiming for union with Greece triggered a Turkish military invasion. By the ceasefire, Turkish forces held about 37% of the island. Tens of thousands on both sides were displaced across the new line. Fifty years on, Nicosia remains split by checkpoints and a UN buffer zone — a divided capital in a way most of the world last saw in Cold War Berlin.
+      </div>
+
+      <div class="h053-principle">
+        <strong>Hanten Principle: "One country" and "two countries" can both be someone's accurate map.</strong><br>
+        Military control, legal recognition, and a population's day-to-day reality don't automatically agree — and each version of the map is drawn by people for whom their version isn't a simplification, it's the fact.
+      </div>
+
+      <div class="h053-source">
+        Source basis: UN Security Council Resolutions 541 (1983) and 550 (1984); UNFICYP mandate and Green Line buffer zone documentation; reporting on the 1974 Turkish invasion of Cyprus (37% territory, ~30,000 troops) per Wikipedia/Euronews. Country shapes: Natural Earth, which lists "Cyprus" and "N. Cyprus" as separate features.
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/geodata/countries.js"></script>
+
+<script>
+  const feats = COUNTRIES_GEOJSON.features;
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    return {
+      type: "Feature",
+      geometry: { type: "Polygon", coordinates: [[[lon0, lat0], [lon0, lat1], [lon1, lat1], [lon1, lat0], [lon0, lat0]]] },
+    };
+  }
+
+  const CROP = [32.1, 34.4, 34.7, 35.8];
+  const smoothLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
+
+  function smoothLandPath(projection) {
+    return function(feature) {
+      const geom = feature.geometry;
+      if (!geom) return "";
+      const polys = geom.type === "MultiPolygon" ? geom.coordinates : [geom.coordinates];
+      return polys.map(poly => poly.map(ring => {
+        const pts = ring.map(pt => projection(pt)).filter(Boolean);
+        return pts.length >= 3 ? smoothLine(pts) : "";
+      }).join(" ")).join(" ");
+    };
+  }
+
+  function drawPanel(svgId, width, height, opts) {
+    const svg = d3.select(svgId).attr("viewBox", `0 0 ${width} ${height}`);
+    const projection = d3.geoMercator().fitSize([width, height], bboxFeature(...CROP));
+    const path = d3.geoPath(projection);
+
+    svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+
+    const visibleFeats = feats.filter(f => {
+      const [[lo0, la0], [lo1, la1]] = d3.geoBounds(f);
+      return lo0 <= CROP[2] + 3 && lo1 >= CROP[0] - 3 && la0 <= CROP[3] + 3 && la1 >= CROP[1] - 3;
+    }).sort((a, b) => (a.properties.NAME === "N. Cyprus" ? 1 : 0) - (b.properties.NAME === "N. Cyprus" ? 1 : 0));
+
+    svg.append("g")
+      .selectAll("path")
+      .data(visibleFeats)
+      .join("path")
+      .attr("class", d => {
+        const n = d.properties.NAME;
+        if (n === "N. Cyprus") return "land " + opts.ncClass;
+        if (n === "Cyprus") return "land " + opts.cyClass;
+        return "land";
+      })
+      .attr("d", smoothLandPath(projection))
+      .attr("stroke-dasharray", d => (d.properties.NAME === "N. Cyprus" && opts.ncDash) ? "3,2" : null);
+
+    opts.labels.forEach(l => {
+      const [x, y] = projection([l.lon, l.lat]);
+      svg.append("text")
+        .attr("class", "country-label")
+        .attr("x", x).attr("y", y)
+        .style("fill", l.color || "var(--h053-ink)")
+        .style("font-size", l.size || null)
+        .text(l.name);
+    });
+  }
+
+  drawPanel("#map-cy", 320, 200, {
+    ncClass: "land-cy", cyClass: "land-cy", ncDash: false,
+    labels: [{ name: "CYPRUS", lon: 33.2, lat: 34.95 }]
+  });
+  drawPanel("#map-trnc", 320, 200, {
+    ncClass: "land-trnc", cyClass: "land-cy", ncDash: false,
+    labels: [
+      { name: "REPUBLIC OF CYPRUS", lon: 33.15, lat: 34.75, size: "7px" },
+      { name: "TRNC", lon: 33.55, lat: 35.35, color: "var(--h053-trnc)", size: "9.5px" },
+    ]
+  });
+  drawPanel("#map-un", 320, 200, {
+    ncClass: "land-disputed", cyClass: "land-cy", ncDash: true,
+    labels: [
+      { name: "CYPRUS", lon: 33.15, lat: 34.8, size: "8px" },
+      { name: "occupied since 1974", lon: 33.55, lat: 35.32, color: "var(--h053-muted)", size: "6.5px" },
+    ]
+  });
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "One island. How many countries?",
+    filename: "hanten-H053-northern-cyprus.png"
+  });
+</script>
+
+</body>
+</html>

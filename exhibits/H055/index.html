@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H055 — The Bias That Wasn't There</title>
+
+    <meta
+        name="description"
+        content="UC Berkeley's 1973 admissions looked biased against women overall. Department by department, women were admitted at equal or higher rates in four of six. Simpson's paradox, explained."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H055-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h055-men: #8a897f;
+            --h055-women: var(--hanten-accent);
+        }
+
+        .h055-overall {
+            display: flex;
+            justify-content: center;
+            gap: 3.2rem;
+            flex-wrap: wrap;
+            text-align: center;
+            padding: 1.2rem 1rem;
+        }
+
+        .h055-overall-num {
+            font-size: clamp(2rem, 6vw, 2.6rem);
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .h055-overall-num.men { color: var(--h055-men); }
+        .h055-overall-num.women { color: var(--h055-women); }
+
+        .h055-overall-cap {
+            margin-top: 0.3rem;
+            font-family: var(--hanten-font);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+
+        .h055-dept-panel {
+            padding: 1.1rem 1.1rem 0.9rem;
+        }
+
+        .h055-dept-row {
+            display: grid;
+            grid-template-columns: 34px 1fr;
+            gap: 12px;
+            align-items: center;
+            margin: 0.85rem 0;
+        }
+
+        .h055-dept-row:first-child { margin-top: 0; }
+
+        .h055-dept-name {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .h055-bars { display: flex; flex-direction: column; gap: 5px; }
+
+        .h055-bar-line {
+            display: grid;
+            grid-template-columns: 44px 1fr 42px;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .h055-bar-tag {
+            font-family: var(--hanten-font);
+            font-size: 0.68rem;
+            color: var(--hanten-muted);
+        }
+
+        .h055-bar-track { height: 13px; background: var(--hanten-paper); }
+        .h055-bar-fill { height: 100%; }
+        .h055-bar-fill.men { background: var(--h055-men); }
+        .h055-bar-fill.women { background: var(--h055-women); }
+
+        .h055-bar-pct {
+            font-family: var(--hanten-font);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .h055-dept-n {
+            font-family: var(--hanten-font);
+            font-size: 0.68rem;
+            color: var(--hanten-muted);
+            margin-top: 2px;
+        }
+
+        .h055-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.4rem;
+            margin-top: 0.9rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+            flex-wrap: wrap;
+        }
+
+        .h055-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+        .h055-swatch { width: 11px; height: 11px; display: inline-block; }
+
+        .h055-note {
+            max-width: var(--hanten-text-width);
+            margin: 0.8rem auto 0;
+            text-align: center;
+            font-size: 0.82rem;
+            font-style: italic;
+            color: var(--hanten-muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            How can men be admitted at a much higher rate overall — while women do as well or better in most departments?
+        </h1>
+
+        <p class="hanten-subtitle">
+            UC Berkeley's 1973 graduate admissions numbers triggered a gender-discrimination lawsuit.
+            The overall gap was real. So was the fact that it mostly wasn't there once you looked closer.
+        </p>
+
+        <div id="h055-capture">
+
+            <div class="hanten-graphic hanten-panel">
+                <div class="h055-overall">
+                    <div>
+                        <div class="h055-overall-num men">45%</div>
+                        <div class="h055-overall-cap">of men admitted</div>
+                    </div>
+                    <div>
+                        <div class="h055-overall-num women">30%</div>
+                        <div class="h055-overall-cap">of women admitted</div>
+                    </div>
+                </div>
+            </div>
+            <p class="h055-note">Pooled across the six largest departments — a 15-point gap, enough to look like a clear case of bias.</p>
+
+            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.3rem auto 0;">Now split the same data by department</h2>
+
+            <div class="hanten-graphic hanten-panel h055-dept-panel" id="h055-dept-chart"></div>
+            <div class="h055-legend">
+                <span><span class="h055-swatch" style="background:var(--h055-men)"></span>Men admitted</span>
+                <span><span class="h055-swatch" style="background:var(--h055-women)"></span>Women admitted</span>
+            </div>
+            <p class="h055-note">Women were admitted at an equal or higher rate than men in four of these six departments (A, B, D, F).</p>
+
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:1.3rem auto 0;">
+                Look at departments A and B: both admitted the large majority of applicants (62–82%), and both had
+                far more male applicants than female. Look at C, D, E, F: all admitted a minority of applicants —
+                some as low as 6–7% — and women applied to these harder-to-enter departments in much larger
+                numbers.
+            </p>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
+                Men, in this dataset, disproportionately applied to the easy departments. Women disproportionately
+                applied to the hard ones. Combine all six into one number and that difference in
+                <em>where people applied</em> masquerades as a difference in <em>how they were evaluated</em>.
+            </p>
+
+            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
+                <p class="hanten-takeaway" style="margin:0;">
+                    The original researchers found a small bias in favor of women once the data were properly
+                    analyzed, department by department.
+                </p>
+            </div>
+
+            <p class="hanten-reflection">
+                If a combined total shows a gap, does that prove the underlying process is biased?
+            </p>
+
+            <p class="hanten-source">
+                Sources: P.J. Bickel, E.A. Hammel, J.W. O'Connell, "Sex Bias in Graduate Admissions: Data from
+                Berkeley," <em>Science</em>, 1975. Six-department table (departments A–F, admit rates and
+                applicant counts) as reproduced in Freedman, Pisani &amp; Purves, <em>Statistics</em>, and widely
+                used as the standard classroom example of Simpson's paradox. University-wide 1973 figures across
+                all departments were approximately 44% of men and 35% of women admitted; the six-department
+                subset shown here (45%/30%) is the specific dataset used in the original analysis.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script>
+        (() => {
+            const depts = [
+                { name: "A", menN: 825, menPct: 62, womenN: 108, womenPct: 82 },
+                { name: "B", menN: 560, menPct: 63, womenN: 25, womenPct: 68 },
+                { name: "C", menN: 325, menPct: 37, womenN: 593, womenPct: 34 },
+                { name: "D", menN: 417, menPct: 33, womenN: 375, womenPct: 35 },
+                { name: "E", menN: 191, menPct: 28, womenN: 393, womenPct: 24 },
+                { name: "F", menN: 373, menPct: 6, womenN: 341, womenPct: 7 },
+            ];
+
+            const container = document.getElementById("h055-dept-chart");
+            depts.forEach(d => {
+                const row = document.createElement("div");
+                row.className = "h055-dept-row";
+                row.innerHTML = `
+                    <div class="h055-dept-name">${d.name}</div>
+                    <div class="h055-bars">
+                        <div class="h055-bar-line">
+                            <div class="h055-bar-tag">Men</div>
+                            <div class="h055-bar-track"><div class="h055-bar-fill men" style="width:${d.menPct}%"></div></div>
+                            <div class="h055-bar-pct">${d.menPct}%</div>
+                        </div>
+                        <div class="h055-bar-line">
+                            <div class="h055-bar-tag">Women</div>
+                            <div class="h055-bar-track"><div class="h055-bar-fill women" style="width:${d.womenPct}%"></div></div>
+                            <div class="h055-bar-pct">${d.womenPct}%</div>
+                        </div>
+                        <div class="h055-dept-n">${d.menN} men applied · ${d.womenN} women applied</div>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "How can men be admitted at a much higher rate overall — while women do as well or better in most departments?",
+            filename: "H055-simpsons-paradox.png"
+        });
+    </script>
+
+</body>
+</html>

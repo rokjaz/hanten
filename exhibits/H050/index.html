@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H050 — Macedonia or North Macedonia?</title>
+<meta name="description" content="For 27 years, a country's name was disputed because it overlapped with the name of a Greek region. In 2019, the map finally settled: North Macedonia.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h050-ink: #1c2733;
+    --h050-muted: #4a5a6b;
+    --h050-line: rgba(28,39,51,0.14);
+    --h050-accent: #0e7c86;
+    --h050-accent-soft: rgba(14,124,134,0.12);
+    --h050-panel: #ffffff;
+    --h050-land: #d6dbd0;
+    --h050-land-line: #b9c0b2;
+    --h050-ocean: #cde3ee;
+    --h050-mk: #6b4fa0;
+    --h050-mk-soft: #d0c3e2;
+    --h050-gr: #b2701f;
+    --h050-gr-soft: #ecd7ae;
+  }
+
+  body { background: var(--hanten-paper, #f4f3ef); }
+
+  main.hanten-exhibit { max-width: 1180px; margin: 0 auto; }
+
+  main.hanten-exhibit > .hanten-question,
+  main.hanten-exhibit > .hanten-subtitle {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .h050-shell { width: min(100%, 960px); margin: 0 auto; }
+
+  #h050-maps-wrap {
+    background: var(--h050-panel);
+    border: 1px solid var(--h050-line);
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 1rem;
+  }
+
+  .h050-map-col { text-align: center; }
+
+  .h050-map {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--h050-line);
+    background: var(--hanten-paper, #f4f3ef);
+  }
+
+  .h050-map-label {
+    margin-top: .55rem;
+    color: var(--h050-muted);
+    font: 700 .7rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-transform: uppercase;
+    letter-spacing: .045em;
+  }
+
+  .ocean { fill: var(--h050-ocean); stroke: var(--h050-line); stroke-width: .8; }
+  .land { fill: var(--h050-land); stroke: var(--h050-land-line); stroke-width: .5; }
+  .land-mk { fill: var(--h050-mk-soft); stroke: var(--h050-mk); stroke-width: .8; }
+  .land-gr { fill: var(--h050-gr-soft); stroke: var(--h050-gr); stroke-width: .6; }
+
+  .country-label {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 9px;
+    font-weight: 700;
+    text-anchor: middle;
+    fill: var(--h050-ink);
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 2.4px;
+  }
+
+  .h050-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+
+  .h050-card {
+    background: var(--h050-panel);
+    border: 1px solid var(--h050-line);
+    border-top: 4px solid var(--card-color);
+    padding: 1.05rem 1.15rem;
+  }
+
+  .h050-card .who {
+    margin-bottom: .4rem;
+    color: var(--h050-muted);
+    font: 700 .7rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-transform: uppercase;
+    letter-spacing: .045em;
+  }
+
+  .h050-card h2 {
+    margin: 0 0 .45rem;
+    color: var(--h050-ink);
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.2rem;
+  }
+
+  .h050-card p { margin: 0; color: var(--h050-muted); font-size: .87rem; line-height: 1.55; }
+
+  .h050-reveal {
+    max-width: 840px;
+    margin: 1.35rem auto 0;
+    padding: 1rem 1.1rem;
+    background: var(--h050-accent-soft);
+    border-left: 3px solid var(--h050-accent);
+    color: var(--h050-muted);
+    font-size: .95rem;
+    line-height: 1.6;
+  }
+  .h050-reveal strong { color: var(--h050-ink); }
+
+  .h050-principle {
+    max-width: 840px;
+    margin: 1.05rem auto 0;
+    padding-top: .9rem;
+    border-top: 1px solid var(--h050-line);
+    color: var(--h050-muted);
+    font-size: .9rem;
+    line-height: 1.55;
+  }
+  .h050-principle strong { color: var(--h050-ink); }
+
+  .h050-source {
+    max-width: 860px;
+    margin: .9rem auto 0;
+    text-align: center;
+    color: #7b838a;
+    font-size: .7rem;
+    line-height: 1.45;
+  }
+
+  #save-image-slot { max-width: 960px; margin: .55rem auto .75rem; text-align: right; }
+
+  @media (max-width: 780px) {
+    #h050-maps-wrap, .h050-cards { grid-template-columns: 1fr; }
+    .h050-map-col { width: min(100%, 380px); margin: 0 auto; }
+  }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">Was it Macedonia, or North Macedonia?</h1>
+
+  <p class="hanten-subtitle">
+    For 27 years, mapmakers had to pick a side in a naming dispute between two countries. Then, in 2019, the dispute actually got resolved — a rare outcome in this series.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h050-shell">
+
+      <div id="h050-maps-wrap">
+        <div class="h050-map-col">
+          <svg class="h050-map" id="map-before" viewBox="0 0 320 320" role="img"
+            aria-label="The country shown with a provisional, disputed name before 2019"></svg>
+          <div class="h050-map-label">Before 12 Feb 2019</div>
+        </div>
+        <div class="h050-map-col">
+          <svg class="h050-map" id="map-after" viewBox="0 0 320 320" role="img"
+            aria-label="The same country shown as North Macedonia after the 2019 renaming"></svg>
+          <div class="h050-map-label">Since 12 Feb 2019</div>
+        </div>
+      </div>
+
+      <div id="save-image-slot"></div>
+
+      <div class="h050-cards">
+        <div class="h050-card" style="--card-color: var(--h050-gr)">
+          <div class="who">Greece's objection</div>
+          <h2>"Macedonia" is also a Greek region</h2>
+          <p>
+            Greece has its own historic region called Macedonia, home to Thessaloniki and tied to the legacy of Alexander the Great. Greece argued that a neighboring country using the name "Macedonia" alone implied a claim on that shared heritage — and, some feared, on Greek territory.
+          </p>
+        </div>
+        <div class="h050-card" style="--card-color: var(--h050-mk)">
+          <div class="who">The country's position</div>
+          <h2>A name chosen at independence</h2>
+          <p>
+            When the country declared independence from Yugoslavia in 1991, it adopted the name of the region it primarily occupied. It saw "Macedonia" as its own national and ethnic identity, not a territorial claim on Greece.
+          </p>
+        </div>
+      </div>
+
+      <div class="h050-reveal">
+        <strong>The border on the map never moved. The name attached to it did.</strong>
+        Greece blocked the country's UN membership under its chosen name in 1993 (it was admitted under the placeholder "the former Yugoslav Republic of Macedonia") and later blocked its NATO accession in 2008 over the same dispute. The 2018 Prespa Agreement between the two governments settled it: the country would be called the Republic of North Macedonia, in exchange for Greece dropping its objections. The rename took effect on 12 February 2019, and the country joined NATO the following year.
+      </div>
+
+      <div class="h050-principle">
+        <strong>Hanten Principle: Most disputed labels on a map don't get a tidy ending — this one did.</strong><br>
+        Compared with the rest of this series, North Macedonia is the exception that proves the rule: a name dispute is a political choice, not a fixed fact — which means it can also be un-chosen.
+      </div>
+
+      <div class="h050-source">
+        Source basis: the Prespa Agreement (17 June 2018, Greece–Republic of Macedonia); UN General Assembly admission record (1993, as "the former Yugoslav Republic of Macedonia"); NATO accession record (27 March 2020). Country shapes: Natural Earth.
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/geodata/countries.js"></script>
+
+<script>
+  const feats = COUNTRIES_GEOJSON.features;
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    return {
+      type: "Feature",
+      geometry: { type: "Polygon", coordinates: [[[lon0, lat0], [lon0, lat1], [lon1, lat1], [lon1, lat0], [lon0, lat0]]] },
+    };
+  }
+
+  const CROP = [18.5, 38.8, 26.8, 43.6];
+  const smoothLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
+
+  const LAND_CLASS = { "North Macedonia": "land-mk", "Greece": "land-gr" };
+
+  const COUNTRY_LABELS = [
+    { name: "GREECE", lon: 22.3, lat: 39.8 },
+    { name: "ALBANIA", lon: 20.05, lat: 41.15 },
+    { name: "BULGARIA", lon: 25.2, lat: 42.75 },
+    { name: "KOSOVO", lon: 20.85, lat: 42.65 },
+    { name: "SERBIA", lon: 21.3, lat: 43.85 },
+  ];
+
+  function drawPanel(svgId, width, height, dashBorder, mkLabel) {
+    const svg = d3.select(svgId).attr("viewBox", `0 0 ${width} ${height}`);
+    const projection = d3.geoMercator().fitSize([width, height], bboxFeature(...CROP));
+    const path = d3.geoPath(projection);
+
+    svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+
+    function smoothLandPath(feature) {
+      const geom = feature.geometry;
+      if (!geom) return "";
+      const polys = geom.type === "MultiPolygon" ? geom.coordinates : [geom.coordinates];
+      return polys.map(poly => poly.map(ring => {
+        const pts = ring.map(pt => projection(pt)).filter(Boolean);
+        return pts.length >= 3 ? smoothLine(pts) : "";
+      }).join(" ")).join(" ");
+    }
+
+    const visibleFeats = feats.filter(f => {
+      const [[lo0, la0], [lo1, la1]] = d3.geoBounds(f);
+      return lo0 <= CROP[2] + 5 && lo1 >= CROP[0] - 5 && la0 <= CROP[3] + 5 && la1 >= CROP[1] - 5;
+    });
+
+    svg.append("g")
+      .selectAll("path")
+      .data(visibleFeats)
+      .join("path")
+      .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
+      .attr("d", smoothLandPath)
+      .attr("stroke-dasharray", d => (dashBorder && d.properties.NAME === "North Macedonia") ? "3,2" : null);
+
+    COUNTRY_LABELS.forEach(l => {
+      const [x, y] = projection([l.lon, l.lat]);
+      svg.append("text").attr("class", "country-label").attr("x", x).attr("y", y).text(l.name);
+    });
+
+    const mk = feats.find(f => f.properties.NAME === "North Macedonia");
+    if (mk) {
+      const [x, y] = projection(d3.geoCentroid(mk));
+      svg.append("text")
+        .attr("class", "country-label")
+        .attr("x", x).attr("y", y - 8)
+        .style("font-size", "9.5px")
+        .style("fill", "var(--h050-mk)")
+        .text(mkLabel);
+    }
+  }
+
+  drawPanel("#map-before", 320, 320, true, "MACEDONIA (FYROM)");
+  drawPanel("#map-after", 320, 320, false, "NORTH MACEDONIA");
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "Was it Macedonia, or North Macedonia?",
+    filename: "hanten-H050-north-macedonia.png"
+  });
+</script>
+
+</body>
+</html>

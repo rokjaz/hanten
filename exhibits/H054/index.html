@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H054 — The Missing Bullet Holes</title>
+
+    <meta
+        name="description"
+        content="WWII engineers wanted to armor where returning bombers were hit. A statistician argued the opposite — armor where they weren't, because planes hit there never made it back."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H054-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h054-damage: #a3392b;
+            --h054-armor: var(--hanten-accent);
+        }
+
+        .h054-diagrams {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.9rem;
+        }
+
+        @media (max-width: 720px) {
+            .h054-diagrams {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .h054-card {
+            padding: 1.1rem 1.1rem 0.9rem;
+        }
+
+        .h054-card-label {
+            margin: 0 0 0.7rem;
+            font-family: var(--hanten-font);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+
+        .h054-card svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h054-legend {
+            margin-top: 0.7rem;
+            display: flex;
+            justify-content: center;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+
+        .h054-legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .h054-swatch {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .h054-note {
+            max-width: var(--hanten-text-width);
+            margin: 0.8rem auto 0;
+            text-align: center;
+            font-size: 0.8rem;
+            font-style: italic;
+            color: var(--hanten-muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            Where should you armor the bomber — where the bullet holes are, or where they aren't?
+        </h1>
+
+        <p class="hanten-subtitle">
+            In 1943, engineers mapped the damage on bombers that made it home. A statistician named
+            Abraham Wald looked at the same map and reached the opposite conclusion.
+        </p>
+
+        <div id="h054-capture">
+
+            <div class="hanten-graphic">
+                <div class="h054-diagrams">
+                    <div class="hanten-panel h054-card">
+                        <p class="h054-card-label">What the military saw: damage on planes that came home</p>
+                        <svg viewBox="0 0 600 320" id="h054-plane-damage" role="img" aria-labelledby="h054-damage-title">
+                            <title id="h054-damage-title">Bullet holes clustered on the wingtips, rear fuselage, and tail of returning bombers</title>
+                        </svg>
+                        <div class="h054-legend">
+                            <span><span class="h054-swatch" style="background:var(--h054-damage)"></span>Bullet holes found on returning planes</span>
+                        </div>
+                    </div>
+
+                    <div class="hanten-panel h054-card">
+                        <p class="h054-card-label">What Wald recommended: armor where the holes weren't</p>
+                        <svg viewBox="0 0 600 320" id="h054-plane-armor" role="img" aria-labelledby="h054-armor-title">
+                            <title id="h054-armor-title">Recommended armor placed on the engines, cockpit, and front fuselage — areas nearly undamaged among returning planes</title>
+                        </svg>
+                        <div class="h054-legend">
+                            <span><span class="h054-swatch" style="background:var(--h054-armor)"></span>Reinforced: engines, cockpit, fuel system</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="h054-note">Diagram is a stylized schematic in the style of Wald's original figure, not a specific aircraft's blueprint.</p>
+            </div>
+
+            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">The missing data was the whole answer</h2>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
+                Every plane the military could inspect had already survived its damage. A hole in the wing or tail was
+                evidence that a plane <em>could</em> take a hit there and still fly home. The spots with almost no
+                holes — the engines, the cockpit, the fuel system — weren't lucky. Planes hit there went down and
+                never made it back to be counted.
+            </p>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
+                Wald, working for Columbia's Statistical Research Group, told the Navy to armor the
+                <strong>undamaged</strong> areas on returning planes, not the damaged ones. His recommendation was
+                adopted and is credited with saving many aircrews.
+            </p>
+
+            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
+                <p class="hanten-takeaway" style="margin:0;">
+                    The safest-looking spots on the chart were actually the most dangerous ones — because a
+                    dataset built entirely from survivors can't show you what killed everyone else.
+                </p>
+            </div>
+
+            <p class="hanten-reflection">
+                Before trusting a pattern, what had to survive in order to be counted in it?
+            </p>
+
+            <p class="hanten-source">
+                Sources: Abraham Wald, Columbia University Statistical Research Group, WWII aircraft vulnerability
+                analysis (1943). Account per AMS's "The Legend of Abraham Wald" (Feature Column) and War History
+                Online. Damage clusters (wingtips, rear fuselage, tail) and recommended reinforcement zones
+                (engines, cockpit, fuel system) reflect the widely cited account of Wald's analysis; the diagram
+                itself is illustrative, not a reproduction of Wald's original data.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script>
+        (() => {
+            function mulberry32(seed) {
+                return function () {
+                    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+                    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+                    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+                    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+                };
+            }
+            const rand = mulberry32(42);
+
+            function planeSVG() {
+                return `
+                    <rect x="120" y="142" width="440" height="36" rx="18" fill="var(--hanten-border-soft)"/>
+                    <polygon points="220,142 320,142 360,30 260,30" fill="var(--hanten-border-soft)"/>
+                    <polygon points="220,178 320,178 360,290 260,290" fill="var(--hanten-border-soft)"/>
+                    <polygon points="460,142 500,142 518,92 482,92" fill="var(--hanten-border-soft)"/>
+                    <polygon points="460,178 500,178 518,228 482,228" fill="var(--hanten-border-soft)"/>
+                    <ellipse cx="150" cy="160" rx="16" ry="12" fill="var(--hanten-panel)" stroke="var(--hanten-muted)" stroke-width="1"/>
+                    <circle cx="270" cy="108" r="11" fill="var(--hanten-panel)" stroke="var(--hanten-muted)" stroke-width="1"/>
+                    <circle cx="325" cy="55" r="11" fill="var(--hanten-panel)" stroke="var(--hanten-muted)" stroke-width="1"/>
+                    <circle cx="270" cy="212" r="11" fill="var(--hanten-panel)" stroke="var(--hanten-muted)" stroke-width="1"/>
+                    <circle cx="325" cy="265" r="11" fill="var(--hanten-panel)" stroke="var(--hanten-muted)" stroke-width="1"/>
+                `;
+            }
+
+            function dotsInRect(x0, y0, x1, y1, n, color, r) {
+                let s = "";
+                for (let i = 0; i < n; i++) {
+                    const x = x0 + rand() * (x1 - x0);
+                    const y = y0 + rand() * (y1 - y0);
+                    s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${color}" opacity="0.85"/>`;
+                }
+                return s;
+            }
+
+            const damageZones = [
+                [255, 25, 365, 90],
+                [255, 230, 365, 295],
+                [345, 144, 458, 176],
+                [462, 88, 522, 142],
+                [462, 178, 522, 232],
+            ];
+
+            const damageEl = document.getElementById("h054-plane-damage");
+            let damageDots = "";
+            damageZones.forEach(z => damageDots += dotsInRect(z[0], z[1], z[2], z[3], 11, "var(--h054-damage)", 3.4));
+            damageEl.innerHTML = planeSVG() + damageDots;
+
+            const armorEl = document.getElementById("h054-plane-armor");
+            const armorHighlights = `
+                <ellipse cx="150" cy="160" rx="20" ry="15" fill="none" stroke="var(--h054-armor)" stroke-width="4"/>
+                <ellipse cx="215" cy="160" rx="30" ry="16" fill="none" stroke="var(--h054-armor)" stroke-width="4"/>
+                <circle cx="270" cy="108" r="15" fill="none" stroke="var(--h054-armor)" stroke-width="4"/>
+                <circle cx="325" cy="55" r="15" fill="none" stroke="var(--h054-armor)" stroke-width="4"/>
+                <circle cx="270" cy="212" r="15" fill="none" stroke="var(--h054-armor)" stroke-width="4"/>
+                <circle cx="325" cy="265" r="15" fill="none" stroke="var(--h054-armor)" stroke-width="4"/>
+            `;
+            armorEl.innerHTML = planeSVG() + armorHighlights;
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "Where should you armor the bomber — where the bullet holes are, or where they aren't?",
+            filename: "H054-survivorship-bias.png"
+        });
+    </script>
+
+</body>
+</html>

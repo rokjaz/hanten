@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H046 — Why Does the Shortest Flight Curve Over the Arctic?</title>
+<meta name="description" content="The shortest flight path from New York to Beijing runs up near the North Pole, not straight across the Pacific — because a flat map bends the truth about distance.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+    :root {
+        --h046-land: #d6dbd0;
+        --h046-land-line: #b9c0b2;
+        --h046-ocean: #cde3ee;
+        --h046-route: #c1442d;
+        --h046-city: #0e7c86;
+    }
+
+    .h046-wrap {
+        width: min(100%, 900px);
+        margin: 0 auto;
+    }
+
+    .h046-panels {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.9rem;
+    }
+
+    .h046-card {
+        padding: 0.9rem 0.95rem 0.8rem;
+    }
+
+    .h046-card-label {
+        margin: 0 0 0.6rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--hanten-muted);
+    }
+
+    .h046-map {
+        display: block;
+        width: 100%;
+        height: auto;
+        background: var(--hanten-paper);
+    }
+
+    .ocean { fill: var(--h046-ocean); }
+    .land { fill: var(--h046-land); stroke: var(--h046-land-line); stroke-width: 0.5; }
+    .graticule { fill: none; stroke: var(--h046-land-line); stroke-width: 0.4; stroke-opacity: 0.6; }
+    .gc-route { fill: none; stroke: var(--h046-route); stroke-width: 2.4; stroke-linecap: round; }
+    .gc-city { fill: var(--h046-city); stroke: #fff; stroke-width: 1; }
+    .gc-city-label {
+        font-family: var(--hanten-font);
+        font-size: 11.5px;
+        font-weight: 700;
+        fill: var(--hanten-text);
+        paint-order: stroke;
+        stroke: #fff;
+        stroke-width: 3px;
+    }
+
+    .h046-schematic-note {
+        margin-top: 0.6rem;
+        font-size: 0.83rem;
+        color: var(--hanten-muted);
+    }
+
+    @media (max-width: 700px) {
+        .h046-panels {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            Why does the shortest flight from New York to Beijing curve over the Arctic?
+        </h1>
+
+        <p class="hanten-subtitle">
+            A straight line across the Pacific looks like the obvious route. It isn't — the true
+            shortest path curves up near the North Pole, the same great-circle math a flight's autopilot uses.
+        </p>
+
+        <div class="hanten-graphic">
+            <section id="h046-capture">
+
+                <div class="h046-wrap">
+                    <div class="h046-panels">
+
+                        <div class="h046-card hanten-panel">
+                            <p class="h046-card-label">Flat map — looks absurd</p>
+                            <svg
+                                id="h046-map-flat"
+                                class="h046-map"
+                                viewBox="0 0 420 260"
+                                role="img"
+                                aria-label="The great-circle path from New York to Beijing plotted on a flat map, bulging toward the pole and appearing to exit one edge and re-enter on the other"
+                            ></svg>
+                            <p class="h046-schematic-note">
+                                Both legs of the route arc up toward the North Pole — a detour that looks
+                                unnecessary until you see the same path from above.
+                            </p>
+                        </div>
+
+                        <div class="h046-card hanten-panel">
+                            <p class="h046-card-label">Polar view — looks direct</p>
+                            <svg
+                                id="h046-map-polar"
+                                class="h046-map"
+                                viewBox="0 0 420 260"
+                                role="img"
+                                aria-label="The same great-circle path viewed from above the North Pole, showing a smooth, nearly direct arc"
+                            ></svg>
+                            <p class="h046-schematic-note">
+                                Viewed from above the pole, the same route is almost a straight line —
+                                passing within about 6° latitude of the pole itself.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="hanten-takeaway-box" style="margin-top: 1rem; padding: 1rem 1.15rem;">
+                    <p class="hanten-takeaway" style="margin: 0 0 0.5rem;">
+                        Great-circle distance beats "straight" on a flat map, every time.
+                    </p>
+                    <p class="hanten-body" style="margin: 0; font-weight: 400; color: var(--hanten-muted);">
+                        New York and Beijing sit at nearly the same latitude (about 40°N), so a flat map
+                        suggests flying due west, straight across the Pacific — roughly 11,700 km. The actual
+                        shortest path, the great circle, runs up over Canada, the Arctic, and Siberia, peaking
+                        around 84°N, and covers only about <strong style="color: var(--hanten-text);">11,000 km</strong>.
+                        Any map projected onto a flat rectangle distorts something — common world-map projections
+                        distort it in exactly the way that makes polar shortcuts look like detours.
+                    </p>
+                </div>
+
+                <p class="hanten-reflection">
+                    "Looks direct" is a property of the map, not of the distance.
+                </p>
+
+                <p class="hanten-source">
+                    Sources: great-circle path computed via spherical interpolation between JFK (40.64°N, 73.78°W)
+                    and PEK (40.08°N, 116.58°E); computed distance ≈10,980 km, closely matching the published
+                    great-circle distance of 11,004 km (Air Miles Calculator) — the small gap is airport-to-airport
+                    vs. city-center coordinates. Real long-haul polar routings (e.g. historical JFK–PEK service)
+                    have flown a similar corridor over Siberia, the Bering Sea, Alaska, and Hudson Bay, per Great
+                    Circle Mapper routing notes. Country shapes: Natural Earth.
+                </p>
+
+            </section>
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/d3.v7.min.js"></script>
+    <script src="../../assets/geodata/countries.js"></script>
+
+    <script>
+        (() => {
+            const feats = COUNTRIES_GEOJSON.features;
+            const NY = [-73.78, 40.64];
+            const PEK = [116.58, 40.08];
+
+            const interpolate = d3.geoInterpolate(NY, PEK);
+            const routeCoords = d3.range(0, 1.0001, 0.01).map(t => interpolate(t));
+            const routeLine = { type: "LineString", coordinates: routeCoords };
+
+            function drawCities(svg, path) {
+                [
+                    { pt: NY, label: "New York", dx: 8, dy: -8, anchor: "start" },
+                    { pt: PEK, label: "Beijing", dx: 8, dy: -8, anchor: "start" }
+                ].forEach(c => {
+                    const p = path.projection()(c.pt);
+                    if (!p) return;
+                    svg.append("circle")
+                        .attr("class", "gc-city")
+                        .attr("cx", p[0]).attr("cy", p[1]).attr("r", 3.6);
+                    svg.append("text")
+                        .attr("class", "gc-city-label")
+                        .attr("x", p[0] + c.dx).attr("y", p[1] + c.dy)
+                        .attr("text-anchor", c.anchor)
+                        .text(c.label);
+                });
+            }
+
+            // Panel 1: flat equirectangular map
+            (function flatMap() {
+                const width = 420, height = 260;
+                const svg = d3.select("#h046-map-flat").attr("viewBox", `0 0 ${width} ${height}`);
+                const projection = d3.geoEquirectangular().fitSize([width, height], { type: "Sphere" });
+                const path = d3.geoPath(projection);
+
+                svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+                svg.append("g").selectAll("path").data(feats).join("path")
+                    .attr("class", "land").attr("d", path);
+                svg.append("path").datum(routeLine).attr("class", "gc-route").attr("d", path);
+
+                drawCities(svg, path);
+            })();
+
+            // Panel 2: polar azimuthal-equidistant map, centered on the North Pole
+            (function polarMap() {
+                const width = 420, height = 260;
+                const svg = d3.select("#h046-map-polar").attr("viewBox", `0 0 ${width} ${height}`);
+
+                const cap = d3.geoCircle().center([0, 90]).radius(66)();
+                const projection = d3.geoAzimuthalEquidistant()
+                    .rotate([0, -90])
+                    .clipAngle(66)
+                    .fitSize([width, height], cap);
+                const path = d3.geoPath(projection);
+
+                svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+
+                const graticule = d3.geoGraticule().step([30, 15]);
+                svg.append("path").datum(graticule()).attr("class", "graticule").attr("d", path);
+
+                svg.append("g").selectAll("path").data(feats).join("path")
+                    .attr("class", "land").attr("d", path);
+                svg.append("path").datum(routeLine).attr("class", "gc-route").attr("d", path);
+
+                drawCities(svg, path);
+            })();
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "Why does the shortest flight from New York to Beijing curve over the Arctic?",
+            filename: "H046-great-circle-flight-paths.png"
+        });
+    </script>
+
+</body>
+</html>

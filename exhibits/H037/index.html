@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H037 — Crimea Dispute</title>
+<meta name="description" content="Crimea can appear differently depending on the map: integrated with Russia, shown within Ukraine, or marked with a disputed boundary.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h037-ink: #1c2733;
+    --h037-muted: #4a5a6b;
+    --h037-line: rgba(28,39,51,0.14);
+    --h037-accent: #0e7c86;
+    --h037-accent-soft: rgba(14,124,134,0.12);
+    --h037-panel: #ffffff;
+    --h037-land: #d6dbd0;
+    --h037-land-line: #b9c0b2;
+    --h037-ocean: #cde3ee;
+    --h037-russia: #a13d3d;
+    --h037-russia-soft: #e3a49c;
+    --h037-ukraine: #3b6ea3;
+    --h037-ukraine-soft: #b7c9dc;
+  }
+
+  body { background: var(--hanten-paper, #f4f3ef); }
+
+  main.hanten-exhibit {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  main.hanten-exhibit > .hanten-question,
+  main.hanten-exhibit > .hanten-subtitle {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .h037-shell {
+    width: min(100%, 860px);
+    margin: 0 auto;
+  }
+
+  #h037-maps-wrap {
+    background: var(--h037-panel);
+    border: 1px solid var(--h037-line);
+    padding: .45rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: .55rem;
+  }
+
+  .h037-map-col { text-align: center; }
+
+  .h037-map {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--h037-line);
+    background: var(--hanten-paper, #f4f3ef);
+  }
+
+  .h037-map-label {
+    margin-top: .55rem;
+    color: var(--h037-muted);
+    font: 700 .76rem/1.35 var(--hanten-font);
+    
+  }
+
+  .ocean {
+    fill: var(--h037-ocean);
+    stroke: var(--h037-line);
+    stroke-width: .8;
+  }
+
+  .land {
+    fill: var(--h037-land);
+    stroke: var(--h037-land-line);
+    stroke-width: .5;
+  }
+
+  .land-russia {
+    fill: var(--h037-russia-soft);
+    stroke: var(--h037-russia);
+    stroke-width: .6;
+  }
+
+  .land-ukraine {
+    fill: var(--h037-ukraine-soft);
+    stroke: var(--h037-ukraine);
+    stroke-width: .6;
+  }
+
+  .country-label {
+    font-family: var(--hanten-font);
+    font-size: 10px;
+    font-weight: 700;
+    text-anchor: middle;
+    fill: var(--h037-ink);
+    
+  }
+
+  .city-dot {
+    fill: var(--h037-ink);
+    stroke: #fff;
+    stroke-width: .8;
+  }
+
+  .city-label {
+    font-family: var(--hanten-font);
+    font-size: 8px;
+    font-weight: 700;
+    fill: var(--h037-ink);
+    
+  }
+
+  .h037-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+
+  .h037-card {
+    background: var(--h037-panel);
+    border: 1px solid var(--h037-line);
+    border-top: 4px solid var(--card-color);
+    padding: 1.05rem 1.15rem;
+  }
+
+  .h037-card .who {
+    margin-bottom: .4rem;
+    color: var(--h037-muted);
+    font: 700 .76rem/1.35 var(--hanten-font);
+    
+  }
+
+  .h037-card h2 {
+    margin: 0 0 .45rem;
+    color: var(--h037-ink);
+    font-family: var(--hanten-font);
+    font-size: 1.25rem;
+  }
+
+  .h037-card p {
+    margin: 0;
+    color: var(--h037-muted);
+    font-size: .86rem;
+    line-height: 1.55;
+  }
+
+  .h037-reveal {
+    max-width: 840px;
+    margin: 1.35rem auto 0;
+    padding: 1rem 1.1rem;
+    background: var(--h037-accent-soft);
+    border-left: 3px solid var(--h037-accent);
+    color: var(--h037-muted);
+    font-size: .95rem;
+    line-height: 1.6;
+  }
+
+  .h037-reveal strong { color: var(--h037-ink); }
+
+  .h037-principle {
+    max-width: 840px;
+    margin: 1.05rem auto 0;
+    padding-top: .9rem;
+    border-top: 1px solid var(--h037-line);
+    color: var(--h037-muted);
+    font-size: .9rem;
+    line-height: 1.55;
+  }
+
+  .h037-principle strong { color: var(--h037-ink); }
+
+  .h037-source {
+    max-width: 860px;
+    margin: .9rem auto 0;
+    text-align: center;
+    color: #7b838a;
+    font-size: .7rem;
+    line-height: 1.45;
+  }
+
+  #save-image-slot {
+    max-width: 960px;
+    margin: .55rem auto .75rem;
+    text-align: right;
+  }
+
+  @media (max-width: 780px) {
+    #h037-maps-wrap,
+    .h037-cards { grid-template-columns: 1fr; }
+
+    .h037-map-col {
+      width: min(100%, 360px);
+      margin: 0 auto;
+    }
+  }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">Whose country is Crimea on the map?</h1>
+
+  <p class="hanten-subtitle">
+    The same peninsula can be drawn three different ways depending on what the boundary is meant to represent.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h037-shell">
+
+      <div id="h037-maps-wrap">
+        <div class="h037-map-col">
+          <svg class="h037-map" id="map-russia" viewBox="0 0 210 190" role="img"
+            aria-label="Crimea shown as integrated with Russia"></svg>
+          <div class="h037-map-label">As shown in Russia</div>
+        </div>
+
+        <div class="h037-map-col">
+          <svg class="h037-map" id="map-ukraine" viewBox="0 0 210 190" role="img"
+            aria-label="Crimea shown as part of Ukraine without an internal border"></svg>
+          <div class="h037-map-label">As shown in Ukraine</div>
+        </div>
+
+        <div class="h037-map-col">
+          <svg class="h037-map" id="map-global" viewBox="0 0 210 190" role="img"
+            aria-label="Crimea shown with a dashed disputed boundary"></svg>
+          <div class="h037-map-label">Common international treatment</div>
+        </div>
+      </div>
+
+      <div class="h037-cards">
+        <div class="h037-card" style="--card-color: var(--h037-russia)">
+          <div class="who">Russian-map treatment</div>
+          <h2>Fully integrated</h2>
+          <p>
+            The original exhibit says Russian government maps show Crimea with the same ordinary treatment as Russian territory, without a special disputed boundary.
+          </p>
+        </div>
+
+        <div class="h037-card" style="--card-color: var(--h037-ukraine)">
+          <div class="who">Ukrainian-map treatment</div>
+          <h2>Part of Ukraine</h2>
+          <p>
+            The original exhibit says Ukrainian maps do not draw a national boundary separating Crimea from the rest of Ukraine, reflecting Ukraine’s claim to the peninsula.
+          </p>
+        </div>
+
+        <div class="h037-card" style="--card-color: var(--h037-muted)">
+          <div class="who">International-map treatment</div>
+          <h2>Dashed or disputed</h2>
+          <p>
+            The original exhibit says many international maps use a dashed or otherwise distinct boundary to show the gap between territorial recognition and on-the-ground administration.
+          </p>
+        </div>
+      </div>
+
+      <div class="h037-reveal">
+        <strong>The coastline does not change. The meaning of the boundary does.</strong>
+        Crimea is internationally recognized as part of Ukraine, while Russia has controlled and administered the peninsula since 2014.
+        A map must decide whether its line is showing legal recognition, a territorial claim, or control on the ground.
+      </div>
+
+      <p class="hanten-reflection">
+        When a disputed border appears on a map, what kind of fact is the line actually showing?
+      </p>
+
+      <div class="h037-source">
+        Source basis preserved from the original H037 exhibit: UN General Assembly Resolution 68/262 (2014);
+        Russian Federal State Statistics Service regional listings; Ukrainian State Geocadastre.
+        Country shapes: Natural Earth 1:10m, stored locally in Hanten Shared Assets. Crimea outline: geoBoundaries Ukraine ADM1, simplified in the original exhibit.
+      </div>
+
+      <div class="hanten-utility"><div id="save-image-slot"></div></div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/geodata/world/countries-10m.js"></script>
+
+<script>
+  const feats = COUNTRIES_10M_GEOJSON.features;
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    return {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [[[lon0, lat0], [lon0, lat1], [lon1, lat1], [lon1, lat0], [lon0, lat0]]]
+      }
+    };
+  }
+
+  const CRIMEA_RING = [[33.618,44.21],[33.295,44.335],[33.11,44.506],[33.106,44.645],[33.246,44.763],[33.295,44.941],[33.011,45.015],[32.831,45.151],[32.572,45.118],[32.362,45.171],[32.263,45.238],[32.203,45.425],[32.309,45.586],[32.773,45.827],[33.541,46.012],[33.591,46.061],[33.572,46.103],[33.641,46.142],[33.615,46.226],[33.646,46.23],[33.74,46.185],[33.849,46.2],[34.184,46.067],[34.34,46.058],[34.476,45.944],[34.561,45.994],[34.629,45.986],[34.802,45.901],[34.799,45.81],[34.96,45.757],[35.233,45.792],[35.575,45.49],[35.65,45.593],[35.785,45.643],[35.982,45.617],[36.339,45.672],[36.668,45.627],[36.664,45.36],[36.53,45.199],[36.61,44.941],[36.543,44.891],[36.256,44.822],[35.86,44.793],[35.632,44.849],[35.177,44.597],[34.736,44.585],[34.541,44.395],[34.238,44.232],[33.951,44.185],[33.618,44.21]];
+
+  const LAND_CLASS = {
+    Russia: "land-russia",
+    Ukraine: "land-ukraine"
+  };
+
+  const CROP = [27, 42, 42.5, 49.5];
+
+  const COUNTRY_LABELS = [
+    { name: "Ukraine", lon: 31.7, lat: 48.5 },
+    { name: "Russia", lon: 40.0, lat: 47.0 }
+  ];
+
+  const CITIES = [
+    { name: "Sevastopol", lon: 33.53, lat: 44.6, dx: -4, dy: 9, anchor: "end" },
+    { name: "Kerch", lon: 36.47, lat: 45.35, dx: -6, dy: 3, anchor: "end" }
+  ];
+
+  function drawPanel(svgId, width, height, regionFill, regionStroke, regionDash) {
+    const svg = d3.select(svgId).attr("viewBox", `0 0 ${width} ${height}`);
+    const projection = d3.geoMercator().fitSize([width, height], bboxFeature(...CROP));
+    const path = d3.geoPath(projection);
+
+    svg.append("path")
+      .datum({ type: "Sphere" })
+      .attr("class", "ocean")
+      .attr("d", path);
+
+
+    const visibleFeats = feats.filter(f => {
+      const [[lo0, la0], [lo1, la1]] = d3.geoBounds(f);
+      return lo0 <= CROP[2] + 5 &&
+             lo1 >= CROP[0] - 5 &&
+             la0 <= CROP[3] + 5 &&
+             la1 >= CROP[1] - 5;
+    });
+
+    svg.append("g")
+      .selectAll("path")
+      .data(visibleFeats)
+      .join("path")
+      .attr("class", d => "land " + (LAND_CLASS[d.properties.NAME] || ""))
+      .attr("d", path);
+
+    COUNTRY_LABELS.forEach(l => {
+      const [x, y] = projection([l.lon, l.lat]);
+      svg.append("text")
+        .attr("class", "country-label")
+        .attr("x", x)
+        .attr("y", y)
+        .text(l.name);
+    });
+
+    const crimeaFeature = {
+      type: "Feature",
+      geometry: { type: "Polygon", coordinates: [CRIMEA_RING] }
+    };
+
+    svg.append("path")
+      .datum(crimeaFeature)
+      .attr("d", path)
+      .attr("fill", regionFill)
+      .attr("stroke", regionStroke)
+      .attr("stroke-width", regionStroke === "none" ? 0 : 1.1)
+      .attr("stroke-dasharray", regionDash || null);
+
+    CITIES.forEach(c => {
+      const [x, y] = projection([c.lon, c.lat]);
+
+      svg.append("circle")
+        .attr("class", "city-dot")
+        .attr("cx", x)
+        .attr("cy", y)
+        .attr("r", 1.8);
+
+      svg.append("text")
+        .attr("class", "city-label")
+        .attr("x", x + c.dx)
+        .attr("y", y + c.dy)
+        .attr("text-anchor", c.anchor)
+        .text(c.name);
+    });
+  }
+
+  drawPanel("#map-russia", 210, 190, "var(--h037-russia-soft)", "var(--h037-russia)", null);
+  drawPanel("#map-ukraine", 210, 190, "var(--h037-ukraine-soft)", "none", null);
+  drawPanel("#map-global", 210, 190, "var(--h037-land)", "var(--h037-muted)", "3,2");
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "Whose country is Crimea on the map?",
+    filename: "H037-crimea-dispute.png"
+  });
+</script>
+
+</body>
+</html>

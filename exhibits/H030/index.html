@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H030 — Greenland vs African Countries</title>
+<meta name="description" content="Algeria and DR Congo are each larger than Greenland, while Sudan and Libya are only slightly smaller.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h030-ink: #17212b;
+    --h030-muted: #68717a;
+    --h030-line: rgba(23,33,43,.13);
+    --h030-accent: #0e7c86;
+    --h030-accent-soft: rgba(14,124,134,.10);
+    --h030-panel: #ffffff;
+    --h030-greenland: #1f6f8b;
+    --h030-algeria: #c98a23;
+    --h030-congo: #2f7d5c;
+    --h030-sudan: #c1442d;
+    --h030-libya: #6b4fa0;
+  }
+
+  .h030-shell {
+    width: min(100%, 900px);
+    margin: 0 auto;
+  }
+
+  .h030-panels {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: .55rem;
+    align-items: stretch;
+  }
+
+  .h030-col {
+    min-width: 0;
+    background: var(--hanten-paper);
+    border: 1px solid var(--h030-line);
+    border-top: 3px solid transparent;
+    padding: .65rem .45rem .6rem;
+    text-align: center;
+  }
+
+  .h030-col.mid {
+    border-top-color: var(--h030-greenland);
+  }
+
+  .h030-col h2 {
+    margin: 0 0 .35rem;
+    color: var(--h030-ink);
+    font-family: ui-serif, Georgia, serif;
+    font-size: .98rem;
+    line-height: 1.15;
+  }
+
+  .h030-col svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .h030-stat {
+    margin-top: .35rem;
+    color: var(--h030-muted);
+    font: 600 .68rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+
+  .h030-shape {
+    stroke: #ffffff;
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .h030-tally {
+    width: min(100%, 760px);
+    border-collapse: collapse;
+    margin: .7rem auto 0;
+    font-size: .8rem;
+  }
+
+  .h030-tally td {
+    padding: .32rem .5rem;
+    border-bottom: 1px solid var(--h030-line);
+  }
+
+  .h030-tally td:nth-child(2),
+  .h030-tally td:nth-child(3) {
+    text-align: right;
+    white-space: nowrap;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+
+  .h030-tally td:nth-child(3) {
+    color: var(--h030-muted);
+    font-size: .8rem;
+  }
+
+  .h030-tally .reference td {
+    font-weight: 800;
+  }
+
+  .h030-swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: .5rem;
+    vertical-align: .02em;
+  }
+
+  .h030-reveal {
+    max-width: 760px;
+    margin: .75rem auto 0;
+    padding: .15rem 0 .15rem 1rem;
+    border-left: 3px solid var(--hanten-accent);
+    color: var(--hanten-text);
+    font-size: .95rem;
+    line-height: 1.45;
+  }
+
+  .h030-explore {
+    max-width: 760px;
+    margin: .7rem auto 0;
+    padding: .55rem 0;
+    border-top: 1px solid var(--hanten-border);
+    border-bottom: 1px solid var(--hanten-border);
+    color: var(--hanten-muted);
+    font-size: .8rem;
+    line-height: 1.45;
+  }
+
+  .h030-explore summary {
+    cursor: pointer;
+    font-weight: 750;
+    color: var(--hanten-text);
+  }
+
+  .h030-explore-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: .65rem;
+  }
+
+  .h030-explore h3 {
+    margin: 0 0 .3rem;
+    color: var(--hanten-text);
+    font-size: .8rem;
+  }
+
+  .h030-explore p {
+    margin: 0;
+  }
+
+  .h030-companion-link {
+    color: var(--hanten-accent);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .h030-companion-link:hover {
+    text-decoration: underline;
+  }
+
+  .h030-source {
+    max-width: 840px;
+    margin: .9rem auto 0;
+    text-align: center;
+    color: #7b838a;
+    font-size: .7rem;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 760px) {
+    .h030-panels {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .h030-col.mid {
+      grid-column: 1 / -1;
+      width: min(52%, 240px);
+      justify-self: center;
+      order: -1;
+    }
+  }
+
+  @media (max-width: 470px) {
+    .h030-panels {
+      grid-template-columns: 1fr;
+    }
+
+    .h030-col.mid {
+      width: 100%;
+    }
+
+    .h030-explore-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .h030-tally {
+      font-size: .78rem;
+    }
+
+    .h030-tally td {
+      padding-left: .35rem;
+      padding-right: .35rem;
+    }
+  }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">
+    How big is Greenland compared with Africa's largest countries?
+  </h1>
+
+  <p class="hanten-subtitle">
+    Put five land areas at the same equal-area scale.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h030-shell">
+
+      <div class="h030-panels" id="h030-capture"></div>
+
+      <table class="h030-tally" aria-label="Area comparison with Greenland">
+        <tbody id="h030-tally-body"></tbody>
+      </table>
+
+      <div class="h030-reveal">
+        <strong>Greenland lands almost exactly in the middle.</strong><br>
+        Algeria and DR Congo are each larger than Greenland, while Sudan and Libya are only modestly smaller.
+    </div>
+
+      <p class="hanten-reflection">
+        How much of what feels “large” comes from geography — and how much comes from the map we are used to seeing?
+      </p>
+
+      <details class="h030-explore">
+        <summary>Explore the comparison</summary>
+        <div class="h030-explore-grid">
+          <section>
+            <h3>The differences are smaller than they feel</h3>
+            <p>
+              Algeria is about 10% larger than Greenland and DR Congo about 8% larger.
+              Greenland is about 16% larger than Sudan and 23% larger than Libya.
+            </p>
+          </section>
+          <section>
+            <h3>See the opposite comparison</h3>
+            <p>
+              <a class="h030-companion-link" href="../H023/index.html">
+                H023 — Africa Is 14 Greenlands
+              </a>
+              asks the same projection question from the continental scale.
+            </p>
+          </section>
+        </div>
+      </details>
+
+      <div class="h030-source">
+        Source basis from the original H030 exhibit: areas attributed there to the CIA World Factbook.
+        Country shapes: Natural Earth; Greenland uses the dedicated Hanten 1:10m Natural Earth geometry. Each country is rendered with its own azimuthal equal-area projection,
+        centered on itself, while reusing one identical scale so the silhouettes are directly comparable.
+      </div>
+
+      <div class="hanten-utility">
+        <div id="save-image-slot"></div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/geodata/countries.js"></script>
+<script src="../../assets/geodata/countries/greenland-10m.js"></script>
+
+<script>
+(() => {
+  "use strict";
+
+  const width = 150;
+  const height = 210;
+  const features = COUNTRIES_GEOJSON.features;
+  const byName = name =>
+    name === "Greenland"
+      ? GREENLAND_10M
+      : features.find(feature => feature.properties.NAME === name);
+
+  const GREENLAND_AREA = 2166086;
+
+  const ITEMS = [
+    { name: "Algeria", label: "Algeria", area: 2381741, color: "#c98a23" },
+    { name: "Dem. Rep. Congo", label: "DR Congo", area: 2344858, color: "#2f7d5c" },
+    { name: "Greenland", label: "Greenland", area: GREENLAND_AREA, color: "#1f6f8b", mid: true },
+    { name: "Sudan", label: "Sudan", area: 1861484, color: "#c1442d" },
+    { name: "Libya", label: "Libya", area: 1759540, color: "#6b4fa0" }
+  ];
+
+  const biggest = byName("Algeria");
+  const biggestCenter = d3.geoCentroid(biggest);
+
+  const SCALE = d3.geoAzimuthalEqualArea()
+    .rotate([-biggestCenter[0], -biggestCenter[1]])
+    .fitSize([width * .85, height * .85], biggest)
+    .scale();
+
+  function projectionFor(feature) {
+    const center = d3.geoCentroid(feature);
+
+    return d3.geoAzimuthalEqualArea()
+      .rotate([-center[0], -center[1]])
+      .scale(SCALE)
+      .translate([width / 2, height / 2]);
+  }
+
+  const panels = document.getElementById("h030-capture");
+
+  ITEMS.forEach(item => {
+    const feature = byName(item.name);
+
+    if (!feature) {
+      console.warn("H030: missing country feature:", item.name);
+      return;
+    }
+
+    const stat = item.mid
+      ? `${(item.area / 1e6).toFixed(2)}M km²`
+      : (() => {
+          const pct = Math.round((item.area / GREENLAND_AREA - 1) * 100);
+          return `${(item.area / 1e6).toFixed(2)}M km² · ${pct >= 0 ? "+" + pct : pct}% vs. Greenland`;
+        })();
+
+    const col = document.createElement("section");
+    col.className = "h030-col" + (item.mid ? " mid" : "");
+    col.innerHTML = `
+      <h2>${item.label}</h2>
+      <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${item.label} at equal-area scale"></svg>
+      <div class="h030-stat">${stat}</div>
+    `;
+    panels.appendChild(col);
+
+    d3.select(col.querySelector("svg"))
+      .append("path")
+      .datum(feature)
+      .attr("class", "h030-shape")
+      .attr("fill", item.color)
+      .attr("d", d3.geoPath(projectionFor(feature)));
+  });
+
+  const tbody = document.getElementById("h030-tally-body");
+
+  ITEMS.forEach(item => {
+    const pct = Math.round((item.area / GREENLAND_AREA - 1) * 100);
+    const diff = item.mid ? "reference" : (pct >= 0 ? `+${pct}%` : `${pct}%`);
+
+    const row = document.createElement("tr");
+    if (item.mid) row.className = "reference";
+
+    row.innerHTML = `
+      <td><span class="h030-swatch" style="background:${item.color}"></span>${item.label}</td>
+      <td>${(item.area / 1e6).toFixed(2)}M km²</td>
+      <td>${diff}</td>
+    `;
+
+    tbody.appendChild(row);
+  });
+})();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+HantenSaveImage.init({
+  target: ".hanten-exhibit",
+  title: "Greenland Is Smaller Than Two African Countries",
+  filename: "H030-greenland-vs-african-countries.png"
+});
+</script>
+
+</body>
+</html>

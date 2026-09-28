@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H057 — Why "1" Wins</title>
+
+    <meta
+        name="description"
+        content="Country populations should start with each digit 1 through 9 equally often. They don't — 1 shows up six times more than 9. This is Benford's Law, computed live from real country population data."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H057-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h057-observed: var(--hanten-accent);
+            --h057-benford: #a3392b;
+        }
+
+        .h057-panel {
+            padding: 1.2rem 1.1rem 1rem;
+        }
+
+        .h057-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h057-axis-label {
+            font-family: var(--hanten-font);
+            font-size: 10.5px;
+            fill: var(--hanten-muted);
+        }
+
+        .h057-digit-label {
+            font-family: var(--hanten-font);
+            font-size: 14px;
+            font-weight: 700;
+            fill: var(--hanten-text);
+        }
+
+        .h057-pct-label {
+            font-family: var(--hanten-font);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .h057-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.4rem;
+            margin-top: 0.9rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+            flex-wrap: wrap;
+        }
+
+        .h057-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+        .h057-swatch { width: 11px; height: 11px; display: inline-block; }
+        .h057-swatch.line { width: 16px; height: 0; border-top: 2px dashed var(--h057-benford); }
+
+        .h057-caption {
+            max-width: var(--hanten-text-width);
+            margin: 0.7rem auto 0;
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--hanten-muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            Do country populations really start with each digit 1 through 9 equally often?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Take every country's population and look only at the first digit. Intuition says 1 through 9 should
+            each show up about 11% of the time.
+        </p>
+
+        <div id="h057-capture">
+
+            <div class="hanten-graphic hanten-panel h057-panel">
+                <svg viewBox="0 0 640 320" id="h057-benford-chart" role="img" aria-labelledby="h057-benford-title">
+                    <title id="h057-benford-title">Bar chart of observed leading-digit frequency in country populations against Benford's Law prediction and a flat 11.1% reference line</title>
+                </svg>
+                <div class="h057-legend">
+                    <span><span class="h057-swatch" style="background:var(--h057-observed)"></span>Observed (live count)</span>
+                    <span><span class="h057-swatch line"></span>Benford's Law prediction</span>
+                </div>
+                <p class="h057-caption" id="h057-note">Computing…</p>
+            </div>
+
+            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.3rem auto 0;">Not a quirk of population data</h2>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
+                Benford's Law predicts the frequency of leading digit <em>d</em> as log₁₀(1 + 1/d) — about 30.1%
+                for 1, dropping to just 4.6% for 9. It holds for river lengths, stock prices, physics constants,
+                electricity bills, and yes, country populations — any dataset where values span several orders
+                of magnitude (a few hundred people up to 1.4 billion, in this case) rather than clustering near
+                one size.
+            </p>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
+                The reason: to grow from 100 to 200 is to double. To grow from 900 to 1,000 is an 11% step, but
+                from 1,000 you need to more than double again just to leave the "1..." range. Numbers spend
+                longer, proportionally, with a leading 1 than a leading 9 — and accountants have used exactly
+                this pattern to catch fabricated financial data, because faked numbers tend to be much closer to
+                uniformly distributed.
+            </p>
+
+            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
+                <p class="hanten-takeaway" style="margin:0;">
+                    A number starting with 1 is about as likely as digits 5 through 9 combined.
+                </p>
+            </div>
+
+            <p class="hanten-reflection">
+                If "random" doesn't mean "uniform," what else might the shape of a process be hiding in plain sight?
+            </p>
+
+            <p class="hanten-source" id="h057-source">
+                Sources: population figures (POP_EST) for countries and territories, Natural Earth public-domain
+                dataset, as already used elsewhere on this site. The chart above is computed directly from that
+                data file in your browser when this page loads — nothing is precomputed or hardcoded. Benford's
+                Law: Frank Benford, "The Law of Anomalous Numbers," 1938 (earlier noted by Simon Newcomb, 1881).
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/geodata/countries.js"></script>
+    <script>
+        (() => {
+            const feats = COUNTRIES_GEOJSON.features;
+            const pops = feats
+                .map(f => f.properties.POP_EST)
+                .filter(p => typeof p === "number" && p > 0);
+
+            const counts = {};
+            for (let d = 1; d <= 9; d++) counts[d] = 0;
+            pops.forEach(p => {
+                const leading = parseInt(String(Math.round(p))[0], 10);
+                if (leading >= 1 && leading <= 9) counts[leading]++;
+            });
+
+            const total = pops.length;
+            const observed = {};
+            for (let d = 1; d <= 9; d++) observed[d] = counts[d] / total * 100;
+            const benford = {};
+            for (let d = 1; d <= 9; d++) benford[d] = Math.log10(1 + 1 / d) * 100;
+
+            document.getElementById("h057-note").textContent =
+                `${total} countries in this dataset. "1" leads ${observed[1].toFixed(1)}% of populations (Benford predicts ${benford[1].toFixed(1)}%); "9" leads only ${observed[9].toFixed(1)}% (Benford predicts ${benford[9].toFixed(1)}%). A flat, "intuitive" distribution would put every digit at 11.1%.`;
+            document.getElementById("h057-source").innerHTML =
+                `Sources: population figures (POP_EST) for ${total} countries and territories, Natural Earth public-domain dataset, as already used elsewhere on this site. The chart above is computed directly from that data file in your browser when this page loads — nothing is precomputed or hardcoded. Benford's Law: Frank Benford, "The Law of Anomalous Numbers," 1938 (earlier noted by Simon Newcomb, 1881).`;
+
+            const svg = document.getElementById("h057-benford-chart");
+            const chartLeft = 50, chartRight = 610, chartTop = 30, chartBottom = 260;
+            const maxPct = 32;
+            const barW = (chartRight - chartLeft) / 9;
+            const yFor = pct => chartBottom - (pct / maxPct) * (chartBottom - chartTop);
+
+            let html = "";
+            [0, 10, 20, 30].forEach(v => {
+                const y = yFor(v);
+                html += `<line x1="${chartLeft}" y1="${y}" x2="${chartRight}" y2="${y}" stroke="var(--hanten-border)" stroke-width="1"/>`;
+                html += `<text x="${chartLeft - 8}" y="${y + 4}" class="h057-axis-label" text-anchor="end">${v}%</text>`;
+            });
+            const flatY = yFor(11.1);
+            html += `<line x1="${chartLeft}" y1="${flatY}" x2="${chartRight}" y2="${flatY}" stroke="var(--hanten-muted)" stroke-width="1.3" stroke-dasharray="2 3"/>`;
+            html += `<text x="${chartRight + 4}" y="${flatY + 4}" class="h057-axis-label">FLAT 11.1%</text>`;
+
+            for (let d = 1; d <= 9; d++) {
+                const cx = chartLeft + (d - 0.5) * barW;
+                const barWidth = barW * 0.44;
+                const y = yFor(observed[d]);
+                html += `<rect x="${(cx - barWidth / 2).toFixed(1)}" y="${y.toFixed(1)}" width="${barWidth.toFixed(1)}" height="${(chartBottom - y).toFixed(1)}" fill="var(--h057-observed)"/>`;
+                html += `<text x="${cx.toFixed(1)}" y="${(y - 10).toFixed(1)}" class="h057-pct-label" text-anchor="middle" fill="var(--h057-observed)">${observed[d].toFixed(1)}%</text>`;
+                html += `<text x="${cx.toFixed(1)}" y="${chartBottom + 22}" class="h057-digit-label" text-anchor="middle">${d}</text>`;
+            }
+
+            let benPts = [];
+            for (let d = 1; d <= 9; d++) {
+                const cx = chartLeft + (d - 0.5) * barW;
+                benPts.push(`${cx.toFixed(1)},${yFor(benford[d]).toFixed(1)}`);
+            }
+            html += `<polyline points="${benPts.join(" ")}" fill="none" stroke="var(--h057-benford)" stroke-width="2" stroke-dasharray="5 4"/>`;
+            benPts.forEach(pt => {
+                const [x, y] = pt.split(",");
+                html += `<circle cx="${x}" cy="${y}" r="3" fill="var(--h057-benford)"/>`;
+            });
+
+            svg.innerHTML = html;
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "Do country populations really start with each digit 1 through 9 equally often?",
+            filename: "H057-benfords-law.png"
+        });
+    </script>
+
+</body>
+</html>

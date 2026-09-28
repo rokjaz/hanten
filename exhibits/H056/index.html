@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H056 — There Is No Cover Jinx</title>
+
+    <meta
+        name="description"
+        content="Athletes who peak spectacularly tend to have a quieter year after. It looks like a jinx. It's regression to the mean, and you can watch the exact mechanism in a live simulation."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H056-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h056-peak: #a3392b;
+            --h056-after: var(--hanten-accent);
+        }
+
+        .h056-panel {
+            padding: 1.2rem 1.1rem 1rem;
+        }
+
+        .h056-stat-row {
+            display: flex;
+            justify-content: center;
+            gap: 2.4rem;
+            flex-wrap: wrap;
+            text-align: center;
+            margin-bottom: 0.6rem;
+        }
+
+        .h056-stat-num {
+            font-size: clamp(1.7rem, 4.4vw, 2.2rem);
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .h056-stat-num.peak { color: var(--h056-peak); }
+        .h056-stat-num.after { color: var(--h056-after); }
+        .h056-stat-num.mean { color: var(--hanten-muted); }
+
+        .h056-stat-cap {
+            margin-top: 0.3rem;
+            max-width: 14ch;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: var(--hanten-font);
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+
+        .h056-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h056-axis-label {
+            font-family: var(--hanten-font);
+            font-size: 10.5px;
+            fill: var(--hanten-muted);
+        }
+
+        .h056-mean-label {
+            font-family: var(--hanten-font);
+            font-size: 10px;
+            font-weight: 700;
+            fill: var(--hanten-muted);
+        }
+
+        .h056-caption {
+            max-width: var(--hanten-text-width);
+            margin: 0.7rem auto 0;
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--hanten-muted);
+        }
+
+        .h056-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .h056-run-btn {
+            font-family: var(--hanten-font);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--hanten-accent);
+            background: #fff;
+            color: var(--hanten-accent);
+            cursor: pointer;
+        }
+
+        .h056-run-btn:hover,
+        .h056-run-btn:focus-visible {
+            background: var(--hanten-accent);
+            color: #fff;
+        }
+
+        .h056-run-btn:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            If no player's skill ever changes, why does their "best season ever" almost never happen twice?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Athletes who land on a magazine cover after a career-best season often follow it with a quieter one.
+            Fans call it a jinx. It's a predictable statistical pattern with no jinx anywhere in the code.
+        </p>
+
+        <div id="h056-capture">
+
+            <div class="hanten-graphic hanten-panel h056-panel">
+                <div class="h056-stat-row">
+                    <div>
+                        <div class="h056-stat-num peak" id="h056-stat-peak">–</div>
+                        <div class="h056-stat-cap">Avg. score, their record-breaking season</div>
+                    </div>
+                    <div>
+                        <div class="h056-stat-num after" id="h056-stat-after">–</div>
+                        <div class="h056-stat-cap">Avg. score, the very next season</div>
+                    </div>
+                    <div>
+                        <div class="h056-stat-num mean" id="h056-stat-mean">–</div>
+                        <div class="h056-stat-cap">League average, both seasons</div>
+                    </div>
+                </div>
+                <svg viewBox="0 0 640 300" id="h056-slope-chart" role="img" aria-labelledby="h056-slope-title">
+                    <title id="h056-slope-title">Slope chart showing top-5% performers' scores dropping from their peak season to the next, while staying above the league average</title>
+                </svg>
+                <p class="h056-caption" id="h056-explain-note">Loading simulation…</p>
+                <div class="h056-controls">
+                    <button type="button" class="h056-run-btn" id="h056-run-btn">Run a new simulation (20,000 players)</button>
+                </div>
+            </div>
+
+            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.3rem auto 0;">No player in this simulation got worse</h2>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
+                Every simulated player has one fixed true skill level for their entire career. Each season's score
+                is just that fixed skill plus random noise — good luck or bad luck, drawn fresh every time.
+                Nothing decays, nothing is cursed, and nothing "knows" it was on a cover.
+            </p>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
+                Pick the top 5% of one season's scores and you've mostly picked the players who got lucky that
+                year, not just the most skilled ones. Next season, that luck resets — so their scores fall back
+                toward their true skill, which was always a bit closer to average than their peak season made it
+                look.
+            </p>
+
+            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
+                <p class="hanten-takeaway" style="margin:0;">
+                    The top performers are still above average next season — just not as spectacularly as their
+                    peak suggested.
+                </p>
+            </div>
+
+            <p class="hanten-reflection">
+                Any time you select the most extreme outcome, should you expect the next measurement to look
+                less extreme — jinx or no jinx?
+            </p>
+
+            <p class="hanten-source">
+                Sources: the "Sports Illustrated cover jinx" is a long-documented piece of sports folklore (see
+                Sports Illustrated's own reporting and Psychology Today, "The Sports Illustrated Cover Jinx,"
+                2016) that statisticians commonly cite as a real-world illustration of regression to the mean —
+                the same effect Francis Galton first identified in 1886 comparing parents' and children's
+                heights. Rather than rely on unverified real cover statistics, this exhibit simulates the
+                underlying mechanism directly (fixed skill + random noise per season), so the numbers above are
+                exact and reproducible from this page's own visible source.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script>
+        (() => {
+            function mulberry32(seed) {
+                return function () {
+                    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+                    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+                    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+                    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+                };
+            }
+
+            function gauss(rand, mean, sd) {
+                const u1 = Math.max(rand(), 1e-9), u2 = rand();
+                const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+                return mean + z * sd;
+            }
+
+            const N = 20000;
+            const svg = document.getElementById("h056-slope-chart");
+            const btn = document.getElementById("h056-run-btn");
+
+            function runSimulation(seed) {
+                const rand = mulberry32(seed);
+                const players = [];
+                for (let i = 0; i < N; i++) {
+                    const skill = gauss(rand, 100, 10);
+                    players.push({ skill, s1: skill + gauss(rand, 0, 15), s2: skill + gauss(rand, 0, 15) });
+                }
+                players.sort((a, b) => b.s1 - a.s1);
+                const topGroup = players.slice(0, Math.round(N * 0.05));
+
+                const avgPeak = topGroup.reduce((s, p) => s + p.s1, 0) / topGroup.length;
+                const avgAfter = topGroup.reduce((s, p) => s + p.s2, 0) / topGroup.length;
+                const leagueMean = players.reduce((s, p) => s + p.s1, 0) / players.length;
+
+                document.getElementById("h056-stat-peak").textContent = avgPeak.toFixed(1);
+                document.getElementById("h056-stat-after").textContent = avgAfter.toFixed(1);
+                document.getElementById("h056-stat-mean").textContent = leagueMean.toFixed(1);
+                document.getElementById("h056-explain-note").textContent =
+                    `The top 5% averaged ${avgPeak.toFixed(1)} in their record season, fell to ${avgAfter.toFixed(1)} the next — but that's still ${(avgAfter - leagueMean).toFixed(1)} points above the league average of ${leagueMean.toFixed(1)}. They were genuinely good. They just weren't as good as their peak season made them look.`;
+
+                const sample = [];
+                const step = Math.max(1, Math.floor(topGroup.length / 24));
+                for (let i = 0; i < topGroup.length && sample.length < 24; i += step) sample.push(topGroup[i]);
+
+                const minV = 60, maxV = 160;
+                const yFor = v => 260 - ((v - minV) / (maxV - minV)) * 230;
+                const xLeft = 180, xRight = 460;
+
+                let html = "";
+                html += `<line x1="${xLeft}" y1="${yFor(leagueMean)}" x2="${xRight}" y2="${yFor(leagueMean)}" stroke="var(--hanten-muted)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+                html += `<text x="${xRight + 8}" y="${yFor(leagueMean) + 4}" class="h056-mean-label">LEAGUE AVG</text>`;
+                html += `<text x="${xLeft}" y="24" class="h056-axis-label" text-anchor="middle">RECORD SEASON</text>`;
+                html += `<text x="${xRight}" y="24" class="h056-axis-label" text-anchor="middle">NEXT SEASON</text>`;
+
+                sample.forEach(p => {
+                    const y1 = yFor(p.s1), y2 = yFor(p.s2);
+                    html += `<line x1="${xLeft}" y1="${y1.toFixed(1)}" x2="${xRight}" y2="${y2.toFixed(1)}" stroke="var(--h056-peak)" stroke-width="1.3" opacity="0.55"/>`;
+                    html += `<circle cx="${xLeft}" cy="${y1.toFixed(1)}" r="3" fill="var(--h056-peak)"/>`;
+                    html += `<circle cx="${xRight}" cy="${y2.toFixed(1)}" r="3" fill="var(--h056-after)"/>`;
+                });
+
+                svg.innerHTML = html;
+            }
+
+            runSimulation(7);
+
+            btn.addEventListener("click", () => {
+                btn.disabled = true;
+                btn.textContent = "Simulating…";
+                setTimeout(() => {
+                    runSimulation(Math.floor(Math.random() * 1e9));
+                    btn.disabled = false;
+                    btn.textContent = "Run a new simulation (20,000 players)";
+                }, 30);
+            });
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "If no player's skill ever changes, why does their \"best season ever\" almost never happen twice?",
+            filename: "H056-regression-to-the-mean.png"
+        });
+    </script>
+
+</body>
+</html>

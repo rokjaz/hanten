@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H040 — Monty Hall</title>
+<meta name="description" content="After one losing door is revealed, should you stay or switch? Explore the Monty Hall problem interactively.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+:root{
+  --ink:#1c2733;
+  --ink-soft:#526170;
+  --paper:#eef1ec;
+  --paper-raised:#ffffff;
+  --line:rgba(28,39,51,.14);
+  --accent:#0e7c86;
+  --accent-soft:rgba(14,124,134,.12);
+  --warm:#c1442d;
+  --door:#2c3b4d;
+  --shadow:0 10px 28px rgba(28,39,51,.06);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  line-height:1.55;
+}
+
+a{color:inherit}
+.shell{max-width:780px;margin:0 auto;padding:0 24px}
+
+header{
+  padding:24px 0 12px;
+}
+.header-row{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.wordmark{
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:1.18rem;
+  font-weight:700;
+  text-decoration:none;
+}
+.exhibit-id{
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.76rem;
+  color:var(--ink-soft);
+  
+}
+
+main{padding:10px 0 52px}
+
+.kicker{
+  margin:10px 0 10px;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.74rem;
+  font-weight:700;
+  
+  text-transform:uppercase;
+  color:var(--accent);
+}
+h1{
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:clamp(2rem,5.6vw,3.7rem);
+  line-height:1.03;
+  letter-spacing:-.03em;
+  margin:0;
+  max-width:760px;
+}
+.deck{
+  margin:18px 0 28px;
+  max-width:67ch;
+  color:var(--ink-soft);
+  font-size:1.06rem;
+}
+
+.question{
+  margin:0 0 22px;
+  padding:18px 20px;
+  background:var(--paper-raised);
+  border-left:4px solid var(--accent);
+  box-shadow:var(--shadow);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:1.2rem;
+}
+.question strong{font-family:inherit}
+
+.formal-name{
+  margin:-10px 0 22px;
+  text-align:center;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.82rem;
+  font-weight:700;
+  color:var(--ink-soft);
+  letter-spacing:.015em;
+}
+
+.game-card{
+  background:var(--paper-raised);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  padding:clamp(20px,3vw,28px);
+}
+
+.doors{
+  display:flex;
+  justify-content:center;
+  gap:clamp(10px,2.5vw,20px);
+  padding-top:20px;
+}
+.door{
+  flex:1 1 0;
+  max-width:178px;
+  aspect-ratio:2/3;
+  border-radius:12px 12px 5px 5px;
+  border:0;
+  background:var(--door);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:7px;
+  cursor:pointer;
+  transition:transform .15s ease,box-shadow .15s ease;
+  color:var(--paper);
+}
+.door:hover:not(:disabled){
+  transform:translateY(-4px);
+  box-shadow:0 8px 18px rgba(28,39,51,.15);
+}
+.door:disabled{cursor:default}
+.door-number{
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:clamp(1.7rem,5vw,2.25rem);
+  font-weight:800;
+}
+.door-handle{
+  position:absolute;
+  right:14px;
+  top:50%;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--accent);
+}
+.door.open{
+  background:var(--paper);
+  border:2px solid var(--line);
+  color:var(--ink);
+}
+.door.open.has-car{
+  background:var(--accent-soft);
+  border-color:var(--accent);
+  color:var(--accent);
+}
+.door.chosen{
+  outline:3px solid var(--accent);
+  outline-offset:4px;
+}
+.door-tag{
+  position:absolute;
+  top:-27px;
+  left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.67rem;
+  font-weight:800;
+  color:var(--accent);
+  
+}
+.door-icon{width:44px;height:44px}
+.door-result{
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.85rem;
+  font-weight:800;
+}
+
+#game-status{
+  text-align:center;
+  margin-top:28px;
+  min-height:34px;
+  font-size:1rem;
+}
+#game-status strong{
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:1.18rem;
+}
+.actions{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:13px;
+}
+.actions button,
+#sim-btn{
+  appearance:none;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.82rem;
+  font-weight:700;
+  padding:.72rem 1rem;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink);
+  cursor:pointer;
+}
+.actions button:hover,
+#sim-btn:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+}
+.actions .primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#fff;
+}
+.actions .primary:hover{color:#fff;opacity:.92}
+
+#tally{
+  min-height:22px;
+  margin-top:16px;
+  text-align:center;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.76rem;
+  color:var(--ink-soft);
+}
+
+.sim-section{
+  margin-top:28px;
+  padding-top:29px;
+  border-top:1px solid var(--line);
+}
+.section-label{
+  margin:0 0 8px;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.74rem;
+  font-weight:800;
+  
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.sim-intro{
+  margin:0 0 15px;
+  color:var(--ink-soft);
+}
+#sim-chart{margin-top:20px}
+.sim-row{
+  display:grid;
+  grid-template-columns:68px 1fr 62px;
+  align-items:center;
+  gap:11px;
+  margin:10px 0;
+}
+.sim-label,.sim-pct{
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.78rem;
+}
+.sim-pct{text-align:right;font-weight:800}
+.sim-track{
+  height:27px;
+  background:var(--paper);
+  border:1px solid var(--line);
+}
+.sim-fill{height:100%;width:0;transition:width .55s ease}
+.sim-fill.switch{background:var(--accent)}
+.sim-fill.stay{background:var(--warm)}
+
+.discovery{
+  margin-top:28px;
+  border-left:3px solid var(--accent);
+  padding:.15rem 0 .15rem 1rem;
+}
+.discovery h2{
+  margin:0 0 5px;
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:1.18rem;
+}
+.discovery p{margin:8px 0;color:var(--ink-soft)}
+.discovery strong{color:var(--ink)}
+
+.editorial-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-top:18px;
+}
+.editorial-box{
+  border-top:1px solid var(--line);
+  padding-top:13px;
+}
+.editorial-box .label{
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.69rem;
+  font-weight:800;
+  
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.editorial-box p{margin:5px 0 0}
+
+
+.monty-explore{
+  margin-top:18px;
+  padding:.6rem 0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  color:var(--ink-soft);
+  font-size:.86rem;
+}
+.monty-explore summary{
+  cursor:pointer;
+  color:var(--ink);
+  font-weight:750;
+}
+.monty-explore p{margin:.65rem 0 0}
+
+.source{
+  margin-top:25px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+  color:var(--ink-soft);
+  font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+  font-size:.72rem;
+  line-height:1.55;
+}
+
+@media(max-width:620px){
+  .shell{padding:0 16px}
+  .game-card{padding:22px 14px}
+  .doors{gap:9px}
+  .door-tag{font-size:.59rem}
+  .editorial-grid{grid-template-columns:1fr}
+  .sim-row{grid-template-columns:58px 1fr 54px;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto!important}
+  .door,.sim-fill{transition:none}
+}
+</style>
+</head>
+<body>
+<main class="hanten-exhibit">
+  <h1 class="hanten-question">After a goat is revealed, should you stay or switch?</h1>
+  <p class="hanten-subtitle">
+    Pick a door. The host will reveal a goat behind one of the other doors. Then make your choice.
+  </p>
+
+  <div class="formal-name">The Monty Hall Problem</div>
+
+  <div class="hanten-graphic">
+    <div class="shell">
+
+    <section class="game-card" aria-label="Interactive Monty Hall game">
+      <div class="doors" id="doors"></div>
+      <div id="game-status" aria-live="polite"></div>
+      <div class="actions" id="decide-actions"></div>
+      <div class="actions" id="again-action"></div>
+      <div id="tally"></div>
+
+      <div class="sim-section">
+        <div class="section-label">Run the numbers</div>
+        <p class="sim-intro">A few rounds can feel like luck. Ten thousand rounds reveal the pattern.</p>
+        <button id="sim-btn" type="button">Simulate 10,000 games</button>
+        <div id="sim-chart" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="discovery">
+      <h2>Switching wins about twice as often.</h2>
+      <p>
+        Your first pick starts with a <strong>1-in-3</strong> chance. The host's informed reveal does not reset the two remaining doors to 50–50.
+      </p>
+    </section>
+
+    <details class="monty-explore">
+      <summary>Why does switching work?</summary>
+      <p>
+        Your original choice is correct only 1 time out of 3. The other two doors collectively begin with a 2-in-3 chance.
+        Because the host knows where the car is and always opens a goat door you did not choose, that 2-in-3 chance is concentrated on the one other unopened door.
+        If your original pick was wrong — which happens 2 times out of 3 — switching wins.
+      </p>
+    </details>
+
+    <div class="source">
+      Source note — Steve Selvin posed the problem in The American Statistician in 1975; it became widely known after Marilyn vos Savant discussed it in Parade in 1990.
+    </div>
+    </div>
+  </div>
+
+  <div class="hanten-utility">
+    <div id="save-image-slot"></div>
+  </div>
+</main>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "After a goat is revealed, should you stay or switch?",
+    filename: "H040-monty-hall.png"
+  });
+</script>
+
+<script>
+let doorContents, chosen, hostOpened, phase, finalPick;
+const tally = { switch:{win:0,lose:0}, stay:{win:0,lose:0} };
+
+function shuffledDoors(){
+  const carIndex = Math.floor(Math.random()*3);
+  return [0,1,2].map(i => i === carIndex ? "car" : "goat");
+}
+function carSVG(){
+  return `<svg class="door-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M5 26 H35 V20 L29 20 L25 13 H15 L11 20 L5 20 Z"/>
+    <circle cx="12" cy="26" r="3"/><circle cx="28" cy="26" r="3"/>
+  </svg>`;
+}
+function goatSVG(){
+  return `<svg class="door-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M11 30 V19 C11 13 15 9 20 9 C25 9 29 13 29 19 V30"/>
+    <path d="M15 9 L12 4 M25 9 L28 4"/><path d="M11 30 H29"/>
+    <circle cx="16" cy="18" r="1.4" fill="currentColor" stroke="none"/>
+  </svg>`;
+}
+function newRound(){
+  doorContents = shuffledDoors();
+  chosen = null; hostOpened = null; finalPick = null; phase = "pick";
+  render();
+}
+function pickDoor(i){
+  if(phase !== "pick") return;
+  chosen = i;
+  const goatOptions = [0,1,2].filter(d => d !== chosen && doorContents[d] === "goat");
+  hostOpened = goatOptions[Math.floor(Math.random()*goatOptions.length)];
+  phase = "decide";
+  render();
+}
+function decide(strategy){
+  const otherDoor = [0,1,2].find(d => d !== chosen && d !== hostOpened);
+  finalPick = strategy === "stay" ? chosen : otherDoor;
+  const won = doorContents[finalPick] === "car";
+  tally[strategy][won ? "win" : "lose"]++;
+  phase = "revealed";
+  render();
+}
+function render(){
+  const doorsEl = document.getElementById("doors");
+  doorsEl.innerHTML = "";
+
+  for(let i=0;i<3;i++){
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "door";
+    btn.setAttribute("aria-label", `Door ${i+1}`);
+
+    const isOpen = (phase === "decide" && i === hostOpened) || phase === "revealed";
+    if(isOpen){
+      btn.classList.add("open");
+      if(doorContents[i] === "car") btn.classList.add("has-car");
+      btn.innerHTML = `${doorContents[i] === "car" ? carSVG() : goatSVG()}
+        <div class="door-result">${doorContents[i] === "car" ? "CAR" : "GOAT"}</div>`;
+    } else {
+      btn.innerHTML = `<div class="door-number">${i+1}</div><div class="door-handle"></div>`;
+    }
+
+    if(phase === "pick"){
+      btn.addEventListener("click", () => pickDoor(i));
+    } else {
+      btn.disabled = true;
+    }
+
+    if(phase === "decide" && i === chosen){
+      btn.classList.add("chosen");
+      const tag = document.createElement("div");
+      tag.className = "door-tag";
+      tag.textContent = "YOUR PICK";
+      btn.appendChild(tag);
+    }
+    if(phase === "revealed" && i === finalPick){
+      btn.classList.add("chosen");
+      const tag = document.createElement("div");
+      tag.className = "door-tag";
+      tag.textContent = "FINAL PICK";
+      btn.appendChild(tag);
+    }
+    doorsEl.appendChild(btn);
+  }
+
+  const status = document.getElementById("game-status");
+  const decideActions = document.getElementById("decide-actions");
+  const againAction = document.getElementById("again-action");
+  decideActions.innerHTML = "";
+  againAction.innerHTML = "";
+
+  if(phase === "pick"){
+    status.textContent = "Pick a door.";
+  } else if(phase === "decide"){
+    const otherDoor = [0,1,2].find(d => d !== chosen && d !== hostOpened);
+    status.innerHTML = `Door ${hostOpened+1} had a goat. Stick with door <strong>${chosen+1}</strong>, or switch to door <strong>${otherDoor+1}</strong>?`;
+
+    const stay = document.createElement("button");
+    stay.type = "button";
+    stay.textContent = `Stay with door ${chosen+1}`;
+    stay.addEventListener("click", () => decide("stay"));
+
+    const sw = document.createElement("button");
+    sw.type = "button";
+    sw.className = "primary";
+    sw.textContent = `Switch to door ${otherDoor+1}`;
+    sw.addEventListener("click", () => decide("switch"));
+
+    decideActions.append(stay, sw);
+  } else {
+    const won = doorContents[finalPick] === "car";
+    status.innerHTML = won ? "<strong>You won the car.</strong>" : "<strong>A goat this time.</strong>";
+
+    const again = document.createElement("button");
+    again.type = "button";
+    again.className = "primary";
+    again.textContent = "Play again";
+    again.addEventListener("click", newRound);
+    againAction.appendChild(again);
+  }
+  renderTally();
+}
+function renderTally(){
+  const el = document.getElementById("tally");
+  const s=tally.switch, y=tally.stay;
+  const sp=s.win+s.lose, yp=y.win+y.lose;
+  if(!sp && !yp){ el.textContent=""; return; }
+  const parts=[];
+  if(sp) parts.push(`Switched ${sp}× — won ${s.win}`);
+  if(yp) parts.push(`Stayed ${yp}× — won ${y.win}`);
+  el.textContent = "Your plays: " + parts.join(" · ");
+}
+
+function simulate(trials){
+  let switchWins=0, stayWins=0;
+  for(let t=0;t<trials;t++){
+    const carIndex=Math.floor(Math.random()*3);
+    const guess=Math.floor(Math.random()*3);
+    const goatDoors=[0,1,2].filter(d => d !== guess && d !== carIndex);
+    const hostDoor=goatDoors[Math.floor(Math.random()*goatDoors.length)];
+    const switchDoor=[0,1,2].find(d => d !== guess && d !== hostDoor);
+    if(switchDoor === carIndex) switchWins++;
+    if(guess === carIndex) stayWins++;
+  }
+  return {switchWins,stayWins,trials};
+}
+function renderSim(result){
+  const switchPct=result.switchWins/result.trials*100;
+  const stayPct=result.stayWins/result.trials*100;
+  document.getElementById("sim-chart").innerHTML = `
+    <div class="sim-row">
+      <div class="sim-label">Switch</div>
+      <div class="sim-track"><div class="sim-fill switch" id="bar-switch"></div></div>
+      <div class="sim-pct">${switchPct.toFixed(1)}%</div>
+    </div>
+    <div class="sim-row">
+      <div class="sim-label">Stay</div>
+      <div class="sim-track"><div class="sim-fill stay" id="bar-stay"></div></div>
+      <div class="sim-pct">${stayPct.toFixed(1)}%</div>
+    </div>`;
+  requestAnimationFrame(()=>{
+    document.getElementById("bar-switch").style.width=switchPct+"%";
+    document.getElementById("bar-stay").style.width=stayPct+"%";
+  });
+}
+document.getElementById("sim-btn").addEventListener("click",()=>renderSim(simulate(10000)));
+newRound();
+</script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H042 — 2.4 Miles Apart, a Day Apart</title>
+<meta name="description" content="Big Diomede (Russia) and Little Diomede (USA) sit 2.4 miles apart in the Bering Strait — but the International Date Line runs through the water between them.">
+
+<link rel="stylesheet" href="../../04 Shared Assets/css/hanten.css">
+
+<style>
+  :root {
+    --h042-ru: #1f6f8b;
+    --h042-us: #c4841f;
+    --h042-dateline: #b24b36;
+    --h042-sea: #dde8e8;
+    --h042-land: #e7e2d3;
+    --h042-land-line: #b9b29b;
+  }
+
+  .h042-wrap {
+    width: min(100%, 900px);
+    margin: 0 auto;
+    padding: 1rem 1rem 1.1rem;
+  }
+
+  .h042-map {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .h042-region {
+    font-family: var(--hanten-font);
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: 0.05em;
+    fill: var(--hanten-muted);
+  }
+
+  .h042-sealabel {
+    font-family: var(--hanten-font);
+    font-style: italic;
+    font-size: 11.5px;
+    fill: var(--hanten-muted);
+    opacity: 0.75;
+  }
+
+  .h042-place {
+    font-family: var(--hanten-font);
+    font-weight: 700;
+    font-size: 12.5px;
+    fill: var(--hanten-text);
+  }
+
+  .h042-place-sub {
+    font-family: var(--hanten-font);
+    font-weight: 400;
+    font-size: 10.5px;
+    fill: var(--hanten-muted);
+  }
+
+  .h042-dl-label {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    fill: var(--h042-dateline);
+  }
+
+  .h042-dim-label {
+    font-family: var(--hanten-font);
+    font-weight: 700;
+    font-size: 12px;
+    fill: var(--hanten-text);
+  }
+
+  .h042-tz-label {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 10.5px;
+    fill: var(--hanten-muted);
+  }
+
+  .h042-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--hanten-border);
+    font-size: 0.78rem;
+    color: var(--hanten-muted);
+  }
+
+  .h042-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .h042-legend .swatch {
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  .h042-legend .line {
+    width: 16px;
+    height: 0;
+    border-top: 2px dashed var(--h042-dateline);
+    display: inline-block;
+  }
+
+  .h042-clocks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.5rem, 6vw, 3.5rem);
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--hanten-border);
+  }
+
+  .h042-clock-note {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--hanten-muted);
+    text-align: center;
+    margin: -0.4rem 0 0.5rem;
+  }
+
+  .h042-clock-name {
+    font-family: var(--hanten-font);
+    font-weight: 700;
+    font-size: 13px;
+    fill: var(--hanten-text);
+  }
+
+  .h042-clock-sub {
+    font-family: var(--hanten-font);
+    font-size: 10.5px;
+    fill: var(--hanten-muted);
+  }
+
+  .h042-clock-day {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+  }
+
+  .h042-clock-time {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-weight: 700;
+    font-size: 15px;
+    fill: var(--hanten-text);
+  }
+
+  .h042-gap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.72rem;
+    color: var(--hanten-muted);
+    text-align: center;
+  }
+
+  .h042-gap strong {
+    font-size: 0.95rem;
+    color: var(--hanten-text);
+  }
+
+  .h042-table {
+    width: 100%;
+    max-width: var(--hanten-text-width);
+    margin: 1.25rem auto 0;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  .h042-table caption {
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--hanten-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .h042-table th,
+  .h042-table td {
+    text-align: left;
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid var(--hanten-border);
+  }
+
+  .h042-table th {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--hanten-muted);
+  }
+
+  .h042-table td.num {
+    font-variant-numeric: tabular-nums;
+    color: var(--hanten-text);
+  }
+
+  .h042-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .h042-reveal {
+    max-width: var(--hanten-text-width);
+    margin: 1.35rem auto 0;
+    padding: .15rem 0;
+    color: var(--hanten-text);
+    font-size: .95rem;
+    line-height: 1.45;
+    text-align: left;
+  }
+
+  .h042-reveal p { margin: 0 0 .55rem; }
+  .h042-reveal p:last-child { margin-bottom: 0; }
+  .h042-reveal strong { color: var(--hanten-text); }
+
+  .h042-explore {
+    max-width: var(--hanten-text-width);
+    margin: .9rem auto 0;
+    padding: .6rem 0;
+    border-top: 1px solid var(--hanten-border);
+    border-bottom: 1px solid var(--hanten-border);
+    color: var(--hanten-muted);
+    font-size: .84rem;
+    line-height: 1.5;
+  }
+  .h042-explore summary { cursor: pointer; font-weight: 750; color: var(--hanten-text); }
+  .h042-explore p { margin: .65rem 0 0; }
+
+  @media (max-width: 640px) {
+    .h042-clocks {
+      gap: 1.5rem;
+    }
+
+    .h042-table {
+      font-size: 0.8rem;
+    }
+
+    .h042-table th,
+    .h042-table td {
+      padding: 0.42rem 0.5rem;
+    }
+  }
+</style>
+
+<style>
+.hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+.hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+.hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+.hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+</style>
+
+<style>
+.hanten-export-card{
+ position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
+ background:#eef1ec;color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+}
+.hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
+.hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
+.hanten-export-aha strong{color:#1c2733}
+.hanten-export-aha p{margin:0 0 8px}
+.hanten-export-aha p:last-child{margin-bottom:0}
+.hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
+.hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">How can two islands 2.4 miles apart be a day apart?</h1>
+
+  <p class="hanten-subtitle">
+    Big Diomede (Russia) and Little Diomede (USA) sit close enough in the Bering Strait to see each other on a clear day. The International Date Line runs through the water between them.
+  </p>
+
+  <div id="h042-capture">
+    <div class="hanten-graphic">
+      <section class="h042-wrap hanten-panel" aria-label="Map of the Bering Strait showing Big Diomede and Little Diomede on either side of the International Date Line">
+        <svg class="h042-map" id="h042-map" viewBox="0 0 700 380" role="img" aria-labelledby="h042-map-title h042-map-desc">
+          <title id="h042-map-title">Schematic map of the Bering Strait</title>
+          <desc id="h042-map-desc">Russia's Chukotka Peninsula lies west, Alaska's Seward Peninsula lies east. Big Diomede sits near the Russian side; Little Diomede sits 2.4 miles east of it, near the Alaskan side. The International Date Line runs between the two islands.</desc>
+
+          <rect x="0" y="0" width="700" height="380" fill="var(--h042-sea)"/>
+
+          <!-- Chukotka Peninsula coast: traced from Natural Earth 1:10m coastline data
+               (Russia polygon, Cape Dezhnev stretch), simplified to a per-latitude-band
+               outline so the profile reflects the real coast's capes and bays instead of
+               an invented zigzag. -->
+          <path d="M 0,0 L 201.5,0 L 201.9,16.59 L 204.5,33.08 L 213.6,49.56 L 212.4,66.15 L 215.9,82.64 L 227.2,99.12 L 234.7,115.71 L 239.8,132.2 L 243.7,148.68 L 255.1,165.27 L 260.3,181.76 L 273.3,198.24 L 278.5,214.83 L 280,231.32 L 277.9,247.8 L 256.6,264.39 L 245.9,280.88 L 245.6,297.36 L 245.1,313.95 L 246.7,330.44 L 245.5,346.93 L 227.8,363.51 L 227.6,380 L 0,380 Z"
+                fill="var(--h042-land)" stroke="var(--h042-land-line)" stroke-width="1"/>
+          <!-- Seward Peninsula coast: same method, traced from the United States polygon's
+               Cape Prince of Wales stretch. Both coasts are stretched slightly to fill the
+               full frame height, so the real coastline data reaches top and bottom edges
+               directly instead of connecting to the corners with an artificial straight run. -->
+          <path d="M 700,0 L 490.1,0 L 486.9,16.59 L 473.7,33.08 L 468.7,49.56 L 453.1,66.15 L 456.6,82.64 L 443.4,99.12 L 426.5,115.71 L 420,132.2 L 420.2,148.68 L 421.7,165.27 L 430.5,181.76 L 440.7,198.24 L 450.9,214.83 L 471.2,231.32 L 471.3,247.8 L 470,264.39 L 469.1,280.88 L 472.6,297.36 L 474.7,313.95 L 480.1,330.44 L 485.1,346.93 L 489.8,363.51 L 489.2,380 L 700,380 Z"
+                fill="var(--h042-land)" stroke="var(--h042-land-line)" stroke-width="1"/>
+
+          <text x="98" y="52" class="h042-region" text-anchor="middle">RUSSIA</text>
+          <text x="55" y="68" class="h042-region">(CHUKOTKA)</text>
+          <text x="554.7" y="52" class="h042-region" text-anchor="middle">ALASKA,</text>
+          <text x="575" y="68" class="h042-region" text-anchor="end">U.S.A.</text>
+
+          <text x="342" y="105" class="h042-sealabel" text-anchor="end">BERING</text>
+          <text x="358" y="105" class="h042-sealabel" text-anchor="start">STRAIT</text>
+
+          <line x1="350" y1="20" x2="350" y2="360" stroke="var(--h042-dateline)" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
+          <text x="350" y="305" class="h042-dl-label" text-anchor="middle">INTERNATIONAL</text>
+          <text x="350" y="318" class="h042-dl-label" text-anchor="middle">DATE LINE</text>
+
+          <!-- Big Diomede (Russia): actual island outline (Natural Earth 1:10m), scaled up
+               and centered on the same point the old placeholder ellipse used, so the shape
+               is now the real elongated silhouette rather than a generic oval. -->
+          <path d="M 314.9,146.7 L 318.8,141 L 323,141.4 L 331.9,146.7 L 329.4,156.1 L 325.6,166.2 L 321,173.7 L 316.2,175 L 312.9,171.8 L 312.1,163.9 L 313,154.5 L 314.9,146.7 Z"
+                fill="var(--h042-land)" stroke="var(--h042-ru)" stroke-width="1.6"/>
+          <circle cx="322" cy="158" r="3.6" fill="var(--h042-ru)" stroke="#fff" stroke-width="1.6"/>
+
+          <!-- Little Diomede (USA): same treatment, real outline. -->
+          <path d="M 376,161.5 L 377.7,167 L 378.8,178.4 L 375.3,185 L 369.8,184.7 L 364.4,181.6 L 361.2,173.9 L 364.2,164.4 L 371.9,161 L 376,161.5 Z"
+                fill="var(--h042-land)" stroke="var(--h042-us)" stroke-width="1.6"/>
+          <circle cx="370" cy="173" r="3.6" fill="var(--h042-us)" stroke="#fff" stroke-width="1.6"/>
+
+          <!-- distance dimension -->
+          <line x1="322" y1="208" x2="370" y2="208" stroke="var(--hanten-text)" stroke-width="1.4"/>
+          <line x1="322" y1="202" x2="322" y2="214" stroke="var(--hanten-text)" stroke-width="1.4"/>
+          <line x1="370" y1="202" x2="370" y2="214" stroke="var(--hanten-text)" stroke-width="1.4"/>
+          <!-- Split across the date line, U.S. customary figure first (reading left to
+               right), metric figure second. -->
+          <text x="345" y="228" class="h042-dim-label" text-anchor="end">2.4 mi</text>
+          <text x="355" y="228" class="h042-dim-label" text-anchor="start">(3.8 km)</text>
+
+          <!-- Big Diomede labels: set on the Chukotka landmass itself, with a leader line
+               across the narrow water gap to the island. -->
+          <text x="230" y="150" class="h042-place" text-anchor="end">BIG DIOMEDE</text>
+          <text x="230" y="164" class="h042-place-sub" text-anchor="end">Russia · "Tomorrow Island"</text>
+          <line x1="235" y1="157" x2="313" y2="158" stroke="var(--hanten-muted)" stroke-width="1"/>
+
+          <!-- Little Diomede labels -->
+          <text x="440" y="150" class="h042-place">LITTLE DIOMEDE</text>
+          <text x="440" y="164" class="h042-place-sub">USA (Alaska) · "Yesterday Isle"</text>
+          <line x1="435" y1="170" x2="377" y2="169" stroke="var(--hanten-muted)" stroke-width="1"/>
+
+          <text x="60" y="255" class="h042-tz-label">Kamchatka Time</text>
+          <text x="60" y="269" class="h042-tz-label">UTC+12, no daylight saving</text>
+
+          <text x="655" y="255" class="h042-tz-label" text-anchor="end">Alaska Time</text>
+          <text x="655" y="269" class="h042-tz-label" text-anchor="end">UTC−9 winter / UTC−8 summer</text>
+        </svg>
+
+        <div class="h042-legend">
+          <span><span class="line"></span>International Date Line</span>
+          <span><span class="swatch" style="background: var(--h042-ru);"></span>Big Diomede (Russia)</span>
+          <span><span class="swatch" style="background: var(--h042-us);"></span>Little Diomede (USA)</span>
+        </div>
+
+        <div class="h042-clocks" aria-label="Two clocks showing the same instant on each island">
+          <svg viewBox="0 0 170 204" width="150" height="180" role="img" aria-label="Little Diomede clock reading Wednesday 9:00 AM">
+            <circle cx="85" cy="94" r="58" fill="var(--hanten-paper)" stroke="var(--hanten-text)" stroke-width="1.4"/>
+            <circle cx="85" cy="38" r="2" fill="var(--hanten-muted)"/>
+            <circle cx="85" cy="150" r="2" fill="var(--hanten-muted)"/>
+            <circle cx="27" cy="94" r="2" fill="var(--hanten-muted)"/>
+            <circle cx="143" cy="94" r="2" fill="var(--hanten-muted)"/>
+            <line x1="85" y1="94" x2="57" y2="94" stroke="var(--hanten-text)" stroke-width="3.2" stroke-linecap="round"/>
+            <line x1="85" y1="94" x2="85" y2="56" stroke="var(--hanten-text)" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="85" cy="94" r="3" fill="var(--h042-us)"/>
+            <text x="85" y="14" class="h042-clock-name" text-anchor="middle">Little Diomede</text>
+            <text x="85" y="28" class="h042-clock-sub" text-anchor="middle">Alaska Time, summer</text>
+            <text x="85" y="177" class="h042-clock-day" text-anchor="middle" fill="var(--h042-us)">WEDNESDAY</text>
+            <text x="85" y="196" class="h042-clock-time" text-anchor="middle">9:00 AM</text>
+          </svg>
+
+          <div class="h042-gap" aria-hidden="true">
+            <strong>20 hrs</strong>
+            <span>apart on the<br>calendar</span>
+          </div>
+
+          <svg viewBox="0 0 170 204" width="150" height="180" role="img" aria-label="Big Diomede clock reading Thursday 5:00 AM">
+            <circle cx="85" cy="94" r="58" fill="var(--hanten-paper)" stroke="var(--hanten-text)" stroke-width="1.4"/>
+            <circle cx="85" cy="38" r="2" fill="var(--hanten-muted)"/>
+            <circle cx="85" cy="150" r="2" fill="var(--hanten-muted)"/>
+            <circle cx="27" cy="94" r="2" fill="var(--hanten-muted)"/>
+            <circle cx="143" cy="94" r="2" fill="var(--hanten-muted)"/>
+            <line x1="85" y1="94" x2="103" y2="124" stroke="var(--hanten-text)" stroke-width="3.2" stroke-linecap="round"/>
+            <line x1="85" y1="94" x2="85" y2="56" stroke="var(--hanten-text)" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="85" cy="94" r="3" fill="var(--h042-ru)"/>
+            <text x="85" y="14" class="h042-clock-name" text-anchor="middle">Big Diomede</text>
+            <text x="85" y="28" class="h042-clock-sub" text-anchor="middle">Kamchatka Time</text>
+            <text x="85" y="177" class="h042-clock-day" text-anchor="middle" fill="var(--h042-ru)">THURSDAY</text>
+            <text x="85" y="196" class="h042-clock-time" text-anchor="middle">5:00 AM</text>
+          </svg>
+        </div>
+        <p class="h042-clock-note">— the same instant, read on each island —</p>
+      </section>
+    </div>
+
+    <table class="h042-table hanten-body">
+      <caption>The numbers</caption>
+      <thead>
+        <tr><th>Measure</th><th>Big Diomede</th><th>Little Diomede</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Country</td><td class="num">Russia</td><td class="num">USA (Alaska)</td></tr>
+        <tr><td>Time zone</td><td class="num">Kamchatka Time, UTC+12</td><td class="num">Alaska Time, UTC−9 / −8</td></tr>
+        <tr><td>Land area</td><td class="num">≈29 km² (11 mi²)</td><td class="num">≈7 km² (2.4–2.8 mi²)</td></tr>
+        <tr><td>Population</td><td class="num">0 (Russian border post)</td><td class="num">77 (2023)</td></tr>
+        <tr><td>Closest distance apart</td><td class="num" colspan="2">≈2.4 mi / 3.8 km</td></tr>
+        <tr><td>Time difference</td><td class="num" colspan="2">21 hrs winter / 20 hrs summer</td></tr>
+      </tbody>
+    </table>
+
+    <div class="h042-reveal">
+        <p><strong>It would be tidy if crossing the date line simply added exactly one day, leaving the clock time unchanged. It doesn't, here.</strong> Big Diomede runs on Kamchatka Time, a fixed UTC+12 that Russia's Chukotka region has held year-round since Russia abolished daylight saving nationally in 2014. Little Diomede runs on Alaska Time, UTC−9 for most of the year and UTC−8 during daylight-saving months. Twelve minus negative nine is twenty-one; twelve minus negative eight is twenty — so the gap swings between 21 and 20 hours, always shy of a full day, with Big Diomede always further along the calendar.</p>
+      </div>
+
+    <p class="hanten-reflection">
+      When does a border stop marking distance, and start marking time instead?
+    </p>
+
+    <details class="h042-explore">
+      <summary>Explore the Cold War history behind the border</summary>
+      <p>
+        The asymmetry runs deeper than the clocks. Little Diomede is home to a real, if tiny, community — 77 people as of 2023, an Iñupiat village with a school, a store, and a runway used mostly by small planes. Big Diomede has no permanent civilian population at all; the island hosts only a Russian weather station and a border post, its native Iñupiat community relocated to the Russian mainland decades ago during the Cold War, when the strait itself briefly earned the nickname the "Ice Curtain." The maritime border near the date line here is also the line the United States and the Soviet Union agreed on in a 1990 treaty, one of the last pieces of Cold War-era boundary-making still quietly doing its job.
+      </p>
+        <p>In 1987, American swimmer Lynne Cox actually crossed the gap between them, covering about 2.2 miles of frigid water as a piece of Cold War diplomacy — an American touching Soviet soil by the most literal means available. Distance and time, it turns out, are governed by entirely separate sets of rules: geography put these islands within shouting distance of each other, while history and time-zone politics put them on different calendar pages for all but a sliver of the day. Farther south along the same 180th meridian, the line stops dividing calendar days and starts dividing <a href="../H045 Alaska Both Hemispheres/H045.html">east from west instead</a>, at the far tip of Alaska's Aleutian Islands — one line of longitude, doing two entirely different jobs depending on where you cross it.</p>
+    </details>
+
+    <p class="hanten-source">
+      Sources: island and time-zone figures per standard published references (Wikipedia: "Diomede Islands," "Alaska Time Zone," "Kamchatka Time"). Map is an illustrative schematic — coastlines and relative scale are simplified to show the geography clearly and are not survey-grade. The clock pair illustrates one representative instant during Alaska's daylight-saving months (a 20-hour gap); during Alaska's standard-time months the gap is 21 hours.
+    </p>
+  </div>
+
+  <div class="hanten-utility">
+    <div id="save-image-slot"></div>
+  </div>
+
+</main>
+
+<script src="../../04 Shared Assets/js/html2canvas.min.js"></script>
+
+<script>
+(() => {
+  const slot = document.getElementById("save-image-slot");
+  if (!slot || typeof html2canvas !== "function") return;
+  slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+  const save = document.createElement("button"), share = document.createElement("button");
+  save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+  slot.append(save, share);
+  const filename = "H042-diomede-islands.png", title = "How can two islands 2.4 miles apart be a day apart?";
+
+  async function blob() {
+    const capture = document.getElementById("h042-capture");
+    const table = document.querySelector(".h042-table");
+    const reveal = document.querySelector(".h042-reveal");
+    const source = document.querySelector(".h042-source, .hanten-source");
+    if (!capture) throw new Error("Export content not found.");
+
+    const card = document.createElement("div");
+    card.className = "hanten-export-card";
+
+    const titleCanvas = document.createElement("canvas");
+    titleCanvas.width = 1800; titleCanvas.height = 84;
+    titleCanvas.style.width = "900px"; titleCanvas.style.height = "42px";
+    titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
+    const t = titleCanvas.getContext("2d"); t.scale(2, 2);
+    t.font = '750 30px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
+    t.fillText("How can two islands 2.4 miles apart be a day apart?", 450, 21);
+    card.appendChild(titleCanvas);
+
+    const sub = document.createElement("canvas");
+    sub.width = 1800; sub.height = 84; sub.style.width = "900px"; sub.style.height = "42px";
+    sub.style.display = "block"; sub.style.margin = "0 auto 16px";
+    const s = sub.getContext("2d"); s.scale(2, 2);
+    s.font = '400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
+    s.fillText("The International Date Line runs through the water between them.", 450, 21);
+    card.appendChild(sub);
+
+    const shell = document.createElement("div");
+    shell.appendChild(capture.cloneNode(true));
+    if (table) shell.appendChild(table.cloneNode(true));
+    card.appendChild(shell);
+
+    if (reveal) {
+      const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
+      const revealClone = document.createElement("div"); revealClone.className = "hanten-export-aha";
+      revealClone.innerHTML = reveal.innerHTML;
+      textcol.appendChild(revealClone); card.appendChild(textcol);
+    }
+
+    const reflection = document.createElement("div");
+    reflection.className = "hanten-export-reflection";
+    reflection.textContent = "When does a border stop marking distance, and start marking time instead?";
+    card.appendChild(reflection);
+
+    if (source) {
+      const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
+    }
+
+    document.body.appendChild(card);
+    try {
+      const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+      return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+    } finally { card.remove(); }
+  }
+  function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+  save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+  share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+})();
+</script>
+
+</body>
+</html>

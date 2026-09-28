@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H060 — Did the NFL's Overtime Fix Actually Fix Anything?</title>
+
+    <meta
+        name="description"
+        content="The NFL changed its overtime rule in 2010 specifically to reduce the coin-toss winner's advantage. It worked — for five years. Then an unrelated rule change quietly brought the advantage back, higher than before."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H060-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h060-fair: var(--hanten-accent);
+            --h060-warm: #c1442d;
+        }
+
+        .h060-panel {
+            padding: 1.2rem 1.1rem 1rem;
+        }
+
+        .h060-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h060-axis-label {
+            font-family: var(--hanten-font);
+            font-size: 10.5px;
+            fill: var(--hanten-muted);
+        }
+
+        .h060-era-label {
+            font-family: var(--hanten-font);
+            font-size: 13px;
+            font-weight: 700;
+            fill: var(--hanten-text);
+        }
+
+        .h060-era-sub {
+            font-family: var(--hanten-font);
+            font-size: 9.5px;
+            fill: var(--hanten-muted);
+        }
+
+        .h060-pct-label {
+            font-family: var(--hanten-font);
+            font-size: 12px;
+            font-weight: 800;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            The NFL fixed the coin-toss advantage in overtime. Did it stay fixed?
+        </h1>
+
+        <p class="hanten-subtitle">
+            In 2010, the NFL changed its overtime format specifically because winning the coin toss was too big an
+            advantage. The fix worked for a few years — then a separate, unrelated rule change quietly undid it.
+        </p>
+
+        <div id="h060-capture">
+
+            <div class="hanten-graphic hanten-panel h060-panel">
+                <svg viewBox="0 0 640 330" id="h060-chart" role="img" aria-labelledby="h060-chart-title">
+                    <title id="h060-chart-title">Bar chart showing the coin-toss winner's win percentage in NFL overtime across four rule eras, dipping toward 50% after a 2012 fix before rising again after 2017</title>
+                </svg>
+                <p class="hanten-body" style="text-align:center;font-size:0.82rem;color:var(--hanten-muted);margin:0.7rem 0 0;">
+                    A perfectly fair coin toss would win the game exactly 50% of the time, on average, no matter who calls it.
+                </p>
+            </div>
+
+            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">Shortening the clock brought the imbalance back</h2>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
+                Under sudden death (2005–2011), whoever scored first won, and a coin-toss-winning offense often only
+                needed a field goal. The league fixed this in 2010–2012: the second team now gets a possession
+                unless the first team scores a touchdown. It worked — the coin-toss winner's win rate dropped to a
+                near-even 51.2% from 2012–2016.
+            </p>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
+                Then, in 2017, the league shortened overtime from 15 minutes to 10 — a change aimed at player safety,
+                unrelated to fairness. With less time on the clock, the second team gets fewer chances to answer a
+                scoring drive. From 2017–2024, the coin-toss winner's win rate climbed to 59.7% — worse than the
+                original sudden-death era the 2010 rule was designed to fix. In the playoffs under the post-2010
+                rule, coin-toss winners went 10–1 before the NFL made a further postseason-only tweak in 2022.
+            </p>
+
+            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
+                <p class="hanten-takeaway" style="margin:0;">
+                    By 2024, winning the coin toss was a bigger advantage than it was before the league ever tried to fix it.
+                </p>
+            </div>
+
+            <p class="hanten-reflection">
+                A system has many knobs — does fixing one really lock the others in place?
+            </p>
+
+            <p class="hanten-source">
+                Sources: win-loss-tie records by era — 2005–2011 sudden death, 53-46-1 (53.5%); 2012–2016 modified
+                rule at 15-minute overtime, 40-38-5 (51.2%); 2017–2024 modified rule at 10-minute overtime, 67-44-7
+                (59.7%); post-2010-rule playoff games, coin-toss winners 10-1. Figures per Sports Illustrated
+                ("There Have Been 11 NFL Overtime Playoff Games Since the Rule Change," Jan. 2022) and subsequent
+                league-data reporting through the 2024 season. The NFL made a further postseason-only overtime
+                change in 2022, guaranteeing both teams a possession, after the 2022 AFC Championship Game ended
+                without the trailing team getting the ball.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script>
+        (() => {
+            const eras = [
+                { label: "2005–2011", sub: "Sudden death", pct: 53.5, record: "53-46-1" },
+                { label: "2012–2016", sub: "Fixed rule, 15-min OT", pct: 51.2, record: "40-38-5" },
+                { label: "2017–2024", sub: "Fixed rule, 10-min OT", pct: 59.7, record: "67-44-7" },
+                { label: "Playoffs 2010–2021", sub: "Fixed rule (pre-2022 tweak)", pct: 90.9, record: "10-1" },
+            ];
+
+            const svg = document.getElementById("h060-chart");
+            const chartLeft = 50, chartRight = 610, chartTop = 30, chartBottom = 260;
+            const maxPct = 100;
+            const barW = (chartRight - chartLeft) / eras.length;
+            const yFor = pct => chartBottom - (pct / maxPct) * (chartBottom - chartTop);
+
+            let html = "";
+            [0, 25, 50, 75, 100].forEach(v => {
+                const y = yFor(v);
+                html += `<line x1="${chartLeft}" y1="${y}" x2="${chartRight}" y2="${y}" stroke="var(--hanten-border)" stroke-width="1"/>`;
+                html += `<text x="${chartLeft - 8}" y="${y + 4}" class="h060-axis-label" text-anchor="end">${v}%</text>`;
+            });
+            const fairY = yFor(50);
+            html += `<line x1="${chartLeft}" y1="${fairY}" x2="${chartRight}" y2="${fairY}" stroke="var(--hanten-text)" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+            html += `<text x="${chartRight + 4}" y="${fairY + 4}" class="h060-axis-label">FAIR (50%)</text>`;
+
+            eras.forEach((e, i) => {
+                const cx = chartLeft + (i + 0.5) * barW;
+                const barWidth = barW * 0.5;
+                const y = yFor(e.pct);
+                const color = e.pct > 55 ? "var(--h060-warm)" : "var(--h060-fair)";
+                html += `<rect x="${(cx - barWidth / 2).toFixed(1)}" y="${y.toFixed(1)}" width="${barWidth.toFixed(1)}" height="${(chartBottom - y).toFixed(1)}" fill="${color}"/>`;
+                html += `<text x="${cx.toFixed(1)}" y="${(y - 8).toFixed(1)}" class="h060-pct-label" text-anchor="middle" fill="${color}">${e.pct}%</text>`;
+                html += `<text x="${cx.toFixed(1)}" y="${chartBottom + 20}" class="h060-era-label" text-anchor="middle">${e.label}</text>`;
+                html += `<text x="${cx.toFixed(1)}" y="${chartBottom + 34}" class="h060-era-sub" text-anchor="middle">${e.sub}</text>`;
+                html += `<text x="${cx.toFixed(1)}" y="${chartBottom + 47}" class="h060-era-sub" text-anchor="middle">(${e.record})</text>`;
+            });
+
+            svg.innerHTML = html;
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "The NFL fixed the coin-toss advantage in overtime. Did it stay fixed?",
+            filename: "H060-nfl-overtime-coin-toss.png"
+        });
+    </script>
+
+</body>
+</html>

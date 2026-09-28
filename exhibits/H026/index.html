@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H026 — March Madness 2026</title>
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        :root {
+            --h026-ink: #17212b;
+            --h026-muted: #68717a;
+            --h026-line: rgba(23,33,43,.13);
+            --h026-accent: #0e7c86;
+            --h026-accent-soft: rgba(14,124,134,.10);
+            --h026-low: #f6ddbb;
+            --h026-high: #b3591b;
+            --h026-zero: #d9ddd5;
+            --h026-zero-line: #c2c8bf;
+            --h026-gold: #b8860b;
+            --h026-panel: #ffffff;
+        }
+
+        .h026-shell {
+            width: min(100%, 900px);
+            margin: 0 auto;
+        }
+
+        .h026-funnel {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: .45rem;
+            margin: .2rem 0 .55rem;
+            color: var(--h026-muted);
+            font: 650 clamp(.78rem,1.7vw,.95rem)/1.3 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+        }
+
+        .h026-funnel strong {
+            color: var(--h026-ink);
+            font-size: 1.1em;
+        }
+
+        .h026-funnel .arrow {
+            color: #a0a7ad;
+        }
+
+        .h026-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: .38rem;
+            margin-bottom: .5rem;
+        }
+
+        .h026-tabs button {
+            appearance: none;
+            border: 1px solid rgba(23,33,43,.17);
+            background: var(--hanten-paper);
+            color: #59636d;
+            padding: .46rem .68rem;
+            border-radius: 0;
+            cursor: pointer;
+            font: 650 .71rem/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+        }
+
+        .h026-tabs button:hover,
+        .h026-tabs button:focus-visible {
+            border-color: var(--h026-accent);
+            outline: none;
+        }
+
+        .h026-tabs button.active {
+            background: var(--h026-accent);
+            border-color: var(--h026-accent);
+            color: #fff;
+        }
+
+        .h026-layout {
+            display: grid;
+            grid-template-columns: minmax(0,2fr) minmax(210px,.78fr);
+            gap: .65rem;
+            align-items: stretch;
+        }
+
+        .h026-layout {
+            padding: .55rem;
+            background: var(--hanten-paper);
+            border: 1px solid var(--hanten-border);
+        }
+
+        .h026-map-wrap {
+            position: relative;
+            padding: 0;
+        }
+
+        #h026-map {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .state {
+            stroke: #fff;
+            stroke-width: .65;
+            cursor: pointer;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .state.zero {
+            fill: var(--h026-zero);
+            stroke: var(--h026-zero-line);
+        }
+
+        #h026-tooltip {
+            position: absolute;
+            display: none;
+            z-index: 5;
+            max-width: 280px;
+            pointer-events: none;
+            padding: .55rem .72rem;
+            border-radius: 4px;
+            background: var(--h026-ink);
+            color: #fff;
+            font-size: .77rem;
+            line-height: 1.4;
+            box-shadow: 0 3px 12px rgba(0,0,0,.13);
+        }
+
+        #h026-tooltip .stat {
+            color: #9ed8dc;
+            margin-top: .15rem;
+        }
+
+        #h026-tooltip ul {
+            margin: .34rem 0 0;
+            padding-left: 1rem;
+        }
+
+        #h026-tooltip li {
+            margin-bottom: .12rem;
+        }
+
+        #h026-tooltip li.alive {
+            color: #a8e0b0;
+        }
+
+        #h026-tooltip li.out-now {
+            color: #e8b98f;
+        }
+
+        .h026-side {
+            padding: .25rem 0 .25rem .8rem;
+            border-left: 1px solid var(--hanten-border);
+        }
+
+        .h026-side h2 {
+            margin: 0 0 .65rem;
+            color: var(--h026-muted);
+            font: 700 .7rem/1.25 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+            text-transform: uppercase;
+            letter-spacing: .055em;
+        }
+
+        .h026-side ol {
+            margin: 0;
+            padding-left: 1.35rem;
+            font-size: .84rem;
+            line-height: 1.34;
+        }
+
+        .h026-side li {
+            margin-bottom: .42rem;
+        }
+
+        .h026-side .val {
+            float: right;
+            margin-left: .5rem;
+            color: var(--h026-accent);
+            font: 700 .77rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+        }
+
+        .h026-side .empty {
+            margin: 0;
+            color: var(--h026-muted);
+            font-size: .84rem;
+        }
+
+        .h026-legend {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .55rem;
+            margin: .45rem 0 0;
+            color: var(--h026-muted);
+            font-size: .74rem;
+        }
+
+        .h026-legend .bar {
+            width: 120px;
+            height: 9px;
+            background: linear-gradient(to right,var(--h026-low),var(--h026-high));
+        }
+
+        .h026-legend .swatch {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin-right: .3rem;
+            background: var(--h026-zero);
+            border: 1px solid var(--h026-zero-line);
+            vertical-align: -1px;
+        }
+
+        .h026-stage-note {
+            max-width: 760px;
+            margin: .65rem auto 0;
+            padding: .15rem 0 .15rem 1rem;
+            border-left: 3px solid var(--hanten-accent);
+            background: transparent;
+            color: var(--hanten-text);
+            font-size: .88rem;
+            line-height: 1.45;
+        }
+
+        .h026-stage-note strong {
+            color: var(--h026-ink);
+        }
+
+        .h026-stage-note p {
+            margin: 0;
+        }
+
+        .h026-takeaway {
+            max-width: 760px;
+            margin: .75rem auto 0;
+            padding: .15rem 0 .15rem 1rem;
+            border-left: 3px solid var(--hanten-accent);
+            font-size: .95rem;
+            line-height: 1.45;
+        }
+
+        .h026-explore {
+            max-width: 760px;
+            margin: .7rem auto 0;
+            padding: .55rem 0;
+            border-top: 1px solid var(--hanten-border);
+            border-bottom: 1px solid var(--hanten-border);
+            color: var(--hanten-muted);
+            font-size: .8rem;
+            line-height: 1.45;
+        }
+
+        .h026-explore summary {
+            cursor: pointer;
+            font-weight: 750;
+            color: var(--hanten-text);
+        }
+
+        .h026-explore-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: .65rem;
+        }
+
+        .h026-explore-grid h3 {
+            margin: 0 0 .35rem;
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--hanten-muted);
+        }
+
+        .h026-story {
+            margin: 0 0 .55rem;
+        }
+
+        .h026-story:last-child { margin-bottom: 0; }
+
+        .h026-story strong { color: var(--hanten-text); }
+
+        .h026-source {
+            max-width: 840px;
+            margin: .9rem auto 0;
+            text-align: center;
+            color: #7b838a;
+            font-size: .7rem;
+            line-height: 1.45;
+        }
+
+        @media (max-width: 760px) {
+            .h026-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .h026-three,
+            .h026-explore-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .h026-side {
+                border-left: 0;
+                border-top: 1px solid var(--hanten-border);
+                padding: .65rem 0 0;
+            }
+
+            .h026-side .val {
+                float: none;
+                margin-left: .35rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+    <h1 class="hanten-question">
+        Which state wins March Madness before anyone wins March Madness?
+    </h1>
+
+    <p class="hanten-subtitle">
+        Follow which states have the most teams as the field narrows from every Division I program to one champion.
+    </p>
+
+    <div class="hanten-graphic">
+        <div class="h026-shell">
+
+            <div class="h026-funnel" aria-label="Tournament funnel">
+                <strong>355 programs</strong>
+                <span class="arrow">→</span>
+                <strong>68 teams</strong>
+                <span class="arrow">→</span>
+                <strong>16</strong>
+                <span class="arrow">→</span>
+                <strong>4</strong>
+                <span class="arrow">→</span>
+                <strong>1 champion</strong>
+            </div>
+
+            <div class="h026-tabs" id="tabs" aria-label="Tournament stage"></div>
+
+            <div class="h026-layout" id="h026-capture">
+                <div class="h026-map-wrap" id="map-wrap">
+                    <svg id="h026-map" viewBox="0 0 975 610" role="img"
+                         aria-label="United States map showing Division I basketball programs and surviving 2026 March Madness teams by state"></svg>
+                    <div id="h026-tooltip"></div>
+                </div>
+
+                <aside class="h026-side">
+                    <h2 id="side-title">Most Division I programs</h2>
+                    <ol id="side-list"></ol>
+                    <p class="empty" id="side-empty" style="display:none;"></p>
+                </aside>
+            </div>
+
+            <div class="h026-legend" id="legend"></div>
+
+            <div class="h026-stage-note" id="stage-note"></div>
+
+            <div class="h026-three" aria-label="Three different leaders">
+                <div class="h026-card">
+                    <span class="place">Most Division I programs</span>
+                    <span class="state-name">California</span>
+                    <span class="result">26 programs</span>
+                </div>
+                <div class="h026-card">
+                    <span class="place">Most tournament bids</span>
+                    <span class="state-name">Texas</span>
+                    <span class="result">7 teams</span>
+                </div>
+                <div class="h026-card champion">
+                    <span class="place">National champion</span>
+                    <span class="state-name">Michigan</span>
+                    <span class="result">Michigan Wolverines</span>
+                </div>
+            </div>
+
+            <div class="h026-takeaway">
+                <strong>California starts with the most programs. Texas sends the most teams. Michigan produces the champion.</strong><br>
+                The leader changes because each stage asks a different question.
+            </div>
+
+            <p class="hanten-reflection">
+                How much does a starting advantage tell you about who will still be standing at the end?
+            </p>
+
+            <details class="h026-explore">
+                <summary>Explore the tournament</summary>
+
+                <div class="h026-explore-grid">
+                    <section>
+                        <h3>Cinderella stories</h3>
+
+                        <p class="h026-story">
+                            <strong>#11 Texas</strong> — Texas survived the First Four, then upset #6 BYU 79–71
+                            to reach the Round of 32 before continuing deep enough to become one of the state's last two survivors.
+                        </p>
+
+                        <p class="h026-story">
+                            <strong>#9 Iowa</strong> — Iowa knocked out South Region #1 seed Florida 73–72
+                            and was still alive in the Elite Eight before Illinois ended the run.
+                        </p>
+
+                        <p class="h026-story">
+                            <strong>#12 High Point and #11 VCU</strong> — Both double-digit seeds produced
+                            first-round upsets, beating Wisconsin and North Carolina respectively.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h3>Upsets & turning points</h3>
+
+                        <p class="h026-story">
+                            <strong>Texas goes from seven to zero.</strong> No state placed more teams in the field,
+                            but all seven Texas entries were eliminated before the Elite Eight.
+                        </p>
+
+                        <p class="h026-story">
+                            <strong>Duke falls by one.</strong> UConn beat Duke 73–72 in the Elite Eight,
+                            ending North Carolina's final remaining bid.
+                        </p>
+
+                        <p class="h026-story">
+                            <strong>Michigan finishes the funnel.</strong> After routing Tennessee 95–62,
+                            Michigan beat Arizona 91–73 and then UConn 69–63 for the national championship.
+                        </p>
+                    </section>
+                </div>
+            </details>
+
+            <div class="h026-source">
+                Source basis from the original H026 exhibit: 2026 NCAA Division I men's basketball tournament bracket results and box scores;
+                Division I program counts by state from playcollegebasketball.org, described in the source as an independent approximate
+                compilation rather than an official NCAA total. Teams are assigned to their main campus's state.
+            </div>
+
+            <div class="hanten-utility">
+                <div id="save-image-slot"></div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/js/topojson-client.min.js"></script>
+<script src="../../assets/geodata/us/us-counties-10m.js"></script>
+<script src="../../assets/geodata/marchmadness2026.js"></script>
+
+<script>
+const width = 975, height = 610;
+  const svg = d3.select("#h026-map").attr("viewBox", `0 0 ${width} ${height}`);
+  const tooltip = document.getElementById("h026-tooltip");
+
+  // Group tournament teams by state once — reused by every stage's tooltip.
+  const STATE_TEAMS = {};
+  Object.entries(MM_TEAMS).forEach(([name, t]) => {
+    (STATE_TEAMS[t.state] = STATE_TEAMS[t.state] || []).push({ name, ...t });
+  });
+  Object.values(STATE_TEAMS).forEach(list => list.sort((a, b) => a.seed - b.seed));
+
+  const statesFeatures = topojson.feature(US_COUNTIES_TOPOLOGY, US_COUNTIES_TOPOLOGY.objects.states).features
+    .filter(f => Object.prototype.hasOwnProperty.call(D1_BY_STATE, f.properties.name));
+  const projection = d3.geoAlbersUsa().fitSize([width, height], { type: "FeatureCollection", features: statesFeatures });
+  const path = d3.geoPath(projection);
+
+  const ROUND_NAME = { 1: "the First Four", 2: "the Round of 64", 3: "the Round of 32", 4: "the Sweet 16", 5: "the Elite Eight", 6: "the Final Four", 7: "the Championship" };
+
+  const STAGES = [
+    { id: 0, label: "All Division I Teams", listTitle: "Most Division I programs", zeroLabel: "No Division I program",
+      note: `<p><strong>Every state gets a starting line.</strong> 355 Division I men's basketball programs nationwide (an approximate count) — before a single game tips off, this is pure potential. California leads with 26 programs, well ahead of Texas and New York (22 each) and North Carolina (18). Alaska is the only state with zero.</p>` },
+    { id: 1, label: "Qualified — Field of 68", listTitle: "Most teams in the field", zeroLabel: "No team in the field",
+      note: `<p><strong>Texas sent more teams to the 2026 tournament than any other state — seven</strong>, despite having four fewer Division I programs than California. California, the state with the most programs in the country, landed only four bids: the same as Ohio, Florida, and New York.</p>` },
+    { id: 2, label: "Round of 64", listTitle: "Most teams remaining", zeroLabel: "No team remaining",
+      note: `<p><strong>The field drops from 68 to 64.</strong> The state map begins to change immediately as four First Four games decide which teams enter the main bracket.</p>` },
+    { id: 3, label: "Round of 32", listTitle: "Most teams remaining", zeroLabel: "No team remaining",
+      note: `<p><strong>Thirty-two teams remain.</strong> Early upsets begin removing states that looked strong when the tournament started.</p>` },
+    { id: 4, label: "Sweet 16", listTitle: "Most teams remaining", zeroLabel: "No team remaining",
+      note: `<p><strong>Sixteen teams remain.</strong> Texas began with seven bids but is already down to two survivors.</p>` },
+    { id: 5, label: "Elite Eight", listTitle: "Most teams remaining", zeroLabel: "No team remaining",
+      note: `<p><strong>Eight teams remain — and Texas has none.</strong> The state that sent the most teams into the tournament disappears before the Elite Eight.</p>` },
+    { id: 6, label: "Final Four", listTitle: "Still standing", zeroLabel: "No team remaining",
+      note: `<p><strong>Four states remain.</strong> Michigan, Connecticut, Illinois, and Arizona each have one team left.</p>` },
+    { id: 7, label: "Championship", listTitle: "In the title game", zeroLabel: "No team remaining",
+      note: `<p><strong>Two states remain.</strong> Michigan and Connecticut meet for the national championship.</p>` },
+    { id: 8, label: "Champion", listTitle: "Champion", zeroLabel: "",
+      note: `<p><strong>Michigan is the last state standing.</strong> Its champion emerged from a state that began the tournament with only two bids.</p>` },
+  ];
+
+  function countForState(stateName, stage) {
+    if (stage === 0) return D1_BY_STATE[stateName] || 0;
+    const list = STATE_TEAMS[stateName] || [];
+    return list.filter(t => t.reached >= stage).length;
+  }
+
+  function teamStatus(t, stage) {
+    if (t.reached >= stage) return { cls: "alive", text: stage === 8 && t.reached === 8 ? "Champion" : "Still in" };
+    if (t.reached === stage - 1) return { cls: "out-now", text: `Out — ${t.note}` };
+    return { cls: "out-earlier", text: `Out earlier — lost in ${ROUND_NAME[t.reached] || "the First Four"}` };
+  }
+
+  let currentStage = 0;
+  const group = svg.append("g")
+    .selectAll("path")
+    .data(statesFeatures)
+    .join("path")
+    .attr("class", "state")
+    .attr("d", path);
+
+  function showStateTip(event, f) {
+    const name = f.properties.name;
+    const count = countForState(name, currentStage);
+    let html;
+    if (currentStage === 0) {
+      const qualified = countForState(name, 1);
+      html = `<strong>${name}</strong>
+        <div class="stat">${count} Division I program${count === 1 ? "" : "s"}</div>
+        <div class="stat">${qualified} reached the 2026 tournament field</div>`;
+    } else {
+      const list = (STATE_TEAMS[name] || []);
+      html = `<strong>${name}</strong>
+        <div class="stat">${count} team${count === 1 ? "" : "s"} at this stage</div>`;
+      if (list.length) {
+        html += "<ul>" + list.map(t => {
+          const s = teamStatus(t, currentStage);
+          return `<li class="${s.cls}">#${t.seed} ${t.name} — ${s.text}</li>`;
+        }).join("") + "</ul>";
+      }
+    }
+    tooltip.style.display = "block";
+    tooltip.innerHTML = html;
+    const wrap = document.getElementById("map-wrap").getBoundingClientRect();
+    tooltip.style.left = Math.min(event.clientX - wrap.left + 14, wrap.width - 280) + "px";
+    tooltip.style.top = (event.clientY - wrap.top + 14) + "px";
+  }
+
+  group
+    .on("mousemove", showStateTip)
+    .on("click", showStateTip) // touch devices have no hover — tap works instead
+    .on("mouseleave", () => { tooltip.style.display = "none"; });
+
+  function render(stage) {
+    currentStage = stage;
+    const s = STAGES[stage];
+
+    const counts = {};
+    statesFeatures.forEach(f => { counts[f.properties.name] = countForState(f.properties.name, stage); });
+    const maxVal = d3.max(Object.values(counts)) || 1;
+    // d3's color interpolator needs literal color values — it can't resolve
+    // CSS custom properties like var(--mm-hi), so the hex is repeated here.
+    const scale = d3.scaleLinear().domain([1, Math.max(2, maxVal)]).range(["#f6ddbb", "#b3591b"]).interpolate(d3.interpolateRgb);
+    const colorFor = v => v <= 0 ? "#d9ddd5" : (maxVal <= 1 ? "#b3591b" : scale(v));
+
+    group
+      .attr("class", f => "state" + (counts[f.properties.name] <= 0 ? " zero" : ""))
+      .attr("fill", f => colorFor(counts[f.properties.name]));
+
+    const ranked = Object.entries(counts).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).slice(0, 15);
+    const listEl = document.getElementById("side-list");
+    const emptyEl = document.getElementById("side-empty");
+    listEl.innerHTML = "";
+    if (ranked.length) {
+      listEl.style.display = "";
+      emptyEl.style.display = "none";
+      ranked.forEach(([name, v]) => {
+        const li = document.createElement("li");
+        li.innerHTML = `${name} <span class="val">${v}</span>`;
+        listEl.appendChild(li);
+      });
+    } else {
+      listEl.style.display = "none";
+      emptyEl.style.display = "";
+      emptyEl.textContent = "No state has a team left.";
+    }
+    document.getElementById("side-title").textContent = s.listTitle;
+
+    document.getElementById("legend").innerHTML = `
+      <span>Fewer</span><span class="bar"></span><span>More</span>
+      <span style="margin-left:1rem"><span class="swatch"></span>${s.zeroLabel}</span>`;
+
+    document.getElementById("stage-note").innerHTML = s.note;
+    document.querySelectorAll("#tabs button").forEach((b, i) => {
+      const active = i === stage;
+      b.classList.toggle("active", active);
+      b.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+  }
+
+  const tabsEl = document.getElementById("tabs");
+  STAGES.forEach(s => {
+    const b = document.createElement("button");
+    b.textContent = s.label;
+    b.setAttribute("aria-pressed", s.id === 0 ? "true" : "false");
+    b.addEventListener("click", () => render(s.id));
+    tabsEl.appendChild(b);
+  });
+
+  render(0);
+
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "Which state wins March Madness before anyone wins March Madness?",
+    filename: "H026-march-madness-2026.png"
+});
+</script>
+
+</body>
+</html>

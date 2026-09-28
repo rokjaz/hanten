@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>H023 — Africa Is 14 Greenlands</title>
+
+    <link
+        rel="stylesheet"
+        href="../../assets/css/hanten.css"
+    >
+
+    <style>
+        #h023-graphic {
+            display: block;
+            width: auto;
+            max-width: 100%;
+            height: min(58vh, 610px);
+            margin: 0 auto;
+        }
+
+        #h023-graphic .africa {
+            fill: #d6dbd0;
+            stroke: #8f9a87;
+            stroke-width: 0.8;
+        }
+
+        #h023-graphic .greenland {
+            fill: #1f6f8b;
+            fill-opacity: 0.82;
+            stroke: #ffffff;
+            stroke-width: 1;
+        }
+
+        #h023-graphic .greenland-number {
+            font-family: ui-monospace, "SF Mono", Menlo, monospace;
+            font-size: 15px;
+            font-weight: 700;
+            fill: #ffffff;
+            text-anchor: middle;
+            paint-order: stroke;
+            stroke: rgba(28, 39, 51, 0.42);
+            stroke-width: 3px;
+        }
+
+        .h023-ratio {
+            margin-top: .45rem;
+            text-align: center;
+            font-size: .76rem;
+            color: var(--hanten-muted, #66727d);
+        }
+        .h023-takeaway {
+            max-width: 760px;
+            margin: .8rem auto 0;
+            padding: .15rem 0 .15rem 1rem;
+            border-left: 3px solid var(--hanten-accent);
+            font-size: .95rem;
+            line-height: 1.45;
+        }
+
+        .h023-details {
+            max-width: 760px;
+            margin: .7rem auto 0;
+            color: var(--hanten-muted);
+            font-size: .8rem;
+            line-height: 1.45;
+        }
+
+        .h023-details summary {
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .h023-details p {
+            margin: .45rem 0 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            Greenland looks almost as large as Africa on many world maps.
+            How many Greenlands actually fit inside Africa?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Put Greenland and Africa on the same equal-area scale.
+        </p>
+
+        <div class="hanten-graphic" id="h023-capture">
+            <svg
+                id="h023-graphic"
+                viewBox="0 0 760 820"
+                role="img"
+                aria-labelledby="h023-title h023-desc"
+            >
+                <title id="h023-title">Fourteen Greenlands compared with Africa</title>
+                <desc id="h023-desc">
+                    Africa shown at equal-area scale with fourteen copies of Greenland
+                    placed across it at the same scale.
+                </desc>
+            </svg>
+
+            <div class="h023-ratio">
+                Africa ≈ 30.4 million km² · Greenland ≈ 2.17 million km² · Ratio ≈ 14:1
+            </div>
+        </div>
+
+        <div class="h023-takeaway">
+            <strong>Africa is about 14 times larger than Greenland.</strong><br>
+            Familiar world maps can make them look surprisingly similar because high-latitude land is greatly enlarged.
+        </div>
+
+        <p class="hanten-reflection">
+            How much of your sense of geographic size comes from the projection you usually see?
+        </p>
+
+        <details class="h023-details">
+            <summary>See how the comparison was made</summary>
+            <p>
+                Each numbered shape is Greenland rendered with an equal-area projection at the same scale as Africa.
+                The copies are rotated and repositioned only to make them fit visually; rotation does not change their area.
+            </p>
+        </details>
+
+        <footer class="hanten-source">
+            Areas: CIA World Factbook. Shapes: Natural Earth. Equal-area comparison rendered with D3.
+        </footer>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+    </main>
+
+    <script src="../../assets/js/d3.v7.min.js"></script>
+    <script src="../../assets/geodata/countries.js"></script>
+
+    <script>
+        const width = 760;
+        const height = 820;
+
+        const svg = d3
+            .select("#h023-graphic")
+            .attr("viewBox", `0 0 ${width} ${height}`);
+
+        const features = COUNTRIES_GEOJSON.features;
+
+        const africaFeatures = features.filter(
+            feature => feature.properties.CONTINENT === "Africa"
+        );
+
+        const greenland = features.find(
+            feature => feature.properties.NAME === "Greenland"
+        );
+
+        const africa = {
+            type: "FeatureCollection",
+            features: africaFeatures
+        };
+
+        // Equal-area projection fitted to Africa.
+        // The scale is then reused for every Greenland.
+        const baseProjection = d3
+            .geoAzimuthalEqualArea()
+            .rotate([-17, -1.5])
+            .fitExtent(
+                [[28, 24], [width - 28, height - 24]],
+                africa
+            );
+
+        const scale = baseProjection.scale();
+        const africaPath = d3.geoPath(baseProjection);
+
+        svg
+            .append("g")
+            .selectAll("path")
+            .data(africaFeatures)
+            .join("path")
+            .attr("class", "africa")
+            .attr("d", africaPath);
+
+        /*
+         * Fourteen copies of Greenland.
+         *
+         * Each uses its own azimuthal equal-area projection, but every
+         * projection uses the exact same scale as Africa. Rotation and
+         * placement are purely visual; area remains directly comparable.
+         */
+        const placements = [
+            [110, 220,   0],
+            [230, 140,   0],
+            [340, 280,   0],
+            [390, 510,   0],
+            [460, 200,   0],
+            [480, 670,   0],
+            [530, 390,   0],
+            [590, 520, 180],
+            [640, 300, 240],
+            [200, 330, 150],
+            [320, 670, 240],
+            [580, 140, 240],
+            [630, 710, 300],
+            [390,  60, 120]
+        ];
+
+        const greenlandGroup = svg.append("g");
+
+        placements.forEach(([x, y, rotation], index) => {
+            const projection = d3
+                .geoAzimuthalEqualArea()
+                .rotate([42, -72, rotation])
+                .scale(scale)
+                .translate([x, y]);
+
+            greenlandGroup
+                .append("path")
+                .datum(greenland)
+                .attr("class", "greenland")
+                .attr("d", d3.geoPath(projection));
+
+            greenlandGroup
+                .append("text")
+                .attr("class", "greenland-number")
+                .attr("x", x)
+                .attr("y", y + 5)
+                .text(index + 1);
+        });
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "Greenland looks almost as large as Africa on many world maps. How many Greenlands actually fit inside Africa?",
+            filename: "H023-africa-is-14-greenlands.png"
+        });
+    </script>
+
+</body>
+</html>

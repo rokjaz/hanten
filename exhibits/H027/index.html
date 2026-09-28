@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H027 — Statehood Order</title>
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        :root {
+            --h027-ink: #17212b;
+            --h027-muted: #68717a;
+            --h027-line: rgba(23,33,43,.13);
+            --h027-accent: #0e7c86;
+            --h027-accent-soft: rgba(14,124,134,.10);
+            --h027-early: #153e5c;
+            --h027-late: #cfe3ee;
+            --h027-highlight: #b85a46;
+            --h027-panel: #ffffff;
+        }
+
+        .h027-shell {
+            width: min(100%, 900px);
+            margin: 0 auto;
+        }
+
+        .h027-controls {
+            display: flex;
+            justify-content: center;
+            margin: .15rem 0 .5rem;
+        }
+
+        .h027-controls button {
+            appearance: none;
+            border: 1px solid rgba(23,33,43,.17);
+            background: var(--hanten-paper);
+            color: #59636d;
+            padding: .48rem .78rem;
+            border-radius: 0;
+            cursor: pointer;
+            font: 650 .72rem/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+        }
+
+        .h027-controls button:hover,
+        .h027-controls button:focus-visible {
+            border-color: var(--h027-accent);
+            outline: none;
+        }
+
+        .h027-controls button.active {
+            background: var(--h027-accent);
+            border-color: var(--h027-accent);
+            color: #fff;
+        }
+
+        .h027-map-wrap {
+            position: relative;
+            background: var(--h027-panel);
+            border: 1px solid var(--hanten-border);
+            padding: .45rem;
+        }
+
+        #h027-map {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h027-state {
+            stroke: #fff;
+            stroke-width: .65;
+            vector-effect: non-scaling-stroke;
+            cursor: pointer;
+        }
+
+        .h027-state.h027-final-two {
+            stroke: var(--h027-highlight);
+            stroke-width: 1.9;
+        }
+
+        .h027-state-label {
+            font: 750 10.5px/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+            fill: var(--h027-ink);
+            pointer-events: none;
+            paint-order: stroke;
+            stroke: rgba(255,255,255,.96);
+            stroke-width: 3px;
+            stroke-linejoin: round;
+        }
+
+        .h027-legend {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .5rem;
+            margin: .45rem 0 0;
+            color: var(--h027-muted);
+            font-size: .74rem;
+        }
+
+        .h027-gradient {
+            width: 130px;
+            height: 9px;
+            background: linear-gradient(to right, var(--h027-early), var(--h027-late));
+        }
+
+        .h027-gap {
+            max-width: 820px;
+            margin: .65rem auto 0;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: .6rem;
+            align-items: center;
+        }
+
+        .h027-gap-card {
+            background: var(--hanten-paper);
+            border: 1px solid var(--h027-line);
+            padding: .55rem .65rem;
+            text-align: center;
+        }
+
+        .h027-gap-card .year {
+            display: block;
+            color: var(--h027-ink);
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+
+        .h027-gap-card .label {
+            display: block;
+            margin-top: .1rem;
+            color: var(--h027-muted);
+            font-size: .76rem;
+            line-height: 1.35;
+        }
+
+        .h027-gap-arrow {
+            color: var(--h027-highlight);
+            font: 800 .78rem/1.15 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .h027-reveal {
+            max-width: 760px;
+            margin: .75rem auto 0;
+            padding: .15rem 0 .15rem 1rem;
+            border-left: 3px solid var(--hanten-accent);
+            color: var(--hanten-text);
+            font-size: .95rem;
+            line-height: 1.45;
+        }
+
+        .h027-explore {
+            max-width: 760px;
+            margin: .7rem auto 0;
+            padding: .55rem 0;
+            border-top: 1px solid var(--hanten-border);
+            border-bottom: 1px solid var(--hanten-border);
+            color: var(--hanten-muted);
+            font-size: .8rem;
+            line-height: 1.45;
+        }
+
+        .h027-explore summary {
+            cursor: pointer;
+            font-weight: 750;
+            color: var(--hanten-text);
+        }
+
+        .h027-explore-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: .65rem;
+        }
+
+        .h027-explore h3 {
+            margin: 0 0 .3rem;
+            color: var(--hanten-text);
+            font-size: .8rem;
+        }
+
+        .h027-explore p {
+            margin: 0;
+        }
+
+        .h027-statehood-list {
+            margin-top: .8rem;
+            padding-top: .65rem;
+            border-top: 1px solid var(--hanten-border);
+        }
+
+        .h027-statehood-list h3 {
+            margin-bottom: .45rem;
+        }
+
+        .h027-statehood-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0,1fr));
+            column-gap: 1.25rem;
+        }
+
+        .h027-statehood-item {
+            display: grid;
+            grid-template-columns: 2.1rem minmax(0,1fr) auto;
+            gap: .4rem;
+            padding: .24rem 0;
+            border-bottom: 1px solid rgba(23,33,43,.08);
+            align-items: baseline;
+        }
+
+        .h027-statehood-order {
+            color: var(--hanten-accent);
+            font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+            font-weight: 750;
+        }
+
+        .h027-statehood-name {
+            color: var(--hanten-text);
+            font-weight: 650;
+        }
+
+        .h027-statehood-date {
+            color: var(--hanten-muted);
+            white-space: nowrap;
+            font-size: .76rem;
+        }
+
+        .h027-source {
+            max-width: 840px;
+            margin: .9rem auto 0;
+            text-align: center;
+            color: #7b838a;
+            font-size: .7rem;
+            line-height: 1.45;
+        }
+
+        @media (max-width: 700px) {
+            .h027-gap {
+                grid-template-columns: 1fr;
+            }
+
+            .h027-gap-arrow {
+                white-space: normal;
+            }
+
+            .h027-explore-grid,
+            .h027-statehood-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+    <h1 class="hanten-question">
+        Did the United States grow one state at a time?
+    </h1>
+
+    <p class="hanten-subtitle">
+        Put the order of admission onto the map — then look at the timing.
+    </p>
+
+    <div class="hanten-graphic">
+        <div class="h027-shell">
+
+            <div class="h027-controls">
+                <button id="h027-toggle-numbers" type="button" aria-pressed="false">
+                    Show admission numbers
+                </button>
+            </div>
+
+            <div class="h027-map-wrap" id="h027-capture">
+                <svg id="h027-map" viewBox="0 0 975 610"
+                     role="img"
+                     aria-label="United States map shaded from earlier to later statehood admission, with optional admission-order numbers"></svg>
+            </div>
+
+            <div class="h027-legend">
+                <span>Earlier</span>
+                <span class="h027-gradient" aria-hidden="true"></span>
+                <span>Later</span>
+            </div>
+
+            <div class="h027-gap" aria-label="Longest gap between state admissions">
+                <div class="h027-gap-card">
+                    <span class="year">1912</span>
+                    <span class="label">Arizona becomes the 48th state</span>
+                </div>
+
+                <div class="h027-gap-arrow">47 YEARS →</div>
+
+                <div class="h027-gap-card">
+                    <span class="year">1959</span>
+                    <span class="label">Alaska, then Hawaii</span>
+                </div>
+            </div>
+
+            <div class="h027-reveal">
+                <strong>The sequence looks orderly. The timing was not.</strong><br>
+                The original 13 entered in less than three years. After Arizona became No. 48 in 1912,
+                the country waited <strong>47 years</strong> for Alaska — then only seven and a half months for Hawaii.
+            </div>
+
+            <p class="hanten-reflection">
+                What does an ordered list hide when the intervals between events are unequal?
+            </p>
+
+            <details class="h027-explore">
+                <summary>Explore the statehood stories</summary>
+
+                <div class="h027-explore-grid">
+                    <section>
+                        <h3>Two Dakotas, one day</h3>
+                        <p>
+                            North Dakota and South Dakota were both admitted on November 2, 1889.
+                            By convention they are numbered 39th and 40th.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h3>West Virginia becomes No. 35</h3>
+                        <p>
+                            Its territory had been part of Virginia, but West Virginia entered the Union
+                            as a separate state on June 20, 1863.
+                        </p>
+                    </section>
+                </div>
+
+                <section class="h027-statehood-list">
+                    <h3>All 50 states in admission order</h3>
+                    <div class="h027-statehood-grid" id="h027-statehood-list"></div>
+                </section>
+            </details>
+
+            <div class="h027-source">
+                Source basis from the original H027 exhibit: U.S. state admission dates attributed there to the U.S. National Archives
+                and the standard historical record of Congressional admission acts.
+            </div>
+
+            <div class="hanten-utility">
+                <div id="save-image-slot"></div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/js/topojson-client.min.js"></script>
+<script src="../../assets/geodata/us/us-counties-10m.js"></script>
+<script src="../../assets/geodata/statehood.js"></script>
+
+<script>
+(() => {
+    "use strict";
+
+    const width = 975;
+    const height = 610;
+    const svg = d3.select("#h027-map");
+
+    const states = topojson
+        .feature(US_COUNTIES_TOPOLOGY, US_COUNTIES_TOPOLOGY.objects.states)
+        .features
+        .filter(feature => STATEHOOD[feature.properties.name]);
+
+    const projection = d3.geoAlbersUsa()
+        .fitSize([width, height], {
+            type: "FeatureCollection",
+            features: states
+        });
+
+    const path = d3.geoPath(projection);
+
+    const color = d3.scaleLinear()
+        .domain([1, 50])
+        .range(["#153e5c", "#cfe3ee"])
+        .interpolate(d3.interpolateRgb);
+
+    svg.append("g")
+        .selectAll("path")
+        .data(states)
+        .join("path")
+        .attr("class", feature => {
+            const name = feature.properties.name;
+            return "h027-state" +
+                ((name === "Alaska" || name === "Hawaii")
+                    ? " h027-final-two"
+                    : "");
+        })
+        .attr("fill", feature =>
+            color(STATEHOOD[feature.properties.name].order)
+        )
+        .attr("d", path);
+
+    const labels = svg.append("g")
+        .style("display", "none");
+
+    labels.selectAll("text")
+        .data(states)
+        .join("text")
+        .attr("class", "h027-state-label")
+        .attr("x", feature => path.centroid(feature)[0])
+        .attr("y", feature => path.centroid(feature)[1])
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .text(feature => STATEHOOD[feature.properties.name].order);
+
+    const toggle = document.getElementById("h027-toggle-numbers");
+    let numbersVisible = false;
+
+    toggle.addEventListener("click", () => {
+        numbersVisible = !numbersVisible;
+        labels.style("display", numbersVisible ? null : "none");
+        toggle.classList.toggle("active", numbersVisible);
+        toggle.setAttribute(
+            "aria-pressed",
+            numbersVisible ? "true" : "false"
+        );
+        toggle.textContent = numbersVisible
+            ? "Hide admission numbers"
+            : "Show admission numbers";
+    });
+
+    const statehoodList =
+        document.getElementById("h027-statehood-list");
+
+    Object.entries(STATEHOOD)
+        .sort((a, b) => a[1].order - b[1].order)
+        .forEach(([name, d]) => {
+            const item = document.createElement("div");
+            item.className = "h027-statehood-item";
+
+            item.innerHTML = `
+                <span class="h027-statehood-order">${d.order}</span>
+                <span class="h027-statehood-name">${name}</span>
+                <span class="h027-statehood-date">${d.display}</span>
+            `;
+
+            statehoodList.appendChild(item);
+        });
+})();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "Did the United States grow one state at a time?",
+    filename: "H027-statehood-order.png"
+});
+</script>
+
+</body>
+</html>

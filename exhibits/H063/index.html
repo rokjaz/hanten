@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H063 — How Long Is a Coastline, Really?</title>
+
+    <meta
+        name="description"
+        content="Drag the ruler shorter. The coastline doesn't change, but the measured length keeps climbing — because a shorter ruler catches bays and headlands the last one skipped over."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H063-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h063-land: #d8dfd2;
+            --h063-sea: #eaf1f0;
+            --h063-line: var(--hanten-text);
+        }
+
+        .h063-panel {
+            padding: 1.2rem 1.2rem 1.1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .h063-map-frame {
+            border-radius: 6px;
+            overflow: hidden;
+            background: var(--h063-sea);
+            border: 1px solid var(--hanten-border);
+        }
+
+        .h063-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h063-controls {
+            margin-top: 1rem;
+        }
+
+        .h063-slider-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .h063-slider-row label {
+            font-family: var(--hanten-font);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+            white-space: nowrap;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 5px;
+            border-radius: 3px;
+            background: var(--hanten-border);
+            outline: none;
+            accent-color: var(--hanten-accent);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--hanten-accent);
+            border: 3px solid var(--hanten-panel);
+            box-shadow: 0 0 0 1.5px var(--hanten-accent);
+            cursor: pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--hanten-accent);
+            border: 3px solid var(--hanten-panel);
+            box-shadow: 0 0 0 1.5px var(--hanten-accent);
+            cursor: pointer;
+        }
+
+        .h063-ruler-readout {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 1.05rem;
+            min-width: 5.5rem;
+            text-align: right;
+            color: var(--hanten-text);
+        }
+
+        .h063-stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-top: 1.1rem;
+            padding-top: 0.9rem;
+            border-top: 1px solid var(--hanten-border);
+        }
+
+        .h063-stat-value {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 1.7rem;
+            color: var(--hanten-accent);
+            line-height: 1.05;
+        }
+
+        .h063-stat-label {
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+            margin-top: 0.1rem;
+        }
+
+        .h063-provenance {
+            font-size: 0.72rem;
+            padding: 0.3rem 0.65rem;
+            border-radius: 999px;
+            background: var(--hanten-border-soft);
+            color: var(--hanten-muted);
+            white-space: nowrap;
+        }
+
+        .h063-provenance.h063-cited {
+            color: var(--hanten-accent);
+            background: var(--hanten-accent-soft);
+            font-weight: 600;
+        }
+
+        .h063-axis-label {
+            font-family: var(--hanten-font);
+            font-size: 10.5px;
+            fill: var(--hanten-muted);
+        }
+
+        .h063-pt-label {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 10.5px;
+            fill: var(--hanten-text);
+        }
+
+        @media (max-width: 600px) {
+            .h063-panel { padding: 1rem 0.8rem; }
+            .h063-slider-row { gap: 0.6rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            How long is a coastline, really?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Drag the ruler shorter. The coastline below doesn't change — but the measured length keeps
+            climbing, because a shorter ruler catches bays and headlands the last one skipped over.
+        </p>
+
+        <div id="h063-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="hanten-panel h063-panel">
+                    <div class="h063-map-frame">
+                        <svg id="h063-coast-svg" viewBox="0 0 640 260" role="img" aria-label="Illustrative coastline that gains detail as the ruler shortens">
+                            <rect x="0" y="0" width="640" height="260" fill="var(--h063-sea)"/>
+                            <polygon id="h063-land-poly" fill="var(--h063-land)" points=""/>
+                            <polyline id="h063-coast-line" fill="none" stroke="var(--h063-line)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" points=""/>
+                        </svg>
+                    </div>
+
+                    <div class="h063-controls">
+                        <div class="h063-slider-row">
+                            <label for="h063-ruler">Ruler length</label>
+                            <input type="range" id="h063-ruler" min="0" max="4" step="1" value="1">
+                            <span class="h063-ruler-readout" id="h063-ruler-readout">100 km</span>
+                        </div>
+                    </div>
+
+                    <div class="h063-stat-row">
+                        <div>
+                            <div class="h063-stat-value" id="h063-stat-value">2,800 km</div>
+                            <div class="h063-stat-label">total measured length of Britain's west coast</div>
+                        </div>
+                        <div class="h063-provenance h063-cited" id="h063-provenance">published measurement</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h063-panel">
+                    <svg viewBox="0 0 640 200" id="h063-curve-svg" role="img" aria-labelledby="h063-curve-title h063-curve-desc">
+                        <title id="h063-curve-title">Measured coastline length vs. ruler length</title>
+                        <desc id="h063-curve-desc">As ruler length halves from 200 km to 12.5 km, the measured length of Britain's west coast rises from about 2,350 km to about 4,700 km.</desc>
+                    </svg>
+                </div>
+
+            </div>
+
+            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">Why the number never settles</h2>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
+                A coastline is jagged at every scale — bays inside bays, headlands inside headlands, down past
+                what any map can show. Measure it with a 200&nbsp;km ruler and you walk straight across small
+                inlets smaller than that; switch to a 50&nbsp;km ruler and you catch bends the longer ruler
+                missed, so the total goes <em>up</em>. Every time you halve the ruler, you catch another layer
+                of detail the previous ruler was too coarse to see.
+            </p>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
+                Mathematicians call this a coastline's <strong>fractal dimension</strong>: Great Britain's west
+                coast measures at roughly 1.25 (a straight line would be 1.0; a shape so wrinkled it starts
+                filling a whole area would approach 2.0). This is also why national "coastline length" rankings
+                are shakier than they look — two countries' published figures are only comparable if both were
+                measured at the same resolution, and in practice that's often not true.
+            </p>
+
+            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
+                <p class="hanten-takeaway" style="margin:0;">
+                    There's no ruler length short enough to make the measurement stop growing.
+                </p>
+            </div>
+
+            <p class="hanten-reflection">
+                If a coastline doesn't have one true length, what other numbers on this page are quietly
+                a function of how finely you chose to measure?
+            </p>
+
+            <p class="hanten-source">
+                The illustrative coastline shape above is a generated fractal (a randomly displaced midpoint
+                curve), not a literal map of Britain, used to visualize the same mechanism. The two measured
+                figures shown (100&nbsp;km → ~2,800&nbsp;km, 50&nbsp;km → ~3,400&nbsp;km) are published values
+                for Britain's west coast cited in the Wikipedia "Coastline paradox" article, tracing to Lewis
+                Fry Richardson's original measurements as analyzed by Benoit Mandelbrot (1967). The 200&nbsp;km,
+                25&nbsp;km, and 12.5&nbsp;km figures are computed from those two points using Britain's own
+                fractal dimension (D≈1.25), not independently published — treat them as a reasonable model,
+                not a separate citation.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script>
+        (() => {
+            // deterministic seeded RNG so the illustrative coastline is stable across loads
+            function mulberry32(seed) {
+                return function () {
+                    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+                    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+                    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+                    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+                };
+            }
+            const rand = mulberry32(20260818);
+
+            function subdivide(points, roughness) {
+                const out = [points[0]];
+                for (let i = 0; i < points.length - 1; i++) {
+                    const [x1, y1] = points[i];
+                    const [x2, y2] = points[i + 1];
+                    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+                    const dx = x2 - x1, dy = y2 - y1;
+                    const len = Math.sqrt(dx * dx + dy * dy);
+                    const nx = -dy / len, ny = dx / len;
+                    const disp = (rand() - 0.5) * 2 * roughness * len;
+                    let ny2 = my + ny * disp;
+                    ny2 = Math.max(30, Math.min(220, ny2));
+                    out.push([mx + nx * disp, ny2]);
+                    out.push([x2, y2]);
+                }
+                return out;
+            }
+
+            const base = [[36, 128], [148, 92], [260, 162], [372, 84], [488, 144], [604, 100]];
+            const roughness = [0.34, 0.27, 0.21, 0.16];
+            const levels = [base];
+            for (let i = 0; i < roughness.length; i++) {
+                levels.push(subdivide(levels[levels.length - 1], roughness[i]));
+            }
+
+            const rulerLabels = ["200 km", "100 km", "50 km", "25 km", "12.5 km"];
+            const statValues = ["2,350 km", "2,800 km", "3,400 km", "3,960 km", "4,700 km"];
+            const provenance = [
+                "modeled (D≈1.25)", "published measurement", "published measurement",
+                "modeled (D≈1.25)", "modeled (D≈1.25)"
+            ];
+            const citedFlags = [false, true, true, false, false];
+
+            const coastLine = document.getElementById("h063-coast-line");
+            const landPoly = document.getElementById("h063-land-poly");
+            const rulerInput = document.getElementById("h063-ruler");
+            const rulerReadout = document.getElementById("h063-ruler-readout");
+            const statValue = document.getElementById("h063-stat-value");
+            const provenanceEl = document.getElementById("h063-provenance");
+
+            function renderCoast(idx) {
+                const pts = levels[idx];
+                coastLine.setAttribute("points", pts.map(p => p[0] + "," + p[1]).join(" "));
+                const land = pts.slice();
+                land.push([604, 260], [36, 260]);
+                landPoly.setAttribute("points", land.map(p => p[0] + "," + p[1]).join(" "));
+
+                rulerReadout.textContent = rulerLabels[idx];
+                statValue.textContent = statValues[idx];
+                provenanceEl.textContent = provenance[idx];
+                provenanceEl.classList.toggle("h063-cited", citedFlags[idx]);
+            }
+
+            rulerInput.addEventListener("input", function () {
+                renderCoast(parseInt(this.value, 10));
+                renderCurve(parseInt(this.value, 10));
+            });
+
+            // curve chart: measured length vs. ruler length
+            const curveSvg = document.getElementById("h063-curve-svg");
+            const cLeft = 56, cRight = 600, cTop = 22, cBottom = 148;
+            const dotX = [cLeft, cLeft + (cRight - cLeft) * 0.25, cLeft + (cRight - cLeft) * 0.5, cLeft + (cRight - cLeft) * 0.75, cRight];
+            const rawVals = [2350, 2800, 3400, 3960, 4700];
+            const minV = 2200, maxV = 4850;
+            const yFor = v => cBottom - ((v - minV) / (maxV - minV)) * (cBottom - cTop);
+            const dotY = rawVals.map(yFor);
+
+            function renderCurve(activeIdx) {
+                let html = "";
+                html += `<line x1="${cLeft}" y1="${cBottom}" x2="${cRight}" y2="${cBottom}" stroke="var(--hanten-border)" stroke-width="1"/>`;
+                const linePts = dotX.map((x, i) => x.toFixed(1) + "," + dotY[i].toFixed(1)).join(" ");
+                html += `<polyline points="${linePts}" fill="none" stroke="var(--hanten-accent)" stroke-width="2.2" stroke-linecap="round"/>`;
+                dotX.forEach((x, i) => {
+                    const active = i === activeIdx;
+                    const r = active ? 6.5 : 4;
+                    const fill = active ? "var(--hanten-accent)" : "var(--hanten-panel)";
+                    html += `<circle cx="${x.toFixed(1)}" cy="${dotY[i].toFixed(1)}" r="${r}" fill="${fill}" stroke="var(--hanten-accent)" stroke-width="2"/>`;
+                    html += `<text x="${x.toFixed(1)}" y="${(dotY[i] - 12).toFixed(1)}" text-anchor="middle" class="h063-pt-label">${rawVals[i].toLocaleString()}</text>`;
+                    html += `<text x="${x.toFixed(1)}" y="${cBottom + 20}" text-anchor="middle" class="h063-axis-label">${rulerLabels[i]}</text>`;
+                });
+                curveSvg.innerHTML = html;
+            }
+
+            const initial = parseInt(rulerInput.value, 10);
+            renderCoast(initial);
+            renderCurve(initial);
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "How long is a coastline, really?",
+            filename: "H063-coastline-paradox.png"
+        });
+    </script>
+
+</body>
+</html>

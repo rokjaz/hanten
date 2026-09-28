@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H058 — Do Your Friends Really Have More Friends Than You?</title>
+
+    <meta
+        name="description"
+        content="On Facebook's own social graph, 92.7% of users have fewer friends than the average friend count of their own friends. It isn't a feeling — it's how averaging over a network works."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H058-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h058-warm: #c1442d;
+        }
+
+        .h058-panel {
+            padding: 1.1rem 1.1rem 1rem;
+        }
+
+        .h058-panel + .h058-panel {
+            margin-top: 0.8rem;
+        }
+
+        .h058-panel-label {
+            margin: 0 0 0.8rem;
+            font-family: var(--hanten-font);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+
+        .h058-stat-row {
+            display: flex;
+            justify-content: center;
+            gap: clamp(1.6rem, 5vw, 3.2rem);
+            flex-wrap: wrap;
+            text-align: center;
+            margin-bottom: 0.3rem;
+        }
+
+        .h058-stat-num {
+            font-size: clamp(1.7rem, 4.2vw, 2.3rem);
+            font-weight: 700;
+            line-height: 1.05;
+            color: var(--hanten-accent);
+        }
+
+        .h058-stat-cap {
+            max-width: 20ch;
+            margin: 0.35rem auto 0;
+            font-size: 0.76rem;
+            color: var(--hanten-muted);
+        }
+
+        .h058-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h058-axis-label {
+            font-family: var(--hanten-font);
+            font-size: 10.5px;
+            fill: var(--hanten-muted);
+        }
+
+        .h058-note {
+            margin-top: 0.7rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--hanten-muted);
+        }
+
+        .h058-sim-stats {
+            display: flex;
+            justify-content: center;
+            gap: clamp(1.2rem, 4vw, 2.4rem);
+            flex-wrap: wrap;
+            text-align: center;
+            margin-bottom: 0.6rem;
+        }
+
+        .h058-sim-num {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--hanten-text);
+        }
+
+        .h058-sim-num.warm {
+            color: var(--h058-warm);
+        }
+
+        .h058-sim-cap {
+            max-width: 16ch;
+            margin: 0.25rem auto 0;
+            font-size: 0.7rem;
+            color: var(--hanten-muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            Do your friends really have more friends than you?
+        </h1>
+
+        <p class="hanten-subtitle">
+            This isn't about being unpopular. It's a near-universal property of social networks, measured directly
+            on the real Facebook graph at the scale of hundreds of millions of accounts.
+        </p>
+
+        <div id="h058-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="hanten-panel h058-panel">
+                    <p class="h058-panel-label">Facebook's social graph, ~721 million active users (Ugander et al., 2011)</p>
+                    <div class="h058-stat-row">
+                        <div>
+                            <div class="h058-stat-num">92.7%</div>
+                            <div class="h058-stat-cap">of users have fewer friends than their friends' average</div>
+                        </div>
+                        <div>
+                            <div class="h058-stat-num">83.6%</div>
+                            <div class="h058-stat-cap">have fewer friends than their friends' median</div>
+                        </div>
+                    </div>
+                    <p class="h058-note">Only people in the top ~10% of friend counts (over 780 friends, in that dataset) tended to have friends with smaller networks than their own, on average.</p>
+                </div>
+
+                <div class="hanten-panel h058-panel">
+                    <p class="h058-panel-label">Why: a 300-person simulated network, built live, with no popularity rule</p>
+                    <div class="h058-sim-stats" id="h058-sim-stats"></div>
+                    <svg viewBox="0 0 460 460" id="h058-scatter" role="img" aria-labelledby="h058-scatter-title">
+                        <title id="h058-scatter-title">Scatter plot of each simulated person's own friend count against their friends' average friend count, with most points above the equal line</title>
+                    </svg>
+                    <p class="h058-note" id="h058-scatter-note">Computing…</p>
+                </div>
+
+            </div>
+
+            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">Popular people count more times — once per friend they have</h2>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
+                Build a network where new connections are just a little more likely to attach to already-well-connected
+                people — the same simple rule that produces real social networks, airline route maps, and citation
+                networks. No node "tries" to be popular; the rule never mentions popularity at all.
+            </p>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
+                Now average, for each person, how many friends <em>their</em> friends have. A person with 200 friends
+                gets counted in that average 200 times — once in every friend list they belong to. A person with 3
+                friends gets counted only 3 times. The well-connected minority dominates everyone else's average,
+                which pulls almost everybody's "my friends' average" above their own friend count.
+            </p>
+
+            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
+                <p class="hanten-takeaway" style="margin:0;">
+                    It is mathematically guaranteed that most people in almost any social network have friends who
+                    are, on average, more connected than they are — no bias, no illusion, just arithmetic.
+                </p>
+            </div>
+
+            <p class="hanten-reflection">
+                When a sample is drawn "one friend at a time," is it a random sample of people — or a sample weighted
+                by how connected they are?
+            </p>
+
+            <p class="hanten-source">
+                Sources: Johan Ugander, Brian Karrer, Lars Backstrom, Cameron Marlow, "The Anatomy of the Facebook
+                Social Graph," arXiv:1111.4503 (2011), analyzing the full active Facebook user graph at the time
+                (~721 million users). Phenomenon first described by Scott L. Feld, "Why Your Friends Have More
+                Friends Than You Do," American Journal of Sociology, 1991. The scatter plot above is generated live
+                in your browser from a seeded random simulation (Barabási–Albert preferential-attachment network,
+                300 nodes) — not the real Facebook data, but the same structural mechanism.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script>
+        (() => {
+            function mulberry32(seed) {
+                return function () {
+                    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+                    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+                    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+                    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+                };
+            }
+            const rand = mulberry32(11);
+
+            const N = 300, m = 2;
+            const adj = Array.from({ length: N }, () => new Set());
+            for (let i = 0; i <= m; i++) {
+                for (let j = i + 1; j <= m; j++) { adj[i].add(j); adj[j].add(i); }
+            }
+            const repeated = [];
+            for (let i = 0; i <= m; i++) for (let k = 0; k < adj[i].size; k++) repeated.push(i);
+
+            for (let node = m + 1; node < N; node++) {
+                const chosen = new Set();
+                while (chosen.size < m) {
+                    const pick = repeated.length ? repeated[Math.floor(rand() * repeated.length)] : Math.floor(rand() * node);
+                    chosen.add(pick);
+                }
+                chosen.forEach(t => {
+                    adj[node].add(t); adj[t].add(node);
+                    repeated.push(node); repeated.push(t);
+                });
+            }
+
+            const degree = adj.map(s => s.size);
+            const avgFriendDeg = adj.map(s => {
+                let sum = 0;
+                s.forEach(j => sum += degree[j]);
+                return sum / s.size;
+            });
+
+            const meanDegree = degree.reduce((a, b) => a + b, 0) / N;
+            const meanAvgFriendDeg = avgFriendDeg.reduce((a, b) => a + b, 0) / N;
+            const paradoxCount = degree.filter((d, i) => avgFriendDeg[i] > d).length;
+            const paradoxPct = (paradoxCount / N * 100).toFixed(1);
+
+            document.getElementById("h058-sim-stats").innerHTML = `
+                <div><div class="h058-sim-num">${meanDegree.toFixed(1)}</div><div class="h058-sim-cap">avg. friend count</div></div>
+                <div><div class="h058-sim-num">${meanAvgFriendDeg.toFixed(1)}</div><div class="h058-sim-cap">avg. of "my friends' average"</div></div>
+                <div><div class="h058-sim-num warm">${paradoxPct}%</div><div class="h058-sim-cap">experience the paradox</div></div>
+            `;
+            document.getElementById("h058-scatter-note").textContent =
+                `Each of the ${N} dots is one simulated person: their own friend count (x-axis) against their friends' average friend count (y-axis). Dots above the diagonal are experiencing the paradox — ${paradoxPct}% of them here.`;
+
+            const svg = document.getElementById("h058-scatter");
+            const pad = 46, plotSize = 370;
+            const maxDeg = Math.max(...degree, ...avgFriendDeg) * 1.05;
+            const xFor = d => pad + (d / maxDeg) * plotSize;
+            const yFor = d => pad + plotSize - (d / maxDeg) * plotSize;
+
+            let html = "";
+            html += `<line x1="${xFor(0)}" y1="${yFor(0)}" x2="${xFor(maxDeg)}" y2="${yFor(maxDeg)}" stroke="var(--hanten-muted)" stroke-width="1.3" stroke-dasharray="4 4"/>`;
+            html += `<text x="${xFor(maxDeg) - 4}" y="${yFor(maxDeg) - 8}" class="h058-axis-label" text-anchor="end">EQUAL</text>`;
+            html += `<line x1="${pad}" y1="${pad + plotSize}" x2="${pad + plotSize}" y2="${pad + plotSize}" stroke="var(--hanten-border)" stroke-width="1"/>`;
+            html += `<line x1="${pad}" y1="${pad}" x2="${pad}" y2="${pad + plotSize}" stroke="var(--hanten-border)" stroke-width="1"/>`;
+            html += `<text x="${pad + plotSize / 2}" y="${pad + plotSize + 32}" class="h058-axis-label" text-anchor="middle">MY FRIEND COUNT →</text>`;
+            html += `<text x="${pad - 32}" y="${pad + plotSize / 2}" class="h058-axis-label" text-anchor="middle" transform="rotate(-90 ${pad - 32} ${pad + plotSize / 2})">MY FRIENDS' AVERAGE →</text>`;
+
+            for (let i = 0; i < N; i++) {
+                const x = xFor(degree[i]), y = yFor(avgFriendDeg[i]);
+                const color = avgFriendDeg[i] > degree[i] ? "var(--h058-warm)" : "var(--hanten-accent)";
+                html += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="${color}" opacity="0.62"/>`;
+            }
+            svg.innerHTML = html;
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "Do your friends really have more friends than you?",
+            filename: "H058-friendship-paradox.png"
+        });
+    </script>
+
+</body>
+</html>

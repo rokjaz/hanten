@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H064 — What's the Biggest Country?</title>
+
+    <meta
+        name="description"
+        content="Depending on whether you count water, and how much land is actually farmable, the ranking of the world's biggest countries changes twice — and Canada, the textbook #2, ends up nowhere near the top."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H064-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h064-arable: var(--hanten-accent);
+            --h064-track: var(--hanten-border-soft);
+        }
+
+        .h064-panel {
+            padding: 1.2rem 1.2rem 1rem;
+        }
+
+        .h064-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h064-legend {
+            display: flex;
+            gap: 1.4rem;
+            flex-wrap: wrap;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+            margin: 0 0 0.3rem;
+            padding-left: 0.2rem;
+        }
+
+        .h064-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+        .h064-swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+        .h064-tick-swatch { width: 2px; height: 12px; display: inline-block; background: var(--hanten-text); }
+
+        .h064-country-name {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 14px;
+            fill: var(--hanten-text);
+        }
+
+        .h064-rank-line {
+            font-family: var(--hanten-font);
+            font-size: 10.5px;
+            fill: var(--hanten-muted);
+        }
+
+        .h064-value-label {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            font-size: 11.5px;
+            fill: var(--hanten-text);
+        }
+
+        .h064-axis-label {
+            font-family: var(--hanten-font);
+            font-size: 10.5px;
+            fill: var(--hanten-muted);
+        }
+
+        @media (max-width: 600px) {
+            .h064-panel { padding: 1rem 0.7rem 0.8rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            What's the biggest country?
+        </h1>
+
+        <p class="hanten-subtitle">
+            "Biggest" seems like the one geography superlative that shouldn't need a definition. But depending on
+            whether you count water, and how much of the land is actually farmable, the ranking changes twice —
+            and Canada, the textbook #2, ends up nowhere near the top.
+        </p>
+
+        <div id="h064-capture">
+
+            <div class="hanten-graphic hanten-panel h064-panel">
+                <div class="h064-legend">
+                    <span><span class="h064-tick-swatch"></span>Land area (water excluded)</span>
+                    <span><span class="h064-swatch" style="background:var(--h064-arable)"></span>Arable land</span>
+                </div>
+                <svg viewBox="0 0 640 420" id="h064-chart" role="img" aria-labelledby="h064-chart-title h064-chart-desc">
+                    <title id="h064-chart-title">Total area, land area, and arable land for the six largest countries by total area</title>
+                    <desc id="h064-chart-desc">Russia, Canada, the United States, China, Brazil, and Australia ranked by total area, with land area and arable land shown as a fraction of each country's total territory. Canada ranks 2nd by total area but falls to 5th by arable land; the United States rises to 1st by arable land despite ranking 3rd by total area.</desc>
+                </svg>
+            </div>
+
+            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">Three rankings, three different runners-up</h2>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
+                Every bar above starts at the country's full claimed territory (the light track, always 100%).
+                The tick mark shows how much is dry land once inland water is subtracted. The teal bar shows how
+                much of the <em>original</em> territory is actually arable — land that could grow crops, the
+                roughest available proxy for "usable."
+            </p>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
+                Canada's slide isn't a data quirk — it's two real geographic facts compounding. About 9% of
+                Canada's total area is fresh water (it holds more lakes than the rest of the world's countries
+                combined), which alone drops it from 2nd to 4th once you count land only. Most of what's left is
+                boreal forest, tundra, or Arctic permafrost — only about 4.3% of Canada's land is arable, one of
+                the lowest shares of any large country. The United States, by contrast, has plenty of temperate,
+                non-mountainous land suited to agriculture: over 16% of its land is arable, more than triple
+                Canada's share — enough to make the 3rd-largest country by total area the single largest by
+                usable farmland.
+            </p>
+
+            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
+                <p class="hanten-takeaway" style="margin:0;">
+                    Canada is the world's 2nd-biggest country by total area — and only its 5th-biggest by
+                    farmable land.
+                </p>
+            </div>
+
+            <p class="hanten-reflection">
+                When a country's rank changes depending on what you're counting, which version of "biggest"
+                is the one people actually mean?
+            </p>
+
+            <p class="hanten-source">
+                Sources: Worldometer and Visual Capitalist for total and land area figures; TheGlobalEconomy.com
+                (citing World Bank data, 2023) for arable-land percentages. Total-area rankings for the U.S. and
+                China specifically vary by a small margin across sources depending on how coastal waters and
+                territories are counted — the CIA World Factbook convention used here (U.S. 3rd, China 4th by
+                total area) is the most commonly cited, but at least one UN-statistics-derived source reverses
+                that order.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script>
+        (() => {
+            const data = [
+                { name: "Russia", total: 17098242, land: 16376870, arable: 1211900, ranks: "Total #1 · Land #1 · Arable #2" },
+                { name: "Canada", total: 9984670, land: 9093510, arable: 391000, ranks: "Total #2 · Land #4 · Arable #5" },
+                { name: "United States", total: 9833517, land: 9147593, arable: 1518500, ranks: "Total #3 · Land #3 · Arable #1" },
+                { name: "China", total: 9596961, land: 9326410, arable: 1072500, ranks: "Total #4 · Land #2 · Arable #3" },
+                { name: "Brazil", total: 8515767, land: 8358140, arable: 560000, ranks: "Total #5 · Land #5 · Arable #4" },
+                { name: "Australia", total: 7692024, land: 7682300, arable: 307300, ranks: "Total #6 · Land #6 · Arable #6" }
+            ];
+
+            const svg = document.getElementById("h064-chart");
+            const left = 200, right = 610, top = 20, rowH = 62, barH = 14;
+            const bottom = top + data.length * rowH;
+
+            let html = "";
+
+            data.forEach((d, i) => {
+                const rowY = top + i * rowH + 32;
+                const barY = rowY;
+                const landFrac = d.land / d.total;
+                const arableFrac = d.arable / d.total;
+                const trackW = right - left;
+
+                html += `<text x="${left - 12}" y="${rowY - 8}" text-anchor="end" class="h064-country-name">${d.name}</text>`;
+                html += `<text x="${left - 12}" y="${rowY + 6}" text-anchor="end" class="h064-rank-line">${d.ranks}</text>`;
+
+                html += `<rect x="${left}" y="${barY}" width="${trackW}" height="${barH}" rx="4" fill="var(--h064-track)"/>`;
+                html += `<rect x="${left}" y="${barY}" width="${(trackW * arableFrac).toFixed(1)}" height="${barH}" rx="4" fill="var(--h064-arable)"/>`;
+
+                const tickX = left + trackW * landFrac;
+                html += `<line x1="${tickX.toFixed(1)}" y1="${barY - 10}" x2="${tickX.toFixed(1)}" y2="${barY + barH + 10}" stroke="var(--hanten-text)" stroke-width="2"/>`;
+
+                const labelX = left + trackW * arableFrac + 8;
+                html += `<text x="${labelX.toFixed(1)}" y="${barY + barH + 10}" class="h064-value-label">${(arableFrac * 100).toFixed(1)}%</text>`;
+            });
+
+            // axis
+            const axisY = bottom + 6;
+            html += `<line x1="${left}" y1="${axisY}" x2="${right}" y2="${axisY}" stroke="var(--hanten-border)" stroke-width="1"/>`;
+            [0, 25, 50, 75, 100].forEach(pct => {
+                const px = left + (right - left) * (pct / 100);
+                html += `<text x="${px.toFixed(1)}" y="${axisY + 20}" text-anchor="middle" class="h064-axis-label">${pct}%</text>`;
+            });
+
+            svg.setAttribute("viewBox", `0 0 640 ${axisY + 34}`);
+            svg.innerHTML = html;
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "What's the biggest country?",
+            filename: "H064-biggest-country.png"
+        });
+    </script>
+
+</body>
+</html>

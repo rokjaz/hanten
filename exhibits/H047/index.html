@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H047 — More People Alive Than Dead?</title>
+<meta name="description" content="The claim that more people are alive today than have ever died is false. About 117 billion people have ever been born — the roughly 8 billion of us alive today are only about 7% of that total.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+    :root {
+        --h047-alive: #0e7c86;
+        --h047-gone: #ccd3c8;
+    }
+
+    .h047-wrap {
+        width: min(100%, 620px);
+        margin: 0 auto;
+        padding: 1.4rem 1.3rem 1.2rem;
+    }
+
+    .h047-caption {
+        margin: 0 0 1.1rem;
+        text-align: center;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: var(--hanten-muted);
+    }
+
+    .h047-pictogram {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 6px;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .h047-dot {
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: var(--h047-gone);
+    }
+
+    .h047-dot.alive {
+        background: var(--h047-alive);
+    }
+
+    .h047-legend {
+        display: flex;
+        justify-content: center;
+        gap: 1.6rem;
+        margin-top: 1.15rem;
+        flex-wrap: wrap;
+        font-size: 0.8rem;
+        color: var(--hanten-muted);
+    }
+
+    .h047-legend-dot {
+        display: inline-block;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        margin-right: 0.4rem;
+        vertical-align: middle;
+    }
+
+    .h047-stat-row {
+        display: flex;
+        justify-content: center;
+        gap: 2.6rem;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
+        text-align: center;
+        padding-top: 1.2rem;
+        border-top: 1px solid var(--hanten-border);
+    }
+
+    .h047-stat-num {
+        font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+        font-weight: 800;
+        color: var(--hanten-text);
+        line-height: 1.1;
+    }
+
+    .h047-stat-num.accent {
+        color: var(--h047-alive);
+    }
+
+    .h047-stat-cap {
+        margin-top: 0.2rem;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--hanten-muted);
+    }
+
+    .h047-question-line {
+        margin: 0 auto 1.1rem;
+        max-width: var(--hanten-text-width);
+        text-align: center;
+        font-size: 1.02rem;
+        font-weight: 700;
+        color: var(--hanten-text);
+    }
+</style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            Is it true that more people are alive today than have ever died?
+        </h1>
+
+        <p class="hanten-subtitle">
+            You've probably heard this claim — population growth has been fast enough to
+            make it sound plausible. It isn't close to true.
+        </p>
+
+        <div class="hanten-graphic">
+            <section id="h047-capture">
+
+                <div class="h047-wrap hanten-panel">
+                    <p class="h047-caption">Every dot ≈ 1.17 billion people who have ever been born</p>
+
+                    <div
+                        class="h047-pictogram"
+                        id="h047-pictogram"
+                        role="img"
+                        aria-label="100 dots representing everyone who has ever been born; 7 are highlighted as alive today, 93 represent people who have died"
+                    ></div>
+
+                    <div class="h047-legend">
+                        <span><span class="h047-legend-dot" style="background: var(--h047-alive);"></span>Alive today (~7%)</span>
+                        <span><span class="h047-legend-dot" style="background: var(--h047-gone);"></span>Have died (~93%)</span>
+                    </div>
+
+                    <div class="h047-stat-row">
+                        <div>
+                            <div class="h047-stat-num">~117B</div>
+                            <div class="h047-stat-cap">ever born</div>
+                        </div>
+                        <div>
+                            <div class="h047-stat-num accent">~8.2B</div>
+                            <div class="h047-stat-cap">alive today</div>
+                        </div>
+                        <div>
+                            <div class="h047-stat-num accent">~7%</div>
+                            <div class="h047-stat-cap">of all humans, alive right now</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hanten-takeaway-box" style="margin-top: 1rem; padding: 1rem 1.15rem;">
+                    <p class="hanten-takeaway" style="margin: 0 0 0.5rem;">
+                        The math looks close — until you count all of human history.
+                    </p>
+                    <p class="hanten-body" style="margin: 0; font-weight: 400; color: var(--hanten-muted);">
+                        The "more alive than dead" claim usually leans on something real: global population
+                        has more than tripled since 1950, and roughly half of everyone who's ever lived was
+                        born in just the last few centuries. That growth is real — it's just not enough to
+                        outweigh the other <strong style="color: var(--hanten-text);">≈192,000 years</strong>
+                        of prior human history. Demographers estimate about <strong style="color: var(--hanten-text);">117 billion</strong>
+                        people have ever been born; against today's population of about 8.2 billion, everyone
+                        alive right now is only about <strong style="color: var(--hanten-text);">7%</strong>
+                        of all humans who have ever existed.
+                    </p>
+                </div>
+
+                <p class="hanten-reflection">
+                    A trend that feels dramatic within your own lifetime can still be a small slice of the full timeline.
+                </p>
+
+                <p class="hanten-source">
+                    Sources: Population Reference Bureau, "How Many People Have Ever Lived on Earth?"
+                    (≈117 billion total births across human history; current world population ≈8.2 billion, 2026).
+                    PRB describes historical birth estimates as "part science and part art," since no demographic
+                    records exist for most of human history — figures are order-of-magnitude estimates, not a census.
+                </p>
+
+            </section>
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script>
+        const grid = document.getElementById("h047-pictogram");
+        for (let i = 0; i < 100; i++) {
+            const dot = document.createElement("div");
+            dot.className = "h047-dot" + (i < 7 ? " alive" : "");
+            grid.appendChild(dot);
+        }
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "Is it true that more people are alive today than have ever died?",
+            filename: "H047-living-vs-ever-lived.png"
+        });
+    </script>
+
+</body>
+</html>

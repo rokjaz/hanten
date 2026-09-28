@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H062 — Which River Is Actually the Longest?</title>
+
+    <meta
+        name="description"
+        content="The Nile is the textbook answer, but every published measurement of the Amazon overlaps with — and often exceeds — every published measurement of the Nile. Neither river has one agreed-upon length."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H062-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h062-nile: var(--hanten-accent);
+            --h062-amazon: #4a6d3a;
+            --h062-band: rgba(14, 124, 134, 0.10);
+        }
+
+        .h062-panel {
+            padding: 1.3rem 1.2rem 1.1rem;
+        }
+
+        .h062-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h062-axis-label {
+            font-family: var(--hanten-font);
+            font-size: 11px;
+            fill: var(--hanten-muted);
+        }
+
+        .h062-river-label {
+            font-family: var(--hanten-font);
+            font-size: 15px;
+            font-weight: 700;
+            fill: var(--hanten-text);
+        }
+
+        .h062-point-label {
+            font-family: var(--hanten-font);
+            font-size: 11px;
+            font-weight: 500;
+            fill: var(--hanten-muted);
+        }
+
+        .h062-band-label {
+            font-family: var(--hanten-font);
+            font-size: 12px;
+            font-weight: 700;
+            fill: var(--hanten-accent);
+        }
+
+        .h062-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.4rem;
+            margin-top: 0.9rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+            flex-wrap: wrap;
+        }
+
+        .h062-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+        .h062-swatch { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
+
+        @media (max-width: 600px) {
+            .h062-panel { padding: 1rem 0.8rem 0.9rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            Which river is actually the longest — the Nile or the Amazon?
+        </h1>
+
+        <p class="hanten-subtitle">
+            The Nile is the textbook answer. But every published measurement of the Amazon's length overlaps
+            with — and often exceeds — every published measurement of the Nile's.
+        </p>
+
+        <div id="h062-capture">
+
+            <div class="hanten-graphic hanten-panel h062-panel">
+                <svg viewBox="0 0 640 300" id="h062-chart" role="img" aria-labelledby="h062-chart-title h062-chart-desc">
+                    <title id="h062-chart-title">Range of published lengths for the Nile and the Amazon</title>
+                    <desc id="h062-chart-desc">The Nile's published length ranges from 6,650 to 6,853 km. The Amazon's published length ranges from 6,400 to 6,992 km, a wider span that fully contains the Nile's range.</desc>
+                </svg>
+                <div class="h062-legend">
+                    <span><span class="h062-swatch" style="background:var(--h062-nile)"></span>Nile — published range</span>
+                    <span><span class="h062-swatch" style="background:var(--h062-amazon)"></span>Amazon — published range</span>
+                </div>
+            </div>
+
+            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">Why there's no clean answer</h2>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
+                A river doesn't come with a factory-installed length. Two judgment calls decide the number, and
+                reasonable experts have made different calls on both. <strong>Where does it end?</strong> The
+                Amazon empties into the Atlantic through a mouth so wide — dozens of kilometers across, split
+                into multiple channels — that there's no single point where "river" clearly becomes "ocean."
+                Pick a different outlet channel and the length changes.
+            </p>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
+                <strong>Where does it begin?</strong> A river's "source" is whichever headwater stream you decide
+                is the true beginning — a judgment call, not a fact you can look up. A 2014 Brazilian-led
+                expedition traced a new Amazon source to a snow-capped peak in southern Peru, instantly adding
+                hundreds of kilometers to the total.
+            </p>
+
+            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
+                <p class="hanten-takeaway" style="margin:0;">
+                    Every commonly published Nile figure falls inside the range of published Amazon figures —
+                    so "longer" depends entirely on which legitimate measurement you pick, not on a settled fact.
+                </p>
+            </div>
+
+            <p class="hanten-reflection">
+                If two rivers can't agree on where they start or stop, how many other "settled" rankings are
+                really just a choice of definition?
+            </p>
+
+            <p class="hanten-source">
+                Sources: Encyclopaedia Britannica, "How Long Is the Amazon River?"; National Geographic, "Amazon
+                Longer Than Nile River, Scientists Say." The 2007 Brazilian recalculation (6,853 km for the Nile;
+                6,992 km for the Amazon) was never formally published and several geographers have urged caution
+                about its precision — it's included here because it's widely cited, not because it's the most
+                reliable figure.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script>
+        (() => {
+            const svg = document.getElementById("h062-chart");
+            const left = 66, right = 600, top = 40, bottom = 258;
+            const domainMin = 6300, domainMax = 7050;
+            const x = km => left + ((km - domainMin) / (domainMax - domainMin)) * (right - left);
+
+            const nile = { min: 6650, max: 6853, y: 118, points: [
+                { km: 6650, label: "6,650 km", note: "traditional figure" },
+                { km: 6853, label: "6,853 km", note: "Brazilian team's recalculation" }
+            ] };
+            const amazon = { min: 6400, max: 6992, y: 208, points: [
+                { km: 6400, label: "6,400 km", note: "conservative estimate" },
+                { km: 6800, label: "6,800 km", note: "2014 expedition" },
+                { km: 6992, label: "6,992 km", note: "2007 study" }
+            ] };
+
+            let html = "";
+
+            // overlap band: Nile's full range, which sits inside Amazon's range
+            html += `<rect x="${x(nile.min).toFixed(1)}" y="${top}" width="${(x(nile.max) - x(nile.min)).toFixed(1)}" height="${bottom - top}" fill="var(--h062-band)"/>`;
+            html += `<text x="${((x(nile.min) + x(nile.max)) / 2).toFixed(1)}" y="${top - 12}" text-anchor="middle" class="h062-band-label">every Nile figure falls in here</text>`;
+
+            // axis
+            html += `<line x1="${left}" y1="${bottom}" x2="${right}" y2="${bottom}" stroke="var(--hanten-border)" stroke-width="1"/>`;
+            [6400, 6600, 6800, 7000].forEach(v => {
+                const px = x(v).toFixed(1);
+                html += `<text x="${px}" y="${bottom + 22}" text-anchor="middle" class="h062-axis-label">${v.toLocaleString()}</text>`;
+            });
+            html += `<text x="${right + 4}" y="${bottom + 44}" class="h062-axis-label">km</text>`;
+
+            function drawRow(river, label, color) {
+                const x1 = x(river.min), x2 = x(river.max);
+                html += `<text x="${left - 8}" y="${river.y - 9}" text-anchor="end" class="h062-river-label">${label}</text>`;
+                html += `<rect x="${x1.toFixed(1)}" y="${(river.y - 7).toFixed(1)}" width="${(x2 - x1).toFixed(1)}" height="14" rx="7" fill="${color}"/>`;
+                river.points.forEach(p => {
+                    const px = x(p.km);
+                    html += `<circle cx="${px.toFixed(1)}" cy="${river.y}" r="5.5" fill="var(--hanten-panel)" stroke="${color}" stroke-width="2.5"/>`;
+                    html += `<text x="${px.toFixed(1)}" y="${river.y - 18}" text-anchor="middle" class="h062-point-label">${p.label}</text>`;
+                    html += `<text x="${px.toFixed(1)}" y="${river.y + 30}" text-anchor="middle" class="h062-point-label">${p.note}</text>`;
+                });
+            }
+
+            drawRow(nile, "Nile", "var(--h062-nile)");
+            drawRow(amazon, "Amazon", "var(--h062-amazon)");
+
+            svg.innerHTML = html;
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "Which river is actually the longest — the Nile or the Amazon?",
+            filename: "H062-longest-river.png"
+        });
+    </script>
+
+</body>
+</html>

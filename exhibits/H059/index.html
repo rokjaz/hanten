@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H059 — How Much More Does a Wyoming Vote Count Than a Texas Vote?</title>
+
+    <meta
+        name="description"
+        content="A Wyoming elector represents about 197,000 people. A Texas elector represents over 800,000 — a four-to-one gap, built into the Constitution's math, mapped across every state."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+
+    <style>
+        /*
+           H059-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework. If later exhibits repeatedly need one of
+           these patterns, we can consider promoting it to hanten.css.
+        */
+
+        :root {
+            --h059-low: #0e7c86;
+            --h059-high: #a3392b;
+        }
+
+        .h059-panel {
+            padding: 1.1rem 1.1rem 1rem;
+        }
+
+        .h059-stat-row {
+            display: flex;
+            justify-content: center;
+            gap: clamp(1.4rem, 4.5vw, 2.8rem);
+            flex-wrap: wrap;
+            text-align: center;
+            margin-bottom: 0.7rem;
+        }
+
+        .h059-stat-num {
+            font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+            font-weight: 700;
+            line-height: 1.05;
+        }
+
+        .h059-stat-cap {
+            max-width: 18ch;
+            margin: 0.3rem auto 0;
+            font-size: 0.72rem;
+            color: var(--hanten-muted);
+        }
+
+        #h059-map {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h059-state {
+            stroke: #ffffff;
+            stroke-width: 0.6;
+        }
+
+        .h059-legend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.6rem;
+        }
+
+        .h059-legend-bar {
+            width: min(320px, 60%);
+            height: 10px;
+            border-radius: 5px;
+        }
+
+        .h059-legend-label {
+            font-size: 0.72rem;
+            color: var(--hanten-muted);
+            white-space: nowrap;
+        }
+
+        .h059-legend-caption {
+            text-align: center;
+            font-size: 0.74rem;
+            color: var(--hanten-muted);
+            margin-top: 0.3rem;
+        }
+
+        .h059-extremes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 620px) {
+            .h059-extremes {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .h059-extreme-col {
+            border-top: 1px solid var(--hanten-border);
+            padding-top: 0.6rem;
+        }
+
+        .h059-extreme-label {
+            margin: 0 0 0.4rem;
+            font-family: var(--hanten-font);
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+
+        .h059-extreme-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.6rem;
+            font-size: 0.86rem;
+            padding: 0.28rem 0;
+        }
+
+        .h059-extreme-row span:last-child {
+            color: var(--hanten-muted);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hanten-exhibit">
+
+        <h1 class="hanten-question">
+            How much more does a Wyoming vote count than a Texas vote?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Every state gets at least 3 electoral votes no matter how few people live there. That floor means small
+            states end up with far more electoral power per resident than large ones — a real, measurable, and
+            permanent gap, mapped here across every state.
+        </p>
+
+        <div id="h059-capture">
+
+            <div class="hanten-graphic hanten-panel h059-panel">
+                <div class="h059-stat-row" id="h059-headline-stats"></div>
+
+                <svg id="h059-map" viewBox="0 0 660 420" role="img" aria-labelledby="h059-map-title">
+                    <title id="h059-map-title">Choropleth map of the United States shading each state by how many people its electoral votes represent, computed live from population and electoral-vote data embedded in this page</title>
+                </svg>
+
+                <div class="h059-legend">
+                    <span class="h059-legend-label" id="h059-legend-min"></span>
+                    <span class="h059-legend-bar" id="h059-legend-bar"></span>
+                    <span class="h059-legend-label" id="h059-legend-max"></span>
+                </div>
+                <p class="h059-legend-caption">People represented per electoral vote — teal is fewer people per vote (more electoral power), red is more people per vote (less electoral power)</p>
+
+                <div class="h059-extremes">
+                    <div class="h059-extreme-col">
+                        <p class="h059-extreme-label">Most electoral power per resident</p>
+                        <div id="h059-most-power"></div>
+                    </div>
+                    <div class="h059-extreme-col">
+                        <p class="h059-extreme-label">Least electoral power per resident</p>
+                        <div id="h059-least-power"></div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="hanten-section-title" style="max-width:var(--hanten-text-width);margin:1.4rem auto 0;">The floor of 3 electoral votes does the work</h2>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.5rem auto 0;">
+                Every state gets 2 electoral votes for its senators and at least 1 for a House seat, regardless of
+                population — that floor is what gives Wyoming, Vermont, and the other smallest states outsized
+                weight per resident. Large states don't get a matching ceiling: their electoral votes grow with
+                population, but total electors are capped at 538, so growth gets spread thin.
+            </p>
+            <p class="hanten-body" style="max-width:var(--hanten-text-width);margin:0.7rem auto 0;">
+                Congressional apportionment (and electoral votes with it) is also only recalculated once per decade,
+                on the 2020 census. States that have grown quickly since then — Texas among them — end up
+                under-represented relative to their <em>current</em> population even before the small-state floor
+                effect is considered.
+            </p>
+
+            <div class="hanten-takeaway-box" style="max-width:var(--hanten-text-width);margin:1.1rem auto 0;padding:0.9rem 1.1rem;">
+                <p class="hanten-takeaway" style="margin:0;" id="h059-takeaway">
+                    The gap between the most and least "weighted" vote is roughly 4-to-1 — and it's built into the
+                    Constitution's math, not an accident of any particular election.
+                </p>
+            </div>
+
+            <p class="hanten-reflection">
+                A representation system with a floor and a cap will always favor whoever sits closest to the floor —
+                who does that describe here?
+            </p>
+
+            <p class="hanten-source" id="h059-source">
+                Sources: electoral vote counts per state reflect the fixed 2020 census apportionment, in effect for
+                the 2024 and 2028 presidential elections (538 total). Population figures are 2026 estimates (World
+                Population Review, itself built on Census Bureau population-estimate methodology) — current
+                population, not the frozen 2020 apportionment population, which is why the ratios here differ
+                slightly from an "as of 2020" version of this map. State boundaries built from US Census Bureau
+                county cartographic boundary data (via the US Atlas TopoJSON), merged into states in your browser.
+                Both datasets are embedded directly in this page.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+    </main>
+
+    <script src="../../assets/js/d3.v7.min.js"></script>
+    <script src="../../assets/js/topojson-client.min.js"></script>
+    <script src="../../assets/geodata/us/us-counties-10m.js"></script>
+
+    <script>
+        (() => {
+            const pop = {
+                "California": 39345844, "Texas": 32101064, "Florida": 23659198, "New York": 20003435,
+                "Pennsylvania": 13073016, "Illinois": 12735249, "Ohio": 11940399, "Georgia": 11401288,
+                "North Carolina": 11343875, "Michigan": 10155806, "New Jersey": 9590076, "Virginia": 8940572,
+                "Washington": 8074082, "Arizona": 7691212, "Tennessee": 7378861, "Massachusetts": 7169608,
+                "Indiana": 7011912, "Missouri": 6297538, "Maryland": 6285380, "Colorado": 6036620,
+                "Wisconsin": 5988406, "Minnesota": 5863405, "South Carolina": 5650232, "Alabama": 5223121,
+                "Kentucky": 4629682, "Louisiana": 4621500, "Oregon": 4281848, "Oklahoma": 4148818,
+                "Connecticut": 3702543, "Utah": 3574825, "Nevada": 3310833, "Iowa": 3246320,
+                "Arkansas": 3133502, "Kansas": 2989188, "Mississippi": 2958148, "New Mexico": 2124222,
+                "Idaho": 2058594, "Nebraska": 2030421, "West Virginia": 1764892, "Hawaii": 1430688,
+                "New Hampshire": 1422166, "Maine": 1421310, "Montana": 1151831, "Rhode Island": 1118627,
+                "Delaware": 1069781, "South Dakota": 943078, "North Dakota": 805329, "Alaska": 738003,
+                "Vermont": 642805, "Wyoming": 590784, "District of Columbia": 695980
+            };
+            const ev = {
+                "California": 54, "Texas": 40, "Florida": 30, "New York": 28, "Illinois": 19, "Pennsylvania": 19,
+                "Ohio": 17, "Georgia": 16, "North Carolina": 16, "Michigan": 15, "New Jersey": 14, "Virginia": 13,
+                "Washington": 12, "Arizona": 11, "Indiana": 11, "Massachusetts": 11, "Tennessee": 11,
+                "Colorado": 10, "Maryland": 10, "Minnesota": 10, "Missouri": 10, "Wisconsin": 10,
+                "Alabama": 9, "South Carolina": 9, "Kentucky": 8, "Louisiana": 8, "Oregon": 8,
+                "Connecticut": 7, "Oklahoma": 7, "Arkansas": 6, "Iowa": 6, "Kansas": 6, "Mississippi": 6, "Nevada": 6, "Utah": 6,
+                "Nebraska": 5, "New Mexico": 5, "Hawaii": 4, "Idaho": 4, "Maine": 4, "Montana": 4, "New Hampshire": 4, "Rhode Island": 4, "West Virginia": 4,
+                "Alaska": 3, "Delaware": 3, "District of Columbia": 3, "North Dakota": 3, "South Dakota": 3, "Vermont": 3, "Wyoming": 3
+            };
+
+            const STATE_FIPS = {
+                "Alabama": "01", "Alaska": "02", "Arizona": "04", "Arkansas": "05", "California": "06",
+                "Colorado": "08", "Connecticut": "09", "Delaware": "10", "District of Columbia": "11",
+                "Florida": "12", "Georgia": "13", "Hawaii": "15", "Idaho": "16", "Illinois": "17",
+                "Indiana": "18", "Iowa": "19", "Kansas": "20", "Kentucky": "21", "Louisiana": "22",
+                "Maine": "23", "Maryland": "24", "Massachusetts": "25", "Michigan": "26", "Minnesota": "27",
+                "Mississippi": "28", "Missouri": "29", "Montana": "30", "Nebraska": "31", "Nevada": "32",
+                "New Hampshire": "33", "New Jersey": "34", "New Mexico": "35", "New York": "36",
+                "North Carolina": "37", "North Dakota": "38", "Ohio": "39", "Oklahoma": "40", "Oregon": "41",
+                "Pennsylvania": "42", "Rhode Island": "44", "South Carolina": "45", "South Dakota": "46",
+                "Tennessee": "47", "Texas": "48", "Utah": "49", "Vermont": "50", "Virginia": "51",
+                "Washington": "53", "West Virginia": "54", "Wisconsin": "55", "Wyoming": "56"
+            };
+
+            const rows = Object.keys(ev).map(name => ({ name, pop: pop[name], ev: ev[name], ratio: pop[name] / ev[name] }));
+            rows.sort((a, b) => a.ratio - b.ratio);
+
+            const totalPop = rows.reduce((s, r) => s + r.pop, 0);
+            const totalEV = rows.reduce((s, r) => s + r.ev, 0);
+            const nationalAvg = totalPop / totalEV;
+            const minRatio = rows[0].ratio;
+            const maxRatio = rows[rows.length - 1].ratio;
+
+            const wy = rows.find(r => r.name === "Wyoming");
+            const tx = rows.find(r => r.name === "Texas");
+            const mostUnder = rows[rows.length - 1];
+
+            document.getElementById("h059-headline-stats").innerHTML = `
+                <div><div class="h059-stat-num" style="color:var(--h059-low)">${Math.round(wy.ratio).toLocaleString()}</div><div class="h059-stat-cap">people per electoral vote, Wyoming</div></div>
+                <div><div class="h059-stat-num" style="color:var(--h059-high)">${Math.round(mostUnder.ratio).toLocaleString()}</div><div class="h059-stat-cap">people per electoral vote, ${mostUnder.name}</div></div>
+                <div><div class="h059-stat-num" style="color:var(--hanten-muted)">${Math.round(nationalAvg).toLocaleString()}</div><div class="h059-stat-cap">national average</div></div>
+            `;
+
+            document.getElementById("h059-takeaway").innerHTML =
+                `The gap between the most and least "weighted" vote is roughly <strong>${(mostUnder.ratio / wy.ratio).toFixed(1)}-to-1</strong> — Wyoming's electors represent about that many fewer people each than ${mostUnder.name}'s — and it's built into the Constitution's math, not an accident of any particular election.`;
+
+            const mostPowerList = rows.slice(0, 5);
+            const leastPowerList = rows.slice(-5).reverse();
+            const fmt = r => `<div class="h059-extreme-row"><span>${r.name}</span><span>${Math.round(r.ratio).toLocaleString()}/vote</span></div>`;
+            document.getElementById("h059-most-power").innerHTML = mostPowerList.map(fmt).join("");
+            document.getElementById("h059-least-power").innerHTML = leastPowerList.map(fmt).join("");
+
+            // Color scale: teal (low ratio, more power) -> red (high ratio, less power)
+            const colorScale = d3.scaleLinear()
+                .domain([minRatio, maxRatio])
+                .range(["#0e7c86", "#a3392b"])
+                .interpolate(d3.interpolateRgb);
+
+            document.getElementById("h059-legend-min").textContent = `${Math.round(minRatio / 1000)}K`;
+            document.getElementById("h059-legend-max").textContent = `${Math.round(maxRatio / 1000)}K`;
+            document.getElementById("h059-legend-bar").style.background =
+                `linear-gradient(to right, ${colorScale(minRatio)}, ${colorScale((minRatio + maxRatio) / 2)}, ${colorScale(maxRatio)})`;
+
+            // Build the map: merge counties into states via topojson, project with Albers USA
+            const width = 660, height = 420;
+            const svg = d3.select("#h059-map");
+            const topo = US_COUNTIES_TOPOLOGY;
+            const counties = topo.objects.counties.geometries;
+
+            const stateFeatures = Object.keys(STATE_FIPS).map(name => {
+                const fips = STATE_FIPS[name];
+                const geoms = counties.filter(g => String(g.id).padStart(5, "0").startsWith(fips));
+                if (!geoms.length) return null;
+                return {
+                    type: "Feature",
+                    properties: { name, ratio: rows.find(r => r.name === name).ratio },
+                    geometry: topojson.merge(topo, geoms)
+                };
+            }).filter(Boolean);
+
+            const fc = { type: "FeatureCollection", features: stateFeatures };
+            const projection = d3.geoAlbersUsa().fitSize([width, height], fc);
+            const path = d3.geoPath(projection);
+
+            svg.attr("viewBox", `0 0 ${width} ${height}`)
+                .append("g")
+                .selectAll("path")
+                .data(stateFeatures)
+                .join("path")
+                .attr("class", "h059-state")
+                .attr("d", path)
+                .attr("fill", d => colorScale(d.properties.ratio))
+                .append("title")
+                .text(d => `${d.properties.name}: ${Math.round(d.properties.ratio).toLocaleString()} people per electoral vote`);
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+    <script src="../../assets/js/save-image.js"></script>
+    <script>
+        HantenSaveImage.init({
+            target: ".hanten-exhibit",
+            title: "How much more does a Wyoming vote count than a Texas vote?",
+            filename: "H059-electoral-college-weight.png"
+        });
+    </script>
+
+</body>
+</html>

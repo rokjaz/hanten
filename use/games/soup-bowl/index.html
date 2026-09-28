@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Soup Bowl — Hanten Game</title>
+<style>
+:root{--bg:#eef7f8;--ink:#20313a;--muted:#53636b;--card:#fff;--line:#c8d0d3;--accent:#a9663d;--accent2:#f6fafb;--navy:#183746;--good:#315b43;--bad:#8b3b32}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}a{color:inherit;text-decoration:none}.hanten-shell{height:68px;background:var(--navy);color:#fff;display:flex;align-items:center;padding:0 28px;box-shadow:0 2px 8px #1530392e}.shell-brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.075em}.shell-mark{width:34px;height:34px;border:2px solid #ffffffdd;border-radius:8px;display:grid;place-items:center}.shell-tag{margin-left:14px;padding-left:14px;border-left:1px solid rgba(255,255,255,.3);font-size:14px;font-style:italic;letter-spacing:0;opacity:.82}.shell-nav{margin-left:auto;display:flex;gap:24px;font-size:14px}.shell-nav a{opacity:.8}.shell-nav .active{opacity:1;font-weight:800}.hanten-footer{min-height:70px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:18px max(28px,calc((100% - 1050px)/2));font-size:13px}.hanten-footer .tag{font-style:italic;font-size:15px}
+.wrap{max-width:1050px;margin:auto;padding:22px}.top{text-align:center;margin-bottom:16px}.brand{font-size:13px;letter-spacing:.18em;font-weight:700}.top h1{margin:5px 0 2px;font-size:34px}.sub{color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.panel,.event,.controls,.logbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}.panel h2{margin:0 0 10px;font-size:20px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:#f6fafb;border-radius:10px;padding:10px;text-align:center}.num{font-size:25px;font-weight:700}.lab{font-size:12px;color:var(--muted);margin-top:2px}
+.event{margin-top:14px;text-align:center;min-height:125px;display:flex;flex-direction:column;justify-content:center}.event .round{font-size:13px;color:var(--muted);font-weight:700;letter-spacing:.08em}.event h2{margin:6px 0;font-size:25px}.event p{margin:4px auto;max-width:720px;line-height:1.35}
+.controls{margin-top:14px}.controls h3{margin:0 0 8px}.row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}.btn{border:1px solid #9c8d79;background:white;color:var(--ink);border-radius:10px;padding:11px 14px;font-size:15px;font-weight:700;cursor:pointer;min-height:44px}.btn:hover{background:#f6fafb}.btn.sel{background:var(--accent);border-color:var(--accent);color:white}.btn.primary{background:var(--accent);color:white;border-color:var(--accent);padding-left:22px;padding-right:22px}.btn:disabled{opacity:.45;cursor:not-allowed}.note{font-size:13px;color:var(--muted);line-height:1.35}.message{min-height:22px;font-weight:700;margin-top:8px}.bad{color:var(--bad)}.good{color:var(--good)}
+.logbox{margin-top:14px}.logbox h3{margin:0 0 8px}.log{max-height:260px;overflow:auto;font-size:13px;line-height:1.4}.entry{border-top:1px solid #e1e6e8;padding:8px 0}.entry:first-child{border-top:0}.score{font-size:30px;font-weight:800;margin:8px}.footer{text-align:center;color:var(--muted);font-size:12px;margin:18px 0 4px}.hide{display:none}
+@media(max-width:900px){.shell-tag{display:none}}@media(max-width:680px){.shell-nav{display:none}.hanten-shell{padding:0 18px}.grid{grid-template-columns:1fr}.wrap{padding:12px}.top h1{font-size:29px}.stats{gap:5px}.stat{padding:8px 4px}.num{font-size:22px}}
+
+/* Compact activity identity: keep the game itself visually primary */
+.wrap{padding-top:14px!important}
+.top{margin-bottom:10px!important}
+.top .brand{font-size:11px!important;letter-spacing:.15em!important}
+.top h1{font-size:24px!important;margin:3px 0 1px!important;line-height:1.05!important}
+.top .sub{font-size:14px!important}
+
+</style>
+
+<style>
+/* Activity-page viewport lock: one-line title and first decision area above the fold */
+@media (min-width:900px){
+  .wrap{padding:8px 22px 12px!important}
+  .top{margin-bottom:6px!important;display:flex!important;align-items:baseline!important;justify-content:center!important;gap:12px!important}
+  .top .brand{font-size:10px!important;white-space:nowrap!important}
+  .top h1{font-size:22px!important;line-height:1!important;margin:0!important;white-space:nowrap!important}
+  .top .sub{font-size:13px!important;white-space:nowrap!important}
+  .grid{gap:10px!important}
+  .panel{padding:11px!important}
+  .event{margin-top:10px!important;min-height:100px!important;padding:11px!important}
+  .controls{margin-top:10px!important;padding:12px!important}
+  .controls .row{margin:5px 0 9px!important}
+}
+</style>
+</head>
+<body>
+<header class="hanten-shell"><a class="shell-brand" href="/"><span class="shell-mark">H</span><span>HANTEN</span></a><span class="shell-tag">Truth deserves clarity.</span><nav class="shell-nav"><a href="/exhibits/">Explore</a><a class="active" href="/use/">Use Hanten</a></nav></header>
+<div class="wrap">
+ <div class="top"><div class="brand">HANTEN GAME</div><h1>SOUP BOWL</h1><div class="sub">Balance today's savings against tomorrow's customers.</div></div>
+ <div class="grid">
+  <section class="panel"><h2>You</h2><div class="stats"><div class="stat"><div class="num" id="pCash">$0</div><div class="lab">Cash</div></div><div class="stat"><div class="num" id="pLoyal">5</div><div class="lab">Loyal</div></div><div class="stat"><div class="num" id="pSoup">50</div><div class="lab">Soup</div></div></div></section>
+  <section class="panel"><h2>Computer</h2><div class="stats"><div class="stat"><div class="num" id="cCash">$0</div><div class="lab">Cash</div></div><div class="stat"><div class="num" id="cLoyal">5</div><div class="lab">Loyal</div></div><div class="stat"><div class="num" id="cSoup">50</div><div class="lab">Soup</div></div></div></section>
+ </div>
+ <section class="event"><div class="round" id="roundLabel">ROUND 1 OF 12</div><h2 id="eventTitle">Make your decision</h2><p id="eventText">Buy soup if needed, then choose a bowl. The event is hidden until both choices are locked.</p><div id="scoreArea"></div></section>
+ <section class="controls" id="controls">
+   <h3>1. Buy soup</h3><div class="row" id="buyBtns"><button class="btn sel" data-buy="0">None</button><button class="btn" data-buy="20">+20 / $15</button><button class="btn" data-buy="40">+40 / $25</button><button class="btn" data-buy="60">+60 / $35</button></div>
+   <h3>2. Choose bowl</h3><div class="row" id="bowlBtns"><button class="btn" data-bowl="large">Large · 3 soup</button><button class="btn" data-bowl="standard">Standard · 2 soup</button><button class="btn" data-bowl="small">Small · 1 soup</button></div>
+   <button class="btn primary" id="playBtn" disabled>Lock choice & reveal event</button> <button class="btn" id="restartBtn">Restart game</button>
+   <div class="message" id="message"></div><div class="note">You must have enough soup to serve your known loyal customers before the event is revealed. Three of the 15 event cards are secretly removed each game.</div>
+ </section>
+ <section class="logbox"><h3>Game log</h3><div class="log" id="log"></div></section>
+</div>
+<footer class="hanten-footer"><div class="tag">Understanding is discovered, not delivered.</div><div>hanten.app</div></footer>
+<script>
+(()=>{
+const costs={0:0,20:15,40:25,60:35}, use={large:3,standard:2,small:1};
+const deckTemplate=[
+ ...Array(3).fill('Regular Lunch'),...Array(3).fill('First-Time Customer'),...Array(3).fill('Manager Bonus'),
+ ...Array(2).fill('Tourist Bus'),...Array(2).fill('Regulars Expect the Usual'),...Array(2).fill('Catering Order')];
+let p,c,deck,hidden,round,buy=0,bowl=null,finished=false;
+const $=id=>document.getElementById(id); const cap=s=>s[0].toUpperCase()+s.slice(1);
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function reset(){p={cash:0,loyal:5,soup:50};c={cash:0,loyal:5,soup:50};let d=shuffle(deckTemplate);hidden=d.slice(0,3);deck=d.slice(3);round=1;buy=0;bowl=null;finished=false;$('log').innerHTML='';$('eventTitle').textContent='Make your decision';$('eventText').textContent='Buy soup if needed, then choose a bowl. The event is hidden until both choices are locked.';$('scoreArea').innerHTML='';$('controls').classList.remove('hide');selectButtons();update();msg('')}
+function selectButtons(){document.querySelectorAll('[data-buy]').forEach(x=>x.classList.toggle('sel',+x.dataset.buy===buy));document.querySelectorAll('[data-bowl]').forEach(x=>x.classList.toggle('sel',x.dataset.bowl===bowl));$('playBtn').disabled=!bowl||finished}
+function update(){$('pCash').textContent='$'+p.cash;$('pLoyal').textContent=p.loyal;$('pSoup').textContent=p.soup;$('cCash').textContent='$'+c.cash;$('cLoyal').textContent=c.loyal;$('cSoup').textContent=c.soup;$('roundLabel').textContent=finished?'GAME OVER':`ROUND ${round} OF 12`}
+function msg(t,bad=false){$('message').textContent=t;$('message').className='message '+(bad?'bad':'')}
+function canChoice(s,b,bo){return s.cash>=costs[b] && s.soup+b>=s.loyal*use[bo]}
+function computerChoice(){let options=[];for(const b of [0,20,40,60])for(const bo of ['large','standard','small'])if(canChoice(c,b,bo)){let score=0;score-=costs[b]*.75;score+=(c.soup+b-c.loyal*use[bo])*.08;if(bo==='large')score+=c.loyal<8?5:2;if(bo==='standard')score+=4;if(bo==='small')score+=c.soup<25?7:3;score+=Math.random()*8;options.push({b,bo,score})}options.sort((a,z)=>z.score-a.score);return options[0]}
+function applyBase(s,bo,count){let served=Math.min(count,Math.floor(s.soup/use[bo]));s.soup-=served*use[bo];s.cash+=served*2;let missed=count-served;if(missed>0)s.loyal=Math.max(0,s.loyal-Math.ceil(missed/2));return {served,missed}}
+function resolve(s,bo,event){let before={...s};let base=applyBase(s,bo,before.loyal);let extra='';
+ if(event==='Regular Lunch'){s.loyal=Math.max(0,s.loyal+(bo==='large'?1:bo==='small'?-1:0));extra=bo==='large'?'+1 loyal':bo==='small'?'−1 loyal':'no loyalty change'}
+ if(event==='First-Time Customer'){let n=bo==='large'?2:bo==='standard'?1:0;s.loyal+=n;extra=`+${n} loyal`}
+ if(event==='Manager Bonus'){let n=bo==='large'?0:bo==='standard'?3:7;s.cash+=n;extra=`+$${n} bonus`}
+ if(event==='Regulars Expect the Usual'){let n=bo==='standard'?1:bo==='small'?-1:0;s.loyal=Math.max(0,s.loyal+n);extra=n===1?'+1 loyal':n===-1?'−1 loyal':'no loyalty change'}
+ if(event==='Tourist Bus'){let served=Math.min(5,Math.floor(s.soup/use[bo]));s.soup-=served*use[bo];s.cash+=served*2;extra=`${served}/5 tourists served (+$${served*2})`}
+ if(event==='Catering Order'){let served=Math.min(5,Math.floor(s.soup/use[bo]));s.soup-=served*use[bo];let rev=bo==='small'?0:served*2;s.cash+=rev;extra=`${served}/5 catering meals served (+$${rev})`}
+ return {base,extra};}
+function play(){let price=costs[buy];if(p.cash<price){msg('You do not have enough cash for that soup purchase.',true);return}if(!canChoice(p,buy,bowl)){msg(`That choice cannot serve your ${p.loyal} loyal customers before the event. Choose more soup or a smaller bowl.`,true);return}
+ let cc=computerChoice();p.cash-=price;p.soup+=buy;c.cash-=costs[cc.b];c.soup+=cc.b;let event=deck[round-1];let pr=resolve(p,bowl,event),cr=resolve(c,cc.bo,event);
+ $('eventTitle').textContent=event;$('eventText').innerHTML=`You: <b>${buy?`Buy ${buy} + `:''}${cap(bowl)}</b> — ${pr.extra}. &nbsp; Computer: <b>${cc.b?`Buy ${cc.b} + `:''}${cap(cc.bo)}</b> — ${cr.extra}.`;
+ let e=document.createElement('div');e.className='entry';e.innerHTML=`<b>R${round}: ${event}</b><br>You → ${buy?`buy ${buy}, `:''}${cap(bowl)}: $${p.cash}, ${p.loyal} loyal, ${p.soup} soup<br>Computer → ${cc.b?`buy ${cc.b}, `:''}${cap(cc.bo)}: $${c.cash}, ${c.loyal} loyal, ${c.soup} soup`;$('log').prepend(e);
+ if(round===12){end();return}round++;buy=0;bowl=null;selectButtons();update();msg('');}
+function end(){finished=true;let ps=p.cash+p.loyal*5,cs=c.cash+c.loyal*5;let result=ps>cs?'You win!':ps<cs?'Computer wins.':'Tie game.';$('scoreArea').innerHTML=`<div class="score">${result}</div><div>You: $${p.cash} + ${p.loyal}×$5 = <b>$${ps}</b> &nbsp; · &nbsp; Computer: $${c.cash} + ${c.loyal}×$5 = <b>$${cs}</b></div><div class="note" style="margin-top:8px">Hidden cards: ${hidden.join(' · ')}</div>`;$('eventText').textContent='Twelve rounds complete. Leftover soup has no value.';$('controls').classList.add('hide');update()}
+document.querySelectorAll('[data-buy]').forEach(x=>x.addEventListener('click',()=>{buy=+x.dataset.buy;selectButtons();msg('')}));document.querySelectorAll('[data-bowl]').forEach(x=>x.addEventListener('click',()=>{bowl=x.dataset.bowl;selectButtons();msg('')}));$('playBtn').addEventListener('click',play);$('restartBtn').addEventListener('click',reset);reset();
+})();
+</script>
+</body></html>

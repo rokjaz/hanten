@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H029 — The Area of Ironed States</title>
+<meta name="description" content="How much larger would a state's surface be if every mountain and slope were ironed flat? Even Alaska gains less than 2%.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h029-ink: #1f1f1f;
+    --h029-muted: #666666;
+    --h029-line: #dddddd;
+    --h029-panel: #ffffff;
+    --h029-soft: #f7f7f7;
+    --h029-accent: #0e7c86;
+    --h029-accent-soft: #edf5f5;
+    --h029-area-lo: #ece4d3;
+    --h029-area-hi: #7c5518;
+  }
+
+  /* Local fallback while hanten.css v0.1's .hanten-graphic rule is repaired. */
+  .hanten-graphic {
+    width: 100%;
+    max-width: 900px;
+    margin: var(--hanten-space-sm) auto var(--hanten-space-lg);
+    position: relative;
+  }
+
+  .h029-shell {
+    width: min(100%, 900px);
+    margin: 0 auto;
+  }
+
+  .h029-tabs,
+  .h029-subtabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: .45rem;
+    margin-bottom: .5rem;
+  }
+
+  .h029-subtabs {
+    display: none;
+    margin-top: -.25rem;
+  }
+
+  .h029-tabs button,
+  .h029-subtabs button {
+    appearance: none;
+    border: 1px solid rgba(31,31,31,.16);
+    background: #fff;
+    color: #5f6972;
+    padding: .48rem .72rem;
+    font: 600 .72rem/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    cursor: pointer;
+    border-radius: 0;
+  }
+
+  .h029-subtabs button {
+    font-size: .68rem;
+    padding: .4rem .65rem;
+  }
+
+  .h029-tabs button:hover,
+  .h029-tabs button:focus-visible,
+  .h029-subtabs button:hover,
+  .h029-subtabs button:focus-visible {
+    border-color: var(--h029-accent);
+    outline: none;
+  }
+
+  .h029-tabs button.active,
+  .h029-subtabs button.active {
+    background: var(--h029-accent);
+    border-color: var(--h029-accent);
+    color: #fff;
+  }
+
+  .h029-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(220px, .72fr);
+    gap: .65rem;
+    align-items: stretch;
+  }
+
+  .h029-layout {
+    padding: .55rem;
+    background: var(--hanten-paper);
+    border: 1px solid var(--hanten-border);
+  }
+
+  .h029-map-wrap {
+    position: relative;
+    padding: 0;
+  }
+
+  #h029-map {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .h029-state {
+    stroke: #fff;
+    stroke-width: .65;
+    vector-effect: non-scaling-stroke;
+    cursor: pointer;
+  }
+
+  #h029-tooltip {
+    position: absolute;
+    display: none;
+    z-index: 5;
+    pointer-events: none;
+    max-width: 245px;
+    padding: .52rem .68rem;
+    background: #17212b;
+    color: #fff;
+    border-radius: 4px;
+    font-size: .78rem;
+    line-height: 1.4;
+    box-shadow: 0 3px 12px rgba(0,0,0,.13);
+  }
+
+  #h029-tooltip .stat {
+    color: #9ed8dc;
+  }
+
+  .h029-ranking {
+    padding: .25rem 0 .25rem .8rem;
+    border-left: 1px solid var(--hanten-border);
+  }
+
+  .h029-ranking h2 {
+    margin: 0 0 .6rem;
+    color: var(--h029-muted);
+    font: 700 .75rem/1.3 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-transform: uppercase;
+    letter-spacing: .045em;
+  }
+
+  .h029-ranking ol {
+    margin: 0;
+    padding-left: 1.35rem;
+    font-size: .85rem;
+  }
+
+  .h029-ranking li {
+    margin-bottom: .38rem;
+  }
+
+  .h029-ranking .val {
+    color: var(--h029-accent);
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .h029-legend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .55rem;
+    margin-top: .45rem;
+    color: var(--h029-muted);
+    font-size: .75rem;
+  }
+
+  .h029-legend .bar {
+    width: min(180px, 42vw);
+    height: 10px;
+    background: linear-gradient(to right, var(--h029-area-lo), var(--h029-area-hi));
+  }
+
+  .h029-reveal {
+    max-width: 760px;
+    margin: .75rem auto 0;
+    padding: .15rem 0 .15rem 1rem;
+    border-left: 3px solid var(--hanten-accent);
+    color: var(--hanten-text);
+    font-size: .95rem;
+    line-height: 1.45;
+  }
+
+  .h029-explore {
+    max-width: 760px;
+    margin: .7rem auto 0;
+    padding: .55rem 0;
+    border-top: 1px solid var(--hanten-border);
+    border-bottom: 1px solid var(--hanten-border);
+    color: var(--hanten-muted);
+    font-size: .8rem;
+    line-height: 1.45;
+  }
+
+  .h029-explore summary {
+    cursor: pointer;
+    font-weight: 750;
+    color: var(--hanten-text);
+  }
+
+  .h029-explore-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: .65rem;
+  }
+
+  .h029-explore h3 {
+    margin: 0 0 .3rem;
+    color: var(--hanten-text);
+    font-size: .8rem;
+  }
+
+  .h029-explore p {
+    margin: 0;
+  }
+
+  .h029-source {
+    max-width: 880px;
+    margin: 1rem auto 0;
+    color: #7b838a;
+    font-size: .7rem;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 760px) {
+    .h029-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .h029-ranking {
+      max-width: 100%;
+      border-left: 0;
+      border-top: 1px solid var(--hanten-border);
+      padding: .65rem 0 0;
+    }
+
+    .h029-explore-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">
+    If you ironed every mountain and slope flat,
+    how much bigger would each state become?
+  </h1>
+
+  <p class="hanten-subtitle">
+    Compare flat land area with an estimate of the true surface area created by slopes.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h029-shell">
+
+      <div class="h029-tabs" id="h029-tabs"></div>
+      <div class="h029-subtabs" id="h029-subtabs"></div>
+
+      <div class="h029-layout" id="h029-capture">
+        <div class="h029-map-wrap" id="h029-map-wrap">
+          <svg
+            id="h029-map"
+            viewBox="0 0 975 610"
+            role="img"
+            aria-labelledby="h029-map-title h029-map-desc"
+          >
+            <title id="h029-map-title">U.S. state area comparisons</title>
+            <desc id="h029-map-desc">
+              Interactive map comparing state total area, land area, and estimated
+              true terrain surface area if slopes were unrolled.
+            </desc>
+          </svg>
+          <div id="h029-tooltip"></div>
+        </div>
+
+        <aside class="h029-ranking">
+          <h2 id="h029-top10-title">Top 10</h2>
+          <ol id="h029-top10-list"></ol>
+        </aside>
+      </div>
+
+      <div class="h029-legend" id="h029-legend"></div>
+      <div class="h029-reveal">
+        <strong>Even mountains barely move the number.</strong><br>
+        Alaska gains roughly 11,000 square miles when its terrain is unrolled — yet that is still less than 2% of its land area.
+      </div>
+
+      <p class="hanten-reflection">
+        Which changes an area's measurement more: the shape of the land, or what we decide to count?
+      </p>
+
+      <details class="h029-explore">
+        <summary>Explore what changes the answer</summary>
+        <div class="h029-explore-grid">
+          <section>
+            <h3>Water matters more</h3>
+            <p>
+              Michigan and Hawaii are each about 41% water by total state area. Michigan alone contains
+              about 40,175 square miles of water — more than Kentucky's entire land area.
+            </p>
+          </section>
+          <section>
+            <h3>Terrain is surprisingly small</h3>
+            <p>
+              Washington, Idaho, and California are among the states where terrain adds the largest percentage,
+              but all remain under about 1.5%. For most states, the gain is only a few hundredths of a percent.
+            </p>
+          </section>
+        </div>
+      </details>
+
+      <div class="h029-source">
+        Source basis from the original H029 exhibit: total, land, and water area from the U.S. Census Bureau
+        as reproduced in the source exhibit's state-area dataset. Terrain surface area was computed there from
+        the GEBCO_2025 global elevation grid at 15 arc-second resolution (about 460 m cells), estimating each
+        cell's true area as flat area × √(1 + slope²), then summing by state. Because the grid cannot capture
+        every small-scale terrain irregularity, the original exhibit treats these surface ratios as a floor
+        rather than a ceiling.
+      </div>
+
+      <div class="hanten-utility">
+        <div id="save-image-slot"></div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/js/topojson-client.min.js"></script>
+<script src="../../assets/geodata/us/us-counties-10m.js"></script>
+<script src="../../assets/geodata/state-area.js"></script>
+<script src="../../assets/geodata/state-surface-area.js"></script>
+
+<script>
+(() => {
+  "use strict";
+
+  const width = 975;
+  const height = 610;
+  const svg = d3.select("#h029-map");
+  const tooltip = document.getElementById("h029-tooltip");
+
+  const statesFeatures = topojson
+    .feature(US_COUNTIES_TOPOLOGY, US_COUNTIES_TOPOLOGY.objects.states)
+    .features
+    .filter(feature => STATE_AREA[feature.properties.name]);
+
+  const projection = d3.geoAlbersUsa()
+    .fitSize([width, height], {type:"FeatureCollection", features:statesFeatures});
+
+  const path = d3.geoPath(projection);
+
+  function fmt(n) {
+    return Math.round(n).toLocaleString();
+  }
+
+  function fmtGainPct(n) {
+    return (n >= 0 ? "+" : "") + n.toFixed(2) + "%";
+  }
+
+  function fmtPlainPct(n) {
+    return n.toFixed(1) + "%";
+  }
+
+  let tabMode = {
+    land: "absolute",
+    surface: "absolute"
+  };
+
+  const TABS = [
+    {
+      id: "total",
+      label: "Total area",
+      value: name => STATE_AREA[name].total,
+      format: fmt,
+      tip: name =>
+        `<div class="stat">Total area: ${fmt(STATE_AREA[name].total)} sq mi</div>`
+    },
+    {
+      id: "land",
+      label: "Land only",
+      modes: [
+        {id:"absolute", label:"By land area"},
+        {id:"percent", label:"By % water"}
+      ],
+      value: name => {
+        const d = STATE_AREA[name];
+        return tabMode.land === "percent"
+          ? (d.water / d.total * 100)
+          : d.land;
+      },
+      format: n =>
+        tabMode.land === "percent"
+          ? fmtPlainPct(n)
+          : fmt(n),
+      tip: name => {
+        const d = STATE_AREA[name];
+        const pct = d.water / d.total * 100;
+        return `
+          <div class="stat">Land: ${fmt(d.land)} sq mi</div>
+          <div class="stat">Water: ${fmt(d.water)} sq mi (${fmtPlainPct(pct)})</div>`;
+      }
+    },
+    {
+      id: "surface",
+      label: "Terrain unrolled",
+      modes: [
+        {id:"absolute", label:"By surface area"},
+        {id:"percent", label:"By % gained"}
+      ],
+      value: name => {
+        const land = STATE_AREA[name].land;
+        const s = STATE_SURFACE_AREA[name];
+
+        if (!s) {
+          return tabMode.surface === "percent" ? 0 : land;
+        }
+
+        return tabMode.surface === "percent"
+          ? (s.ratio - 1) * 100
+          : s.ratio * land;
+      },
+      format: n =>
+        tabMode.surface === "percent"
+          ? fmtGainPct(n)
+          : fmt(n),
+      tip: name => {
+        const land = STATE_AREA[name].land;
+        const s = STATE_SURFACE_AREA[name];
+
+        if (!s) {
+          return `<div class="stat">No terrain data</div>`;
+        }
+
+        const surface = s.ratio * land;
+        const extraSqMi = surface - land;
+        const extraPct = (s.ratio - 1) * 100;
+
+        return `
+          <div class="stat">Surface area: ${fmt(surface)} sq mi</div>
+          <div class="stat">+${fmt(extraSqMi)} sq mi (${fmtGainPct(extraPct)}) vs. flat land</div>`;
+      }
+    }
+  ];
+
+  let currentTab = "surface";
+
+  function showTip(event, feature) {
+    const name = feature.properties.name;
+    const tab = TABS.find(t => t.id === currentTab);
+
+    tooltip.style.display = "block";
+    tooltip.innerHTML = `<strong>${name}</strong>${tab.tip(name)}`;
+
+    const wrap = document.getElementById("h029-map-wrap").getBoundingClientRect();
+    tooltip.style.left = Math.min(
+      event.clientX - wrap.left + 14,
+      wrap.width - 250
+    ) + "px";
+    tooltip.style.top = (event.clientY - wrap.top + 14) + "px";
+  }
+
+  const statePaths = svg.append("g")
+    .selectAll("path")
+    .data(statesFeatures)
+    .join("path")
+    .attr("class","h029-state")
+    .attr("d",path)
+    .on("mousemove",showTip)
+    .on("click",showTip)
+    .on("mouseleave",() => {
+      tooltip.style.display = "none";
+    });
+
+  function render(tabId) {
+    currentTab = tabId;
+    const tab = TABS.find(t => t.id === tabId);
+
+    const values = statesFeatures
+      .map(feature => tab.value(feature.properties.name))
+      .filter(Number.isFinite);
+
+    const extent = d3.extent(values);
+
+    const color = d3.scaleLinear()
+      .domain(extent)
+      .range(["#ece4d3","#7c5518"])
+      .interpolate(d3.interpolateRgb);
+
+    statePaths.attr("fill", feature =>
+      color(tab.value(feature.properties.name))
+    );
+
+    const ranked = statesFeatures
+      .map(feature => [
+        feature.properties.name,
+        tab.value(feature.properties.name)
+      ])
+      .sort((a,b) => b[1] - a[1])
+      .slice(0,10);
+
+    const list = document.getElementById("h029-top10-list");
+    list.innerHTML = "";
+
+    ranked.forEach(([name,value]) => {
+      const li = document.createElement("li");
+      li.innerHTML = `${name} <span class="val">${tab.format(value)}</span>`;
+      list.appendChild(li);
+    });
+
+    const modeLabel = tab.modes
+      ? " — " + tab.modes.find(mode => mode.id === tabMode[tabId]).label
+      : "";
+
+    document.getElementById("h029-top10-title").textContent =
+      "Top 10 — " + tab.label + modeLabel;
+
+    document.getElementById("h029-legend").innerHTML = `
+      <span>${tab.format(extent[0])}</span>
+      <span class="bar"></span>
+      <span>${tab.format(extent[1])}</span>`;
+
+    document.querySelectorAll("#h029-tabs button")
+      .forEach(button => {
+        const active = button.dataset.tab === tabId;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+
+    const subtabs = document.getElementById("h029-subtabs");
+
+    if (tab.modes) {
+      subtabs.style.display = "flex";
+      subtabs.innerHTML = "";
+
+      tab.modes.forEach(mode => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = mode.label;
+        const modeActive = mode.id === tabMode[tabId];
+        button.classList.toggle("active", modeActive);
+        button.setAttribute("aria-pressed", modeActive ? "true" : "false");
+        button.addEventListener("click",() => {
+          tabMode[tabId] = mode.id;
+          render(tabId);
+        });
+        subtabs.appendChild(button);
+      });
+    } else {
+      subtabs.style.display = "none";
+    }
+  }
+
+  const tabs = document.getElementById("h029-tabs");
+
+  TABS.forEach(tab => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = tab.label;
+    button.dataset.tab = tab.id;
+    button.setAttribute("aria-pressed", tab.id === currentTab ? "true" : "false");
+    button.addEventListener("click",() => render(tab.id));
+    tabs.appendChild(button);
+  });
+
+  /* Start on the actual H029 discovery rather than generic total area. */
+  render("surface");
+  tabMode.surface = "percent";
+  render("surface");
+})();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "How much area do mountains really add?",
+    filename: "H029-ironed-states.png"
+  });
+</script>
+
+</body>
+</html>

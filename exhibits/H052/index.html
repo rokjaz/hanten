@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H052 — Whose Line Is Western Sahara?</title>
+<meta name="description" content="Western Sahara appears as part of Morocco, as an independent country, or as a disputed non-self-governing territory — three genuinely different maps of the same coastline.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h052-ink: #1c2733;
+    --h052-muted: #4a5a6b;
+    --h052-line: rgba(28,39,51,0.14);
+    --h052-accent: #0e7c86;
+    --h052-accent-soft: rgba(14,124,134,0.12);
+    --h052-panel: #ffffff;
+    --h052-land: #d6dbd0;
+    --h052-land-line: #b9c0b2;
+    --h052-ocean: #cde3ee;
+    --h052-ma: #b2701f;
+    --h052-ma-soft: #ecd7ae;
+    --h052-sadr: #a13d5c;
+    --h052-sadr-soft: #e3aec1;
+  }
+
+  body { background: var(--hanten-paper, #f4f3ef); }
+  main.hanten-exhibit { max-width: 1180px; margin: 0 auto; }
+  main.hanten-exhibit > .hanten-question,
+  main.hanten-exhibit > .hanten-subtitle { text-align: center; margin-left: auto; margin-right: auto; }
+
+  .h052-shell { width: min(100%, 960px); margin: 0 auto; }
+
+  #h052-maps-wrap {
+    background: var(--h052-panel); border: 1px solid var(--h052-line); padding: 1rem;
+    display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem;
+  }
+
+  .h052-map-col { text-align: center; }
+  .h052-map { width: 100%; height: auto; display: block; border: 1px solid var(--h052-line); background: var(--hanten-paper, #f4f3ef); }
+  .h052-map-label {
+    margin-top: .55rem; color: var(--h052-muted);
+    font: 700 .7rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-transform: uppercase; letter-spacing: .045em;
+  }
+
+  .ocean { fill: var(--h052-ocean); stroke: var(--h052-line); stroke-width: .8; }
+  .land { fill: var(--h052-land); stroke: var(--h052-land-line); stroke-width: .5; }
+  .land-ma { fill: var(--h052-ma-soft); stroke: var(--h052-ma); stroke-width: .7; }
+  .land-sadr { fill: var(--h052-sadr-soft); stroke: var(--h052-sadr); stroke-width: .7; }
+  .land-disputed { fill: #e8e2d0; stroke: var(--h052-muted); stroke-width: 1.3; }
+
+  .country-label {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 8px; font-weight: 700; text-anchor: middle;
+    fill: var(--h052-ink); paint-order: stroke; stroke: #fff; stroke-width: 2px;
+  }
+
+  .h052-cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem; margin-top: 1.2rem; }
+  .h052-card { background: var(--h052-panel); border: 1px solid var(--h052-line); border-top: 4px solid var(--card-color); padding: 1.05rem 1.15rem; }
+  .h052-card .who {
+    margin-bottom: .4rem; color: var(--h052-muted);
+    font: 700 .7rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-transform: uppercase; letter-spacing: .045em;
+  }
+  .h052-card h2 { margin: 0 0 .45rem; color: var(--h052-ink); font-family: ui-serif, Georgia, serif; font-size: 1.12rem; }
+  .h052-card p { margin: 0; color: var(--h052-muted); font-size: .85rem; line-height: 1.55; }
+
+  .h052-reveal {
+    max-width: 840px; margin: 1.35rem auto 0; padding: 1rem 1.1rem;
+    background: var(--h052-accent-soft); border-left: 3px solid var(--h052-accent);
+    color: var(--h052-muted); font-size: .95rem; line-height: 1.6;
+  }
+  .h052-reveal strong { color: var(--h052-ink); }
+
+  .h052-principle {
+    max-width: 840px; margin: 1.05rem auto 0; padding-top: .9rem;
+    border-top: 1px solid var(--h052-line); color: var(--h052-muted); font-size: .9rem; line-height: 1.55;
+  }
+  .h052-principle strong { color: var(--h052-ink); }
+
+  .h052-source { max-width: 860px; margin: .9rem auto 0; text-align: center; color: #7b838a; font-size: .7rem; line-height: 1.45; }
+
+  #save-image-slot { max-width: 960px; margin: .55rem auto .75rem; text-align: right; }
+
+  @media (max-width: 780px) {
+    #h052-maps-wrap, .h052-cards { grid-template-columns: 1fr; }
+    .h052-map-col { width: min(100%, 360px); margin: 0 auto; }
+  }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">Whose line is Western Sahara?</h1>
+
+  <p class="hanten-subtitle">
+    A stretch of Atlantic coastline south of Morocco appears as ordinary national territory, as an independent country, or as an unresolved question — and all three maps are actively in use today.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h052-shell">
+
+      <div id="h052-maps-wrap">
+        <div class="h052-map-col">
+          <svg class="h052-map" id="map-ma" viewBox="0 0 260 300" role="img"
+            aria-label="Western Sahara shown as part of Morocco, with no internal border"></svg>
+          <div class="h052-map-label">As shown in Morocco</div>
+        </div>
+        <div class="h052-map-col">
+          <svg class="h052-map" id="map-sadr" viewBox="0 0 260 300" role="img"
+            aria-label="Western Sahara shown as the independent Sahrawi Arab Democratic Republic"></svg>
+          <div class="h052-map-label">As claimed by the Polisario Front</div>
+        </div>
+        <div class="h052-map-col">
+          <svg class="h052-map" id="map-un" viewBox="0 0 260 300" role="img"
+            aria-label="Western Sahara shown as a separate, disputed non-self-governing territory"></svg>
+          <div class="h052-map-label">UN / common international treatment</div>
+        </div>
+      </div>
+
+      <div id="save-image-slot"></div>
+
+      <div class="h052-cards">
+        <div class="h052-card" style="--card-color: var(--h052-ma)">
+          <div class="who">Morocco's position</div>
+          <h2>Its Southern Provinces</h2>
+          <p>
+            Morocco administers roughly 80% of Western Sahara — the entire coastline, all major cities, and the phosphate and fishing resources — and treats it as an integral part of Moroccan territory, with no internal border drawn on official maps.
+          </p>
+        </div>
+        <div class="h052-card" style="--card-color: var(--h052-sadr)">
+          <div class="who">Polisario Front / SADR</div>
+          <h2>An independent Sahrawi state</h2>
+          <p>
+            The Polisario Front declared the Sahrawi Arab Democratic Republic in 1976. It controls a strip of desert east of Morocco's defensive berm, governs from refugee camps in Algeria, and is recognized by the African Union and dozens of countries.
+          </p>
+        </div>
+        <div class="h052-card" style="--card-color: var(--h052-muted)">
+          <div class="who">UN treatment</div>
+          <h2>Non-self-governing territory</h2>
+          <p>
+            The UN lists Western Sahara as Africa's last unresolved decolonization case and has sought a self-determination referendum since 1991 — one that has never actually been held, over disputes about who would be allowed to vote.
+          </p>
+        </div>
+      </div>
+
+      <div class="h052-reveal">
+        <strong>A 2,700-kilometer sand wall marks the practical border no map agrees is a border.</strong>
+        Morocco built the berm — one of the largest military-engineering projects in the world, mined and patrolled — to hold the western territory after fighting with the Polisario Front in the 1970s–80s. A 1991 ceasefire lasted until November 2020, when fighting resumed. Weeks later, the outgoing US administration recognized Moroccan sovereignty over the territory as part of a deal normalizing Morocco–Israel relations — a position most of the world, including the UN, still does not share.
+      </div>
+
+      <div class="h052-principle">
+        <strong>Hanten Principle: Some disputes don't offer just two competing maps — they offer three, and none of them is neutral.</strong><br>
+        "Part of a country," "an independent country," and "an unresolved territory" aren't shades of the same answer. They're different legal claims, and a map has to silently choose one every time it draws a line — or doesn't.
+      </div>
+
+      <div class="h052-source">
+        Source basis: UN Non-Self-Governing Territories list and MINURSO mandate documents; Council on Foreign Relations, "What Does the Western Sahara Conflict Mean for Africa?"; U.S. Department of State proclamation on Western Sahara (10 December 2020). Country shapes: Natural Earth.
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/geodata/countries.js"></script>
+
+<script>
+  const feats = COUNTRIES_GEOJSON.features;
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    return {
+      type: "Feature",
+      geometry: { type: "Polygon", coordinates: [[[lon0, lat0], [lon0, lat1], [lon1, lat1], [lon1, lat0], [lon0, lat0]]] },
+    };
+  }
+
+  const CROP = [-18, 19, -1, 36.5];
+  const smoothLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
+
+  function smoothLandPath(projection) {
+    return function(feature) {
+      const geom = feature.geometry;
+      if (!geom) return "";
+      const polys = geom.type === "MultiPolygon" ? geom.coordinates : [geom.coordinates];
+      return polys.map(poly => poly.map(ring => {
+        const pts = ring.map(pt => projection(pt)).filter(Boolean);
+        return pts.length >= 3 ? smoothLine(pts) : "";
+      }).join(" ")).join(" ");
+    };
+  }
+
+  function drawPanel(svgId, width, height, opts) {
+    const svg = d3.select(svgId).attr("viewBox", `0 0 ${width} ${height}`);
+    const projection = d3.geoMercator().fitSize([width, height], bboxFeature(...CROP));
+    const path = d3.geoPath(projection);
+
+    svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", path);
+
+    const visibleFeats = feats.filter(f => {
+      const [[lo0, la0], [lo1, la1]] = d3.geoBounds(f);
+      return lo0 <= CROP[2] + 5 && lo1 >= CROP[0] - 5 && la0 <= CROP[3] + 5 && la1 >= CROP[1] - 5;
+    }).sort((a, b) => (a.properties.NAME === "W. Sahara" ? 1 : 0) - (b.properties.NAME === "W. Sahara" ? 1 : 0));
+
+    svg.append("g")
+      .selectAll("path")
+      .data(visibleFeats)
+      .join("path")
+      .attr("class", d => {
+        const n = d.properties.NAME;
+        if (n === "W. Sahara") return "land " + opts.wsClass;
+        if (n === "Morocco") return "land " + opts.maClass;
+        return "land";
+      })
+      .attr("d", smoothLandPath(projection))
+      .attr("stroke-dasharray", d => (d.properties.NAME === "W. Sahara" && opts.wsDash) ? "3,2" : null);
+
+    opts.labels.forEach(l => {
+      const [x, y] = projection([l.lon, l.lat]);
+      svg.append("text")
+        .attr("class", "country-label")
+        .attr("x", x).attr("y", y)
+        .style("fill", l.color || "var(--h052-ink)")
+        .style("font-size", l.size || null)
+        .text(l.name);
+    });
+  }
+
+  drawPanel("#map-ma", 260, 300, {
+    wsClass: "land-ma", maClass: "land-ma", wsDash: false,
+    labels: [
+      { name: "MOROCCO", lon: -6.5, lat: 31.5 },
+      { name: "SOUTHERN", lon: -12.5, lat: 24.5, color: "var(--h052-ma)", size: "7.5px" },
+      { name: "PROVINCES", lon: -12.5, lat: 23, color: "var(--h052-ma)", size: "7.5px" },
+      { name: "MAURITANIA", lon: -10.5, lat: 20.3 },
+      { name: "ALGERIA", lon: -2, lat: 27 },
+    ]
+  });
+  drawPanel("#map-sadr", 260, 300, {
+    wsClass: "land-sadr", maClass: "", wsDash: false,
+    labels: [
+      { name: "MOROCCO", lon: -6.5, lat: 31.5 },
+      { name: "SADR", lon: -12.5, lat: 24, color: "var(--h052-sadr)", size: "9px" },
+      { name: "MAURITANIA", lon: -10.5, lat: 20.3 },
+      { name: "ALGERIA", lon: -2, lat: 27 },
+    ]
+  });
+  drawPanel("#map-un", 260, 300, {
+    wsClass: "land-disputed", maClass: "", wsDash: true,
+    labels: [
+      { name: "MOROCCO", lon: -6.5, lat: 31.5 },
+      { name: "WESTERN SAHARA", lon: -12.7, lat: 24.5, size: "7px" },
+      { name: "(disputed)", lon: -12.7, lat: 23.2, size: "6.5px", color: "var(--h052-muted)" },
+      { name: "MAURITANIA", lon: -10.5, lat: 20.3 },
+      { name: "ALGERIA", lon: -2, lat: 27 },
+    ]
+  });
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "Whose line is Western Sahara?",
+    filename: "hanten-H052-western-sahara.png"
+  });
+</script>
+
+</body>
+</html>

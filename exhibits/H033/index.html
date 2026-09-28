@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>H033 — Gulf of Mexico</title>
+<meta name="description" content="The same gulf can now appear under different names depending on the government, mapmaker, and location of the viewer.">
+
+<link rel="stylesheet" href="../../assets/css/hanten.css">
+
+<style>
+  :root {
+    --h033-ink: #1c2733;
+    --h033-muted: #4a5a6b;
+    --h033-line: rgba(28,39,51,0.14);
+    --h033-accent: #0e7c86;
+    --h033-accent-soft: rgba(14,124,134,0.12);
+    --h033-panel: #ffffff;
+    --h033-land: #d6dbd0;
+    --h033-land-line: #b9c0b2;
+    --h033-ocean: #cde3ee;
+    --h033-mexico: #2f7d5c;
+    --h033-mexico-soft: #a9cdbb;
+    --h033-america: #3b6ea3;
+    --h033-america-soft: #b7c9dc;
+  }
+
+  body { background: var(--hanten-paper, #f4f3ef); }
+
+  main.hanten-exhibit {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  main.hanten-exhibit > .hanten-question,
+  main.hanten-exhibit > .hanten-subtitle {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .h033-shell {
+    width: min(100%, 820px);
+    margin: 0 auto;
+  }
+
+  #h033-map-wrap {
+    width: min(100%, 680px);
+    margin: 0 auto;
+    background: var(--hanten-paper);
+    border: 1px solid var(--hanten-border);
+    padding: .3rem;
+  }
+
+  #map {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ocean {
+    fill: var(--h033-ocean);
+    stroke: var(--h033-line);
+    stroke-width: 1;
+  }
+
+  .land {
+    fill: var(--h033-land);
+    stroke: var(--h033-land-line);
+    stroke-width: .6;
+  }
+
+  .land-mexico {
+    fill: var(--h033-mexico-soft);
+    stroke: var(--h033-mexico);
+    stroke-width: .7;
+  }
+
+  .land-america {
+    fill: var(--h033-america-soft);
+    stroke: var(--h033-america);
+    stroke-width: .7;
+  }
+
+  .country-label {
+    font-family: var(--hanten-font);
+    font-size: 15px;
+    font-weight: 700;
+    text-anchor: middle;
+    pointer-events: none;
+  }
+
+  .country-label.mexico { fill: var(--h033-mexico); }
+  .country-label.america { fill: var(--h033-america); }
+
+  .country-label.small {
+    font-size: 13px;
+  }
+
+  .country-leader {
+    fill: none;
+    stroke: rgba(74,90,107,.48);
+    stroke-width: .5;
+    stroke-dasharray: 2.5 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .gulf-question {
+    font-family: var(--hanten-font);
+    font-size: 96px;
+    font-weight: 800;
+    fill: var(--h033-ink);
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+
+  .h033-names {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: .7rem;
+    margin-top: .7rem;
+  }
+
+  .h033-card {
+    background: var(--h033-panel);
+    border: 1px solid var(--h033-line);
+    border-top: 4px solid var(--card-color);
+    padding: .7rem .8rem;
+  }
+
+  .h033-card .who {
+    margin-bottom: .4rem;
+    color: var(--h033-muted);
+    font: 700 .7rem/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-transform: uppercase;
+    letter-spacing: .045em;
+  }
+
+  .h033-card h2 {
+    margin: 0 0 .45rem;
+    color: var(--h033-ink);
+    font-family: var(--hanten-font);
+    font-size: 1.1rem;
+  }
+
+  .h033-card p {
+    margin: 0;
+    color: var(--h033-muted);
+    font-size: .88rem;
+    line-height: 1.55;
+  }
+
+  .h033-reveal {
+    max-width: 760px;
+    margin: .75rem auto 0;
+    padding: .15rem 0 .15rem 1rem;
+    border-left: 3px solid var(--hanten-accent);
+    color: var(--hanten-text);
+    font-size: .95rem;
+    line-height: 1.45;
+  }
+
+  .h033-reveal strong {
+    color: var(--hanten-text);
+  }
+
+  .h033-explore {
+    max-width: 760px;
+    margin: .7rem auto 0;
+    padding: .55rem 0;
+    border-top: 1px solid var(--hanten-border);
+    border-bottom: 1px solid var(--hanten-border);
+    color: var(--hanten-muted);
+    font-size: .8rem;
+    line-height: 1.45;
+  }
+
+  .h033-explore summary {
+    cursor: pointer;
+    font-weight: 750;
+    color: var(--hanten-text);
+  }
+
+  .h033-explore-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: .65rem;
+  }
+
+  .h033-explore h3 {
+    margin: 0 0 .3rem;
+    color: var(--hanten-text);
+    font-size: .8rem;
+  }
+
+  .h033-explore p {
+    margin: 0;
+  }
+
+  .h033-source {
+    max-width: 840px;
+    margin: .9rem auto 0;
+    text-align: center;
+    color: #7b838a;
+    font-size: .7rem;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 700px) {
+    .h033-names { grid-template-columns: 1fr; }
+    #h033-map-wrap { padding: .55rem; }
+    .country-label { font-size: 13px; }
+    .h033-explore-grid { grid-template-columns: 1fr; }
+  }
+  .hanten-question {
+    font-family: var(--hanten-font) !important;
+    font-weight: 750;
+  }
+</style>
+</head>
+
+<body>
+<main class="hanten-exhibit">
+
+  <h1 class="hanten-question">What is this gulf called?</h1>
+
+  <p class="hanten-subtitle">
+    The same body of water now appears under different official names.
+  </p>
+
+  <div class="hanten-graphic">
+    <div class="h033-shell">
+
+      <div id="h033-map-wrap">
+        <svg id="map" viewBox="0 0 700 500" role="img"
+          aria-label="Map of the gulf between the United States and Mexico. The United States and Mexico are highlighted in different colors with a large question mark over the water."></svg>
+      </div>
+
+      <div class="h033-names">
+        <div class="h033-card" style="--card-color: var(--h033-mexico)">
+          <div class="who">Mexico · most international usage</div>
+          <h2>Gulf of Mexico</h2>
+          <p>
+            Mexico continues to use “Gulf of Mexico,” the long-established name that remains common
+            in international usage outside the United States.
+          </p>
+        </div>
+
+        <div class="h033-card" style="--card-color: var(--h033-america)">
+          <div class="who">U.S. federal government</div>
+          <h2>Gulf of America</h2>
+          <p>
+            Executive Order 14172 directed U.S. federal agencies to adopt “Gulf of America”
+            as the federal name in 2025.
+          </p>
+        </div>
+      </div>
+
+      <div class="h033-reveal">
+        <strong>The water does not move. The viewer does.</strong><br>
+        The United States and Mexico now use different official names for the same gulf.
+      </div>
+
+      <p class="hanten-reflection">
+        If a map changes its label based on where you are, which part of the map is actually objective?
+      </p>
+
+      <details class="h033-explore">
+        <summary>Explore how the name changes</summary>
+        <div class="h033-explore-grid">
+          <section>
+            <h3>Google Maps in the U.S.</h3>
+            <p>
+              Google says users in the United States see “Gulf of America,” reflecting the U.S. Geographic
+              Names Information System.
+            </p>
+          </section>
+
+          <section>
+            <h3>Mexico and everywhere else</h3>
+            <p>
+              Users in Mexico see “Gulf of Mexico.” Google says users outside the U.S. and Mexico see both names.
+              The same digital map can therefore display different labels to different viewers.
+            </p>
+          </section>
+        </div>
+      </details>
+
+      <div class="h033-source">
+        Sources: Executive Order 14172; U.S. Department of the Interior Order No. 3423;
+        Google public statements on location-based map labeling; Mexican government usage.
+        Country shapes: Natural Earth 1:10m, stored locally in Hanten Shared Assets.
+      </div>
+
+      <div class="hanten-utility">
+        <div id="save-image-slot"></div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="../../assets/js/d3.v7.min.js"></script>
+<script src="../../assets/geodata/world/countries-10m.js"></script>
+
+<script>
+(() => {
+  "use strict";
+
+  const width = 700;
+  const height = 500;
+  const svg = d3.select("#map").attr("viewBox", `0 0 ${width} ${height}`);
+
+  const REGION_NAMES = new Set([
+    "United States of America",
+    "Mexico",
+    "Cuba",
+    "Belize",
+    "Guatemala"
+  ]);
+
+  const feats = COUNTRIES_10M_GEOJSON.features
+    .filter(feature => REGION_NAMES.has(feature.properties.NAME));
+
+  function bboxFeature(lon0, lat0, lon1, lat1) {
+    return {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [lon0, lat0],
+          [lon0, lat1],
+          [lon1, lat1],
+          [lon1, lat0],
+          [lon0, lat0]
+        ]]
+      }
+    };
+  }
+
+  const projection = d3.geoMercator()
+    .fitExtent(
+      [[12, 12], [width - 12, height - 12]],
+      bboxFeature(-99, 16, -79, 31)
+    );
+
+  const path = d3.geoPath(projection);
+
+  svg.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", width)
+    .attr("height", height)
+    .attr("class", "ocean");
+
+  function landClass(name) {
+    if (name === "United States of America") return "land land-america";
+    return "land land-mexico";
+  }
+
+  svg.append("g")
+    .selectAll("path")
+    .data(feats)
+    .join("path")
+    .attr("class", d => landClass(d.properties.NAME))
+    .attr("d", path);
+
+  const DIRECT_LABELS = [
+    { name: "United States", lon: -88.0, lat: 29.9, side: "america" },
+    { name: "Mexico", lon: -96.0, lat: 19.0, side: "mexico" },
+    { name: "Cuba", lon: -81.7, lat: 22.1, side: "mexico", small: true }
+  ];
+
+  DIRECT_LABELS.forEach(label => {
+    const point = projection([label.lon, label.lat]);
+    if (!point) return;
+
+    svg.append("text")
+      .attr("class", `country-label ${label.side}${label.small ? " small" : ""}`)
+      .attr("x", point[0])
+      .attr("y", point[1])
+      .text(label.name);
+  });
+
+  const SMALL_LABELS = [
+    { name: "Belize", anchor: [-88.55, 17.2], label: [-87.55, 17.7] },
+    { name: "Guatemala", anchor: [-90.4, 16.2], label: [-92.1, 16.65] }
+  ];
+
+  SMALL_LABELS.forEach(label => {
+    const a = projection(label.anchor);
+    const l = projection(label.label);
+    if (!a || !l) return;
+
+    svg.append("path")
+      .attr("class", "country-leader")
+      .attr("d", `M${a[0]},${a[1]} L${l[0]},${l[1]-4}`);
+
+    svg.append("text")
+      .attr("class", "country-label mexico small")
+      .attr("x", l[0])
+      .attr("y", l[1])
+      .text(label.name);
+  });
+
+  const questionPoint = projection([-90.0, 24.5]);
+
+  if (questionPoint) {
+    svg.append("text")
+      .attr("class", "gulf-question")
+      .attr("x", questionPoint[0])
+      .attr("y", questionPoint[1])
+      .text("?");
+  }
+})();
+</script>
+
+<script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/save-image.js"></script>
+<script>
+  HantenSaveImage.init({
+    target: ".hanten-exhibit",
+    title: "What is this gulf called?",
+    filename: "H033-gulf-name.png"
+  });
+</script>
+
+</body>
+</html>
