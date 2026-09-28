@@ -1909,3 +1909,11 @@ header h1 {
 .theme-probability  { background-color: #DFF0EB !important; }
 .theme-optimization { background-color: #F1EFD8 !important; }
 .theme-systems      { background-color: #F3E4EA !important; }
+
+/* Keep the 反転 mark inside the screen on phones */
+@media (max-width: 600px) {
+  .why-hanten-mark { width: auto !important; max-width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; transform: none !important; box-sizing: border-box; }
+}
+
+/* Theme-colored browse cards need a little inner space */
+.browse-card[class*="theme-"] { padding: 10px 12px 14px; border-radius: 14px; }
