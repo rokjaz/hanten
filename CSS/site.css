@@ -1900,15 +1900,15 @@ header h1 {
    Theme colors (Sept 2026): each exhibit card takes the soft
    background of its Hanten theme, matching the exhibit page.
    ========================================================== */
-.theme-perspective  { background-color: #F3F0F4 !important; }
-.theme-time         { background-color: #F6F2EB !important; }
-.theme-scale        { background-color: #EEF3F4 !important; }
-.theme-measurement  { background-color: #EFF3EC !important; }
-.theme-distribution { background-color: #F6EFEB !important; }
-.theme-statistics   { background-color: #EEF0F2 !important; }
-.theme-probability  { background-color: #ECF4F0 !important; }
-.theme-optimization { background-color: #F4F3E7 !important; }
-.theme-systems      { background-color: #F5EEF0 !important; }
+.theme-perspective  { background-color: #EDE7F4 !important; }
+.theme-time         { background-color: #F4ECDF !important; }
+.theme-scale        { background-color: #E2EEF5 !important; }
+.theme-measurement  { background-color: #E6EFE2 !important; }
+.theme-distribution { background-color: #F5E6DF !important; }
+.theme-statistics   { background-color: #E4E8F0 !important; }
+.theme-probability  { background-color: #DFF0EB !important; }
+.theme-optimization { background-color: #F1EFD8 !important; }
+.theme-systems      { background-color: #F3E4EA !important; }
 
 /* Keep the 反転 mark inside the screen on phones */
 @media (max-width: 600px) {
