@@ -1917,3 +1917,6 @@ header h1 {
 
 /* Theme-colored browse cards need a little inner space */
 .browse-card[class*="theme-"] { padding: 10px 12px 14px; border-radius: 14px; }
+
+/* H numbers are internal only (Sept 2026): browse rows show just the question */
+.browse-index a { grid-template-columns: 1fr !important; }

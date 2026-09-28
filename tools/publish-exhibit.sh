@@ -195,6 +195,27 @@ else:
     print("NOTE: No HantenSaveImage.init block found.")
 PY
 
+# ------------------------------------------------------------
+# H numbers are internal only: drop "H### — " from the page
+# title and the H### prefix from Save Image file names.
+# ------------------------------------------------------------
+
+python3 - "$DEST_HTML" <<'PYHNUM'
+from pathlib import Path
+import re
+import sys
+
+p = Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+s = re.sub(r'<title>\s*H\d{3}\s*[—–-]\s*', '<title>', s)
+m = re.search(r'<title>([^<]*)</title>', s)
+slug = re.sub(r'[^a-z0-9]+', '-', (m.group(1) if m else 'exhibit').lower()).strip('-')[:60].rstrip('-')
+s = re.sub(r'"H\d{3}(?:_v\d+)?\.png"', '"hanten-' + slug + '.png"', s)
+s = re.sub(r'"H\d{3}[-_]([^"]+\.png)"', r'"hanten-\1"', s)
+p.write_text(s, encoding="utf-8")
+print("HIDE H number in title and image file name")
+PYHNUM
+
 echo
 echo "============================================================"
 echo "DEPENDENCY CHECK"
