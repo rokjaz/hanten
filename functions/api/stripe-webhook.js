@@ -29,7 +29,15 @@ async function verifyStripeSignature(payload, header, secret) {
     false,
     ["sign"]
   );
+  const timestampSeconds = Number(timestamp);
+  const nowSeconds = Math.floor(Date.now() / 1000);
 
+  if (
+    !Number.isFinite(timestampSeconds) ||
+    Math.abs(nowSeconds - timestampSeconds) > 300
+  ) {
+    return false;
+  }
   const digest = await crypto.subtle.sign(
     "HMAC",
     key,
