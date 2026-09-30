@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hanten Classroom</title>
+<style>
+:root{--bg:#eef7f8;--navy:#183746;--ink:#20313a;--muted:#53636b;--line:#c8d0d3;--accent:#a9663d;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}a{text-decoration:none;color:inherit}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+header.hanten-shell{height:68px;background:var(--navy);color:#fff;display:flex;align-items:center;padding:0 28px;box-shadow:0 2px 8px #1530392e}.shell-brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.075em;color:#fff}.shell-mark{width:34px;height:34px;border:2px solid #ffffffdd;border-radius:8px;display:grid;place-items:center;font-size:16px}.shell-brandtag{margin-left:14px;padding-left:14px;border-left:1px solid rgba(255,255,255,.3);font-size:14px;font-style:italic;opacity:.82}.shell-nav{margin-left:auto;display:flex;gap:24px;font-size:14px}.shell-nav a{color:#fff;opacity:.8}.shell-nav .active{opacity:1;font-weight:800}
+.hero{text-align:center;padding:32px 0 18px}.eyebrow{color:var(--accent);font-size:13px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}h1{font-size:clamp(34px,4vw,46px);line-height:1.04;letter-spacing:-.035em;margin:8px auto 10px}.hero p{max-width:760px;margin:auto;color:var(--muted);font-size:17px;line-height:1.45}
+.aprut{max-width:940px;margin:0 auto 32px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px 20px;text-align:center}.aprut h2{font-size:19px;margin:0 0 11px}.steps{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:nowrap}.step{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:900}.arrow{color:#849198}
+.free-sample{max-width:940px;margin:0 auto 34px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:24px 26px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;box-shadow:0 8px 24px rgba(24,55,70,.06)}.free-sample h2{font-size:27px;line-height:1.1;letter-spacing:-.02em;margin:6px 0 8px;color:var(--navy)}.free-sample p{margin:0;color:var(--muted);font-size:16px;line-height:1.5;max-width:660px}.free-action{display:inline-flex;align-items:center;justify-content:center;min-width:190px;padding:13px 18px;border-radius:10px;background:var(--navy);color:#fff;font-size:14px;font-weight:900;white-space:nowrap}.free-action:hover{filter:brightness(1.08)}
+.library-head{text-align:center;margin:0 auto 20px}.library-head h2{font-size:30px;letter-spacing:-.02em;margin:5px 0 7px;color:var(--navy)}.library-head p{margin:0 auto;max-width:720px;color:var(--muted);font-size:16px;line-height:1.5}
+.collection{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding-bottom:46px}.card{position:relative;display:flex;flex-direction:column;min-height:255px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:22px;transition:transform .14s ease,box-shadow .14s ease,border-color .14s ease}.card:hover{transform:translateY(-2px);border-color:#aebabe;box-shadow:0 8px 22px rgba(24,55,70,.08)}.card.selected{border:2px solid var(--navy);padding:21px;box-shadow:0 8px 22px rgba(24,55,70,.10)}.card-link{display:block}.select-row{margin-top:auto;padding-top:18px;display:flex;align-items:center;justify-content:space-between;gap:10px}.select-btn{appearance:none;border:2px solid var(--navy);background:var(--navy);color:#fff;border-radius:10px;padding:11px 17px;font:inherit;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 3px 8px rgba(24,55,70,.14)}.select-btn:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(24,55,70,.20)}.selected .select-btn{background:#fff;color:var(--navy)}.free-label{display:inline-flex;align-items:center;border-radius:999px;background:var(--bg);color:var(--navy);padding:7px 10px;font-size:12px;font-weight:900}.selection-bar{flex:0 0 auto;width:min(1120px,calc(100% - 40px));margin:12px auto 14px;background:var(--navy);color:#fff;border-radius:14px;padding:15px 18px;display:none;grid-template-columns:150px 1fr auto;align-items:center;gap:20px;box-shadow:0 8px 22px rgba(24,55,70,.18)}.selection-bar.show{display:grid}body.selection-active{height:100vh;overflow:hidden;display:flex;flex-direction:column}body.selection-active main{flex:1 1 auto;min-height:0;overflow-y:auto}body.selection-active footer.hanten-shell-footer{flex:0 0 auto}.selection-copy{min-width:0}.selection-main{font-weight:900;font-size:15px;white-space:nowrap}.selection-sub{font-size:20px;line-height:1.2;font-weight:900;text-align:center;margin:0}.selection-actions{display:flex;align-items:center;gap:10px;justify-content:flex-end}.selection-clear{appearance:none;border:0;background:transparent;color:#fff;opacity:.78;font:inherit;font-size:12px;font-weight:800;cursor:pointer}.selection-continue{border:1px solid rgba(255,255,255,.55);background:#fff;color:var(--navy);border-radius:9px;padding:10px 15px;font-size:13px;font-weight:900;white-space:nowrap;cursor:pointer}.selection-continue:disabled{opacity:.45;cursor:default}.card h3{font-size:22px;line-height:1.14;letter-spacing:-.015em;margin:7px 0 9px;color:var(--navy)}.card p{margin:0;color:var(--muted);font-size:15px;line-height:1.48}.card-foot{margin-top:auto;padding-top:18px;display:flex;justify-content:space-between;align-items:center;gap:10px}.meta{font-size:13px;color:var(--muted);font-weight:700}.open{font-size:14px;color:var(--navy);font-weight:900}
+.shop-layout{max-width:1160px;margin:0 auto 52px;padding:0 20px;display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:22px;align-items:start}
+.shop-layout .collection{margin:0;padding:0;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.shop-layout .card{padding:18px;min-height:238px}
+.shop-layout .card.selected{padding:17px}
+.shop-layout .card h3{font-size:19px}
+.shop-layout .card p{font-size:14px}
+.shop-layout .select-row{padding-top:14px;gap:8px}
+.shop-layout .meta{font-size:12px}
+.shop-layout .select-btn{padding:9px 11px;font-size:12px}
+.selection-bar{position:sticky;top:84px;width:100%;margin:0;background:var(--navy);color:#fff;border-radius:14px;padding:18px;display:none;grid-template-columns:1fr;gap:12px;box-shadow:0 8px 22px rgba(24,55,70,.16)}
+.selection-bar.show{display:grid}
+.selection-kicker{font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;opacity:.72}
+.selection-main{font-size:16px;font-weight:900}
+.selection-sub{font-size:20px;line-height:1.2;font-weight:900;text-align:left}
+.selection-list{display:grid;gap:7px;margin:2px 0 4px}
+.selection-item{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;padding:9px 10px;border-radius:9px;background:rgba(255,255,255,.09);font-size:12px;font-weight:800;line-height:1.25}
+.selection-remove{appearance:none;border:0;background:transparent;color:#fff;font:inherit;font-size:16px;line-height:1;cursor:pointer;opacity:.8;padding:0}
+.selection-actions{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center}
+.selection-clear{appearance:none;border:0;background:transparent;color:#fff;opacity:.75;font:inherit;font-size:12px;font-weight:800;cursor:pointer}
+.selection-continue{border:1px solid rgba(255,255,255,.55);background:#fff;color:var(--navy);border-radius:9px;padding:11px 13px;font-size:13px;font-weight:900;cursor:pointer}
+body.selection-active{height:auto;overflow:auto;display:block}
+body.selection-active main{overflow:visible}
+body.selection-active footer.hanten-shell-footer{display:flex}
+.teacher-note{max-width:900px;margin:0 auto 52px;padding:20px 24px;border-top:1px solid var(--line);text-align:center}.teacher-note h2{font-size:24px;margin:0 0 7px;color:var(--navy)}.teacher-note p{max-width:720px;margin:auto;color:var(--muted);font-size:16px;line-height:1.5}
+footer.hanten-shell-footer{min-height:70px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:18px max(28px,calc((100% - 1160px)/2));font-size:13px}.shell-tag{font-style:italic;font-size:15px}
+@media(max-width:700px){.selection-bar{width:calc(100% - 24px);grid-template-columns:1fr;text-align:center;gap:8px;padding:10px 16px;margin:8px auto}.selection-main{white-space:normal}.selection-sub{text-align:center;font-size:18px}.selection-actions{justify-content:center}}@media(max-width:900px){.free-sample{grid-template-columns:1fr;gap:18px}.free-action{justify-self:start}.shell-brandtag{display:none}.collection{grid-template-columns:repeat(2,1fr)}}@media(max-width:680px){.selection-bar{bottom:8px;margin-left:0;margin-right:0;flex-wrap:wrap}.selection-spacer{display:none}.selection-copy{flex:1 1 100%}.selection-continue{flex:1}.free-sample{padding:21px}.free-action{width:100%;justify-self:stretch}header.hanten-shell{padding:0 18px}.shell-nav{display:none}.wrap{width:min(100% - 28px,1120px)}.hero{padding-top:25px}.steps{flex-wrap:wrap}.arrow{display:none}.collection{grid-template-columns:1fr}.card{min-height:0}footer.hanten-shell-footer{gap:12px;flex-direction:column;text-align:center}}
+
+@media(max-width:1050px){.shop-layout{grid-template-columns:1fr}.shop-layout .collection{grid-template-columns:repeat(3,minmax(0,1fr))}.selection-bar{position:sticky;bottom:12px;top:auto;z-index:20;width:100%;grid-template-columns:120px 1fr auto;align-items:center}.selection-kicker,.selection-list{display:none}.selection-sub{text-align:center;font-size:18px}.selection-actions{display:flex}}
+@media(max-width:760px){.shop-layout .collection{grid-template-columns:1fr}.selection-bar{grid-template-columns:1fr;text-align:center}.selection-main,.selection-sub{text-align:center}.selection-actions{justify-content:center}}
+</style>
+</head>
+<body>
+<header class="hanten-shell"><a class="shell-brand" href="/"><span class="shell-mark">H</span><span>HANTEN</span></a><span class="shell-brandtag">Truth deserves clarity.</span><nav class="shell-nav" aria-label="Main navigation"><a href="/exhibits/">Explore</a><a class="active" href="/use/">Use Hanten</a></nav></header>
+<main class="wrap">
+<section class="hero"><div class="eyebrow">Hanten Classroom</div><h1>Five minutes. One discovery.</h1><p>Ready-to-use classroom activities that ask students to commit to an idea before they see what happens—and then apply what they discovered somewhere new.</p></section>
+<section class="aprut"><h2>Every activity follows the same discovery path.</h2><div class="steps"><span class="step">ASK</span><span class="arrow">→</span><span class="step">PREDICT</span><span class="arrow">→</span><span class="step">REVEAL</span><span class="arrow">→</span><span class="step">UNDERSTAND</span><span class="arrow">→</span><span class="step">TRANSFER</span></div></section>
+<section class="free-sample" aria-label="Free APRUT example"><div><div class="eyebrow">Try a free APRUT</div><h2>Mean vs. Median</h2><p>See the complete five-minute format in action. Predict what happens when a $50 million guest joins a backyard BBQ, then follow the discovery through Ask, Predict, Reveal, Understand, and Transfer. No sign-up required.</p></div><a class="free-action" href="H001/" target="_blank" rel="noopener">Try the free APRUT →</a></section>
+<section class="library-head"><div class="eyebrow">Build your collection</div><h2>Choose your APRUTs</h2><p>Mean vs. Median is free. Use the <strong>+ Select APRUT</strong> buttons below to build your own pack. Your price updates automatically as you choose.</p></section>
+<div class="shop-layout"><section class="collection" aria-label="Classroom activities"><a class="card" href="H001/" target="_blank" rel="noopener"><div class="eyebrow">Measurement</div><h3>Mean vs. Median</h3><p>A $50 million guest joins a backyard BBQ. Predict what happens to the mean and median, then discover why one barely moves while the other skyrockets.</p><div class="select-row"><span class="free-label">FREE APRUT</span><span class="open">Open activity →</span></div></a>
+<article class="card selectable" data-aprut="H002"><a class="card-link" href="H002/" target="_blank" rel="noopener"><div class="eyebrow">Scale</div><h3>Closer to the ISS</h3><p>Start at Point Nemo, one of Earth’s most remote places, and discover why the nearest people can sometimes be above you in orbit.</p></a><div class="select-row"><span class="meta">~5 minutes · Teacher notes</span><button class="select-btn" type="button" aria-pressed="false">+ Select APRUT</button></div></article>
+<article class="card selectable" data-aprut="H003"><a class="card-link" href="H003/" target="_blank" rel="noopener"><div class="eyebrow">Distribution</div><h3>Can You Win Without Most of the Votes?</h3><p>Keep the same voters and redraw only the district lines. See how the way a population is grouped can change the outcome.</p></a><div class="select-row"><span class="meta">~5 minutes · Teacher notes</span><button class="select-btn" type="button" aria-pressed="false">+ Select APRUT</button></div></article>
+<article class="card selectable" data-aprut="H005"><a class="card-link" href="H005/" target="_blank" rel="noopener"><div class="eyebrow">Probability</div><h3>Shared Birthdays</h3><p>How many people does it take before a shared birthday is more likely than not? Commit to a prediction before the probability curve is revealed.</p></a><div class="select-row"><span class="meta">~5 minutes · Teacher notes</span><button class="select-btn" type="button" aria-pressed="false">+ Select APRUT</button></div></article>
+<article class="card selectable" data-aprut="H006"><a class="card-link" href="H006/" target="_blank" rel="noopener"><div class="eyebrow">Systems</div><h3>Same Pins, Different Score</h3><p>Two bowlers knock down the same number of pins. Discover why the order of those pins can produce very different scores.</p></a><div class="select-row"><span class="meta">~5 minutes · Teacher notes</span><button class="select-btn" type="button" aria-pressed="false">+ Select APRUT</button></div></article>
+<article class="card selectable" data-aprut="H007"><a class="card-link" href="H007/" target="_blank" rel="noopener"><div class="eyebrow">Scale</div><h3>How Big Is Africa, Really?</h3><p>Test whether three familiar countries can fit inside Africa at the same time, then uncover what a familiar world map does to apparent size.</p></a><div class="select-row"><span class="meta">~5 minutes · Teacher notes</span><button class="select-btn" type="button" aria-pressed="false">+ Select APRUT</button></div></article>
+<article class="card selectable" data-aprut="H010"><a class="card-link" href="H010/" target="_blank" rel="noopener"><div class="eyebrow">Distribution</div><h3>Half the World in One Circle</h3><p>Estimate how many people live inside one circle on the map, then compare its share of humanity with its share of land.</p></a><div class="select-row"><span class="meta">~5 minutes · Teacher notes</span><button class="select-btn" type="button" aria-pressed="false">+ Select APRUT</button></div></article>
+<article class="card selectable" data-aprut="H011"><a class="card-link" href="H011/" target="_blank" rel="noopener"><div class="eyebrow">Scale</div><h3>Planets Between Earth and the Moon</h3><p>Could every other planet fit in the gap between Earth and the Moon? Test the familiar claim against the Moon’s changing distance.</p></a><div class="select-row"><span class="meta">~5 minutes · Teacher notes</span><button class="select-btn" type="button" aria-pressed="false">+ Select APRUT</button></div></article>
+<article class="card selectable" data-aprut="H014"><a class="card-link" href="H014/" target="_blank" rel="noopener"><div class="eyebrow">Distribution</div><h3>Empty or Crowded?</h3><p>Compare the land occupied by the least- and most-dense U.S. counties and discover how differently people can be distributed across space.</p></a><div class="select-row"><span class="meta">~5 minutes · Teacher notes</span><button class="select-btn" type="button" aria-pressed="false">+ Select APRUT</button></div></article>
+<article class="card selectable" data-aprut="H016"><a class="card-link" href="H016/" target="_blank" rel="noopener"><div class="eyebrow">Perspective</div><h3>Half the Earth, Almost No Land</h3><p>Turn the globe to two opposite hemispheres and compare how much land each contains. The same-sized half can tell a very different story.</p></a><div class="select-row"><span class="meta">~5 minutes · Teacher notes</span><button class="select-btn" type="button" aria-pressed="false">+ Select APRUT</button></div></article></section>
+
+<aside class="selection-bar" id="selectionBar" aria-live="polite">
+<div class="selection-kicker">Your selection</div>
+<div class="selection-main" id="selectionMain">0 selected</div>
+<div class="selection-sub" id="selectionSub"></div>
+<div class="selection-list" id="selectionList"></div>
+<div class="selection-actions"><button class="selection-clear" id="selectionClear" type="button">Clear</button><button class="selection-continue" id="selectionContinue" type="button">Purchase</button></div>
+</aside></div>
+<section class="teacher-note"><h2>Discovery before explanation.</h2><p>Students notice, predict, test, and transfer the idea before the lesson is named for them. The structure stays familiar; the discovery changes each time.</p></section>
+</main>
+<footer class="hanten-shell-footer"><div class="shell-tag">Understanding is discovered, not delivered.</div><div>hanten.app</div></footer>
+<script>
+(()=>{
+  const cards=[...document.querySelectorAll('.card.selectable')];
+  const bar=document.getElementById('selectionBar');
+  const main=document.getElementById('selectionMain');
+  const sub=document.getElementById('selectionSub');
+  const clear=document.getElementById('selectionClear');
+  const go=document.getElementById('selectionContinue');
+  const list=document.getElementById('selectionList');
+  const titles={H002:'Closer to the ISS',H003:'Can You Win Without Most of the Votes?',H005:'Shared Birthdays',H006:'Same Pins, Different Score',H007:'How Big Is Africa, Really?',H010:'Half the World in One Circle',H011:'Planets Between Earth and the Moon',H014:'Empty or Crowded?',H016:'Half the Earth, Almost No Land'};
+  const selected=new Set();
+  function offer(n){
+    if(n===0)return ['', ''];
+    if(n===1)return ['$3 · 1 APRUT', 'Single APRUT'];
+    if(n<5)return [`${n} selected · $${n*3}`, `Choose ${5-n} more for the 5-pack · $10`];
+    if(n===5)return ['5 selected · $10', '5-APRUT pack'];
+    if(n<15)return [`${n} selected`, `Choose ${15-n} more for the 15-pack · $20`];
+    if(n===15)return ['15 selected · $20', '15-APRUT pack'];
+    return [`${n} selected`, 'Selection exceeds the 15-APRUT pack'];
+  }
+  function render(){
+    cards.forEach(card=>{const on=selected.has(card.dataset.aprut);card.classList.toggle('selected',on);const b=card.querySelector('.select-btn');b.textContent=on?'✓ Selected':'+ Select APRUT';b.setAttribute('aria-pressed',on?'true':'false')});
+    const n=selected.size;
+    bar.classList.toggle('show',n>0);
+    document.body.classList.toggle('selection-active',n>0);
+    const [a,b]=offer(n);main.textContent=a;sub.textContent=b;go.disabled=n===0;
+    list.innerHTML='';
+    selected.forEach(k=>{const row=document.createElement('div');row.className='selection-item';const label=document.createElement('span');label.textContent=titles[k]||k;const x=document.createElement('button');x.className='selection-remove';x.type='button';x.setAttribute('aria-label','Remove '+label.textContent);x.textContent='×';x.addEventListener('click',()=>{selected.delete(k);render()});row.append(label,x);list.append(row)});
+  }
+    cards.forEach(card=>card.querySelector('.select-btn').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const k=card.dataset.aprut;selected.has(k)?selected.delete(k):selected.add(k);render()}));
+  clear.addEventListener('click',()=>{selected.clear();render()});
+go.addEventListener('click', async () => {
+  if (!selected.size) return;
+
+  if (selected.size !== 5) {
+    alert('For this test, please select exactly 5 APRUTs.');
+    return;
+  }
+
+  go.disabled = true;
+  const oldText = go.textContent;
+  go.textContent = 'Opening checkout…';
+
+  try {
+    const response = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({selected: Array.from(selected)})
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.url) {
+      throw new Error(data.error || 'Checkout could not be started.');
+    }
+
+    window.location.href = data.url;
+  } catch (error) {
+    alert(error.message || 'Checkout could not be started. Please try again.');
+    go.disabled = false;
+    go.textContent = oldText;
+  }
+});  render();
+})();
+</script>
+</body></html>
