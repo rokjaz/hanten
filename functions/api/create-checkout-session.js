@@ -86,10 +86,10 @@ export async function onRequestPost({ request, env }) {
 
     if (!response.ok) {
       console.error("Stripe Checkout error:", session);
-      return json({
-        error: "Checkout could not be created.",
-        stripe_error: session.error?.message || session
-      }, 502);
+      return json(
+        { error: "Checkout could not be created." },
+        502
+      );
     }
 
     return json({ url: session.url });
