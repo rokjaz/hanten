@@ -26,9 +26,9 @@ header.hanten-shell{height:68px;background:var(--navy);color:#fff;display:flex;a
 .selection-kicker{font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;opacity:.72}
 .selection-main{font-size:16px;font-weight:900}
 .selection-sub{font-size:20px;line-height:1.2;font-weight:900;text-align:left}
-.selection-list{display:grid;gap:7px;margin:10px 0;max-height:360px;overflow-y:auto;padding-right:4px;min-height:0}
-.selection-item{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;padding:9px 10px;border-radius:9px;background:rgba(255,255,255,.09);font-size:12px;font-weight:800;line-height:1.25}
-.selection-remove{appearance:none;border:0;background:transparent;color:#fff;font:inherit;font-size:16px;line-height:1;cursor:pointer;opacity:.8;padding:0}
+.selection-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:10px 0;max-height:220px;overflow-y:auto;padding-right:4px;min-height:0}
+.selection-item{display:flex;align-items:center;justify-content:space-between;gap:6px;background:rgba(255,255,255,.12);border-radius:8px;padding:8px 9px;font-size:12px;font-weight:900;min-width:0}
+.selection-remove{border:0;background:transparent;color:#fff;font:inherit;font-size:15px;font-weight:900;cursor:pointer;line-height:1;padding:0;flex:0 0 auto}
 .selection-actions{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center}
 .selection-clear{appearance:none;border:0;background:transparent;color:#fff;opacity:.75;font:inherit;font-size:12px;font-weight:800;cursor:pointer}
 .selection-continue{border:1px solid rgba(255,255,255,.55);background:#fff;color:var(--navy);border-radius:9px;padding:11px 13px;font-size:13px;font-weight:900;cursor:pointer}
@@ -584,7 +584,7 @@ footer.hanten-shell-footer{min-height:70px;background:var(--navy);color:#fff;dis
     document.body.classList.toggle('selection-active',n>0);
     const [a,b]=offer(n);main.textContent=a;sub.textContent=b;go.disabled=n===0;
     list.innerHTML='';
-    selected.forEach(k=>{const row=document.createElement('div');row.className='selection-item';const label=document.createElement('span');label.textContent=titles[k]||k;const x=document.createElement('button');x.className='selection-remove';x.type='button';x.setAttribute('aria-label','Remove '+label.textContent);x.textContent='×';x.addEventListener('click',()=>{selected.delete(k);render()});row.append(label,x);list.append(row)});
+    selected.forEach(k=>{const row=document.createElement('div');row.className='selection-item';const label=document.createElement('span');label.textContent=k;const x=document.createElement('button');x.className='selection-remove';x.type='button';x.setAttribute('aria-label','Remove '+label.textContent);x.textContent='×';x.addEventListener('click',()=>{selected.delete(k);render()});row.append(label,x);list.append(row)});
   }
     cards.forEach(card=>card.querySelector('.select-btn').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const k=card.dataset.aprut;selected.has(k)?selected.delete(k):selected.add(k);render()}));
   clear.addEventListener('click',()=>{selected.clear();render()});
