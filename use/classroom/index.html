@@ -623,6 +623,19 @@ async function handleCheckoutReturn(){
       throw new Error(data.error || 'Purchase could not be verified.');
     }
 
+    const bundleHref =
+      '/api/download-bundle?session_id=' +
+      encodeURIComponent(sessionId);
+
+    const bundleButton =
+      data.selected.length > 1
+        ? '<div style="margin-top:12px"><a href="' +
+          bundleHref +
+          '" style="display:inline-block;padding:11px 18px;border-radius:8px;background:#183746;color:#fff;text-decoration:none;font-size:14px;font-weight:900">Download all ' +
+          data.selected.length +
+          ' as ZIP</a></div>'
+        : '';
+
     const downloads=data.selected.map(id=>{
       const href=
         '/api/download-aprut?session_id='+
@@ -642,6 +655,7 @@ async function handleCheckoutReturn(){
       data.amount+
       '</strong>.<br>'+
       '<span style="display:block;margin-top:7px;font-weight:600">Download your classroom activities below.</span>'+
+      bundleButton +
       '<div style="margin-top:6px">'+downloads+'</div>';
   }catch(error){
     checkoutNotice.textContent=
