@@ -1,0 +1,1961 @@
+<!doctype html>
+
+<!--
+HANTEN CLASSROOM — APRUT MASTER TEMPLATE v1.4
+Approved from the H001 Mean vs. Median standardization pass.
+
+SOURCE-OF-TRUTH RULES
+• APRUT sequence: ASK → PREDICT → REVEAL → UNDERSTAND → TRANSFER.
+• One screen per stage; no scrolling.
+• Keep the header/footer shell and APRUT stage position fixed.
+• Approved text sizes: 32px headline; 27px stage word; 24px interaction question / key aha / big values; 20px supporting copy, choices, box headings; 18px secondary labels; 14px true footnotes and tiny marks inside a graphic.
+• Main question: 32px / 1.12 / 800. Supporting copy: 20px / 1.3 / 500. Interaction question: 24px / ~1.22 / 800.
+• Minimum meaningful instructional text: 18px (except true footnotes).
+• Predictions are never graded, so red and green are ordinary data colors (no right/wrong coloring).
+• Data-series colors: Mean and Median use the same neutral Hanten data color; position and labels distinguish the measures.
+• No beige content surfaces; use white/neutral cards over #eef7f8 canvas.
+• Back/Next remain paired in the locked 50px navy footer.
+• Prediction/commitment happens before explanation whenever practical.
+• Transfer should apply the discovery in a new context; when appropriate,
+  include a second staged transfer that gives learners time to think before reveal.
+• Restart must clear all interaction state and return to ASK.
+• Logo/wordmark and final tagline treatment remain replaceable branding placeholders.
+
+The H001 content below is retained as the WORKED EXAMPLE for the template.
+When creating a new APRUT, duplicate this file and replace exhibit-specific
+copy, data, controls, teacher notes, and JavaScript while preserving the shell
+and interaction standards above.
+-->
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hanten Classroom — APRUT Master Template v1.4</title>
+<style>
+:root{
+  --bg:#f3efe6; --card:#fffdf8; --ink:#1d2b2f; --muted:#627176;
+  --line:#d8d3c8; --accent:#2f6f63; --mean:#b64a36; --median:#26756f;
+  --good:#21633d; --bad:#9b3c30;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+button,input{font:inherit}
+.app{min-height:100vh;display:grid;grid-template-rows:auto 1fr auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 20px;border-bottom:1px solid var(--line)}
+.brand{font-weight:900;letter-spacing:.08em}.meta{font-size:.82rem;color:var(--muted)}
+.teacher,.nav,.choice,.check{border:1px solid var(--line);border-radius:12px;font-weight:800;cursor:pointer}
+.teacher{background:transparent;color:var(--ink);padding:7px 11px}
+main{width:min(1120px,100%);margin:auto;padding:5px 20px;min-height:0}
+.slide{display:none}.slide.active{display:block}
+.kicker{text-align:center;color:var(--accent);font-size:clamp(1.25rem,3vh,1.75rem);font-weight:900;letter-spacing:.18em}
+h1{max-width:980px;margin:.12rem auto .28rem;text-align:center;font-size:clamp(1.65rem,4.1vh,3rem);line-height:1.03;letter-spacing:-.03em}
+.sub,.prompt{text-align:center;max-width:940px;margin:.3rem auto;color:var(--muted)}
+.prompt{color:var(--ink);font-size:clamp(1rem,1.9vw,1.38rem);font-weight:650}.prompt strong{color:var(--accent)}
+.salarybox{max-width:980px;margin:.6rem auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:13px}
+.salaries{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.salary{text-align:center;background:#f8f6f0;border-radius:10px;padding:7px 4px}
+.person{font-size:.68rem;color:var(--muted)}.amt{font-weight:850}
+.predict-grid{max-width:1040px;margin:.6rem auto;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.state{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}
+.state h2{text-align:center;margin:0 0 3px;font-size:1.25rem}.state .state-sub{text-align:center;color:var(--muted);font-size:.86rem;margin-bottom:10px}
+.metric-row{padding:10px 0;border-top:1px solid var(--line)}.metric-row:first-of-type{border-top:0}
+.metric-title{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}.metric-title strong{font-size:1.05rem}.definition{font-size:.78rem;color:var(--muted)}
+.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.choice{background:#fbfaf6;color:var(--ink);padding:9px 4px;min-height:42px}
+.choice.selected{border:2px solid var(--accent);background:#e7efec}.choice.correct{border:2px solid var(--good);background:#e8f3eb;color:var(--good)}
+.choice.wrong{border:2px solid var(--bad);background:#f7e9e6;color:var(--bad)}
+.result{min-height:1.15em;margin-top:5px;font-size:.78rem;font-weight:750;color:var(--muted)}.result.good{color:var(--good)}.result.bad{color:var(--bad)}
+.check-wrap{text-align:center;margin:.55rem auto 0}.check{background:var(--accent);color:#fff;border-color:var(--accent);padding:10px 18px;min-width:190px}.check:disabled{opacity:.35;cursor:default}
+.reveal-grid{max-width:980px;margin:.6rem auto;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.reveal-state{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.reveal-state h2{text-align:center;margin:0 0 3px}.reveal-state .state-sub{text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:12px}
+.mini-chart{height:245px;display:grid;grid-template-columns:50px 1fr;gap:8px}
+.axis{position:relative;border-right:1px solid var(--line);color:var(--muted);font-size:.68rem}.tick{position:absolute;right:6px;transform:translateY(50%)}
+.plot{position:relative;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:end;padding:0 14px}
+.gridline{position:absolute;left:0;right:0;border-top:1px solid #ece8df}.bar-wrap{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;z-index:1}
+.value{font-size:.72rem;font-weight:900;margin-bottom:4px;white-space:nowrap}.bar{width:min(76px,75%);border-radius:8px 8px 0 0;min-height:5px}
+.bar.median{background:var(--median)}.bar.mean{background:var(--mean)}.label{text-align:center;font-size:.76rem;font-weight:850;margin-top:5px}
+.legend{text-align:center;color:var(--muted);font-size:.8rem;margin:.5rem auto 0}
+.median-text{color:var(--median)}.mean-text{color:var(--mean)}
+.slider-card{max-width:980px;margin:.65rem auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.slider-head{text-align:center}.slider-head h2{margin:0 0 2px}.guest-value{font-size:clamp(1.45rem,3vw,2.2rem);font-weight:900;color:var(--accent);margin:6px 0}
+.slider-wrap{max-width:820px;margin:10px auto 0}.slider{width:100%;accent-color:var(--accent)}
+.ends{display:flex;justify-content:space-between;color:var(--muted);font-size:.76rem}
+.live-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:800px;margin:16px auto 0}
+.live{border:1px solid var(--line);border-radius:15px;padding:14px;text-align:center}.live .name{font-weight:900}.live .num{font-size:clamp(1.35rem,3vw,2.1rem);font-weight:900;margin:4px 0}.live .change{color:var(--muted);font-size:.86rem}
+.live-bars{max-width:800px;height:150px;margin:14px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:end}
+.livebar-wrap{height:100%;display:flex;align-items:end;justify-content:center;gap:12px}.lb{width:54px;border-radius:8px 8px 0 0;min-height:5px}.lb.median{background:var(--median)}.lb.mean{background:var(--mean)}
+.explain{max-width:920px;margin:.7rem auto;display:grid;grid-template-columns:1fr 1fr;gap:14px}.box,.transfer{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;text-align:center}.box h2{margin:0 0 5px}.box p{margin:0;color:var(--muted);line-height:1.4}
+.transfer{max-width:900px;margin:.7rem auto}.scenario{color:var(--muted);font-size:1.05rem}.question{font-size:clamp(1.35rem,3vw,2.3rem);font-weight:900;margin-top:7px}
+footer{display:flex;flex-direction:column;align-items:center;gap:5px;padding:5px 18px 8px}.navs{display:flex;gap:10px}.nav{min-width:126px;padding:10px;background:var(--accent);color:#fff;border-color:var(--accent)}.nav:disabled{opacity:.35}.progress{display:flex;gap:7px}.dot{width:8px;height:8px;border-radius:50%;background:#c9c6bf}.dot.active{background:var(--accent);transform:scale(1.25)}
+.notes{position:fixed;right:18px;top:60px;width:min(390px,calc(100vw - 36px));background:#1f2d30;color:#fff;padding:18px;border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.18);display:none;z-index:10}.notes.open{display:block}.notes h3{margin:0 0 7px}.notes p{white-space:pre-line;color:#dce5e3;font-size:.9rem;line-height:1.4}
+@media(max-width:780px){.meta{display:none}.salaries{grid-template-columns:repeat(2,1fr)}.predict-grid,.reveal-grid,.explain,.live-grid{grid-template-columns:1fr}.choices{grid-template-columns:1fr}.mini-chart{height:260px}.live-bars{height:120px}main{padding:8px 12px}}
+
+/* v4 refinements */
+.ask-layout{max-width:1040px;margin:.55rem auto;display:grid;grid-template-columns:1.25fr .9fr;gap:14px}
+.ask-chart,.ask-q{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}
+.ask-chart-area{height:235px;display:grid;grid-template-columns:48px 1fr;gap:8px}
+.ask-bars{position:relative;border-bottom:1px solid var(--line);display:grid;grid-template-columns:repeat(10,1fr);gap:5px;align-items:end;padding:0 5px}
+.salarybarwrap{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;z-index:1}
+.salarybar{width:76%;background:#8b9794;border-radius:5px 5px 0 0;min-height:3px}
+.salarybarlabel{font-size:.56rem;font-weight:800;margin-top:4px;white-space:nowrap}
+.carry{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:850px;margin:0 auto 14px}
+.carrybox{background:#faf8f2;border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.carrybox .small{font-size:.78rem;color:var(--muted)}.carrybox .big{font-size:1.3rem;font-weight:900;margin-top:2px}
+.transfer .scenario{font-size:clamp(1.25rem,2.4vw,1.65rem);line-height:1.45;margin-bottom:28px}
+.transfer .question{font-size:clamp(1.85rem,3.8vw,3.1rem);line-height:1.12;margin-top:0}
+.transfer .prompt2{font-size:clamp(1.05rem,1.8vw,1.3rem);font-weight:750;margin-top:28px}
+@media(max-width:780px){.ask-layout,.carry{grid-template-columns:1fr}.ask-chart-area{height:245px}.ask-bars{gap:2px}.salarybarlabel{font-size:.48rem}}
+
+.transfer-lead{font-size:clamp(1.25rem,2.4vw,1.65rem);line-height:1.45;margin-bottom:20px}
+.avg-badge{display:inline-block;font-size:clamp(1.55rem,3vw,2.25rem);font-weight:900;padding:10px 18px;border:2px solid var(--accent);border-radius:16px;background:#eef4f1;color:var(--accent);margin-bottom:18px}
+.list-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:700px;margin:10px auto}
+.list-btn{border:1px solid var(--line);border-radius:14px;background:#fbfaf6;padding:14px;font-weight:900;cursor:pointer}
+.list-btn.revealed{background:#e7efec;border:2px solid var(--accent)}
+.ticket-lists{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:800px;margin:8px auto}
+.ticket-list{border:1px solid var(--line);border-radius:15px;padding:10px;min-height:78px;display:flex;flex-direction:column;justify-content:center;opacity:.18;transition:.2s}
+.ticket-list.show{opacity:1}.ticket-list h3{margin:0 0 8px}.prices{font-size:clamp(1.05rem,2vw,1.35rem);font-weight:850;word-spacing:.2em}
+.transfer-choice{max-width:760px;margin:12px auto 0;display:none}.transfer-choice.show{display:block}
+.transfer-choice .question{font-size:clamp(1.55rem,3.3vw,2.55rem);margin-bottom:14px}
+.which-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:520px;margin:auto}
+.which-btn{border:1px solid var(--line);border-radius:13px;background:#fbfaf6;padding:12px;font-weight:900;cursor:pointer}
+.which-btn.selected{border:2px solid var(--accent);background:#e7efec}
+.transfer-reveal{max-width:800px;margin:10px auto 0;display:none}.transfer-reveal.show{display:block}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.statbox{border:1px solid var(--line);border-radius:15px;padding:13px;background:#faf8f2}
+.statbox h3{margin:0 0 7px}.statline{font-weight:850;margin:3px}
+.same-mean{font-size:clamp(1.35rem,2.7vw,2.05rem);font-weight:900;margin:10px auto 6px}
+.final-transfer-q{font-size:clamp(1.25rem,2.5vw,1.95rem);font-weight:900;line-height:1.14;margin:8px auto 0;max-width:760px}
+@media(max-width:780px){.list-buttons,.ticket-lists,.which-buttons,.stats{grid-template-columns:1fr}}
+
+.salary-input-row{display:grid;grid-template-columns:1fr;gap:10px;max-width:520px;margin:10px auto 0}
+.salary-input{min-width:0;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 12px;font-size:1rem}
+.salary-input-btn{border:1px solid var(--accent);border-radius:12px;background:var(--accent);color:#fff;padding:10px 14px;font-weight:850;cursor:pointer}
+.input-help{text-align:center;color:var(--muted);font-size:.78rem;margin-top:5px;min-height:1em}
+@media(max-height:760px){
+  .kicker{font-size:1.15rem}
+  h1{font-size:clamp(1.45rem,3.7vh,2.5rem)}
+  .ask-chart-area{height:205px}
+  .mini-chart{height:215px}
+  .metric-row{padding:6px 0}
+  .choice{padding:7px 4px;min-height:38px}
+  .transfer{padding:14px 18px}
+  .ticket-list{min-height:66px;padding:8px}
+}
+
+.slider-top{position:relative;min-height:82px}
+.slider-head{padding-right:300px}
+.type-panel{position:absolute;right:0;top:0;width:280px;border:1px solid var(--line);border-radius:13px;padding:9px 10px;background:#faf8f2}
+.type-label{font-size:.78rem;font-weight:850;text-align:left;margin-bottom:5px}
+.type-panel .salary-input-row{display:grid;grid-template-columns:1fr;gap:6px;margin:0}
+.type-panel .salary-input{padding:7px 8px;font-size:.88rem}
+.type-panel .salary-input-btn{padding:7px 10px}
+.type-panel .input-help{text-align:left;font-size:.68rem;margin-top:3px}
+@media(max-width:700px){.slider-top{min-height:0}.slider-head{padding-right:0}.type-panel{position:static;width:100%;margin:8px auto 0}}
+
+.slider-top{position:relative;min-height:84px}
+.slider-head{padding-right:300px}
+.type-panel{position:absolute;right:0;top:0;width:280px;border:1px solid var(--line);border-radius:13px;padding:8px 10px;background:#faf8f2}
+.type-label{font-size:.76rem;font-weight:850;text-align:left;margin-bottom:5px}
+.salary-input-row{display:grid;grid-template-columns:1fr;gap:6px;margin:0}
+.salary-input{min-width:0;border:1px solid var(--line);border-radius:10px;background:#fff;padding:7px 8px;font-size:.88rem}
+.salary-input-btn{border:1px solid var(--accent);border-radius:10px;background:var(--accent);color:#fff;padding:7px 10px;font-weight:850;cursor:pointer}
+.input-help{text-align:left;color:var(--muted);font-size:.68rem;margin-top:3px;min-height:1em}
+@media(max-width:700px){.slider-top{min-height:0}.slider-head{padding-right:0}.type-panel{position:static;width:100%;margin:8px auto 0}}
+
+
+/* H001 v11 — APRUT Template v1.3 visual-system lock */
+:root{
+  --bg:#eef7f8;--card:#fff;--ink:#20313a;--muted:#53636b;--line:#c8d0d3;
+  --accent:#183746;--gold:#a9663d;--shell:#183746;--canvas:#eef7f8;
+  --mean:#b64a36;--median:#26756f;--good:#21633d;--bad:#9b3c30;
+  --header-h:68px;--footer-h:50px;--stage-top:39px;
+  --question-size:32px;--support-size:20px;--aha-size:24px;--body-size:18px;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--canvas);font-family:Arial,Helvetica,sans-serif}
+.app{height:100vh;min-height:0;display:block}
+header{position:fixed;inset:0 0 auto 0;height:68px;min-height:68px;z-index:20;display:flex;align-items:center;padding:10px 28px;background:var(--shell);color:#fff;border:0;box-shadow:0 2px 8px rgba(21,43,57,.18)}
+header .brand{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:900;letter-spacing:.075em}
+.hanten-mark{width:34px;height:34px;flex:0 0 34px;border:2px solid rgba(255,255,255,.88);border-radius:8px;display:grid;place-items:center;font-size:18px;font-weight:900}
+header .meta{position:absolute;left:50%;transform:translateX(-50%);max-width:58vw;text-align:center;font-size:14px;font-weight:400;color:rgba(255,255,255,.76);white-space:nowrap}
+header .teacher{margin-left:auto;min-width:142px;padding:11px 18px;border-radius:9px;background:#fff;color:#17324a;border:1px solid rgba(255,255,255,.38);font-weight:400;box-shadow:0 2px 7px rgba(16,42,67,.16)}
+main{position:fixed;inset:68px 0 50px 0;width:auto;margin:0;padding:0;background:var(--canvas);overflow:hidden}
+.slide{position:absolute;inset:0;display:none;padding:0 6vw 12px;overflow:hidden}.slide.active{display:block}
+.kicker{position:absolute;top:var(--stage-top);left:50%;transform:translateX(-50%);width:max-content;margin:0;text-align:center;color:var(--gold);font-size:27px;line-height:1;font-weight:900;letter-spacing:.22em}
+h1,.slide h1{max-width:1180px;margin:0 auto 16px;padding-top:82px;text-align:center;font-size:var(--question-size);line-height:1.12;letter-spacing:0;font-weight:800}
+.sub,.slide .sub{max-width:1100px;margin:0 auto 16px;text-align:center;font-size:var(--support-size);line-height:1.3;font-weight:500;color:var(--muted)}
+.prompt{font-size:var(--support-size);line-height:1.3;font-weight:500}.prompt strong{color:var(--ink);font-weight:800}
+.ask-layout,.predict-grid,.reveal-grid{margin-top:10px}.ask-chart,.ask-q,.state,.reveal-state,.slider-card,.box,.transfer,.predict-card{background:#fff;border-color:var(--line);border-radius:12px}
+.ask-chart,.ask-q{padding:12px}.ask-chart-area{height:220px}
+.predict-card{max-width:980px;margin:10px auto;padding:16px;border:1px solid var(--line)}
+.guest-line{text-align:center;margin-bottom:8px}.guest{display:inline-block;font-size:22px;font-weight:800;color:var(--gold)}
+.predict-half h2{margin:0 0 8px;text-align:center;font-size:20px}
+.choice,.list-btn,.which-btn{font-size:18px;border-radius:9px;background:#fff}.choice.selected,.list-btn.revealed,.which-btn.selected{border-color:var(--shell);background:#e7eff2}
+.check,.salary-input-btn{background:var(--shell);border-color:var(--shell)}
+.transfer{margin:10px auto;padding:14px 18px}.transfer-lead,.transfer .scenario{font-size:var(--support-size);line-height:1.3;font-weight:500;margin:0 auto 12px;color:var(--muted)}
+.avg-badge{font-size:22px;margin-bottom:10px;border-color:var(--gold);background:#fbf2ed;color:var(--gold)}
+.transfer-choice .question{font-size:24px;line-height:1.25;font-weight:800;margin-bottom:10px}
+.same-mean{font-size:var(--aha-size);line-height:1.25;font-weight:800;margin:8px auto 4px}
+.final-transfer-q{font-size:var(--support-size);line-height:1.3;font-weight:800;margin:6px auto 0}
+.ticket-list{min-height:64px}.list-buttons{margin:6px auto}.ticket-lists{margin:6px auto}.stats{gap:10px}.statbox{padding:9px}
+footer{position:fixed;inset:auto 0 0 0;height:50px;min-height:50px;z-index:20;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 24px;background:var(--shell);color:#fff;box-shadow:0 -2px 8px rgba(21,43,57,.14)}
+.slogan{justify-self:start;font-size:12px;font-weight:400;font-style:italic;color:rgba(255,255,255,.78)}
+.progress{justify-self:center;display:flex;gap:7px;align-items:center}.dot{width:10px;height:10px;background:rgba(255,255,255,.30)}.dot.active{background:#fff;transform:scale(1.05)}
+.footer-nav{justify-self:end;display:flex;gap:10px;align-items:center}.site{margin-right:4px;font-size:13px;font-weight:500;color:rgba(255,255,255,.82)}
+footer .nav{min-width:128px;height:36px;padding:0 17px;border:1px solid rgba(255,255,255,.7);border-radius:9px;background:#fff;color:#17324a;font-weight:800;box-shadow:0 2px 6px rgba(16,42,67,.14)}
+footer .nav:disabled{opacity:.45}
+.notes{top:82px;background:#fff;color:var(--ink);border:1px solid var(--line)}.notes p{color:var(--muted)}
+@media(max-height:760px){
+ :root{--stage-top:31px;--question-size:29px;--support-size:18px;--aha-size:22px}
+ header{height:60px;min-height:60px}main{inset:60px 0 46px 0}.slide h1{padding-top:70px;margin-bottom:12px}footer{height:46px;min-height:46px}
+ .ask-chart-area{height:190px}.mini-chart{height:195px}.slider-card{padding:12px}.live-bars{height:120px}.transfer{padding:10px 14px}
+}
+
+
+/* H001 v12 — APRUT standardization pass */
+:root{
+  --surface:#ffffff;
+  --surface-soft:#f6fafb;
+  --min-text:18px;
+}
+.sub,.prompt,.state-sub,.definition,.result,.legend,.scenario,.small,
+.input-help,.type-label,.ends,.live .change,.box p,.transfer-lead{
+  font-size:var(--min-text)!important;
+  line-height:1.32;
+}
+.person,.salarybarlabel,.value,.label,.axis,.tick{font-size:16px!important}
+.carrybox,.type-panel,.statbox,.ticket-list,.choice,.which-btn,.list-btn{
+  background:var(--surface)!important;
+}
+.carrybox,.type-panel,.statbox,.ticket-list{
+  border-color:var(--border)!important;
+}
+.predict-card{
+  max-width:980px;margin:.55rem auto;background:transparent;border:0;padding:0;
+}
+.predict-grid{align-items:stretch;gap:22px}
+.predict-half{
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;
+}
+.predict-half h2{margin:0 0 14px;text-align:center;font-size:22px}
+.predict-half .choices{grid-template-columns:1fr;gap:9px}
+.predict-half .choice{min-height:48px;font-size:18px}
+.guest-line{text-align:center;margin:0 auto 14px;font-size:20px;font-weight:800}
+.carrybox .small{font-size:18px!important}.carrybox .big{font-size:24px}
+.reveal-state h2{font-size:24px}.reveal-state .state-sub{font-size:18px!important}
+.reveal-state .value{font-size:17px!important}.reveal-state .label{font-size:18px!important}
+.reveal-state .axis,.reveal-state .tick{font-size:17px!important}
+.legend{font-size:18px!important}
+.slider-card{background:var(--surface);overflow:hidden}
+.type-panel{background:var(--surface)!important}
+.salary-input{font-size:18px;padding:9px 10px}
+.live-bars{overflow:hidden;min-height:150px}
+.livebar-wrap{overflow:hidden}
+.box{background:var(--surface)!important}
+.transfer{background:transparent;border:0;padding:8px 0}
+.avg-badge{background:var(--surface)!important}
+.ticket-list,.statbox{background:var(--surface)!important}
+.check-wrap{min-height:0;margin:.35rem auto 0}
+.check-wrap.done{display:none}
+.transfer-step2{max-width:800px;margin:16px auto 0;padding:18px;border:1px solid var(--border);border-radius:15px;background:var(--surface);display:none}
+.transfer-step2.show{display:block}
+.transfer-step2 .eyebrow{font-size:16px;font-weight:900;letter-spacing:.08em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.transfer-step2 .transfer-q2{font-size:22px;font-weight:800;line-height:1.25;margin:0 auto 12px;max-width:720px}
+.transfer-step2 .wait-claim{font-size:20px;font-weight:800;margin:10px auto}
+.transfer-step2 .q2-note{font-size:18px;line-height:1.32;color:var(--muted);margin:8px auto 0;max-width:700px}
+@media(max-height:760px){
+ .sub,.prompt,.state-sub,.definition,.result,.legend,.scenario,.small,.input-help,.type-label,.ends,.live .change,.box p,.transfer-lead{font-size:17px!important}
+ .reveal-state .axis,.reveal-state .tick,.reveal-state .value{font-size:16px!important}
+}
+
+
+/* H001 v13 — locked shell + clean Understand */
+.understand-clean{max-width:920px;margin:.55rem auto}
+.salary-control{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px 22px}
+.control-label{text-align:center;font-size:16px;font-weight:900;letter-spacing:.08em;color:var(--muted)}
+.salary-control .guest-value{text-align:center;font-size:32px;margin:4px 0 8px}
+.salary-control .slider{width:100%}
+.salary-control .ends{font-size:18px!important}
+.type-inline{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px auto 0;font-size:18px;font-weight:700}
+.type-inline .salary-input{width:220px}
+.salary-control .input-help{text-align:center!important;margin-top:5px;font-size:16px!important}
+.measure-compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px}
+.measure-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;text-align:center;min-height:180px}
+.measure-name{font-size:20px;font-weight:900;letter-spacing:.06em}
+.measure-num{font-size:34px;font-weight:900;margin:7px 0}
+.measure-rule{font-size:20px;line-height:1.25;margin:5px 0}
+.measure-change{font-size:18px;line-height:1.3;color:var(--muted);margin-top:9px}
+.understand-aha{margin:16px auto 0;text-align:center}
+@media(max-width:760px){.measure-compare{grid-template-columns:1fr}.type-inline{flex-direction:column}.measure-card{min-height:0}}
+
+/* LOCKED APRUT v1.3 FOOTER — exhibit content must not override */
+footer{
+  height:50px!important;min-height:50px!important;
+  background:#183746!important;color:#fff!important;
+  display:grid!important;grid-template-columns:1fr auto 1fr!important;
+  align-items:center!important;padding:0 18px!important;
+  border:0!important;
+}
+footer .footer-left{justify-self:start;font-size:13px;font-style:italic;white-space:nowrap}
+footer .progress{justify-self:center;display:flex;gap:7px}
+footer .footer-right{justify-self:end;display:flex;align-items:center;gap:10px}
+footer .site{font-size:13px;font-weight:500;opacity:.9;margin-right:4px;white-space:nowrap}
+footer .navs{display:flex;gap:10px}
+footer .nav{
+  height:34px!important;min-width:128px!important;padding:0 15px!important;
+  border:1px solid rgba(255,255,255,.55)!important;border-radius:7px!important;
+  background:rgba(255,255,255,.08)!important;color:#fff!important;
+  font-size:14px!important;font-weight:800!important;
+}
+footer .dot{width:7px;height:7px;background:rgba(255,255,255,.4)}
+footer .dot.active{background:#fff;transform:none}
+
+
+/* H001 v14 interaction refinements */
+.choice.selected,.which-btn.selected,.list-btn.selected{
+  background:#183746!important;color:#fff!important;border-color:#183746!important;
+}
+.choice.correct{
+  background:#287d73!important;color:#fff!important;border-color:#287d73!important;
+}
+.choice.wrong{
+  background:#a9663d!important;color:#fff!important;border-color:#a9663d!important;
+}
+.measure-viz{
+  height:88px;display:flex;align-items:flex-end;justify-content:center;
+  margin:10px auto 6px;padding:0 18px;border-bottom:1px solid var(--border);
+}
+.measure-viz-bar{
+  width:min(92px,42%);min-height:5px;border-radius:8px 8px 0 0;
+  transition:height .18s ease;
+}
+.measure-viz-bar.median{background:var(--median)}
+.measure-viz-bar.mean{background:var(--mean)}
+.transfer-commit.hidden{display:none}
+.transfer-comparison{
+  max-width:800px;margin:14px auto 0;display:none;
+  background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;
+}
+.transfer-comparison.show{display:block}
+.transfer-comparison-title{font-size:20px;font-weight:900;text-align:center;margin-bottom:12px}
+.transfer-comparison .stats{margin:0}
+.transfer-comparison .statbox{background:#fff!important}
+
+
+/* H001 v15 fit + transfer sequence */
+.salary-control{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 270px;
+  grid-template-areas:
+    "label type"
+    "value type"
+    "slider type"
+    "ends type";
+  column-gap:24px;align-items:center;padding:14px 20px!important;
+}
+.salary-control .control-label{grid-area:label}
+.salary-control .guest-value{grid-area:value;margin:0 0 4px!important;font-size:30px}
+.salary-control > .slider{grid-area:slider}
+.salary-control > .ends{grid-area:ends}
+.salary-control .type-inline{
+  grid-area:type;display:flex!important;flex-direction:column!important;
+  align-items:stretch!important;justify-content:center!important;
+  margin:0!important;padding-left:20px;border-left:1px solid var(--border);
+  gap:7px!important;
+}
+.salary-control .type-inline label{text-align:left;font-size:18px}
+.salary-control .type-inline .salary-input{width:100%!important}
+.salary-control .input-help{display:none}
+.measure-compare{margin-top:12px!important;gap:14px!important}
+.measure-card{padding:13px 16px!important;min-height:160px!important}
+.measure-num{font-size:30px!important;margin:4px 0!important}
+.measure-viz{height:58px!important;margin:5px auto 4px!important}
+.measure-rule{font-size:19px!important;margin:3px 0!important}
+.measure-change{font-size:17px!important;margin-top:5px!important}
+.understand-aha{margin:10px auto 0!important;font-size:22px!important}
+
+.avg-badge{display:none!important}
+.transfer{margin:.35rem auto!important;padding:0!important}
+.transfer-lead{margin-bottom:10px!important}
+.list-buttons{margin:6px auto!important}
+.ticket-lists{margin:6px auto!important}
+.ticket-list{
+  display:none!important;opacity:1!important;min-height:62px!important;padding:8px 10px!important;
+}
+.ticket-list.show{display:flex!important}
+.transfer-choice{margin:8px auto 0!important}
+.transfer-choice .question{font-size:22px!important;margin-bottom:8px!important}
+.which-buttons{gap:10px!important}
+.which-btn{padding:9px!important}
+.transfer-reveal{margin:7px auto 0!important}
+.transfer-comparison{margin:7px auto 0!important;padding:10px 12px!important}
+.transfer-comparison-title{font-size:18px!important;margin-bottom:7px!important}
+.transfer-comparison .statbox{padding:8px!important}
+.transfer-comparison .statbox h3{margin:0 0 3px!important}
+.same-mean{font-size:20px!important;margin:6px auto 3px!important}
+.final-transfer-q{font-size:19px!important;margin:5px auto 0!important}
+.transfer-step2{margin:7px auto 0!important;padding:9px 12px!important}
+.transfer-step2 .eyebrow{font-size:14px!important;margin-bottom:3px!important}
+.transfer-step2 .wait-claim{font-size:18px!important;margin:3px auto!important}
+.transfer-step2 .transfer-q2{font-size:19px!important;line-height:1.18!important;margin:3px auto 4px!important}
+.transfer-step2 .q2-note{font-size:16px!important;line-height:1.2!important;margin:3px auto 0!important}
+@media(max-width:760px){
+ .salary-control{grid-template-columns:1fr;grid-template-areas:"label" "value" "slider" "ends" "type";row-gap:6px}
+ .salary-control .type-inline{padding-left:0;padding-top:8px;border-left:0;border-top:1px solid var(--border)}
+}
+
+
+/* H001 v16 — reveal controls replace themselves */
+.reveal-slots{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  max-width:800px;margin:7px auto;
+}
+.reveal-slot{min-width:0}
+.reveal-slot .list-btn{width:100%;min-height:62px}
+.reveal-slot .ticket-list{width:100%;margin:0}
+@media(max-width:760px){.reveal-slots{grid-template-columns:1fr}}
+
+
+/* H001 v17 — semantic answer feedback */
+:root{
+  --answer-correct:#287d53;
+  --answer-incorrect:#a84f45;
+}
+.choice.correct{
+  background:var(--answer-correct)!important;
+  border-color:var(--answer-correct)!important;
+  color:#fff!important;
+}
+.choice.wrong{
+  background:var(--answer-incorrect)!important;
+  border-color:var(--answer-incorrect)!important;
+  color:#fff!important;
+}
+.result.good{color:var(--answer-correct)!important;font-weight:850!important}
+.result.bad{color:var(--answer-incorrect)!important;font-weight:850!important}
+
+
+/* H001 v18 — reserve red/green for correctness only */
+:root{--mean-data:#2f7480;--median-data:#a56732;--answer-text:#24323a}
+.mean-text,.median-text{color:var(--answer-text)!important}
+.result.good,.result.bad{color:var(--answer-text)!important;font-weight:850!important}
+.measure-card.mean-card .measure-name{color:var(--mean-data)!important}
+.measure-card.median-card .measure-name{color:var(--median-data)!important}
+.measure-viz-bar.mean{background:var(--mean-data)!important}
+.measure-viz-bar.median{background:var(--median-data)!important}
+.understand-aha .mean-term{color:var(--mean-data);font-weight:900}
+.understand-aha .median-term{color:var(--median-data);font-weight:900}
+.transfer-comparison .statbox{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.transfer-comparison .statbox h3{margin:0!important}
+.transfer-comparison .statline{display:inline!important;font-size:18px!important;margin:0!important;color:var(--answer-text)!important}
+.transfer-again-wrap{display:none;text-align:center;margin:8px auto 0}
+.transfer-again-wrap.show{display:block}
+.transfer-again-btn{min-width:180px;min-height:40px;border-radius:9px;border:1px solid #183746;background:#183746;color:#fff;font-size:17px;font-weight:850;padding:7px 16px}
+.transfer-step2{display:none!important}
+.transfer-step2.show{display:block!important}
+.transfer-stage1.hidden{display:none!important}
+
+
+/* H001 v19 — color semantics, staged Transfer, footer controls */
+:root{
+  --mean-data:#2f7480;
+  --median-data:#a56732;
+  --normal-text:#24323a;
+}
+
+/* Typography never uses correctness colors */
+.mean-text,.median-text,
+.result,.result.good,.result.bad,
+.correct-answer,.feedback,
+.choice + .result{
+  color:var(--normal-text)!important;
+}
+
+/* Red/green reserved only for answer-box state */
+.choice.correct{
+  background:#287d53!important;
+  border-color:#287d53!important;
+  color:#fff!important;
+}
+.choice.wrong{
+  background:#a84f45!important;
+  border-color:#a84f45!important;
+  color:#fff!important;
+}
+
+/* Reveal/Understand use non-correctness data colors */
+.reveal .mean-text,.state .mean-text,.legend .mean-text,
+.measure-card.mean-card .measure-name{color:var(--mean-data)!important}
+.reveal .median-text,.state .median-text,.legend .median-text,
+.measure-card.median-card .measure-name{color:var(--median-data)!important}
+.measure-viz-bar.mean{background:var(--mean-data)!important}
+.measure-viz-bar.median{background:var(--median-data)!important}
+
+/* Understand takeaway is normal body typography */
+.understand-aha,.understand-aha .mean-term,.understand-aha .median-term{
+  color:var(--normal-text)!important;
+}
+
+/* Transfer comparison stays truly one-line per list */
+.transfer-comparison .statbox{
+  display:grid!important;
+  grid-template-columns:auto 1fr!important;
+  align-items:center!important;
+  column-gap:14px!important;
+  white-space:nowrap!important;
+}
+.transfer-comparison .statbox h3{margin:0!important;white-space:nowrap!important}
+.transfer-comparison .statline{
+  display:block!important;margin:0!important;
+  white-space:nowrap!important;text-align:left!important;
+}
+
+/* Transfer 2 is hidden unless explicitly advanced */
+.transfer-step2{display:none!important}
+.transfer-step2.show{display:block!important}
+.transfer-again-wrap{display:none!important}
+.transfer-again-wrap.show{display:block!important}
+.transfer-stage1.hidden{display:none!important}
+
+/* Locked footer geometry; white navigation buttons */
+footer .nav{
+  background:#fff!important;
+  color:#183746!important;
+  border:1px solid #fff!important;
+}
+footer .nav:disabled{opacity:.42!important}
+
+
+/* H001 v20 — final explicit visualization and transfer rules */
+:root{
+  --mean-viz:#496779;
+  --median-viz:#a9663d;
+}
+
+/* Reveal: cyan/yellow are data-series colors, never correctness colors */
+.reveal .mean-text,.state .mean-text,.legend .mean-text{color:var(--mean-viz)!important}
+.reveal .median-text,.state .median-text,.legend .median-text{color:var(--median-viz)!important}
+
+/* Understand visualization carries the same series colors */
+.measure-card.mean-card .measure-name{color:var(--mean-viz)!important}
+.measure-card.median-card .measure-name{color:var(--median-viz)!important}
+.measure-viz-bar.mean{background:var(--mean-viz)!important}
+.measure-viz-bar.median{background:var(--median-viz)!important}
+
+/* Explicit takeaway typography — do not inherit .aha sizing */
+.understand-takeaway{
+  margin:10px auto 0!important;
+  text-align:center!important;
+  font-size:20px!important;
+  line-height:1.3!important;
+  font-weight:700!important;
+  color:#24323a!important;
+}
+
+/* Transfer comparison: title on line 1, both measures together on line 2 */
+.transfer-comparison .statbox{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:3px!important;
+  white-space:normal!important;
+}
+.transfer-comparison .statbox h3{
+  display:block!important;
+  width:100%!important;
+  margin:0!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+.transfer-comparison .statline{
+  display:block!important;
+  width:100%!important;
+  margin:0!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+
+/* One-slot second-transfer swap */
+.transfer-next-slot{margin:8px auto 0;text-align:center;max-width:820px}
+#transferAgainWrap{display:none!important}
+#transferAgainWrap.show{display:block!important}
+#transferStep2{display:none!important}
+#transferStep2.show{display:block!important}
+
+
+/* H001 v21 — unified data palette + vertical alignment + deterministic Transfer 2 */
+:root{
+  --mean-viz:#496779;
+  --median-viz:#a9663d;
+}
+
+/* Lower content on ASK and REVEAL while APRUT kicker remains fixed */
+.slide:nth-of-type(1) h1{margin-top:22px!important}
+.slide:nth-of-type(1) .sub{margin-top:10px!important}
+.slide:nth-of-type(1) .chart,
+.slide:nth-of-type(1) .salary-chart,
+.slide:nth-of-type(1) .graph{margin-top:22px!important}
+
+.slide:nth-of-type(3) h1{margin-top:22px!important}
+.slide:nth-of-type(3) .sub{margin-top:10px!important}
+.slide:nth-of-type(3) .states,
+.slide:nth-of-type(3) .reveal-grid,
+.slide:nth-of-type(3) .comparison{margin-top:22px!important}
+
+/* Mean/Median palette is identical across Reveal, Understand, Transfer */
+.reveal .mean-text,.state .mean-text,.legend .mean-text,
+.measure-card.mean-card .measure-name,
+.transfer-comparison .mean-stat{color:var(--mean-viz)!important}
+
+.reveal .median-text,.state .median-text,.legend .median-text,
+.measure-card.median-card .measure-name,
+.transfer-comparison .median-stat{color:var(--median-viz)!important}
+
+.measure-viz-bar.mean{background:var(--mean-viz)!important}
+.measure-viz-bar.median{background:var(--median-viz)!important}
+
+/* Transfer result line stays on one line beneath PRICE LIST heading */
+.transfer-comparison .measure-row{
+  display:flex!important;justify-content:center!important;align-items:center!important;
+  gap:10px!important;white-space:nowrap!important;font-size:18px!important;font-weight:850!important;
+}
+.transfer-comparison .measure-dot{color:#64727a!important}
+
+/* Deterministic swap: exactly one of these is visible */
+#transferAgainWrap{display:none!important}
+#transferAgainWrap.is-visible{display:block!important}
+#transferStep2{display:none!important}
+#transferStep2.is-visible{display:block!important}
+
+
+/* H001 v22 — exact Reveal selectors */
+.reveal-state .bar-wrap:has(.bar.mean) .value,
+.reveal-state .bar-wrap:has(.bar.mean) .label{
+  color:#496779!important;
+}
+.reveal-state .bar-wrap:has(.bar.median) .value,
+.reveal-state .bar-wrap:has(.bar.median) .label{
+  color:#a9663d!important;
+}
+/* Match the bars themselves too */
+.reveal-state .bar.mean{background:#496779!important}
+.reveal-state .bar.median{background:#a9663d!important}
+
+/* Transfer values use identical palette */
+#transferComparison .mean-stat{color:#496779!important}
+#transferComparison .median-stat{color:#a9663d!important}
+
+
+/* H001 v23 — staged second Transfer */
+#transferStep2 .transfer-again-label{display:none!important}
+#transferStep2 .transfer2-primary{
+  font-size:30px!important;line-height:1.15!important;font-weight:900!important;
+  color:#24323a!important;margin:2px auto 10px!important;
+}
+#transferStep2 .transfer2-question{
+  font-size:25px!important;line-height:1.18!important;font-weight:800!important;
+  color:#24323a!important;margin:0 auto 12px!important;
+}
+#transferStep2 .transfer2-reveal-btn{
+  min-width:160px;min-height:38px;border-radius:9px;border:1px solid #183746;
+  background:#fff;color:#183746;font-size:17px;font-weight:850;padding:6px 15px;
+}
+#transferStep2 .transfer2-support{
+  display:none;margin:10px auto 0!important;max-width:1080px;
+  font-size:19px!important;line-height:1.3!important;font-weight:600!important;color:#53636d!important;
+}
+#transferStep2 .transfer2-support.show{display:block!important}
+#transferStep2 .transfer2-reveal-btn.hidden{display:none!important}
+
+
+
+/* APRUT TYPOGRAPHY STANDARD — locked 2026-09-20
+   32px = main stage question/headline
+   24px = interaction question / key aha
+   20px = supporting/explanatory copy
+   18px = secondary labels only
+   No exhibit-specific 19/22/25/30px instructional sizes. */
+:root{
+  --type-main:32px;
+  --type-interaction:24px;
+  --type-support:20px;
+  --type-secondary:18px;
+}
+
+/* Main stage headline */
+h1,.slide h1{font-size:var(--type-main)!important;line-height:1.12!important;font-weight:800!important}
+
+/* Standard supporting copy */
+.sub,.slide .sub,.prompt,.transfer-lead,.transfer .scenario{
+  font-size:var(--type-support)!important;line-height:1.3!important;font-weight:500!important;
+}
+
+/* Transfer interaction / reflection questions */
+.transfer-choice .question,
+.final-transfer-q,
+#transferStep2 .transfer2-question{
+  font-size:var(--type-interaction)!important;line-height:1.22!important;font-weight:800!important;
+}
+
+/* Transfer comparison/takeaway */
+.transfer-comparison-title,
+.same-mean,
+.understand-takeaway{
+  font-size:var(--type-support)!important;line-height:1.3!important;font-weight:700!important;
+}
+
+/* Second Transfer scenario is supporting copy, not a second headline */
+#transferStep2 .transfer2-primary{
+  font-size:var(--type-support)!important;line-height:1.3!important;font-weight:500!important;
+}
+
+/* Second Transfer explanation */
+#transferStep2 .transfer2-support{
+  font-size:var(--type-support)!important;line-height:1.3!important;font-weight:500!important;
+}
+
+
+/* H001 FINAL v3 — Transfer surface hierarchy
+   Canvas = blue-gray; outer/grouping surfaces = light gray;
+   only nested functional surfaces/controls = white. */
+.slide:nth-of-type(5) .transfer{
+  background:#f6fafb!important;
+  border:1px solid var(--line)!important;
+  border-radius:16px!important;
+  padding:14px 18px!important;
+}
+.slide:nth-of-type(5) .transfer-comparison{
+  background:#f6fafb!important;
+}
+.slide:nth-of-type(5) .transfer-comparison .statbox{
+  background:#fff!important;
+}
+.slide:nth-of-type(5) #transferStep2{
+  background:#f6fafb!important;
+}
+.slide:nth-of-type(5) .list-btn,
+.slide:nth-of-type(5) .ticket-list,
+.slide:nth-of-type(5) .which-btn,
+.slide:nth-of-type(5) .transfer2-reveal-btn{
+  background:#fff!important;
+}
+
+
+/* H001 FINAL v4 — stacked Transfer applications */
+.slide:nth-of-type(5) .transfer{
+  max-width:980px!important;
+  padding:10px 16px!important;
+  margin:4px auto!important;
+}
+.slide:nth-of-type(5) .transfer-lead{
+  margin-bottom:6px!important;
+}
+.slide:nth-of-type(5) .reveal-slots{
+  margin:4px auto!important;
+}
+.slide:nth-of-type(5) .transfer-choice{
+  margin-top:5px!important;
+}
+.slide:nth-of-type(5) .transfer-reveal{
+  margin-top:5px!important;
+}
+.slide:nth-of-type(5) .transfer-comparison{
+  padding:8px 10px!important;
+  margin-top:5px!important;
+}
+.slide:nth-of-type(5) .same-mean{
+  margin:4px auto 1px!important;
+}
+.slide:nth-of-type(5) .transfer-next-slot{
+  max-width:980px!important;
+  margin:7px auto 0!important;
+}
+.slide:nth-of-type(5) #transferStep2{
+  background:#f6fafb!important;
+  border:1px solid var(--line)!important;
+  border-radius:16px!important;
+  padding:10px 16px!important;
+  margin:0 auto!important;
+}
+.slide:nth-of-type(5) #transferStep2 .transfer2-primary{
+  font-size:20px!important;
+  line-height:1.3!important;
+  font-weight:500!important;
+  margin:0 auto 5px!important;
+}
+.slide:nth-of-type(5) #transferStep2 .transfer2-question{
+  font-size:24px!important;
+  line-height:1.2!important;
+  font-weight:800!important;
+  margin:0 auto 7px!important;
+}
+.slide:nth-of-type(5) #transferStep2 .transfer2-support{
+  font-size:20px!important;
+  line-height:1.3!important;
+  font-weight:500!important;
+  margin:7px auto 0!important;
+}
+
+
+/* H001 FINAL v5 — concrete second Transfer comparison */
+.slide:nth-of-type(5) #transferStep2{
+  padding:9px 14px!important;
+}
+.slide:nth-of-type(5) #transferStep2 .transfer2-primary{
+  font-size:20px!important;
+  font-weight:700!important;
+  margin:0 auto 3px!important;
+}
+.transfer2-context{
+  font-size:18px;
+  line-height:1.25;
+  font-weight:500;
+  color:var(--muted);
+  text-align:center;
+  margin:0 auto 7px;
+}
+.wait-lists{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  max-width:760px;
+  margin:0 auto 7px;
+}
+.wait-list{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:7px 12px;
+  text-align:center;
+}
+.wait-list h3{
+  margin:0 0 3px;
+  font-size:18px;
+  font-weight:800;
+}
+.wait-values{
+  font-size:18px;
+  line-height:1.16;
+  font-weight:500;
+}
+.wait-average{
+  margin-top:5px;
+  padding-top:5px;
+  border-top:1px solid var(--line);
+  font-size:18px;
+  font-weight:700;
+}
+.slide:nth-of-type(5) #transferStep2 .transfer2-question{
+  font-size:24px!important;
+  line-height:1.2!important;
+  font-weight:800!important;
+  margin:3px auto 0!important;
+}
+@media(max-height:760px){
+  .transfer2-context,.wait-list h3,.wait-values,.wait-average{font-size:17px}
+  .wait-list{padding:5px 10px}
+  .wait-values{line-height:1.1}
+}
+
+
+/* H001 FINAL v6 — compact Transfer; preserve standardized type sizes */
+.slide:nth-of-type(5) .transfer{
+  padding:7px 14px!important;
+  margin:2px auto!important;
+}
+.slide:nth-of-type(5) .transfer-lead{margin-bottom:3px!important}
+.slide:nth-of-type(5) .reveal-slots{margin:2px auto!important}
+.slide:nth-of-type(5) .reveal-slot .list-btn,
+.slide:nth-of-type(5) .ticket-list{min-height:52px!important;padding:5px 9px!important}
+.slide:nth-of-type(5) .ticket-list h3{margin-bottom:3px!important}
+.slide:nth-of-type(5) .transfer-choice{margin-top:2px!important}
+.slide:nth-of-type(5) .transfer-choice .question{margin-bottom:3px!important}
+.slide:nth-of-type(5) .which-btn{padding:6px!important}
+.slide:nth-of-type(5) .transfer-reveal{margin-top:2px!important}
+.slide:nth-of-type(5) .transfer-comparison{
+  padding:5px 9px!important;
+  margin-top:2px!important;
+}
+.slide:nth-of-type(5) .transfer-comparison-title{margin-bottom:3px!important}
+.slide:nth-of-type(5) .transfer-comparison .statbox{padding:5px!important}
+.slide:nth-of-type(5) .same-mean{margin:2px auto 0!important}
+.slide:nth-of-type(5) .transfer-next-slot{margin-top:4px!important}
+.slide:nth-of-type(5) #transferStep2{padding:7px 12px!important}
+.slide:nth-of-type(5) #transferStep2 .transfer2-primary{margin-bottom:2px!important}
+.transfer2-context{margin-bottom:4px!important}
+.wait-lists{margin-bottom:4px!important;gap:10px!important}
+.wait-list{padding:6px 10px!important}
+.wait-list h3{margin-bottom:2px!important}
+.wait-values{
+  white-space:nowrap;
+  line-height:1.25!important;
+}
+.wait-average{margin-top:3px!important;padding-top:3px!important}
+.slide:nth-of-type(5) #transferStep2 .transfer2-question{margin-top:2px!important}
+
+
+/* H001 FINAL v7 — second Transfer question is its own sibling box */
+.transfer2-question-box{
+  display:none;
+  max-width:980px;
+  width:100%;
+  margin:5px auto 0;
+  background:#f6fafb;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:7px 14px;
+  text-align:center;
+}
+#transferStep2.is-visible + .transfer2-question-box{
+  display:block;
+}
+.slide:nth-of-type(5) .transfer2-question-box .transfer2-question{
+  font-size:24px!important;
+  line-height:1.2!important;
+  font-weight:800!important;
+  margin:0!important;
+}
+
+
+/* H001 FINAL v8 — Transfer consists of two independent outer boxes */
+.slide:nth-of-type(5) .transfer-next-slot{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  padding:0!important;
+  box-shadow:none!important;
+}
+.slide:nth-of-type(5) #transferStep2{
+  max-width:980px!important;
+  width:100%!important;
+  margin:5px auto 0!important;
+  background:#f6fafb!important;
+  border:1px solid var(--line)!important;
+  border-radius:16px!important;
+  padding:7px 12px!important;
+}
+.slide:nth-of-type(5) .transfer2-question-box{
+  max-width:980px!important;
+  width:100%!important;
+  margin:5px auto 0!important;
+  background:#f6fafb!important;
+  border:1px solid var(--line)!important;
+  border-radius:16px!important;
+  padding:7px 14px!important;
+}
+
+
+/* H001 FINAL v9 — definitive Transfer hierarchy */
+.slide:nth-of-type(5) .transfer{
+  background:#f6fafb!important;
+  border:1px solid var(--line)!important;
+  border-radius:16px!important;
+  padding:7px 14px!important;
+  margin:2px auto 0!important;
+}
+
+/* Everything after the first activity lives outside its box. */
+.slide:nth-of-type(5) .transfer-next-slot{
+  max-width:980px!important;
+  width:100%!important;
+  margin:5px auto 0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+
+/* Transfer Again floats on the canvas, not in a panel. */
+.slide:nth-of-type(5) .transfer-again-wrap{
+  margin:4px auto!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+}
+
+/* Second application is a brand-new peer box. */
+.slide:nth-of-type(5) #transferStep2{
+  max-width:980px!important;
+  width:100%!important;
+  margin:4px auto 0!important;
+  background:#f6fafb!important;
+  border:1px solid var(--line)!important;
+  border-radius:16px!important;
+  padding:7px 12px!important;
+  box-shadow:none!important;
+}
+
+/* Final question sits directly on the blue-gray canvas. */
+.slide:nth-of-type(5) .transfer2-question-box{
+  max-width:980px!important;
+  width:100%!important;
+  margin:5px auto 0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.slide:nth-of-type(5) .transfer2-question-box .transfer2-question{
+  margin:0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+}
+
+
+/* H001 FINAL v10 — no outer grouping boxes on Transfer */
+.slide:nth-of-type(5) .transfer,
+.slide:nth-of-type(5) #transferStep2{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  padding-left:0!important;
+  padding-right:0!important;
+}
+.slide:nth-of-type(5) .transfer{
+  padding-top:4px!important;
+  padding-bottom:3px!important;
+}
+.slide:nth-of-type(5) #transferStep2{
+  padding-top:4px!important;
+  padding-bottom:3px!important;
+}
+
+
+/* H001 — Hanten prediction feedback: preserve commitment without grading language */
+.choice.correct,
+.choice.wrong{
+  background:#e7efec!important;
+  border-color:#183746!important;
+  color:#24323a!important;
+}
+.choice.correct.selected,
+.choice.wrong.selected{
+  background:#e7efec!important;
+  border-color:#183746!important;
+  color:#24323a!important;
+}
+
+/* H001 FINAL — neutral measure treatment
+   Mean and median have equal visual weight. Color does not imply that one measure matters more. */
+:root{
+  --measure-viz:#496779;
+}
+.mean-text,.median-text,
+.reveal .mean-text,.reveal .median-text,
+.state .mean-text,.state .median-text,
+.legend .mean-text,.legend .median-text,
+.measure-card.mean-card .measure-name,
+.measure-card.median-card .measure-name,
+.transfer-comparison .mean-stat,
+.transfer-comparison .median-stat,
+.reveal-state .bar-wrap:has(.bar.mean) .value,
+.reveal-state .bar-wrap:has(.bar.mean) .label,
+.reveal-state .bar-wrap:has(.bar.median) .value,
+.reveal-state .bar-wrap:has(.bar.median) .label{
+  color:var(--normal-text)!important;
+}
+.bar.mean,.bar.median,
+.reveal-state .bar.mean,.reveal-state .bar.median,
+.measure-viz-bar.mean,.measure-viz-bar.median{
+  background:var(--measure-viz)!important;
+}
+
+
+/* H001 Transfer cleanup — equal measure emphasis + matched reflection questions */
+#transferComparison .mean-stat,
+#transferComparison .median-stat{
+  color:var(--normal-text)!important;
+}
+.slide:nth-of-type(5) .transfer-choice .question,
+.slide:nth-of-type(5) .transfer2-question-box .transfer2-question{
+  font-size:var(--type-interaction)!important;
+  line-height:1.22!important;
+  font-weight:800!important;
+  font-family:inherit!important;
+  color:var(--normal-text)!important;
+}
+
+/* H001 Transfer refresh — staged applications with deliberate vertical rhythm */
+.slide:nth-of-type(5) .transfer{
+  max-width:980px!important;
+  margin:14px auto 0!important;
+}
+.slide:nth-of-type(5) .transfer-lead{
+  margin:0 auto 14px!important;
+}
+.slide:nth-of-type(5) .reveal-slots{margin:12px auto!important}
+.slide:nth-of-type(5) .transfer-choice{margin-top:14px!important}
+.slide:nth-of-type(5) .transfer-choice .question{margin-bottom:12px!important}
+.slide:nth-of-type(5) .transfer-reveal{margin-top:14px!important}
+.slide:nth-of-type(5) .transfer-comparison{
+  margin-top:0!important;
+  padding:12px 14px!important;
+}
+.slide:nth-of-type(5) .transfer-comparison-title,
+.slide:nth-of-type(5) .same-mean{
+  font-size:var(--type-interaction)!important;
+  line-height:1.22!important;
+  font-weight:800!important;
+  color:var(--normal-text)!important;
+}
+.slide:nth-of-type(5) .transfer-comparison-title{margin:0 auto 12px!important}
+.slide:nth-of-type(5) .same-mean{margin:12px auto 2px!important}
+.slide:nth-of-type(5) .transfer-next-slot{margin-top:14px!important}
+.slide:nth-of-type(5) .transfer-again-wrap{margin:14px auto 0!important}
+.slide:nth-of-type(5) #transferStep2{
+  max-width:980px!important;
+  margin:16px auto 0!important;
+  padding:0!important;
+}
+.slide:nth-of-type(5) #transferStep2 .transfer2-context{
+  font-size:var(--type-support)!important;
+  line-height:1.3!important;
+  margin:0 auto 16px!important;
+}
+.slide:nth-of-type(5) .wait-lists{margin:0 auto 18px!important}
+.slide:nth-of-type(5) .wait-list{padding:12px 14px!important}
+.slide:nth-of-type(5) .transfer2-question-box{margin:18px auto 0!important}
+.slide:nth-of-type(5) .transfer2-question-box .transfer2-question{
+  font-size:var(--type-interaction)!important;
+  line-height:1.22!important;
+  font-weight:800!important;
+  font-family:inherit!important;
+}
+
+
+/* H001 Transfer refinement — visible lists, stacked measures, staged Back */
+.slide:nth-of-type(5) .transfer{padding:16px 18px!important;}
+.slide:nth-of-type(5) .transfer-lead{margin:0 auto 14px!important;}
+.slide:nth-of-type(5) .reveal-slots{margin:0 auto 14px!important;}
+.slide:nth-of-type(5) .ticket-list{display:flex!important;min-height:64px!important;padding:9px 12px!important;}
+.slide:nth-of-type(5) .transfer-choice{display:block!important;margin:0 auto!important;}
+.slide:nth-of-type(5) .transfer-choice .question{font-size:24px!important;line-height:1.22!important;font-weight:800!important;margin:0 auto 10px!important;}
+.slide:nth-of-type(5) .which-buttons{margin-bottom:14px!important;}
+.slide:nth-of-type(5) .transfer-comparison{margin-top:10px!important;padding:14px 16px!important;}
+.slide:nth-of-type(5) .transfer-comparison-title{font-size:24px!important;line-height:1.22!important;font-weight:800!important;margin:0 auto 12px!important;}
+.slide:nth-of-type(5) .transfer-comparison .stats{gap:14px!important;}
+.slide:nth-of-type(5) .transfer-comparison .statbox{padding:10px 14px!important;}
+.slide:nth-of-type(5) .transfer-comparison .statbox h3{margin-bottom:6px!important;}
+.slide:nth-of-type(5) .measure-stack{display:flex;flex-direction:column;gap:3px;font-size:18px;font-weight:850;line-height:1.25;}
+.slide:nth-of-type(5) .same-mean{font-size:24px!important;line-height:1.22!important;font-weight:800!important;margin:12px auto 0!important;}
+.slide:nth-of-type(5) .transfer-next-slot{margin-top:14px!important;}
+.slide:nth-of-type(5) .transfer-again-btn{min-height:42px!important;}
+.slide:nth-of-type(5) #transferStep2{padding:16px 18px!important;}
+.slide:nth-of-type(5) .transfer2-context{font-size:20px!important;line-height:1.3!important;margin-bottom:12px!important;}
+.slide:nth-of-type(5) .wait-lists{margin-bottom:12px!important;}
+.slide:nth-of-type(5) .transfer2-question-box{padding:12px 16px!important;margin-top:12px!important;}
+.slide:nth-of-type(5) .transfer2-question-box .transfer2-question{font-size:24px!important;line-height:1.22!important;font-weight:800!important;}
+
+/* H001 Transfer v2 — final hierarchy + robust second application */
+.slide:nth-of-type(5) .transfer-comparison .stats{margin-bottom:12px!important}
+.slide:nth-of-type(5) .transfer-comparison-title{margin:0 auto 5px!important}
+.slide:nth-of-type(5) .same-mean{margin:0 auto!important}
+.slide:nth-of-type(5) #transferStep2{display:none!important}
+.slide:nth-of-type(5) #transferStep2.is-visible{
+  display:block!important;
+  max-width:980px!important;
+  width:100%!important;
+  margin:0 auto!important;
+  padding:16px 18px!important;
+  background:#f6fafb!important;
+  border:1px solid var(--line)!important;
+  border-radius:16px!important;
+}
+.slide:nth-of-type(5) #transferStep2 .transfer2-question-box{
+  display:block!important;
+  max-width:100%!important;
+  width:100%!important;
+  margin:14px auto 0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+}
+.slide:nth-of-type(5) #transferStep2 .transfer2-question{
+  font-size:24px!important;
+  line-height:1.22!important;
+  font-weight:800!important;
+  margin:0!important;
+}
+
+
+.transfer-stage1.second-active > .transfer-lead,
+.transfer-stage1.second-active > .reveal-slots,
+.transfer-stage1.second-active > .transfer-choice,
+.transfer-stage1.second-active > .transfer-reveal{
+  display:none!important;
+}
+.transfer-stage1.second-active > .transfer-next-slot{
+  display:block!important;
+  margin-top:18px!important;
+}
+
+
+/* H001 FINAL — standardized Hanten activity box semantics + parallel Transfer styling
+   White filled surfaces = information/content.
+   Outlined white controls = participant choices/actions.
+   Aha/explanation text = no surrounding container.
+   Transfer 1 and Transfer 2 mirror typography and information treatment. */
+
+.slide:nth-of-type(5) .transfer{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  padding:0!important;
+}
+
+/* Information/content surfaces: filled white, no outline */
+.slide:nth-of-type(5) .ticket-list,
+.slide:nth-of-type(5) .wait-list,
+.slide:nth-of-type(5) .transfer-comparison .statbox{
+  background:#fff!important;
+  border:0!important;
+  border-radius:12px!important;
+  box-shadow:none!important;
+}
+
+/* Participant choices/actions: white with outline */
+.slide:nth-of-type(5) .which-btn,
+.slide:nth-of-type(5) .transfer-again-btn{
+  background:#fff!important;
+  border:1px solid #183746!important;
+  color:#183746!important;
+}
+
+/* First Transfer reveal: no pale grouping box around results/ahas */
+.slide:nth-of-type(5) .transfer-comparison{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  padding:0!important;
+}
+
+/* Aha statements stand on the canvas, not inside a container */
+.slide:nth-of-type(5) .transfer-comparison-title,
+.slide:nth-of-type(5) .same-mean{
+  background:transparent!important;
+  border:0!important;
+}
+
+/* Second Transfer: same open-canvas structure as first */
+.slide:nth-of-type(5) #transferStep2,
+.slide:nth-of-type(5) #transferStep2.is-visible{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  padding:0!important;
+}
+
+/* Parallel data-list typography */
+.slide:nth-of-type(5) .ticket-list h3,
+.slide:nth-of-type(5) .wait-list h3{
+  font-size:18px!important;
+  line-height:1.2!important;
+  font-weight:800!important;
+  font-family:inherit!important;
+  margin:0 0 5px!important;
+}
+.slide:nth-of-type(5) .prices,
+.slide:nth-of-type(5) .wait-values{
+  font-size:20px!important;
+  line-height:1.2!important;
+  font-weight:850!important;
+  font-family:inherit!important;
+  white-space:nowrap!important;
+}
+
+/* Keep supporting mean information visually secondary but matched */
+.slide:nth-of-type(5) .wait-average{
+  font-size:18px!important;
+  line-height:1.25!important;
+  font-weight:700!important;
+  margin-top:6px!important;
+  padding-top:6px!important;
+}
+
+/* Both Transfer questions use the same type system */
+.slide:nth-of-type(5) .transfer-choice .question,
+.slide:nth-of-type(5) #transferStep2 .transfer2-question{
+  font-size:24px!important;
+  line-height:1.22!important;
+  font-weight:800!important;
+  font-family:inherit!important;
+  color:var(--normal-text)!important;
+}
+
+/* Match widths and spacing of the two information-list pairs */
+.slide:nth-of-type(5) .reveal-slots,
+.slide:nth-of-type(5) .wait-lists{
+  max-width:800px!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:12px!important;
+}
+
+/* Transfer 2 context mirrors Transfer 1 supporting text */
+.slide:nth-of-type(5) #transferStep2 .transfer2-context{
+  font-size:20px!important;
+  line-height:1.3!important;
+  font-weight:500!important;
+  color:var(--muted)!important;
+  margin:0 auto 14px!important;
+}
+
+/* The second reflection question needs no extra box */
+.slide:nth-of-type(5) #transferStep2 .transfer2-question-box{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  padding:0!important;
+  margin:14px auto 0!important;
+}
+
+</style>
+
+<style id="h001-v4-final-transfer-takeaway-lock">
+/* APRUT v4 locked Transfer takeaway: 24px / 700 / 1.22 across APRUTs. */
+.slide:nth-of-type(5) .same-mean,
+.slide:nth-of-type(5) .transfer2-question-box .transfer2-question{
+  font-size:24px!important;
+  line-height:1.22!important;
+  font-weight:700!important;
+}
+</style>
+
+<style id="h001-aprut-v4-qa-lock-20260928">
+/* APRUT v4 QA lock:
+   Transfer answer choices = 20px / 1.35 with comfortable padding.
+   Primary Transfer takeaway/question = 24px / 700 / 1.22.
+   Transfer choice reveals immediately on selection (handled by existing JS). */
+.slide:nth-of-type(5) .which-btn{
+  font-size:20px!important;
+  line-height:1.35!important;
+  padding:14px 16px!important;
+}
+.slide:nth-of-type(5) .transfer-comparison-title,
+.slide:nth-of-type(5) .same-mean,
+.slide:nth-of-type(5) .transfer2-question-box .transfer2-question{
+  font-size:24px!important;
+  line-height:1.22!important;
+  font-weight:700!important;
+}
+</style>
+
+
+<style id="aprut-classroom-template-lock">
+:root{
+  --classroom-canvas:#eef7f8;
+  --classroom-header-h:60px;
+  --classroom-footer-h:46px;
+  --classroom-stage-top:31px;
+}
+html,body,.app,main,.slide{
+  background:var(--classroom-canvas)!important;
+}
+header{
+  position:fixed!important;
+  inset:0 0 auto 0!important;
+  height:var(--classroom-header-h)!important;
+  min-height:var(--classroom-header-h)!important;
+  z-index:50!important;
+}
+main{
+  position:fixed!important;
+  inset:var(--classroom-header-h) 0 var(--classroom-footer-h) 0!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+.slide{
+  position:absolute!important;
+  inset:0!important;
+  height:100%!important;
+  width:100%!important;
+  margin:0 auto!important;
+  overflow:hidden!important;
+}
+.slide .kicker{
+  position:absolute!important;
+  top:var(--classroom-stage-top)!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  width:max-content!important;
+  margin:0!important;
+  font-size:27px!important;
+  line-height:1!important;
+  font-weight:900!important;
+  letter-spacing:.22em!important;
+  text-align:center!important;
+}
+footer{
+  position:fixed!important;
+  inset:auto 0 0 0!important;
+  height:var(--classroom-footer-h)!important;
+  min-height:var(--classroom-footer-h)!important;
+  z-index:50!important;
+}
+</style>
+
+<style id="which-btn-selected-visible">
+/* Transfer choice shows the selected answer (navy), matching Ask/Predict choices. */
+.slide:nth-of-type(5) .which-btn.selected{background:#183746!important;color:#fff!important;border-color:#183746!important}
+</style>
+
+<style id="aprut-vertical-rhythm">
+/* APRUT vertical rhythm: every headline sits at the same height on all five stages,
+   and stage content starts the same distance below the headline/subtitle. */
+.slide:nth-of-type(1) h1,.slide:nth-of-type(3) h1{margin-top:0!important}
+.slide:nth-of-type(1) .sub,.slide:nth-of-type(3) .sub{margin-top:0!important}
+.slide.active{display:flex!important;flex-direction:column}
+.slide>*:not(.kicker){width:100%;flex:0 0 auto}
+.slide>.stage-body{padding-top:clamp(8px,3vh,36px)}
+.slide>.stage-body>*{width:100%}
+</style>
+<style id="aprut-type-scale">
+/* APRUT approved text sizes: 32 headline · 27 stage word · 24 interaction question / key aha / big values ·
+   20 supporting copy, choices, box headings · 18 secondary labels · 14 true footnotes and tiny marks inside a graphic. */
+.guest-line .guest,.predict-half h2{font-size:24px!important}
+.control-label{font-size:18px!important}
+.guest-value,.measure-num{font-size:24px!important}
+.measure-rule,.measure-rule strong{font-size:20px!important}
+.measure-change{font-size:18px!important}
+.chart-title{font-size:18px!important}
+.metric-title strong{font-size:20px!important}
+.ask-chart-area .tick,.salarybarlabel,.reveal-state .tick,.reveal-state .value{font-size:18px!important}
+.slide:nth-of-type(5) .statbox h3,.slide:nth-of-type(5) .ticket-list h3,.slide:nth-of-type(5) .wait-list h3{font-size:18px!important}
+.slide:nth-of-type(5) .transfer-again-btn{font-size:18px!important}
+.card6 .who .final,.cmp6 b,.und-row b{font-size:24px!important}
+.vcell .dn{font-size:14px!important}
+/* Information surfaces are filled white without outlines; only choices and actions are outlined. */
+.ask-chart,.ask-q,.carrybox,.reveal-state{border:0!important}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand"><span class="hanten-mark" aria-hidden="true">H</span><span>HANTEN CLASSROOM</span></div><div class="meta">H001 · STATISTICS · Mean & median · ~5 minutes</div><button class="teacher" id="teacher" type="button">Teacher Notes</button></header>
+<main>
+<!-- ===== ASK: REPLACE EXHIBIT-SPECIFIC CONTENT BELOW ===== -->
+<section class="slide active">
+<div class="kicker">ASK</div><h1>Where is the middle — and what is the mean?</h1>
+<p class="sub">Ten people are at a backyard BBQ. Use the graph to estimate both measures.</p>
+<div class="stage-body">
+<div class="ask-layout">
+  <div class="ask-chart">
+    <div class="chart-title">Annual salaries of the 10 guests</div>
+    <div class="ask-chart-area">
+      <div class="axis">
+        <span class="tick" style="bottom:0%">$0</span>
+        <span class="tick" style="bottom:27.8%">$50k</span>
+        <span class="tick" style="bottom:55.6%">$100k</span>
+        <span class="tick" style="bottom:83.3%">$150k</span>
+      </div>
+      <div class="ask-bars" id="askBars">
+        <div class="gridline" style="bottom:27.8%"></div><div class="gridline" style="bottom:55.6%"></div><div class="gridline" style="bottom:83.3%"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ask-q">
+    <div class="metric-row"><div class="metric-title"><strong class="median-text">Median (middle)</strong><span class="definition">middle of the ordered values</span></div>
+      <div class="choices" data-q="medBefore" data-correct="$80,500"><button class="choice">$60,000</button><button class="choice">$80,500</button><button class="choice">$120,000</button></div><div class="result" id="medBeforeResult"></div></div>
+    <div class="metric-row"><div class="metric-title"><strong class="mean-text">Mean (average)</strong><span class="definition">total ÷ 10</span></div>
+      <div class="choices" data-q="meanBefore" data-correct="$86,400"><button class="choice">$60,000</button><button class="choice">$86,400</button><button class="choice">$120,000</button></div><div class="result" id="meanBeforeResult"></div></div>
+    
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===== PREDICT: REPLACE EXHIBIT-SPECIFIC CONTENT BELOW ===== -->
+<section class="slide">
+<div class="kicker">PREDICT</div><h1>Now someone earning $50 million joins the BBQ.</h1>
+<p class="sub">Your baseline answers carry forward. Predict the two new values.</p>
+<div class="stage-body">
+<div class="carry">
+ <div class="carrybox"><div class="small">Baseline median from Ask</div><div class="big median-text" id="carryMedian">$80,500</div><div class="small">10 people</div></div>
+ <div class="carrybox"><div class="small">Baseline mean from Ask</div><div class="big mean-text" id="carryMean">$86,400</div><div class="small">10 people</div></div>
+</div>
+<div class="predict-card">
+ <div class="guest-line"><span class="guest">New guest salary: $50,000,000</span></div>
+ <div class="predict-grid">
+  <div class="predict-half"><h2 class="median-text">New median (middle)</h2><div class="choices" data-q="medAfter" data-correct="$87,000"><button class="choice">$80,500</button><button class="choice">$87,000</button><button class="choice">≈ $4,600,000</button></div><div class="result" id="medAfterResult"></div></div>
+  <div class="predict-half"><h2 class="mean-text">New mean (average)</h2><div class="choices" data-q="meanAfter" data-correct="≈ $4,600,000"><button class="choice">$87,000</button><button class="choice">$500,000</button><button class="choice">≈ $4,600,000</button></div><div class="result" id="meanAfterResult"></div></div>
+ </div>
+ 
+</div>
+</div>
+</section>
+
+<!-- ===== REVEAL: REPLACE EXHIBIT-SPECIFIC CONTENT BELOW ===== -->
+<section class="slide">
+<div class="kicker">REVEAL</div><h1>One barely moves. The other skyrockets.</h1>
+<div class="stage-body">
+<div class="reveal-grid">
+  <div class="reveal-state">
+    <h2>BEFORE THE GUEST</h2><div class="state-sub">10 people</div>
+    <div class="mini-chart">
+      <div class="axis"><span class="tick" style="bottom:0%">$0</span><span class="tick" style="bottom:21.7%">$1M</span><span class="tick" style="bottom:43.5%">$2M</span><span class="tick" style="bottom:65.2%">$3M</span><span class="tick" style="bottom:87%">$4M</span></div>
+      <div class="plot">
+        <div class="gridline" style="bottom:21.7%"></div><div class="gridline" style="bottom:43.5%"></div><div class="gridline" style="bottom:65.2%"></div><div class="gridline" style="bottom:87%"></div>
+        <div class="bar-wrap"><div class="value">$80,500</div><div class="bar median" style="height:1.75%"></div><div class="label">Median</div></div>
+        <div class="bar-wrap"><div class="value">$86,400</div><div class="bar mean" style="height:1.88%"></div><div class="label">Mean</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal-state">
+    <h2>AFTER THE GUEST</h2><div class="state-sub">11 people · one earns $50,000,000</div>
+    <div class="mini-chart">
+      <div class="axis"><span class="tick" style="bottom:0%">$0</span><span class="tick" style="bottom:21.7%">$1M</span><span class="tick" style="bottom:43.5%">$2M</span><span class="tick" style="bottom:65.2%">$3M</span><span class="tick" style="bottom:87%">$4M</span></div>
+      <div class="plot">
+        <div class="gridline" style="bottom:21.7%"></div><div class="gridline" style="bottom:43.5%"></div><div class="gridline" style="bottom:65.2%"></div><div class="gridline" style="bottom:87%"></div>
+        <div class="bar-wrap"><div class="value">$87,000</div><div class="bar median" style="height:1.89%"></div><div class="label">Median</div></div>
+        <div class="bar-wrap"><div class="value">≈ $4,600,000</div><div class="bar mean" style="height:100%"></div><div class="label">Mean</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="legend">Both panels use the same scale. That is why the first three bars almost disappear.</div>
+<div class="prompt"><strong>No one else at the BBQ got richer.</strong> But one way of describing the group changed dramatically.</div>
+</div>
+</section>
+
+<!-- ===== UNDERSTAND: REPLACE EXHIBIT-SPECIFIC CONTENT BELOW ===== -->
+<section class="slide">
+<div class="kicker">UNDERSTAND</div>
+<h1>What happens as one salary changes?</h1>
+<p class="sub">The original 10 salaries stay exactly the same. Change only the new guest’s salary.</p>
+<div class="stage-body">
+
+<div class="understand-clean">
+  <div class="salary-control">
+    <div class="control-label">NEW GUEST SALARY</div>
+    <div class="guest-value" id="guestValue">$0</div>
+    <input id="guestSlider" class="slider" type="range" min="0" max="50000000" step="100000" value="0" aria-label="Guest salary">
+    <div class="ends"><span>$0</span><span>$50,000,000</span></div>
+    <div class="type-inline">
+      <label for="salaryInput">Or type a salary:</label>
+      <input id="salaryInput" class="salary-input" type="number" min="0" max="50000000" step="1000" placeholder="0–50,000,000" aria-label="Type a guest salary">
+    </div>
+    
+  </div>
+
+  <div class="measure-compare">
+    <div class="measure-card median-card">
+      <div class="measure-name median-text">MEDIAN</div>
+      <div class="measure-num" id="medianLive">$74,000</div>
+      <div class="measure-viz" aria-hidden="true"><div class="measure-viz-bar median" id="medianMiniBar"></div></div>
+      <div class="measure-rule">Follows the <strong>middle position</strong>.</div>
+      <div class="measure-change" id="medianChange">The guest is still passing through the middle of the group.</div>
+    </div>
+    <div class="measure-card mean-card">
+      <div class="measure-name mean-text">MEAN</div>
+      <div class="measure-num" id="meanLive">$78,545</div>
+      <div class="measure-viz" aria-hidden="true"><div class="measure-viz-bar mean" id="meanMiniBar"></div></div>
+      <div class="measure-rule">Responds to <strong>every value</strong>.</div>
+      <div class="measure-change" id="meanChange">The mean changes with every additional dollar.</div>
+    </div>
+  </div>
+
+  <div class="understand-takeaway">Median (middle) and mean (average) describe the same group differently.</div>
+</div>
+</div>
+</section>
+
+<!-- ===== TRANSFER: REPLACE EXHIBIT-SPECIFIC CONTENT BELOW ===== -->
+<section class="slide">
+<div class="kicker">TRANSFER</div>
+<h1 id="transferHeadline">“Average ticket price: $50”</h1>
+<div class="transfer">
+<div class="transfer-stage1" id="transferStage1">
+  <div class="transfer-lead">Two events can make exactly the same claim.</div>
+  <div class="reveal-slots transfer-lists-visible">
+    <div class="reveal-slot">
+      <button class="list-btn" id="revealA" type="button" hidden>Reveal List A</button>
+      <div class="ticket-list show" id="listA"><h3>PRICE LIST A</h3><div class="prices">$36 · $48 · $50 · $54 · $62</div></div>
+    </div>
+    <div class="reveal-slot">
+      <button class="list-btn" id="revealB" type="button" hidden>Reveal List B</button>
+      <div class="ticket-list show" id="listB"><h3>PRICE LIST B</h3><div class="prices">$5 · $5 · $5 · $110 · $125</div></div>
+    </div>
+  </div>
+
+  <div class="transfer-choice" id="transferChoice">
+    <div class="question">Which list is more helpful?</div>
+    <div class="which-buttons transfer-commit" id="transferCommit">
+      <button class="which-btn" data-answer="A">Price List A</button>
+      <button class="which-btn" data-answer="B">Price List B</button>
+    </div>
+  </div>
+
+  <div class="transfer-reveal" id="transferReveal">
+    <div class="transfer-comparison" id="transferComparison">
+      <div class="stats">
+        <div class="statbox"><h3>PRICE LIST A</h3><div class="measure-stack"><div class="mean-stat">Mean: $50</div><div class="median-stat">Median: $50</div></div></div>
+        <div class="statbox"><h3>PRICE LIST B</h3><div class="measure-stack"><div class="mean-stat">Mean: $50</div><div class="median-stat">Median: $5</div></div></div>
+      </div>
+      <div class="transfer-comparison-title">Both have the same mean—but not the same median.</div>
+      <div class="same-mean">This presents a very different story.</div>
+    </div>
+    </div>
+<div class="transfer-next-slot" id="transferNextSlot">
+<div class="transfer-again-wrap" id="transferAgainWrap"><button class="transfer-again-btn" id="transferAgain" type="button" onclick="showSecondTransfer()">Transfer again →</button></div>
+<div class="transfer-step2" id="transferStep2">
+      <div class="transfer2-context">Two service centers each had 6 customers. Both lists have the same average wait time.</div>
+      <div class="wait-lists">
+        <div class="wait-list">
+          <h3>CENTER A</h3>
+          <div class="wait-values">10 · 11 · 12 · 12 · 13 · 14</div>
+          <div class="wait-average">Mean = 12 minutes</div>
+        </div>
+        <div class="wait-list">
+          <h3>CENTER B</h3>
+          <div class="wait-values">1 · 1 · 1 · 1 · 25 · 43</div>
+          <div class="wait-average">Mean = 12 minutes</div>
+        </div>
+      </div>
+      <div class="transfer2-question-box">
+        <div class="transfer2-question">What else would you want to know?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</section>
+</main>
+<footer>
+  <div class="footer-left">Understanding is discovered, not delivered.</div>
+  <div class="progress" id="progress"></div>
+  <div class="footer-right"><span class="site">hanten.app</span><div class="navs"><button class="nav" id="back">← Back</button><button class="nav" id="next">Next →</button></div></div>
+</footer>
+</div>
+
+<aside class="notes" id="notes"><h3 id="noteTitle"></h3><p id="noteBody"></p></aside>
+
+<script>
+/* ===== EXHIBIT-SPECIFIC DATA + INTERACTIONS: REPLACE FOR EACH APRUT ===== */
+const original=[28000,41000,52000,61000,74000,87000,95000,112000,134000,180000];
+const money=n=>'$'+Math.round(n).toLocaleString('en-US');
+const mean=a=>a.reduce((x,y)=>x+y,0)/a.length;
+function median(a){const s=[...a].sort((x,y)=>x-y),n=s.length;return n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2;}
+
+const $=id=>document.getElementById(id);
+const carryMedian=$('carryMedian'), carryMean=$('carryMean');
+const guestSlider=$('guestSlider'), guestValue=$('guestValue');
+const medianLive=$('medianLive'), meanLive=$('meanLive');
+const medianChange=$('medianChange'), meanChange=$('meanChange');
+const salaryInput=$('salaryInput'), inputHelp=$('inputHelp');
+const revealA=$('revealA'), revealB=$('revealB'), listA=$('listA'), listB=$('listB');
+const transferChoice=$('transferChoice'), transferReveal=$('transferReveal');
+const back=$('back'), next=$('next'), teacher=$('teacher'), notes=$('notes');
+const noteTitle=$('noteTitle'), noteBody=$('noteBody');
+const progress=$('progress');
+
+// Ask salary graph.
+const askBars=$('askBars');
+original.forEach(n=>{
+  const w=document.createElement('div');
+  w.className='salarybarwrap';
+  w.innerHTML=`<div class="salarybar" style="height:${n/180000*100}%"></div><div class="salarybarlabel">$${Math.round(n/1000)}k</div>`;
+  askBars.appendChild(w);
+});
+
+// Ask/Predict controls.
+// Selection remains editable. Clicking Next is the commitment.
+const selections={};
+let askChecked=false, predictChecked=false;
+const askQs=['medBefore','meanBefore'], predictQs=['medAfter','meanAfter'];
+
+document.querySelectorAll('.choices').forEach(group=>{
+  group.querySelectorAll('.choice').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const q=group.dataset.q;
+      const stageQs=askQs.includes(q)?askQs:predictQs;
+      const committed=askQs.includes(q)?askChecked:predictChecked;
+      if(committed) return;
+
+      selections[q]=btn.textContent.trim();
+      group.querySelectorAll('.choice').forEach(b=>b.classList.toggle('selected',b===btn));
+
+      // Both answers selected = learner may advance, but nothing is graded yet.
+      if(stageQs.every(k=>selections[k])) next.disabled=false;
+    });
+  });
+});
+
+function grade(q){
+  const group=document.querySelector(`.choices[data-q="${q}"]`);
+  const chosen=selections[q], actual=group.dataset.correct;
+  const result=$(q+'Result');
+  group.querySelectorAll('.choice').forEach(btn=>{
+    btn.classList.remove('selected','correct','wrong');
+    if(btn.textContent.trim()===chosen) btn.classList.add('selected');
+  });
+  result.textContent=`Your prediction: ${chosen} · Actual: ${actual}`;
+  result.className='result';
+}
+
+
+
+// Understand controls: true linear 0–50M scale.
+function updateUnderstand(v){
+  v=Math.max(0,Math.min(50000000,Number(v)||0));
+  const data=[...original,v];
+  const med=median(data), avg=mean(data);
+  guestValue.textContent=money(v);
+  medianLive.textContent=money(med);
+  meanLive.textContent=money(avg);
+  medianChange.textContent=v>=87000
+    ?'The median is $87,000 and stays there as this guest gets richer.'
+    :'The guest is still passing through the middle of the group.';
+  meanChange.textContent='The mean changes smoothly with every additional dollar.';
+  const medBar=$('medianMiniBar'), meanBar=$('meanMiniBar');
+  const vizMax=5000000;
+  if(medBar) medBar.style.height=Math.max(4,Math.min(54,med/vizMax*54))+'px';
+  if(meanBar) meanBar.style.height=Math.max(4,Math.min(54,avg/vizMax*54))+'px';
+
+}
+
+guestSlider.addEventListener('input',()=>{
+  salaryInput.value=guestSlider.value;
+  if(inputHelp) inputHelp.textContent='Showing '+money(guestSlider.value)+'.';
+  updateUnderstand(guestSlider.value);
+});
+
+
+salaryInput.addEventListener('input',()=>{
+  if(salaryInput.value.trim()===''){if(inputHelp) if(inputHelp) inputHelp.textContent='The slider and typed value stay in sync.';return;}
+  let v=Number(salaryInput.value);
+  if(!Number.isFinite(v)) return;
+  v=Math.max(0,Math.min(50000000,v));
+  guestSlider.value=Math.round(v/100000)*100000;
+  if(inputHelp) inputHelp.textContent='Showing '+money(v)+'.';
+  updateUnderstand(v);
+});
+
+// Transfer.
+let shownA=true,shownB=true;
+let transfer2Active=false;
+function updateTransfer(){
+  listA.classList.add('show');
+  listB.classList.add('show');
+  revealA.style.display='none';
+  revealB.style.display='none';
+  transferChoice.classList.add('show');
+}
+document.querySelectorAll('.which-btn').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.which-btn').forEach(b=>b.classList.toggle('selected',b===btn));
+  const commit=$('transferCommit'), comparison=$('transferComparison');
+  if(commit) commit.classList.add('hidden');
+  if(comparison) comparison.classList.add('show');
+  transferReveal.classList.add('show');
+  const again=$('transferAgainWrap'); if(again) again.classList.add('is-visible');
+}));
+
+function showSecondTransfer(){
+  const againWrap=$('transferAgainWrap');
+  const secondTransfer=$('transferStep2');
+  const stage1=$('transferStage1');
+  const headline=$('transferHeadline');
+  transfer2Active=true;
+  if(againWrap) againWrap.classList.remove('is-visible');
+  if(stage1) stage1.classList.add('second-active');
+  if(headline) headline.textContent='“Average wait time: 12 minutes”';
+  if(secondTransfer) secondTransfer.classList.add('is-visible');
+}
+
+function showFirstTransfer(){
+  const secondTransfer=$('transferStep2');
+  const stage1=$('transferStage1');
+  const headline=$('transferHeadline');
+  transfer2Active=false;
+  if(secondTransfer) secondTransfer.classList.remove('is-visible');
+  if(stage1) stage1.classList.remove('second-active');
+  if(headline) headline.textContent='“Average ticket price: $50”';
+  const comparison=$('transferComparison');
+  const again=$('transferAgainWrap');
+  if(comparison && comparison.classList.contains('show') && again) again.classList.add('is-visible');
+}
+
+// Slides.
+const slides=[...document.querySelectorAll('.slide')];
+progress.innerHTML='';
+slides.forEach((_,i)=>{
+  const d=document.createElement('span');
+  d.className='dot'+(i===0?' active':'');
+  progress.appendChild(d);
+});
+const dots=[...progress.children];
+let index=0;
+
+/* ===== TEACHER NOTES: REPLACE FOR EACH APRUT ===== */
+const notesData=[
+  ['ASK · Teacher Notes',`DO
+Have students estimate both the median and the mean from the graph before advancing.
+
+LISTEN FOR
+Whether students distinguish the middle of the ordered values from the arithmetic average.
+
+IF NEEDED
+Ask: “Which value is in the middle?” Then ask: “What would you have to calculate to find the mean?”
+
+EXTEND THE THINKING
+Ask which measure they expect to change more if one unusually large salary joins the group.`],
+  ['PREDICT · Teacher Notes',`DO
+Point out that the original 10 salaries do not change; one guest earning $50 million joins the BBQ. Have students commit to both new values.
+
+LISTEN FOR
+Predictions that the mean will move much more than the median.
+
+IF NEEDED
+Ask students to think about what happens to the middle position when the group changes from 10 people to 11.
+
+EXTEND THE THINKING
+Ask: “Could one person change the mean without changing anyone else’s salary?”`],
+  ['REVEAL · Teacher Notes',`DO
+Read the BEFORE and AFTER panels left to right and keep attention on the shared scale.
+
+LISTEN FOR
+Recognition that the median moves only a little while the mean changes dramatically.
+
+IF NEEDED
+Point out that no original salary changed; only the way the group is summarized changed.
+
+EXTEND THE THINKING
+Ask which measure now better represents a typical person at the BBQ, and why.`],
+  ['UNDERSTAND · Teacher Notes',`DO
+Have students move the guest-salary slider or type several values and watch both measures respond.
+
+LISTEN FOR
+The idea that the median follows position while the mean responds to every value.
+
+IF NEEDED
+Try a low guest salary, a middle salary, and a very high salary.
+
+EXTEND THE THINKING
+Ask when a mean might still be the more useful measure despite being sensitive to extreme values.`],
+  ['TRANSFER · Teacher Notes',`DO
+Have students choose which ticket-price list is more helpful before revealing the mean and median. Then use Transfer again for the wait-time example.
+
+LISTEN FOR
+Students asking about distribution, spread, median, or the individual values rather than accepting the mean alone.
+
+IF NEEDED
+Compare what a typical customer experiences in each list.
+
+EXTEND THE THINKING
+Ask: “What other real-world claim using an average would make you want to see the underlying values?”`]
+];
+
+function updateNext(){
+  if(index===0){
+    next.disabled=askChecked ? false : !askQs.every(k=>selections[k]);
+    return;
+  }
+  if(index===1){
+    next.disabled=predictChecked ? false : !predictQs.every(k=>selections[k]);
+    return;
+  }
+  next.disabled=false;
+}
+function show(n){
+  index=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,i)=>s.classList.toggle('active',i===index));
+  dots.forEach((d,i)=>d.classList.toggle('active',i===index));
+  back.disabled=index===0;
+  next.textContent=index===slides.length-1?'Restart ↺':'Next →';
+  noteTitle.textContent=notesData[index][0];
+  noteBody.textContent=notesData[index][1];
+  updateNext();
+}
+function resetAll(){
+  askChecked=false;
+  predictChecked=false;
+  Object.keys(selections).forEach(k=>delete selections[k]);
+
+  document.querySelectorAll('.choice').forEach(b=>b.classList.remove('selected','correct','wrong'));
+  document.querySelectorAll('.result').forEach(r=>{r.textContent='';r.className='result';});
+
+  guestSlider.value=0;
+  salaryInput.value='';
+  updateUnderstand(0);
+
+  shownA=true;
+  shownB=true;
+  transfer2Active=false;
+  updateTransfer();
+
+  transferReveal.classList.remove('show');
+  const ts2=$('transferStep2');
+  if(ts2) { ts2.classList.remove('show'); ts2.classList.remove('is-visible'); }
+  const t2btn=$('transfer2Reveal'), t2support=$('transfer2Support');
+  if(t2btn) t2btn.classList.remove('hidden');
+  if(t2support) t2support.classList.remove('show');
+  const stage1=$('transferStage1'), again=$('transferAgainWrap');
+  if(stage1) stage1.classList.remove('second-active');
+  const transferHeadline=$('transferHeadline');
+  if(transferHeadline) transferHeadline.textContent='“Average ticket price: $50”';
+  if(again) { again.classList.remove('show'); again.classList.remove('is-visible'); }
+
+  const commit=$('transferCommit');
+  const comparison=$('transferComparison');
+  if(commit) commit.classList.remove('hidden');
+  if(comparison) comparison.classList.remove('show');
+
+  document.querySelectorAll('.which-btn').forEach(b=>b.classList.remove('selected'));
+  notes.classList.remove('open');
+}
+back.addEventListener('click',()=>{
+  if(index===slides.length-1 && transfer2Active){ showFirstTransfer(); return; }
+  show(index-1);
+});
+next.addEventListener('click',()=>{
+  // Advancing is the commitment. Grade only when leaving Ask/Predict.
+  if(index===0){
+    if(!askQs.every(k=>selections[k])) return;
+    if(!askChecked){
+      askChecked=true;
+      askQs.forEach(grade);
+    }
+    show(1);
+    return;
+  }
+  if(index===1){
+    if(!predictQs.every(k=>selections[k])) return;
+    if(!predictChecked){
+      predictChecked=true;
+      predictQs.forEach(grade);
+    }
+    show(2);
+    return;
+  }
+  if(index===slides.length-1){resetAll();show(0);}
+  else show(index+1);
+});
+teacher.addEventListener('click',()=>notes.classList.toggle('open'));
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'&&!next.disabled){
+    next.click();
+  }
+  if(e.key==='ArrowLeft'){
+    if(index===slides.length-1 && transfer2Active) showFirstTransfer();
+    else show(index-1);
+  }
+  if(e.key==='Escape')notes.classList.remove('open');
+});
+
+updateUnderstand(0);
+updateTransfer();
+show(0);
+</script>
+</body>
+</html
+
+>
