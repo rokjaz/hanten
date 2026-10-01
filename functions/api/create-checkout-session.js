@@ -38,6 +38,7 @@ export async function onRequestPost({ request, env }) {
     const params = new URLSearchParams();
 
     params.set("mode", "payment");
+    params.set("managed_payments[enabled]", "false");
     params.set("line_items[0][price_data][currency]", "usd");
     params.set(
       "line_items[0][price_data][product_data][name]",
