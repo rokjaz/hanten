@@ -154,6 +154,13 @@
     "free": false
   },
   {
+    "id": "A040",
+    "theme": "Probability",
+    "title": "Stay or Switch?",
+    "description": "Choose whether to stay with your first choice or switch after new information is revealed, then discover why the probabilities are not equal.",
+    "free": false
+  },
+  {
     "id": "A041",
     "theme": "Probability",
     "title": "How Accurate Is a Positive Test?",
@@ -312,6 +319,195 @@
     "theme": "Time",
     "title": "Which Country Has the Most Time Zones?",
     "description": "Count time zones by territory rather than just mainland geography and discover why the answer may not be the country you expect.",
+    "free": false
+  },
+  {
+    "id": "A070",
+    "theme": "Measurement",
+    "title": "Which Country Pollutes the Most?",
+    "description": "Compare total emissions with emissions per person and see how changing the measurement changes which country appears to pollute more.",
+    "free": false
+  },
+  {
+    "id": "A072",
+    "theme": "Measurement",
+    "title": "How Do You Catch a Liar?",
+    "description": "Compare ways of testing whether someone is telling the truth and discover why a test result is not the same thing as certainty.",
+    "free": false
+  },
+  {
+    "id": "A074",
+    "theme": "Measurement",
+    "title": "What Is the Largest Desert?",
+    "description": "Test what counts as a desert and discover why the answer depends on the definition being measured.",
+    "free": false
+  },
+  {
+    "id": "A075",
+    "theme": "Perspective",
+    "title": "Is London North of Canada?",
+    "description": "Compare latitude with climate and discover how familiar temperature patterns can distort your mental map.",
+    "free": false
+  },
+  {
+    "id": "A076",
+    "theme": "Perspective",
+    "title": "Is Canada Much Bigger Than Brazil?",
+    "description": "Compare familiar map shapes with actual area and see how projection stretch changes your sense of size.",
+    "free": false
+  },
+  {
+    "id": "A077",
+    "theme": "Perspective",
+    "title": "How Fast Is the Fly?",
+    "description": "Follow a fly inside a moving airplane and discover how speed depends on the frame of reference you choose.",
+    "free": false
+  },
+  {
+    "id": "A078",
+    "theme": "Scale",
+    "title": "How Far Apart Are a Million and a Billion?",
+    "description": "Compare million, billion, and trillion on a common scale and see how much larger each step really is.",
+    "free": false
+  },
+  {
+    "id": "A079",
+    "theme": "Systems",
+    "title": "Can a New Road Make Traffic Worse?",
+    "description": "Add a route to a traffic network and discover how individually sensible choices can make the whole system perform worse.",
+    "free": false
+  },
+  {
+    "id": "A080",
+    "theme": "Distribution",
+    "title": "How Big Is a State Without Its Biggest City?",
+    "description": "Remove each state’s largest metro area and see how strongly population can be concentrated in one place.",
+    "free": false
+  },
+  {
+    "id": "A081",
+    "theme": "Distribution",
+    "title": "Is Australia Really Empty?",
+    "description": "Compare average population density with where people actually live and see why an average can hide concentration.",
+    "free": false
+  },
+  {
+    "id": "A082",
+    "theme": "Measurement",
+    "title": "Does Averaging 0% Mean You Broke Even?",
+    "description": "Compare average percentage change with actual compounded return and discover why a 0% average does not necessarily mean no change.",
+    "free": false
+  },
+  {
+    "id": "A084",
+    "theme": "Time",
+    "title": "Did This Stock Really Have a Great Month?",
+    "description": "Change the starting and ending dates of the same price history and see how a selected time window can change the story.",
+    "free": false
+  },
+  {
+    "id": "A085",
+    "theme": "Systems",
+    "title": "Does Ice Cream Cause Drowning?",
+    "description": "Watch two variables rise together and discover why correlation alone does not identify what is causing what.",
+    "free": false
+  },
+  {
+    "id": "A086",
+    "theme": "Measurement",
+    "title": "What Counts as Unemployed?",
+    "description": "Apply the official definition of unemployment and discover how changing who counts changes the reported rate.",
+    "free": false
+  },
+  {
+    "id": "A087",
+    "theme": "Perspective",
+    "title": "Is the Gall-Peters Map More Accurate?",
+    "description": "Compare map projections and discover why improving one kind of accuracy can require distorting something else.",
+    "free": false
+  },
+  {
+    "id": "A089",
+    "theme": "Optimization",
+    "title": "Why Does Stealing Lose?",
+    "description": "Compare individual incentives with repeated outcomes and discover why the tempting move may not produce the best result.",
+    "free": false
+  },
+  {
+    "id": "A090",
+    "theme": "Distribution",
+    "title": "Did People in 1900 Really Die at 40?",
+    "description": "Look beyond average life expectancy and see how early deaths can pull the average far below the age many adults actually reached.",
+    "free": false
+  },
+  {
+    "id": "A091",
+    "theme": "Measurement",
+    "title": "What’s the Most Dangerous Animal?",
+    "description": "Compare total deaths with risk per encounter and see how different measures produce different answers.",
+    "free": false
+  },
+  {
+    "id": "A092",
+    "theme": "Measurement",
+    "title": "When “0 g” Isn’t Zero",
+    "description": "Examine rounding rules on nutrition labels and discover how a displayed zero can still represent a nonzero amount.",
+    "free": false
+  },
+  {
+    "id": "A093",
+    "theme": "Probability",
+    "title": "Are Your Name and Birth Date Enough?",
+    "description": "Estimate how unusual a name-and-birth-date match really is once the size of the population is taken into account.",
+    "free": false
+  },
+  {
+    "id": "A094",
+    "theme": "Distribution",
+    "title": "If 94% of Studies Agree, Is It Settled?",
+    "description": "Compare published findings with the studies that never appear and discover how missing results can distort the apparent consensus.",
+    "free": false
+  },
+  {
+    "id": "A095",
+    "theme": "Measurement",
+    "title": "Where Is Your Car Most Likely to Be Stolen?",
+    "description": "Compare raw theft counts with theft rates and see how population size changes what 'most likely' means.",
+    "free": false
+  },
+  {
+    "id": "A096",
+    "theme": "Measurement",
+    "title": "What Does “95% Effective” Mean?",
+    "description": "Compare relative and absolute risk reduction and discover how the same result can sound very different depending on the measure used.",
+    "free": false
+  },
+  {
+    "id": "A098",
+    "theme": "Perspective",
+    "title": "Whose Map Is Right?",
+    "description": "Compare how disputed places appear on different maps and see how recognition and perspective shape what a border communicates.",
+    "free": false
+  },
+  {
+    "id": "A099",
+    "theme": "Measurement",
+    "title": "Did Shark Attack Deaths Really Double?",
+    "description": "Turn a small change in counts into a percentage and discover how dramatic percentages can arise from very small numbers.",
+    "free": false
+  },
+  {
+    "id": "A100",
+    "theme": "Measurement",
+    "title": "Is “80% Lean” a Low-Fat Food?",
+    "description": "Express the same food composition in different units and see how framing the measurement changes how it sounds.",
+    "free": false
+  },
+  {
+    "id": "A102",
+    "theme": "Probability",
+    "title": "Is a Cancer Cluster Proof of a Cause?",
+    "description": "Search many places for an unusual cluster and discover why finding one after the fact does not automatically establish a cause.",
     "free": false
   }
 ]
