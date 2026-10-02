@@ -14,15 +14,7 @@ export async function onRequestPost({ request, env }) {
         )]
       : [];
 
-    const allowedApruts = new Set([
-      "A001","A002","A003","A004","A005","A006","A007",
-      "A010","A011","A014","A016","A017","A018","A020",
-      "A021","A023","A027","A028","A033","A036","A037",
-      "A038","A041","A042","A043","A045","A046","A047",
-      "A048","A049","A054","A055","A056","A057","A058",
-      "A059","A060","A061","A062","A063","A064","A065",
-      "A066","A067","A068"
-    ]);
+    const allowedApruts = await getPaidAprutIds(request);
 
     if (
       selected.length < 1 ||
@@ -119,3 +111,31 @@ function json(body, status = 200) {
     }
   });
 }
+
+async function getPaidAprutIds(request) {
+  const manifestUrl = new URL("/data/apruts.json", request.url);
+
+  const response = await fetch(manifestUrl.toString());
+
+  if (!response.ok) {
+    throw new Error("APRUT catalog could not be loaded.");
+  }
+
+  const apruts = await response.json();
+
+  if (!Array.isArray(apruts)) {
+    throw new Error("APRUT catalog is invalid.");
+  }
+
+  return new Set(
+    apruts
+      .filter(
+        (item) =>
+          item &&
+          item.free === false &&
+          /^A\d{3}$/.test(String(item.id || ""))
+      )
+      .map((item) => item.id)
+  );
+}
+

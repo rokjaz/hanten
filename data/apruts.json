@@ -1,0 +1,317 @@
+[
+  {
+    "id": "A001",
+    "theme": "Measurement",
+    "title": "Mean vs. Median",
+    "description": "See the complete five-minute format in action. Predict what happens when a $50 million guest joins a backyard BBQ, then follow the discovery through Ask, Predict, Reveal, Understand, and Transfer.",
+    "free": true
+  },
+  {
+    "id": "A002",
+    "theme": "Scale",
+    "title": "Closer to the ISS",
+    "description": "Start at Point Nemo, one of Earth’s most remote places, and discover why the nearest people can sometimes be above you in orbit.",
+    "free": false
+  },
+  {
+    "id": "A003",
+    "theme": "Distribution",
+    "title": "Can You Win Without Most of the Votes?",
+    "description": "Keep the same voters and redraw only the district lines. See how grouping the same population can change the outcome.",
+    "free": false
+  },
+  {
+    "id": "A004",
+    "theme": "Measurement",
+    "title": "How Fast Is Earth’s Spin Carrying You?",
+    "description": "Compare the speed of Earth’s rotation at different latitudes and discover why your location changes how fast you are moving.",
+    "free": false
+  },
+  {
+    "id": "A005",
+    "theme": "Probability",
+    "title": "How Many People for a Shared Birthday?",
+    "description": "Predict how large a group needs to be before a shared birthday becomes more likely than not.",
+    "free": false
+  },
+  {
+    "id": "A006",
+    "theme": "Optimization",
+    "title": "Same Pins, Different Score",
+    "description": "Two bowlers knock down the same number of pins. Discover why the order of those pins can produce very different scores.",
+    "free": false
+  },
+  {
+    "id": "A007",
+    "theme": "Scale",
+    "title": "How Big Is Africa, Really?",
+    "description": "Test familiar country sizes against Africa and uncover how a common world map changes apparent scale.",
+    "free": false
+  },
+  {
+    "id": "A010",
+    "theme": "Distribution",
+    "title": "Half the World in One Circle",
+    "description": "Estimate how many people live inside one circle on the map, then compare its share of humanity with its share of land.",
+    "free": false
+  },
+  {
+    "id": "A011",
+    "theme": "Measurement",
+    "title": "Planets Between Earth and the Moon",
+    "description": "Test whether all the other planets could fit between Earth and the Moon—and why the answer depends on what distance you use.",
+    "free": false
+  },
+  {
+    "id": "A014",
+    "theme": "Measurement",
+    "title": "Empty or Crowded?",
+    "description": "Compare places using population density and discover how a measurement can make the same landscape feel empty or crowded.",
+    "free": false
+  },
+  {
+    "id": "A016",
+    "theme": "Distribution",
+    "title": "Half the Earth, Almost No Land",
+    "description": "Turn the globe to two opposite hemispheres and compare how unevenly Earth’s land is distributed.",
+    "free": false
+  },
+  {
+    "id": "A017",
+    "theme": "Distribution",
+    "title": "Equal-Population States",
+    "description": "Redraw the United States into areas with equal populations and see how different the familiar map becomes.",
+    "free": false
+  },
+  {
+    "id": "A018",
+    "theme": "Perspective",
+    "title": "Where Does the Axis Start?",
+    "description": "Change where a graph begins and see how the same data can create a dramatically different visual impression.",
+    "free": false
+  },
+  {
+    "id": "A020",
+    "theme": "Scale",
+    "title": "Drive to the Space Station",
+    "description": "Compare the distance to the International Space Station with an ordinary road trip and separate distance from difficulty.",
+    "free": false
+  },
+  {
+    "id": "A021",
+    "theme": "Optimization",
+    "title": "Outscored and Still the Champion",
+    "description": "Explore how a team can score fewer total runs yet still win the championship when the objective is winning individual games.",
+    "free": false
+  },
+  {
+    "id": "A023",
+    "theme": "Scale",
+    "title": "How Big Is Greenland, Really?",
+    "description": "Compare Greenland with Africa and discover how map projections reshape your sense of size.",
+    "free": false
+  },
+  {
+    "id": "A027",
+    "theme": "Time",
+    "title": "Did the States Join at a Steady Pace?",
+    "description": "Put U.S. statehood on a timeline and see whether the familiar sequence unfolded as steadily as it may seem.",
+    "free": false
+  },
+  {
+    "id": "A028",
+    "theme": "Scale",
+    "title": "How Quickly Does Chess Get Big?",
+    "description": "Watch the number of possible chess positions explode as only a few moves are added.",
+    "free": false
+  },
+  {
+    "id": "A033",
+    "theme": "Perspective",
+    "title": "Gulf of Mexico or Gulf of America?",
+    "description": "Explore how geographic names depend on who is making the map and which naming convention is being used.",
+    "free": false
+  },
+  {
+    "id": "A036",
+    "theme": "Perspective",
+    "title": "What Is the World’s Tallest Mountain Called?",
+    "description": "Examine how names and conventions can shape the way a familiar geographic feature is described.",
+    "free": false
+  },
+  {
+    "id": "A037",
+    "theme": "Perspective",
+    "title": "How Should a Map Show Crimea?",
+    "description": "Compare ways maps represent disputed territory and discover how a border can communicate more than location.",
+    "free": false
+  },
+  {
+    "id": "A038",
+    "theme": "Perspective",
+    "title": "Where Is the Border in Kashmir?",
+    "description": "Compare competing map conventions for a disputed border and see why a single line may imply more certainty than exists.",
+    "free": false
+  },
+  {
+    "id": "A041",
+    "theme": "Probability",
+    "title": "How Accurate Is a Positive Test?",
+    "description": "Start with a highly accurate test and discover why a positive result may still be much less certain than it sounds.",
+    "free": false
+  },
+  {
+    "id": "A042",
+    "theme": "Time",
+    "title": "Two Islands, Two Days",
+    "description": "Cross the International Date Line between two nearby islands and discover how close places can be a full calendar day apart.",
+    "free": false
+  },
+  {
+    "id": "A043",
+    "theme": "Perspective",
+    "title": "Is Reno West of Los Angeles?",
+    "description": "Commit to your mental map, then compare the actual longitudes of two familiar western U.S. cities.",
+    "free": false
+  },
+  {
+    "id": "A045",
+    "theme": "Perspective",
+    "title": "Does Alaska Cross into the Eastern Hemisphere?",
+    "description": "Use longitude rather than a familiar flat map to discover where Alaska extends across the 180-degree meridian.",
+    "free": false
+  },
+  {
+    "id": "A046",
+    "theme": "Perspective",
+    "title": "Why Does the Shortest Flight Curve Over the Arctic?",
+    "description": "Compare a flat map with a globe and see why the shortest route between two cities can look curved.",
+    "free": false
+  },
+  {
+    "id": "A047",
+    "theme": "Scale",
+    "title": "Are More People Alive Today Than Have Ever Died?",
+    "description": "Estimate the number of people alive today against the total number who have ever lived and compare very different scales.",
+    "free": false
+  },
+  {
+    "id": "A048",
+    "theme": "Scale",
+    "title": "Does Greater Tokyo Still Outnumber Canada?",
+    "description": "Compare one metropolitan population with an entire country and test a familiar scale comparison.",
+    "free": false
+  },
+  {
+    "id": "A049",
+    "theme": "Measurement",
+    "title": "Can One State Outnumber Most Countries?",
+    "description": "Compare state and national populations and see how the unit being compared changes your sense of size.",
+    "free": false
+  },
+  {
+    "id": "A054",
+    "theme": "Distribution",
+    "title": "Where Should the Armor Go?",
+    "description": "Use damage patterns on returning aircraft to discover why the missing observations matter more than the visible ones.",
+    "free": false
+  },
+  {
+    "id": "A055",
+    "theme": "Distribution",
+    "title": "The Bias That Wasn’t There",
+    "description": "Combine two groups and watch a trend reverse, revealing why aggregated data can tell a different story from its parts.",
+    "free": false
+  },
+  {
+    "id": "A056",
+    "theme": "Probability",
+    "title": "There Is No Cover Jinx",
+    "description": "Separate regression toward the mean from a tempting causal story about what happens after exceptional performance.",
+    "free": false
+  },
+  {
+    "id": "A057",
+    "theme": "Distribution",
+    "title": "Why “1” Wins",
+    "description": "Look at real-world number sets and discover why leading digits are not distributed as evenly as intuition suggests.",
+    "free": false
+  },
+  {
+    "id": "A058",
+    "theme": "Distribution",
+    "title": "Do Your Friends Have More Friends?",
+    "description": "Explore a social network and discover why your friends can, on average, have more friends than you do.",
+    "free": false
+  },
+  {
+    "id": "A059",
+    "theme": "Systems",
+    "title": "How Much Does a Vote Weigh?",
+    "description": "Compare representation across states and see how the same institutional rule can produce different ratios per person.",
+    "free": false
+  },
+  {
+    "id": "A060",
+    "theme": "Systems",
+    "title": "Did the Overtime Fix Stay Fixed?",
+    "description": "Follow changes to an overtime system and test whether modifying one rule removes the advantage it was meant to address.",
+    "free": false
+  },
+  {
+    "id": "A061",
+    "theme": "Measurement",
+    "title": "How Tall Is the Tallest Mountain?",
+    "description": "Compare elevation, base-to-peak height, and distance from Earth’s center to see why several mountains can claim to be tallest.",
+    "free": false
+  },
+  {
+    "id": "A062",
+    "theme": "Measurement",
+    "title": "Which River Is Longest?",
+    "description": "Compare river measurements and discover why the answer can depend on where a river begins and how its path is measured.",
+    "free": false
+  },
+  {
+    "id": "A063",
+    "theme": "Measurement",
+    "title": "How Long Is a Coastline?",
+    "description": "Measure the same coastline at different scales and discover why its reported length changes with the measuring tool.",
+    "free": false
+  },
+  {
+    "id": "A064",
+    "theme": "Measurement",
+    "title": "What’s the Biggest Country?",
+    "description": "Compare different meanings of “biggest” and see how changing the measurement can change the answer.",
+    "free": false
+  },
+  {
+    "id": "A065",
+    "theme": "Measurement",
+    "title": "What’s the Richest Country?",
+    "description": "Compare different ways of measuring wealth and see why the word “richest” does not have one automatic answer.",
+    "free": false
+  },
+  {
+    "id": "A066",
+    "theme": "Perspective",
+    "title": "Is South America East of Florida?",
+    "description": "Test your mental map against longitude and discover how much of South America lies farther east than many people expect.",
+    "free": false
+  },
+  {
+    "id": "A067",
+    "theme": "Systems",
+    "title": "Only by Driving Through Canada",
+    "description": "Find parts of the United States whose road connections reveal how borders and transportation networks interact.",
+    "free": false
+  },
+  {
+    "id": "A068",
+    "theme": "Time",
+    "title": "Which Country Has the Most Time Zones?",
+    "description": "Count time zones by territory rather than just mainland geography and discover why the answer may not be the country you expect.",
+    "free": false
+  }
+]
