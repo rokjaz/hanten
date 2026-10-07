@@ -1,7 +1,7 @@
 /* Hanten site header and footer: the same on every page.
    Header: logo (home) on the left; Explore, Use Hanten, Contact and,
    on every page except the homepage, a Home button on the right.
-   Footer: logo, the same links, copyright. Include with
+   Footer: motto, Contact, Back to top, copyright. Include with
    <script src="/assets/js/site-chrome.js" defer></script>. */
 (() => {
   if (!/^https?:$/.test(location.protocol) || document.querySelector(".hx-bar")) return;
@@ -13,7 +13,7 @@
   const path = location.pathname.replace(/index\.html$/, "");
   const isHome = path === "/" || path === "";
   const here = p => path.startsWith(p) ? ' aria-current="page"' : "";
-  const logo = "/Media/branding/hanten-logo-dark.svg";
+  const logo = "/Media/branding/hanten-logo-white.svg";
   const links =
     `<a class="hx-bar-explore" href="/browse.html"${here("/browse")}>Explore</a>` +
     `<a href="/use/"${here("/use/")}>Use<span class="hx-long"> Hanten</span></a>` +
@@ -41,10 +41,10 @@
   const foot = document.createElement("footer");
   foot.className = "hx-foot";
   foot.innerHTML = `<div class="hx-inner">` +
-    `<a href="/" aria-label="Hanten home"><img src="${logo}" alt="Hanten" width="486" height="128"></a>` +
-    `<nav class="hx-foot-nav" aria-label="Footer"><a href="/browse.html">Explore</a><a href="/use/">Use Hanten</a><a href="/contact/">Contact</a></nav>` +
     `<p class="hx-foot-line">Understanding is discovered, not delivered.</p>` +
+    `<nav class="hx-foot-nav" aria-label="Footer"><a href="/contact/">Contact</a><a href="#top" class="hx-top">Back to top ↑</a></nav>` +
     `<p class="hx-foot-copy">© ${new Date().getFullYear()} Hanten · hanten.app</p></div>`;
+  foot.querySelector(".hx-top").addEventListener("click", e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); });
   document.body.appendChild(foot);
 
   // "Start here" path: an exhibit opened from /start/ (?start=2) shows

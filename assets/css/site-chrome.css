@@ -69,3 +69,20 @@
 @media (max-width: 640px) {
   .hx-foot .hx-inner > a:first-child, .hx-foot-line, .hx-foot-nav { grid-column: 1; grid-row: auto; }
 }
+
+/* Round 4: larger logo; footer is motto + Contact + Back to top */
+.hx-bar .hx-inner { min-height: 84px; }
+.hx-bar-logo { margin-left: 0; }
+.hx-bar-logo img { width: 236px; }
+.hx-foot .hx-inner { grid-template-columns: 1fr auto 1fr; padding: 26px 0 22px; row-gap: 8px; }
+.hx-foot-line { grid-column: 2; grid-row: 1; font-size: 1rem; }
+.hx-foot-nav { grid-column: 3; grid-row: 1; }
+.hx-foot-copy { grid-column: 2; grid-row: 2; }
+.hx-foot-nav a { opacity: .9; }
+@media (max-width: 640px) {
+  .hx-bar .hx-inner { min-height: 64px; }
+  .hx-bar-logo img { width: 150px; }
+  .hx-foot .hx-inner { grid-template-columns: 1fr; }
+  .hx-foot-line, .hx-foot-nav, .hx-foot-copy { grid-column: 1; grid-row: auto; }
+}
+@media (max-width: 480px) { .hx-bar-logo img { width: 120px; } }

@@ -33,37 +33,45 @@
   <div class="site">
    <header class="home-hero">
   <div class="hero-copy">
-    <p class="hero-kicker">反転 · <em>hanten</em> · to turn over</p>
-    <h1>Look again.</h1>
+    <p class="hero-kicker"><em>hanten</em> · to turn over</p>
+    <h1><span>Look</span> again</h1>
     <p class="intro">
       The things you're sure about, seen from an angle you haven't tried.
     </p>
-    <div class="hero-actions">
-      <a class="hero-btn hero-btn-main" href="#weekly-flip">Take this week's flip</a>
-      <a class="hero-btn" href="start/">Start here</a>
-    </div>
   </div>
 
-  <a class="hero-flip" href="exhibits/H023/" aria-label="Greenland and Africa: the map you know, then their true sizes. Open the exhibit.">
-    <div class="hero-flip-inner">
-      <figure class="hero-face hero-front">
-        <figcaption><span>The map you know</span>Greenland looks as big as Africa</figcaption>
-        <img src="Media/hero/hero-map.png" alt="On a Mercator world map, Greenland is drawn about the same size as Africa">
-      </figure>
-      <figure class="hero-face hero-back">
-        <figcaption><span>Look again</span>Africa is 14 times bigger</figcaption>
-        <img src="Media/hero/hero-true.png" alt="At true size, Greenland is about one-fourteenth of Africa">
-      </figure>
+  <div class="hero-play">
+    <p class="home-kicker">Try it first</p>
+    <div class="play-grid">
+      <a class="play-card theme-perspective" href="start/">
+        <p class="play-kind">New here?</p>
+        <h3>Start here</h3>
+        <p>Five exhibits, in order, that show what Hanten is about.</p>
+      </a>
+      <button type="button" class="play-card theme-probability" id="surprise-me">
+        <p class="play-kind">Feeling curious?</p>
+        <h3>Surprise me</h3>
+        <p>Open a random exhibit from all 102.</p>
+      </button>
+      <a class="play-card theme-scale" href="bigger/">
+        <p class="play-kind">Quick game</p>
+        <h3>Which is bigger?</h3>
+        <p>Tap the one you think wins. Some answers aren't close.</p>
+      </a>
+      <a class="play-card theme-time" href="flips/">
+        <p class="play-kind">Missed one?</p>
+        <h3>Flip archive</h3>
+        <p>Every Weekly Flip so far, ready to play.</p>
+      </a>
     </div>
-  </a>
+  </div>
 </header>
       <main class="homepage-v2">
 
   <section class="home-section home-flip">
-    <p class="home-kicker">Try it first</p>
+    <p class="home-kicker">Weekly Flip</p>
 
-  <div class="spotlight-card daily-flip-card weekly-flip" id="weekly-flip">
-    <p class="flip-title">Weekly Flip</p>
+  <div class="spotlight-card daily-flip-card weekly-flip theme-statistics" id="weekly-flip">
     <p class="spotlight-idea" data-flip="theme">Scale</p>
     <h2 data-flip="question">Which is bigger: Africa, or the U.S., China, and India combined?</h2>
 
@@ -84,28 +92,6 @@
     </div>
   </div>
 
-    <div class="play-grid">
-      <a class="play-card" href="start/">
-        <p class="play-kind">New here?</p>
-        <h3>Start here</h3>
-        <p>Five exhibits, in order, that show what Hanten is about.</p>
-      </a>
-      <button type="button" class="play-card" id="surprise-me">
-        <p class="play-kind">Feeling curious?</p>
-        <h3>Surprise me</h3>
-        <p>Open a random exhibit from all 102.</p>
-      </button>
-      <a class="play-card" href="bigger/">
-        <p class="play-kind">Quick game</p>
-        <h3>Which is bigger?</h3>
-        <p>Tap the one you think wins. Some answers aren't close.</p>
-      </a>
-      <a class="play-card" href="flips/">
-        <p class="play-kind">Missed one?</p>
-        <h3>Flip archive</h3>
-        <p>Every Weekly Flip so far, ready to play.</p>
-      </a>
-    </div>
   </section>
 
 
@@ -330,26 +316,12 @@
 
   </div>
 
-  <p class="why-hanten-principle why-hanten-principle-center">
-    Understanding is discovered, not delivered.
-  </p>
 </section>
 
 </main>
 
   </div>
 <script src="JS/weekly-flip.js"></script>
-<script>
-(() => {
-  // Hero card: turns over every few seconds; pauses while hovered.
-  const card = document.querySelector(".hero-flip");
-  if (!card || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  let paused = false;
-  card.addEventListener("mouseenter", () => { paused = true; card.classList.add("is-flipped"); });
-  card.addEventListener("mouseleave", () => { paused = false; });
-  setInterval(() => { if (!paused) card.classList.toggle("is-flipped"); }, 3800);
-})();
-</script>
 <script>
 (() => {
   // Surprise me: any of the 102 exhibits, H001 to H102.
