@@ -45,5 +45,23 @@
     `<nav class="hx-foot-nav" aria-label="Footer"><a href="/browse.html">Explore</a><a href="/use/">Use Hanten</a><a href="/contact/">Contact</a></nav>` +
     `<p class="hx-foot-copy">© ${new Date().getFullYear()} Hanten · hanten.app</p>`;
   document.body.appendChild(foot);
+
+  // "Start here" path: an exhibit opened from /start/ (?start=2) shows
+  // where you are and links to the next one.
+  const step = parseInt(new URLSearchParams(location.search).get("start"), 10);
+  if (step >= 1) {
+    fetch("/JS/start-path.json").then(r => r.json()).then(path => {
+      if (step > path.length) return;
+      const next = path[step];
+      const strip = document.createElement("div");
+      strip.className = "hx-path";
+      strip.innerHTML =
+        `<a class="hx-path-back" href="/start/">Start here</a><span class="hx-path-step">${step} of ${path.length}</span>` +
+        (next
+          ? `<a class="hx-path-next" href="/exhibits/${next.id}/?start=${step + 1}">Next: ${next.title} →</a>`
+          : `<a class="hx-path-next" href="/browse.html">You finished the path. Explore all exhibits →</a>`);
+      bar.insertAdjacentElement("afterend", strip);
+    }).catch(() => {});
+  }
   document.documentElement.classList.add("hx-has-chrome");
 })();

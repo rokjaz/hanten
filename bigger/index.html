@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Which is bigger? — Hanten</title>
+  <meta name="description" content="A quick Hanten game: tap the one you think wins. Some answers aren&#x27;t close.">
+  <link rel="icon" href="/Media/branding/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/data/icons/apple-touch-icon.png">
+  <meta property="og:title" content="Which is bigger? — Hanten">
+  <meta property="og:description" content="A quick Hanten game: tap the one you think wins. Some answers aren&#x27;t close.">
+  <meta property="og:image" content="https://hanten.app/data/og/home.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/CSS/site.css">
+  <link rel="stylesheet" href="/CSS/play.css">
+</head>
+<body>
+  <div class="site">
+    <header class="play-hero">
+      <p class="home-kicker">Quick game</p>
+      <h1>Which is bigger?</h1>
+      <p class="intro">Tap the one you think wins. Some of these aren't close.</p>
+    </header>
+    <main class="play-page">
+      <div class="bigger" id="bigger">
+        <p class="bigger-count" data-b="count"></p>
+        <p class="bigger-q" data-b="q"></p>
+        <div class="bigger-choices" data-b="choices"></div>
+        <div class="bigger-answer" data-b="answer" hidden>
+          <p data-b="reveal"></p>
+          <div class="flip-actions">
+            <a class="daily-reveal" data-b="link" href="#">See the exhibit →</a>
+            <button type="button" class="flip-share" data-b="next">Next one →</button>
+          </div>
+        </div>
+        <p class="bigger-score" data-b="score"></p>
+      </div>
+    </main>
+  </div>
+<script>
+const HANTEN_BIGGER = [
+  { q: "Which is bigger?", a: "Greenland", b: "Africa", win: "b", reveal: "Africa, about 14 times over. Common world maps stretch Greenland until it looks about the same size.", ex: "H023" },
+  { q: "Which is the larger desert?", a: "The Sahara", b: "Antarctica", win: "b", reveal: "Antarctica: 5.5 million square miles to the Sahara's 3.6 million. A desert is about how little falls from the sky, not heat or sand.", ex: "H074" },
+  { q: "Which has more people?", a: "Greater Tokyo", b: "All of Canada", win: "b", reveal: "Canada, now. At about 41.5 million, it has passed even the most generous count of Greater Tokyo.", ex: "H048" },
+  { q: "Which group is bigger?", a: "People alive today", b: "People who have ever died", win: "b", reveal: "The dead, about 13 to 1: roughly 109 billion to 8.2 billion.", ex: "H047" },
+  { q: "Which is bigger across?", a: "All of Earth's water, rolled into one ball", b: "The Moon", win: "b", reveal: "The Moon: 2,159 miles across. All of Earth's water would make a ball about 860 miles across.", ex: "H073" },
+  { q: "Which has more time zones?", a: "Russia", b: "France", win: "b", reveal: "France, with 12, thanks to territories across every ocean. Russia has 11.", ex: "H068" },
+  { q: "Which kills more people each year?", a: "Sharks", b: "Mosquitoes", win: "b", reveal: "Mosquitoes, by far: hundreds of thousands of people a year. Sharks kill a handful.", ex: "H091" },
+  { q: "Which has more farmland?", a: "Canada", b: "The United States", win: "b", reveal: "The United States. Canada is bigger overall, but only about 4% of its land can be farmed, versus more than 16% of U.S. land.", ex: "H064" },
+  { q: "Which is farther from Los Angeles?", a: "San Francisco", b: "The space station, straight up", win: "a", reveal: "San Francisco, about 350 miles away. The space station orbits only about 250 miles up.", ex: "H020" },
+  { q: "Which weighs more?", a: "A pound of feathers", b: "A pound of gold", win: "a", reveal: "The feathers. Gold is weighed in troy pounds, about 18% lighter than ordinary pounds.", ex: "H088" },
+  { q: "Which is farther west?", a: "Reno, Nevada", b: "Los Angeles", win: "a", reveal: "Reno. California's coast leans east, so Los Angeles ends up east of Reno.", ex: "H043" }
+];
+(() => {
+  const root = document.getElementById("bigger");
+  const $ = s => root.querySelector('[data-b="' + s + '"]');
+  const order = HANTEN_BIGGER.map((_, i) => i).sort(() => Math.random() - 0.5);
+  let k = 0, right = 0, played = 0;
+  function show() {
+    const p = HANTEN_BIGGER[order[k % order.length]];
+    $("count").textContent = (k % order.length + 1) + " of " + order.length;
+    $("q").textContent = p.q;
+    $("answer").hidden = true;
+    const box = $("choices"); box.innerHTML = "";
+    // Shuffle which side each answer sits on
+    const sides = Math.random() < 0.5 ? ["a", "b"] : ["b", "a"];
+    sides.forEach(side => {
+      const btn = document.createElement("button");
+      btn.type = "button"; btn.className = "bigger-choice"; btn.textContent = p[side];
+      btn.addEventListener("click", () => {
+        played++; if (side === p.win) right++;
+        [...box.children].forEach(x => { x.disabled = true; });
+        btn.classList.add("selected");
+        [...box.children][sides.indexOf(p.win)].classList.add("is-answer");
+        $("reveal").textContent = (side === p.win ? "Right. " : "") + p.reveal;
+        $("link").href = "/exhibits/" + p.ex + "/";
+        $("score").textContent = "You've got " + right + " of " + played + ".";
+        $("answer").hidden = false;
+      });
+      box.appendChild(btn);
+    });
+  }
+  $("next").addEventListener("click", () => { k++; show(); });
+  show();
+})();
+</script>
+<script src="/assets/js/site-chrome.js"></script>
+</body>
+</html>

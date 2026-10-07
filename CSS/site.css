@@ -2003,3 +2003,18 @@ header.home-hero { padding-bottom: 8px; }
 .weekly-flip .daily-response { height: auto !important; align-self: stretch !important; }
 .weekly-flip .daily-guess-label { position: static !important; }
 .weekly-flip { height: auto !important; min-height: 0 !important; }
+
+/* Try it first: Weekly Flip plus four ways in (Oct 2026) */
+.weekly-flip .flip-title { margin: 0 0 6px; text-align: center; font-size: 1.15rem; font-weight: 800; color: #172536; }
+.weekly-flip .flip-actions { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.weekly-flip .flip-share { appearance: none; border: 1.5px solid #1A3E6E; border-radius: 999px; background: transparent; color: #1A3E6E; font: inherit; font-size: .82rem; font-weight: 750; padding: 6px 12px; cursor: pointer; }
+.weekly-flip .flip-share:hover { background: #1A3E6E; color: #fff; }
+.weekly-flip .flip-note a { color: #1A3E6E; font-weight: 700; }
+.play-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; max-width: 980px; margin: 18px auto 0; }
+.play-card { display: block; width: 100%; text-align: left; font: inherit; cursor: pointer; padding: 18px 18px 16px; border: 1px solid #d5cfbf; border-radius: 16px; background: #fbf9f4; color: #172536; text-decoration: none; transition: transform 160ms ease, box-shadow 160ms ease; }
+.play-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(23, 37, 54, 0.08); }
+.play-card .play-kind { margin: 0 0 4px; color: #8F5E00; font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.play-card h3 { margin: 0 0 6px; font-size: 1.15rem; line-height: 1.15; color: #1A3E6E; }
+.play-card p:last-child { margin: 0; color: #536474; font-size: .9rem; line-height: 1.45; }
+@media (max-width: 860px) { .play-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 420px) { .play-card { padding: 14px; } .play-card h3 { font-size: 1.02rem; } }

@@ -1,6 +1,6 @@
 /* Hanten Weekly Flip
    One guess-first question a week, rotating automatically through the
-   list below (a new one every Monday). To add a flip, copy any entry
+   list below (a new one every Monday; past ones stay playable at /flips/). To add a flip, copy any entry
    and edit it: "answer" is the position of the right choice, counting
    from 0. Flips can come from an exhibit's main idea or from a side
    story inside one (like Macedonia vs. North Macedonia). */
@@ -63,33 +63,66 @@ const HANTEN_FLIPS = [
     reveal: "Much more. Each step up the chain adds its own cushion: the bullwhip effect.", ex: "H053" }
 ];
 
+// Week 1 of the rotation began Monday, August 3, 2026.
+const HANTEN_FLIP_START = Date.UTC(2026, 7, 3);
+
+const HantenFlip = {
+  // How many flips have come out so far (this week's included).
+  count() {
+    const weeks = Math.floor((Date.now() - HANTEN_FLIP_START) / (7 * 864e5));
+    return Math.max(1, weeks + 1);
+  },
+  // Flip number n (1, 2, 3...) maps onto the list, starting over at the end.
+  get(n) { return HANTEN_FLIPS[(n - 1) % HANTEN_FLIPS.length]; },
+
+  // Draws flip number n into a card that has data-flip slots.
+  render(card, n) {
+    const f = this.get(n);
+    const $ = s => card.querySelector('[data-flip="' + s + '"]');
+    if ($("theme")) $("theme").textContent = f.theme;
+    $("question").textContent = f.q;
+    const box = $("choices");
+    box.innerHTML = "";
+    const answer = card.querySelector(".flip-answer");
+    if (answer) answer.hidden = true;
+    f.choices.forEach((c, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = c;
+      b.addEventListener("click", () => {
+        [...box.children].forEach((x, j) => {
+          x.disabled = true;
+          x.classList.toggle("selected", x === b);
+          x.classList.toggle("is-answer", j === f.answer);
+        });
+        $("reveal").textContent = (i === f.answer ? "Right. " : "") + f.reveal;
+        $("link").href = "/exhibits/" + f.ex + "/";
+        answer.hidden = false;
+      });
+      box.appendChild(b);
+    });
+    const share = $("share");
+    if (share) {
+      share.textContent = "Challenge a friend";
+      share.onclick = async () => {
+        const url = "https://hanten.app/?flip=" + n;
+        const text = "Hanten Weekly Flip: " + f.q + " (" + f.choices.join(" / ") + ") Guess before you look:";
+        try {
+          if (navigator.share) { await navigator.share({ title: "Hanten Weekly Flip", text, url }); return; }
+          await navigator.clipboard.writeText(text + " " + url);
+          share.textContent = "Link copied";
+        } catch (e) { /* closed the share sheet */ }
+      };
+    }
+  }
+};
+
 (() => {
   const card = document.getElementById("weekly-flip");
   if (!card || !HANTEN_FLIPS.length) return;
-  // Weeks since Monday, October 5, 2026: a new flip every Monday.
-  const start = Date.UTC(2026, 9, 5);
-  const week = Math.max(0, Math.floor((Date.now() - start) / (7 * 864e5)));
-  const f = HANTEN_FLIPS[week % HANTEN_FLIPS.length];
-  const $ = s => card.querySelector('[data-flip="' + s + '"]');
-  $("theme").textContent = f.theme;
-  $("question").textContent = f.q;
-  const box = $("choices");
-  box.innerHTML = "";
-  const answer = card.querySelector(".flip-answer");
-  f.choices.forEach((c, i) => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.textContent = c;
-    b.addEventListener("click", () => {
-      [...box.children].forEach((x, j) => {
-        x.disabled = true;
-        x.classList.toggle("selected", x === b);
-        x.classList.toggle("is-answer", j === f.answer);
-      });
-      $("reveal").textContent = (i === f.answer ? "Right. " : "") + f.reveal;
-      $("link").href = "exhibits/" + f.ex + "/";
-      answer.hidden = false;
-    });
-    box.appendChild(b);
-  });
+  // A shared link (?flip=7) opens that flip; otherwise this week's.
+  const asked = parseInt(new URLSearchParams(location.search).get("flip"), 10);
+  const n = asked >= 1 && asked <= HantenFlip.count() ? asked : HantenFlip.count();
+  HantenFlip.render(card, n);
+  if (asked) card.scrollIntoView({ block: "center" });
 })();

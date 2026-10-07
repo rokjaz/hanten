@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flip archive — Hanten</title>
+  <meta name="description" content="Every Hanten Weekly Flip so far. Guess before you look.">
+  <link rel="icon" href="/Media/branding/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/data/icons/apple-touch-icon.png">
+  <meta property="og:title" content="Flip archive — Hanten">
+  <meta property="og:description" content="Every Hanten Weekly Flip so far. Guess before you look.">
+  <meta property="og:image" content="https://hanten.app/data/og/home.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/CSS/site.css">
+  <link rel="stylesheet" href="/CSS/play.css">
+</head>
+<body>
+  <div class="site">
+    <header class="play-hero">
+      <p class="home-kicker">Weekly Flip</p>
+      <h1>Flip archive</h1>
+      <p class="intro">Every Weekly Flip so far, newest first. Guess before you look.</p>
+    </header>
+    <main class="play-page">
+      <div class="flip-archive" id="flip-archive"></div>
+    </main>
+  </div>
+<script src="/JS/weekly-flip.js"></script>
+<script>
+(() => {
+  const box = document.getElementById("flip-archive");
+  for (let n = HantenFlip.count(); n >= 1; n--) {
+    const card = document.createElement("div");
+    card.className = "spotlight-card daily-flip-card weekly-flip archive-flip";
+    card.id = "flip-" + n;
+    card.innerHTML =
+      '<p class="flip-title">Flip ' + n + (n === HantenFlip.count() ? ' · this week' : '') + '</p>' +
+      '<p class="spotlight-idea" data-flip="theme"></p><h2 data-flip="question"></h2>' +
+      '<div class="daily-response"><div class="daily-choices" data-flip="choices"></div>' +
+      '<div class="flip-answer" hidden><p data-flip="reveal"></p><div class="flip-actions">' +
+      '<a class="daily-reveal" data-flip="link" href="#">See the exhibit →</a>' +
+      '<button type="button" class="flip-share" data-flip="share">Challenge a friend</button></div></div></div>';
+    box.appendChild(card);
+    HantenFlip.render(card, n);
+  }
+})();
+</script>
+<script src="/assets/js/site-chrome.js"></script>
+</body>
+</html>

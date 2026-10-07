@@ -43,24 +43,52 @@
       <main class="homepage-v2">
 
   <section class="home-section home-flip">
-    <p class="home-kicker">Weekly Flip</p>
+    <p class="home-kicker">Try it first</p>
+
   <div class="spotlight-card daily-flip-card weekly-flip" id="weekly-flip">
-    <p class="spotlight-idea" data-flip="theme">Perspective</p>
-    <h2 data-flip="question">Is Reno, Nevada east or west of Los Angeles?</h2>
+    <p class="flip-title">Weekly Flip</p>
+    <p class="spotlight-idea" data-flip="theme">Scale</p>
+    <h2 data-flip="question">Which is bigger: Africa, or the U.S., China, and India combined?</h2>
 
     <div class="daily-response">
       <p class="daily-guess-label">Make your guess:</p>
       <div class="daily-choices" data-flip="choices" aria-label="Your guess">
-        <button type="button">East</button>
-        <button type="button">West</button>
+        <button type="button">Africa</button>
+        <button type="button">The three countries</button>
       </div>
       <div class="flip-answer" hidden>
         <p data-flip="reveal"></p>
-        <a class="daily-reveal" data-flip="link" href="exhibits/H043/" target="_blank" rel="noopener noreferrer">See the exhibit →</a>
+        <div class="flip-actions">
+          <a class="daily-reveal" data-flip="link" href="exhibits/H007/">See the exhibit →</a>
+          <button type="button" class="flip-share" data-flip="share">Challenge a friend</button>
+        </div>
       </div>
-      <p class="flip-note">A new question every Monday.</p>
+      <p class="flip-note">A new question every Monday · <a href="flips/">Past flips</a></p>
     </div>
   </div>
+
+    <div class="play-grid">
+      <a class="play-card" href="start/">
+        <p class="play-kind">New here?</p>
+        <h3>Start here</h3>
+        <p>Five exhibits, in order, that show what Hanten is about.</p>
+      </a>
+      <button type="button" class="play-card" id="surprise-me">
+        <p class="play-kind">Feeling curious?</p>
+        <h3>Surprise me</h3>
+        <p>Open a random exhibit from all 102.</p>
+      </button>
+      <a class="play-card" href="bigger/">
+        <p class="play-kind">Quick game</p>
+        <h3>Which is bigger?</h3>
+        <p>Tap the one you think wins. Some answers aren't close.</p>
+      </a>
+      <a class="play-card" href="flips/">
+        <p class="play-kind">Missed one?</p>
+        <h3>Flip archive</h3>
+        <p>Every Weekly Flip so far, ready to play.</p>
+      </a>
+    </div>
   </section>
 
 
@@ -294,6 +322,16 @@
 
   </div>
 <script src="JS/weekly-flip.js"></script>
+<script>
+(() => {
+  // Surprise me: any of the 102 exhibits, H001 to H102.
+  const b = document.getElementById("surprise-me");
+  if (b) b.addEventListener("click", () => {
+    const n = 1 + Math.floor(Math.random() * 102);
+    location.href = "/exhibits/H" + String(n).padStart(3, "0") + "/";
+  });
+})();
+</script>
 <script src="/assets/js/site-chrome.js"></script>
 
 </body>
