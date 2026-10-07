@@ -1,64 +1,7 @@
 # Cloudflare Pages redirects. Retired exhibits and old legacy pages point to their current home.
 
-# Exhibit numbers that were merged into another exhibit or retired
-/exhibits/H004 /exhibits/H001/ 301
-/exhibits/H004/* /exhibits/H001/ 301
-/exhibits/H008 /exhibits/H033/ 301
-/exhibits/H008/* /exhibits/H033/ 301
-/exhibits/H009 /exhibits/H095/ 301
-/exhibits/H009/* /exhibits/H095/ 301
-/exhibits/H012 /exhibits/H014/ 301
-/exhibits/H012/* /exhibits/H014/ 301
-/exhibits/H013 /exhibits/H014/ 301
-/exhibits/H013/* /exhibits/H014/ 301
-/exhibits/H015 /exhibits/H003/ 301
-/exhibits/H015/* /exhibits/H003/ 301
-/exhibits/H019 /exhibits/H002/ 301
-/exhibits/H019/* /exhibits/H002/ 301
-/exhibits/H024 /browse.html 301
-/exhibits/H024/* /browse.html 301
-/exhibits/H025 /exhibits/H095/ 301
-/exhibits/H025/* /exhibits/H095/ 301
-/exhibits/H026 /browse.html 301
-/exhibits/H026/* /browse.html 301
-/exhibits/H029 /browse.html 301
-/exhibits/H029/* /browse.html 301
-/exhibits/H030 /exhibits/H023/ 301
-/exhibits/H030/* /exhibits/H023/ 301
-/exhibits/H031 /browse.html 301
-/exhibits/H031/* /browse.html 301
-/exhibits/H032 /exhibits/H033/ 301
-/exhibits/H032/* /exhibits/H033/ 301
-/exhibits/H034 /exhibits/H033/ 301
-/exhibits/H034/* /exhibits/H033/ 301
-/exhibits/H035 /exhibits/H033/ 301
-/exhibits/H035/* /exhibits/H033/ 301
-/exhibits/H039 /exhibits/H038/ 301
-/exhibits/H039/* /exhibits/H038/ 301
-/exhibits/H044 /exhibits/H075/ 301
-/exhibits/H044/* /exhibits/H075/ 301
-/exhibits/H050 /exhibits/H033/ 301
-/exhibits/H050/* /exhibits/H033/ 301
-/exhibits/H051 /exhibits/H098/ 301
-/exhibits/H051/* /exhibits/H098/ 301
-/exhibits/H052 /exhibits/H098/ 301
-/exhibits/H052/* /exhibits/H098/ 301
-/exhibits/H053 /exhibits/H098/ 301
-/exhibits/H053/* /exhibits/H098/ 301
-/exhibits/H069 /exhibits/H001/ 301
-/exhibits/H069/* /exhibits/H001/ 301
-/exhibits/H071 /exhibits/H067/ 301
-/exhibits/H071/* /exhibits/H067/ 301
-/exhibits/H073 /browse.html 301
-/exhibits/H073/* /browse.html 301
-/exhibits/H083 /exhibits/H087/ 301
-/exhibits/H083/* /exhibits/H087/ 301
-/exhibits/H088 /exhibits/H087/ 301
-/exhibits/H088/* /exhibits/H087/ 301
-/exhibits/H097 /exhibits/H096/ 301
-/exhibits/H097/* /exhibits/H096/ 301
-/exhibits/H101 /exhibits/H068/ 301
-/exhibits/H101/* /exhibits/H068/ 301
+# Every exhibit number H001-H102 is in use (retired numbers were
+# backfilled in Oct 2026), so no exhibit numbers are redirected.
 
 # Legacy flat pages, replaced by exhibits/
 /1960-world-series.html /exhibits/H021/ 301
@@ -111,8 +54,8 @@
 /gerrymander-real /exhibits/H003/ 301
 /gulf-of-mexico.html /exhibits/H033/ 301
 /gulf-of-mexico /exhibits/H033/ 301
-/hits-vs-runs.html /exhibits/H022/ 301
-/hits-vs-runs /exhibits/H022/ 301
+/hits-vs-runs.html /exhibits/H006/ 301
+/hits-vs-runs /exhibits/H006/ 301
 /iss-how-close.html /exhibits/H020/ 301
 /iss-how-close /exhibits/H020/ 301
 /kashmir.html /exhibits/H038/ 301

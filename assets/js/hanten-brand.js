@@ -59,6 +59,14 @@
         setTimeout(unhaloWhiteLabels, 2500);
     });
 
+    // On hanten.app, every exhibit gets the site's shared header (logo,
+    // Explore, Use Hanten, Contact, Home) and footer.
+    if (/^https?:$/.test(location.protocol) && !document.querySelector('script[src$="site-chrome.js"]')) {
+        var chrome = document.createElement("script");
+        chrome.src = "/assets/js/site-chrome.js";
+        document.body.appendChild(chrome);
+    }
+
     // Previous/next arrows share one row with Save/Share: arrows on the
     // left, image buttons on the right.
     function joinPager() {

@@ -31,24 +31,20 @@
 
 <body>
   <div class="site">
-   <header>
-  <a class="brand brand-logo" href="./" aria-label="Hanten home">
-    <img src="Media/branding/hanten-logo.svg" alt="Hanten — Truth deserves clarity" width="486" height="128">
-  </a>
+   <header class="home-hero">
 
   <h1>Look again.</h1>
 
   <p class="intro">
-    Maps, graphics, and experiences that change how you see familiar things.
+    The things you're sure about, seen from an angle you haven't tried.
   </p>
 
 </header>
       <main class="homepage-v2">
 
-  <section class="home-section home-spotlight">
-
+  <section class="home-section home-flip">
+    <p class="home-kicker">Weekly Flip</p>
   <div class="spotlight-card daily-flip-card weekly-flip" id="weekly-flip">
-    <p class="spotlight-label">Weekly Flip</p>
     <p class="spotlight-idea" data-flip="theme">Perspective</p>
     <h2 data-flip="question">Is Reno, Nevada east or west of Los Angeles?</h2>
 
@@ -65,29 +61,7 @@
       <p class="flip-note">A new question every Monday.</p>
     </div>
   </div>
-
-
-  <a class="spotlight-card featured-equal-card classroom-card theme-statistics" href="use/classroom/">
-    <p class="spotlight-label">For classrooms</p>
-
-    <p class="spotlight-idea">Hanten Classroom</p>
-
-    <h2>Five minutes. One discovery.</h2>
-
-    <div class="spotlight-preview featured-equal-preview">
-      <img
-        src="Media/thumbnails/H001_thumbnail.png"
-        alt="Mean vs. median at a backyard BBQ, the free sample lesson"
-      >
-    </div>
-
-    <div class="featured-equal-bottom">
-      <strong>Ready-to-use activities built from Hanten exhibits. Mean vs. Median is free.</strong>
-      <span>See the classroom lessons →</span>
-    </div>
-  </a>
-
-</section>
+  </section>
 
 
 <section class="home-section home-ideas">
@@ -273,6 +247,21 @@
     </a>
   </section>
 
+  <section class="home-section home-use">
+    <p class="home-kicker">Use Hanten</p>
+    <a class="use-card" href="use/classroom/">
+      <div class="use-card-preview">
+        <img src="Media/thumbnails/H001_thumbnail.png" alt="Mean vs. median at a backyard BBQ, the free sample lesson">
+      </div>
+      <div class="use-card-copy">
+        <p class="use-card-kind">Classroom</p>
+        <h2>Five minutes. One discovery.</h2>
+        <p>Ready-to-use activities built from Hanten exhibits: students predict, see what happens, then use the idea somewhere new. Mean vs. Median is free.</p>
+        <span class="use-card-go">See the classroom lessons →</span>
+      </div>
+    </a>
+  </section>
+
 <section class="why-hanten">
   <div class="why-hanten-grid">
 
@@ -303,12 +292,9 @@
 
 </main>
 
-    <footer>
-      <a class="footer-classroom" href="use/classroom/">Classroom lessons</a>
-      <a class="footer-contact" href="contact/" target="_blank" rel="noopener">Contact</a>
-    </footer>
   </div>
 <script src="JS/weekly-flip.js"></script>
+<script src="/assets/js/site-chrome.js"></script>
 
 </body>
 </html>
