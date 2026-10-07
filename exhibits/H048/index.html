@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Did Canada Pass Tokyo?</title>
+<title>H048 — Did Canada Pass Tokyo?</title>
 <meta name="description" content="'Greater Tokyo has more people than Canada' used to be true. Canada's record immigration-driven growth means it no longer is — and hasn't been for years.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (straw) */ body { --hanten-paper: #F1EFD8 !important; }</style>
 
 <style>
     :root {
@@ -122,6 +123,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H048</p>
         <h1 class="hanten-question">
             Does one Japanese metro area still outpopulate all of Canada?
         </h1>
@@ -156,8 +158,8 @@
                     </p>
                 </div>
 
-                <div class="h048-discovery hanten-body">
-                    <p><strong>The fact was true for years, then quietly stopped being true.</strong> Canada set successive
+                <div class="h048-discovery hanten-body hanten-aha">
+                    <p><span class="hanten-aha-lead">The fact was true for years, then quietly stopped being true.</span> Canada set successive
                         record-high immigration targets from 2016 through 2023, pushing growth rates not
                         seen since the 1950s. Japan, meanwhile, has had a shrinking population since the
                         early 2010s — Tokyo's metro-area count has stayed roughly flat for a decade, and
@@ -173,9 +175,13 @@
                         sitting there in the middle of two ordinary trend lines.</p>
                 </div>
 
-                <p class="hanten-reflection">
-                What “fact” do you repeat that might have expired since you learned it?
-            </p>
+                <section class="hanten-transfer" aria-label="Try it somewhere else">
+                    <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                    <div class="hanten-transfer-text">
+                        <p class="hanten-transfer-scenario">Pluto was taught as the ninth planet for 76 years.</p>
+                        <p class="hanten-transfer-question">What “fact” do you repeat that might have quietly expired since you learned it?</p>
+                    </div>
+                </section>
 
                 <details class="h048-explore" data-html2canvas-ignore="true">
                     <summary>Why "Greater Tokyo" doesn't have one agreed-on number</summary>
@@ -187,9 +193,8 @@
                 <details class="h048-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H049/index.html" target="_blank" rel="noopener noreferrer">Can a single Indian state outpopulate most countries on Earth?</a></li>
-                    <li><a href="../H080/index.html" target="_blank" rel="noopener noreferrer">How big is a state without its biggest city?</a></li>
-                    <li><a href="../H060/index.html" target="_blank" rel="noopener noreferrer">The NFL fixed the coin-toss advantage in overtime. Did it stay fixed?</a></li>
+                    <li><a href="../H049/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H049</span>Can a single Indian state outpopulate most countries on Earth?</a></li>
+                    <li><a href="../H080/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H080</span>How big is a state without its biggest city?</a></li>
                 </ul>
             </details>
 
@@ -208,8 +213,9 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H047/index.html">&larr; H047</a><a class="hanten-pager-next" href="../H049/index.html">H049 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script>
         (() => {
@@ -270,6 +276,7 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {
@@ -323,7 +330,7 @@
 
         const reflection = document.createElement("div");
         reflection.className = "hanten-export-reflection";
-        reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+        reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
         card.appendChild(reflection);
 
         if (source) {

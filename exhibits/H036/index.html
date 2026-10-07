@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Mt. Everest Names</title>
-<meta name="description" content="The world's tallest mountain has three names: Chomolungma, Sagarmatha, and Everest — and the Western name is the newest.">
+<title>H036 — Mt. Everest Names</title>
+<meta name="description" content="The world's tallest mountain has three names: Chomolungma, Sagarmatha, and Everest — and the most familiar name is not the oldest.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (sky) */ body { --hanten-paper: #E2EEF5 !important; }</style>
 
 <style>
   :root {
@@ -258,10 +259,11 @@
 <body class="hanten-theme-perspective">
 <main class="hanten-exhibit">
 
+  <p class="hanten-hnum">H036</p>
   <h1 class="hanten-question">What is the world’s tallest mountain called?</h1>
 
   <p class="hanten-subtitle">
-    One mountain has three widely recognized names — and the most familiar English name is the newest.
+    One mountain has three widely recognized names, and the most familiar English name is not the oldest.
   </p>
 
   <div class="hanten-graphic">
@@ -301,14 +303,18 @@
         </div>
       </div>
 
-      <div class="h036-reveal">
-        <p><strong>The mountain had names long before it was called Everest.</strong> Chomolungma and Sagarmatha reflect regional naming traditions that predate Western surveying by centuries; "Everest" entered Western cartography only in 1865, when the Royal Geographical Society adopted Surveyor General Andrew Waugh's proposal to name the peak after his predecessor, Sir George Everest — who never saw the mountain himself. Everest reportedly objected, arguing that local names should be used wherever they existed, and noted that his own name couldn't be written or pronounced correctly in Hindi or other local languages. The Society adopted it anyway, since no single local name had yet been standardized in Western records at the time.</p>
+      <div class="h036-reveal hanten-aha">
+        <p><span class="hanten-aha-lead">The mountain had names long before it was called Everest.</span> The Tibetan name, Chomolungma, predates Western surveying by centuries; "Everest" entered Western cartography only in 1865, when the Royal Geographical Society adopted Surveyor General Andrew Waugh's proposal to name the peak after his predecessor, Sir George Everest — who never saw the mountain himself. Everest reportedly objected, arguing that local names should be used wherever they existed, and noted that his own name couldn't be written or pronounced correctly in Hindi or other local languages. The Society adopted it anyway, since no single local name had yet been standardized in Western records at the time. Nepal's name, Sagarmatha, became official later, in the 1960s.</p>
                 <p>The name most familiar to you isn't necessarily the oldest or the most local. When a place has more than one name, ask which came first and who chose the one you know.</p>
             </div>
 
-      <p class="hanten-reflection">
-                What name do you know that replaced an older one you’ve never heard?
-            </p>
+      <section class="hanten-transfer" aria-label="Try it somewhere else">
+          <p class="hanten-transfer-kicker">Try it somewhere else</p>
+          <div class="hanten-transfer-text">
+              <p class="hanten-transfer-scenario">The giant sandstone rock in central Australia is officially named “Uluru / Ayers Rock.”</p>
+              <p class="hanten-transfer-question">Which name came first, and what other places do you know only by their newer name?</p>
+          </div>
+      </section>
 
       <details class="h036-explore" data-html2canvas-ignore="true">
         <summary>Explore how “Everest” became the Western name</summary>
@@ -321,9 +327,9 @@
       <details class="h036-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H061/index.html" target="_blank" rel="noopener noreferrer">How tall is the tallest mountain?</a></li>
-                    <li><a href="../H098/index.html" target="_blank" rel="noopener noreferrer">Somaliland has run its own government since 1991. Is it a country?</a></li>
-                    <li><a href="../H033/index.html" target="_blank" rel="noopener noreferrer">Gulf of Mexico or Gulf of America?</a></li>
+                    <li><a href="../H033/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H033</span>Gulf of Mexico or Gulf of America?</a></li>
+                    <li><a href="../H098/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H098</span>Somaliland has run its own government since 1991. Is it a country?</a></li>
+                    <li><a href="../H061/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H061</span>How tall is the tallest&amp;nbsp;mountain?</a></li>
                 </ul>
             </details>
 
@@ -335,7 +341,8 @@
 
     </div>
   </div>
-
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H035/index.html">&larr; H035</a><a class="hanten-pager-next" href="../H037/index.html">H037 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script src="../../assets/js/d3.v7.min.js"></script>
@@ -484,6 +491,7 @@
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 <script>
 (() => {
@@ -521,7 +529,7 @@
     const s = sub.getContext("2d"); s.scale(2, 2);
     s.font = '400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
     s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
-    s.fillText("One mountain has three widely recognized names — and the most familiar English name is the newest.", 450, 21);
+    s.fillText("One mountain has three widely recognized names, and the most familiar English name is not the oldest.", 450, 21);
     card.appendChild(sub);
 
     const shell = document.createElement("div");
@@ -538,7 +546,7 @@
 
     const reflection = document.createElement("div");
     reflection.className = "hanten-export-reflection";
-    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     if (source) {

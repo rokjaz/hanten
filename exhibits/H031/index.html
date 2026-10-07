@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H031 — Does “USA” on the Label Mean an American Company Made It Here?</title>
+
+    <meta
+        name="description"
+        content="“Made in USA” and “Assembled in USA” follow different rules, and neither says who owns the company. Eight of the 10 most American-made vehicles of 2026 come from companies based overseas."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (rose) */ body { --hanten-paper: #F3E4EA !important; }</style>
+
+    <style>
+        /*
+           H031-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework.
+        */
+
+        :root {
+            --h031-us: #0e7c86;
+            --h031-for: #b8692a;
+        }
+
+        .h031-panel {
+            padding: 1.1rem 1.1rem 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .h031-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h031-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .h031-stat { padding: 0.95rem 1rem; text-align: center; }
+        .h031-stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h031-stat-n {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1.15;
+            margin-top: 0.3rem;
+        }
+        .h031-stat-unit { font-weight: 700; font-size: 0.9rem; margin-top: 0.1rem; }
+        .h031-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.35rem; line-height: 1.4; }
+
+        .h031-label {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            fill: var(--hanten-text);
+        }
+        .h031-sub {
+            font-family: var(--hanten-font);
+            fill: var(--hanten-muted);
+        }
+        .h031-val {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: #ffffff;
+        }
+        .h031-val-out {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: var(--hanten-text);
+        }
+        .h031-gap-text {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: var(--h031-lake);
+        }
+
+        .h031-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.4rem;
+            margin-top: 0.4rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+        .h031-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h031-swatch { display: inline-block; width: 14px; height: 10px; border-radius: 2px; }
+
+        .h031-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; }
+        .h031-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h031-table th, .h031-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h031-table th {
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h031-table td { text-align: left; }
+        .h031-table td:nth-child(2), .h031-table td:nth-child(3) { text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
+        .h031-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 720px) {
+            .h031-stats { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .h031-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h031-table-panel { padding: 0.3rem 0.6rem; }
+        }
+
+
+
+        .h031-labels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h031-label { padding: 1rem 1.05rem; text-align: center; }
+        .h031-tag { font-weight: 800; font-size: 1.15rem; }
+        .h031-rule { font-size: 0.85rem; font-weight: 700; color: var(--hanten-muted); margin-top: 0.2rem; }
+        .h031-bar { height: 12px; border-radius: 6px; background: #e3e6e1; margin: 0.7rem 0 0.5rem; overflow: hidden; }
+        .h031-bar span { display: block; height: 100%; background: var(--h031-us); }
+        .h031-bar-mixed span { background: linear-gradient(90deg, var(--h031-us), var(--h031-us) 60%, var(--h031-for)); }
+        .h031-note { font-size: 0.76rem; color: var(--hanten-muted); line-height: 1.4; }
+        .h031-chart-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin-bottom: 0.6rem; }
+        .h031-cars { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+        .h031-car { border-radius: 6px; padding: 0.55rem 0.5rem; text-align: center; color: #ffffff; }
+        .h031-car.us { background: var(--h031-us); }
+        .h031-car.for { background: var(--h031-for); }
+        .h031-rank { font-size: 0.7rem; font-weight: 700; opacity: 0.85; }
+        .h031-model { font-weight: 800; font-size: 0.86rem; line-height: 1.25; margin-top: 0.1rem; }
+        .h031-owner { font-size: 0.72rem; margin-top: 0.2rem; opacity: 0.92; }
+        @media (max-width: 720px) { .h031-labels { grid-template-columns: 1fr; } .h031-cars { grid-template-columns: repeat(2, 1fr); } }
+        .h031-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h031-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h031-discovery p:last-child { margin-bottom: 0; }
+        .h031-discovery strong { color: var(--hanten-text); }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h031-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h031-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h031-explore p { margin: .55rem 0 0; }
+.h031-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
+</head>
+
+<body class="hanten-theme-unresolved">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H031</p>
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Does “…USA” on the label mean an American company made it here?
+        </h1>
+
+        <p class="hanten-subtitle">
+            “Made in USA” and “Assembled in USA” sound almost the same, but they follow different rules. And neither one
+            says anything about who owns the company. Most of the cars ranked most American-made are sold by companies
+            based overseas.
+        </p>
+
+        <div id="h031-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="h031-labels">
+                    <div class="hanten-panel h031-label">
+                        <div class="h031-tag">Made in USA</div>
+                        <div class="h031-rule">All or virtually all of it made here</div>
+                        <div class="h031-bar"><span style="width:98%"></span></div>
+                        <div class="h031-note">Final assembly, all significant processing, and nearly all parts from the U.S.</div>
+                    </div>
+                    <div class="hanten-panel h031-label">
+                        <div class="h031-tag">Assembled in USA</div>
+                        <div class="h031-rule">The main assembly happened here</div>
+                        <div class="h031-bar h031-bar-mixed"><span style="width:55%"></span></div>
+                        <div class="h031-note">Parts can come from anywhere, as long as the assembly is substantial, not just screwing parts together</div>
+                    </div>
+                    <div class="hanten-panel h031-label">
+                        <div class="h031-tag">Neither label tells you</div>
+                        <div class="h031-rule">Who owns the company</div>
+                        <div class="h031-bar h031-bar-none"><span style="width:0%"></span></div>
+                        <div class="h031-note">Labels describe where a product was made, not where the company is based</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h031-panel">
+                    <div class="h031-chart-title">The 10 most American-made vehicles of 2026, by where the parent company is based</div>
+                    <div class="h031-cars" id="h031-cars"></div>
+                    <div class="h031-legend">
+                        <span><span class="h031-swatch" style="background:var(--h031-us)"></span>U.S.-based company</span>
+                        <span><span class="h031-swatch" style="background:var(--h031-for)"></span>Company based outside the U.S.</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h031-discovery hanten-body hanten-aha">
+                <p><span class="hanten-aha-lead">Where it's made and who makes it are different questions.</span> Cars.com ranks vehicles each year by where they're assembled and where their parts, engines, and transmissions come from. In 2026, two Teslas topped the list, but the other eight of the top 10 came from Honda, Toyota, and Stellantis, the Netherlands-based company that owns Jeep. Foreign automakers made up about 65% of the 86 vehicles that qualified. Meanwhile, some cars from American brands, like the Ford Maverick pickup, are built in Mexico.</p>
+                <p>Product labels are similar. “Made in USA” has a strict legal meaning; “Assembled in USA” has a looser one; and a company's nationality is a third question that neither label answers. Before deciding what a label tells you, ask which question it's actually answering.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A phone made by a California company says “Designed in California. Assembled in China.”</p>
+                    <p class="hanten-transfer-question">Could it say “Made in USA”? What does each kind of label actually promise?</p>
+                </div>
+            </section>
+
+            <details class="h031-explore" data-html2canvas-ignore="true">
+                <summary>What the rules actually say</summary>
+                <p><strong>“Made in USA”</strong> must mean that “all or virtually all” of the product is made in the United
+                    States: final assembly and all significant processing happen here, and all or virtually all of its parts
+                    and ingredients are made here too, with no more than negligible foreign content. The Federal Trade
+                    Commission enforces it.</p>
+                <p><strong>“Assembled in USA”</strong> only requires that the product's principal assembly, a substantial
+                    one, took place in the U.S. The FTC's own example is a lawn mower with 15 to 20% foreign parts. Simply
+                    bolting imported parts together at the end doesn't qualify. Companies can also make qualified claims,
+                    such as “Made in USA of U.S. and imported parts” or “60% U.S. content.”</p>
+            </details>
+
+            <details class="h031-explore" data-html2canvas-ignore="true">
+                <summary>How Cars.com decides what's “American-made”</summary>
+                <p>The American-Made Index scores each vehicle on five things: where it's assembled, how much of its parts
+                    content is from the U.S. and Canada under the American Automobile Labeling Act, how many U.S. factory
+                    workers the automaker employs relative to its production, and where the engine and transmission come
+                    from. The brand's home country isn't one of them. The 2026 list included 86 vehicles, down from 99 in
+                    2025.</p>
+            </details>
+
+            <details class="h031-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H030/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H030</span>Why does Hawaii have interstate highways?</a></li>
+                    <li><a href="../H100/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H100</span>Ground beef labeled "80% lean." Is it a low-fat food?</a></li>
+                    <li><a href="../H086/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H086</span>The unemployment rate is 4.1%. Does that mean almost everyone who wants a job has one?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Federal Trade Commission, “Complying with the Made in USA Standard” (“all or virtually all”
+                standard; requirements for “Assembled in USA”; lawn mower example; qualified claims). Cars.com, “Cars.com
+                Announces Its 2026 Most American-Made Vehicles” (June 23, 2026): top 10 ranking, five criteria, 86 qualifying
+                vehicles, about 65% from foreign automakers. Ford Maverick assembly at Hermosillo Stamping and Assembly,
+                Mexico (Ford Motor Company). The bars on the labels are illustrations of each rule, not measurements of a
+                specific product.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H030/index.html">&larr; H030</a><a class="hanten-pager-next" href="../H032/index.html">H032 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script>
+        (() => {
+            // Cars.com 2026 American-Made Index, top 10, with parent company and its home country.
+            const cars = [
+                ["Tesla Model 3", "Tesla", "U.S.", true], ["Tesla Model Y", "Tesla", "U.S.", true],
+                ["Jeep Gladiator", "Stellantis", "Netherlands", false], ["Jeep Grand Cherokee", "Stellantis", "Netherlands", false],
+                ["Honda Ridgeline", "Honda", "Japan", false], ["Honda Odyssey", "Honda", "Japan", false],
+                ["Lexus TX", "Toyota", "Japan", false], ["Honda Accord", "Honda", "Japan", false],
+                ["Acura MDX", "Honda", "Japan", false], ["Honda Passport", "Honda", "Japan", false]
+            ];
+            document.getElementById("h031-cars").innerHTML = cars.map((c, i) =>
+                `<div class="h031-car ${c[3] ? "us" : "for"}"><div class="h031-rank">#${i + 1}</div><div class="h031-model">${c[0]}</div><div class="h031-owner">${c[1]} · ${c[2]}</div></div>`
+            ).join("");
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-made-in-usa.png", title = "Does “USA” on the label mean an American company made it here?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

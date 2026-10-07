@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>What's the Biggest Country?</title>
+    <title>H064 — What's the Biggest Country?</title>
 
     <meta
         name="description"
@@ -12,6 +12,7 @@
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (parchment) */ body { --hanten-paper: #F4ECDF !important; }</style>
 
     <style>
         /*
@@ -137,6 +138,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H064</p>
         <h1 class="hanten-question">
             What's the biggest country?
         </h1>
@@ -157,23 +159,27 @@
                 </div>
                 <svg viewBox="0 0 640 420" id="h064-chart" role="img" aria-labelledby="h064-chart-title h064-chart-desc">
                     <title id="h064-chart-title">Total area, land area, and arable land for the six largest countries by total area</title>
-                    <desc id="h064-chart-desc">Russia, Canada, the United States, China, Brazil, and Australia ranked by total area, with every bar drawn to the same scale so bar length matches real area; a tick marks each country's land area and a teal bar its arable land. Canada ranks 2nd by total area but falls to 5th by arable land; the United States rises to 1st by arable land despite ranking 3rd by total area.</desc>
+                    <desc id="h064-chart-desc">Russia, Canada, the United States, China, Brazil, and Australia ranked by total area, with every bar drawn to the same scale so bar length matches real area; a tick marks each country's land area and a teal bar its arable land. Canada ranks 2nd by total area but falls to 6th in the world by arable land; the United States rises to 1st by arable land despite ranking 3rd by total area.</desc>
                 </svg>
             </div>
 
-            <div class="h064-discovery hanten-body">
-                <p><strong>Canada is the world's 2nd-biggest country by total area, and only its 5th-biggest by farmable land.</strong> About 9% of its area is fresh water, which drops it to 4th by land alone, and only about 4.3% of its land is arable. The United States, with over 16% of its land arable, has the most farmland of all.</p>
+            <div class="h064-discovery hanten-body hanten-aha">
+                <p><span class="hanten-aha-lead">Canada is the world's 2nd-biggest country by total area, and only the 6th-biggest by farmable land.</span> About 9% of its area is fresh water, which drops it to 4th by land alone, and only about 4.3% of its land is arable. The United States, with over 16% of its land arable, has the most farmland of any country, roughly tied with India.</p>
                 <p>Every ranking of "biggest" answers a narrower question than it seems to. Before accepting one, ask what's being counted: total area, dry land, or land people can actually use.</p>
             </div>
 
-            <p class="hanten-reflection">
-                When a country’s rank depends on what you count, which “biggest” do people mean?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">Two apartments are both listed as “1,000 square feet.”</p>
+                    <p class="hanten-transfer-question">What would you ask before deciding which one is really bigger?</p>
+                </div>
+            </section>
 
             <details class="h064-explore" data-html2canvas-ignore="true">
                 <summary>Three rankings, three different runners-up</summary>
-                <p><strong>Canada is the world's 2nd-biggest country by total area — and only its
-                    5th-biggest by farmable land.</strong> Every bar above is drawn to the same scale, so its
+                <p><strong>Canada is the world's 2nd-biggest country by total area — and only the
+                    6th-biggest by farmable land.</strong> Every bar above is drawn to the same scale, so its
                     length is the country's real total area. The tick mark shows how much is dry land once
                     inland water is subtracted. The teal bar shows how much is actually arable — land that
                     could grow crops, the roughest available proxy for "usable." Notice how small the teal
@@ -185,7 +191,8 @@
                     Canada's land is arable, one of the lowest shares of any large country. The United
                     States, by contrast, has plenty of temperate, non-mountainous land suited to
                     agriculture: over 16% of its land is arable, more than triple Canada's share — enough
-                    to make the 3rd-largest country by total area the single largest by usable farmland.</p>
+                    to make the 3rd-largest country by total area the largest by usable farmland, roughly tied with India, which is not among the six
+                    largest countries by area but has about half of its land in crops.</p>
             </details>
 
             <details class="h064-explore" data-html2canvas-ignore="true">
@@ -196,9 +203,10 @@
             <details class="h064-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H065/index.html" target="_blank" rel="noopener noreferrer">What's the richest country?</a></li>
-                    <li><a href="../H061/index.html" target="_blank" rel="noopener noreferrer">How tall is the tallest mountain?</a></li>
-                    <li><a href="../H074/index.html" target="_blank" rel="noopener noreferrer">What is the largest desert on Earth?</a></li>
+                    <li><a href="../H065/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H065</span>What's the richest country?</a></li>
+                    <li><a href="../H061/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H061</span>How tall is the tallest&amp;nbsp;mountain?</a></li>
+                    <li><a href="../H012/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H012</span>Does the tallest dam hold the most water?</a></li>
+                    <li><a href="../H070/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H070</span>Which country pollutes the most?</a></li>
                 </ul>
             </details>
 
@@ -208,7 +216,9 @@
                 China specifically vary by a small margin across sources depending on how coastal waters and
                 territories are counted — the CIA World Factbook convention used here (U.S. 3rd, China 4th by
                 total area) is the most commonly cited, but at least one UN-statistics-derived source reverses
-                that order.
+                that order. Arable-land ranks are world ranks, which include India (not one of the six countries
+                shown). The two are close enough to swap places by year and source: FAO's 2019 figures put the U.S. at
+                about 157.7 million hectares and India at about 156.1 million.
             </p>
 
         </div>
@@ -216,18 +226,19 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H063/index.html">&larr; H063</a><a class="hanten-pager-next" href="../H065/index.html">H065 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script>
         (() => {
             const data = [
-                { name: "Russia", total: 17098242, land: 16376870, arable: 1211900, ranks: "Total #1 · Land #1 · Arable #2" },
-                { name: "Canada", total: 9984670, land: 9093510, arable: 391000, ranks: "Total #2 · Land #4 · Arable #5" },
+                { name: "Russia", total: 17098242, land: 16376870, arable: 1211900, ranks: "Total #1 · Land #1 · Arable #3" },
+                { name: "Canada", total: 9984670, land: 9093510, arable: 391000, ranks: "Total #2 · Land #4 · Arable #6" },
                 { name: "United States", total: 9833517, land: 9147593, arable: 1518500, ranks: "Total #3 · Land #3 · Arable #1" },
-                { name: "China", total: 9596961, land: 9326410, arable: 1072500, ranks: "Total #4 · Land #2 · Arable #3" },
-                { name: "Brazil", total: 8515767, land: 8358140, arable: 560000, ranks: "Total #5 · Land #5 · Arable #4" },
-                { name: "Australia", total: 7692024, land: 7682300, arable: 307300, ranks: "Total #6 · Land #6 · Arable #6" }
+                { name: "China", total: 9596961, land: 9326410, arable: 1072500, ranks: "Total #4 · Land #2 · Arable #4" },
+                { name: "Brazil", total: 8515767, land: 8358140, arable: 560000, ranks: "Total #5 · Land #5 · Arable #5" },
+                { name: "Australia", total: 7692024, land: 7682300, arable: 307300, ranks: "Total #6 · Land #6 · Arable #10" }
             ];
 
             const svg = document.getElementById("h064-chart");
@@ -303,6 +314,7 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {

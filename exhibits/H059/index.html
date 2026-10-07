@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>How Much More Does a Wyoming Vote Count Than a Texas Vote?</title>
+    <title>H059 — How Much More Does a Wyoming Vote Count Than a Texas Vote?</title>
 
     <meta
         name="description"
@@ -12,6 +12,7 @@
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (mint) */ body { --hanten-paper: #DFF0EB !important; }</style>
 
     <style>
         /*
@@ -215,6 +216,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H059</p>
         <h1 class="hanten-question h059-question-balance">
             How much more does a Wyoming vote count than a Texas&nbsp;vote?
         </h1>
@@ -255,14 +257,18 @@
                 </div>
             </div>
 
-            <div class="h059-discovery hanten-body">
-                <p><strong>The floor of 3 electoral votes does the work.</strong> <span id="h059-takeaway">The gap between the most and least "weighted" vote is roughly 4-to-1, and it comes from the rules themselves, not an accident of any particular election.</span></p>
+            <div class="h059-discovery hanten-body hanten-aha">
+                <p><span class="hanten-aha-lead">The floor of 3 electoral votes does the work.</span> <span id="h059-takeaway">The gap between the most and least "weighted" vote is roughly 4-to-1, and it comes from the rules themselves, not an accident of any particular election.</span></p>
                 <p>Any system that guarantees every member a minimum share hands the most weight per person to its smallest members. The US Senate (two seats per state, whatever the size) and the UN General Assembly (one vote per country) work the same way.</p>
             </div>
 
-            <p class="hanten-reflection">
-                Who gains when every member is guaranteed a minimum share?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">In the United Nations General Assembly, Tuvalu (about 10,000 people) and India (about 1.46 billion) each get one vote.</p>
+                    <p class="hanten-transfer-question">Who gains when every member is guaranteed the same minimum share?</p>
+                </div>
+            </section>
 
             <details class="h059-explore" data-html2canvas-ignore="true">
                 <summary>Why small states get extra weight</summary>
@@ -286,9 +292,9 @@
             <details class="h059-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H022/index.html" target="_blank" rel="noopener noreferrer">Can you get more hits, or more votes, and still lose?</a></li>
-                    <li><a href="../H003/index.html" target="_blank" rel="noopener noreferrer">Can you win most of the seats without winning most of the votes?</a></li>
-                    <li><a href="../H095/index.html" target="_blank" rel="noopener noreferrer">California has more car thefts than anywhere else in the U.S. Is it the riskiest place to park?</a></li>
+                    <li><a href="../H017/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H017</span>What would America look like if every state had the same population?</a></li>
+                    <li><a href="../H003/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H003</span>Can you win most of the seats without winning most of the votes?</a></li>
+                    <li><a href="../H021/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H021</span>The Yankees outscored the Pirates 55–27. How did the Pirates win the World Series?</a></li>
                 </ul>
             </details>
 
@@ -307,8 +313,9 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H058/index.html">&larr; H058</a><a class="hanten-pager-next" href="../H060/index.html">H060 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script src="../../assets/js/d3.v7.min.js"></script>
     <script src="../../assets/js/topojson-client.min.js"></script>
@@ -430,6 +437,7 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {

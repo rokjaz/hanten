@@ -5,7 +5,7 @@ set -euo pipefail
 # ============================================================
 # HANTEN EXHIBIT PUBLISHER
 # Publishes an approved H###_v2.html from the Hanten master
-# project into the website-v2 production structure.
+# project into the website structure (published from main).
 # ============================================================
 
 if [[ $# -ne 1 ]]; then
@@ -196,8 +196,7 @@ else:
 PY
 
 # ------------------------------------------------------------
-# H numbers are internal only: drop "H### — " from the page
-# title and the H### prefix from Save Image file names.
+# Save Image file names use a readable slug.
 # ------------------------------------------------------------
 
 python3 - "$DEST_HTML" <<'PYHNUM'
@@ -207,13 +206,15 @@ import sys
 
 p = Path(sys.argv[1])
 s = p.read_text(encoding="utf-8")
-s = re.sub(r'<title>\s*H\d{3}\s*[—–-]\s*', '<title>', s)
+# H numbers stay in the page title (Decision Log D017); only the Save
+# Image file name uses a readable slug without the number.
 m = re.search(r'<title>([^<]*)</title>', s)
-slug = re.sub(r'[^a-z0-9]+', '-', (m.group(1) if m else 'exhibit').lower()).strip('-')[:60].rstrip('-')
+t = re.sub(r'^\s*H\d{3}\s*[—–-]\s*', '', m.group(1) if m else 'exhibit')
+slug = re.sub(r'[^a-z0-9]+', '-', t.lower()).strip('-')[:60].rstrip('-')
 s = re.sub(r'"H\d{3}(?:_v\d+)?\.png"', '"hanten-' + slug + '.png"', s)
 s = re.sub(r'"H\d{3}[-_]([^"]+\.png)"', r'"hanten-\1"', s)
 p.write_text(s, encoding="utf-8")
-print("HIDE H number in title and image file name")
+print("NAME Save Image file without the H number")
 PYHNUM
 
 echo

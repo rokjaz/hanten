@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>How Quickly Does Chess Get Big?</title>
+    <title>H028 — How Quickly Does Chess Get Big?</title>
 
     <meta
         name="description"
@@ -12,6 +12,7 @@
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (slate) */ body { --hanten-paper: #E4E8F0 !important; }</style>
 
     <style>
         /*
@@ -173,6 +174,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H028</p>
         <h1 class="hanten-question" style="text-wrap:balance;">
             How quickly does chess get big?
         </h1>
@@ -212,14 +214,18 @@
 
             </div>
 
-            <div class="h028-discovery hanten-body">
-                <p><strong>Every move multiplies the possibilities.</strong> There are 400 possible sequences after two moves and about 69 trillion after ten. On a normal chart, almost everything before the last step is invisible: the 2.4 trillion sequences after nine moves are only about 3.5% of the final height.</p>
+            <div class="h028-discovery hanten-body hanten-aha">
+                <p><span class="hanten-aha-lead">Every move multiplies the possibilities.</span> There are 400 possible sequences after two moves and about 69 trillion after ten. On a normal chart, almost everything before the last step is invisible: the 2.4 trillion sequences after nine moves are only about 3.5% of the final height.</p>
                 <p><strong>Neither chart is wrong.</strong> The normal scale shows how much bigger the last number is; the log scale shows how steadily it grew. When numbers multiply instead of add, the chart you pick decides which story people see.</p>
             </div>
 
-            <p class="hanten-reflection">
-                What looked “sudden” to you that was really growing all along?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A sheet of paper is about 0.004 inches (0.1 mm) thick. Each fold doubles the stack.</p>
+                    <p class="hanten-transfer-question">After 42 folds, would the stack reach the Moon?</p>
+                </div>
+            </section>
 
             <details class="h028-explore" data-html2canvas-ignore="true">
                 <summary>How the numbers grow, move by move</summary>
@@ -241,9 +247,9 @@
             <details class="h028-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H078/index.html" target="_blank" rel="noopener noreferrer">How far apart are a million and a billion?</a></li>
-                    <li><a href="../H018/index.html" target="_blank" rel="noopener noreferrer">How can the same two numbers tell two completely different stories?</a></li>
-                    <li><a href="../H005/index.html" target="_blank" rel="noopener noreferrer">How many people does it take before a shared birthday is more likely than not?</a></li>
+                    <li><a href="../H078/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H078</span>How far apart are a million and a billion?</a></li>
+                    <li><a href="../H020/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H020</span>How long would it take to drive to the International Space Station?</a></li>
+                    <li><a href="../H047/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H047</span>Is it true that more people are alive today than have ever died?</a></li>
                 </ul>
             </details>
 
@@ -259,8 +265,9 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H027/index.html">&larr; H027</a><a class="hanten-pager-next" href="../H029/index.html">H029 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script>
         (() => {
@@ -358,6 +365,7 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>How Fast Is the Fly?</title>
+    <title>H077 — How Fast Is the Fly?</title>
 
     <meta
         name="description"
@@ -12,6 +12,7 @@
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (lavender) */ body { --hanten-paper: #EDE7F4 !important; }</style>
 
     <style>
         /*
@@ -156,6 +157,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H077</p>
         <h1 class="hanten-question" style="text-wrap:balance;">
             How fast is the fly?
         </h1>
@@ -270,8 +272,8 @@
 
             </div>
 
-            <div class="h077-aha">
-                <p><strong>A speed is only a speed compared to something.</strong> The fly is going 0 mph compared to
+            <div class="h077-aha hanten-aha">
+                <p><span class="hanten-aha-lead">A speed is only a speed compared to something.</span> The fly is going 0 mph compared to
                     your seat and 550 mph compared to the ground, and both are true at the same time. Neither one is
                     the "real" speed; they answer different questions. Physicists call the thing you measure from a
                     <em>reference frame</em>.</p>
@@ -279,9 +281,13 @@
                     Before you trust one, ask: compared to what?</p>
             </div>
 
-            <p class="hanten-reflection">
-                What number have you heard lately that didn't say what it was compared to?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">You walk toward the front of a train at 3 mph while the train moves at 60 mph.</p>
+                    <p class="hanten-transfer-question">How fast are you going, and what is that speed compared to?</p>
+                </div>
+            </section>
 
             <details class="h077-explore" data-html2canvas-ignore="true">
                 <summary>Why doesn't the fly smash into the back of the plane?</summary>
@@ -303,9 +309,9 @@
             <details class="h077-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H018/index.html" target="_blank" rel="noopener noreferrer">How can the same two numbers tell two completely different stories?</a></li>
-                    <li><a href="../H084/index.html" target="_blank" rel="noopener noreferrer">"Up 40% this month!" Did this stock really have a great month?</a></li>
-                    <li><a href="../H087/index.html" target="_blank" rel="noopener noreferrer">The Gall-Peters map shows every country at its true size. Is it the more accurate map?</a></li>
+                    <li><a href="../H018/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H018</span>How can the same two numbers tell two completely different stories?</a></li>
+                    <li><a href="../H004/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H004</span>Is Earth’s spin carrying you at 1,000 mph?</a></li>
+                    <li><a href="../H096/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H096</span>A vaccine is "95% effective." Does that mean 5 out of every 100 vaccinated people still get sick?</a></li>
                 </ul>
             </details>
 
@@ -322,10 +328,12 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H076/index.html">&larr; H076</a><a class="hanten-pager-next" href="../H078/index.html">H078 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {

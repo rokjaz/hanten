@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Kashmir Dispute</title>
+<title>H038 — Kashmir Dispute</title>
 <meta name="description" content="Kashmir can appear differently depending on the map: shown as entirely Indian, marked as contested, or divided by a dashed Line of Control.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (sky) */ body { --hanten-paper: #E2EEF5 !important; }</style>
 
 <style>
   :root {
@@ -167,6 +168,7 @@
 <body class="hanten-theme-perspective">
 <main class="hanten-exhibit">
 
+  <p class="hanten-hnum">H038</p>
   <h1 class="hanten-question">Where is the border in Kashmir?</h1>
 
   <p class="hanten-subtitle">
@@ -225,14 +227,18 @@
         </div>
       </div>
 
-      <div class="h038-reveal">
-        <p><strong>The mountains do not move. The political meaning of the line does.</strong> Three countries currently administer pieces of the old princely state: India holds and governs the largest share (Jammu, the Kashmir Valley, and Ladakh); Pakistan administers Azad Kashmir and Gilgit-Baltistan in the west and north; China holds Aksai Chin in the east, ceded to it by Pakistan in a 1963 border agreement that India does not recognize. India and Pakistan have fought three wars substantially over the territory since 1947, and the Line of Control dividing Indian- and Pakistani-administered areas was set by the 1972 Simla Agreement — a ceasefire line, not either side's claimed border.</p>
+      <div class="h038-reveal hanten-aha">
+        <p><span class="hanten-aha-lead">The mountains do not move. The political meaning of the line does.</span> Three countries currently administer pieces of the old princely state: India holds and governs the largest share (Jammu, the Kashmir Valley, and Ladakh); Pakistan administers Azad Kashmir and Gilgit-Baltistan in the west and north; China holds Aksai Chin in the east, ceded to it by Pakistan in a 1963 border agreement that India does not recognize. India and Pakistan have fought three wars substantially over the territory since 1947, and the Line of Control dividing Indian- and Pakistani-administered areas was set by the 1972 Simla Agreement — a ceasefire line, not either side's claimed border.</p>
                 <p>A line on a map can mean a settled border, a ceasefire, or a claim, and maps often draw them the same way. Before reading a line as a fact, ask what kind of line it is.</p>
             </div>
 
-      <p class="hanten-reflection">
-        Is the line showing control, a claim, or an agreed border?
-      </p>
+      <section class="hanten-transfer" aria-label="Try it somewhere else">
+          <p class="hanten-transfer-kicker">Try it somewhere else</p>
+          <div class="hanten-transfer-text">
+              <p class="hanten-transfer-scenario">A heavily guarded line has divided the Korean Peninsula since 1953.</p>
+              <p class="hanten-transfer-question">Is that line a border, a ceasefire line, or something else, and how would a map show the difference?</p>
+          </div>
+      </section>
 
       <details class="h038-explore" data-html2canvas-ignore="true">
         <summary>Explore how this split shows up elsewhere, and why the map itself changes at the border</summary>
@@ -254,9 +260,9 @@
             <details class="h038-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H037/index.html" target="_blank" rel="noopener noreferrer">Whose country is Crimea on the map?</a></li>
-                    <li><a href="../H098/index.html" target="_blank" rel="noopener noreferrer">Somaliland has run its own government since 1991. Is it a country?</a></li>
-                    <li><a href="../H033/index.html" target="_blank" rel="noopener noreferrer">Gulf of Mexico or Gulf of America?</a></li>
+                    <li><a href="../H037/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H037</span>Whose country is Crimea on the map?</a></li>
+                    <li><a href="../H098/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H098</span>Somaliland has run its own government since 1991. Is it a country?</a></li>
+                    <li><a href="../H067/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H067</span>Where in the U.S. can you only drive to through Canada?</a></li>
                 </ul>
             </details>
 
@@ -268,7 +274,8 @@
 
     </div>
   </div>
-
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H037/index.html">&larr; H037</a><a class="hanten-pager-next" href="../H039/index.html">H039 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script src="../../assets/js/d3.v7.min.js"></script>
@@ -360,6 +367,7 @@
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 <script>
 (() => {
@@ -414,7 +422,7 @@
 
     const reflection = document.createElement("div");
     reflection.className = "hanten-export-reflection";
-    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     if (source) {

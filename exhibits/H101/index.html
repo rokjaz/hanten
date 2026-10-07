@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H101 — Why Is North at the Top of Maps?</title>
+
+    <meta
+        name="description"
+        content="Space has no up or down, and many famous maps put south or east at the top. North-up maps are a habit, mostly from European mapmakers who revived Ptolemy in the 1400s."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (lavender) */ body { --hanten-paper: #EDE7F4 !important; }</style>
+
+    <style>
+        /*
+           H101-SPECIFIC STYLES
+           Built Oct 2026 to the v1.2 exhibit standard (hx- classes are
+           the shared backfill-exhibit pattern).
+        */
+
+        .hx-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .hx-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .hx-stats-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .hx-stats-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .hx-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .hx-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .hx-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+        .hx-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .hx-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .hx-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+        .hx-svgwrap { max-width: 700px; margin: 0 auto; }
+        .hx-panel svg { display: block; width: 100%; height: auto; margin: 0; }
+        .hx-panel svg text { font-family: var(--hanten-font); }
+        .hx-axis { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-lab { font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .hx-sub { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-val { font-size: 15px; font-weight: 800; }
+        .hx-big { font-size: 18px; font-weight: 800; }
+        .hx-note { max-width: var(--hanten-text-width); margin: 0.2rem auto 0; text-align: center; font-size: 0.78rem; font-style: italic; color: var(--hanten-muted); }
+        .hx-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .hx-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .hx-explore p { margin: .55rem 0 0; }
+        .hx-explore strong { color: var(--hanten-text); }
+        .hx-explore + .hx-explore { margin-top: 0; border-top: none; }
+        .hx-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .hx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .hx-table th, .hx-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .hx-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .hx-table td:not(:first-child) { text-align: center; }
+        .hx-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 600px) {
+            .hx-stats, .hx-stats-2, .hx-stats-4 { grid-template-columns: minmax(0, 1fr); }
+            .hx-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .hx-table { font-size: 0.76rem; }
+        }
+
+        :root { --h101-sea: #dfe6f0; --h101-land: #7d8fa8; }
+        .hx-maps .hx-svgwrap { max-width: 640px; }
+
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:960px;padding:40px 0 60px;box-sizing:border-box;background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    </style>
+</head>
+
+<body class="hanten-theme-perspective">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H101</p>
+        <h1 class="hanten-question">Why is north at the top of the map?</h1>
+
+        <p class="hanten-subtitle">North-up feels like the correct way to hold a map, and a south-up map looks upside down. But Earth floats in space, where there is no up.</p>
+
+        <div id="h101-capture">
+
+            <div class="hanten-graphic">
+<div class="hx-stats hx-stats-3">
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Al-Idrisi's world map, 1154</div>
+    <div class="hx-stat-n" style="color:#c98a12">south up</div>
+    <div class="hx-stat-l">one of the most accurate maps of its time</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Medieval European maps</div>
+    <div class="hx-stat-n" style="color:#1f6f8b">east up</div>
+    <div class="hx-stat-l">toward the sunrise and the Holy Land</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Most maps since the 1500s</div>
+    <div class="hx-stat-n" style="color:#1A3E6E">north up</div>
+    <div class="hx-stat-l">following Ptolemy and European printers</div>
+  </div>
+</div>
+<div class="hx-maps">
+  <div class="hanten-panel hx-panel">
+    <p class="hx-panel-title">North at the top</p>
+    <p class="hx-panel-sub">How most maps have been printed for about 500 years</p>
+    <div class="hx-svgwrap"><svg id="h101-north" viewBox="0 0 640 330" role="img" aria-label="World map with north at the top"></svg></div>
+  </div>
+  <div class="hanten-panel hx-panel">
+    <p class="hx-panel-title">South at the top</p>
+    <p class="hx-panel-sub">The same map, turned around. Nothing is wrong with it.</p>
+    <div class="hx-svgwrap"><svg id="h101-south" viewBox="0 0 640 330" role="img" aria-label="World map with south at the top"></svg></div>
+  </div>
+</div>
+            </div>
+
+            <div class="hx-aha hanten-aha">
+                <p><span class="hanten-aha-lead">Which way is "up" on a map is a choice, and the choice shapes what looks big, central, and on top.</span> The Arab geographer al-Idrisi drew his famous 1154 world map for King Roger II of Sicily with south at the top. Many medieval European maps put east at the top, which is why finding your direction is still called "orienting" yourself, from the Latin for east. North-up became standard after European printers revived the ancient Greek geographer Ptolemy, whose maps put north on top, and the magnetic compass reinforced it.</p>
+                <p>Turning a familiar map around makes it look strange, even though nothing about the places has changed. When something looks "upside down" or "wrong," ask whether it is wrong or just unfamiliar.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">Most people describe Australia as "down under" and Europe as "up" there.</p>
+                    <p class="hanten-transfer-question">Is there anything about Earth itself that makes one of them "up"?</p>
+                </div>
+            </section>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>South-up maps today</summary>
+                <p>In 1979, Australian Stuart McArthur published his "Universal Corrective Map of the World" with south at the top, partly as a protest against the "down under" label. South-up maps are now sold widely, and turning a map around is a common classroom exercise for noticing how much of a map's meaning comes from habit.</p>
+            </details>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H087/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H087</span>The Gall-Peters map shows every country at its true size. Is it the more accurate map?</a></li>
+                    <li><a href="../H098/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H098</span>Somaliland has run its own government since 1991. Is it a country?</a></li>
+                    <li><a href="../H066/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H066</span>Is South America east of Florida?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Al-Idrisi's Tabula Rogeriana (1154) and medieval mappae mundi: Library of Congress; Encyclopaedia Britannica. Ptolemy's Geography and its Renaissance revival: Encyclopaedia Britannica. Stuart McArthur, Universal Corrective Map of the World, 1979. Map: Natural Earth country outlines, Equal Earth projection.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H100/index.html">&larr; H100</a><a class="hanten-pager-next" href="../H102/index.html">H102 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+    <script src="../../assets/js/d3.v7.min.js"></script>
+    <script src="../../assets/geodata/world/countries-10m.js"></script>
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+    <script>
+    (() => {
+      const W = 640, H = 330;
+      function draw(sel, angle) {
+        const svg = d3.select(sel);
+        const proj = d3.geoEqualEarth().angle(angle).fitExtent([[10, 10], [W - 10, H - 10]], { type: "Sphere" });
+        const path = d3.geoPath(proj);
+        svg.append("path").datum({ type: "Sphere" }).attr("d", path).attr("fill", "var(--h101-sea)").attr("stroke", "var(--hanten-border)");
+        svg.append("path").datum(d3.geoGraticule10()).attr("d", path).attr("fill", "none").attr("stroke", "#ffffff").attr("stroke-opacity", 0.5).attr("stroke-width", 0.5);
+        svg.append("g").selectAll("path").data(COUNTRIES_10M_GEOJSON.features).join("path")
+          .attr("d", path).attr("fill", "var(--h101-land)").attr("stroke", "#ffffff").attr("stroke-width", 0.25);
+        svg.append("path").datum({ type: "LineString", coordinates: [[-180, 0], [-90, 0], [0, 0], [90, 0], [180, 0]] })
+          .attr("d", path).attr("fill", "none").attr("stroke", "#b23b32").attr("stroke-width", 1).attr("stroke-dasharray", "4 3");
+      }
+      draw("#h101-north", 0);
+      draw("#h101-south", 180);
+    })();
+    </script>
+
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-why-north-is-up.png", title = "Why Is North at the Top of Maps?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+        const clone = main.cloneNode(true);
+        clone.querySelectorAll(".hanten-utility, .hanten-pager, .hanten-site-footer, details").forEach(el => el.remove());
+        card.appendChild(clone);
+        document.body.appendChild(card);
+        // html2canvas draws an SVG at its attribute size, so pin each one to the size it renders at
+        card.querySelectorAll("svg").forEach(svg => { const r = svg.getBoundingClientRect(); if (r.width) { svg.setAttribute("width", r.width); svg.setAttribute("height", r.height); } });
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

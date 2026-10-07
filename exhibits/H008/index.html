@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H008 — Where Does the Colorado River's Water Go?</title>
+
+    <meta
+        name="description"
+        content="The Colorado River supplies 35 to 40 million people in cities from Los Angeles to Denver. All of those cities together use less of the river than the hay and other crops grown to feed cattle."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (rose) */ body { --hanten-paper: #F3E4EA !important; }</style>
+
+    <style>
+        /*
+           H008-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework.
+        */
+
+        :root {
+            --h008-feed: #b8692a;
+            --h008-city: #0e7c86;
+            --h008-other: #a7b0b3;
+        }
+
+        .h008-panel {
+            padding: 1.1rem 1.1rem 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .h008-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h008-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .h008-stat { padding: 0.95rem 1rem; text-align: center; }
+        .h008-stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h008-stat-n {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1.15;
+            margin-top: 0.3rem;
+        }
+        .h008-stat-unit { font-weight: 700; font-size: 0.9rem; margin-top: 0.1rem; }
+        .h008-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.35rem; line-height: 1.4; }
+
+        .h008-label {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            fill: var(--hanten-text);
+        }
+        .h008-sub {
+            font-family: var(--hanten-font);
+            fill: var(--hanten-muted);
+        }
+        .h008-val {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: #ffffff;
+        }
+        .h008-gap-text {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: var(--h008-feed);
+        }
+
+        .h008-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.4rem;
+            margin-top: 0.4rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+        .h008-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h008-swatch { display: inline-block; width: 14px; height: 10px; border-radius: 2px; }
+
+        .h008-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; }
+        .h008-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h008-table th, .h008-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h008-table th {
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h008-table td { text-align: left; }
+        .h008-table td:nth-child(2), .h008-table td:nth-child(3) { text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
+        .h008-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 720px) {
+            .h008-stats { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .h008-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h008-table-panel { padding: 0.3rem 0.6rem; }
+        }
+
+        .h008-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h008-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h008-discovery p:last-child { margin-bottom: 0; }
+        .h008-discovery strong { color: var(--hanten-text); }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h008-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h008-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h008-explore p { margin: .55rem 0 0; }
+.h008-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
+</head>
+
+<body class="hanten-theme-distribution">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H008</p>
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Where does the Colorado River's water go?
+        </h1>
+
+        <p class="hanten-subtitle">
+            The river supplies 35 to 40 million people in cities from Los Angeles to Phoenix to Denver. All of those
+            cities together use less of its water than the hay and other crops grown to feed cattle.
+        </p>
+
+        <div id="h008-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="h008-stats">
+                    <div class="hanten-panel h008-stat">
+                        <div class="h008-stat-label">One acre-foot</div>
+                        <div class="h008-stat-n" style="color:var(--hanten-text)">326,000</div>
+                        <div class="h008-stat-unit">gallons (1,233 m³)</div>
+                        <div class="h008-stat-l">A football field covered 1 ft (0.3 m) deep, roughly a year of water for one or two homes</div>
+                    </div>
+                    <div class="hanten-panel h008-stat">
+                        <div class="h008-stat-label">Every city, business, and factory</div>
+                        <div class="h008-stat-n" style="color:var(--h008-city)">3.5 million</div>
+                        <div class="h008-stat-unit">acre-feet a year</div>
+                        <div class="h008-stat-l">Homes, lawns, offices, and industry for 35 to 40 million people: 18% of the river's water</div>
+                    </div>
+                    <div class="hanten-panel h008-stat">
+                        <div class="h008-stat-label">Crops grown to feed cattle</div>
+                        <div class="h008-stat-n" style="color:var(--h008-feed)">6.2 million</div>
+                        <div class="h008-stat-unit">acre-feet a year</div>
+                        <div class="h008-stat-l">Mostly alfalfa and other hay: 32% of the river's water, more than 1½ times what all the cities use</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h008-panel">
+                    <svg id="h008-bars" viewBox="0 0 610 330" role="img" aria-labelledby="h008-bars-title h008-bars-desc">
+                        <title id="h008-bars-title">Where the Colorado River's water goes, average 2000–2019, in million acre-feet per year</title>
+                        <desc id="h008-bars-desc">Crops grown to feed cattle: 6.2 million acre-feet, 32%. All other crops: 3.9 million, 20%. Plants along the river and wetlands: 3.7 million, 19%. All cities, businesses, and industry: 3.5 million, 18%. Evaporation from reservoirs: 2.1 million, 11%.</desc>
+                    </svg>
+                    <div class="h008-legend">
+                        <span>Water consumed per year, 2000–2019 average · million acre-feet (share of all water consumed)</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h008-discovery hanten-body hanten-aha">
+                <p><span class="hanten-aha-lead">The users we picture aren't the biggest users.</span> When people think about saving Colorado River water, they picture showers, lawns, and swimming pools in Las Vegas and Phoenix. But every city, business, and factory on the river, serving 35 to 40 million people, adds up to 18% of its water. Crops grown to feed cattle use 32%. Even the water that simply evaporates off the reservoirs, 11%, is more than half of what all those cities use.</p>
+                <p>When a total is being stretched, the most visible part is rarely the biggest part. Before deciding where to cut, whether a budget, a schedule, or a river, it's worth looking at how the whole is actually divided.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A family wants to spend less. Everyone notices the daily coffee runs, but nobody looks at the car payment.</p>
+                    <p class="hanten-transfer-question">Which 10% cut would save more, and why do we notice the smaller one?</p>
+                </div>
+            </section>
+
+            <details class="h008-explore" data-html2canvas-ignore="true">
+                <summary>See the numbers</summary>
+                <div class="hanten-panel h008-table-panel">
+                    <table class="h008-table">
+                        <thead>
+                            <tr><th>Where the water goes</th><th>Million acre-feet per year</th><th>Share</th></tr>
+                        </thead>
+                        <tbody id="h008-table-body"></tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details class="h008-explore" data-html2canvas-ignore="true">
+                <summary>What is an acre-foot?</summary>
+                <p><strong>An acre-foot is the water it takes to cover one acre 1 ft (0.3 m) deep.</strong> An acre is
+                    roughly the size of an American football field, so picture the whole field flooded up to your
+                    shins. That's about 326,000 gallons, or 1,233 cubic meters.</p>
+                <p><strong>A typical home uses about half to a full acre-foot a year</strong>, indoors and outdoors
+                    combined. Western water is measured this way because farmers and water districts think in land:
+                    how many acres, watered how deep.</p>
+            </details>
+
+            <details class="h008-explore" data-html2canvas-ignore="true">
+                <summary>Does this mean farms are the problem?</summary>
+                <p><strong>Not by itself.</strong> These numbers show where the water goes, not whether that use is
+                    worthwhile. Hay feeds the cattle that become beef and dairy, farming supports many rural towns,
+                    and many farms hold some of the oldest water rights on the river. What the numbers do show is
+                    scale: a 10% cut in cattle-feed irrigation would save more water than a 15% cut across every
+                    city on the river.</p>
+                <p>That's why water negotiators spend so much time on farms, even though most public attention
+                    goes to cities.</p>
+            </details>
+
+            <details class="h008-explore" data-html2canvas-ignore="true">
+                <summary>What counts as “using” water?</summary>
+                <p>These figures measure water <strong>consumed</strong>: water that evaporates, is taken up by
+                    plants, or is piped out of the basin and doesn't flow back to the river. Water that a city
+                    treats and returns downstream isn't counted. The numbers include water piped out of the basin
+                    to places such as Los Angeles, San Diego, and Denver, counted by what it's used for. They are
+                    20-year averages (2000–2019) for the whole river, including the part used in Mexico.</p>
+            </details>
+
+            <details class="h008-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H091/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H091</span>Mosquitoes kill hundreds of thousands of people a year. Sharks kill a handful. Which is more dangerous?</a></li>
+                    <li><a href="../H070/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H070</span>Which country pollutes the most?</a></li>
+                    <li><a href="../H095/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H095</span>California has more car thefts than anywhere else in the U.S. Is it the riskiest place to park?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Richter, B. D., et al. (2024), “New water accounting reveals why the Colorado River no
+                longer reaches the sea,” Communications Earth &amp; Environment: average consumption of 19.3 million
+                acre-feet a year (2000–2019), with 32% for cattle-feed crops, 52% for all irrigated agriculture,
+                18% for municipal, commercial, and industrial uses, 19% for riparian and wetland plants, and 11%
+                for reservoir evaporation. Acre-foot volumes are those percentages applied to the 19.3 million
+                total. Water Education Foundation, “What's an Acre-foot?”: 326,000 gallons per acre-foot and
+                household use of 0.5–1 acre-foot a year. Number of people served: the U.S. Bureau of Reclamation cites about 40 million; the Pacific Institute estimates closer to 35 million (KJZZ, June 2026).
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H007/index.html">&larr; H007</a><a class="hanten-pager-next" href="../H009/index.html">H009 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script>
+        (() => {
+            // Richter et al. 2024, average 2000–2019. Total consumption 19.3 million acre-feet per year.
+            const TOTAL = 19.3;
+            const rows = [
+                { label: "Crops grown to feed cattle", sub: "mostly alfalfa and other hay", pct: 32, fill: "var(--h008-feed)" },
+                { label: "All other crops", sub: "everything else farms grow", pct: 20, fill: "var(--h008-other)" },
+                { label: "Plants along the river", sub: "riverside trees and wetlands", pct: 19, fill: "var(--h008-other)" },
+                { label: "Every city, business, and factory", sub: "35 to 40 million people", pct: 18, fill: "var(--h008-city)" },
+                { label: "Evaporation from reservoirs", sub: "Lake Mead, Lake Powell, and others", pct: 11, fill: "var(--h008-other)" }
+            ];
+            rows.forEach(r => r.maf = Math.round(TOTAL * r.pct / 10) / 10);
+            const svg = document.getElementById("h008-bars");
+            const keep = svg.querySelector("title").outerHTML + svg.querySelector("desc").outerHTML;
+
+            function render() {
+                const narrow = svg.parentElement.clientWidth < 540;
+                const W = narrow ? 360 : 610, x0 = 10, xMax = W - 10;
+                const k = (xMax - x0) / 32;
+                const barH = 30, rowH = narrow ? 82 : 66;
+                let h = "";
+                rows.forEach((r, i) => {
+                    const top = i * rowH;
+                    h += `<text x="${x0}" y="${top + 18}" class="h008-label" font-size="14">${r.label}</text>`;
+                    let barY;
+                    if (narrow) {
+                        h += `<text x="${x0}" y="${top + 36}" class="h008-sub" font-size="12.5">${r.sub}</text>`;
+                        barY = top + 44;
+                    } else {
+                        const lw = r.label.length * 7.9 + 12;
+                        h += `<text x="${x0 + lw}" y="${top + 18}" class="h008-sub" font-size="12">${r.sub}</text>`;
+                        barY = top + 26;
+                    }
+                    const w = r.pct * k;
+                    h += `<rect x="${x0}" y="${barY}" width="${w}" height="${barH}" rx="3" fill="${r.fill}"/>`;
+                    h += `<text x="${x0 + w - 10}" y="${barY + barH / 2 + 5}" text-anchor="end" class="h008-val" font-size="13.5">${r.maf.toFixed(1)} (${r.pct}%)</text>`;
+                });
+                svg.setAttribute("viewBox", `0 0 ${W} ${rows.length * rowH + 4}`);
+                svg.innerHTML = keep + h;
+            }
+            document.getElementById("h008-table-body").innerHTML = rows.map(r =>
+                `<tr><td>${r.label} (${r.sub})</td><td>${r.maf.toFixed(1)}</td><td>${r.pct}%</td></tr>`
+            ).join("") + `<tr><td>Total consumed</td><td>${TOTAL.toFixed(1)}</td><td>100%</td></tr>`;
+            render();
+            let last = null;
+            window.addEventListener("resize", () => {
+                const n = svg.parentElement.clientWidth < 540;
+                if (n !== last) { last = n; render(); }
+            });
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-colorado-river-farms-vs-cities.png", title = "Where does the Colorado River’s water go?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

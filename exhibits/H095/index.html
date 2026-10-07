@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Where Is Your Car Most Likely to Be Stolen?</title>
+    <title>H095 — Where Is Your Car Most Likely to Be Stolen?</title>
 
     <meta
         name="description"
@@ -12,6 +12,7 @@
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (straw) */ body { --hanten-paper: #F1EFD8 !important; }</style>
 
     <style>
         /*
@@ -274,6 +275,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H095</p>
         <h1 class="hanten-question" style="text-wrap:balance;">
             California has more car thefts than anywhere else in the U.S. Is it the riskiest place to park?
         </h1>
@@ -349,8 +351,8 @@
 
             </div>
 
-            <div class="h095-aha">
-                <p><strong>A total mostly tells you how big a place is.</strong> California has 56 times as many people as
+            <div class="h095-aha hanten-aha">
+                <p><span class="hanten-aha-lead">A total mostly tells you how big a place is.</span> California has 56 times as many people as
                     Washington, D.C., so it would have far more car thefts even if the risk were the same. Divide by the
                     number of residents and the ranking flips: a car in D.C. was about twice as likely to be stolen.</p>
                 <p>The same trap shows up in any comparison of totals between groups of different sizes: crimes by
@@ -358,9 +360,13 @@
                     ask how big each group is, and look for the number per person.</p>
             </div>
 
-            <p class="hanten-reflection">
-                What "most" ranking have you seen that might just be a ranking of the biggest places?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">At one school, 50 of 2,000 students are absent. At another, 20 of 400 are absent.</p>
+                    <p class="hanten-transfer-question">Which school has the bigger absence problem?</p>
+                </div>
+            </section>
 
             <details class="h095-explore" data-html2canvas-ignore="true">
                 <summary>The numbers behind both charts</summary>
@@ -450,9 +456,9 @@
             <details class="h095-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H091/index.html" target="_blank" rel="noopener noreferrer">Mosquitoes kill hundreds of thousands of people a year. Sharks kill a handful. Which is more dangerous?</a></li>
-                    <li><a href="../H070/index.html" target="_blank" rel="noopener noreferrer">Which country pollutes the most?</a></li>
-                    <li><a href="../H065/index.html" target="_blank" rel="noopener noreferrer">What's the richest country?</a></li>
+                    <li><a href="../H070/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H070</span>Which country pollutes the most?</a></li>
+                    <li><a href="../H091/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H091</span>Mosquitoes kill hundreds of thousands of people a year. Sharks kill a handful. Which is more dangerous?</a></li>
+                    <li><a href="../H099/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H099</span>"Deadly shark attacks doubled." Did the oceans get twice as dangerous?</a></li>
                 </ul>
             </details>
 
@@ -467,8 +473,9 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H094/index.html">&larr; H094</a><a class="hanten-pager-next" href="../H096/index.html">H096 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script src="../../assets/js/d3.v7.min.js"></script>
     <script src="../../assets/js/topojson-client.min.js"></script>
@@ -533,6 +540,7 @@ document.getElementById("unreported-states").innerHTML="<strong>F-150 share not 
 })();</script>
     <script>document.querySelectorAll("details").forEach(d=>d.addEventListener("toggle",()=>window.dispatchEvent(new Event("resize"))));</script>
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {

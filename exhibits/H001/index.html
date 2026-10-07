@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>The Average BBQ Restaurant</title>
+    <title>H001 — The Average BBQ Restaurant</title>
     <meta
         name="description"
         content="Ten neighbors are having a backyard BBQ. Then one extraordinarily rich guest walks in. What happens to the average?"
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (sky) */ body { --hanten-paper: #E2EEF5 !important; }</style>
 
     <style>
         :root {
@@ -744,6 +745,7 @@ main.hanten-exhibit .h001-source-note{
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H001</p>
         <h1 class="hanten-question">
             What’s the average income at this BBQ?
         </h1>
@@ -787,15 +789,19 @@ main.hanten-exhibit .h001-source-note{
                     </section>
                 </div>
 
-                <div class="h001-caption">
-                    <p><strong>No one else at the BBQ got richer.</strong> Only the summary changed.</p>
+                <div class="h001-caption hanten-aha">
+                    <p><span class="hanten-aha-lead">No one else at the BBQ got richer.</span> Only the summary changed.</p>
                     <p>The mean jumped from $86,400 to $4,600,000. The median barely moved, from $80,500 to $87,000.</p>
                     <p>It happens with real incomes too: since 1990, mean U.S. household income has grown more than twice as fast as the median. The same goes for home prices, salaries, and wait times: a single extreme value can drag the mean far from what's typical. When an "average" could be hiding outliers, it's worth asking whether it's a mean or a median.</p>
                 </div>
 
-                <p class="hanten-reflection">
-                When you hear an “average,” how would you know if one outlier is behind it?
-            </p>
+                <section class="hanten-transfer" aria-label="Try it somewhere else">
+                    <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                    <div class="hanten-transfer-text">
+                        <p class="hanten-transfer-scenario">Two service centers each helped six customers today, and both report the same average wait.</p>
+                        <p class="hanten-transfer-question">Before choosing one, what would you want to know that the average can't tell you?</p>
+                    </div>
+                </section>
 
                 <details class="h001-explore" data-html2canvas-ignore="true">
                     <summary>Mean or median?</summary>
@@ -878,9 +884,10 @@ main.hanten-exhibit .h001-source-note{
             <details class="h001-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H065/index.html" target="_blank" rel="noopener noreferrer">What's the richest country?</a></li>
-                    <li><a href="../H090/index.html" target="_blank" rel="noopener noreferrer">Life expectancy in 1900 was under 48. Did people back then really die at 40?</a></li>
-                    <li><a href="../H082/index.html" target="_blank" rel="noopener noreferrer">If an investment averages 0% a year, did you break even?</a></li>
+                    <li><a href="../H090/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H090</span>Life expectancy in 1900 was under 48. Did people back then really die at 40?</a></li>
+                    <li><a href="../H016/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H016</span>Can you see half the Earth and almost no land?</a></li>
+                    <li><a href="../H081/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H081</span>Is Australia really empty?</a></li>
+                    <li><a href="../H065/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H065</span>What's the richest country?</a></li>
                 </ul>
             </details>
 
@@ -892,8 +899,9 @@ main.hanten-exhibit .h001-source-note{
 
             </div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><span></span><a class="hanten-pager-next" href="../H002/index.html">H002 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script>
         const INCOMES = [28000, 41000, 52000, 61000, 74000, 87000, 95000, 112000, 134000, 180000];
@@ -1053,6 +1061,7 @@ main.hanten-exhibit .h001-source-note{
     </script>
     <script>document.querySelectorAll("details").forEach(d=>d.addEventListener("toggle",()=>window.dispatchEvent(new Event("resize"))));</script>
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 <script>
 (() => {
@@ -1236,7 +1245,7 @@ main.hanten-exhibit .h001-source-note{
 
     const reflection=document.createElement("div");
     reflection.className="hanten-export-reflection";
-    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     document.body.appendChild(card);

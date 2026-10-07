@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Equal Fifty</title>
+<title>H017 — Equal Fifty</title>
 <meta name="description" content="What would America look like if every state had the same population?">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (sage) */ body { --hanten-paper: #E6EFE2 !important; }</style>
 
 <style>
   :root {
@@ -403,6 +404,7 @@ main.hanten-exhibit > .hanten-subtitle{
 
 <main class="hanten-exhibit">
 
+  <p class="hanten-hnum">H017</p>
   <h1 class="hanten-question">
     What would America look like if every state had the same population?
   </h1>
@@ -428,8 +430,8 @@ main.hanten-exhibit > .hanten-subtitle{
         <span>Show largest city in each region</span>
       </label>
 
-<div class="h017-takeaway">
-        <p><strong>Equal population produces radically unequal-looking regions.</strong></p>
+<div class="h017-takeaway hanten-aha">
+        <p><span class="hanten-aha-lead">Equal population produces radically unequal-looking regions.</span></p>
         <p>
           Dense corridors fracture into small pieces while sparsely populated areas combine into enormous ones.
           The faint dark lines show the real state borders.
@@ -444,9 +446,13 @@ main.hanten-exhibit > .hanten-subtitle{
 
 
 
-      <p class="hanten-reflection">
-                Which places would look bigger to you if maps were drawn by people instead of land?
-            </p>
+      <section class="hanten-transfer" aria-label="Try it somewhere else">
+          <p class="hanten-transfer-kicker">Try it somewhere else</p>
+          <div class="hanten-transfer-text">
+              <p class="hanten-transfer-scenario">Every state gets two U.S. senators, whether it has 580,000 people or 39 million.</p>
+              <p class="hanten-transfer-question">When should we count places, and when should we count people?</p>
+          </div>
+      </section>
 
             <details class="h017-method" data-html2canvas-ignore="true">
         <summary>How were these regions created?</summary>
@@ -475,9 +481,9 @@ main.hanten-exhibit > .hanten-subtitle{
       <details class="h017-method" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H059/index.html" target="_blank" rel="noopener noreferrer">How much more does a Wyoming vote count than a Texas vote?</a></li>
-                    <li><a href="../H014/index.html" target="_blank" rel="noopener noreferrer">How can the same country look almost empty — and unbelievably crowded?</a></li>
-                    <li><a href="../H080/index.html" target="_blank" rel="noopener noreferrer">How big is a state without its biggest city?</a></li>
+                    <li><a href="../H059/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H059</span>How much more does a Wyoming vote count than a Texas&amp;nbsp;vote?</a></li>
+                    <li><a href="../H003/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H003</span>Can you win most of the seats without winning most of the votes?</a></li>
+                    <li><a href="../H014/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H014</span>How can the same country look almost empty — and unbelievably crowded?</a></li>
                 </ul>
             </details>
 
@@ -494,7 +500,8 @@ main.hanten-exhibit > .hanten-subtitle{
       </div>
     </div>
   </div>
-
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H016/index.html">&larr; H016</a><a class="hanten-pager-next" href="../H018/index.html">H018 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script src="../../assets/js/d3.v7.min.js"></script>
@@ -2456,6 +2463,7 @@ main.hanten-exhibit > .hanten-subtitle{
 
 
 <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 <script>
 (() => {

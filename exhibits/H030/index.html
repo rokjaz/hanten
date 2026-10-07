@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H030 — Why Does Hawaii Have Interstate Highways?</title>
+
+    <meta
+        name="description"
+        content="Hawaii has four interstate highways that can never cross a state line. “Interstate” describes the federal system they belong to, not each road."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (parchment) */ body { --hanten-paper: #F4ECDF !important; }</style>
+
+    <style>
+        /*
+           H030-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework.
+        */
+
+        :root {
+            --h030-road: #0e7c86;
+        }
+
+        .h030-panel {
+            padding: 1.1rem 1.1rem 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .h030-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h030-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .h030-stat { padding: 0.95rem 1rem; text-align: center; }
+        .h030-stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h030-stat-n {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1.15;
+            margin-top: 0.3rem;
+        }
+        .h030-stat-unit { font-weight: 700; font-size: 0.9rem; margin-top: 0.1rem; }
+        .h030-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.35rem; line-height: 1.4; }
+
+        .h030-label {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            fill: var(--hanten-text);
+        }
+        .h030-sub {
+            font-family: var(--hanten-font);
+            fill: var(--hanten-muted);
+        }
+        .h030-val {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: #ffffff;
+        }
+        .h030-val-out {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: var(--hanten-text);
+        }
+        .h030-gap-text {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: var(--h030-lake);
+        }
+
+        .h030-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.4rem;
+            margin-top: 0.4rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+        .h030-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h030-swatch { display: inline-block; width: 14px; height: 10px; border-radius: 2px; }
+
+        .h030-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; }
+        .h030-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h030-table th, .h030-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h030-table th {
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h030-table td { text-align: left; }
+        .h030-table td:nth-child(2), .h030-table td:nth-child(3) { text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
+        .h030-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 720px) {
+            .h030-stats { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .h030-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h030-table-panel { padding: 0.3rem 0.6rem; }
+        }
+
+
+        .h030-twin { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem; }
+        .h030-def { padding: 1rem 1.1rem; text-align: center; }
+        .h030-def-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h030-def-big { font-weight: 800; font-size: 1.1rem; line-height: 1.35; margin-top: 0.4rem; color: #8f999c; text-decoration: line-through; text-decoration-thickness: 2px; }
+        .h030-def-real .h030-def-big { color: var(--h030-road); text-decoration: none; }
+        .h030-chart-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin-bottom: 0.6rem; }
+        @media (max-width: 720px) { .h030-twin { grid-template-columns: 1fr; } }
+        .h030-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h030-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h030-discovery p:last-child { margin-bottom: 0; }
+        .h030-discovery strong { color: var(--hanten-text); }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h030-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h030-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h030-explore p { margin: .55rem 0 0; }
+.h030-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
+</head>
+
+<body class="hanten-theme-unresolved">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H030</p>
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Why does Hawaii have interstate highways?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Hawaii's nearest neighboring state is about 2,400 mi (3,860 km) away across the Pacific, yet the island of
+            O‘ahu has four interstate highways. None of them could ever cross a state line.
+        </p>
+
+        <div id="h030-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="h030-twin">
+                    <div class="hanten-panel h030-def">
+                        <div class="h030-def-label">What the name suggests</div>
+                        <div class="h030-def-big">A highway that crosses from one state to another</div>
+                    </div>
+                    <div class="hanten-panel h030-def h030-def-real">
+                        <div class="h030-def-label">What it actually means</div>
+                        <div class="h030-def-big">Part of the national “Interstate and Defense Highways” system, built mostly with federal money</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h030-panel">
+                    <div class="h030-chart-title">O‘ahu's interstates, about 55 mi (89 km) in all</div>
+                    <svg id="h030-bars" viewBox="0 0 640 280" role="img" aria-labelledby="h030-bars-title h030-bars-desc">
+                        <title id="h030-bars-title">Lengths of Hawaii's four interstate highways and what they connect</title>
+                        <desc id="h030-bars-desc">H-1: 27.2 miles, connecting Pearl Harbor, Hickam, the airport, and downtown Honolulu. H-3: 15.3 miles, connecting Pearl Harbor with Marine Corps Base Hawaii. H-2: 8.3 miles, to Schofield Barracks and Wheeler Army Airfield. H-201: 4.1 miles, the Moanalua Freeway.</desc>
+                    </svg>
+                </div>
+
+            </div>
+
+            <div class="h030-discovery hanten-body hanten-aha">
+                <p><span class="hanten-aha-lead">“Interstate” describes the system, not each road.</span> The highways' full official name is the Dwight D. Eisenhower National System of Interstate and Defense Highways. A road belongs to it because the federal government designated it and paid most of the cost, 90% in the system's early decades, not because it crosses a state line. Hawaii's routes were approved in 1960, a year after statehood, and they tie together the island's military bases: Pearl Harbor, Hickam, Schofield Barracks, and the Marine Corps base at Kāne‘ohe.</p>
+                <p>Hawaii isn't even unusual. Several mainland interstates never leave their state, including I-4 in Florida, I-45 in Texas, and I-97 in Maryland. A name tells you where something came from, not always what it is. Before trusting what a label says, ask how it's actually defined.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">Koalas look a little like small bears, and many people call them koala bears.</p>
+                    <p class="hanten-transfer-question">Is a koala a bear? What other names might mislead you about what something is?</p>
+                </div>
+            </section>
+
+            <details class="h030-explore" data-html2canvas-ignore="true">
+                <summary>The most expensive interstate ever built</summary>
+                <p><strong>H-3 cost about $80 million a mile.</strong> Approved in 1960 to connect Pearl Harbor with the
+                    Marine Corps base on the other side of the Ko‘olau mountains, it took 37 years of planning, lawsuits,
+                    and construction to open in 1997. Its final cost was $1.3 billion for 15.3 mi (24.7 km), making it the
+                    most expensive interstate ever built per mile, with tunnels through the mountains and long viaducts
+                    over valleys.</p>
+            </details>
+
+            <details class="h030-explore" data-html2canvas-ignore="true">
+                <summary>Alaska and Puerto Rico have interstates too</summary>
+                <p>Alaska and Puerto Rico also have roads that count as interstates for federal funding, but they aren't
+                    signed as interstates and don't have to meet the same design standards. Hawaii's routes are the only
+                    signed interstates outside the lower 48 states, which is why H-1 is both the southernmost and the
+                    westernmost signed interstate in the country.</p>
+            </details>
+
+            <details class="h030-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H031/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H031</span>Does “…USA” on the label mean an American company made it here?</a></li>
+                    <li><a href="../H086/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H086</span>The unemployment rate is 4.1%. Does that mean almost everyone who wants a job has one?</a></li>
+                    <li><a href="../H074/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H074</span>What is the largest desert on Earth?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Wikipedia, “Interstate Highway System” (official name; 90% federal funding; Alaska and Puerto Rico
+                interstates); “Interstate Highways in Hawaii” (H-1, H-2, and H-3 approved in 1960; H-201 added in 1989);
+                “Interstate H-1” (27.16 mi; southernmost and westernmost signed interstate); “Interstate H-2” (8.33 mi);
+                “Interstate H-3” (15.32 mi; $1.3 billion; opened December 12, 1997; most expensive interstate per mile);
+                “Interstate H-201” (4.1 mi, Moanalua Freeway); “Interstate 4,” “Interstate 45,” and “Interstate 97” (each entirely within one state). Distance to the nearest state is the approximate distance from
+                Honolulu to California. Kilometers converted from miles.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H029/index.html">&larr; H029</a><a class="hanten-pager-next" href="../H031/index.html">H031 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script>
+        (() => {
+            const rows = [
+                { label: "H-1", sub: "Pearl Harbor, Hickam, the airport, downtown Honolulu", mi: 27.2 },
+                { label: "H-3", sub: "Pearl Harbor to the Marine Corps base, through the mountains", mi: 15.3 },
+                { label: "H-2", sub: "to Schofield Barracks and Wheeler Army Airfield", mi: 8.3 },
+                { label: "H-201", sub: "Moanalua Freeway, a short connector", mi: 4.1 }
+            ];
+            const svg = document.getElementById("h030-bars");
+            const keep = svg.querySelector("title").outerHTML + svg.querySelector("desc").outerHTML;
+            function render() {
+                const narrow = svg.parentElement.clientWidth < 540;
+                const W = narrow ? 360 : 640, x0 = narrow ? 0 : 70, span = W - x0 - (narrow ? 120 : 130);
+                const bh = 26, rowH = narrow ? 76 : 64;
+                let h = "";
+                rows.forEach((r, i) => {
+                    const top = i * rowH;
+                    const w = r.mi / 27.2 * span;
+                    if (narrow) {
+                        h += `<text x="0" y="${top + 14}" class="h030-label" font-size="14">${r.label}</text>`;
+                        h += `<rect x="0" y="${top + 22}" width="${w}" height="${bh}" rx="3" fill="var(--h030-road)"/>`;
+                        h += `<text x="${w + 8}" y="${top + 22 + bh / 2 + 5}" class="h030-val-out" font-size="13.5">${r.mi} mi (${Math.round(r.mi * 1.609)} km)</text>`;
+                        h += `<text x="0" y="${top + 22 + bh + 16}" class="h030-sub" font-size="12">${r.sub}</text>`;
+                    } else {
+                        h += `<text x="${x0 - 12}" y="${top + 6 + bh / 2 + 5}" text-anchor="end" class="h030-label" font-size="15">${r.label}</text>`;
+                        h += `<rect x="${x0}" y="${top + 6}" width="${w}" height="${bh}" rx="3" fill="var(--h030-road)"/>`;
+                        h += `<text x="${x0 + w + 8}" y="${top + 6 + bh / 2 + 5}" class="h030-val-out" font-size="13.5">${r.mi} mi (${Math.round(r.mi * 1.609)} km)</text>`;
+                        h += `<text x="${x0}" y="${top + 6 + bh + 17}" class="h030-sub" font-size="12.5">${r.sub}</text>`;
+                    }
+                });
+                svg.setAttribute("viewBox", `0 0 ${W} ${rows.length * rowH}`);
+                svg.innerHTML = keep + h;
+            }
+            render();
+            let last = null;
+            window.addEventListener("resize", () => {
+                const n = svg.parentElement.clientWidth < 540;
+                if (n !== last) { last = n; render(); }
+            });
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-hawaii-interstates.png", title = "Why does Hawaii have interstate highways?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Shared Birthday Paradox | Hanten</title>
+<title>H005 — Shared Birthday Paradox | Hanten</title>
 <meta name="description" content="Most people guess you'd need close to 183. It's 253 pairs of people, not 365 dates, that get you there.">
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (mint) */ body { --hanten-paper: #DFF0EB !important; } main.hanten-exhibit h1.hanten-question { color: var(--hanten-text) !important; font-weight: 700 !important; }</style>
 <style>
   :root {
     --ink: #1c2733;
@@ -313,6 +314,7 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
 <body class="hanten-theme-probability">
 
 <main class="hanten-exhibit">
+  <p class="hanten-hnum">H005</p>
   <h1 class="hanten-question">How many people does it take before a shared birthday is more likely than not?</h1>
   <p class="hanten-subtitle">Most people guess somewhere near half of 365. Try 23.</p>
   <div class="hanten-graphic">
@@ -350,16 +352,20 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
     </div>
   </div>
 
-  <div class="caption">
-    <p><strong>It's about pairs, not dates.</strong> With 23 people there are 23×22÷2 = 253 different pairs of people. The number of possible pairs grows much faster than the number of people, so the chance of at least one match crosses 50% surprisingly quickly.</p>
+  <div class="caption hanten-aha">
+    <p><span class="hanten-aha-lead">It's about pairs, not dates.</span> With 23 people there are 23×22÷2 = 253 different pairs of people. The number of possible pairs grows much faster than the number of people, so the chance of at least one match crosses 50% surprisingly quickly.</p>
     <p>This same collision math turns up anywhere you're checking many pairs instead of one: pharmacy name-and-birthdate mix-ups, hash collisions in computing, and DNA database matches all run into it.</p>
 
 
   </div>
 
-  <p class="hanten-reflection">
-                Where else are you checking many pairs instead of just one?
-            </p>
+  <section class="hanten-transfer" aria-label="Try it somewhere else">
+      <p class="hanten-transfer-kicker">Try it somewhere else</p>
+      <div class="hanten-transfer-text">
+          <p class="hanten-transfer-scenario">Everyone in a class of 30 secretly picks a whole number from 1 to 100.</p>
+          <p class="hanten-transfer-question">Is it more likely that two students picked the same number, or that nobody did?</p>
+      </div>
+  </section>
 
             <details class="h005-explore" data-html2canvas-ignore="true"><summary>Explore other probability thresholds</summary><table class="thresholds">
       <thead>
@@ -373,9 +379,9 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
   <details class="h005-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H093/index.html" target="_blank" rel="noopener noreferrer">Pharmacies check your name and birth date. Is that enough to tell you apart from everyone else?</a></li>
-                    <li><a href="../H040/index.html" target="_blank" rel="noopener noreferrer">After a goat is revealed, should you stay or switch?</a></li>
-                    <li><a href="../H041/index.html" target="_blank" rel="noopener noreferrer">If a medical test is 99% accurate and you test positive, what are the chances you actually have the disease?</a></li>
+                    <li><a href="../H093/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H093</span>Pharmacies check your name and birth date. Is that enough to tell you apart from everyone else?</a></li>
+                    <li><a href="../H040/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H040</span>After a goat is revealed, should you stay or switch?</a></li>
+                    <li><a href="../H102/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H102</span>A neighborhood has an unusual number of cancer cases. Is something there causing them?</a></li>
                 </ul>
             </details>
 
@@ -387,6 +393,8 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
 
   <div class="h005-save"><div id="save-image-slot"></div></div>
   </div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H004/index.html">&larr; H004</a><a class="hanten-pager-next" href="../H006/index.html">H006 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script>
@@ -509,6 +517,7 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 
 
@@ -593,7 +602,7 @@ main.hanten-exhibit > .hanten-graphic .hanten-reflection,
 
    const reflection=document.createElement("div");
    reflection.className="hanten-export-reflection";
-   reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+   reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
    card.appendChild(reflection);
 
    if(source){

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H053 — How Does a Small Rise in Sales Become a Factory Crisis?</title>
+
+    <meta
+        name="description"
+        content="A small, steady change in what shoppers buy turns into bigger and bigger swings at each step back up the supply chain. It is called the bullwhip effect."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (mint) */ body { --hanten-paper: #DFF0EB !important; }</style>
+
+    <style>
+        /*
+           H053-SPECIFIC STYLES
+           Built Oct 2026 to the v1.2 exhibit standard (hx- classes are
+           the shared backfill-exhibit pattern).
+        */
+
+        .hx-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .hx-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .hx-stats-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .hx-stats-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .hx-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .hx-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .hx-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+        .hx-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .hx-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .hx-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+        .hx-svgwrap { max-width: 700px; margin: 0 auto; }
+        .hx-panel svg { display: block; width: 100%; height: auto; margin: 0; }
+        .hx-panel svg text { font-family: var(--hanten-font); }
+        .hx-axis { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-lab { font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .hx-sub { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-val { font-size: 15px; font-weight: 800; }
+        .hx-big { font-size: 18px; font-weight: 800; }
+        .hx-note { max-width: var(--hanten-text-width); margin: 0.2rem auto 0; text-align: center; font-size: 0.78rem; font-style: italic; color: var(--hanten-muted); }
+        .hx-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .hx-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .hx-explore p { margin: .55rem 0 0; }
+        .hx-explore strong { color: var(--hanten-text); }
+        .hx-explore + .hx-explore { margin-top: 0; border-top: none; }
+        .hx-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .hx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .hx-table th, .hx-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .hx-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .hx-table td:not(:first-child) { text-align: center; }
+        .hx-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 600px) {
+            .hx-stats, .hx-stats-2, .hx-stats-4 { grid-template-columns: minmax(0, 1fr); }
+            .hx-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .hx-table { font-size: 0.76rem; }
+        }
+
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:960px;padding:40px 0 60px;box-sizing:border-box;background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    </style>
+</head>
+
+<body class="hanten-theme-systems">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H053</p>
+        <h1 class="hanten-question">How does a 10% rise in sales turn into a factory crisis?</h1>
+
+        <p class="hanten-subtitle">Shoppers buy a little more. The store orders extra, just in case. The distributor sees a jump and orders more still. By the time it reaches the factory, a ripple has become a wave.</p>
+
+        <div id="h053-capture">
+
+            <div class="hanten-graphic">
+<div class="hx-stats hx-stats-3">
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Shoppers</div>
+    <div class="hx-stat-n" style="color:#1A3E6E">+10%</div>
+    <div class="hx-stat-l">a small, lasting rise in what people buy</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Each step back</div>
+    <div class="hx-stat-n" style="color:#c98a12">adds a cushion</div>
+    <div class="hx-stat-l">and reacts to the orders it sees, not to the shoppers</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">The factory</div>
+    <div class="hx-stat-n" style="color:#b23b32">boom, then bust</div>
+    <div class="hx-stat-l">big swings, then idle lines and piled-up stock</div>
+  </div>
+</div>
+<div class="hanten-panel hx-panel ">
+  <p class="hx-panel-title">One small change, four very different stories</p>
+  <p class="hx-panel-sub">Illustration: weekly orders at each step after shoppers start buying 10% more</p>
+  <div class="hx-svgwrap"><svg viewBox="0 0 700 300" role="img">
+<line x1="60" y1="225.0" x2="680" y2="225.0" stroke="#d8d3c7" stroke-width="1"/>
+<text class="hx-axis" x="52" y="229.0" text-anchor="end">50</text>
+<line x1="60" y1="166.7" x2="680" y2="166.7" stroke="#d8d3c7" stroke-width="1"/>
+<text class="hx-axis" x="52" y="170.7" text-anchor="end">100</text>
+<line x1="60" y1="108.3" x2="680" y2="108.3" stroke="#d8d3c7" stroke-width="1"/>
+<text class="hx-axis" x="52" y="112.3" text-anchor="end">150</text>
+<line x1="60" y1="50.0" x2="680" y2="50.0" stroke="#d8d3c7" stroke-width="1"/>
+<text class="hx-axis" x="52" y="54.0" text-anchor="end">200</text>
+<text class="hx-axis" x="60.0" y="278" text-anchor="middle">wk 0</text>
+<text class="hx-axis" x="163.3" y="278" text-anchor="middle">wk 4</text>
+<text class="hx-axis" x="266.7" y="278" text-anchor="middle">wk 8</text>
+<text class="hx-axis" x="370.0" y="278" text-anchor="middle">wk 12</text>
+<text class="hx-axis" x="473.3" y="278" text-anchor="middle">wk 16</text>
+<text class="hx-axis" x="576.7" y="278" text-anchor="middle">wk 20</text>
+<text class="hx-axis" x="680.0" y="278" text-anchor="middle">wk 24</text>
+<polyline points="60.0,166.7 66.5,166.7 72.9,166.7 79.4,166.7 85.8,166.7 92.3,166.7 98.8,166.7 105.2,166.7 111.7,166.7 118.1,166.7 124.6,166.7 131.0,166.7 137.5,166.7 144.0,166.7 150.4,166.7 156.9,166.7 163.3,155.0 169.8,155.0 176.2,155.0 182.7,155.0 189.2,155.0 195.6,155.0 202.1,155.0 208.5,155.0 215.0,155.0 221.5,155.0 227.9,155.0 234.4,155.0 240.8,155.0 247.3,155.0 253.8,155.0 260.2,155.0 266.7,155.0 273.1,155.0 279.6,155.0 286.0,155.0 292.5,155.0 299.0,155.0 305.4,155.0 311.9,155.0 318.3,155.0 324.8,155.0 331.2,155.0 337.7,155.0 344.2,155.0 350.6,155.0 357.1,155.0 363.5,155.0 370.0,155.0 376.5,155.0 382.9,155.0 389.4,155.0 395.8,155.0 402.3,155.0 408.8,155.0 415.2,155.0 421.7,155.0 428.1,155.0 434.6,155.0 441.0,155.0 447.5,155.0 454.0,155.0 460.4,155.0 466.9,155.0 473.3,155.0 479.8,155.0 486.2,155.0 492.7,155.0 499.2,155.0 505.6,155.0 512.1,155.0 518.5,155.0 525.0,155.0 531.5,155.0 537.9,155.0 544.4,155.0 550.8,155.0 557.3,155.0 563.8,155.0 570.2,155.0 576.7,155.0 583.1,155.0 589.6,155.0 596.0,155.0 602.5,155.0 609.0,155.0 615.4,155.0 621.9,155.0 628.3,155.0 634.8,155.0 641.2,155.0 647.7,155.0 654.2,155.0 660.6,155.0 667.1,155.0 673.5,155.0 680.0,155.0" fill="none" stroke="#1A3E6E" stroke-width="3" stroke-linejoin="round"/>
+<rect x="70" y="12" width="18" height="5" rx="2" fill="#1A3E6E"/><text class="hx-lab" x="94" y="19" style="font-size:12px">Shoppers buy</text>
+<polyline points="60.0,166.7 66.5,166.7 72.9,166.7 79.4,166.7 85.8,166.7 92.3,166.7 98.8,166.7 105.2,166.7 111.7,166.7 118.1,166.7 124.6,166.7 131.0,166.7 137.5,166.7 144.0,166.7 150.4,166.7 156.9,166.7 163.3,166.7 169.8,166.7 176.2,166.7 182.7,166.7 189.2,155.0 195.6,150.7 202.1,146.8 208.5,143.5 215.0,140.7 221.5,138.6 227.9,137.1 234.4,136.2 240.8,136.0 247.3,136.4 253.8,137.3 260.2,138.7 266.7,140.5 273.1,142.6 279.6,145.0 286.0,147.5 292.5,150.0 299.0,152.6 305.4,155.0 311.9,157.3 318.3,159.3 324.8,161.1 331.2,162.5 337.7,163.6 344.2,164.4 350.6,164.9 357.1,165.0 363.5,164.8 370.0,164.3 376.5,163.6 382.9,162.6 389.4,161.5 395.8,160.3 402.3,158.9 408.8,157.6 415.2,156.3 421.7,155.0 428.1,153.8 434.6,152.7 441.0,151.8 447.5,151.0 454.0,150.5 460.4,150.0 466.9,149.8 473.3,149.7 479.8,149.9 486.2,150.1 492.7,150.5 499.2,151.0 505.6,151.6 512.1,152.2 518.5,152.9 525.0,153.6 531.5,154.3 537.9,155.0 544.4,155.6 550.8,156.2 557.3,156.7 563.8,157.1 570.2,157.4 576.7,157.6 583.1,157.7 589.6,157.8 596.0,157.7 602.5,157.6 609.0,157.4 615.4,157.1 621.9,156.8 628.3,156.5 634.8,156.1 641.2,155.7 647.7,155.4 654.2,155.0 660.6,154.7 667.1,154.4 673.5,154.1 680.0,153.9" fill="none" stroke="#1f6f8b" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="225" y="12" width="18" height="5" rx="2" fill="#1f6f8b"/><text class="hx-lab" x="249" y="19" style="font-size:12px">Store orders</text>
+<polyline points="60.0,166.7 66.5,166.7 72.9,166.7 79.4,166.7 85.8,166.7 92.3,166.7 98.8,166.7 105.2,166.7 111.7,166.7 118.1,166.7 124.6,166.7 131.0,166.7 137.5,166.7 144.0,166.7 150.4,166.7 156.9,166.7 163.3,166.7 169.8,166.7 176.2,166.7 182.7,166.7 189.2,166.7 195.6,166.7 202.1,166.7 208.5,166.7 215.0,155.0 221.5,146.2 227.9,138.3 234.4,131.4 240.8,125.7 247.3,121.4 253.8,118.3 260.2,116.6 266.7,116.1 273.1,116.9 279.6,118.8 286.0,121.7 292.5,125.4 299.0,129.7 305.4,134.5 311.9,139.6 318.3,144.9 324.8,150.0 331.2,155.0 337.7,159.6 344.2,163.8 350.6,167.4 357.1,170.4 363.5,172.7 370.0,174.3 376.5,175.2 382.9,175.4 389.4,175.0 395.8,174.0 402.3,172.5 408.8,170.6 415.2,168.3 421.7,165.8 428.1,163.1 434.6,160.3 441.0,157.6 447.5,155.0 454.0,152.6 460.4,150.4 466.9,148.5 473.3,146.9 479.8,145.7 486.2,144.9 492.7,144.4 499.2,144.3 505.6,144.5 512.1,145.0 518.5,145.8 525.0,146.8 531.5,148.0 537.9,149.3 544.4,150.8 550.8,152.2 557.3,153.6 563.8,155.0 570.2,156.3 576.7,157.4 583.1,158.4 589.6,159.3 596.0,159.9 602.5,160.3 609.0,160.6 615.4,160.6 621.9,160.5 628.3,160.3 634.8,159.8 641.2,159.3 647.7,158.7 654.2,158.0 660.6,157.2 667.1,156.5 673.5,155.7 680.0,155.0" fill="none" stroke="#c98a12" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="380" y="12" width="18" height="5" rx="2" fill="#c98a12"/><text class="hx-lab" x="404" y="19" style="font-size:12px">Distributor orders</text>
+<polyline points="60.0,166.7 66.5,166.7 72.9,166.7 79.4,166.7 85.8,166.7 92.3,166.7 98.8,166.7 105.2,166.7 111.7,166.7 118.1,166.7 124.6,166.7 131.0,166.7 137.5,166.7 144.0,166.7 150.4,166.7 156.9,166.7 163.3,166.7 169.8,166.7 176.2,166.7 182.7,166.7 189.2,166.7 195.6,166.7 202.1,166.7 208.5,166.7 215.0,166.7 221.5,166.7 227.9,166.7 234.4,166.7 240.8,155.0 247.3,140.3 253.8,127.1 260.2,115.7 266.7,106.2 273.1,98.9 279.6,93.8 286.0,91.0 292.5,90.2 299.0,91.6 305.4,94.7 311.9,99.5 318.3,105.6 324.8,112.9 331.2,120.9 337.7,129.4 344.2,138.1 350.6,146.7 357.1,155.0 363.5,162.7 370.0,169.7 376.5,175.7 382.9,180.6 389.4,184.5 395.8,187.2 402.3,188.7 408.8,189.0 415.2,188.4 421.7,186.7 428.1,184.2 434.6,181.0 441.0,177.2 447.5,172.9 454.0,168.5 460.4,163.9 466.9,159.4 473.3,155.0 479.8,150.9 486.2,147.3 492.7,144.1 499.2,141.5 505.6,139.5 512.1,138.1 518.5,137.3 525.0,137.1 531.5,137.5 537.9,138.3 544.4,139.7 550.8,141.4 557.3,143.4 563.8,145.6 570.2,147.9 576.7,150.3 583.1,152.7 589.6,155.0 596.0,157.1 602.5,159.1 609.0,160.7 615.4,162.1 621.9,163.1 628.3,163.9 634.8,164.3 641.2,164.4 647.7,164.2 654.2,163.8 660.6,163.1 667.1,162.2 673.5,161.1 680.0,160.0" fill="none" stroke="#b23b32" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="535" y="12" width="18" height="5" rx="2" fill="#b23b32"/><text class="hx-lab" x="559" y="19" style="font-size:12px">Factory makes</text>
+<line x1="163.3" y1="50" x2="163.3" y2="260" stroke="#9a958b" stroke-dasharray="4 4"/>
+<text class="hx-sub" x="169.3" y="60">shoppers buy 10% more</text>
+<text class="hx-axis" x="16" y="38">units/wk</text>
+</svg></div>
+</div>
+            </div>
+
+            <div class="hx-aha hanten-aha">
+                <p><span class="hanten-aha-lead">Each link in a chain sees only the orders from the link below it, so small changes grow as they travel.</span> A store that sees sales rise orders a little extra to be safe. The distributor sees that bigger order, not the shoppers, and adds its own cushion. The factory sees the biggest jump of all, ramps up, and then gets almost no orders while everyone works through the extra stock. Nobody did anything foolish; each one reacted sensibly to the signal in front of it.</p>
+                <p>This pattern, called the bullwhip effect, shows up whenever decisions pass through layers: supply chains, hiring, housing construction, even rumors. The cure is usually to let every layer see the original signal, not just the one next to it.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">During the spring of 2020, shoppers bought somewhat more toilet paper than usual for a few weeks.</p>
+                    <p class="hanten-transfer-question">Why did store shelves sit empty for weeks, and why were warehouses overflowing later?</p>
+                </div>
+            </section>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Where the name came from</summary>
+                <p>Procter &amp; Gamble noticed it with Pampers. Babies use diapers at a steady rate, so store sales barely changed, yet the orders P&amp;G received from distributors swung up and down sharply. Researchers Hau Lee, V. Padmanabhan, and Seungjin Whang described the pattern in 1997 and named it after the way a small flick of the wrist becomes a big snap at the tip of a whip. MIT's "Beer Game," played in business schools since the 1960s, recreates it with four players and almost always produces it.</p>
+            </details>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>About the chart</summary>
+                <p>The lines are an illustration of the typical pattern, not data from a real company. Each step reacts a week after the one below it and orders a cushion on top of what it sees.</p>
+            </details>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H019/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H019</span>Twice the capacity, half the wait?</a></li>
+                    <li><a href="../H079/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H079</span>Can a new road make traffic worse?</a></li>
+                    <li><a href="../H052/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H052</span>How did paying for rat tails give Hanoi more rats?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Hau L. Lee, V. Padmanabhan, and Seungjin Whang, "The Bullwhip Effect in Supply Chains," Sloan Management Review, Spring 1997 (Pampers example). MIT Sloan School of Management, the Beer Game (Jay Forrester, 1960s). Chart is an illustration.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H052/index.html">&larr; H052</a><a class="hanten-pager-next" href="../H054/index.html">H054 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-bullwhip-effect.png", title = "How Does a Small Rise in Sales Become a Factory Crisis?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+        const clone = main.cloneNode(true);
+        clone.querySelectorAll(".hanten-utility, .hanten-pager, .hanten-site-footer, details").forEach(el => el.remove());
+        card.appendChild(clone);
+        document.body.appendChild(card);
+        // html2canvas draws an SVG at its attribute size, so pin each one to the size it renders at
+        card.querySelectorAll("svg").forEach(svg => { const r = svg.getBoundingClientRect(); if (r.width) { svg.setAttribute("width", r.width); svg.setAttribute("height", r.height); } });
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

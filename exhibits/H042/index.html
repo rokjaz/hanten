@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>2.4 Miles Apart, a Day Apart</title>
+<title>H042 — 2.4 Miles Apart, a Day Apart</title>
 <meta name="description" content="Big Diomede (Russia) and Little Diomede (USA) sit 2.4 miles apart in the Bering Strait — but the International Date Line runs through the water between them.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (lavender) */ body { --hanten-paper: #EDE7F4 !important; }</style>
 
 <style>
   :root {
@@ -289,6 +290,7 @@
 <body class="hanten-theme-time">
 <main class="hanten-exhibit">
 
+  <p class="hanten-hnum">H042</p>
   <h1 class="hanten-question">How can two islands 2.4 miles apart be a day apart?</h1>
 
   <p class="hanten-subtitle">
@@ -325,7 +327,10 @@
           <text x="342" y="105" class="h042-sealabel" text-anchor="end">BERING</text>
           <text x="358" y="105" class="h042-sealabel" text-anchor="start">STRAIT</text>
 
-          <line x1="350" y1="20" x2="350" y2="360" stroke="var(--h042-dateline)" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
+          <!-- Date line drawn in pieces so it never runs through a label. -->
+          <line x1="350" y1="20" x2="350" y2="212" stroke="var(--h042-dateline)" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
+          <line x1="350" y1="236" x2="350" y2="292" stroke="var(--h042-dateline)" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
+          <line x1="350" y1="326" x2="350" y2="360" stroke="var(--h042-dateline)" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
           <text x="350" y="305" class="h042-dl-label" text-anchor="middle">INTERNATIONAL</text>
           <text x="350" y="318" class="h042-dl-label" text-anchor="middle">DATE LINE</text>
 
@@ -347,8 +352,7 @@
           <line x1="370" y1="202" x2="370" y2="214" stroke="var(--hanten-text)" stroke-width="1.4"/>
           <!-- Split across the date line, U.S. customary figure first (reading left to
                right), metric figure second. -->
-          <text x="345" y="228" class="h042-dim-label" text-anchor="end">2.4 mi</text>
-          <text x="355" y="228" class="h042-dim-label" text-anchor="start">(3.8 km)</text>
+          <text x="346" y="228" class="h042-dim-label" text-anchor="middle">2.4 mi (3.8 km)</text>
 
           <!-- Big Diomede labels: set on the Chukotka landmass itself, with a leader line
                across the narrow water gap to the island. -->
@@ -414,14 +418,18 @@
       </section>
     </div>
 
-    <div class="h042-reveal">
-        <p><strong>2.4 miles of water, and the clocks read 20 or 21 hours apart, never a clean 24.</strong> Big Diomede runs on Kamchatka Time, a fixed UTC+12 that Russia's Chukotka region has held year-round since Russia abolished daylight saving nationally in 2014. Little Diomede runs on Alaska Time, UTC−9 for most of the year and UTC−8 during daylight-saving months. Twelve minus negative nine is twenty-one; twelve minus negative eight is twenty — so the gap swings between 21 and 20 hours, always shy of a full day, with Big Diomede always further along the calendar.</p>
+    <div class="h042-reveal hanten-aha">
+        <p><span class="hanten-aha-lead">2.4 miles of water, and the clocks read 20 or 21 hours apart, never a clean 24.</span> Big Diomede runs on Kamchatka Time, a fixed UTC+12 that Russia's Chukotka region has held year-round since Russia abolished daylight saving nationally in 2014. Little Diomede runs on Alaska Time, UTC−9 for most of the year and UTC−8 during daylight-saving months. Twelve minus negative nine is twenty-one; twelve minus negative eight is twenty — so the gap swings between 21 and 20 hours, always shy of a full day, with Big Diomede always further along the calendar.</p>
         <p>A line drawn for convenience can open a gap far bigger than the distance it crosses. When two nearby places disagree about something as basic as the date, look at the rules each side chose, not the miles between them.</p>
       </div>
 
-    <p class="hanten-reflection">
-                Where else does a line on a map move the clock instead of the distance?
-            </p>
+    <section class="hanten-transfer" aria-label="Try it somewhere else">
+        <p class="hanten-transfer-kicker">Try it somewhere else</p>
+        <div class="hanten-transfer-text">
+            <p class="hanten-transfer-scenario">In 2011, Samoa moved to the other side of the International Date Line.</p>
+            <p class="hanten-transfer-question">Did Samoa have a Friday, December 30, 2011?</p>
+        </div>
+    </section>
 
     <details class="h042-explore" data-html2canvas-ignore="true">
       <summary>See the numbers</summary>
@@ -451,9 +459,8 @@
     <details class="h042-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H045/index.html" target="_blank" rel="noopener noreferrer">Does Alaska cross into the Eastern Hemisphere?</a></li>
-                    <li><a href="../H068/index.html" target="_blank" rel="noopener noreferrer">Which country has the most time zones?</a></li>
-                    <li><a href="../H066/index.html" target="_blank" rel="noopener noreferrer">Is South America east of Florida?</a></li>
+                    <li><a href="../H068/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H068</span>Which country has the most time zones?</a></li>
+                    <li><a href="../H045/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H045</span>Does Alaska cross into the Eastern Hemisphere?</a></li>
                 </ul>
             </details>
 
@@ -465,10 +472,12 @@
   <div class="hanten-utility">
     <div id="save-image-slot"></div>
   </div>
-
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H041/index.html">&larr; H041</a><a class="hanten-pager-next" href="../H043/index.html">H043 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 <script>
 (() => {
@@ -510,7 +519,11 @@
     card.appendChild(sub);
 
     const shell = document.createElement("div");
-    shell.appendChild(capture.cloneNode(true));
+    const captureClone = capture.cloneNode(true);
+    // The aha, transfer question, dropdowns and sources are added below in
+    // their own text column, so drop the copies inside the graphic.
+    captureClone.querySelectorAll(".h042-reveal, .hanten-aha, .hanten-transfer, details, .h042-source, .hanten-source, .hanten-utility, .hanten-pager, .hanten-site-footer").forEach(el => el.remove());
+    shell.appendChild(captureClone);
     card.appendChild(shell);
 
     if (reveal) {
@@ -522,7 +535,7 @@
 
     const reflection = document.createElement("div");
     reflection.className = "hanten-export-reflection";
-    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     if (source) {

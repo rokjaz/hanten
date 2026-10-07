@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>How Tall Is the Tallest Mountain?</title>
+<title>H061 — How Tall Is the Tallest Mountain?</title>
 
 <meta
     name="description"
@@ -12,6 +12,7 @@
 >
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (lavender) */ body { --hanten-paper: #EDE7F4 !important; }</style>
 
 <style>
     /*
@@ -321,6 +322,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H061</p>
         <h1 class="hanten-question" style="text-wrap:balance;">
             How tall is the tallest&nbsp;mountain?
         </h1>
@@ -449,14 +451,18 @@
 
             </div>
 
-            <div class="h061-discovery hanten-body">
-                <p><strong>"Tallest mountain" isn't one fact. It's a choice of ruler, and every ruler crowns someone different.</strong> Measured by <strong>topographic prominence</strong>, how far you'd have to descend from a peak before you could climb to something taller, K2 falls to 22nd in the world, while Aconcagua, Denali, and Kilimanjaro, none of them in the top 100 by elevation, take 2nd, 3rd, and 4th.</p>
+            <div class="h061-discovery hanten-body hanten-aha">
+                <p><span class="hanten-aha-lead">"Tallest mountain" isn't one fact. It's a choice of ruler, and every ruler crowns someone different.</span> Measured by <strong>topographic prominence</strong>, how far you'd have to descend from a peak before you could climb to something taller, K2 falls to 22nd in the world, while Aconcagua, Denali, and Kilimanjaro, none of them in the top 100 by elevation, take 2nd, 3rd, and 4th.</p>
                 <p>"Longest river," "biggest country," and "richest nation" work the same way: each ranking rests on a measurement choice that is rarely stated out loud.</p>
             </div>
 
-            <p class="hanten-reflection">
-                When you hear “tallest” or “biggest,” what definition is doing the work?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">Angel Falls is called the world's tallest waterfall. Under the ocean, cold water pours far farther.</p>
+                    <p class="hanten-transfer-question">What has to be true for something to count as the tallest waterfall?</p>
+                </div>
+            </section>
 
             <details class="h061-explore" data-html2canvas-ignore="true">
                 <summary>One more answer: how much a mountain stands on its own</summary>
@@ -504,9 +510,10 @@
             <details class="h061-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H062/index.html" target="_blank" rel="noopener noreferrer">Which river is actually the longest — the Nile or the Amazon?</a></li>
-                    <li><a href="../H064/index.html" target="_blank" rel="noopener noreferrer">What's the biggest country?</a></li>
-                    <li><a href="../H036/index.html" target="_blank" rel="noopener noreferrer">What is the world’s tallest mountain called?</a></li>
+                    <li><a href="../H062/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H062</span>Which river is actually the longest&amp;nbsp;— the Nile or the&amp;nbsp;Amazon?</a></li>
+                    <li><a href="../H074/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H074</span>What is the largest desert on Earth?</a></li>
+                    <li><a href="../H064/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H064</span>What's the biggest country?</a></li>
+                    <li><a href="../H012/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H012</span>Does the tallest dam hold the most water?</a></li>
                 </ul>
             </details>
 
@@ -523,10 +530,12 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H060/index.html">&larr; H060</a><a class="hanten-pager-next" href="../H062/index.html">H062 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {
@@ -580,7 +589,7 @@
 
         const reflection = document.createElement("div");
         reflection.className = "hanten-export-reflection";
-        reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+        reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
         card.appendChild(reflection);
 
         if (source) {

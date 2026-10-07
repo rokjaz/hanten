@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H083 — If the Sun Were a Basketball, Where Would the Nearest Star Be?</title>
+
+    <meta
+        name="description"
+        content="Shrink the Sun to a basketball and Earth becomes a grain of sand 84 feet away. Neptune is half a mile off, and the nearest star is about 4,300 miles away."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (straw) */ body { --hanten-paper: #F1EFD8 !important; }</style>
+
+    <style>
+        /*
+           H083-SPECIFIC STYLES
+           Built Oct 2026 to the v1.2 exhibit standard (hx- classes are
+           the shared backfill-exhibit pattern).
+        */
+
+        .hx-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .hx-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .hx-stats-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .hx-stats-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .hx-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .hx-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .hx-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+        .hx-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .hx-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .hx-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+        .hx-svgwrap { max-width: 700px; margin: 0 auto; }
+        .hx-panel svg { display: block; width: 100%; height: auto; margin: 0; }
+        .hx-panel svg text { font-family: var(--hanten-font); }
+        .hx-axis { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-lab { font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .hx-sub { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-val { font-size: 15px; font-weight: 800; }
+        .hx-big { font-size: 18px; font-weight: 800; }
+        .hx-note { max-width: var(--hanten-text-width); margin: 0.2rem auto 0; text-align: center; font-size: 0.78rem; font-style: italic; color: var(--hanten-muted); }
+        .hx-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .hx-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .hx-explore p { margin: .55rem 0 0; }
+        .hx-explore strong { color: var(--hanten-text); }
+        .hx-explore + .hx-explore { margin-top: 0; border-top: none; }
+        .hx-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .hx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .hx-table th, .hx-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .hx-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .hx-table td:not(:first-child) { text-align: center; }
+        .hx-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 600px) {
+            .hx-stats, .hx-stats-2, .hx-stats-4 { grid-template-columns: minmax(0, 1fr); }
+            .hx-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .hx-table { font-size: 0.76rem; }
+        }
+
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:960px;padding:40px 0 60px;box-sizing:border-box;background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    </style>
+</head>
+
+<body class="hanten-theme-scale">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H083</p>
+        <h1 class="hanten-question">If the Sun were a basketball, how far away would the nearest star be?</h1>
+
+        <p class="hanten-subtitle">Pictures of the solar system put the planets side by side like beads on a string, with the stars as a nearby backdrop. The real distances don't fit on any page.</p>
+
+        <div id="h083-capture">
+
+            <div class="hanten-graphic">
+<div class="hx-stats hx-stats-3">
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Earth</div>
+    <div class="hx-stat-n" style="color:#1f6f8b">84 ft</div>
+    <div class="hx-stat-l">away: a grain of sand across a basketball court</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Neptune</div>
+    <div class="hx-stat-n" style="color:#1A3E6E">½ mile</div>
+    <div class="hx-stat-l">away: a speck the size of a sesame seed</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Nearest star</div>
+    <div class="hx-stat-n" style="color:#b23b32">≈4,300 mi</div>
+    <div class="hx-stat-l">away: another basketball, about New York to Rome</div>
+  </div>
+</div>
+<div class="hanten-panel hx-panel ">
+  <p class="hx-panel-title">The solar system at basketball scale</p>
+  <p class="hx-panel-sub">Sun shrunk to 9.4 inches across; every distance shrunk by the same amount</p>
+  <div class="hx-svgwrap"><svg viewBox="0 0 700 260" role="img">
+<line x1="40" y1="150" x2="660" y2="150" stroke="#9a958b" stroke-width="2"/>
+<line x1="40.0" y1="146" x2="40.0" y2="154" stroke="#9a958b"/><text class="hx-axis" x="40.0" y="170" text-anchor="middle">1 in</text>
+<line x1="114.3" y1="146" x2="114.3" y2="154" stroke="#9a958b"/><text class="hx-axis" x="114.3" y="170" text-anchor="middle">1 ft</text>
+<line x1="252.1" y1="146" x2="252.1" y2="154" stroke="#9a958b"/><text class="hx-axis" x="252.1" y="170" text-anchor="middle">100 ft</text>
+<line x1="370.8" y1="146" x2="370.8" y2="154" stroke="#9a958b"/><text class="hx-axis" x="370.8" y="170" text-anchor="middle">1 mi</text>
+<line x1="508.6" y1="146" x2="508.6" y2="154" stroke="#9a958b"/><text class="hx-axis" x="508.6" y="170" text-anchor="middle">100 mi</text>
+<line x1="646.3" y1="146" x2="646.3" y2="154" stroke="#9a958b"/><text class="hx-axis" x="646.3" y="170" text-anchor="middle">10,000 mi</text>
+<circle cx="68.6" cy="150" r="6" fill="#9a958b" stroke="#fff" stroke-width="2"/>
+<line x1="68.6" y1="143" x2="68.6" y2="130" stroke="#9a958b" stroke-width="1"/>
+<text class="hx-lab" x="68.6" y="112" text-anchor="middle">Moon</text><text class="hx-sub" x="68.6" y="126" text-anchor="middle">2.6 in from Earth</text>
+<circle cx="247.0" cy="150" r="6" fill="#1f6f8b" stroke="#fff" stroke-width="2"/>
+<line x1="247.0" y1="143" x2="247.0" y2="100" stroke="#1f6f8b" stroke-width="1"/>
+<text class="hx-lab" x="247.0" y="82" text-anchor="middle">Earth</text><text class="hx-sub" x="247.0" y="96" text-anchor="middle">84 ft away</text>
+<circle cx="296.3" cy="150" r="6" fill="#c98a12" stroke="#fff" stroke-width="2"/>
+<line x1="296.3" y1="143" x2="296.3" y2="130" stroke="#c98a12" stroke-width="1"/>
+<text class="hx-lab" x="296.3" y="112" text-anchor="middle">Jupiter</text><text class="hx-sub" x="296.3" y="126" text-anchor="middle">440 ft</text>
+<circle cx="348.9" cy="150" r="6" fill="#1A3E6E" stroke="#fff" stroke-width="2"/>
+<line x1="348.9" y1="143" x2="348.9" y2="70" stroke="#1A3E6E" stroke-width="1"/>
+<text class="hx-lab" x="348.9" y="52" text-anchor="middle">Neptune</text><text class="hx-sub" x="348.9" y="66" text-anchor="middle">about ½ mile</text>
+<circle cx="620.9" cy="150" r="6" fill="#b23b32" stroke="#fff" stroke-width="2"/>
+<line x1="620.9" y1="143" x2="620.9" y2="130" stroke="#b23b32" stroke-width="1"/>
+<text class="hx-lab" x="620.9" y="112" text-anchor="middle">Nearest star</text><text class="hx-sub" x="620.9" y="126" text-anchor="middle">about 4,300 miles</text>
+<text class="hx-sub" x="350.0" y="206" text-anchor="middle">Distance from the basketball Sun (the Moon is measured from Earth). Each step on the line is 10 times farther.</text>
+<circle cx="40" cy="232" r="9" fill="#c98a12"/><text class="hx-sub" x="56" y="236">the basketball Sun, 9.4 inches across; Earth would be a grain of sand 0.09 inch across</text>
+</svg></div>
+</div>
+            </div>
+
+            <div class="hx-aha hanten-aha">
+                <p><span class="hanten-aha-lead">Space is almost entirely empty, and the gaps between stars dwarf the gaps between planets.</span> Shrink the Sun to a basketball and Earth becomes a grain of sand about 84 feet away, and the Moon sits less than three inches from it. Neptune, the farthest planet, is about half a mile from the basketball. The nearest other star, Proxima Centauri, would be about 4,300 miles away: one basketball in New York and the next one near Rome, with almost nothing in between.</p>
+                <p>Diagrams squeeze sizes and distances onto one page, and our sense of scale follows the diagram. When a picture shows things close together, ask whether it is drawn to scale.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A textbook drawing shows an atom as a nucleus with electrons circling close around it.</p>
+                    <p class="hanten-transfer-question">If the nucleus were a marble, how far away do you think the electrons would be?</p>
+                </div>
+            </section>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Checking the math</summary>
+                <p>The Sun is about 864,000 miles across; a men's basketball is about 9.4 inches across. Every distance is divided by the same factor, about 5.8 billion. Earth's 93 million miles becomes about 84 feet. Neptune's 2.8 billion miles becomes about 2,500 feet. Proxima Centauri, 4.24 light-years or about 25 trillion miles away, becomes about 4,300 miles. (For the atom question: with a marble nucleus, the electrons would be roughly a quarter mile to a mile away.)</p>
+            </details>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H011/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H011</span>Could all the other planets fit between Earth and the Moon?</a></li>
+                    <li><a href="../H020/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H020</span>How long would it take to drive to the International Space Station?</a></li>
+                    <li><a href="../H078/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H078</span>How far apart are a million and a billion?</a></li>
+                    <li><a href="../H073/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H073</span>If you gathered all of Earth's water into one ball, how big would it be?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Sun diameter and planet distances: NASA Solar System Exploration. Proxima Centauri distance (4.24 light-years): NASA. Scale calculations by Hanten.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H082/index.html">&larr; H082</a><a class="hanten-pager-next" href="../H084/index.html">H084 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-sun-as-a-basketball.png", title = "If the Sun Were a Basketball, Where Would the Nearest Star Be?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+        const clone = main.cloneNode(true);
+        clone.querySelectorAll(".hanten-utility, .hanten-pager, .hanten-site-footer, details").forEach(el => el.remove());
+        card.appendChild(clone);
+        document.body.appendChild(card);
+        // html2canvas draws an SVG at its attribute size, so pin each one to the size it renders at
+        card.querySelectorAll("svg").forEach(svg => { const r = svg.getBoundingClientRect(); if (r.width) { svg.setAttribute("width", r.width); svg.setAttribute("height", r.height); } });
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

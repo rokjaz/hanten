@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H032 — Did Cleopatra Live Closer to the Pyramids or the Moon Landing?</title>
+
+    <meta
+        name="description"
+        content="Cleopatra lived closer in time to the Moon landing than to the building of the Great Pyramid, and T. rex lived closer to us than to Stegosaurus. &quot;Ancient&quot; squeezes very different stretches of time together."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (sky) */ body { --hanten-paper: #E2EEF5 !important; }</style>
+
+    <style>
+        /*
+           H032-SPECIFIC STYLES
+           Built Oct 2026 to the v1.2 exhibit standard (hx- classes are
+           the shared backfill-exhibit pattern).
+        */
+
+        .hx-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .hx-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .hx-stats-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .hx-stats-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .hx-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .hx-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .hx-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+        .hx-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .hx-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .hx-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+        .hx-svgwrap { max-width: 700px; margin: 0 auto; }
+        .hx-panel svg { display: block; width: 100%; height: auto; margin: 0; }
+        .hx-panel svg text { font-family: var(--hanten-font); }
+        .hx-axis { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-lab { font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .hx-sub { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-val { font-size: 15px; font-weight: 800; }
+        .hx-big { font-size: 18px; font-weight: 800; }
+        .hx-note { max-width: var(--hanten-text-width); margin: 0.2rem auto 0; text-align: center; font-size: 0.78rem; font-style: italic; color: var(--hanten-muted); }
+        .hx-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .hx-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .hx-explore p { margin: .55rem 0 0; }
+        .hx-explore strong { color: var(--hanten-text); }
+        .hx-explore + .hx-explore { margin-top: 0; border-top: none; }
+        .hx-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .hx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .hx-table th, .hx-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .hx-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .hx-table td:not(:first-child) { text-align: center; }
+        .hx-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 600px) {
+            .hx-stats, .hx-stats-2, .hx-stats-4 { grid-template-columns: minmax(0, 1fr); }
+            .hx-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .hx-table { font-size: 0.76rem; }
+        }
+
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:960px;padding:40px 0 60px;box-sizing:border-box;background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    </style>
+</head>
+
+<body class="hanten-theme-time">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H032</p>
+        <h1 class="hanten-question">Did Cleopatra live closer in time to the pyramids or to the Moon landing?</h1>
+
+        <p class="hanten-subtitle">We file the Great Pyramid and Cleopatra together under "ancient Egypt," and T. rex and Stegosaurus together under "dinosaurs." The gaps inside those labels are bigger than the gaps between them and us.</p>
+
+        <div id="h032-capture">
+
+            <div class="hanten-graphic">
+<div class="hx-stats hx-stats-3">
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Pyramid to Cleopatra</div>
+    <div class="hx-stat-n" style="color:#b23b32">≈2,500 years</div>
+    <div class="hx-stat-l">Great Pyramid finished about 2560 BC; Cleopatra born 69 BC</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Cleopatra to Moon landing</div>
+    <div class="hx-stat-n" style="color:#1f6f8b">≈2,000 years</div>
+    <div class="hx-stat-l">Cleopatra born 69 BC; Apollo 11 landed in 1969</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">T. rex to Stegosaurus</div>
+    <div class="hx-stat-n" style="color:#c98a12">77+ million yrs</div>
+    <div class="hx-stat-l">T. rex is closer to us: about 66 million years</div>
+  </div>
+</div>
+<div class="hanten-panel hx-panel ">
+  <p class="hx-panel-title">Human history</p>
+  <p class="hx-panel-sub">The Great Pyramid, Cleopatra, and the Moon landing on one timeline</p>
+  <div class="hx-svgwrap"><svg viewBox="0 0 700 170" role="img">
+<line x1="40" y1="100" x2="660" y2="100" stroke="#9a958b" stroke-width="2"/>
+<line x1="78.0" y1="96" x2="78.0" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="78.0" y="118" text-anchor="middle">2500 BC</text>
+<line x1="141.2" y1="96" x2="141.2" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="141.2" y="118" text-anchor="middle">2000 BC</text>
+<line x1="204.5" y1="96" x2="204.5" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="204.5" y="118" text-anchor="middle">1500 BC</text>
+<line x1="267.8" y1="96" x2="267.8" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="267.8" y="118" text-anchor="middle">1000 BC</text>
+<line x1="331.0" y1="96" x2="331.0" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="331.0" y="118" text-anchor="middle">500 BC</text>
+<line x1="394.3" y1="96" x2="394.3" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="394.3" y="118" text-anchor="middle">AD 1</text>
+<line x1="457.6" y1="96" x2="457.6" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="457.6" y="118" text-anchor="middle">500</text>
+<line x1="520.8" y1="96" x2="520.8" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="520.8" y="118" text-anchor="middle">1000</text>
+<line x1="584.1" y1="96" x2="584.1" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="584.1" y="118" text-anchor="middle">1500</text>
+<line x1="647.3" y1="96" x2="647.3" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="647.3" y="118" text-anchor="middle">2000</text>
+<circle cx="70.4" cy="100" r="6" fill="#9a958b" stroke="#fff" stroke-width="2"/>
+<text class="hx-lab" x="70.4" y="138" text-anchor="middle">Great Pyramid</text>
+<text class="hx-sub" x="70.4" y="152" text-anchor="middle">about 2560 BC</text>
+<rect x="385.6" y="94" width="4.9" height="12" rx="3" fill="#1A3E6E"/>
+<text class="hx-lab" x="388.0" y="138" text-anchor="middle">Cleopatra</text>
+<text class="hx-sub" x="388.0" y="152" text-anchor="middle">69–30 BC</text>
+<circle cx="643.4" cy="100" r="6" fill="#1f6f8b" stroke="#fff" stroke-width="2"/>
+<text class="hx-lab" x="643.4" y="138" text-anchor="middle">Moon landing</text>
+<text class="hx-sub" x="643.4" y="152" text-anchor="middle">1969</text>
+<path d="M70.4,68 V58 H385.6 V68" fill="none" stroke="#b23b32" stroke-width="2"/>
+<text class="hx-val" x="228.0" y="52" text-anchor="middle" fill="#b23b32">≈2,500 years</text>
+<path d="M385.6,68 V58 H643.4 V68" fill="none" stroke="#1f6f8b" stroke-width="2"/>
+<text class="hx-val" x="514.5" y="52" text-anchor="middle" fill="#1f6f8b">≈2,000 years</text>
+</svg></div>
+</div>
+<div class="hanten-panel hx-panel ">
+  <p class="hx-panel-title">Deep time</p>
+  <p class="hx-panel-sub">Stegosaurus, T. rex, and today, in millions of years ago</p>
+  <div class="hx-svgwrap"><svg viewBox="0 0 700 170" role="img">
+<line x1="40" y1="100" x2="660" y2="100" stroke="#9a958b" stroke-width="2"/>
+<line x1="94.7" y1="96" x2="94.7" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="94.7" y="118" text-anchor="middle">150M</text>
+<line x1="185.9" y1="96" x2="185.9" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="185.9" y="118" text-anchor="middle">125M</text>
+<line x1="277.1" y1="96" x2="277.1" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="277.1" y="118" text-anchor="middle">100M</text>
+<line x1="368.2" y1="96" x2="368.2" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="368.2" y="118" text-anchor="middle">75M</text>
+<line x1="459.4" y1="96" x2="459.4" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="459.4" y="118" text-anchor="middle">50M</text>
+<line x1="550.6" y1="96" x2="550.6" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="550.6" y="118" text-anchor="middle">25M</text>
+<line x1="641.8" y1="96" x2="641.8" y2="104" stroke="#9a958b"/>
+<text class="hx-axis" x="641.8" y="118" text-anchor="middle">Today</text>
+<rect x="76.5" y="94" width="36.5" height="12" rx="3" fill="#9a958b"/>
+<text class="hx-lab" x="94.7" y="138" text-anchor="middle">Stegosaurus</text>
+<text class="hx-sub" x="94.7" y="152" text-anchor="middle">155–145 million years ago</text>
+<rect x="393.8" y="94" width="7.3" height="12" rx="3" fill="#1A3E6E"/>
+<text class="hx-lab" x="397.4" y="138" text-anchor="middle">T. rex</text>
+<text class="hx-sub" x="397.4" y="152" text-anchor="middle">68–66 million years ago</text>
+<circle cx="641.8" cy="100" r="6" fill="#1f6f8b" stroke="#fff" stroke-width="2"/>
+<text class="hx-lab" x="641.8" y="138" text-anchor="middle">You</text>
+<text class="hx-sub" x="641.8" y="152" text-anchor="middle">today</text>
+<path d="M112.9,68 V58 H393.8 V68" fill="none" stroke="#b23b32" stroke-width="2"/>
+<text class="hx-val" x="253.4" y="52" text-anchor="middle" fill="#b23b32">at least 77 million years</text>
+<path d="M401.1,68 V58 H641.8 V68" fill="none" stroke="#1f6f8b" stroke-width="2"/>
+<text class="hx-val" x="521.4" y="52" text-anchor="middle" fill="#1f6f8b">66 million years</text>
+</svg></div>
+</div>
+            </div>
+
+            <div class="hx-aha hanten-aha">
+                <p><span class="hanten-aha-lead">"Ancient" and "prehistoric" pack very different spans of time into one word.</span> When Cleopatra ruled, the Great Pyramid was already about 2,500 years old, a longer gap than the roughly 2,000 years between her and Apollo 11. Stegosaurus had been extinct for at least 77 million years before the first T. rex appeared, more than the 66 million years since T. rex.</p>
+                <p>Labels like "the ancient world" or "the age of dinosaurs" feel like single moments because we learn them as single chapters. Before comparing two things filed under the same label, put them on the same timeline.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">Woolly mammoths and the Great Pyramid both feel like they belong to the distant past.</p>
+                    <p class="hanten-transfer-question">Were woolly mammoths still alive when the pyramid was built?</p>
+                </div>
+            </section>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>More time that hides inside one word</summary>
+                <p>Yes: a small population of woolly mammoths survived on Wrangel Island, off Siberia, until about 4,000 years ago, several centuries after the Great Pyramid was finished. Oxford University was already teaching students in 1096, more than two centuries before the Aztec city of Tenochtitlan was founded in 1325. And the Roman Empire lasted longer in the east, through Constantinople until 1453, than the United States has existed.</p>
+            </details>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H047/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H047</span>Is it true that more people are alive today than have ever died?</a></li>
+                    <li><a href="../H027/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H027</span>Did the United States grow one state at a time?</a></li>
+                    <li><a href="../H078/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H078</span>How far apart are a million and a billion?</a></li>
+                    <li><a href="../H028/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H028</span>How quickly does chess get big?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Great Pyramid dating and Cleopatra (69–30 BC): Encyclopaedia Britannica. Apollo 11: NASA. Stegosaurus (about 155–145 million years ago) and T. rex (about 68–66 million years ago): Smithsonian National Museum of Natural History. Wrangel Island mammoths: Vartanyan et al., Nature, 1993. Oxford and Tenochtitlan: Encyclopaedia Britannica.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H031/index.html">&larr; H031</a><a class="hanten-pager-next" href="../H033/index.html">H033 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-deep-time-compression.png", title = "Did Cleopatra Live Closer to the Pyramids or the Moon Landing?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+        const clone = main.cloneNode(true);
+        clone.querySelectorAll(".hanten-utility, .hanten-pager, .hanten-site-footer, details").forEach(el => el.remove());
+        card.appendChild(clone);
+        document.body.appendChild(card);
+        // html2canvas draws an SVG at its attribute size, so pin each one to the size it renders at
+        card.querySelectorAll("svg").forEach(svg => { const r = svg.getBoundingClientRect(); if (r.width) { svg.setAttribute("width", r.width); svg.setAttribute("height", r.height); } });
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

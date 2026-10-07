@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H088 — Which Weighs More: A Pound of Feathers or a Pound of Gold?</title>
+
+    <meta
+        name="description"
+        content="Gold is weighed in troy pounds of 373 grams; feathers in ordinary pounds of 454 grams. So a pound of feathers is heavier, yet an ounce of gold is heavier than an ounce of feathers."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (rose) */ body { --hanten-paper: #F3E4EA !important; }</style>
+
+    <style>
+        /*
+           H088-SPECIFIC STYLES
+           Built Oct 2026 to the v1.2 exhibit standard (hx- classes are
+           the shared backfill-exhibit pattern).
+        */
+
+        .hx-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .hx-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .hx-stats-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .hx-stats-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .hx-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .hx-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .hx-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+        .hx-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .hx-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .hx-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+        .hx-svgwrap { max-width: 700px; margin: 0 auto; }
+        .hx-panel svg { display: block; width: 100%; height: auto; margin: 0; }
+        .hx-panel svg text { font-family: var(--hanten-font); }
+        .hx-axis { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-lab { font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .hx-sub { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-val { font-size: 15px; font-weight: 800; }
+        .hx-big { font-size: 18px; font-weight: 800; }
+        .hx-note { max-width: var(--hanten-text-width); margin: 0.2rem auto 0; text-align: center; font-size: 0.78rem; font-style: italic; color: var(--hanten-muted); }
+        .hx-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .hx-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .hx-explore p { margin: .55rem 0 0; }
+        .hx-explore strong { color: var(--hanten-text); }
+        .hx-explore + .hx-explore { margin-top: 0; border-top: none; }
+        .hx-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .hx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .hx-table th, .hx-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .hx-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .hx-table td:not(:first-child) { text-align: center; }
+        .hx-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 600px) {
+            .hx-stats, .hx-stats-2, .hx-stats-4 { grid-template-columns: minmax(0, 1fr); }
+            .hx-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .hx-table { font-size: 0.76rem; }
+        }
+
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:960px;padding:40px 0 60px;box-sizing:border-box;background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    </style>
+</head>
+
+<body class="hanten-theme-measurement">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H088</p>
+        <h1 class="hanten-question">Which weighs more: a pound of feathers or a pound of gold?</h1>
+
+        <p class="hanten-subtitle">It's the classic trick question, and the classic answer is "they weigh the same." But gold isn't weighed in the same pounds as feathers.</p>
+
+        <div id="h088-capture">
+
+            <div class="hanten-graphic">
+<div class="hx-stats hx-stats-3">
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Everyday pound</div>
+    <div class="hx-stat-n" style="color:#9a958b">453.6 g</div>
+    <div class="hx-stat-l">16 ordinary (avoirdupois) ounces</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Troy pound, for gold</div>
+    <div class="hx-stat-n" style="color:#c98a12">373.2 g</div>
+    <div class="hx-stat-l">12 troy ounces: about 18% lighter</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">But a troy ounce</div>
+    <div class="hx-stat-n" style="color:#b23b32">31.10 g</div>
+    <div class="hx-stat-l">is heavier than an ordinary ounce (28.35 g)</div>
+  </div>
+</div>
+<div class="hanten-panel hx-panel ">
+  <p class="hx-panel-title">Same word, different weights</p>
+  <p class="hx-panel-sub">Precious metals are weighed in troy units; almost everything else in avoirdupois</p>
+  <div class="hx-svgwrap"><svg viewBox="0 0 700 250" role="img">
+<text class="hx-lab" x="175" y="22" text-anchor="middle">A pound of each</text>
+<path d="M175,200 L145,226 L205,226 Z" fill="#9a958b"/><line x1="175" y1="70" x2="175" y2="200" stroke="#9a958b" stroke-width="4"/>
+<line x1="75" y1="82" x2="275" y2="58" stroke="#9a958b" stroke-width="4" stroke-linecap="round"/>
+<line x1="75" y1="82" x2="41" y2="142" stroke="#9a958b"/><line x1="75" y1="82" x2="109" y2="142" stroke="#9a958b"/>
+<path d="M31,142 Q75,168 119,142 Z" fill="#9a958b"/>
+<text class="hx-lab" x="75" y="190" text-anchor="middle">Pound of feathers</text><text class="hx-val" x="75" y="210" text-anchor="middle" fill="#9a958b">453.6 g</text>
+<line x1="275" y1="58" x2="241" y2="118" stroke="#9a958b"/><line x1="275" y1="58" x2="309" y2="118" stroke="#9a958b"/>
+<path d="M231,118 Q275,144 319,118 Z" fill="#c98a12"/>
+<text class="hx-lab" x="275" y="166" text-anchor="middle">Pound of gold</text><text class="hx-val" x="275" y="186" text-anchor="middle" fill="#c98a12">373.2 g</text>
+<text class="hx-lab" x="525" y="22" text-anchor="middle">An ounce of each</text>
+<path d="M525,200 L495,226 L555,226 Z" fill="#9a958b"/><line x1="525" y1="70" x2="525" y2="200" stroke="#9a958b" stroke-width="4"/>
+<line x1="425" y1="62" x2="625" y2="78" stroke="#9a958b" stroke-width="4" stroke-linecap="round"/>
+<line x1="425" y1="62" x2="391" y2="122" stroke="#9a958b"/><line x1="425" y1="62" x2="459" y2="122" stroke="#9a958b"/>
+<path d="M381,122 Q425,148 469,122 Z" fill="#9a958b"/>
+<text class="hx-lab" x="425" y="170" text-anchor="middle">Ounce of feathers</text><text class="hx-val" x="425" y="190" text-anchor="middle" fill="#9a958b">28.35 g</text>
+<line x1="625" y1="78" x2="591" y2="138" stroke="#9a958b"/><line x1="625" y1="78" x2="659" y2="138" stroke="#9a958b"/>
+<path d="M581,138 Q625,164 669,138 Z" fill="#c98a12"/>
+<text class="hx-lab" x="625" y="186" text-anchor="middle">Ounce of gold</text><text class="hx-val" x="625" y="206" text-anchor="middle" fill="#c98a12">31.10 g</text>
+</svg></div>
+</div>
+            </div>
+
+            <div class="hx-aha hanten-aha">
+                <p><span class="hanten-aha-lead">The same unit name can mean different amounts depending on what is being measured.</span> Feathers are weighed in ordinary avoirdupois pounds of 16 ounces, about 454 grams. Gold is weighed in troy pounds of only 12 ounces, about 373 grams. So a pound of feathers is heavier. But each troy ounce is bigger than an ordinary ounce, so an ounce of gold outweighs an ounce of feathers.</p>
+                <p>When two numbers share a unit name, check that they share a definition. "Pound," "ton," "cup," "gallon," and "mile" all have more than one official version.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A recipe from Britain calls for a pint of milk, and you measure out a U.S. pint.</p>
+                    <p class="hanten-transfer-question">Will you have the amount the recipe expects?</p>
+                </div>
+            </section>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Other words that hide two sizes</summary>
+                <p>A British (imperial) pint is 20 fluid ounces; a U.S. pint is 16, so you would be about 20% short. A "ton" can be a short ton (2,000 lb, U.S.), a long ton (2,240 lb, U.K.), or a metric tonne (about 2,205 lb). A nautical mile is about 6,076 feet versus 5,280 for a land mile. Gold prices today are still quoted per troy ounce.</p>
+            </details>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H086/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H086</span>The unemployment rate is 4.1%. Does that mean almost everyone who wants a job has one?</a></li>
+                    <li><a href="../H100/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H100</span>Ground beef labeled "80% lean." Is it a low-fat food?</a></li>
+                    <li><a href="../H092/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H092</span>Tic Tacs are about 90% sugar. So why does the label say 0 g sugar?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Troy and avoirdupois units: National Institute of Standards and Technology (NIST), Handbook 44, Appendix C. Pint and ton definitions: NIST; UK Weights and Measures Act 1985.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H087/index.html">&larr; H087</a><a class="hanten-pager-next" href="../H089/index.html">H089 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-pound-of-feathers-vs-gold.png", title = "Which Weighs More: A Pound of Feathers or a Pound of Gold?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+        const clone = main.cloneNode(true);
+        clone.querySelectorAll(".hanten-utility, .hanten-pager, .hanten-site-footer, details").forEach(el => el.remove());
+        card.appendChild(clone);
+        document.body.appendChild(card);
+        // html2canvas draws an SVG at its attribute size, so pin each one to the size it renders at
+        card.querySelectorAll("svg").forEach(svg => { const r = svg.getBoundingClientRect(); if (r.width) { svg.setAttribute("width", r.width); svg.setAttribute("height", r.height); } });
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

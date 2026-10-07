@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Gulf of Mexico or Gulf of America?</title>
+<title>H033 — Gulf of Mexico or Gulf of America?</title>
 <meta name="description" content="The same gulf can now appear under different names depending on the government, mapmaker, and location of the viewer.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (rose) */ body { --hanten-paper: #F3E4EA !important; } main.hanten-exhibit h1.hanten-question { color: var(--hanten-text) !important; font-weight: 700 !important; }</style>
 
 <style>
   :root {
@@ -260,6 +261,7 @@
 <body class="hanten-theme-perspective">
 <main class="hanten-exhibit">
 
+  <p class="hanten-hnum">H033</p>
   <h1 class="hanten-question">Gulf of Mexico or Gulf of America?</h1>
 
   <p class="hanten-subtitle">
@@ -294,14 +296,18 @@
         </div>
       </div>
 
-      <div class="h033-reveal">
-        <p><strong>The water does not move. The viewer does.</strong> "Gulf of Mexico" — "Golfo de México" — has been the name in continuous international use since Spanish colonial cartography in the 1500s, and Mexico and most of the world still use it. On January 20, 2025, his first day back in office, President Trump signed Executive Order 14172 directing U.S. federal agencies to use "Gulf of America" instead; the order applies only to the U.S. side of the gulf, not to Mexico's or Cuba's waters.</p>
+      <div class="h033-reveal hanten-aha">
+        <p><span class="hanten-aha-lead">The water does not move. The viewer does.</span> "Gulf of Mexico" — "Golfo de México" — has been the name in continuous international use since Spanish colonial cartography in the 1500s, and Mexico and most of the world still use it. On January 20, 2025, his first day back in office, President Trump signed Executive Order 14172 directing U.S. federal agencies to use "Gulf of America" instead; the order applies only to the U.S. side of the gulf, not to Mexico's or Cuba's waters.</p>
                 <p>A name can change by decree without anything on the ground changing. The name a map uses tells you who made the map, not what the place is.</p>
             </div>
 
-      <p class="hanten-reflection">
-                Which label on your map would change if you lived across the border?
-            </p>
+      <section class="hanten-transfer" aria-label="Try it somewhere else">
+          <p class="hanten-transfer-kicker">Try it somewhere else</p>
+          <div class="hanten-transfer-text">
+              <p class="hanten-transfer-scenario">Iran calls it the Persian Gulf. Many Arab governments call it the Arabian Gulf.</p>
+              <p class="hanten-transfer-question">Which name would your map use if it were printed on the other side of the water?</p>
+          </div>
+      </section>
 
       <details class="h033-explore" data-html2canvas-ignore="true">
         <summary>Explore how the name changes</summary>
@@ -346,9 +352,9 @@
             <details class="h033-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H036/index.html" target="_blank" rel="noopener noreferrer">What is the world’s tallest mountain called?</a></li>
-                    <li><a href="../H098/index.html" target="_blank" rel="noopener noreferrer">Somaliland has run its own government since 1991. Is it a country?</a></li>
-                    <li><a href="../H037/index.html" target="_blank" rel="noopener noreferrer">Whose country is Crimea on the map?</a></li>
+                    <li><a href="../H036/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H036</span>What is the world’s tallest mountain called?</a></li>
+                    <li><a href="../H098/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H098</span>Somaliland has run its own government since 1991. Is it a country?</a></li>
+                    <li><a href="../H037/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H037</span>Whose country is Crimea on the map?</a></li>
                 </ul>
             </details>
 
@@ -362,7 +368,8 @@
 
     </div>
   </div>
-
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H032/index.html">&larr; H032</a><a class="hanten-pager-next" href="../H034/index.html">H034 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script src="../../assets/js/d3.v7.min.js"></script>
@@ -481,6 +488,7 @@
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 <script>
 (() => {
@@ -535,7 +543,7 @@
 
     const reflection = document.createElement("div");
     reflection.className = "hanten-export-reflection";
-    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     if (source) {

@@ -1,418 +1,238 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Africa Is 14 Greenlands | Hanten</title>
-    <meta name="description" content="On a Mercator map, Greenland looks as big as Africa. At true scale, it takes 14 Greenlands to cover it.">
+    <title>H023 — On Most World Maps, Greenland Looks as Big as Africa. How Big Is It Really?</title>
+    <meta name="description" content="A Mercator world map draws Greenland slightly larger than Africa. In reality, Africa is 14 times bigger.">
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (parchment) */ body { --hanten-paper: #F4ECDF !important; }</style>
 
     <style>
+        /* H023-SPECIFIC STYLES — shared rules live in hanten.css. */
         :root {
-            --h023-ocean: #d7e3e0;
-            --h023-graticule: rgba(28,39,51,0.10);
-            --h023-africa: #d6dbd0;
+            --h023-africa: #b9c2ae;
             --h023-africa-line: #8f9a87;
             --h023-greenland: #1f6f8b;
         }
+        .h023-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h023-compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem; }
+        .h023-col-title { font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.2rem; }
+        .h023-col-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .h023-compare svg { display: block; width: 100%; height: auto; }
+        .h023-compare svg text { font-family: var(--hanten-font); }
+        .h023-name { font-size: 15px; font-weight: 700; text-anchor: middle; }
+        .h023-name-af { fill: #5d6a53; }
+        .h023-name-gl { fill: var(--h023-greenland); }
+        .h023-africa { fill: var(--h023-africa); stroke: var(--h023-africa); stroke-width: 0.7; stroke-linejoin: round; }
+        .h023-greenland { fill: var(--h023-greenland); stroke: var(--h023-greenland); stroke-width: 0.5; stroke-linejoin: round; }
+        .h023-stat { text-align: center; margin-top: 0.35rem; font-size: 0.95rem; }
+        .h023-stat strong { font-size: 1.35rem; font-weight: 800; color: var(--h023-greenland); display: block; line-height: 1.2; font-variant-numeric: tabular-nums; }
+        .h023-note { text-align: center; font-size: 0.78rem; color: var(--hanten-muted); margin: 0.8rem 0 0; }
 
-        #h023-graphic {
-            display: block;
-            width: auto;
-            max-width: 100%;
-            height: min(58vh, 610px);
-            margin: 0 auto;
-        }
+        /* Aha text: on the page background, no tint, no accent bar. */
+        .h023-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h023-aha p { margin: 0 0 0.6rem; }
+        .h023-aha p:last-child { margin-bottom: 0; }
 
-        #h023-graphic .ocean {
-            fill: var(--h023-ocean);
-            stroke: var(--hanten-border, rgba(28,39,51,0.14));
-            stroke-width: 1;
-        }
+        /* Dropdowns: supporting content kept out of the saved image. */
+        .h023-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h023-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h023-explore p { margin: .55rem 0 0; }
+        .h023-explore strong { color: var(--hanten-text); }
+        .h023-explore + .h023-explore { margin-top: 0; border-top: none; }
 
-        #h023-graphic .graticule {
-            fill: none;
-            stroke: var(--h023-graticule);
-            stroke-width: .6;
-        }
+        /* Tables: headers centered; text columns left, value columns centered. */
+        .h023-table { width: 100%; border-collapse: collapse; font-size: .82rem; margin: .7rem 0 .2rem; color: var(--hanten-text); }
+        .h023-table th, .h023-table td { padding: .45rem .5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h023-table th { text-align: center; font-size: .7rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h023-table td { text-align: left; }
+        .h023-table td.hanten-num { text-align: center; font-variant-numeric: tabular-nums; }
+        .h023-table tr:last-child td { border-bottom: none; }
 
-        #h023-graphic .africa {
-            fill: var(--h023-africa);
-            stroke: var(--h023-africa-line);
-            stroke-width: 0.8;
-        }
+        .hanten-source { max-width: 760px; margin: .9rem auto 0; text-align: left; }
 
-        #h023-graphic .greenland {
-            fill: var(--h023-greenland);
-            fill-opacity: 0.82;
-            stroke: #ffffff;
-            stroke-width: 1;
+        @media (max-width: 640px) {
+            .h023-compare { grid-template-columns: 1fr; gap: 1.1rem; }
+            .h023-panel { padding: 0.9rem 0.7rem 0.8rem; }
         }
-
-        #h023-graphic .greenland-number {
-            font-family: var(--hanten-font);
-            font-size: 15px;
-            font-weight: 700;
-            fill: #ffffff;
-            text-anchor: middle;
-            paint-order: stroke;
-            stroke: rgba(28, 39, 51, 0.42);
-            stroke-width: 3px;
-        }
-
-        .h023-step {
-            max-width: 760px;
-            margin: 0 auto .35rem;
-            display: flex;
-            align-items: baseline;
-            gap: .55rem;
-            font-size: .9rem;
-            color: var(--hanten-text, #1c2733);
-        }
-        .h023-step-num {
-            flex: 0 0 auto;
-            display: inline-grid;
-            place-items: center;
-            width: 1.45rem;
-            height: 1.45rem;
-            border-radius: 50%;
-            background: var(--h023-greenland);
-            color: #ffffff;
-            font-size: .78rem;
-            font-weight: 800;
-        }
-        .h023-step strong { font-weight: 800; }
-        .h023-step + .h023-step-sub { max-width: 760px; margin: -.2rem auto .5rem; padding-left: 2rem; font-size: .78rem; color: var(--hanten-muted, #66727d); }
-
-        #h023-mercator {
-            display: block;
-            width: 100%;
-            max-width: 760px;
-            height: auto;
-            margin: 0 auto 1.3rem;
-            border-radius: 6px;
-        }
-        #h023-mercator .ocean { fill: var(--h023-ocean); }
-        #h023-mercator .land { fill: #e3e5dd; stroke: #ffffff; stroke-width: .3; }
-        #h023-mercator .africa { fill: #b9c2ae; stroke: #8f9a87; stroke-width: .5; }
-        #h023-mercator .greenland { fill: var(--h023-greenland); fill-opacity: .88; stroke: #ffffff; stroke-width: .6; }
-        #h023-mercator .merc-label {
-            font-family: var(--hanten-font, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif);
-            font-weight: 800;
-            fill: #ffffff;
-            paint-order: stroke;
-            stroke-width: 3px;
-            stroke-linejoin: round;
-            text-anchor: middle;
-        }
-
-        .h023-ratio {
-            margin-top: .45rem;
-            text-align: center;
-            font-size: .76rem;
-            color: var(--hanten-muted, #66727d);
-        }
-
-        .h023-takeaway {
-            max-width: 800px;
-            margin: .8rem auto 0;
-            padding: .15rem 0;
-            font-size: .95rem;
-            line-height: 1.45;
-            color: #1c2733;
-            text-align: left;
-        }
-
-        .h023-takeaway p { margin: 0 0 .55rem; }
-        .h023-takeaway p:last-child { margin-bottom: 0; }
-        .h023-takeaway strong { font-weight: 850; }
-
-        .h023-details {
-            max-width: 760px;
-            margin: .7rem auto 0;
-            padding: .6rem 0;
-            border-top: 1px solid var(--hanten-border, rgba(28,39,51,.14));
-            border-bottom: 1px solid var(--hanten-border, rgba(28,39,51,.14));
-            color: var(--hanten-muted);
-            font-size: .8rem;
-            line-height: 1.45;
-        }
-
-        .h023-details summary {
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        .h023-details p {
-            margin: .45rem 0 0;
-        }
-
-        .hanten-source a { color: var(--h023-greenland); text-decoration: underline; text-underline-offset: 2px; }
     </style>
 
     <style>
     .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
     .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
-    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--h023-greenland);color:var(--h023-greenland)}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
     .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
-    </style>
 
-    <style>
     .hanten-export-card{
-     position:fixed;left:-10000px;top:0;width:1080px;padding:30px 70px 54px;box-sizing:border-box;
-     background:var(--hanten-paper,#eef1ec);color:#1c2733;font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
     }
-    .hanten-export-textcol{width:min(760px,100%);margin-left:auto;margin-right:auto;text-align:left}
-    .hanten-export-aha{font-size:14px;line-height:1.5;color:#1c2733;margin-top:16px}
-    .hanten-export-aha strong{color:#1c2733}
-    .hanten-export-aha p{margin:0 0 8px}
-    .hanten-export-aha p:last-child{margin-bottom:0}
-    .hanten-export-reflection{font-size:14px;line-height:1.4;font-weight:400;text-align:center;margin-top:8px;color:#59616b}
-    .hanten-export-source{width:760px;margin:24px auto 0;text-align:left;font-size:11px;line-height:1.4;color:#6a716f}
     </style>
-
-<style>
-.h023-explore {
-  max-width: 760px;
-  margin: .7rem auto 0;
-  padding: .55rem 0;
-  border-top: 1px solid var(--hanten-border);
-  border-bottom: 1px solid var(--hanten-border);
-  color: var(--hanten-muted);
-  font-size: .8rem;
-  line-height: 1.45;
-}
-.h023-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
-.h023-explore p { margin: .55rem 0 0; }
-.h023-explore a { color: var(--hanten-accent, #0e7c86); }
-
-/* Design Standards 19 (text column) */
-.hanten-exhibit .h023-takeaway { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
-
-/* Design Standards 19 (merged H030 table) */
-.h023-table { width: 100%; border-collapse: collapse; font-size: .82rem; margin: .7rem 0 .2rem; color: var(--hanten-text); }
-.h023-table th, .h023-table td { padding: .45rem .5rem; border-bottom: 1px solid var(--hanten-border); }
-.h023-table th { text-align: center; font-size: .7rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--hanten-muted); }
-.h023-table td { text-align: left; }
-.h023-table td:nth-child(2), .h023-table td:nth-child(3) { text-align: center; font-variant-numeric: tabular-nums; }
-</style>
 </head>
 
 <body class="hanten-theme-scale">
 
     <main class="hanten-exhibit">
 
-        <h1 class="hanten-question">
-            Greenland looks almost as large as Africa on many world maps.
-            How many Greenlands actually fit inside Africa?
+        <p class="hanten-hnum">H023</p>
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            On most world maps, Greenland looks as big as Africa. How big is it really?
         </h1>
 
         <p class="hanten-subtitle">
-            Put Greenland and Africa on the same equal-area scale.
+            The same two shapes, drawn two ways. Africa stays the same size in both.
         </p>
 
-        <div class="hanten-graphic" id="h023-capture">
-            <div class="h023-step"><span class="h023-step-num">1</span><span><strong>The map you know.</strong> On a Mercator world map, Greenland looks nearly as big as Africa.</span></div>
-            <svg id="h023-mercator" viewBox="0 0 760 470" role="img" aria-labelledby="h023-merc-title h023-merc-desc">
-                <title id="h023-merc-title">Greenland and Africa on a Mercator world map</title>
-                <desc id="h023-merc-desc">A Mercator world map with Africa and Greenland highlighted. Because Mercator stretches land more the farther it is from the equator, Greenland appears nearly as large as Africa.</desc>
-            </svg>
+        <div id="h023-capture">
 
-            <div class="h023-step"><span class="h023-step-num">2</span><span><strong>At true size.</strong> Same scale, equal-area map: it takes 14 Greenlands to cover Africa.</span></div>
-            <svg
-                id="h023-graphic"
-                viewBox="0 0 760 820"
-                role="img"
-                aria-labelledby="h023-title h023-desc"
-            >
-                <title id="h023-title">Fourteen Greenlands compared with Africa</title>
-                <desc id="h023-desc">
-                    Africa shown at equal-area scale with fourteen copies of Greenland
-                    placed across it at the same scale.
-                </desc>
-            </svg>
-
-            <div class="h023-ratio">
-                Africa ≈ 11.7 million sq mi · Greenland ≈ 836,000 sq mi · Ratio ≈ 14:1
+            <div class="hanten-graphic">
+                <div class="hanten-panel h023-panel">
+                    <div class="h023-compare">
+                        <div>
+                            <p class="h023-col-title">On a Mercator world map</p>
+                            <p class="h023-col-sub">The map on most classroom walls and phones</p>
+                            <svg id="h023-merc" viewBox="0 0 440 330" role="img" aria-labelledby="h023-merc-title">
+                                <title id="h023-merc-title">Africa and Greenland as a Mercator map draws them: Greenland appears slightly larger than Africa.</title>
+                            </svg>
+                            <div class="h023-stat"><strong>108%</strong>Greenland drawn at 108% of Africa’s size</div>
+                        </div>
+                        <div>
+                            <p class="h023-col-title">At their true sizes</p>
+                            <p class="h023-col-sub">Equal-area map, same scale for both</p>
+                            <svg id="h023-true" viewBox="0 0 440 330" role="img" aria-labelledby="h023-true-title">
+                                <title id="h023-true-title">Africa and Greenland at true relative size: Greenland is about one-fourteenth the size of Africa.</title>
+                            </svg>
+                            <div class="h023-stat"><strong>7%</strong>Greenland’s true size: about 1/14 of Africa</div>
+                        </div>
+                    </div>
+                    <p class="h023-note">Africa ≈ 11.7 million sq mi (30.3 million km²) · Greenland ≈ 836,000 sq mi (2.17 million km²)</p>
+                </div>
             </div>
 
-            <div class="h023-takeaway">
-                <p><strong>Africa is about 14 times larger than Greenland.</strong> Sitting mostly above 60°N, Greenland is the Mercator projection's biggest beneficiary — inflated until it looks like a rival to Africa. The 14 shapes above cover about 11.7 million sq mi (30.3 million km²), almost exactly matching Africa's true area: the first seven drop in cleanly, then the rest squeeze into whatever coastline is left, since real coastlines can't tile perfectly.</p>
-                <p><strong>The same illusion flatters Greenland against the U.S.</strong> On a Mercator map, Greenland looks about two and a half times the size of the Lower 48. In reality, the Lower 48 is about 3,120,000 sq mi (8.08 million km²), big enough to hold about 3.7 Greenlands.</p>
-                <p>Companion to our <a href="../H007/index.html" target="_blank" rel="noopener noreferrer">Africa vs. the US, China, and India</a> exhibit — same projection, same scale, same lesson: the world map you grew up with stretches high-latitude land far more than land near the equator.</p>
+            <div class="h023-aha hanten-aha">
+                <p><span class="hanten-aha-lead">A Mercator map draws Greenland slightly bigger than Africa. In reality, Africa is 14 times bigger.</span> Mercator keeps compass directions true for navigation by stretching land more the farther it sits from the equator. Africa straddles the equator and barely stretches; Greenland, mostly above 60° N, is stretched more than any other large landmass.</p>
+                <p>Every flat map has to distort something: size, shape, distance, or direction. Before you compare sizes on a map, ask what that map was built to keep true.</p>
             </div>
 
-            <p class="hanten-reflection">
-                Which countries do you still picture at their Mercator size?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">On a Mercator map, Russia looks about 2½ times the size of Africa.</p>
+                    <p class="hanten-transfer-question">Which is actually bigger, and what would you check before trusting the map?</p>
+                </div>
+            </section>
 
             <details class="h023-explore" data-html2canvas-ignore="true">
-                <summary>Explore the same comparison run the other direction</summary>
-                <p>This runs the same equal-area comparison as our <a href="../H007/index.html" target="_blank" rel="noopener noreferrer">True Size of Africa</a> exhibit, which fits the United States, China, and India inside the continent with room to spare. Between the two, Africa&rsquo;s Mercator-map reputation for looking merely large turns out to undersell it by a wide margin.</p>
+                <summary>Why does Mercator stretch Greenland so much?</summary>
+                <p>Mercator widens every line of latitude to the same length as the equator, then stretches it north–south by the same amount to keep shapes and directions right. The result grows areas by a factor that climbs quickly toward the poles: about 1.3 times at 30°, 4 times at 60°, 10 times at 72° N (the middle of Greenland), and more than 30 times at Greenland’s northern tip.</p>
+                <p>Most of Africa lies between 35° N and 35° S, where the stretch stays under 1.5 times. That difference in stretching is what turns a 14-to-1 size gap into a map where Greenland looks bigger.</p>
             </details>
 
-            <details class="h023-details" data-html2canvas-ignore="true">
-                <summary>See how the comparison was made</summary>
-                <p>
-                    Each numbered shape is Greenland rendered with its own azimuthal equal-area projection, scaled to match Africa's. The copies are rotated and repositioned only to make them fit visually — rotation does not change area.
-                </p>
-                <p>
-                    Positions come from a packing search that minimizes overlap and ocean spill. Because real coastlines don't tile perfectly, the later pieces increasingly straddle the coast rather than sitting cleanly on land.
-                </p>
+            <details class="h023-explore" data-html2canvas-ignore="true">
+                <summary>Greenland looks bigger than the Lower 48 too. Is it?</summary>
+                <p>No. On a Mercator map, Greenland covers about two and a half times the map area of the contiguous United States. In reality, the Lower 48 is about 3,120,000 sq mi (8.08 million km²), big enough to hold about 3.7 Greenlands.</p>
             </details>
 
             <details class="h023-explore" data-html2canvas-ignore="true">
                 <summary>How big is Greenland compared with Africa’s largest countries?</summary>
-                <p><strong>Greenland lands almost exactly in the middle.</strong> On a Mercator map, Greenland covers about 12 times Algeria’s map area. At true size, Algeria and DR Congo are each larger than Greenland, by about 10% and 8%, while Sudan and Libya are only modestly smaller, by about 14% and 19%.</p>
+                <p><strong>Greenland lands almost exactly in the middle.</strong> On a Mercator map, Greenland covers about 12 times Algeria’s map area. At true size, Algeria and DR Congo are each larger than Greenland, and Sudan and Libya are only modestly smaller.</p>
                 <table class="h023-table">
                     <thead><tr><th>Country</th><th>True area</th><th>Compared with Greenland</th></tr></thead>
-                    <tbody><tr><td>Algeria</td><td>919,595 sq mi (2.38M km²)</td><td>+10%</td></tr><tr><td>DR Congo</td><td>905,355 sq mi (2.34M km²)</td><td>+8%</td></tr><tr><td>Greenland</td><td>836,331 sq mi (2.17M km²)</td><td>reference</td></tr><tr><td>Sudan</td><td>718,723 sq mi (1.86M km²)</td><td>−14%</td></tr><tr><td>Libya</td><td>679,362 sq mi (1.76M km²)</td><td>−19%</td></tr></tbody>
+                    <tbody>
+                        <tr><td>Algeria</td><td class="hanten-num">919,595 sq mi (2.38M km²)</td><td class="hanten-num">+10%</td></tr>
+                        <tr><td>DR Congo</td><td class="hanten-num">905,355 sq mi (2.34M km²)</td><td class="hanten-num">+8%</td></tr>
+                        <tr><td>Greenland</td><td class="hanten-num">836,331 sq mi (2.17M km²)</td><td class="hanten-num">—</td></tr>
+                        <tr><td>Sudan</td><td class="hanten-num">718,723 sq mi (1.86M km²)</td><td class="hanten-num">−14%</td></tr>
+                        <tr><td>Libya</td><td class="hanten-num">679,362 sq mi (1.76M km²)</td><td class="hanten-num">−19%</td></tr>
+                    </tbody>
                 </table>
+            </details>
+
+            <details class="h023-explore" data-html2canvas-ignore="true">
+                <summary>How the maps were drawn</summary>
+                <p>Both panels use the same Natural Earth outlines. The left panel draws them with the Mercator projection; the right panel gives each shape its own equal-area projection at one shared scale, so their areas compare directly. The two panels are sized so that Africa matches, which lets Greenland’s change in size show on its own. Shapes were moved side by side; rotating or moving a shape does not change its area.</p>
             </details>
 
             <details class="h023-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H007/index.html" target="_blank" rel="noopener noreferrer">How Big Is Africa... Really?</a></li>
-                    <li><a href="../H066/index.html" target="_blank" rel="noopener noreferrer">Is South America east of Florida?</a></li>
-                    <li><a href="../H087/index.html" target="_blank" rel="noopener noreferrer">The Gall-Peters map shows every country at its true size. Is it the more accurate map?</a></li>
+                    <li><a href="../H007/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H007</span>How Big Is Africa... Really?</a></li>
+                    <li><a href="../H076/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H076</span>Is Canada much bigger than Brazil?</a></li>
+                    <li><a href="../H087/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H087</span>The Gall-Peters map shows every country at its true size. Is it the more accurate map?</a></li>
                 </ul>
             </details>
 
             <p class="hanten-source">
-                Sources: CIA World Factbook areas (Africa ≈ 30.4M km², Greenland ≈ 2.17M km², ratio ≈ 14.0; contiguous U.S. ≈ 8.08M km², ratio ≈ 3.7). The Mercator comparison (Greenland ≈ 2.6× the Lower 48 in map area) is measured from Natural Earth 1:50m shapes. Shapes: Natural Earth. Equal-area comparison rendered with D3; every Greenland uses its own azimuthal equal-area projection at the Africa map's scale, so all 15 shapes are directly comparable. Country areas in the dropdown: CIA World Factbook; Greenland covers about 12 times Algeria's map area on Mercator (Natural Earth 1:50m).
+                Sources: CIA World Factbook areas (Africa ≈ 30.3 million km², Greenland ≈ 2.17 million km², ratio ≈ 14; contiguous U.S. ≈ 8.08 million km²; African country areas in the dropdown). Map areas measured from Natural Earth 1:50m outlines drawn with D3 in Mercator and azimuthal equal-area projections.
             </p>
 
-            <div class="hanten-utility">
-                <div id="save-image-slot"></div>
-            </div>
         </div>
 
-    </main>
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H022/index.html">&larr; H022</a><a class="hanten-pager-next" href="../H024/index.html">H024 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script src="../../assets/js/d3.v7.min.js"></script>
     <script src="../../assets/geodata/countries.js"></script>
 
     <script>
-        const width = 760;
-        const height = 820;
-
-        const svg = d3
-            .select("#h023-graphic")
-            .attr("viewBox", `0 0 ${width} ${height}`);
-
+    (() => {
+        const W = 440, H = 330, PAD = 14, LABEL = 26, GAP = 26;
         const features = COUNTRIES_GEOJSON.features;
+        const africa = { type: "FeatureCollection", features: features.filter(f => f.properties.CONTINENT === "Africa") };
+        const greenland = features.find(f => f.properties.NAME === "Greenland");
 
-        const africaFeatures = features.filter(
-            feature => feature.properties.CONTINENT === "Africa"
-        );
+        // Draw Africa and Greenland side by side, bottom-aligned, with one shared scale factor.
+        function draw(svgId, africaProj, greenlandProj) {
+            const svg = d3.select(svgId);
+            const pa = d3.geoPath(africaProj), pg = d3.geoPath(greenlandProj);
+            const ba = pa.bounds(africa), bg = pg.bounds(greenland);
+            const wa = ba[1][0] - ba[0][0], ha = ba[1][1] - ba[0][1];
+            const wg = bg[1][0] - bg[0][0], hg = bg[1][1] - bg[0][1];
+            return { svg, pa, pg, ba, bg, wa, ha, wg, hg };
+        }
 
-        const greenland = features.find(
-            feature => feature.properties.NAME === "Greenland"
-        );
+        // Mercator: both shapes in one Mercator projection (their true map sizes).
+        const merc = d3.geoMercator();
+        const m = draw("#h023-merc", merc, merc);
+        // Equal-area: Africa and Greenland each centred in their own azimuthal equal-area projection, same scale.
+        const eaA = d3.geoAzimuthalEqualArea().rotate([-17, -1.5]).scale(1000);
+        const eaG = d3.geoAzimuthalEqualArea().rotate([42, -72]).scale(1000);
+        const e = draw("#h023-true", eaA, eaG);
 
-        const africa = {
-            type: "FeatureCollection",
-            features: africaFeatures
-        };
+        // Scale each panel so Africa's drawn area is identical in both.
+        const areaM = m.pa.area(africa), areaE = e.pa.area(africa);
+        const rel = Math.sqrt(areaM / areaE);            // equal-area units -> Mercator units
+        // Fit the Mercator panel (the wider layout) into the box, then reuse that factor for the equal-area panel.
+        const availW = W - 2 * PAD, availH = H - 2 * PAD - LABEL;
+        const k = Math.min(availW / (m.wa + GAP + m.wg), availH / Math.max(m.ha, m.hg));
 
-        // Step 1: a standard Mercator world map (cropped to 84°N–58°S)
-        (() => {
-            const mw = 760, mh = 470;
-            const merc = d3.select("#h023-mercator");
-            const mercProj = d3.geoMercator().center([10, 18]).scale(mw / (2 * Math.PI)).translate([mw / 2, mh / 2]);
-            // fit latitudes 80N..58S into the height
-            const yTop = mercProj([0, 84])[1], yBot = mercProj([0, -58])[1];
-            const k = mh / (yBot - yTop);
-            mercProj.scale(mercProj.scale() * k);
-            const t = mercProj.translate(); const y2 = mercProj([0, 84])[1];
-            mercProj.translate([mw / 2, t[1] - y2]);
-            const mp = d3.geoPath(mercProj);
-            merc.append("rect").attr("class", "ocean").attr("width", mw).attr("height", mh);
-            merc.append("g").selectAll("path").data(features.filter(f => f.properties.CONTINENT !== "Africa" && f !== greenland && f.properties.CONTINENT !== "Antarctica"))
-                .join("path").attr("class", "land").attr("d", mp);
-            merc.append("g").selectAll("path").data(africaFeatures).join("path").attr("class", "africa").attr("d", mp);
-            merc.append("path").datum(greenland).attr("class", "greenland").attr("d", mp);
-            const [ax, ay] = mp.centroid(africa), [gx, gy] = mp.centroid(greenland);
-            merc.append("text").attr("class", "merc-label").attr("x", ax).attr("y", ay + 5).attr("font-size", 17).attr("stroke", "#6f7b66").text("Africa");
-            merc.append("text").attr("class", "merc-label").attr("x", gx).attr("y", gy + 5).attr("font-size", 15).attr("stroke", "#1f6f8b").text("Greenland");
-        })();
-
-        // Equal-area projection fitted to Africa.
-        // The scale is then reused for every Greenland.
-        const baseProjection = d3
-            .geoAzimuthalEqualArea()
-            .rotate([-17, -1.5])
-            .fitExtent(
-                [[28, 24], [width - 28, height - 24]],
-                africa
-            );
-
-        const scale = baseProjection.scale();
-        const africaPath = d3.geoPath(baseProjection);
-
-        svg.append("path").datum({ type: "Sphere" }).attr("class", "ocean").attr("d", africaPath);
-        svg.append("path").datum(d3.geoGraticule10()).attr("class", "graticule").attr("d", africaPath);
-
-        svg
-            .append("g")
-            .selectAll("path")
-            .data(africaFeatures)
-            .join("path")
-            .attr("class", "africa")
-            .attr("d", africaPath);
-
-        /*
-         * Fourteen copies of Greenland.
-         *
-         * Each uses its own azimuthal equal-area projection, but every
-         * projection uses the exact same scale as Africa. Rotation and
-         * placement are purely visual; area remains directly comparable.
-         */
-        const placements = [
-            [110, 220,   0],
-            [230, 140,   0],
-            [340, 280,   0],
-            [390, 510,   0],
-            [460, 200,   0],
-            [480, 670,   0],
-            [530, 390,   0],
-            [590, 520, 180],
-            [640, 300, 240],
-            [200, 330, 150],
-            [320, 670, 240],
-            [580, 140, 240],
-            [630, 710, 300],
-            [390,  60, 120]
-        ];
-
-        const greenlandGroup = svg.append("g");
-
-        placements.forEach(([x, y, rotation], index) => {
-            const projection = d3
-                .geoAzimuthalEqualArea()
-                .rotate([42, -72, rotation])
-                .scale(scale)
-                .translate([x, y]);
-
-            greenlandGroup
-                .append("path")
-                .datum(greenland)
-                .attr("class", "greenland")
-                .attr("d", d3.geoPath(projection));
-
-            greenlandGroup
-                .append("text")
-                .attr("class", "greenland-number")
-                .attr("x", x)
-                .attr("y", y + 5)
-                .text(index + 1);
-        });
+        function render(p, factor) {
+            const s = p.svg, fa = factor, totalW = (p.wa + p.wg) * fa + GAP;
+            const x0 = (W - totalW) / 2, baseY = H - PAD - LABEL;
+            const g1 = s.append("g").attr("transform", `translate(${x0 - p.ba[0][0] * fa},${baseY - p.ba[1][1] * fa}) scale(${fa})`);
+            g1.selectAll("path").data(africa.features).join("path").attr("class", "h023-africa").attr("d", p.pa).attr("vector-effect", "non-scaling-stroke");
+            const gx = x0 + p.wa * fa + GAP;
+            const g2 = s.append("g").attr("transform", `translate(${gx - p.bg[0][0] * fa},${baseY - p.bg[1][1] * fa}) scale(${fa})`);
+            g2.append("path").datum(greenland).attr("class", "h023-greenland").attr("d", p.pg).attr("vector-effect", "non-scaling-stroke");
+            s.append("text").attr("class", "h023-name h023-name-af").attr("x", x0 + p.wa * fa / 2).attr("y", H - PAD - 4).text("Africa");
+            s.append("text").attr("class", "h023-name h023-name-gl").attr("x", gx + p.wg * fa / 2).attr("y", H - PAD - 4).text("Greenland");
+        }
+        render(m, k);
+        render(e, k * rel);
+    })();
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {
@@ -422,78 +242,21 @@
       const save = document.createElement("button"), share = document.createElement("button");
       save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
       slot.append(save, share);
-      const filename = "hanten-africa-is-14-greenlands.png", title = "Greenland looks almost as large as Africa on many world maps. How many Greenlands actually fit inside Africa?";
+      const filename = "hanten-greenland-vs-africa.png", title = "On most world maps, Greenland looks as big as Africa. How big is it really?";
 
       async function blob() {
-        const svgEl = document.getElementById("h023-graphic");
-        const ratio = document.querySelector(".h023-ratio");
-        const aha = document.querySelector(".h023-takeaway");
-        const source = document.querySelector(".hanten-source");
-        if (!svgEl) throw new Error("Export content not found.");
-
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
         const card = document.createElement("div");
         card.className = "hanten-export-card";
-
-        const titleCanvas = document.createElement("canvas");
-        titleCanvas.width = 1800; titleCanvas.height = 252;
-        titleCanvas.style.width = "900px"; titleCanvas.style.height = "126px";
-        titleCanvas.style.display = "block"; titleCanvas.style.margin = "0 auto 8px";
-        const t = titleCanvas.getContext("2d"); t.scale(2, 2);
-        t.font = '750 30px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
-        t.fillStyle = "#1c2733"; t.textAlign = "center"; t.textBaseline = "middle";
-        t.fillText("Greenland looks almost as large as Africa", 450, 21);
-        t.fillText("on many world maps.", 450, 61);
-        t.fillText("How many Greenlands actually fit inside Africa?", 450, 101);
-        card.appendChild(titleCanvas);
-
-        const sub = document.createElement("canvas");
-        sub.width = 1800; sub.height = 84; sub.style.width = "900px"; sub.style.height = "42px";
-        sub.style.display = "block"; sub.style.margin = "0 auto 16px";
-        const s = sub.getContext("2d"); s.scale(2, 2);
-        s.font = '400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
-        s.fillStyle = "#4a5a6b"; s.textAlign = "center"; s.textBaseline = "middle";
-        s.fillText("Put Greenland and Africa on the same equal-area scale.", 450, 21);
-        card.appendChild(sub);
-
-        const mercEl = document.getElementById("h023-mercator");
-        if (mercEl) {
-          const mc = mercEl.cloneNode(true);
-          mc.style.display = "block"; mc.style.width = "100%"; mc.style.maxWidth = "700px"; mc.style.height = "auto"; mc.style.margin = "0 auto 18px";
-          card.appendChild(mc);
-        }
-        const svgClone = svgEl.cloneNode(true);
-        svgClone.style.display = "block";
-        svgClone.style.width = "100%";
-        svgClone.style.maxWidth = "700px";
-        svgClone.style.height = "auto";
-        svgClone.style.margin = "0 auto";
-        card.appendChild(svgClone);
-
-        if (ratio) {
-          const rc = ratio.cloneNode(true);
-          rc.style.marginTop = "8px";
-          card.appendChild(rc);
-        }
-
-        if (aha) {
-          const textcol = document.createElement("div"); textcol.className = "hanten-export-textcol";
-          const ahaClone = document.createElement("div"); ahaClone.className = "hanten-export-aha";
-          ahaClone.innerHTML = aha.innerHTML;
-          textcol.appendChild(ahaClone); card.appendChild(textcol);
-        }
-
-        const reflection = document.createElement("div");
-        reflection.className = "hanten-export-reflection";
-        reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
-        card.appendChild(reflection);
-
-        if (source) {
-          const sc = source.cloneNode(true); sc.className = "hanten-export-source"; card.appendChild(sc);
-        }
-
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        clone.querySelectorAll("[data-html2canvas-ignore]").forEach(el => el.remove());
+        card.appendChild(clone);
         document.body.appendChild(card);
         try {
-          const canvas = await html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
           return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
         } finally { card.remove(); }
       }

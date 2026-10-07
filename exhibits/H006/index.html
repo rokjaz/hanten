@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Bowling Strikes</title>
+<title>H006 — Bowling Strikes</title>
 <meta name="description" content="Two bowlers knock down exactly 50 pins. One scores 50. The other scores 120.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (straw) */ body { --hanten-paper: #F1EFD8 !important; } main.hanten-exhibit h1.hanten-question { color: var(--hanten-text) !important; font-weight: 700 !important; }</style>
 
 <style>
   :root {
@@ -514,11 +515,23 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 }
 </style>
 
+<style>
+/* Baseball dropdown (absorbed H022, Sept 2026) */
+.h006-linescore{width:100%;border-collapse:collapse;margin-top:.6rem;font-size:.8rem;font-variant-numeric:tabular-nums}
+.h006-linescore th{text-align:center;font-size:.68rem;font-weight:700;color:var(--ink-soft);padding:.3rem .25rem;border-bottom:1px solid var(--line)}
+.h006-linescore td{text-align:center;padding:.35rem .25rem;border-bottom:1px solid var(--line)}
+.h006-linescore td.team{text-align:left;white-space:nowrap;padding-right:.6rem}
+.h006-linescore td.tot{font-weight:750;border-left:1px solid var(--line)}
+.h006-linescore tr.runs td{font-weight:750}
+.h006-linescore td.hot{font-weight:800;background:rgba(30,58,95,.10)}
+.h006-ls-scroll{overflow-x:auto}
+</style>
 </head>
 
 <body class="hanten-theme-optimization">
 <main class="hanten-exhibit h006-page">
 
+  <p class="hanten-hnum">H006</p>
   <h1 class="hanten-question" style="margin-left:auto;margin-right:auto;">Can two bowlers knock down the same 50 pins and finish 70 points apart?</h1>
 
   <p class="hanten-subtitle" style="margin-left:auto;margin-right:auto;">
@@ -575,14 +588,18 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 
 
 
-  <div class="h006-aha">
-    <strong>In bowling, when you knock pins down matters as much as how many.</strong>
+  <div class="h006-aha hanten-aha">
+    <span class="hanten-aha-lead">In bowling, when you knock pins down matters as much as how many.</span>
     Bowling scores what happens next, not just what happened.
   </div>
 
-  <p class="hanten-reflection">
-                Where in your life does the order of things matter more than the total?
-            </p>
+  <section class="hanten-transfer" aria-label="Try it somewhere else">
+      <p class="hanten-transfer-kicker">Try it somewhere else</p>
+      <div class="hanten-transfer-text">
+          <p class="hanten-transfer-scenario">A $50 jacket gets two discounts: 20% off and $10 off. One register applies them in one order, a second register in the other.</p>
+          <p class="hanten-transfer-question">Do both registers charge the same price?</p>
+      </div>
+  </section>
 
             <details class="h006-explore" data-html2canvas-ignore="true"><summary>Why does the order change the score?</summary><section class="explain">
     <div class="rule hanten-body">
@@ -592,23 +609,43 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
       allowing later strikes to increase the value of earlier ones.
     </div>
 
-  </section><p style="margin:.6rem 0 0;">The same trick shows up any time a scoring rule rewards sequence rather than totals: <a href="../H022/index.html" target="_blank" rel="noopener noreferrer">a baseball team can out-hit its opponent and still lose</a>, because runs, like bowling frames, only count when the good outcomes land in the right order.</p></details>
+  </section><p style="margin:.6rem 0 0;">The same trick shows up any time a scoring rule rewards sequence rather than totals: a baseball team can out-hit its opponent and still lose, because runs, like bowling frames, only count when the good outcomes land in the right order.</p></details>
+
+  <details class="h006-explore" data-html2canvas-ignore="true">
+                <summary>Does order matter in baseball too?</summary>
+                <p style="margin:.6rem 0 0;">Yes. In this illustrative game, the visitors out-hit the home team 12 to 5 and still lost 4–2. A hit is a chance to score, not a run; runs come when hits are bunched together.</p>
+                <div class="h006-ls-scroll">
+                    <table class="h006-linescore">
+                        <thead><tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>Total</th></tr></thead>
+                        <tbody>
+                        <tr><td class="team">Visitors hits</td><td>2</td><td>1</td><td>2</td><td>1</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td><td class="tot">12</td></tr>
+                        <tr class="runs"><td class="team">Visitors runs</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="tot">2</td></tr>
+                        <tr><td class="team">Home hits</td><td>0</td><td>0</td><td>0</td><td class="hot">3</td><td>0</td><td>0</td><td>1</td><td>1</td><td>x</td><td class="tot">5</td></tr>
+                        <tr class="runs"><td class="team">Home runs</td><td>0</td><td>0</td><td>0</td><td class="hot">3</td><td>0</td><td>0</td><td>1</td><td>0</td><td>x</td><td class="tot">4</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin:.6rem 0 0;"><strong>The visitors spread their hits out.</strong> They had a hit in every inning but never more than two, so runners were left stranded. Their only runs came from a single followed by a double in the 3rd and a solo home run in the 7th.</p>
+                <p style="margin:.6rem 0 0;"><strong>The home team bunched theirs.</strong> In the 4th inning, a walk and three straight hits, the last a two-run double, produced three runs. A solo home run in the 7th made it 4–2. Like strikes in bowling, hits are worth the most when they come one after another.</p>
+            </details>
+
 
   <details class="h006-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H021/index.html" target="_blank" rel="noopener noreferrer">The Yankees outscored the Pirates 55–27. How did the Pirates win the World Series?</a></li>
-                    <li><a href="../H022/index.html" target="_blank" rel="noopener noreferrer">Can you get more hits, or more votes, and still lose?</a></li>
-                    <li><a href="../H089/index.html" target="_blank" rel="noopener noreferrer">Stealing is never worse than splitting. So why does it lose?</a></li>
+                    <li><a href="../H082/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H082</span>If an investment averages 0% a year, did you break even?</a></li>
+                    <li><a href="../H021/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H021</span>The Yankees outscored the Pirates 55–27. How did the Pirates win the World Series?</a></li>
                 </ul>
             </details>
 
             <div class="hanten-source source h006-source">
-    Sources: standard ten-pin scoring rules (United States Bowling Congress). A strike scores 10 pins plus the next two balls. Both examples use exactly five strikes and five gutter frames.
+    Sources: standard ten-pin scoring rules (United States Bowling Congress). A strike scores 10 pins plus the next two balls. Both examples use exactly five strikes and five gutter frames. The baseball line score is an illustrative game, not a real box score.
   </div>
 
   <div class="h006-save"><div id="save-image-slot"></div></div>
   </div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H005/index.html">&larr; H005</a><a class="hanten-pager-next" href="../H007/index.html">H007 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script>
@@ -728,6 +765,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 
 
@@ -789,7 +827,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 
    const reflection=document.createElement("div");
    reflection.className="hanten-export-reflection";
-   reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+   reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
    card.appendChild(reflection);
 
    if(source){

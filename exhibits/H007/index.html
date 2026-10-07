@@ -9,7 +9,7 @@
         content="width=device-width, initial-scale=1"
     >
 
-    <title>How Big Is Africa... Really?</title>
+    <title>H007 — How Big Is Africa... Really?</title>
 
     <meta
         name="description"
@@ -20,6 +20,7 @@
         rel="stylesheet"
         href="../../assets/css/hanten.css"
     >
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (sage) */ body { --hanten-paper: #E6EFE2 !important; }</style>
 
     <style>
         /*
@@ -343,8 +344,8 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 <style>
 /* H007 final tally / framing refinement */
 .h007-layout{
-  background:#e5e8e2 !important;
-  border:1px solid #c7cec4 !important;
+  background:#ffffff !important;
+  border:1px solid var(--hanten-border) !important;
 }
 #map-wrap{
   background:#f8f8f5 !important;
@@ -471,6 +472,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H007</p>
         <h1 class="hanten-question">
             How Big Is Africa... Really?
         </h1>
@@ -535,16 +537,20 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
         </div>
 
 
-        <div class="h007-caption h007-takeaway hanten-body">
-            <p><strong>United States + China + India all fit inside Africa.</strong><br>
+        <div class="h007-caption h007-takeaway hanten-body hanten-aha">
+            <p><span class="hanten-aha-lead">United States + China + India all fit inside Africa.</span>
                 About 3.6 million sq mi (9.4 million km²) is still uncovered, enough to hold France, Germany, Spain, the U.K., and Italy almost five times over. Familiar world maps can make Africa feel smaller because many common projections enlarge places farther from the equator.
             </p>
             <p>The same projections that stretch area near the poles also stretch straight lines: on a Mercator-style map, <a href="../H046/index.html" target="_blank" rel="noopener noreferrer">the shortest flight between two cities can look like a wild detour toward the North Pole</a> — one map, two different kinds of lie, both hiding behind lines that otherwise look perfectly ordinary.</p>
         </div>
 
-        <p class="hanten-reflection">
-                What do you think of as “big” that you’ve never seen at true scale?
-            </p>
+        <section class="hanten-transfer" aria-label="Try it somewhere else">
+            <p class="hanten-transfer-kicker">Try it somewhere else</p>
+            <div class="hanten-transfer-text">
+                <p class="hanten-transfer-scenario">You need to compare how much land two countries cover. One map keeps every shape true; another keeps every area true.</p>
+                <p class="hanten-transfer-question">Which map should you trust for this job, and why might the wrong one fool you?</p>
+            </div>
+        </section>
 
             <details class="h007-explore" data-html2canvas-ignore="true">
                 <summary>Explore how the same illusion shows up elsewhere</summary>
@@ -554,9 +560,10 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
         <details class="h007-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H023/index.html" target="_blank" rel="noopener noreferrer">Greenland looks almost as large as Africa on many world maps. How many Greenlands actually fit inside Africa?</a></li>
-                    <li><a href="../H076/index.html" target="_blank" rel="noopener noreferrer">Is Canada much bigger than Brazil?</a></li>
-                    <li><a href="../H087/index.html" target="_blank" rel="noopener noreferrer">The Gall-Peters map shows every country at its true size. Is it the more accurate map?</a></li>
+                    <li><a href="../H023/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H023</span>On most world maps, Greenland looks as big as Africa. How big is it really?</a></li>
+                    <li><a href="../H076/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H076</span>Is Canada much bigger than Brazil?</a></li>
+                    <li><a href="../H087/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H087</span>The Gall-Peters map shows every country at its true size. Is it the more accurate map?</a></li>
+                    <li><a href="../H046/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H046</span>Why does the shortest flight from New York to Beijing curve over the Arctic?</a></li>
                 </ul>
             </details>
 
@@ -568,8 +575,9 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H006/index.html">&larr; H006</a><a class="hanten-pager-next" href="../H008/index.html">H008 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
 
     
@@ -856,6 +864,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
     <script
         src="../../assets/js/html2canvas.min.js"
     ></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     
 
@@ -914,7 +923,7 @@ main.hanten-exhibit a:hover,main.hanten-exhibit a:focus-visible{color:#174a82}
 
    const reflection=document.createElement("div");
    reflection.className="hanten-export-reflection";
-   reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+   reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
    card.appendChild(reflection);
 
    if(source){

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Is the Gall-Peters Map More Accurate?</title>
+    <title>H087 — Is the Gall-Peters Map More Accurate?</title>
 
     <meta
         name="description"
@@ -12,6 +12,7 @@
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (lavender) */ body { --hanten-paper: #EDE7F4 !important; }</style>
 
     <style>
         /*
@@ -228,6 +229,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H087</p>
         <h1 class="hanten-question" style="text-wrap:balance;">
             The Gall-Peters map shows every country at its true size. Is it the more accurate map?
         </h1>
@@ -289,8 +291,8 @@
 
             </div>
 
-            <div class="h087-aha">
-                <p><strong>Fixing one distortion on a flat map creates another.</strong> Gall-Peters gets every
+            <div class="h087-aha hanten-aha">
+                <p><span class="hanten-aha-lead">Fixing one distortion on a flat map creates another.</span> Gall-Peters gets every
                     country's area right, which Mercator doesn't. But to do it, it stretches places near the equator
                     upward and squashes places near the poles flat. Africa's area is correct on Gall-Peters; its shape
                     isn't.</p>
@@ -299,9 +301,13 @@
                     seems to show, ask what it was built to get right.</p>
             </div>
 
-            <p class="hanten-reflection">
-                When someone calls one map "more accurate," what is it more accurate at, and what did it give up?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">London's Tube map spaces the stations evenly and straightens the lines.</p>
+                    <p class="hanten-transfer-question">Are evenly spaced stations evenly far apart, and what is the map built to get right?</p>
+                </div>
+            </section>
 
             <details class="h087-explore" data-html2canvas-ignore="true">
                 <summary>How each map stretches things, by latitude</summary>
@@ -423,9 +429,10 @@
             <details class="h087-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H076/index.html" target="_blank" rel="noopener noreferrer">Is Canada much bigger than Brazil?</a></li>
-                    <li><a href="../H046/index.html" target="_blank" rel="noopener noreferrer">Why does the shortest flight from New York to Beijing curve over the Arctic?</a></li>
-                    <li><a href="../H007/index.html" target="_blank" rel="noopener noreferrer">How Big Is Africa... Really?</a></li>
+                    <li><a href="../H076/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H076</span>Is Canada much bigger than Brazil?</a></li>
+                    <li><a href="../H007/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H007</span>How Big Is Africa... Really?</a></li>
+                    <li><a href="../H023/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H023</span>On most world maps, Greenland looks as big as Africa. How big is it really?</a></li>
+                    <li><a href="../H046/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H046</span>Why does the shortest flight from New York to Beijing curve over the Arctic?</a></li>
                 </ul>
             </details>
 
@@ -441,8 +448,9 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H086/index.html">&larr; H086</a><a class="hanten-pager-next" href="../H088/index.html">H088 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script src="../../assets/js/d3.v7.min.js"></script>
     <script src="../../assets/geodata/world/countries-10m.js"></script>
@@ -493,7 +501,7 @@
       }
 
       draw("#h087-merc", mercRaw, [-41, 73]);
-      draw("#h087-gp", gpRaw, [-41, 64]);
+      draw("#h087-gp", gpRaw, [-38, 52]);
     })();
     </script>
 
@@ -595,6 +603,7 @@
     })();
     </script>
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {

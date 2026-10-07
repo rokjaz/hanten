@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H013 — Is It Safer for the FDA to Wait for One More Study?</title>
+
+    <meta
+        name="description"
+        content="A drug regulator can approve a harmful drug or delay a helpful one. Both cost lives, but only the first leaves victims with names."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (sky) */ body { --hanten-paper: #E2EEF5 !important; }</style>
+
+    <style>
+        /*
+           H013-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework.
+        */
+
+        :root {
+            --h013-height: #b8692a;
+            --h013-water: #0e7c86;
+        }
+
+        .h013-panel {
+            padding: 1.1rem 1.1rem 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .h013-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h013-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .h013-stat { padding: 0.95rem 1rem; text-align: center; }
+        .h013-stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h013-stat-n {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1.15;
+            margin-top: 0.3rem;
+        }
+        .h013-stat-unit { font-weight: 700; font-size: 0.9rem; margin-top: 0.1rem; }
+        .h013-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.35rem; line-height: 1.4; }
+
+        .h013-label {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            fill: var(--hanten-text);
+        }
+        .h013-sub {
+            font-family: var(--hanten-font);
+            fill: var(--hanten-muted);
+        }
+        .h013-val {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: #ffffff;
+        }
+        .h013-col {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            fill: var(--hanten-muted);
+        }
+        .h013-val-out {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: var(--hanten-text);
+        }
+        .h013-gap-text {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: var(--h013-lake);
+        }
+
+        .h013-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.4rem;
+            margin-top: 0.4rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+        .h013-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h013-swatch { display: inline-block; width: 14px; height: 10px; border-radius: 2px; }
+
+        .h013-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; }
+        .h013-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h013-table th, .h013-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h013-table th {
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h013-table td { text-align: left; }
+        .h013-table td:nth-child(2), .h013-table td:nth-child(3) { text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
+        .h013-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 720px) {
+            .h013-stats { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .h013-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h013-table-panel { padding: 0.3rem 0.6rem; }
+        }
+
+
+        .h013-grid {
+            display: grid;
+            grid-template-columns: 8.5rem 1fr 1fr;
+            gap: 0.6rem;
+        }
+        .h013-colhead, .h013-rowhead {
+            font-size: 0.82rem;
+            color: var(--hanten-muted);
+            line-height: 1.35;
+        }
+        .h013-colhead { text-align: center; align-self: end; padding-bottom: 0.15rem; }
+        .h013-rowhead { align-self: center; text-align: right; padding-right: 0.3rem; }
+        .h013-colhead strong, .h013-rowhead strong { color: var(--hanten-text); }
+        .h013-cell {
+            border-radius: 6px;
+            padding: 0.9rem 0.95rem;
+            text-align: center;
+        }
+        .h013-good { background: #f3f5f2; }
+        .h013-seen-bad { background: #f6e6da; }
+        .h013-unseen { background: transparent; border: 2px dashed #9aa3a6; }
+        .h013-tag {
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h013-seen-bad .h013-tag { color: #a3561d; }
+        .h013-ex { font-weight: 700; font-size: 0.9rem; margin-top: 0.3rem; }
+        .h013-num { font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .h013-seen-bad .h013-num { color: #a3561d; }
+        .h013-unseen .h013-num { color: #6f7a7e; }
+        .h013-what { font-size: 0.76rem; color: var(--hanten-muted); line-height: 1.4; margin-top: 0.25rem; }
+        .h013-trace { font-size: 0.76rem; font-weight: 700; margin-top: 0.5rem; padding-top: 0.45rem; border-top: 1px solid rgba(0,0,0,.08); }
+        .h013-unseen .h013-trace, .h013-unseen .h013-ex, .h013-unseen .h013-what { color: #6f7a7e; }
+        @media (max-width: 640px) {
+            .h013-grid { grid-template-columns: 1fr 1fr; }
+            .h013-corner { display: none; }
+            .h013-rowhead { grid-column: 1 / -1; text-align: left; padding: 0.4rem 0 0; }
+            .h013-colhead { font-size: 0.75rem; }
+            .h013-cell { padding: 0.7rem 0.55rem; }
+            .h013-num { font-size: 1.15rem; }
+        }
+        .h013-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h013-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h013-discovery p:last-child { margin-bottom: 0; }
+        .h013-discovery strong { color: var(--hanten-text); }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h013-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h013-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h013-explore p { margin: .55rem 0 0; }
+.h013-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
+</head>
+
+<body class="hanten-theme-systems">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H013</p>
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Is it safer for the FDA to wait for one more study?
+        </h1>
+
+        <p class="hanten-subtitle">
+            A drug regulator can make two kinds of mistakes: approve a drug that turns out to be harmful, or hold back
+            a drug that would have saved lives. Both cost lives. Only one leaves victims with names.
+        </p>
+
+        <div id="h013-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="hanten-panel h013-panel">
+                    <div class="h013-grid" role="table" aria-label="Four outcomes of a drug decision, with real examples">
+                        <div class="h013-corner" role="columnheader"></div>
+                        <div class="h013-colhead" role="columnheader">The drug turns out to be <strong>harmful</strong></div>
+                        <div class="h013-colhead" role="columnheader">The drug turns out to be <strong>helpful</strong></div>
+
+                        <div class="h013-rowhead" role="rowheader">The FDA <strong>approves</strong> it</div>
+                        <div class="h013-cell h013-seen-bad" role="cell">
+                            <div class="h013-tag">Mistake · seen</div>
+                            <div class="h013-ex">Vioxx, 1999–2004</div>
+                            <div class="h013-num">88,000–140,000</div>
+                            <div class="h013-what">estimated extra serious heart attacks in the U.S.; about 44% fatal</div>
+                            <div class="h013-trace">Recall, hearings, lawsuits, named victims</div>
+                        </div>
+                        <div class="h013-cell h013-good" role="cell">
+                            <div class="h013-tag">Right call</div>
+                            <div class="h013-ex">Beta-blockers after a heart attack</div>
+                            <div class="h013-num">26% fewer deaths</div>
+                            <div class="h013-what">in the 1981 trial that proved they work</div>
+                            <div class="h013-trace">Now standard care</div>
+                        </div>
+
+                        <div class="h013-rowhead" role="rowheader">The FDA <strong>waits</strong></div>
+                        <div class="h013-cell h013-good" role="cell">
+                            <div class="h013-tag">Right call · seen</div>
+                            <div class="h013-ex">Thalidomide, 1960–62</div>
+                            <div class="h013-num">10,000+</div>
+                            <div class="h013-what">children born with birth defects in other countries; 17 in the U.S., from test samples</div>
+                            <div class="h013-trace">The reviewer who held it back got a presidential award</div>
+                        </div>
+                        <div class="h013-cell h013-unseen" role="cell">
+                            <div class="h013-tag">Mistake · unseen</div>
+                            <div class="h013-ex">Beta-blockers, years later than Europe</div>
+                            <div class="h013-num">~10,000 a year</div>
+                            <div class="h013-what">U.S. heart-attack deaths one critic estimated an earlier approval could have prevented</div>
+                            <div class="h013-trace">No names, no hearings, no lawsuits</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h013-discovery hanten-body hanten-aha">
+                <p><span class="hanten-aha-lead">Both mistakes cost lives, but only one is seen.</span> When an approved drug causes harm, the victims are real people with names, and there are recalls, hearings, and lawsuits. When a helpful drug is delayed, the people who would have lived are only a statistic. No one, including their families, ever knows who they were. So a regulator is blamed for the first kind of mistake and almost never for the second, and the pressure leans toward waiting.</p>
+                <p>That doesn't make waiting wrong: thalidomide shows how much a careful “not yet” can save. It means a fair judgment counts both kinds of mistakes. Any choice to act or to wait has costs on both sides, and the ones that leave no names are the easiest to miss.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">After one bus accident, a school cancels every field trip for the year.</p>
+                    <p class="hanten-transfer-question">What costs of that decision would never make the news?</p>
+                </div>
+            </section>
+
+            <details class="h013-explore" data-html2canvas-ignore="true">
+                <summary>How solid are these numbers?</summary>
+                <p><strong>The seen side is easier to count.</strong> The Vioxx estimate comes from an FDA scientist's study
+                    of real patients who took the drug. The thalidomide count comes from children who were actually born
+                    with injuries.</p>
+                <p><strong>The unseen side can only be estimated.</strong> The beta-blocker figure is a 1979 estimate by
+                    pharmacologist William Wardell, a well-known critic of drug delays, based on how the drugs performed in
+                    Europe. Other researchers have produced larger and smaller numbers, and many of the biggest estimates
+                    come from people arguing for faster approval. Even Wardell's example is complicated: practolol, one of
+                    the beta-blockers he pointed to, was later found to cause a severe eye and skin reaction. That
+                    difficulty is part of the lesson: an invisible harm is hard to see, and also hard to measure.</p>
+            </details>
+
+            <details class="h013-explore" data-html2canvas-ignore="true">
+                <summary>Is this an argument against the FDA?</summary>
+                <p><strong>No.</strong> It's an argument for counting both columns. Some drugs deserve more study, and
+                    some patients can't afford to wait. A drug for a deadly disease with no other treatment carries a
+                    very different cost of waiting than a new acne cream. Since the 1990s the FDA has added faster paths
+                    for drugs that treat serious diseases, partly in response to AIDS activists and other critics of drug delays. People still disagree
+                    about where the balance should be.</p>
+            </details>
+
+            <details class="h013-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H025/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H025</span>If nothing bad happened, was the danger real?</a></li>
+                    <li><a href="../H026/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H026</span>If your concert ticket was free, did going cost you anything?</a></li>
+                    <li><a href="../H054/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H054</span>Where should you armor the bomber — where the bullet holes are, or where they aren't?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Vioxx: D. J. Graham et al., The Lancet (2005), estimating 88,000–140,000 excess cases of serious
+                coronary heart disease in the U.S. during the drug's 1999–2004 market life, 44% of them fatal. Thalidomide:
+                estimates of 10,000–20,000 affected children worldwide, and 17 confirmed U.S. cases from samples distributed
+                before approval was refused; Frances Oldham Kelsey's 1962 President's Award for Distinguished Federal
+                Civilian Service. Beta-blockers: Beta-Blocker Heart Attack Trial (National Heart, Lung, and Blood
+                Institute, 1981), total mortality 7.2% with propranolol vs. 9.8% with placebo; William M. Wardell, “More
+                Regulation or Better Therapies?” Regulation (1979), estimating at least 10,000 preventable U.S. coronary
+                deaths a year.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H012/index.html">&larr; H012</a><a class="hanten-pager-next" href="../H014/index.html">H014 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-fda-seen-and-unseen.png", title = "Is it safer for the FDA to wait for one more study?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Axis Truncation</title>
+    <title>H018 — Axis Truncation</title>
     <meta name="description" content="A 1.8-point polling gap becomes a landslide, just by moving where the vertical axis starts. Drag it yourself.">
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (straw) */ body { --hanten-paper: #F1EFD8 !important; }</style>
 
     <style>
         /*
@@ -301,6 +302,7 @@
 
 <body class="hanten-theme-perspective">
     <main class="hanten-exhibit h018-page">
+        <p class="hanten-hnum">H018</p>
         <h1 class="hanten-question">
             How can the same two numbers tell two completely different stories?
         </h1>
@@ -366,16 +368,20 @@
 
 
 
-            <div class="h018-aha">
-                <strong>The numbers never change. The visual story does.</strong>
+            <div class="h018-aha hanten-aha">
+                <span class="hanten-aha-lead">The numbers never change. The visual story does.</span>
                 The gap is always 1.8 percentage points. With the axis beginning at
                 <span id="h018-start-copy">48</span>, Candidate A&rsquo;s visible bar becomes
                 <strong><span id="h018-ratio">2.6&times;</span> as tall</strong> as Candidate B&rsquo;s.
             </div>
 
-            <p class="hanten-reflection">
-                Where does the next chart you see start its axis?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A cereal ad shows Brand A's sugar bar twice as tall as Brand B's. The chart's axis starts at 10 grams.</p>
+                    <p class="hanten-transfer-question">Before believing Brand A has double the sugar, what should you check?</p>
+                </div>
+            </section>
 
             <details class="h018-explore" data-html2canvas-ignore="true"><summary>Why does moving the axis change the story?</summary>
                 <div class="rule hanten-body">
@@ -392,9 +398,9 @@
             <details class="h018-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H084/index.html" target="_blank" rel="noopener noreferrer">"Up 40% this month!" Did this stock really have a great month?</a></li>
-                    <li><a href="../H099/index.html" target="_blank" rel="noopener noreferrer">"Deadly shark attacks doubled." Did the oceans get twice as dangerous?</a></li>
-                    <li><a href="../H028/index.html" target="_blank" rel="noopener noreferrer">How quickly does chess get big?</a></li>
+                    <li><a href="../H084/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H084</span>"Up 40% this month!" Did this stock really have a great month?</a></li>
+                    <li><a href="../H099/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H099</span>"Deadly shark attacks doubled." Did the oceans get twice as dangerous?</a></li>
+                    <li><a href="../H077/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H077</span>How fast is the fly?</a></li>
                 </ul>
             </details>
 
@@ -405,7 +411,9 @@
 
             <div class="h018-save"><div id="save-image-slot"></div></div>
         </div>
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H017/index.html">&larr; H017</a><a class="hanten-pager-next" href="../H019/index.html">H019 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script>
         (() => {
@@ -541,6 +549,7 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {
@@ -603,7 +612,7 @@
 
             const reflection = document.createElement("div");
             reflection.className = "hanten-export-reflection";
-            reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+            reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
             card.appendChild(reflection);
 
             if (source) {

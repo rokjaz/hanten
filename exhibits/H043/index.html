@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Is Reno West of Los Angeles?</title>
+<title>H043 — Is Reno West of Los Angeles?</title>
 <meta name="description" content="Reno, Nevada sits on the ocean side of Los Angeles's exact line of longitude — because California's coast bends sharply inland as it runs south.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (straw) */ body { --hanten-paper: #F1EFD8 !important; }</style>
 
 <style>
   :root {
@@ -255,6 +256,7 @@
 <body class="hanten-theme-perspective">
 <main class="hanten-exhibit">
 
+  <p class="hanten-hnum">H043</p>
   <h1 class="hanten-question">Is Reno, Nevada west of Los Angeles?</h1>
 
   <p class="hanten-subtitle">
@@ -276,16 +278,20 @@
       </section>
     </div>
 
-    <div class="h043-discovery hanten-body">
-      <p><strong>California&rsquo;s coast leans east, so Los Angeles ends up east of Reno.</strong> California's coast isn't a vertical line — it leans. The northern border sits near 124.2°W; by San Diego the coast has drifted to about 117.2°W, nearly seven degrees east over roughly 800 miles of shoreline. The hinge is around Point Conception, near Santa Barbara: north of it, the coast runs roughly northwest–southeast as expected; south of it, the coast — and Los Angeles with it — swings sharply east. Reno sits in the less-drifted northern zone, just inside Nevada by Lake Tahoe, so it ends up west of a city that reads, on a mental map, as clearly "in California."</p>
+    <div class="h043-discovery hanten-body hanten-aha">
+      <p><span class="hanten-aha-lead">California&rsquo;s coast leans east, so Los Angeles ends up east of Reno.</span> California's coast isn't a vertical line — it leans. The northern border sits near 124.2°W; by San Diego the coast has drifted to about 117.2°W, nearly seven degrees east over roughly 800 miles of shoreline. The hinge is around Point Conception, near Santa Barbara: north of it, the coast runs roughly northwest–southeast as expected; south of it, the coast — and Los Angeles with it — swings sharply east. Reno sits in the less-drifted northern zone, just inside Nevada by Lake Tahoe, so it ends up west of a city that reads, on a mental map, as clearly "in California."</p>
                 <p>Mental maps simplify: we remember states as boxes and coasts as straight lines. When a claim about direction feels obvious, check the coordinates rather than the shape in your head.</p>
             </div>
 
 
 
-    <p class="hanten-reflection">
-                Which city do you “know” is east or west of another without ever checking?
-            </p>
+    <section class="hanten-transfer" aria-label="Try it somewhere else">
+        <p class="hanten-transfer-kicker">Try it somewhere else</p>
+        <div class="hanten-transfer-text">
+            <p class="hanten-transfer-scenario">Lima is on South America's west coast. Miami is on the east coast of the United States.</p>
+            <p class="hanten-transfer-question">Which city is farther east?</p>
+        </div>
+    </section>
 
             <details class="h043-table-details" data-html2canvas-ignore="true">
       <summary>See how the other cities compare</summary>
@@ -315,9 +321,9 @@
     <details class="h043-table-details" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H045/index.html" target="_blank" rel="noopener noreferrer">Does Alaska cross into the Eastern Hemisphere?</a></li>
-                    <li><a href="../H066/index.html" target="_blank" rel="noopener noreferrer">Is South America east of Florida?</a></li>
-                    <li><a href="../H075/index.html" target="_blank" rel="noopener noreferrer">Is London north of Vancouver, Calgary, and Toronto?</a></li>
+                    <li><a href="../H066/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H066</span>Is South America east of Florida?</a></li>
+                    <li><a href="../H075/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H075</span>Is London north of Vancouver, Calgary, and Toronto?</a></li>
+                    <li><a href="../H045/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H045</span>Does Alaska cross into the Eastern Hemisphere?</a></li>
                 </ul>
             </details>
 
@@ -329,7 +335,8 @@
   <div class="hanten-utility">
     <div id="save-image-slot"></div>
   </div>
-
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H042/index.html">&larr; H042</a><a class="hanten-pager-next" href="../H044/index.html">H044 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script src="../../assets/js/d3.v7.min.js"></script>
@@ -552,6 +559,7 @@
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 <script>
 (() => {
@@ -604,7 +612,7 @@
 
     const reflection = document.createElement("div");
     reflection.className = "hanten-export-reflection";
-    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     if (source) {

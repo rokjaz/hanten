@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Can You Win Most of the Seats Without Most of the Votes?</title>
+<title>H003 — Can You Win Most of the Seats Without Most of the Votes?</title>
 <meta name="description" content="The same 36 voters can produce three different seat outcomes when only the district boundaries change.">
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (sage) */ body { --hanten-paper: #E6EFE2 !important; } main.hanten-exhibit h1.hanten-question { color: var(--hanten-text) !important; font-weight: 700 !important; }</style>
 <style>
   :root {
     --ink: #1c2733;
@@ -613,6 +614,7 @@ main.hanten-exhibit .source-note{
 <body class="hanten-theme-distribution">
 
 <main class="hanten-exhibit">
+  <p class="hanten-hnum">H003</p>
   <h1 class="hanten-question">Can you win most of the seats without winning most of the votes?</h1>
   <p class="hanten-subtitle">The same 36 voters. Three district maps. Three different outcomes.</p>
   <div class="hanten-graphic">
@@ -624,14 +626,18 @@ main.hanten-exhibit .source-note{
 
   <div class="maps" id="maps"></div>
 
-  <div class="caption">
-    <p><strong>Same voters, three different winners: whoever draws the lines can pick the result.</strong> The same voters produced a 2–2 split, a 3–1 Red result, and a 4–0 Blue sweep.</p>
+  <div class="caption hanten-aha">
+    <p><span class="hanten-aha-lead">Same voters, three different winners: whoever draws the lines can pick the result.</span> The same voters produced a 2–2 split, a 3–1 Red result, and a 4–0 Blue sweep.</p>
                 <p>The same is true of school attendance zones, sales territories, and any contest decided district by district: the boundaries can matter as much as the votes.</p>
             </div>
 
-  <p class="hanten-reflection">
-                Who draws the lines in the contests that matter to you?
-            </p>
+  <section class="hanten-transfer" aria-label="Try it somewhere else">
+      <p class="hanten-transfer-kicker">Try it somewhere else</p>
+      <div class="hanten-transfer-text">
+          <p class="hanten-transfer-scenario">In the 1888 presidential election, Grover Cleveland won more votes nationwide than Benjamin Harrison.</p>
+          <p class="hanten-transfer-question">Harrison became president anyway. What decided the winner, if not the total?</p>
+      </div>
+  </section>
 
   <details class="h003-explore" data-html2canvas-ignore="true">
     <summary>How can boundaries change the result?</summary>
@@ -714,9 +720,9 @@ main.hanten-exhibit .source-note{
             <details class="h003-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H017/index.html" target="_blank" rel="noopener noreferrer">What would America look like if every state had the same population?</a></li>
-                    <li><a href="../H022/index.html" target="_blank" rel="noopener noreferrer">Can you get more hits, or more votes, and still lose?</a></li>
-                    <li><a href="../H059/index.html" target="_blank" rel="noopener noreferrer">How much more does a Wyoming vote count than a Texas vote?</a></li>
+                    <li><a href="../H021/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H021</span>The Yankees outscored the Pirates 55–27. How did the Pirates win the World Series?</a></li>
+                    <li><a href="../H059/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H059</span>How much more does a Wyoming vote count than a Texas&amp;nbsp;vote?</a></li>
+                    <li><a href="../H017/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H017</span>What would America look like if every state had the same population?</a></li>
                 </ul>
             </details>
 
@@ -726,6 +732,8 @@ main.hanten-exhibit .source-note{
     <div id="save-image-slot"></div>
   </div>
   </div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H002/index.html">&larr; H002</a><a class="hanten-pager-next" href="../H004/index.html">H004 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script>
@@ -876,6 +884,7 @@ main.hanten-exhibit .source-note{
 })();</script>
     <script>document.querySelectorAll("details").forEach(d=>d.addEventListener("toggle",()=>window.dispatchEvent(new Event("resize"))));</script>
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 <script>
 (() => {
@@ -989,7 +998,7 @@ main.hanten-exhibit .source-note{
 
     const reflection=document.createElement("div");
     reflection.className="hanten-export-reflection";
-    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     document.body.appendChild(card);

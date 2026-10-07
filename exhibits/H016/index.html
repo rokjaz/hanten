@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Can You See Half the Earth and Almost No Land?</title>
+    <title>H016 — Can You See Half the Earth and Almost No Land?</title>
 
     <meta
         name="description"
@@ -12,6 +12,7 @@
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (sage) */ body { --hanten-paper: #E6EFE2 !important; }</style>
 
     <style>
         :root {
@@ -126,6 +127,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H016</p>
         <h1 class="hanten-question" style="text-wrap:balance;">
             Can you see half the Earth and almost no land?
         </h1>
@@ -167,8 +169,8 @@
 
             </div>
 
-            <div class="h016-aha">
-                <p><strong>Half of Earth is almost all ocean.</strong> Center a globe just southeast of New Zealand and
+            <div class="h016-aha hanten-aha">
+                <p><span class="hanten-aha-lead">Half of Earth is almost all ocean.</span> Center a globe just southeast of New Zealand and
                     89% of what you see is water. Nearly half of the land that&rsquo;s left is Antarctica&rsquo;s ice, and
                     most of the rest is Australia. Earth is 29% land overall, but that land is bunched onto one side: the
                     opposite half, centered on western France, is 47% land.</p>
@@ -176,9 +178,13 @@
                     planet. Before trusting an average, ask how evenly the thing it measures is actually spread out.</p>
             </div>
 
-            <p class="hanten-reflection">
-                What average have you assumed applies everywhere, when it&rsquo;s really lopsided?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A river crossing has an average depth of 3 feet (about 1 meter).</p>
+                    <p class="hanten-transfer-question">Is it safe to walk across, and what could the average be hiding?</p>
+                </div>
+            </section>
 
             <details class="h016-explore" data-html2canvas-ignore="true">
                 <summary>Where is the most land? The opposite half, centered on France</summary>
@@ -238,9 +244,9 @@
             <details class="h016-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H081/index.html" target="_blank" rel="noopener noreferrer">Is Australia really empty?</a></li>
-                    <li><a href="../H010/index.html" target="_blank" rel="noopener noreferrer">Could half the world’s population really fit inside one circle?</a></li>
-                    <li><a href="../H087/index.html" target="_blank" rel="noopener noreferrer">The Gall-Peters map shows every country at its true size. Is it the more accurate map?</a></li>
+                    <li><a href="../H081/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H081</span>Is Australia really empty?</a></li>
+                    <li><a href="../H090/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H090</span>Life expectancy in 1900 was under 48. Did people back then really die at 40?</a></li>
+                    <li><a href="../H001/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H001</span>What’s the average income at this BBQ?</a></li>
                 </ul>
             </details>
 
@@ -257,8 +263,9 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H015/index.html">&larr; H015</a><a class="hanten-pager-next" href="../H017/index.html">H017 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script src="../../assets/js/d3.v7.min.js"></script>
     <script src="../../assets/geodata/world/countries-10m.js"></script>
@@ -317,6 +324,7 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {

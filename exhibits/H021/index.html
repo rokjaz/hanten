@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>The 1960 World Series | Hanten</title>
+<title>H021 — The 1960 World Series | Hanten</title>
 <meta name="description" content="The Yankees outscored the Pirates 55–27 across the 1960 World Series. The Pirates still won, four games to three.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (sky) */ body { --hanten-paper: #E2EEF5 !important; }</style>
 
 <style>
   :root {
@@ -271,12 +272,21 @@ main.hanten-exhibit > .hanten-subtitle{
 /* Design Standards 19 (text column) */
 .hanten-exhibit .h021-aha { max-width: var(--hanten-text-width); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
 </style>
+<style>
+/* Presidential elections dropdown (absorbed H022, Sept 2026) */
+.h021-elections{width:100%;border-collapse:collapse;margin-top:.6rem;font-size:.8rem}
+.h021-elections th{text-align:center;font-size:.66rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--hanten-muted);padding:.45rem .5rem;border-bottom:1px solid var(--hanten-border)}
+.h021-elections td{text-align:left;padding:.45rem .5rem;border-bottom:1px solid var(--hanten-border);color:var(--hanten-text)}
+.h021-elections td.hanten-num{text-align:center;font-variant-numeric:tabular-nums}
+.h021-elections tr:last-child td{border-bottom:none}
+</style>
 </head>
 
 <body class="hanten-theme-optimization">
 
 <main class="hanten-exhibit">
 
+    <p class="hanten-hnum">H021</p>
     <h1 class="hanten-question">
         The Yankees outscored the Pirates 55–27.
         How did the Pirates win the World Series?
@@ -406,14 +416,18 @@ main.hanten-exhibit > .hanten-subtitle{
 
             </div>
 
-            <div class="h021-aha">
-                <p><strong>55–27 Yankees in runs. 4–3 Pirates in games.</strong> New York concentrated its runs in three blowouts — 16–3, 10–0, 12–0. Pittsburgh distributed enough runs to win four separate games, sealed by Bill Mazeroski's walk-off home run in Game 7. The Pirates' −28 run differential is still the largest ever posted by a World Series winner.</p>
+            <div class="h021-aha hanten-aha">
+                <p><span class="hanten-aha-lead">55–27 Yankees in runs. 4–3 Pirates in games.</span> New York concentrated its runs in three blowouts — 16–3, 10–0, 12–0. Pittsburgh distributed enough runs to win four separate games, sealed by Bill Mazeroski's walk-off home run in Game 7. The Pirates' −28 run differential is still the largest ever posted by a World Series winner.</p>
                 <p>Same shape as our <a href="../H003/index.html" target="_blank" rel="noopener noreferrer">gerrymandering</a> and <a href="../H006/index.html" target="_blank" rel="noopener noreferrer">bowling</a> exhibits: when a contest is decided by winning individual rounds rather than adding up every point scored, how a total is distributed can matter more than how large it is.</p>
             </div>
 
-            <p class="hanten-reflection">
-                In the contests you follow, what actually decides the winner?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">In the 2019 Wimbledon final, Roger Federer won more points and more games than Novak Djokovic.</p>
+                    <p class="hanten-transfer-question">Djokovic won the title. In the contests you follow, what actually decides the winner?</p>
+                </div>
+            </section>
 
             <details class="h021-explore" data-html2canvas-ignore="true">
                 <summary>Explore how this shows up in real district maps</summary>
@@ -432,16 +446,32 @@ main.hanten-exhibit > .hanten-subtitle{
             </details>
 
             <details class="h021-explore" data-html2canvas-ignore="true">
+                <summary>Has this happened in presidential elections?</summary>
+                <p>Four times, the candidate with the most popular votes lost the presidency. The Electoral College counts states won, not total votes, so a big margin in one state adds to the national total without adding a single electoral vote.</p>
+                <table class="h021-elections">
+                    <thead><tr><th>Year</th><th>Won the popular vote</th><th>Won the presidency</th><th>Popular-vote margin</th></tr></thead>
+                    <tbody>
+                        <tr><td class="hanten-num">1876</td><td>Tilden · 50.9%, 184 electoral votes</td><td>Hayes · 47.9%, 185 electoral votes</td><td class="hanten-num">252,666</td></tr>
+                        <tr><td class="hanten-num">1888</td><td>Cleveland · 48.6%, 168</td><td>Harrison · 47.8%, 233</td><td class="hanten-num">94,530</td></tr>
+                        <tr><td class="hanten-num">2000</td><td>Gore · 48.4%, 266</td><td>Bush · 47.9%, 271</td><td class="hanten-num">543,895</td></tr>
+                        <tr><td class="hanten-num">2016</td><td>Clinton · 48.2%, 227</td><td>Trump · 46.1%, 304</td><td class="hanten-num">2,868,686</td></tr>
+                    </tbody>
+                </table>
+                <p>Samuel Tilden in 1876 is the only candidate to win an outright majority of the popular vote and lose. In 1824, Andrew Jackson won the most popular and electoral votes but not a majority, and the House chose John Quincy Adams; that is a different mechanism, so it is not listed.</p>
+            </details>
+
+
+            <details class="h021-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H022/index.html" target="_blank" rel="noopener noreferrer">Can you get more hits, or more votes, and still lose?</a></li>
-                    <li><a href="../H006/index.html" target="_blank" rel="noopener noreferrer">Can two bowlers knock down the same 50 pins and finish 70 points apart?</a></li>
-                    <li><a href="../H003/index.html" target="_blank" rel="noopener noreferrer">Can you win most of the seats without winning most of the votes?</a></li>
+                    <li><a href="../H003/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H003</span>Can you win most of the seats without winning most of the votes?</a></li>
+                    <li><a href="../H059/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H059</span>How much more does a Wyoming vote count than a Texas&amp;nbsp;vote?</a></li>
+                    <li><a href="../H006/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H006</span>Can two bowlers knock down the same 50 pins and finish 70 points apart?</a></li>
                 </ul>
             </details>
 
             <p class="hanten-source h021-source">
-                Sources: scores, dates, and MVP result from Baseball Reference and the National Baseball Hall of Fame's official 1960 World Series records. Run totals (55–27) and the −28 run differential are computed directly from the seven final scores above.
+                Sources: scores, dates, and MVP result from Baseball Reference and the National Baseball Hall of Fame's official 1960 World Series records. Run totals (55–27) and the −28 run differential are computed directly from the seven final scores above. Presidential results from National Archives Electoral College records and the American Presidency Project (UCSB); percentages are of the total national vote.
             </p>
 
             <div class="hanten-utility">
@@ -451,10 +481,12 @@ main.hanten-exhibit > .hanten-subtitle{
         </div>
 
     </div>
-
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H020/index.html">&larr; H020</a><a class="hanten-pager-next" href="../H022/index.html">H022 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 <script>
 (() => {
@@ -514,7 +546,7 @@ main.hanten-exhibit > .hanten-subtitle{
 
     const reflection = document.createElement("div");
     reflection.className = "hanten-export-reflection";
-    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     if (source) {

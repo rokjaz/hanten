@@ -6,11 +6,11 @@ The full editorial philosophy, standards, and design system live in the Hanten m
 
 ## Current rule: laptop first (Sept 2026)
 
-Do not push anything to `website-v2` (the branch hanten.app publishes from) until Rock says the next build is ready. All work happens on the local `next-build` branch and is previewed on his laptop (`python3 -m http.server 8000`, then http://localhost:8000). When he approves, merge `next-build` into `website-v2` and push once.
+Do not push anything to `main` (the branch hanten.app publishes from) until Rock says the next build is ready. All work happens on the local `next-build` branch and is previewed on his laptop (`python3 -m http.server 8000`, then http://localhost:8000). When he approves, merge `next-build` into `main` and push once.
 
 ## Stack
 
-Plain HTML/CSS/vanilla JS. No build step, no framework, no bundler. Deployed with Cloudflare Pages straight from this repo; `website-v2` is the production branch — push there to ship.
+Plain HTML/CSS/vanilla JS. No build step, no framework, no bundler. Deployed with Cloudflare Pages straight from this repo; `main` is the production branch (Cloudflare Pages → Settings → Build → Branch control, confirmed Oct 2026) — push there to ship. The old `website-v2` branch is retired; its history is part of `main`.
 
 ## Two exhibit systems coexist right now — know which one you're touching
 
@@ -104,7 +104,7 @@ For every change:
 2. Check `read_console_messages(onlyErrors)`, take a screenshot, and resize to 375×812 to confirm no horizontal overflow (`document.documentElement.scrollWidth - window.innerWidth === 0`).
 3. For an `exhibits/H0XX` change: also open `exhibits/H0XX/index.html` specifically (not just the source), and test both "Save Image" and "Share Image" if present, per `PUBLISHING.md`.
 4. `preview_stop`, then delete `.claude/launch.json` — it's local-only, never committed.
-5. `git diff` review → commit (no `Co-Authored-By` line in this repo's history) → `push` to `website-v2` (the production branch — see Stack above).
+5. `git diff` review → commit (no `Co-Authored-By` line in this repo's history) → `push` to `main` (the production branch — see Stack above).
 6. `sleep 20` then `curl -s https://www.hanten.app/<page>` to confirm the change is live.
 
 ## Working with the user

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Is London North of Vancouver?</title>
+    <title>H075 — Is London North of Vancouver?</title>
 
     <meta
         name="description"
@@ -12,6 +12,7 @@
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (lavender) */ body { --hanten-paper: #EDE7F4 !important; }</style>
 
     <style>
         /*
@@ -428,6 +429,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H075</p>
         <h1 class="hanten-question" style="text-wrap:balance;">
             Is London north of Vancouver, Calgary, and Toronto?
         </h1>
@@ -472,14 +474,18 @@
       </div>
     </div>
 
-            <div class="h075-aha">
-                <p><strong>Only one major Canadian city, Edmonton, is farther north than London.</strong> London feels farther south because its winters are mild, but that mildness comes from the Atlantic, not from latitude. Winds blowing east off a relatively warm ocean keep Western Europe far warmer than North American cities at the same latitude.</p>
+            <div class="h075-aha hanten-aha">
+                <p><span class="hanten-aha-lead">Only one major Canadian city, Edmonton, is farther north than London.</span> London feels farther south because its winters are mild, but that mildness comes from the Atlantic, not from latitude. Winds blowing east off a relatively warm ocean keep Western Europe far warmer than North American cities at the same latitude.</p>
                 <p>We tend to guess latitude from weather, and weather depends on oceans and winds as much as on distance from the equator. When a place feels farther south than it is, check the number.</p>
             </div>
 
-            <p class="hanten-reflection">
-                Which cities do you place north or south by their weather rather than their latitude?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">Venice rarely sees snow. Montreal is buried in it every winter.</p>
+                    <p class="hanten-transfer-question">Which city is farther north?</p>
+                </div>
+            </section>
 
             <details class="h075-explore" data-html2canvas-ignore="true">
                 <summary>Does latitude decide how cold a city gets?</summary>
@@ -587,9 +593,8 @@
             <details class="h075-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H066/index.html" target="_blank" rel="noopener noreferrer">Is South America east of Florida?</a></li>
-                    <li><a href="../H043/index.html" target="_blank" rel="noopener noreferrer">Is Reno, Nevada west of Los Angeles?</a></li>
-                    <li><a href="../H023/index.html" target="_blank" rel="noopener noreferrer">How many Greenlands fit inside Africa?</a></li>
+                    <li><a href="../H066/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H066</span>Is South America east of Florida?</a></li>
+                    <li><a href="../H043/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H043</span>Is Reno, Nevada west of Los Angeles?</a></li>
                 </ul>
             </details>
 
@@ -608,8 +613,9 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H074/index.html">&larr; H074</a><a class="hanten-pager-next" href="../H076/index.html">H076 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script src="../../assets/js/d3.v7.min.js"></script>
     <script src="../../assets/geodata/countries.js"></script>
@@ -912,6 +918,7 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {

@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>ISS Is a 4-Hour Drive | Hanten</title>
+<title>H020 — ISS Is a 4-Hour Drive | Hanten</title>
 <meta name="description" content="If you could drive straight up at highway speed, the International Space Station is less than four hours away.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (mint) */ body { --hanten-paper: #DFF0EB !important; }</style>
 
 <style>
   :root {
@@ -223,6 +224,7 @@ main.hanten-exhibit > .hanten-subtitle{
 <body class="hanten-theme-scale">
 <main class="hanten-exhibit">
 
+  <p class="hanten-hnum">H020</p>
   <h1 class="hanten-question">
     How long would it take to drive to the International Space Station?
   </h1>
@@ -337,15 +339,19 @@ main.hanten-exhibit > .hanten-subtitle{
 
       </section>
 
-      <div class="h020-aha">
-        <p><strong>Reaching the ISS&rsquo;s height is a four-hour drive. Staying there takes 17,500 mph.</strong> At highway speed, the vertical trip takes <span class="h020-punch">less than four hours</span>; the hard part of spaceflight is going sideways fast enough to keep missing Earth. Shrink Earth to a basketball and low Earth orbit is only a pencil-width away.</p>
+      <div class="h020-aha hanten-aha">
+        <p><span class="hanten-aha-lead">Reaching the ISS&rsquo;s height is a four-hour drive. Staying there takes 17,500 mph.</span> At highway speed, the vertical trip takes <span class="h020-punch">less than four hours</span>; the hard part of spaceflight is going sideways fast enough to keep missing Earth. Shrink Earth to a basketball and low Earth orbit is only a pencil-width away.</p>
         <p>The Kármán line — the internationally recognized edge of space, 62 miles (100 km) up — is itself less than a quarter of the way to the ISS. Space starts a lot closer than orbit does.</p>
                 <p>Big numbers get easier to judge once you set them against a familiar scale, like a drive or a basketball. When a distance feels unimaginable, translate it into something you've actually experienced.</p>
             </div>
 
-      <p class="hanten-reflection">
-                What distance feels huge until you picture driving it?
-            </p>
+      <section class="hanten-transfer" aria-label="Try it somewhere else">
+          <p class="hanten-transfer-kicker">Try it somewhere else</p>
+          <div class="hanten-transfer-text">
+              <p class="hanten-transfer-scenario">Count one number every second, day and night, without stopping.</p>
+              <p class="hanten-transfer-question">How long would it take to reach a billion: days, months, or decades?</p>
+          </div>
+      </section>
 
             <details class="h020-explore" data-html2canvas-ignore="true">
                 <summary>Explore the same distance from other places on Earth</summary>
@@ -365,9 +371,10 @@ main.hanten-exhibit > .hanten-subtitle{
       <details class="h020-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H011/index.html" target="_blank" rel="noopener noreferrer">Could all the other planets fit between Earth and the Moon?</a></li>
-                    <li><a href="../H002/index.html" target="_blank" rel="noopener noreferrer">How far can you get from everyone?</a></li>
-                    <li><a href="../H078/index.html" target="_blank" rel="noopener noreferrer">How far apart are a million and a billion?</a></li>
+                    <li><a href="../H078/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H078</span>How far apart are a million and a billion?</a></li>
+                    <li><a href="../H002/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H002</span>How far can you get from everyone?</a></li>
+                    <li><a href="../H011/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H011</span>Could all the other planets fit between Earth and the Moon?</a></li>
+                    <li><a href="../H028/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H028</span>How quickly does chess get big?</a></li>
                 </ul>
             </details>
 
@@ -382,10 +389,12 @@ main.hanten-exhibit > .hanten-subtitle{
       </div>
     </div>
   </div>
-
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H019/index.html">&larr; H019</a><a class="hanten-pager-next" href="../H021/index.html">H021 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 <script>
 (() => {
@@ -440,7 +449,7 @@ main.hanten-exhibit > .hanten-subtitle{
 
     const reflection = document.createElement("div");
     reflection.className = "hanten-export-reflection";
-    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     if (source) {

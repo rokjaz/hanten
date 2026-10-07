@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Bigger Than Pakistan?</title>
+<title>H049 — Bigger Than Pakistan?</title>
 <meta name="description" content="Uttar Pradesh, India's largest state, has more people than Pakistan, Nigeria, Brazil, Russia, or Japan. Guangdong, China's largest province, has more people than Japan.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (clay) */ body { --hanten-paper: #F5E6DF !important; }</style>
 
 <style>
     :root {
@@ -157,6 +158,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H049</p>
         <h1 class="hanten-question">
             Can a single Indian state outpopulate most countries on Earth?
         </h1>
@@ -185,9 +187,9 @@
                     </p>
                 </div>
 
-                <div class="h049-discovery hanten-body">
-                    <p><strong>"Most populous country" and "most populous place" aren't the same
-                        list.</strong> Uttar Pradesh, India's most populous state, holds an estimated 243
+                <div class="h049-discovery hanten-body hanten-aha">
+                    <p><span class="hanten-aha-lead">"Most populous country" and "most populous place" aren't the same
+                        list.</span> Uttar Pradesh, India's most populous state, holds an estimated 243
                         million people — more than Nigeria, Brazil, Bangladesh, Russia, Mexico, or Japan,
                         each counted as a whole country. Guangdong, China's most populous province, holds
                         about 128 million — more than Japan, a G7 economy, on its own.</p>
@@ -198,9 +200,13 @@
                         means something once you've agreed on the unit.</p>
                 </div>
 
-                <p class="hanten-reflection">
-                When someone says “biggest,” biggest compared with what?
-            </p>
+                <section class="hanten-transfer" aria-label="Try it somewhere else">
+                    <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                    <div class="hanten-transfer-text">
+                        <p class="hanten-transfer-scenario">Some lists call the Caspian Sea the world's largest lake. Others say Lake Superior.</p>
+                        <p class="hanten-transfer-question">What has to be decided before “largest lake” has one answer?</p>
+                    </div>
+                </section>
 
                 <details class="h049-explore" data-html2canvas-ignore="true">
                     <summary>Why India and China have provinces this large</summary>
@@ -212,9 +218,10 @@
                 <details class="h049-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H048/index.html" target="_blank" rel="noopener noreferrer">Does one Japanese metro area still outpopulate all of Canada?</a></li>
-                    <li><a href="../H010/index.html" target="_blank" rel="noopener noreferrer">Could half the world’s population really fit inside one circle?</a></li>
-                    <li><a href="../H064/index.html" target="_blank" rel="noopener noreferrer">What's the biggest country?</a></li>
+                    <li><a href="../H048/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H048</span>Does one Japanese metro area still outpopulate all of Canada?</a></li>
+                    <li><a href="../H064/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H064</span>What's the biggest country?</a></li>
+                    <li><a href="../H010/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H010</span>Could half the world’s population really fit inside one circle?</a></li>
+                    <li><a href="../H080/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H080</span>How big is a state without its biggest city?</a></li>
                 </ul>
             </details>
 
@@ -234,8 +241,9 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H048/index.html">&larr; H048</a><a class="hanten-pager-next" href="../H050/index.html">H050 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script>
         const data = [
@@ -264,6 +272,7 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {
@@ -317,7 +326,7 @@
 
         const reflection = document.createElement("div");
         reflection.className = "hanten-export-reflection";
-        reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+        reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
         card.appendChild(reflection);
 
         if (source) {

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H071 — Does Your Birth Month Decide Whether You Make the NHL?</title>
+
+    <meta
+        name="description"
+        content="Among Canadian-born NHL draftees, 36% were born in January through March and only 14.5% in October through December. Youth hockey groups kids by calendar year, and the oldest kids get picked first."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (slate) */ body { --hanten-paper: #E4E8F0 !important; }</style>
+
+    <style>
+        /*
+           H071-SPECIFIC STYLES
+           Built Oct 2026 to the v1.2 exhibit standard (hx- classes are
+           the shared backfill-exhibit pattern).
+        */
+
+        .hx-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .hx-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .hx-stats-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .hx-stats-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .hx-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .hx-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .hx-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+        .hx-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .hx-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .hx-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+        .hx-svgwrap { max-width: 700px; margin: 0 auto; }
+        .hx-panel svg { display: block; width: 100%; height: auto; margin: 0; }
+        .hx-panel svg text { font-family: var(--hanten-font); }
+        .hx-axis { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-lab { font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .hx-sub { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-val { font-size: 15px; font-weight: 800; }
+        .hx-big { font-size: 18px; font-weight: 800; }
+        .hx-note { max-width: var(--hanten-text-width); margin: 0.2rem auto 0; text-align: center; font-size: 0.78rem; font-style: italic; color: var(--hanten-muted); }
+        .hx-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .hx-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .hx-explore p { margin: .55rem 0 0; }
+        .hx-explore strong { color: var(--hanten-text); }
+        .hx-explore + .hx-explore { margin-top: 0; border-top: none; }
+        .hx-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .hx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .hx-table th, .hx-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .hx-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .hx-table td:not(:first-child) { text-align: center; }
+        .hx-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 600px) {
+            .hx-stats, .hx-stats-2, .hx-stats-4 { grid-template-columns: minmax(0, 1fr); }
+            .hx-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .hx-table { font-size: 0.76rem; }
+        }
+
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:960px;padding:40px 0 60px;box-sizing:border-box;background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    </style>
+</head>
+
+<body class="hanten-theme-distribution">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H071</p>
+        <h1 class="hanten-question">Does your birth month help decide whether you make the NHL?</h1>
+
+        <p class="hanten-subtitle">Birthdays should be spread evenly through the year, about 25% in each quarter. Among NHL draftees, they aren't.</p>
+
+        <div id="h071-capture">
+
+            <div class="hanten-graphic">
+<div class="hx-stats hx-stats-3">
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Born January–March</div>
+    <div class="hx-stat-n" style="color:#1A3E6E">36%</div>
+    <div class="hx-stat-l">of Canadian-born NHL draftees</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Expected by chance</div>
+    <div class="hx-stat-n">25%</div>
+    <div class="hx-stat-l">one quarter of the year</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Born October–December</div>
+    <div class="hx-stat-n" style="color:#b23b32">14.5%</div>
+    <div class="hx-stat-l">less than half as many as January–March</div>
+  </div>
+</div>
+<div class="hanten-panel hx-panel ">
+  <p class="hx-panel-title">Share of NHL draftees by birth quarter</p>
+  <p class="hx-panel-sub">2,736 Canadian-born skaters drafted from 1980 onward</p>
+  <div class="hx-svgwrap"><svg viewBox="0 0 700 154" role="img">
+<text class="hx-lab" x="188" y="26" text-anchor="end">January–March</text>
+<text class="hx-sub" x="188" y="41" text-anchor="end">oldest in their age group</text>
+<rect x="200" y="14" width="369.0" height="26" rx="3" fill="#1A3E6E"/>
+<text class="hx-val" x="577.0" y="33" fill="#1A3E6E">36%</text>
+<text class="hx-lab" x="188" y="72" text-anchor="end">Even spread</text>
+<text class="hx-sub" x="188" y="87" text-anchor="end">what chance alone would give</text>
+<rect x="200" y="60" width="256.2" height="26" rx="3" fill="#d8d3c7"/>
+<text class="hx-val" x="464.2" y="79" fill="#d8d3c7">25%</text>
+<text class="hx-lab" x="188" y="118" text-anchor="end">October–December</text>
+<text class="hx-sub" x="188" y="133" text-anchor="end">youngest in their age group</text>
+<rect x="200" y="106" width="148.6" height="26" rx="3" fill="#b23b32"/>
+<text class="hx-val" x="356.6" y="125" fill="#b23b32">14.5%</text>
+</svg></div>
+</div>
+            </div>
+
+            <div class="hx-aha hanten-aha">
+                <p><span class="hanten-aha-lead">Kids born just after the age cutoff are almost a year older than their teammates, and coaches mistake that year for talent.</span> Canadian youth hockey groups players by birth year, so a child born January 1 plays alongside one born December 31. At age eight, that extra year is about 12% more life: bigger, stronger, and better coordinated. Those kids make the top teams, get more coaching and ice time, and the head start grows. By draft day the age gap no longer matters, but the selection already happened.</p>
+                <p>Any system that compares people at one moment can mistake an early start for ability. The same pattern appears in school readiness, gifted programs, and youth soccer.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A school picks students for its advanced reading group at the start of first grade.</p>
+                    <p class="hanten-transfer-question">Which students are most likely to be chosen, and why might that not mean they read best?</p>
+                </div>
+            </section>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>The twist at the top</summary>
+                <p>The same study found that players born late in the year who did get drafted went on to play more NHL games, on average, than early-born draftees picked at the same spot. Because they had to overcome the disadvantage, the ones who made it tended to be better than their draft position suggested. Teams were, in effect, passing over talent.</p>
+            </details>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H058/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H058</span>Do your friends really have more friends than you?</a></li>
+                    <li><a href="../H055/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H055</span>How can men be admitted at a much higher rate overall — while women do as well or better in most departments?</a></li>
+                    <li><a href="../H014/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H014</span>How can the same country look almost empty — and unbelievably crowded?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Robert O. Deaner, Aaron Lowen, and Stephen Cobley, "Born at the Wrong Time: Selection Bias in the NHL Draft," PLOS ONE, 2013 (N = 2,736 Canadian-born non-goaltenders). Relative age effect: Malcolm Gladwell, Outliers (2008), after Roger Barnsley et al., 1985.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H070/index.html">&larr; H070</a><a class="hanten-pager-next" href="../H072/index.html">H072 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-relative-age-effect.png", title = "Does Your Birth Month Decide Whether You Make the NHL?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+        const clone = main.cloneNode(true);
+        clone.querySelectorAll(".hanten-utility, .hanten-pager, .hanten-site-footer, details").forEach(el => el.remove());
+        card.appendChild(clone);
+        document.body.appendChild(card);
+        // html2canvas draws an SVG at its attribute size, so pin each one to the size it renders at
+        card.querySelectorAll("svg").forEach(svg => { const r = svg.getBoundingClientRect(); if (r.width) { svg.setAttribute("width", r.width); svg.setAttribute("height", r.height); } });
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

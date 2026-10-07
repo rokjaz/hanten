@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Are More People Alive Today Than Have Ever Died?</title>
+    <title>H047 — Are More People Alive Today Than Have Ever Died?</title>
 
     <meta
         name="description"
@@ -12,6 +12,7 @@
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (parchment) */ body { --hanten-paper: #F4ECDF !important; }</style>
 
     <style>
         /* H047-SPECIFIC STYLES */
@@ -69,6 +70,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H047</p>
         <h1 class="hanten-question" style="text-wrap:balance;">
             Is it true that more people are alive today than have ever died?
         </h1>
@@ -121,8 +123,8 @@
 
             </div>
 
-            <div class="h047-aha">
-                <p><strong>The math looks close until you count all of human history.</strong> Global population
+            <div class="h047-aha hanten-aha">
+                <p><span class="hanten-aha-lead">The math looks close until you count all of human history.</span> Global population
                     has more than tripled since 1950, and that growth is real. But about 117 billion people have ever
                     been born, so the 8.2 billion alive today are only about 7% of all humans who have ever existed.</p>
                 <p>The same illusion shows up anywhere a fast recent trend is compared with a much longer, quieter
@@ -130,9 +132,13 @@
                     slice feels like the whole pie.</p>
             </div>
 
-            <p class="hanten-reflection">
-                What trend feels dramatic in your lifetime but might be a small slice of the full timeline?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">Today, just over half of the world's people live in cities.</p>
+                    <p class="hanten-transfer-question">Over all of human history, did most people live in cities?</p>
+                </div>
+            </section>
 
             <details class="h047-explore" data-html2canvas-ignore="true">
                 <summary>How anyone estimates births going back 192,000 years</summary>
@@ -151,9 +157,9 @@
             <details class="h047-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H078/index.html" target="_blank" rel="noopener noreferrer">How far apart are a million and a billion?</a></li>
-                    <li><a href="../H090/index.html" target="_blank" rel="noopener noreferrer">Life expectancy in 1900 was under 48. Did people back then really die at 40?</a></li>
-                    <li><a href="../H028/index.html" target="_blank" rel="noopener noreferrer">How quickly does chess get big?</a></li>
+                    <li><a href="../H028/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H028</span>How quickly does chess get big?</a></li>
+                    <li><a href="../H078/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H078</span>How far apart are a million and a billion?</a></li>
+                    <li><a href="../H027/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H027</span>Did the United States grow one state at a time?</a></li>
                 </ul>
             </details>
 
@@ -169,10 +175,12 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H046/index.html">&larr; H046</a><a class="hanten-pager-next" href="../H048/index.html">H048 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {

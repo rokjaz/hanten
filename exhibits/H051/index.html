@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H051 — Is Back-to-Front the Fastest Way to Board a Plane?</title>
+
+    <meta
+        name="description"
+        content="In a real test with 72 passengers, boarding back-to-front took 6 minutes 11 seconds. Boarding in random order took 4 minutes 44 seconds."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (slate) */ body { --hanten-paper: #E4E8F0 !important; }</style>
+
+    <style>
+        /*
+           H051-SPECIFIC STYLES
+           Built Oct 2026 to the v1.2 exhibit standard (hx- classes are
+           the shared backfill-exhibit pattern).
+        */
+
+        .hx-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .hx-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .hx-stats-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .hx-stats-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .hx-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .hx-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .hx-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+        .hx-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .hx-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .hx-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+        .hx-svgwrap { max-width: 700px; margin: 0 auto; }
+        .hx-panel svg { display: block; width: 100%; height: auto; margin: 0; }
+        .hx-panel svg text { font-family: var(--hanten-font); }
+        .hx-axis { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-lab { font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .hx-sub { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-val { font-size: 15px; font-weight: 800; }
+        .hx-big { font-size: 18px; font-weight: 800; }
+        .hx-note { max-width: var(--hanten-text-width); margin: 0.2rem auto 0; text-align: center; font-size: 0.78rem; font-style: italic; color: var(--hanten-muted); }
+        .hx-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .hx-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .hx-explore p { margin: .55rem 0 0; }
+        .hx-explore strong { color: var(--hanten-text); }
+        .hx-explore + .hx-explore { margin-top: 0; border-top: none; }
+        .hx-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .hx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .hx-table th, .hx-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .hx-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .hx-table td:not(:first-child) { text-align: center; }
+        .hx-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 600px) {
+            .hx-stats, .hx-stats-2, .hx-stats-4 { grid-template-columns: minmax(0, 1fr); }
+            .hx-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .hx-table { font-size: 0.76rem; }
+        }
+
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:960px;padding:40px 0 60px;box-sizing:border-box;background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    </style>
+</head>
+
+<body class="hanten-theme-optimization">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H051</p>
+        <h1 class="hanten-question">Is boarding a plane back-to-front the fastest way?</h1>
+
+        <p class="hanten-subtitle">Filling the back rows first sounds like it keeps people out of each other's way. In practice it puts everyone in the same few rows at the same time.</p>
+
+        <div id="h051-capture">
+
+            <div class="hanten-graphic">
+<div class="hx-stats hx-stats-3">
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Back-to-front</div>
+    <div class="hx-stat-n" style="color:#b23b32">6:11</div>
+    <div class="hx-stat-l">minutes:seconds to seat 72 passengers</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Random order</div>
+    <div class="hx-stat-n" style="color:#1f6f8b">4:44</div>
+    <div class="hx-stat-l">about 23% faster, with no plan at all</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Best tested method</div>
+    <div class="hx-stat-n" style="color:#1A3E6E">3:36</div>
+    <div class="hx-stat-l">alternating rows, window seats first</div>
+  </div>
+</div>
+<div class="hanten-panel hx-panel ">
+  <p class="hx-panel-title">Time to seat 72 passengers in a mock 757 cabin</p>
+  <p class="hx-panel-sub">Each method tested with the same passengers and their real carry-on bags</p>
+  <div class="hx-svgwrap"><svg viewBox="0 0 700 246" role="img">
+<text class="hx-lab" x="188" y="26" text-anchor="end">Blocks of rows</text>
+<text class="hx-sub" x="188" y="41" text-anchor="end">back group first</text>
+<rect x="200" y="14" width="404.1" height="26" rx="3" fill="#d8d3c7"/>
+<text class="hx-val" x="612.1" y="33" fill="#d8d3c7">6:54</text>
+<text class="hx-lab" x="188" y="72" text-anchor="end">Back-to-front</text>
+<text class="hx-sub" x="188" y="87" text-anchor="end">one row at a time</text>
+<rect x="200" y="60" width="362.2" height="26" rx="3" fill="#b23b32"/>
+<text class="hx-val" x="570.2" y="79" fill="#b23b32">6:11</text>
+<text class="hx-lab" x="188" y="118" text-anchor="end">Random</text>
+<text class="hx-sub" x="188" y="133" text-anchor="end">no order at all</text>
+<rect x="200" y="106" width="277.2" height="26" rx="3" fill="#1f6f8b"/>
+<text class="hx-val" x="485.2" y="125" fill="#1f6f8b">4:44</text>
+<text class="hx-lab" x="188" y="164" text-anchor="end">Window, middle, aisle</text>
+<text class="hx-sub" x="188" y="179" text-anchor="end">"WilMA"</text>
+<rect x="200" y="152" width="247.0" height="26" rx="3" fill="#9a958b"/>
+<text class="hx-val" x="455.0" y="171" fill="#9a958b">4:13</text>
+<text class="hx-lab" x="188" y="210" text-anchor="end">Steffen method</text>
+<text class="hx-sub" x="188" y="225" text-anchor="end">alternate rows, window first</text>
+<rect x="200" y="198" width="210.9" height="26" rx="3" fill="#1A3E6E"/>
+<text class="hx-val" x="418.9" y="217" fill="#1A3E6E">3:36</text>
+</svg></div>
+</div>
+            </div>
+
+            <div class="hx-aha hanten-aha">
+                <p><span class="hanten-aha-lead">Sending everyone to the same part of the plane makes them wait for each other.</span> When boarding goes back-to-front, everyone in the aisle is heading for the same few rows, so each person stowing a bag blocks the whole line. In random order, people stow bags in many rows at once. In a 2011 test with 72 passengers, random boarding beat back-to-front by almost a minute and a half.</p>
+                <p>Orderly-looking plans can create one narrow bottleneck that everyone has to pass through. The fastest systems often spread the work out, even if they look messier.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A school lets students into the cafeteria one grade at a time, and every student in a grade heads to the same serving line.</p>
+                    <p class="hanten-transfer-question">Would letting everyone in at once, spread across all the lines, be slower or faster?</p>
+                </div>
+            </section>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Why the fastest method isn't used</summary>
+                <p>The Steffen method seats passengers in alternating rows, window seats first, so people stowing bags are two rows apart and never block each other. It needs passengers to line up in a precise order, which is hard with families, late arrivals, and boarding groups that airlines sell as perks. Many airlines now use window-middle-aisle or simply let groups board without assigned order within them.</p>
+            </details>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H024/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H024</span>Is the driver who merges at the last second cutting in line?</a></li>
+                    <li><a href="../H019/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H019</span>Twice the capacity, half the wait?</a></li>
+                    <li><a href="../H079/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H079</span>Can a new road make traffic worse?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Jason H. Steffen and Jon Hotchkiss, "Experimental test of airplane boarding methods," Journal of Air Transport Management, 2012 (72 passengers, mock Boeing 757 cabin; official boarding times).
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H050/index.html">&larr; H050</a><a class="hanten-pager-next" href="../H052/index.html">H052 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-plane-boarding-order.png", title = "Is Back-to-Front the Fastest Way to Board a Plane?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+        const clone = main.cloneNode(true);
+        clone.querySelectorAll(".hanten-utility, .hanten-pager, .hanten-site-footer, details").forEach(el => el.remove());
+        card.appendChild(clone);
+        document.body.appendChild(card);
+        // html2canvas draws an SVG at its attribute size, so pin each one to the size it renders at
+        card.querySelectorAll("svg").forEach(svg => { const r = svg.getBoundingClientRect(); if (r.width) { svg.setAttribute("width", r.width); svg.setAttribute("height", r.height); } });
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

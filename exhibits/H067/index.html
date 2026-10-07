@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Where Can You Only Drive Through Canada to Reach the U.S.?</title>
+    <title>H067 — Where Can You Only Drive Through Canada to Reach the U.S.?</title>
 
     <meta
         name="description"
@@ -12,6 +12,7 @@
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (rose) */ body { --hanten-paper: #F3E4EA !important; }</style>
 
     <style>
         /*
@@ -315,6 +316,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H067</p>
         <h1 class="hanten-question" style="text-wrap:balance;">
             Where in the U.S. can you only drive to through Canada?
         </h1>
@@ -418,14 +420,18 @@
 
             </div>
 
-            <div class="h067-discovery hanten-body">
-                <p><strong>These two exclaves look alike, but one came from a wrong map and the other from a right one.</strong> The Northwest Angle exists because the 1783 treaty's negotiators thought the Mississippi started north of Lake of the Woods; the 1818 fix left a patch of Minnesota stranded. Point Roberts is exactly where the 1846 Oregon Treaty put it: the 49th parallel ran straight across a peninsula and left its tip American.</p>
+            <div class="h067-discovery hanten-body hanten-aha">
+                <p><span class="hanten-aha-lead">These two exclaves look alike, but one came from a wrong map and the other from a right one.</span> The Northwest Angle exists because the 1783 treaty's negotiators thought the Mississippi started north of Lake of the Woods; the 1818 fix left a patch of Minnesota stranded. Point Roberts is exactly where the 1846 Oregon Treaty put it: the 49th parallel ran straight across a peninsula and left its tip American.</p>
                 <p>The same odd result can have opposite causes, so check the history before assuming a mistake. Borders and rules preserve what their authors believed, and a simple rule applied everywhere will eventually produce a strange case somewhere.</p>
             </div>
 
-            <p class="hanten-reflection">
-                What odd boundary near you came from a mistake, or a rule followed exactly?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">Hyder, Alaska, has no road to the rest of Alaska. You can only drive there through Canada.</p>
+                    <p class="hanten-transfer-question">Was Hyder cut off by a mistake, a rule, or the land itself?</p>
+                </div>
+            </section>
 
             <details class="h067-explore" data-html2canvas-ignore="true">
                 <summary>The Northwest Angle: a border drawn from a bad map</summary>
@@ -470,9 +476,9 @@
             <details class="h067-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H098/index.html" target="_blank" rel="noopener noreferrer">Somaliland has run its own government since 1991. Is it a country?</a></li>
-                    <li><a href="../H042/index.html" target="_blank" rel="noopener noreferrer">How can two islands 2.4 miles apart be a day apart?</a></li>
-                    <li><a href="../H045/index.html" target="_blank" rel="noopener noreferrer">Does Alaska cross into the Eastern Hemisphere?</a></li>
+                    <li><a href="../H098/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H098</span>Somaliland has run its own government since 1991. Is it a country?</a></li>
+                    <li><a href="../H042/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H042</span>How can two islands 2.4 miles apart be a day apart?</a></li>
+                    <li><a href="../H038/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H038</span>Where is the border in Kashmir?</a></li>
                 </ul>
             </details>
 
@@ -499,8 +505,9 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H066/index.html">&larr; H066</a><a class="hanten-pager-next" href="../H068/index.html">H068 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script>
         (() => {
@@ -592,12 +599,12 @@
 
                 // Jim's Corner
                 const [jx, jy] = dot(-95.16, 49.325, "var(--h067-route)", 5);
-                text(jx - 10, jy - lh(8), "Jim's Corner", "h067-label h067-route-label", 12, "end");
-                text(jx - 10, jy + lh(7), narrow ? "re-enter U.S." : "re-enter the U.S. by video kiosk", "h067-sub", 10.5, "end");
+                text(jx - 10, jy - lh(22), "Jim's Corner", "h067-label h067-route-label", 12, "end");
+                text(jx - 10, jy - lh(8), narrow ? "re-enter U.S." : "re-enter the U.S. by video kiosk", "h067-sub", 10.5, "end");
 
                 // Angle Inlet
                 const [ix, iy] = dot(-95.0633, 49.3453, "var(--hanten-text)", 4);
-                text(ix + 8, iy + lh(4), "Angle Inlet", "h067-label", 11.5);
+                text(ix + 6, iy + lh(17), "Angle Inlet", "h067-label", 11.5);
 
                 // Northernmost point (placed at the corner of the map's border line)
                 const [nx, ny] = dot(-95.1606, 49.3695, "var(--hanten-text)", 3.5);
@@ -771,6 +778,7 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {

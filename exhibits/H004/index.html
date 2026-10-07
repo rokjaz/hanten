@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H004 — Is Earth’s Spin Carrying You at 1,000 mph?</title>
+    <meta name="description" content="Earth’s rotation carries you about 1,040 mph only near the equator. Every place turns once in the same 23 hours 56 minutes, but the circle shrinks toward the poles: half the speed at 60° and zero at the North Pole.">
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (parchment) */ body { --hanten-paper: #F4ECDF !important; }</style>
+
+    <style>
+        /* H004-SPECIFIC STYLES — shared rules live in hanten.css. */
+        .h004-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h004-panel-title { font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .h004-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 auto 0.9rem; max-width: 560px; text-wrap: balance; }
+
+        .h004-layout { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.45fr); gap: 1.2rem; align-items: center; }
+        .h004-layout svg { display: block; width: 100%; height: auto; }
+        .h004-globe-wrap { max-width: 280px; margin: 0 auto; width: 100%; }
+        .h004-globe-cap { text-align: center; font-size: 0.78rem; color: var(--hanten-muted); margin: 0.35rem 0 0; line-height: 1.4; text-wrap: balance; }
+
+        /* SVG text and marks */
+        .h004-layout text { font-family: var(--hanten-font); }
+        .h004-place { font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .h004-lat, .h004-km { font-size: 11.5px; fill: var(--hanten-muted); }
+        .h004-val { font-size: 13px; font-weight: 700; fill: var(--hanten-text); font-variant-numeric: tabular-nums; }
+        .h004-km { font-variant-numeric: tabular-nums; }
+        .h004-val, .h004-km { paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round; }
+        .h004-note { font-size: 11px; fill: var(--hanten-muted); }
+        .h004-bar { fill: var(--hanten-accent); }
+        .h004-half { stroke: var(--hanten-muted); }
+        .h004-ring { fill: none; stroke: var(--hanten-accent); stroke-width: 2.2; }
+        .h004-ring-label { font-size: 11.5px; font-weight: 700; fill: var(--hanten-accent); }
+        .h004-globe-label { font-size: 11.5px; fill: var(--hanten-text); }
+
+        /* Aha text: on the page background, no tint, no accent bar. */
+        .h004-aha { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; font-size: 0.95rem; line-height: 1.55; }
+        .h004-aha p { margin: 0 0 0.6rem; }
+        .h004-aha p:last-child { margin-bottom: 0; }
+
+        /* Dropdowns: supporting content kept out of the saved image. */
+        .h004-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .h004-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .h004-explore p { margin: .55rem 0 0; }
+        .h004-explore strong { color: var(--hanten-text); }
+        .h004-explore + .h004-explore { margin-top: 0; border-top: none; }
+
+        /* Tables: headers centered; text columns left, value columns centered. */
+        .h004-table-wrap { overflow-x: auto; margin-top: .7rem; }
+        .h004-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h004-table th, .h004-table td { padding: 0.5rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h004-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h004-table td { text-align: left; color: var(--hanten-text); }
+        .h004-table td.hanten-num { text-align: center; font-variant-numeric: tabular-nums; }
+        .h004-table tr:last-child td { border-bottom: none; }
+
+        .hanten-source { max-width: 760px; margin: .9rem auto 0; text-align: left; }
+
+        @media (max-width: 640px) {
+            .h004-layout { grid-template-columns: 1fr; gap: 0.6rem; }
+            .h004-globe-wrap { max-width: 210px; }
+            .h004-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h004-table { font-size: 0.78rem; }
+            .h004-table th, .h004-table td { padding: 0.45rem 0.3rem; }
+            /* Larger chart text so labels stay readable when the SVG scales down. */
+            .h004-place, .h004-val { font-size: 16px; }
+            .h004-lat, .h004-km { font-size: 13.5px; }
+            .h004-note { font-size: 13px; }
+            .h004-ring-label, .h004-globe-label { font-size: 14px; }
+        }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+</head>
+
+<body class="hanten-theme-measurement">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H004</p>
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Is Earth’s spin carrying you at 1,000 mph?
+        </h1>
+
+        <p class="hanten-subtitle">
+            It’s the speed everyone quotes for Earth’s rotation. How fast you’re really moving depends on where you’re standing.
+        </p>
+
+        <div id="h004-capture">
+
+            <div class="hanten-graphic">
+                <div class="hanten-panel h004-panel">
+                    <p class="h004-panel-title">How fast Earth’s spin carries you, by latitude</p>
+                    <p class="h004-panel-sub">Speed around Earth’s axis while standing still on the ground</p>
+
+                    <div class="h004-layout">
+                        <div class="h004-globe-wrap">
+                            <svg viewBox="0 0 300 330" role="img" aria-labelledby="h004-globe-title">
+                                <title id="h004-globe-title">Earth with its spin axis and circles of latitude at 0, 41, 60 and 78 degrees north. The circles get smaller toward the North Pole, which only turns in place.</title>
+                                <line x1="150" y1="22" x2="150" y2="318" stroke="#5b6670" stroke-width="1.5" stroke-dasharray="5 5"/>
+                                <circle cx="150" cy="170" r="120" fill="#dfe9ec" stroke="#5b6670" stroke-width="2"/>
+                                <line x1="150" y1="50" x2="150" y2="290" stroke="#5b6670" stroke-width="1" stroke-dasharray="5 5" opacity=".6"/>
+                                <ellipse class="h004-ring" cx="150" cy="170" rx="120" ry="24" style="stroke-width:3"/>
+                                <ellipse class="h004-ring" cx="150" cy="91.6" rx="90.8" ry="18.2"/>
+                                <ellipse class="h004-ring" cx="150" cy="66.2" rx="60.2" ry="12"/>
+                                <ellipse class="h004-ring" cx="150" cy="52.5" rx="24.5" ry="4.9"/>
+                                <circle cx="150" cy="50" r="4" fill="#ffffff" stroke="#5b6670" stroke-width="2"/>
+                                <text x="150" y="15" text-anchor="middle" class="h004-globe-label">North Pole</text>
+                                <text x="277" y="174" class="h004-ring-label">0°</text>
+                                <text x="247" y="95" class="h004-ring-label">41°</text>
+                                <text x="216" y="70" class="h004-ring-label">60°</text>
+                                <text x="180" y="48" class="h004-ring-label">78°</text>
+                            </svg>
+                            <p class="h004-globe-cap">Every place makes one full turn in the same 23 hours 56 minutes. Near the poles, the circle is smaller.</p>
+                        </div>
+
+                        <svg viewBox="0 0 470 340" role="img" aria-labelledby="h004-bars-title">
+                            <title id="h004-bars-title">Bar chart of speed from Earth’s rotation: Quito on the equator 1,040 mph, Honolulu 969, Houston 903, Salt Lake City 788, London 648, Oslo 522, Svalbard 213, North Pole 0.</title>
+                            <line x1="255.0" y1="24" x2="255.0" y2="332" class="h004-half" stroke-width="1" stroke-dasharray="3 4" opacity=".7"/>
+                            <text x="255.0" y="18" text-anchor="middle" class="h004-note">half the equator’s speed</text>
+                            <g transform="translate(0 34)">
+                              <text x="0" y="14" class="h004-place">Quito, Ecuador</text><text x="0" y="29" class="h004-lat">0°</text>
+                              <rect x="150" y="4" width="210.0" height="24" rx="3" class="h004-bar"/>
+                              <text x="367.0" y="15" class="h004-val">1,040 mph</text><text x="367.0" y="29" class="h004-km">(1,674 km/h)</text>
+                            </g>
+                            <g transform="translate(0 72)">
+                              <text x="0" y="14" class="h004-place">Honolulu</text><text x="0" y="29" class="h004-lat">21° N</text>
+                              <rect x="150" y="4" width="195.7" height="24" rx="3" class="h004-bar"/>
+                              <text x="352.7" y="15" class="h004-val">969 mph</text><text x="352.7" y="29" class="h004-km">(1,560 km/h)</text>
+                            </g>
+                            <g transform="translate(0 110)">
+                              <text x="0" y="14" class="h004-place">Houston</text><text x="0" y="29" class="h004-lat">30° N</text>
+                              <rect x="150" y="4" width="182.2" height="24" rx="3" class="h004-bar"/>
+                              <text x="339.2" y="15" class="h004-val">903 mph</text><text x="339.2" y="29" class="h004-km">(1,453 km/h)</text>
+                            </g>
+                            <g transform="translate(0 148)">
+                              <text x="0" y="14" class="h004-place">Salt Lake City</text><text x="0" y="29" class="h004-lat">41° N</text>
+                              <rect x="150" y="4" width="159.0" height="24" rx="3" class="h004-bar"/>
+                              <text x="316.0" y="15" class="h004-val">788 mph</text><text x="316.0" y="29" class="h004-km">(1,267 km/h)</text>
+                            </g>
+                            <g transform="translate(0 186)">
+                              <text x="0" y="14" class="h004-place">London</text><text x="0" y="29" class="h004-lat">52° N</text>
+                              <rect x="150" y="4" width="130.7" height="24" rx="3" class="h004-bar"/>
+                              <text x="287.7" y="15" class="h004-val">648 mph</text><text x="287.7" y="29" class="h004-km">(1,042 km/h)</text>
+                            </g>
+                            <g transform="translate(0 224)">
+                              <text x="0" y="14" class="h004-place">Oslo</text><text x="0" y="29" class="h004-lat">60° N</text>
+                              <rect x="150" y="4" width="105.3" height="24" rx="3" class="h004-bar"/>
+                              <text x="262.3" y="15" class="h004-val">522 mph</text><text x="262.3" y="29" class="h004-km">(840 km/h)</text>
+                            </g>
+                            <g transform="translate(0 262)">
+                              <text x="0" y="14" class="h004-place">Svalbard</text><text x="0" y="29" class="h004-lat">78° N</text>
+                              <rect x="150" y="4" width="42.9" height="24" rx="3" class="h004-bar"/>
+                              <text x="199.9" y="15" class="h004-val">213 mph</text><text x="199.9" y="29" class="h004-km">(342 km/h)</text>
+                            </g>
+                            <g transform="translate(0 300)">
+                              <text x="0" y="14" class="h004-place">North Pole</text><text x="0" y="29" class="h004-lat">90° N</text>
+                              <rect x="150" y="4" width="2" height="24" class="h004-bar"/>
+                              <text x="157.0" y="15" class="h004-val">0 mph</text><text x="157.0" y="29" class="h004-km">(0 km/h)</text>
+                            </g>                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="h004-aha hanten-aha">
+                <p><span class="hanten-aha-lead">Only near the equator. At 60° north the spin carries you half as fast, and at the North Pole it carries you nowhere at all.</span> Every place on Earth turns once in the same 23 hours 56 minutes, but the farther you are from the equator, the smaller the circle you ride around the axis. Salt Lake City covers about 18,900 miles (30,300 km) a day; the equator covers 24,901 miles (40,075 km).</p>
+                <p>A single number for something that varies from place to place is usually the biggest case or an average, stated as if it applied everywhere. When you hear one, ask: where, and for whom?</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A car's window sticker says 30 mpg, a blend of a city test and a highway test.</p>
+                    <p class="hanten-transfer-question">Will your commute actually get 30 mpg, or does the number depend on where you drive?</p>
+                </div>
+            </section>
+
+            <details class="h004-explore" data-html2canvas-ignore="true">
+                <summary>Why don’t we feel it?</summary>
+                <p>You, the ground, and the air around you all move together, so nothing rushes past you. People feel changes in motion, not steady speed, the same reason a drink stays put on a smooth flight. Earth’s spin does leave measurable traces, such as the Coriolis effect that steers large storms and ocean currents.</p>
+            </details>
+
+            <details class="h004-explore" data-html2canvas-ignore="true">
+                <summary>How the numbers are calculated</summary>
+                <p>Treating Earth as a sphere, the circle you travel around the axis each turn is Earth’s equator, 24,901 miles (40,075 km), times the cosine of your latitude. Speed is that circle divided by one turn relative to the stars, 23 hours 56 minutes 4 seconds (23.9345 hours). The familiar 24-hour day is a little longer because Earth also moves along its orbit around the Sun.</p>
+                <div class="h004-table-wrap">
+                    <table class="h004-table">
+                        <thead><tr><th>Place</th><th>Latitude</th><th>Circle per turn</th><th>Speed</th></tr></thead>
+                        <tbody>
+                            <tr><td>Quito, Ecuador</td><td class="hanten-num">0°</td><td class="hanten-num">24,901 mi (40,075 km)</td><td class="hanten-num">1,040 mph (1,674 km/h)</td></tr>
+                            <tr><td>Honolulu</td><td class="hanten-num">21.3° N</td><td class="hanten-num">23,200 mi (37,338 km)</td><td class="hanten-num">969 mph (1,560 km/h)</td></tr>
+                            <tr><td>Houston</td><td class="hanten-num">29.8° N</td><td class="hanten-num">21,609 mi (34,776 km)</td><td class="hanten-num">903 mph (1,453 km/h)</td></tr>
+                            <tr><td>Salt Lake City</td><td class="hanten-num">40.8° N</td><td class="hanten-num">18,850 mi (30,337 km)</td><td class="hanten-num">788 mph (1,267 km/h)</td></tr>
+                            <tr><td>London</td><td class="hanten-num">51.5° N</td><td class="hanten-num">15,502 mi (24,947 km)</td><td class="hanten-num">648 mph (1,042 km/h)</td></tr>
+                            <tr><td>Oslo</td><td class="hanten-num">59.9° N</td><td class="hanten-num">12,488 mi (20,098 km)</td><td class="hanten-num">522 mph (840 km/h)</td></tr>
+                            <tr><td>Svalbard</td><td class="hanten-num">78.2° N</td><td class="hanten-num">5,092 mi (8,195 km)</td><td class="hanten-num">213 mph (342 km/h)</td></tr>
+                            <tr><td>North Pole</td><td class="hanten-num">90° N</td><td class="hanten-num">0</td><td class="hanten-num">0</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>The same speeds apply at the matching southern latitudes. Values are rounded and ignore Earth’s slight flattening and your altitude. They measure motion around Earth’s axis only; Earth’s trip around the Sun and the Sun’s trip around the galaxy are far faster.</p>
+            </details>
+
+            <details class="h004-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H077/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H077</span>How fast is the fly?</a></li>
+                    <li><a href="../H011/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H011</span>Could all the other planets fit between Earth and the Moon?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: NASA Imagine the Universe, “Ask an Astrophysicist: Earth’s rotation” (equatorial circumference and the latitude formula); NASA Science, <em>Basics of Space Flight</em>, chapter 2 (sidereal and solar day). Speeds calculated for a spherical Earth and rounded; city latitudes are approximate.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H003/index.html">&larr; H003</a><a class="hanten-pager-next" href="../H005/index.html">H005 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-earth-rotation.png", title = "Is Earth’s spin carrying you at 1,000 mph?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        clone.querySelectorAll("[data-html2canvas-ignore]").forEach(el => el.remove());
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

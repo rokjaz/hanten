@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H012 — Does the Tallest Dam Hold the Most Water?</title>
+
+    <meta
+        name="description"
+        content="The world's tallest dam rises 1,001 feet out of a Chinese gorge. A dam less than half as tall holds about 23 times more water, because volume depends on the valley, not just the wall."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (slate) */ body { --hanten-paper: #E4E8F0 !important; }</style>
+
+    <style>
+        /*
+           H012-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework.
+        */
+
+        :root {
+            --h012-height: #b8692a;
+            --h012-water: #0e7c86;
+        }
+
+        .h012-panel {
+            padding: 1.1rem 1.1rem 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .h012-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h012-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .h012-stat { padding: 0.95rem 1rem; text-align: center; }
+        .h012-stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h012-stat-n {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1.15;
+            margin-top: 0.3rem;
+        }
+        .h012-stat-unit { font-weight: 700; font-size: 0.9rem; margin-top: 0.1rem; }
+        .h012-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.35rem; line-height: 1.4; }
+
+        .h012-label {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            fill: var(--hanten-text);
+        }
+        .h012-sub {
+            font-family: var(--hanten-font);
+            fill: var(--hanten-muted);
+        }
+        .h012-val {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: #ffffff;
+        }
+        .h012-col {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            fill: var(--hanten-muted);
+        }
+        .h012-val-out {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: var(--hanten-text);
+        }
+        .h012-gap-text {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: var(--h012-lake);
+        }
+
+        .h012-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.4rem;
+            margin-top: 0.4rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+        .h012-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h012-swatch { display: inline-block; width: 14px; height: 10px; border-radius: 2px; }
+
+        .h012-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; }
+        .h012-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h012-table th, .h012-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h012-table th {
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h012-table td { text-align: left; }
+        .h012-table td:nth-child(2), .h012-table td:nth-child(3) { text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
+        .h012-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 720px) {
+            .h012-stats { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .h012-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h012-table-panel { padding: 0.3rem 0.6rem; }
+        }
+
+        .h012-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h012-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h012-discovery p:last-child { margin-bottom: 0; }
+        .h012-discovery strong { color: var(--hanten-text); }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h012-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h012-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h012-explore p { margin: .55rem 0 0; }
+.h012-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
+</head>
+
+<body class="hanten-theme-scale">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H012</p>
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Does the tallest dam hold the most water?
+        </h1>
+
+        <p class="hanten-subtitle">
+            The world's tallest dam rises 1,001 ft (305 m) out of a Chinese gorge. A dam in Africa less than half
+            as tall holds about 23 times more water.
+        </p>
+
+        <div id="h012-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="h012-stats">
+                    <div class="hanten-panel h012-stat">
+                        <div class="h012-stat-label">Tallest dam: Jinping-I, China</div>
+                        <div class="h012-stat-n" style="color:var(--h012-height)">1,001 ft</div>
+                        <div class="h012-stat-unit">(305 m) tall</div>
+                        <div class="h012-stat-l">Holds 6.3 million acre-feet (7.8 km³), squeezed into a narrow gorge</div>
+                    </div>
+                    <div class="hanten-panel h012-stat">
+                        <div class="h012-stat-label">Most water: Kariba, Africa</div>
+                        <div class="h012-stat-n" style="color:var(--h012-water)">146 million</div>
+                        <div class="h012-stat-unit">acre-feet (180 km³)</div>
+                        <div class="h012-stat-l">Behind a dam only 420 ft (128 m) tall, spread across a lake 170 mi (280 km) long</div>
+                    </div>
+                    <div class="hanten-panel h012-stat">
+                        <div class="h012-stat-label">Concrete in Hoover Dam</div>
+                        <div class="h012-stat-n" style="color:var(--hanten-text)">3.25 million</div>
+                        <div class="h012-stat-unit">cubic yards (2.5 million m³)</div>
+                        <div class="h012-stat-l">Enough to pave a highway 16 ft (4.9 m) wide from San Francisco to New York</div>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h012-panel">
+                    <svg id="h012-bars" viewBox="0 0 640 300" role="img" aria-labelledby="h012-bars-title h012-bars-desc">
+                        <title id="h012-bars-title">Dam height compared with the water each dam holds</title>
+                        <desc id="h012-bars-desc">Jinping-I: 1,001 feet tall, 6.3 million acre-feet. Grande Dixence: 935 feet tall, 0.3 million acre-feet. Hoover: 726 feet tall, 26.1 million acre-feet. Kariba: 420 feet tall, 146 million acre-feet.</desc>
+                    </svg>
+                    <div class="h012-legend">
+                        <span><span class="h012-swatch" style="background:var(--h012-height)"></span>Dam height</span>
+                        <span><span class="h012-swatch" style="background:var(--h012-water)"></span>Water held when full</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h012-discovery hanten-body hanten-aha">
+                <p><span class="hanten-aha-lead">Height is only one of three dimensions.</span> How much water a dam holds depends mostly on the valley behind it: how wide it is and how far back the water spreads. Jinping-I plugs a narrow canyon, so its reservoir stays small. Kariba blocks a broad river valley, and its lake covers about 2,100 sq mi (5,400 km²), larger than Rhode Island. Switzerland's Grande Dixence is almost as tall as Jinping-I but holds less than 1% as much water as Kariba.</p>
+                <p>One measurement rarely captures the size of something that has three. Before judging how big something is by its most impressive number, ask which dimensions that number leaves out.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">For the same price, you can buy one 18-inch pizza or two 12-inch pizzas.</p>
+                    <p class="hanten-transfer-question">Which gets you more pizza, and why doesn't adding up the inches give the answer?</p>
+                </div>
+            </section>
+
+            <details class="h012-explore" data-html2canvas-ignore="true">
+                <summary>See the numbers</summary>
+                <div class="hanten-panel h012-table-panel">
+                    <table class="h012-table">
+                        <thead>
+                            <tr><th>Dam</th><th>Height</th><th>Water held when full</th></tr>
+                        </thead>
+                        <tbody id="h012-table-body"></tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details class="h012-explore" data-html2canvas-ignore="true">
+                <summary>How much concrete does it take to build a dam?</summary>
+                <p><strong>More than the Great Pyramid.</strong> Hoover Dam holds 3.25 million cubic yards (2.5 million m³)
+                    of concrete, enough to pave a highway 16 ft (4.9 m) wide and 8 in (20 cm) thick from San Francisco to
+                    New York City. Switzerland's Grande Dixence holds about 7.8 million cubic yards (6 million m³), and
+                    Jinping-I about 9.7 million cubic yards (7.4 million m³), almost three times the volume of the Great
+                    Pyramid of Giza, about 3.4 million cubic yards (2.6 million m³).</p>
+                <p><strong>All that concrete gets hot.</strong> Concrete gives off heat as it hardens. Engineers calculated
+                    that if Hoover Dam had been poured as one solid block, it would have taken 125 years to cool, and it
+                    would have cracked as it shrank. Instead, it was built as a grid of separate columns, raised 5 ft
+                    (1.5 m) at a time, with more than 582 mi (937 km) of 1-inch steel pipe running through them. River
+                    water and then ice-cold water from an on-site refrigeration plant flowed through the pipes until the
+                    dam was cool.</p>
+            </details>
+
+            <details class="h012-explore" data-html2canvas-ignore="true">
+                <summary>Why does a wide valley beat a tall wall?</summary>
+                <p>Raising a dam adds water only as wide as the valley is at that height. In a narrow gorge, each extra
+                    foot of height adds a thin sliver. In a wide, gently sloping valley, the water spreads for miles in
+                    every direction, so even a modest dam floods a huge area. Lake Kariba is only about 95 ft (29 m) deep
+                    on average, but it stretches 170 mi (280 km) along the Zambezi River.</p>
+                <p>That's also why the tallest dams are usually in mountains: a narrow canyon is where a very tall wall is
+                    practical to build, and it's also the place where a tall wall holds the least water.</p>
+            </details>
+
+            <details class="h012-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H061/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H061</span>How tall is the tallest&amp;nbsp;mountain?</a></li>
+                    <li><a href="../H064/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H064</span>What's the biggest country?</a></li>
+                    <li><a href="../H074/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H074</span>What is the largest desert on Earth?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Jinping-I height (305 m), reservoir capacity (7.76 km³), and structural volume (7.4 million m³);
+                Kariba Dam height (128 m), Lake Kariba volume (180 km³), area (5,400 km²), length (280 km), and average
+                depth (29 m), the world's largest reservoir by volume; Grande Dixence height (285 m), reservoir (about 0.4
+                km³), and concrete (about 6 million m³); Great Pyramid volume (2.6 million m³): Wikipedia articles on each.
+                Hoover Dam height (726.4 ft), concrete (3.25 million cubic yards), highway comparison, 125-year cooling
+                estimate, 5-ft lifts, and 582 mi of cooling pipe: U.S. Bureau of Reclamation. Lake Mead capacity (26.1
+                million acre-feet): Congressional Research Service (R45546). Acre-feet and cubic yards converted from metric
+                where needed.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H011/index.html">&larr; H011</a><a class="hanten-pager-next" href="../H013/index.html">H013 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script>
+        (() => {
+            // Height in feet; water in million acre-feet (km³). Sorted by height.
+            const dams = [
+                { name: "Jinping-I", where: "China", ft: 1001, m: 305, maf: 6.3, km3: 7.8 },
+                { name: "Grande Dixence", where: "Switzerland", ft: 935, m: 285, maf: 0.3, km3: 0.4 },
+                { name: "Hoover", where: "United States", ft: 726, m: 221, maf: 26.1, km3: 32.2 },
+                { name: "Kariba", where: "Zambia–Zimbabwe", ft: 420, m: 128, maf: 146, km3: 180 }
+            ];
+            const svg = document.getElementById("h012-bars");
+            const keep = svg.querySelector("title").outerHTML + svg.querySelector("desc").outerHTML;
+            const fmtW = d => `${d.maf < 1 ? d.maf.toFixed(1) : d.maf.toLocaleString("en-US")} M acre-ft (${d.km3} km³)`;
+            const fmtH = d => `${d.ft.toLocaleString("en-US")} ft (${d.m} m)`;
+
+            function render() {
+                const narrow = svg.parentElement.clientWidth < 540;
+                let h = "", H;
+                if (!narrow) {
+                    const W = 640, nameW = 150, colW = 225, gap = 30, xH = nameW, xW = nameW + colW + gap;
+                    const rowH = 64, top = 34, barH = 26;
+                    h += `<text x="${xH}" y="16" class="h012-col" font-size="11.5">DAM HEIGHT</text>`;
+                    h += `<text x="${xW}" y="16" class="h012-col" font-size="11.5">WATER HELD WHEN FULL</text>`;
+                    dams.forEach((d, i) => {
+                        const y = top + i * rowH;
+                        h += `<text x="0" y="${y + 12}" class="h012-label" font-size="14">${d.name}</text>`;
+                        h += `<text x="0" y="${y + 30}" class="h012-sub" font-size="12">${d.where}</text>`;
+                        const wh = Math.max(2, d.ft / 1001 * colW), ww = Math.max(2, d.maf / 146 * colW);
+                        h += `<rect x="${xH}" y="${y}" width="${wh}" height="${barH}" rx="3" fill="var(--h012-height)"/>`;
+                        h += `<text x="${xH}" y="${y + barH + 15}" class="h012-sub" font-size="12">${fmtH(d)}</text>`;
+                        h += `<rect x="${xW}" y="${y}" width="${ww}" height="${barH}" rx="3" fill="var(--h012-water)"/>`;
+                        h += `<text x="${xW}" y="${y + barH + 15}" class="h012-sub" font-size="12">${fmtW(d)}</text>`;
+                    });
+                    H = top + dams.length * rowH - 6;
+                    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+                } else {
+                    const W = 360, colW = 340, barH = 16, rowH = 112;
+                    dams.forEach((d, i) => {
+                        const y = i * rowH;
+                        h += `<text x="0" y="${y + 16}" class="h012-label" font-size="14">${d.name}</text>`;
+                        h += `<text x="${d.name.length * 8.4 + 8}" y="${y + 16}" class="h012-sub" font-size="12.5">${d.where}</text>`;
+                        const wh = Math.max(2, d.ft / 1001 * colW), ww = Math.max(2, d.maf / 146 * colW);
+                        h += `<rect x="0" y="${y + 26}" width="${wh}" height="${barH}" rx="3" fill="var(--h012-height)"/>`;
+                        h += `<text x="0" y="${y + 58}" class="h012-sub" font-size="12">Height ${fmtH(d)}</text>`;
+                        h += `<rect x="0" y="${y + 66}" width="${ww}" height="${barH}" rx="3" fill="var(--h012-water)"/>`;
+                        h += `<text x="0" y="${y + 98}" class="h012-sub" font-size="12">Water ${fmtW(d)}</text>`;
+                    });
+                    H = dams.length * rowH;
+                    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+                }
+                svg.innerHTML = keep + h;
+            }
+            document.getElementById("h012-table-body").innerHTML = dams.map(d =>
+                `<tr><td>${d.name} (${d.where})</td><td>${fmtH(d)}</td><td>${d.maf < 1 ? d.maf.toFixed(1) : d.maf} million acre-feet (${d.km3} km³)</td></tr>`
+            ).join("");
+            render();
+            let last = null;
+            window.addEventListener("resize", () => {
+                const n = svg.parentElement.clientWidth < 540;
+                if (n !== last) { last = n; render(); }
+            });
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-tallest-dam-most-water.png", title = "Does the tallest dam hold the most water?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

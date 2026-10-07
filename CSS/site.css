@@ -1918,5 +1918,22 @@ header h1 {
 /* Theme-colored browse cards need a little inner space */
 .browse-card[class*="theme-"] { padding: 10px 12px 14px; border-radius: 14px; }
 
-/* H numbers are internal only (Sept 2026): browse rows show just the question */
-.browse-index a { grid-template-columns: 1fr !important; }
+/* H numbers are shown (Decision Log D017) so visitors can go through
+   the exhibits in order. */
+.browse-card .browse-hnum {
+  margin: 10px 0 2px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #5b6670;
+}
+
+/* =========================================================
+   HANTEN LOGO (Oct 2026 brand: navy + amber H with arrow)
+   ========================================================= */
+.brand-logo { display: inline-block; line-height: 0; margin: 0; }
+.brand-logo img { display: block; width: 210px; height: auto; }
+.browse-header .brand-logo img, .contact-header .brand-logo img { width: 170px; }
+@media (max-width: 600px) {
+  .brand-logo img { width: 170px; }
+}

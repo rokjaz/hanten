@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Half the World Lives Here</title>
+    <title>H010 — Half the World Lives Here</title>
     <meta
         name="description"
         content="A 2,485-mile (4,000 km) circle over Asia contains more than half of humanity."
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (clay) */ body { --hanten-paper: #F5E6DF !important; }</style>
 
     <style>
         :root {
@@ -274,6 +275,7 @@ main.hanten-exhibit > .hanten-subtitle{
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H010</p>
         <h1 class="hanten-question">
             Could half the world’s population really fit inside one circle?
         </h1>
@@ -314,18 +316,22 @@ main.hanten-exhibit > .hanten-subtitle{
 
 
 
-                <div class="h010-takeaway hanten-body">
+                <div class="h010-takeaway hanten-body hanten-aha">
                     <p>
-                        <strong>Population is far more geographically concentrated than a world map makes it feel.</strong>
+                        <span class="hanten-aha-lead">Population is far more geographically concentrated than a world map makes it feel.</span>
                     </p>
                     <p>
                         The circle even includes large low-density areas, which makes the concentration more striking.
                     </p>
                 </div>
 
-                <p class="hanten-reflection">
-                Where do you picture most of the world’s people living, and when did you last check?
-            </p>
+                <section class="hanten-transfer" aria-label="Try it somewhere else">
+                    <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                    <div class="hanten-transfer-text">
+                        <p class="hanten-transfer-scenario">The United States has 3,142 counties.</p>
+                        <p class="hanten-transfer-question">Half of all Americans live in how many of them: about 1,500, about 500, or fewer than 150?</p>
+                    </div>
+                </section>
 
             <details class="h010-explore" data-html2canvas-ignore="true">
                     <summary>What’s inside the circle?</summary>
@@ -370,9 +376,10 @@ main.hanten-exhibit > .hanten-subtitle{
                 <details class="h010-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H049/index.html" target="_blank" rel="noopener noreferrer">Can a single Indian state outpopulate most countries on Earth?</a></li>
-                    <li><a href="../H081/index.html" target="_blank" rel="noopener noreferrer">Is Australia really empty?</a></li>
-                    <li><a href="../H014/index.html" target="_blank" rel="noopener noreferrer">How can the same country look almost empty — and unbelievably crowded?</a></li>
+                    <li><a href="../H014/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H014</span>How can the same country look almost empty — and unbelievably crowded?</a></li>
+                    <li><a href="../H081/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H081</span>Is Australia really empty?</a></li>
+                    <li><a href="../H080/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H080</span>How big is a state without its biggest city?</a></li>
+                    <li><a href="../H049/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H049</span>Can a single Indian state outpopulate most countries on Earth?</a></li>
                 </ul>
             </details>
 
@@ -388,8 +395,9 @@ main.hanten-exhibit > .hanten-subtitle{
 
             </div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H009/index.html">&larr; H009</a><a class="hanten-pager-next" href="../H011/index.html">H011 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     
 <script id="hanten-label-data" type="application/json">
@@ -531,6 +539,7 @@ main.hanten-exhibit > .hanten-subtitle{
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
     
 
     
@@ -573,9 +582,9 @@ main.hanten-exhibit > .hanten-subtitle{
 
    const sub=document.createElement("canvas");
    sub.width=1800;
-   sub.height=56;
+   sub.height=112;
    sub.style.width="900px";
-   sub.style.height="28px";
+   sub.style.height="56px";
    sub.style.display="block";
    sub.style.margin="0 auto 18px";
    const s=sub.getContext("2d");
@@ -584,7 +593,8 @@ main.hanten-exhibit > .hanten-subtitle{
    s.fillStyle="#53616f";
    s.textAlign="center";
    s.textBaseline="middle";
-   s.fillText("The Yuxi Circle: a 2,485-mile (4,000 km) radius around southern China contains more than 55% of humanity.",450,14);
+   s.fillText("The Yuxi Circle: a 2,485-mile (4,000 km) radius around",450,14);
+   s.fillText("southern China contains more than 55% of humanity.",450,40);
    card.appendChild(sub);
 
    const core=document.createElement("div");
@@ -603,7 +613,7 @@ main.hanten-exhibit > .hanten-subtitle{
 
    const reflection=document.createElement("div");
    reflection.className="hanten-export-reflection";
-   reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+   reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
    card.appendChild(reflection);
 
    if(source){

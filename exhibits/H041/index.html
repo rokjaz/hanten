@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>The Base Rate Fallacy: How Accurate Is a Positive Test?</title>
+    <title>H041 — The Base Rate Fallacy: How Accurate Is a Positive Test?</title>
 
     <meta
         name="description"
@@ -12,6 +12,7 @@
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (straw) */ body { --hanten-paper: #F1EFD8 !important; }</style>
 
     <style>
         /*
@@ -75,6 +76,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H041</p>
         <h1 class="hanten-question" style="text-wrap:balance;">
             If a medical test is 99% accurate and you test positive, what are the chances you actually have the disease?
         </h1>
@@ -158,8 +160,8 @@
 
             </div>
 
-            <div class="h041-aha">
-                <p><strong>A 99% accurate test does not mean a positive result is 99% likely to be correct.</strong> When
+            <div class="h041-aha hanten-aha">
+                <p><span class="hanten-aha-lead">A 99% accurate test does not mean a positive result is 99% likely to be correct.</span> When
                     only 1 in 1,000 people has the disease, the healthy crowd is so large that even a 1% error rate
                     produces ten false alarms for every true positive. Researchers Gigerenzer and Hoffrage found that even
                     practicing physicians routinely get this calculation wrong.</p>
@@ -168,9 +170,13 @@
                     however accurate the test.</p>
             </div>
 
-            <p class="hanten-reflection">
-                Before trusting a test result, how common was the thing it tested for?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A bank's fraud alarm catches 99% of fraud and wrongly flags 1% of normal purchases. Fraud is rare.</p>
+                    <p class="hanten-transfer-question">When the alarm goes off, is it probably fraud?</p>
+                </div>
+            </section>
 
             <details class="h041-explore" data-html2canvas-ignore="true">
                 <summary>Why does 99% accuracy become about 9%?</summary>
@@ -185,9 +191,10 @@
             <details class="h041-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H040/index.html" target="_blank" rel="noopener noreferrer">After a goat is revealed, should you stay or switch?</a></li>
-                    <li><a href="../H102/index.html" target="_blank" rel="noopener noreferrer">A neighborhood has an unusual number of cancer cases. Is something there causing them?</a></li>
-                    <li><a href="../H096/index.html" target="_blank" rel="noopener noreferrer">A vaccine is "95% effective." Does that mean 5 out of every 100 vaccinated people still get sick?</a></li>
+                    <li><a href="../H040/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H040</span>After a goat is revealed, should you stay or switch?</a></li>
+                    <li><a href="../H096/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H096</span>A vaccine is "95% effective." Does that mean 5 out of every 100 vaccinated people still get sick?</a></li>
+                    <li><a href="../H102/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H102</span>A neighborhood has an unusual number of cancer cases. Is something there causing them?</a></li>
+                    <li><a href="../H093/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H093</span>Pharmacies check your name and birth date. Is that enough to tell you apart from everyone else?</a></li>
                 </ul>
             </details>
 
@@ -203,10 +210,12 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H040/index.html">&larr; H040</a><a class="hanten-pager-next" href="../H042/index.html">H042 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {

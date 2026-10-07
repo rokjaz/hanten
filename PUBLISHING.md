@@ -17,7 +17,7 @@ Publish from the standardized master file in Google Drive:
 4. Open and visually inspect exhibits/H###/index.html.
 5. Test both Save Image and Share Image.
 6. Commit the approved website version to Git.
-7. Push website-v2 to GitHub.
+7. Push main to GitHub (main is the branch hanten.app publishes from).
 
 ## Source of Truth
 

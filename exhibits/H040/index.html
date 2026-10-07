@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>The Monty Hall Problem: Stay or Switch?</title>
+    <title>H040 — The Monty Hall Problem: Stay or Switch?</title>
 
     <meta
         name="description"
@@ -12,6 +12,7 @@
     >
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (rose) */ body { --hanten-paper: #F3E4EA !important; }</style>
 
     <style>
         /*
@@ -75,6 +76,8 @@
 <body class="hanten-theme-probability">
 
     <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H040</p>
 
         <h1 class="hanten-question" style="text-wrap:balance;">
             After a goat is revealed, should you stay or switch?
@@ -185,8 +188,8 @@
 
             </div>
 
-            <div class="h040-aha">
-                <p><strong>Switching wins about twice as often.</strong> Your first pick starts with a 1-in-3 chance, and
+            <div class="h040-aha hanten-aha">
+                <p><span class="hanten-aha-lead">Switching wins about twice as often.</span> Your first pick starts with a 1-in-3 chance, and
                     the host's reveal doesn't reset the two remaining doors to 50–50. The host knows where the car is and
                     always opens a goat door you didn't pick, so the 2-in-3 chance that you were wrong gets concentrated
                     onto the one other unopened door.</p>
@@ -195,9 +198,13 @@
                     information you just got was selected.</p>
             </div>
 
-            <p class="hanten-reflection">
-                What did your gut say the odds were, and why?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">This time the host doesn't know where the car is. He opens a door at random, and it happens to show a goat.</p>
+                    <p class="hanten-transfer-question">Should you still switch, and why would the host's knowledge change the odds?</p>
+                </div>
+            </section>
 
             <details class="h040-explore" data-html2canvas-ignore="true">
                 <summary>Why does switching work?</summary>
@@ -221,9 +228,8 @@
             <details class="h040-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H041/index.html" target="_blank" rel="noopener noreferrer">If a medical test is 99% accurate and you test positive, what are the chances you actually have the disease?</a></li>
-                    <li><a href="../H005/index.html" target="_blank" rel="noopener noreferrer">How many people does it take before a shared birthday is more likely than not?</a></li>
-                    <li><a href="../H089/index.html" target="_blank" rel="noopener noreferrer">Stealing is never worse than splitting. So why does it lose?</a></li>
+                    <li><a href="../H041/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H041</span>If a medical test is 99% accurate and you test positive, what are the chances you actually have the disease?</a></li>
+                    <li><a href="../H005/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H005</span>How many people does it take before a shared birthday is more likely than not?</a></li>
                 </ul>
             </details>
 
@@ -239,10 +245,12 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H039/index.html">&larr; H039</a><a class="hanten-pager-next" href="../H041/index.html">H041 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H026 — If Your Concert Ticket Was Free, Did Going Cost You Anything?</title>
+
+    <meta
+        name="description"
+        content="Every choice costs the best thing you gave up. Asked to find that cost for a free concert ticket, only 21.6% of 199 economists got it right, fewer than random guessing."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (rose) */ body { --hanten-paper: #F3E4EA !important; }</style>
+
+    <style>
+        /*
+           H026-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework.
+        */
+
+        :root {
+            --h026-right: #0e7c86;
+            --h026-other: #b9c2c4;
+            --h026-alt: #b8692a;
+        }
+        .h026-setup { padding: 1.1rem 1.1rem 1rem; margin-bottom: 0.8rem; }
+        .h026-tickets { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.8rem; align-items: center; }
+        .h026-ticket { border: 2px dashed var(--h026-right); border-radius: 10px; padding: 0.8rem 0.9rem; text-align: center; background: #ffffff; }
+        .h026-ticket-alt { border-color: var(--h026-alt); }
+        .h026-tk-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .h026-tk-name { font-weight: 800; font-size: 1.25rem; margin-top: 0.15rem; }
+        .h026-tk-note { font-size: 0.8rem; color: var(--hanten-muted); margin-top: 0.2rem; }
+        .h026-or { text-align: center; font-weight: 700; color: var(--hanten-muted); font-size: 0.9rem; }
+        .h026-ask { text-align: center; font-weight: 700; font-size: 1rem; margin-top: 0.85rem; }
+        .h026-panel { padding: 1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .h026-panel:last-child { margin-bottom: 0; }
+        .h026-chart-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin-bottom: 0.7rem; }
+        .h026-row { display: grid; grid-template-columns: 9.5rem 1fr 3.4rem; gap: 0.7rem; align-items: center; margin: 0.45rem 0; }
+        .h026-row-label { font-weight: 700; font-size: 0.9rem; text-align: right; line-height: 1.25; }
+        .h026-row-label small { display: block; font-weight: 400; font-size: 0.72rem; color: var(--hanten-muted); }
+        .h026-track { position: relative; height: 26px; }
+        .h026-fill { height: 100%; border-radius: 0 4px 4px 0; background: var(--h026-other); }
+        .h026-row.right .h026-fill { background: var(--h026-right); }
+        .h026-row.dvd { grid-template-columns: 1fr 3.4rem; row-gap: 0.3rem; margin: 0.3rem 0 0.75rem; }
+        .h026-row.dvd .h026-row-label { grid-column: 1 / -1; text-align: left; font-weight: 600; }
+        .h026-row.dvd .h026-fill { background: var(--h026-alt); }
+        .h026-row.dvd.first .h026-fill { background: var(--h026-other); }
+        .h026-guess { position: absolute; top: -6px; bottom: -6px; border-left: 2px dashed #1c2733; }
+        .h026-val { font-weight: 800; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+        .h026-row.right .h026-val, .h026-row.right .h026-row-label { color: var(--h026-right); }
+        .h026-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1.2rem; font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.7rem; }
+        .h026-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h026-swatch { display: inline-block; width: 14px; height: 10px; border-radius: 2px; }
+        .h026-swatch-line { width: 0; height: 14px; border-left: 2px dashed #1c2733; border-radius: 0; }
+        @media (max-width: 600px) {
+            .h026-tickets { grid-template-columns: 1fr; }
+            .h026-row { grid-template-columns: 6.2rem 1fr 3rem; gap: 0.5rem; }
+            .h026-panel, .h026-setup { padding: 0.9rem 0.7rem 0.8rem; }
+        }
+        .h026-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h026-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h026-discovery p:last-child { margin-bottom: 0; }
+        .h026-discovery strong { color: var(--hanten-text); }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h026-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h026-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h026-explore p { margin: .55rem 0 0; }
+.h026-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
+</head>
+
+<body class="hanten-theme-optimization">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H026</p>
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            If your concert ticket was free, did going cost you anything?
+        </h1>
+
+        <p class="hanten-subtitle">
+            Every choice has a price you never pay at the register: the best thing you gave up to make it. That price is
+            so easy to miss that when 199 economists were asked to find it, fewer got it right than random guessing would.
+        </p>
+
+        <div id="h026-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="hanten-panel h026-setup">
+                    <div class="h026-tickets">
+                        <div class="h026-ticket">
+                            <div class="h026-tk-label">Your free ticket</div>
+                            <div class="h026-tk-name">Eric Clapton</div>
+                            <div class="h026-tk-note">Can't be resold</div>
+                        </div>
+                        <div class="h026-or">or</div>
+                        <div class="h026-ticket h026-ticket-alt">
+                            <div class="h026-tk-label">Same night</div>
+                            <div class="h026-tk-name">Bob Dylan</div>
+                            <div class="h026-tk-note">Ticket costs $40 · worth $50 to you</div>
+                        </div>
+                    </div>
+                    <div class="h026-ask">What does going to see Clapton cost you?</div>
+                </div>
+
+                <div class="hanten-panel h026-panel">
+                    <div class="h026-chart-title">How 199 economists answered, 2005</div>
+                    <div class="h026-bars" id="h026-econ"></div>
+                    <div class="h026-legend">
+                        <span><span class="h026-swatch" style="background:var(--h026-right)"></span>Correct answer</span>
+                        <span><span class="h026-swatch h026-swatch-line"></span>25%: what random guessing would get</span>
+                    </div>
+                </div>
+
+                <div class="hanten-panel h026-panel">
+                    <div class="h026-chart-title">Share of 150 students who bought a $14.99 DVD</div>
+                    <div class="h026-bars" id="h026-dvd"></div>
+                </div>
+
+            </div>
+
+            <div class="h026-discovery hanten-body hanten-aha">
+                <p><span class="hanten-aha-lead">A choice costs the best thing you give up.</span> Going to Clapton means skipping Dylan. Seeing Dylan would have been worth $50 to you, but you'd have paid $40 for the ticket, so skipping him costs you the $10 of enjoyment beyond the ticket price. That's the cost of the “free” concert: $10. When this textbook question was given to 199 economists at their profession's 2005 annual meeting, only 21.6% chose $10. Each of the four answers drew about a quarter of the votes.</p>
+                <p>The rest of us mostly don't think about it at all. In one study, students were offered a $14.99 DVD. When the other option read “Not buy,” 75% bought it. When it read “Keep the $14.99 for other purchases,” only 55% did. Nothing changed but the reminder. A price tag shows what you pay; it doesn't show what you give up. Before saying yes, ask: what's the best thing I'd do instead?</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A free Saturday class is offered. Your next-best plan was a shift that pays $60.</p>
+                    <p class="hanten-transfer-question">What does the free class really cost you?</p>
+                </div>
+            </section>
+
+            <details class="h026-explore" data-html2canvas-ignore="true">
+                <summary>Why $10, step by step</summary>
+                <p><strong>List what you give up, not what you pay.</strong> Clapton's ticket is free and can't be sold,
+                    so it costs nothing to use, and selling it isn't an option you lose. The only thing you lose is the
+                    Dylan concert. Seeing Dylan would bring you $50 of enjoyment for a $40 ticket, a $10 gain. Giving up
+                    that gain is the cost of going to Clapton.</p>
+                <p>The wrong answers each count only part of the picture: $0 counts only the price of the free ticket; $40
+                    counts the Dylan ticket you'd have bought, which you keep; and $50 forgets that seeing Dylan would have
+                    cost you $40.</p>
+            </details>
+
+            <details class="h026-explore" data-html2canvas-ignore="true">
+                <summary>Was it a fair question?</summary>
+                <p>Some economists argued that the question is worded in a way that invites confusion, and that
+                    “opportunity cost” is defined slightly differently in different textbooks. In a 2014 follow-up, 21% of
+                    undergraduate economics students got the original question right, but 61% got the same problem right when it
+                    was rewritten without converting enjoyment into dollars. The idea is simple; counting the thing you didn't do is
+                    the hard part.</p>
+            </details>
+
+            <details class="h026-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H013/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H013</span>Is it safer for the FDA to wait for one more study?</a></li>
+                    <li><a href="../H025/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H025</span>If nothing bad happened, was the danger real?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Paul J. Ferraro and Laura O. Taylor, “Do Economists Recognize an Opportunity Cost When They See
+                One? A Dismal Performance from the Dismal Science,” Contributions to Economic Analysis &amp; Policy (2005):
+                an introductory textbook question; 199 economists surveyed at the 2005 Allied Social Science Associations
+                meetings; answers $0: 25.1%, $10: 21.6%, $40: 25.6%, $50: 27.6%. Shane Frederick and others, “Opportunity
+                Cost Neglect,” Journal of Consumer Research (2009): 150 students, DVD purchases fell from 75% to 55%. Follow-up
+                with students: Economics Bulletin, vol. 34, no. 3 (2014), pp. 1550–1556.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H025/index.html">&larr; H025</a><a class="hanten-pager-next" href="../H027/index.html">H027 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script>
+        (() => {
+            // Ferraro & Taylor (2005): 199 economists, share choosing each answer.
+            const econ = [["$0", "", 25.1, false], ["$10", "correct", 21.6, true], ["$40", "", 25.6, false], ["$50", "", 27.6, false]];
+            const MAX = 30;
+            document.getElementById("h026-econ").innerHTML = econ.map(r =>
+                `<div class="h026-row ${r[3] ? "right" : ""}"><div class="h026-row-label">${r[0]}${r[1] ? `<small>${r[1]}</small>` : ""}</div>` +
+                `<div class="h026-track"><div class="h026-fill" style="width:${r[2] / MAX * 100}%"></div><div class="h026-guess" style="left:${25 / MAX * 100}%"></div></div>` +
+                `<div class="h026-val">${r[2].toFixed(1)}%</div></div>`
+            ).join("");
+            // Frederick et al. (2009), Study 1A: share who bought the DVD under each wording of the "no" option.
+            const dvd = [["When the “no” option read “Not buy”", 75, "first"], ["When it read “Keep the $14.99 for other purchases”", 55, ""]];
+            document.getElementById("h026-dvd").innerHTML = dvd.map(r =>
+                `<div class="h026-row dvd ${r[2]}"><div class="h026-row-label">${r[0]}</div>` +
+                `<div class="h026-track"><div class="h026-fill" style="width:${r[1]}%"></div></div>` +
+                `<div class="h026-val">${r[1]}%</div></div>`
+            ).join("");
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-opportunity-cost.png", title = "If your concert ticket was free, did going cost you anything?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

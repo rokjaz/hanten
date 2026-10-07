@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H039 — Is 1-2-3-4-5-6 a Bad Lottery Pick?</title>
+
+    <meta
+        name="description"
+        content="1-2-3-4-5-6 is exactly as likely to win as any other combination, but patterns are popular, so a winning ticket can be split hundreds of ways. In 2022, 433 people shared one jackpot."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (straw) */ body { --hanten-paper: #F1EFD8 !important; }</style>
+
+    <style>
+        /*
+           H039-SPECIFIC STYLES
+           Built Oct 2026 to the v1.2 exhibit standard (hx- classes are
+           the shared backfill-exhibit pattern).
+        */
+
+        .hx-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .hx-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .hx-stats-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .hx-stats-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .hx-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .hx-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .hx-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+        .hx-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .hx-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .hx-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+        .hx-svgwrap { max-width: 700px; margin: 0 auto; }
+        .hx-panel svg { display: block; width: 100%; height: auto; margin: 0; }
+        .hx-panel svg text { font-family: var(--hanten-font); }
+        .hx-axis { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-lab { font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .hx-sub { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-val { font-size: 15px; font-weight: 800; }
+        .hx-big { font-size: 18px; font-weight: 800; }
+        .hx-note { max-width: var(--hanten-text-width); margin: 0.2rem auto 0; text-align: center; font-size: 0.78rem; font-style: italic; color: var(--hanten-muted); }
+        .hx-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .hx-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .hx-explore p { margin: .55rem 0 0; }
+        .hx-explore strong { color: var(--hanten-text); }
+        .hx-explore + .hx-explore { margin-top: 0; border-top: none; }
+        .hx-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .hx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .hx-table th, .hx-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .hx-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .hx-table td:not(:first-child) { text-align: center; }
+        .hx-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 600px) {
+            .hx-stats, .hx-stats-2, .hx-stats-4 { grid-template-columns: minmax(0, 1fr); }
+            .hx-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .hx-table { font-size: 0.76rem; }
+        }
+
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:960px;padding:40px 0 60px;box-sizing:border-box;background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    </style>
+</head>
+
+<body class="hanten-theme-probability">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H039</p>
+        <h1 class="hanten-question">Is 1-2-3-4-5-6 a bad lottery pick?</h1>
+
+        <p class="hanten-subtitle">It looks too orderly to ever come up. Its odds are exactly the same as any other ticket's. What changes is how many people you'd share the prize with.</p>
+
+        <div id="h039-capture">
+
+            <div class="hanten-graphic">
+<div class="hx-stats hx-stats-3">
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Odds, any 6 numbers</div>
+    <div class="hx-stat-n">1 in 29 million</div>
+    <div class="hx-stat-l">every combination in a 6-of-55 draw is equally likely</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Philippines, Oct. 2022</div>
+    <div class="hx-stat-n" style="color:#b23b32">433 winners</div>
+    <div class="hx-stat-l">picked the same numbers: 9, 18, 27, 36, 45, 54</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Each winner's share</div>
+    <div class="hx-stat-n" style="color:#c98a12">≈₱545,000</div>
+    <div class="hx-stat-l">of a ₱236 million jackpot, about US$9,300 at the time</div>
+  </div>
+</div>
+<div class="hanten-panel hx-panel ">
+  <p class="hx-panel-title">Two tickets, one chance</p>
+  <p class="hx-panel-sub">A lottery machine can't tell a pattern from a jumble</p>
+  <div class="hx-svgwrap"><svg viewBox="0 0 700 200" role="img">
+<rect x="30" y="14" width="320" height="112" rx="10" fill="#fff" stroke="#1A3E6E" stroke-width="2"/>
+<text class="hx-sub" x="190" y="36" text-anchor="middle">Looks "too neat"</text>
+<circle cx="65" cy="70" r="19" fill="#1A3E6E"/><text x="65" y="76" text-anchor="middle" fill="#fff" stroke="none" style="font-size:15px;font-weight:800">1</text>
+<circle cx="115" cy="70" r="19" fill="#1A3E6E"/><text x="115" y="76" text-anchor="middle" fill="#fff" stroke="none" style="font-size:15px;font-weight:800">2</text>
+<circle cx="165" cy="70" r="19" fill="#1A3E6E"/><text x="165" y="76" text-anchor="middle" fill="#fff" stroke="none" style="font-size:15px;font-weight:800">3</text>
+<circle cx="215" cy="70" r="19" fill="#1A3E6E"/><text x="215" y="76" text-anchor="middle" fill="#fff" stroke="none" style="font-size:15px;font-weight:800">4</text>
+<circle cx="265" cy="70" r="19" fill="#1A3E6E"/><text x="265" y="76" text-anchor="middle" fill="#fff" stroke="none" style="font-size:15px;font-weight:800">5</text>
+<circle cx="315" cy="70" r="19" fill="#1A3E6E"/><text x="315" y="76" text-anchor="middle" fill="#fff" stroke="none" style="font-size:15px;font-weight:800">6</text>
+<text class="hx-lab" x="190" y="112" text-anchor="middle">1 in 28,989,675</text>
+<rect x="375" y="14" width="320" height="112" rx="10" fill="#fff" stroke="#1f6f8b" stroke-width="2"/>
+<text class="hx-sub" x="535" y="36" text-anchor="middle">Looks "random"</text>
+<circle cx="410" cy="70" r="19" fill="#1f6f8b"/><text x="410" y="76" text-anchor="middle" fill="#fff" stroke="none" style="font-size:15px;font-weight:800">7</text>
+<circle cx="460" cy="70" r="19" fill="#1f6f8b"/><text x="460" y="76" text-anchor="middle" fill="#fff" stroke="none" style="font-size:15px;font-weight:800">19</text>
+<circle cx="510" cy="70" r="19" fill="#1f6f8b"/><text x="510" y="76" text-anchor="middle" fill="#fff" stroke="none" style="font-size:15px;font-weight:800">23</text>
+<circle cx="560" cy="70" r="19" fill="#1f6f8b"/><text x="560" y="76" text-anchor="middle" fill="#fff" stroke="none" style="font-size:15px;font-weight:800">31</text>
+<circle cx="610" cy="70" r="19" fill="#1f6f8b"/><text x="610" y="76" text-anchor="middle" fill="#fff" stroke="none" style="font-size:15px;font-weight:800">40</text>
+<circle cx="660" cy="70" r="19" fill="#1f6f8b"/><text x="660" y="76" text-anchor="middle" fill="#fff" stroke="none" style="font-size:15px;font-weight:800">52</text>
+<text class="hx-lab" x="535" y="112" text-anchor="middle">1 in 28,989,675</text>
+<text class="hx-big" x="350.0" y="160" text-anchor="middle" fill="#b23b32">Same chance of winning.</text>
+<text class="hx-sub" x="350.0" y="182" text-anchor="middle">Odds of matching all six numbers in a 6-of-55 lottery like the Philippines' Grand Lotto</text>
+</svg></div>
+</div>
+            </div>
+
+            <div class="hx-aha hanten-aha">
+                <p><span class="hanten-aha-lead">Every combination has the same odds of winning, but not the same odds of being shared.</span> The balls don't know which combinations look random to people. 1-2-3-4-5-6 has the same 1-in-28,989,675 chance as any other pick in a 6-of-55 game. But many players choose patterns, birthdays, and multiples. When the Philippines' Grand Lotto drew 9-18-27-36-45-54, the multiples of 9, on October 1, 2022, 433 tickets matched and split the ₱236 million jackpot.</p>
+                <p>Two different questions hide in "Is this a good pick?": how likely is it to win, and what is a win worth? Whenever many people make the same choice, the second question can matter as much as the first.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A town's most popular brunch spot has the best food. Everyone else in town agrees.</p>
+                    <p class="hanten-transfer-question">If the food is just as good at the place down the street, which one gives you the better Sunday morning?</p>
+                </div>
+            </section>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Popular numbers to avoid sharing</summary>
+                <p>Patterns that people favor include straight lines and shapes on the ticket, multiples (7, 14, 21...), and dates, which crowd the numbers 1 to 31. In the UK National Lottery's early years, thousands of people were reported to choose 1-2-3-4-5-6 in a single draw, and one draw's winning numbers were shared by 133 jackpot winners. Choosing unpopular numbers can't improve your odds of winning, only your share if you do.</p>
+            </details>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H005/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H005</span>How many people does it take before a shared birthday is more likely than not?</a></li>
+                    <li><a href="../H093/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H093</span>Pharmacies check your name and birth date. Is that enough to tell you apart from everyone else?</a></li>
+                    <li><a href="../H035/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H035</span>After five reds in a row, is black "due" at roulette?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Philippine Charity Sweepstakes Office Grand Lotto 6/55 draw of October 1, 2022 (433 winners, ₱236,091,188.40 jackpot): ABS-CBN News, Philippine Daily Inquirer. Odds computed as the number of 6-number combinations from 55. UK National Lottery patterns: Plus Magazine (University of Cambridge), "The UK National Lottery: a guide for beginners."
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H038/index.html">&larr; H038</a><a class="hanten-pager-next" href="../H040/index.html">H040 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-lottery-number-patterns.png", title = "Is 1-2-3-4-5-6 a Bad Lottery Pick?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+        const clone = main.cloneNode(true);
+        clone.querySelectorAll(".hanten-utility, .hanten-pager, .hanten-site-footer, details").forEach(el => el.remove());
+        card.appendChild(clone);
+        document.body.appendChild(card);
+        // html2canvas draws an SVG at its attribute size, so pin each one to the size it renders at
+        card.querySelectorAll("svg").forEach(svg => { const r = svg.getBoundingClientRect(); if (r.width) { svg.setAttribute("width", r.width); svg.setAttribute("height", r.height); } });
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

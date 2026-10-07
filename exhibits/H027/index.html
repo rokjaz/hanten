@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Statehood Order</title>
+    <title>H027 — Statehood Order</title>
     <meta name="description" content="The original 13 states joined in under three years. The remaining 37 took another 169. The order of admission looks orderly; the timing was anything but.">
 
     <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (clay) */ body { --hanten-paper: #F5E6DF !important; }</style>
 
     <style>
         :root {
@@ -288,6 +289,7 @@
 <body class="hanten-theme-unresolved">
 <main class="hanten-exhibit">
 
+    <p class="hanten-hnum">H027</p>
     <h1 class="hanten-question">
         Did the United States grow one state at a time?
     </h1>
@@ -331,14 +333,18 @@
                 </div>
             </div>
 
-            <div class="h027-reveal">
-                <p><strong>The sequence looks orderly. The timing was not.</strong> The original 13 entered in under three years — Delaware first, on December 7, 1787; Rhode Island last of the 13, on May 29, 1790. It then took another 169 years to add the remaining 37. After Arizona became No. 48 in February 1912, the country waited <strong>47 years</strong> for Alaska, admitted January 3, 1959 — then only seven and a half months for Hawaii, on August 21, 1959.</p>
+            <div class="h027-reveal hanten-aha">
+                <p><span class="hanten-aha-lead">The sequence looks orderly. The timing was not.</span> The original 13 entered in under three years — Delaware first, on December 7, 1787; Rhode Island last of the 13, on May 29, 1790. It then took another 169 years to add the remaining 37. After Arizona became No. 48 in February 1912, the country waited <strong>47 years</strong> for Alaska, admitted January 3, 1959 — then only seven and a half months for Hawaii, on August 21, 1959.</p>
                 <p>A numbered list makes growth look steady by hiding exactly this: the gaps between the numbers can be wildly uneven even when the sequence itself is perfectly orderly.</p>
             </div>
 
-            <p class="hanten-reflection">
-                What list have you read in order without checking the time between items?
-            </p>
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">Twelve astronauts have walked on the Moon. They're usually listed in order, first to twelfth.</p>
+                    <p class="hanten-transfer-question">How far apart in time were the first and last moonwalks, and what does the list leave out?</p>
+                </div>
+            </section>
 
             <details class="h027-explore" data-html2canvas-ignore="true">
                 <summary>Explore the statehood stories</summary>
@@ -367,9 +373,9 @@
             <details class="h027-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H006/index.html" target="_blank" rel="noopener noreferrer">Can two bowlers knock down the same 50 pins and finish 70 points apart?</a></li>
-                    <li><a href="../H084/index.html" target="_blank" rel="noopener noreferrer">"Up 40% this month!" Did this stock really have a great month?</a></li>
-                    <li><a href="../H018/index.html" target="_blank" rel="noopener noreferrer">How can the same two numbers tell two completely different stories?</a></li>
+                    <li><a href="../H047/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H047</span>Is it true that more people are alive today than have ever died?</a></li>
+                    <li><a href="../H084/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H084</span>"Up 40% this month!" Did this stock really have a great month?</a></li>
+                    <li><a href="../H018/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H018</span>How can the same two numbers tell two completely different stories?</a></li>
                 </ul>
             </details>
 
@@ -384,7 +390,8 @@
 
         </div>
     </div>
-
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H026/index.html">&larr; H026</a><a class="hanten-pager-next" href="../H028/index.html">H028 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script src="../../assets/js/d3.v7.min.js"></script>
@@ -484,6 +491,7 @@
 </script>
 
 <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 <script>
 (() => {
@@ -541,7 +549,7 @@
 
     const reflection = document.createElement("div");
     reflection.className = "hanten-export-reflection";
-    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     if (source) {

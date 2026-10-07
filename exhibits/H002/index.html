@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Point Nemo</title>
+<title>H002 — Point Nemo</title>
 <meta name="description" content="At Point Nemo, the nearest people can sometimes be astronauts aboard the International Space Station.">
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (clay) */ body { --hanten-paper: #F5E6DF !important; }</style>
 <style>
 :root{--h002-ink:#1c2733;--h002-muted:#5f6b76;--h002-line:rgba(28,39,51,.14);--h002-ocean:#d9edf5;--h002-land:#d9ddd4;--h002-land-line:#b8c0b5;--h002-graticule:rgba(28,39,51,.10);--h002-nemo:#c1442d;--h002-land-ring:#0e7c86;--h002-iss-ring:#c98a23;--h002-panel:#fff}
 body{background:var(--hanten-paper)}
@@ -467,18 +468,23 @@ main.hanten-exhibit > .hanten-subtitle{
 </head>
 <body class="hanten-theme-scale">
 <main class="hanten-exhibit">
+<p class="hanten-hnum">H002</p>
 <h1 class="hanten-question">How far can you get from everyone?</h1>
 <p class="hanten-subtitle">At one spot in the South Pacific, the nearest land is more than 1,600 miles away.</p>
 <div class="hanten-graphic"><div class="h002-shell">
 <div class="h002-map-wrap" id="h002-capture"><svg id="h002-map" viewBox="0 0 900 540" role="img" aria-labelledby="h002-title h002-desc"><title id="h002-title">Point Nemo distance comparison</title><desc id="h002-desc">An azimuthal equidistant map centered on Point Nemo. A large ring marks roughly 1,670 miles (2,688 km) to the nearest land, while a much smaller ring marks about 254 miles (408 km), the approximate altitude of the International Space Station used for this comparison.</desc></svg></div>
 <div class="h002-legend"><span><span class="h002-key h002-key--land"></span>Nearest land ≈ 1,670 mi (2,688 km)</span><span><span class="h002-key h002-key--iss"></span>ISS altitude ≈ 254 mi (408 km)</span></div>
-<div class="h002-reveal">
-  <p><strong>At Point Nemo, the closest people can sometimes be in orbit.</strong> The nearest land is more than six times farther away than the ISS is above Earth.</p>
+<div class="h002-reveal hanten-aha">
+  <p><span class="hanten-aha-lead">At Point Nemo, the closest people can sometimes be in orbit.</span> The nearest land is more than six times farther away than the ISS is above Earth.</p>
   <p>The same trick works with any big number: a distance, a file size, a population count can all feel abstract until you compare it to something familiar. It's the comparison, not the number itself, that tells you whether something is actually close or far, big or small.</p>
 </div>
-<p class="hanten-reflection">
-                What seems far away only because you’ve never compared it to anything?
-            </p>
+<section class="hanten-transfer" aria-label="Try it somewhere else">
+    <p class="hanten-transfer-kicker">Try it somewhere else</p>
+    <div class="hanten-transfer-text">
+        <p class="hanten-transfer-scenario">A cabin is a two-day hike from the nearest road, but a satellite passes 250 miles overhead every 90 minutes.</p>
+        <p class="hanten-transfer-question">What counts as “far away” depends on which direction you measure. Where else is the closest thing straight up?</p>
+    </div>
+</section>
 <details class="h002-explore" data-html2canvas-ignore="true"><summary>How are these distances being compared?</summary><p>The 1,670-mile (2,688 km) distance is measured across Earth’s surface from Point Nemo to the nearest land. The ISS figure is its approximate altitude above Earth, about 254 miles (408 km) in this comparison. They are different kinds of distance, but the rings are drawn to the same scale to make the size contrast visible.</p><p style="margin:.6rem 0 0;">The same fix works for almost any huge number: find a comparison that is actually familiar. <a href="../H011/index.html" target="_blank" rel="noopener noreferrer">The distance between Earth and the Moon</a> sounds enormous until you check how much of it is empty space versus how much is just the two bodies themselves.</p></details>
 <details class="h002-explore" data-html2canvas-ignore="true">
 <summary>Is the space station ever closer than the nearest country?</summary>
@@ -549,9 +555,8 @@ main.hanten-exhibit > .hanten-subtitle{
             <details class="h002-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H011/index.html" target="_blank" rel="noopener noreferrer">Could all the other planets fit between Earth and the Moon?</a></li>
-                    <li><a href="../H020/index.html" target="_blank" rel="noopener noreferrer">How long would it take to drive to the International Space Station?</a></li>
-                    <li><a href="../H042/index.html" target="_blank" rel="noopener noreferrer">How can two islands 2.4 miles apart be a day apart?</a></li>
+                    <li><a href="../H020/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H020</span>How long would it take to drive to the International Space Station?</a></li>
+                    <li><a href="../H011/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H011</span>Could all the other planets fit between Earth and the Moon?</a></li>
                 </ul>
             </details>
 
@@ -565,6 +570,8 @@ main.hanten-exhibit > .hanten-subtitle{
 </div>
 <div class="h002-save"><div id="save-image-slot"></div></div>
 </div></div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H001/index.html">&larr; H001</a><a class="hanten-pager-next" href="../H003/index.html">H003 &rarr;</a></nav>
+  <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
 </main>
 
 <script id="hanten-label-data" type="application/json">
@@ -597,8 +604,8 @@ main.hanten-exhibit > .hanten-subtitle{
     },
     "iss": {
       "text": "ISS\naltitude",
-      "x": 53.97803349310152,
-      "y": 53.77512572971749,
+      "x": 50.2,
+      "y": 58.5,
       "align": "center",
       "fontSize": 14,
       "lineHeight": 1.05,
@@ -779,6 +786,7 @@ const POINT_NEMO={lon:-123.3933,lat:-48.8767,name:"Point Nemo"},NEAREST_LAND_KM=
 })();</script>
     <script>document.querySelectorAll("details").forEach(d=>d.addEventListener("toggle",()=>window.dispatchEvent(new Event("resize"))));</script>
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
 <script>
 (() => {
@@ -865,7 +873,7 @@ const POINT_NEMO={lon:-123.3933,lat:-48.8767,name:"Point Nemo"},NEAREST_LAND_KM=
 
     const reflection=document.createElement("div");
     reflection.className="hanten-export-reflection";
-    reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+    reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
     card.appendChild(reflection);
 
     document.body.appendChild(card);

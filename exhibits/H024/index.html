@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H024 — Is the Driver Who Merges at the Last Second Cutting in Line?</title>
+
+    <meta
+        name="description"
+        content="Merging early feels polite, but it wastes a lane and doubles the length of the backup. When everyone uses both lanes and takes turns at the cone, the line is shorter and no one gets ahead."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (sage) */ body { --hanten-paper: #E6EFE2 !important; }</style>
+
+    <style>
+        /*
+           H024-SPECIFIC STYLES
+
+           These styles belong to this exhibit rather than the shared
+           Hanten framework.
+        */
+
+        :root {
+            --h024-early: #b8692a;
+            --h024-zip: #0e7c86;
+            --h024-cone: #d9822b;
+        }
+
+        .h024-panel {
+            padding: 1.1rem 1.1rem 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .h024-panel svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .h024-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .h024-stat { padding: 0.95rem 1rem; text-align: center; }
+        .h024-stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h024-stat-n {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1.15;
+            margin-top: 0.3rem;
+        }
+        .h024-stat-unit { font-weight: 700; font-size: 0.9rem; margin-top: 0.1rem; }
+        .h024-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.35rem; line-height: 1.4; }
+
+        .h024-label {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            fill: var(--hanten-text);
+        }
+        .h024-sub {
+            font-family: var(--hanten-font);
+            fill: var(--hanten-muted);
+        }
+        .h024-val {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: #ffffff;
+        }
+        .h024-col {
+            font-family: var(--hanten-font);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            fill: var(--hanten-muted);
+        }
+        .h024-val-out {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: var(--hanten-text);
+        }
+        .h024-gap-text {
+            font-family: var(--hanten-font);
+            font-weight: 800;
+            fill: var(--h024-lake);
+        }
+
+        .h024-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem 1.4rem;
+            margin-top: 0.4rem;
+            font-size: 0.78rem;
+            color: var(--hanten-muted);
+        }
+        .h024-legend > span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .h024-swatch { display: inline-block; width: 14px; height: 10px; border-radius: 2px; }
+
+        .h024-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; }
+        .h024-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .h024-table th, .h024-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .h024-table th {
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--hanten-muted);
+        }
+        .h024-table td { text-align: left; }
+        .h024-table td:nth-child(2), .h024-table td:nth-child(3) { text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
+        .h024-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 720px) {
+            .h024-stats { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .h024-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .h024-table-panel { padding: 0.3rem 0.6rem; }
+        }
+
+
+        .h024-stats { margin-top: 0.8rem; margin-bottom: 0; }
+        .h024-stat-n { font-size: 1.25rem !important; }
+        .h024-note { font-family: var(--hanten-font); font-weight: 700; fill: var(--hanten-text); }
+        .h024-discovery { max-width: var(--hanten-text-width); margin: 1.3rem auto 0; }
+        .h024-discovery p { margin: 0 0 0.85rem; color: var(--hanten-muted); }
+        .h024-discovery p:last-child { margin-bottom: 0; }
+        .h024-discovery strong { color: var(--hanten-text); }
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+
+    .hanten-export-card{
+      position:fixed;left:-10000px;top:0;width:960px;
+      padding:40px 0 60px;box-sizing:border-box;
+      background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);
+      font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);
+    }
+    </style>
+
+<style>
+.h024-explore {
+  max-width: 760px;
+  margin: .7rem auto 0;
+  padding: .55rem 0;
+  border-top: 1px solid var(--hanten-border);
+  border-bottom: 1px solid var(--hanten-border);
+  color: var(--hanten-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.h024-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+.h024-explore p { margin: .55rem 0 0; }
+.h024-explore a { color: var(--hanten-accent, #0e7c86); }
+</style>
+</head>
+
+<body class="hanten-theme-perspective">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H024</p>
+        <h1 class="hanten-question" style="text-wrap:balance;">
+            Is the driver who merges at the last second cutting in line?
+        </h1>
+
+        <p class="hanten-subtitle">
+            When a lane closes in heavy traffic, merging early feels polite and merging late feels like cheating. Traffic
+            engineers recommend the opposite: use both lanes to the end, then take turns.
+        </p>
+
+        <div id="h024-capture">
+
+            <div class="hanten-graphic">
+
+                <div class="hanten-panel h024-panel">
+                    <svg id="h024-roads" viewBox="0 0 640 300" role="img" aria-labelledby="h024-roads-title h024-roads-desc">
+                        <title id="h024-roads-title">The same 20 cars waiting at a lane closure, merging early versus zipper merging</title>
+                        <desc id="h024-roads-desc">Merging early: all 20 cars line up in one lane, and the other lane sits empty, so the backup is 20 cars long. Zipper merging: 10 cars wait in each lane and take turns at the cone, so the backup is 10 cars long.</desc>
+                    </svg>
+                </div>
+
+                <div class="h024-stats">
+                    <div class="hanten-panel h024-stat">
+                        <div class="h024-stat-label">Length of the backup</div>
+                        <div class="h024-stat-n" style="color:var(--h024-zip)">About 40% shorter</div>
+                        <div class="h024-stat-l">Minnesota's transportation department, with signs telling drivers to use both lanes</div>
+                    </div>
+                    <div class="hanten-panel h024-stat">
+                        <div class="h024-stat-label">Cars through the bottleneck</div>
+                        <div class="h024-stat-n" style="color:var(--hanten-text)">About the same</div>
+                        <div class="h024-stat-l">One open lane still passes roughly 1,600 cars an hour, however drivers line up</div>
+                    </div>
+                    <div class="hanten-panel h024-stat">
+                        <div class="h024-stat-label">Who gets ahead</div>
+                        <div class="h024-stat-n" style="color:var(--h024-zip)">No one</div>
+                        <div class="h024-stat-l">When everyone zippers, both lanes move at the same speed</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h024-discovery hanten-body hanten-aha">
+                <p><span class="hanten-aha-lead">Merging early wastes a lane.</span> Before the cones, both lanes are free places to wait. When drivers crowd into one lane early, the other lane sits empty and the line stretches twice as far back, past exits and on-ramps it can block. And the empty lane becomes a shortcut: the few drivers who use it really do pass everyone, which is why late merging feels like cheating. When everyone uses both lanes and takes turns at the cone, the line is shorter and no one gets ahead.</p>
+                <p>What the zipper doesn't do is push many more cars through the single open lane. The line gets shorter and fairer, not much faster. What looks rude from inside one lane can be the rule that works best for everyone.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A cafeteria has two serving lines, but students crowd into one because using the other “feels like cutting.”</p>
+                    <p class="hanten-transfer-question">Who is really making the wait longer, and what would fix it?</p>
+                </div>
+            </section>
+
+            <details class="h024-explore" data-html2canvas-ignore="true">
+                <summary>What do the studies show?</summary>
+                <p><strong>Shorter lines, consistently.</strong> Minnesota's transportation department reports that the
+                    zipper merge cut the length of backups by about 40%. A Virginia study's computer simulations found the
+                    queue shrinking from 7,800 ft to 6,000 ft (2,380 m to 1,830 m).</p>
+                <p><strong>Throughput, mixed.</strong> In Minnesota's 2004 tests, the single open lane carried about 1,600
+                    vehicles an hour at every site. Virginia found a significant gain only where three lanes narrowed to
+                    one, about 1,285 vehicles an hour instead of 1,154, and no significant change where two lanes became one.</p>
+                <p><strong>Fewer conflicts.</strong> When everyone merges at the same place, there's less weaving, fewer
+                    sudden lane changes, and less reason for drivers to block the closing lane, which Minnesota observers saw
+                    some drivers, especially truckers, do on purpose.</p>
+            </details>
+
+            <details class="h024-explore" data-html2canvas-ignore="true">
+                <summary>When should you merge early?</summary>
+                <p>When traffic is light and moving at speed, merge early, as soon as there's a safe gap. The zipper is for
+                    heavy, slow traffic, when a line is already forming. Germany writes the rule into law: when a lane ends,
+                    drivers must let cars merge in turn “immediately before the start of the narrowing,” a rule Germans call
+                    the <em>Reißverschlussverfahren</em>, the zipper procedure.</p>
+            </details>
+
+            <details class="h024-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H019/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H019</span>Twice the capacity, half the wait?</a></li>
+                    <li><a href="../H079/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H079</span>Can a new road make traffic worse?</a></li>
+                    <li><a href="../H089/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H089</span>Stealing is never worse than splitting. So why does it lose?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Minnesota Department of Transportation, zipper merge guidance (backups about 40% shorter), as
+                cited in North Carolina DOT, “The Effects of Late Lane Merges on Travel Times” (2015); Minnesota DOT,
+                “Evaluation of 2004 Dynamic Late Merge System” (single-lane throughput of about 1,600 vehicles per hour;
+                blocking behavior). Virginia Transportation Research Council, “Evaluation of the Late Merge Work Zone
+                Traffic Control Strategy” (2005). German Road Traffic Regulations (StVO), §7(4). The diagram shows 20
+                cars for illustration.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H023/index.html">&larr; H023</a><a class="hanten-pager-next" href="../H025/index.html">H025 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script>
+        (() => {
+            const svg = document.getElementById("h024-roads");
+            const keep = svg.querySelector("title").outerHTML + svg.querySelector("desc").outerHTML;
+            function render() {
+                const narrow = svg.parentElement.clientWidth < 540;
+                const W = narrow ? 360 : 640, end = W - 30, lane = narrow ? 18 : 24, gap = narrow ? 16 : 28;
+                const cw = narrow ? 12 : 21, ch = narrow ? 10 : 14, fs = narrow ? 12.5 : 14;
+                let h = "";
+                const road = (y, label, topCars, botCars, note) => {
+                    h += `<text x="0" y="${y}" class="h024-label" font-size="${fs + 1}">${label}</text>`;
+                    const ry = y + 12;
+                    h += `<rect x="0" y="${ry}" width="${end}" height="${lane * 2}" fill="#e3e6e1"/>`;
+                    h += `<line x1="0" y1="${ry + lane}" x2="${end}" y2="${ry + lane}" stroke="#ffffff" stroke-width="2" stroke-dasharray="10 8"/>`;
+                    h += `<rect x="${end}" y="${ry + lane}" width="30" height="${lane}" fill="#e3e6e1"/>`;
+                    h += `<path d="M ${end - 2} ${ry + 2} L ${end + 10} ${ry + lane - 2}" stroke="var(--h024-cone)" stroke-width="4"/>`;
+                    h += `<text x="${W}" y="${ry - 4}" text-anchor="end" class="h024-sub" font-size="${fs - 2}">lane ends</text>`;
+                    const car = (n, laneIdx, fill) => {
+                        for (let i = 0; i < n; i++) {
+                            const x = end - 6 - (i + 1) * gap;
+                            h += `<rect x="${x}" y="${ry + laneIdx * lane + (lane - ch) / 2}" width="${cw}" height="${ch}" rx="3" fill="${fill}"/>`;
+                        }
+                    };
+                    car(topCars, 0, "var(--h024-zip)");
+                    car(botCars, 1, botCars > 10 ? "var(--h024-early)" : "var(--h024-zip)");
+                    if (topCars === 0) h += `<text x="${end - 40}" y="${ry + lane / 2 + 5}" text-anchor="end" class="h024-sub" font-size="${fs - 1}">empty lane</text>`;
+                    const n = Math.max(topCars, botCars), x0 = end - 6 - n * gap;
+                    const by = ry + lane * 2 + 12;
+                    h += `<path d="M ${x0} ${by - 4} L ${x0} ${by + 2} L ${end - 6} ${by + 2} L ${end - 6} ${by - 4}" fill="none" stroke="var(--hanten-muted)" stroke-width="1.5"/>`;
+                    h += `<text x="${(x0 + end) / 2}" y="${by + 18}" text-anchor="middle" class="h024-note" font-size="${fs}">${note}</text>`;
+                    return by + 26;
+                };
+                let y = 16;
+                y = road(y, "Merging early", 0, 20, "backup: 20 cars long") + 22;
+                y = road(y, "Zipper merging: both lanes, then take turns", 10, 10, "backup: 10 cars long");
+                svg.setAttribute("viewBox", `0 0 ${W} ${y + 4}`);
+                svg.innerHTML = keep + h;
+            }
+            render();
+            let last = null;
+            window.addEventListener("resize", () => {
+                const n = svg.parentElement.clientWidth < 540;
+                if (n !== last) { last = n; render(); }
+            });
+        })();
+    </script>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-zipper-merge.png", title = "Is the driver who merges at the last second cutting in line?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+
+        const clone = main.cloneNode(true);
+        const utility = clone.querySelector(".hanten-utility");
+        if (utility) utility.remove();
+        card.appendChild(clone);
+
+        document.body.appendChild(card);
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight, windowWidth: card.scrollWidth, windowHeight: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

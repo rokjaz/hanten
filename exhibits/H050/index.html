@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H050 — When Should You Stop Apartment Hunting?</title>
+
+    <meta
+        name="description"
+        content="If you must decide on each option as you see it, look at the first 37% without choosing, then take the next one better than all of those. That finds the very best about 37% of the time."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (clay) */ body { --hanten-paper: #F5E6DF !important; }</style>
+
+    <style>
+        /*
+           H050-SPECIFIC STYLES
+           Built Oct 2026 to the v1.2 exhibit standard (hx- classes are
+           the shared backfill-exhibit pattern).
+        */
+
+        .hx-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .hx-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .hx-stats-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .hx-stats-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .hx-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .hx-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .hx-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+        .hx-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .hx-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .hx-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+        .hx-svgwrap { max-width: 700px; margin: 0 auto; }
+        .hx-panel svg { display: block; width: 100%; height: auto; margin: 0; }
+        .hx-panel svg text { font-family: var(--hanten-font); }
+        .hx-axis { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-lab { font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .hx-sub { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-val { font-size: 15px; font-weight: 800; }
+        .hx-big { font-size: 18px; font-weight: 800; }
+        .hx-note { max-width: var(--hanten-text-width); margin: 0.2rem auto 0; text-align: center; font-size: 0.78rem; font-style: italic; color: var(--hanten-muted); }
+        .hx-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .hx-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .hx-explore p { margin: .55rem 0 0; }
+        .hx-explore strong { color: var(--hanten-text); }
+        .hx-explore + .hx-explore { margin-top: 0; border-top: none; }
+        .hx-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .hx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .hx-table th, .hx-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .hx-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .hx-table td:not(:first-child) { text-align: center; }
+        .hx-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 600px) {
+            .hx-stats, .hx-stats-2, .hx-stats-4 { grid-template-columns: minmax(0, 1fr); }
+            .hx-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .hx-table { font-size: 0.76rem; }
+        }
+
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:960px;padding:40px 0 60px;box-sizing:border-box;background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    </style>
+</head>
+
+<body class="hanten-theme-optimization">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H050</p>
+        <h1 class="hanten-question">When should you stop apartment hunting and pick one?</h1>
+
+        <p class="hanten-subtitle">You can see one apartment at a time, and each must be accepted or turned down on the spot. Stop too early and you miss better ones; wait too long and the best is already gone.</p>
+
+        <div id="h050-capture">
+
+            <div class="hanten-graphic">
+<div class="hx-stats hx-stats-3">
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Look first, without choosing</div>
+    <div class="hx-stat-n" style="color:#1A3E6E">37%</div>
+    <div class="hx-stat-l">of the options you can reasonably see</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Then take</div>
+    <div class="hx-stat-n" style="color:#1f6f8b">the next best-so-far</div>
+    <div class="hx-stat-l">the first one better than everything you've seen</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Chance it's the very best</div>
+    <div class="hx-stat-n" style="color:#b23b32">≈37%</div>
+    <div class="hx-stat-l">versus 1% for taking the first of 100</div>
+  </div>
+</div>
+<div class="hanten-panel hx-panel ">
+  <p class="hx-panel-title">How long to look before leaping</p>
+  <p class="hx-panel-sub">Chance of ending up with the single best of 100 options, by how many you pass on first</p>
+  <div class="hx-svgwrap"><svg viewBox="0 0 700 290" role="img">
+<line x1="60" y1="240.0" x2="670" y2="240.0" stroke="#e6e2d8"/><text class="hx-axis" x="52" y="244.0" text-anchor="end">0%</text>
+<line x1="60" y1="185.0" x2="670" y2="185.0" stroke="#e6e2d8"/><text class="hx-axis" x="52" y="189.0" text-anchor="end">10%</text>
+<line x1="60" y1="130.0" x2="670" y2="130.0" stroke="#e6e2d8"/><text class="hx-axis" x="52" y="134.0" text-anchor="end">20%</text>
+<line x1="60" y1="75.0" x2="670" y2="75.0" stroke="#e6e2d8"/><text class="hx-axis" x="52" y="79.0" text-anchor="end">30%</text>
+<line x1="60" y1="20.0" x2="670" y2="20.0" stroke="#e6e2d8"/><text class="hx-axis" x="52" y="24.0" text-anchor="end">40%</text>
+<text class="hx-axis" x="60.0" y="258" text-anchor="middle">0%</text>
+<text class="hx-axis" x="182.0" y="258" text-anchor="middle">20%</text>
+<text class="hx-axis" x="304.0" y="258" text-anchor="middle">40%</text>
+<text class="hx-axis" x="426.0" y="258" text-anchor="middle">60%</text>
+<text class="hx-axis" x="548.0" y="258" text-anchor="middle">80%</text>
+<text class="hx-axis" x="670.0" y="258" text-anchor="middle">100%</text>
+<text class="hx-sub" x="365.0" y="278" text-anchor="middle">Share of options you look at first without choosing</text>
+<rect x="60" y="20" width="225.7" height="220" fill="#1A3E6E" opacity="0.06"/>
+<polyline fill="none" stroke="#1f6f8b" stroke-width="3" points="60.0,234.5 66.1,211.5 72.2,194.0 78.3,179.3 84.4,166.4 90.5,154.9 96.6,144.5 102.7,135.0 108.8,126.3 114.9,118.3 121.0,110.8 127.1,104.0 133.2,97.6 139.3,91.7 145.4,86.2 151.5,81.1 157.6,76.4 163.7,72.0 169.8,68.0 175.9,64.2 182.0,60.7 188.1,57.6 194.2,54.6 200.3,51.9 206.4,49.5 212.5,47.3 218.6,45.3 224.7,43.5 230.8,42.0 236.9,40.6 243.0,39.4 249.1,38.4 255.2,37.6 261.3,36.9 267.4,36.4 273.5,36.1 279.6,35.9 285.7,35.9 291.8,36.1 297.9,36.3 304.0,36.8 310.1,37.3 316.2,38.0 322.3,38.8 328.4,39.8 334.5,40.8 340.6,42.0 346.7,43.4 352.8,44.8 358.9,46.3 365.0,48.0 371.1,49.8 377.2,51.7 383.3,53.6 389.4,55.7 395.5,57.9 401.6,60.2 407.7,62.6 413.8,65.1 419.9,67.7 426.0,70.3 432.1,73.1 438.2,75.9 444.3,78.9 450.4,81.9 456.5,85.0 462.6,88.2 468.7,91.5 474.8,94.9 480.9,98.3 487.0,101.9 493.1,105.5 499.2,109.1 505.3,112.9 511.4,116.7 517.5,120.6 523.6,124.6 529.7,128.7 535.8,132.8 541.9,137.0 548.0,141.3 554.1,145.6 560.2,150.0 566.3,154.5 572.4,159.0 578.5,163.6 584.6,168.3 590.7,173.0 596.8,177.8 602.9,182.7 609.0,187.6 615.1,192.5 621.2,197.6 627.3,202.7 633.4,207.8 639.5,213.1 645.6,218.3 651.7,223.7 657.8,229.1 663.9,234.5"/>
+<circle cx="285.7" cy="35.9" r="6" fill="#b23b32" stroke="#fff" stroke-width="2"/>
+<text class="hx-lab" x="297.7" y="27.9" fill="#b23b32">Look at 37%, then pick: best one 37% of the time</text>
+<text class="hx-sub" x="72.2" y="226.5">Pick the first one: 1%</text>
+</svg></div>
+</div>
+            </div>
+
+            <div class="hx-aha hanten-aha">
+                <p><span class="hanten-aha-lead">Spend the first 37% of your search learning what "good" looks like, then commit to the first option that beats it.</span> If you choose too soon, you have no benchmark; too late, and the best option has likely passed. Looking at the first 37% (1/<em>e</em>) without choosing, then taking the next one better than all of them, finds the single best option about 37% of the time, no matter whether there are 10 options or 10,000. Mathematicians call it the secretary problem, or optimal stopping.</p>
+                <p>The rule fits any one-way decision made in order: hiring, house hunting, choosing a parking spot as you drive toward a building. It also explains why "the first one I saw" so rarely turns out to be the best.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">You're driving toward a concert and want a parking space as close as possible. You can't turn around once you pass one.</p>
+                    <p class="hanten-transfer-question">When should you stop looking and take a space?</p>
+                </div>
+            </section>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Where the rule bends</summary>
+                <p>The 37% rule assumes you can't go back to an option you passed, you only care about getting the very best, and you know roughly how many options you will see. If you can go back, or if second-best is fine, you should look for a shorter time and settle sooner. For a 30-day apartment search, the rule says to look for about 11 days, then sign for the first place better than everything you saw.</p>
+            </details>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H026/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H026</span>If your concert ticket was free, did going cost you anything?</a></li>
+                    <li><a href="../H089/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H089</span>Stealing is never worse than splitting. So why does it lose?</a></li>
+                    <li><a href="../H015/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H015</span>Should you trap your enemy completely?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Optimal stopping and the 1/e (about 37%) rule: Thomas S. Ferguson, "Who Solved the Secretary Problem?" Statistical Science, 1989; Brian Christian and Tom Griffiths, Algorithms to Live By (2016). Curve computed for 100 options.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H049/index.html">&larr; H049</a><a class="hanten-pager-next" href="../H051/index.html">H051 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-when-to-stop-looking.png", title = "When Should You Stop Apartment Hunting?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+        const clone = main.cloneNode(true);
+        clone.querySelectorAll(".hanten-utility, .hanten-pager, .hanten-site-footer, details").forEach(el => el.remove());
+        card.appendChild(clone);
+        document.body.appendChild(card);
+        // html2canvas draws an SVG at its attribute size, so pin each one to the size it renders at
+        card.querySelectorAll("svg").forEach(svg => { const r = svg.getBoundingClientRect(); if (r.width) { svg.setAttribute("width", r.width); svg.setAttribute("height", r.height); } });
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

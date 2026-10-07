@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H034 — Is Every Fourth Year a Leap Year?</title>
+
+    <meta
+        name="description"
+        content="Not every fourth year is a leap year. 1900 was not, 2000 was, and 2100 will not be, because a year is about 11 minutes shorter than 365¼ days."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (parchment) */ body { --hanten-paper: #F4ECDF !important; }</style>
+
+    <style>
+        /*
+           H034-SPECIFIC STYLES
+           Built Oct 2026 to the v1.2 exhibit standard (hx- classes are
+           the shared backfill-exhibit pattern).
+        */
+
+        .hx-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .hx-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .hx-stats-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .hx-stats-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .hx-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .hx-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .hx-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+        .hx-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .hx-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .hx-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+        .hx-svgwrap { max-width: 700px; margin: 0 auto; }
+        .hx-panel svg { display: block; width: 100%; height: auto; margin: 0; }
+        .hx-panel svg text { font-family: var(--hanten-font); }
+        .hx-axis { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-lab { font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .hx-sub { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-val { font-size: 15px; font-weight: 800; }
+        .hx-big { font-size: 18px; font-weight: 800; }
+        .hx-note { max-width: var(--hanten-text-width); margin: 0.2rem auto 0; text-align: center; font-size: 0.78rem; font-style: italic; color: var(--hanten-muted); }
+        .hx-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .hx-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .hx-explore p { margin: .55rem 0 0; }
+        .hx-explore strong { color: var(--hanten-text); }
+        .hx-explore + .hx-explore { margin-top: 0; border-top: none; }
+        .hx-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .hx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .hx-table th, .hx-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .hx-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .hx-table td:not(:first-child) { text-align: center; }
+        .hx-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 600px) {
+            .hx-stats, .hx-stats-2, .hx-stats-4 { grid-template-columns: minmax(0, 1fr); }
+            .hx-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .hx-table { font-size: 0.76rem; }
+        }
+
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:960px;padding:40px 0 60px;box-sizing:border-box;background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    </style>
+</head>
+
+<body class="hanten-theme-time">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H034</p>
+        <h1 class="hanten-question">Is every fourth year a leap year?</h1>
+
+        <p class="hanten-subtitle">Most of us learned the rule as "every four years." But 1900 had no February 29, and neither will 2100. The year 2000 was the exception to the exception.</p>
+
+        <div id="h034-capture">
+
+            <div class="hanten-graphic">
+<div class="hx-stats hx-stats-3">
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Earth's year</div>
+    <div class="hx-stat-n">365.2422 days</div>
+    <div class="hx-stat-l">one trip around the Sun, measured season to season</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">"Every 4 years" gives</div>
+    <div class="hx-stat-n" style="color:#b23b32">365.25 days</div>
+    <div class="hx-stat-l">about 11 minutes too long, every year</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Skip 3 leap days per 400 years</div>
+    <div class="hx-stat-n" style="color:#1f6f8b">365.2425 days</div>
+    <div class="hx-stat-l">off by about 1 day every 3,000+ years</div>
+  </div>
+</div>
+<div class="hanten-panel hx-panel ">
+  <p class="hx-panel-title">Which century years get a February 29?</p>
+  <p class="hx-panel-sub">The Gregorian calendar, adopted in 1582, drops three leap days every 400 years</p>
+  <div class="hx-svgwrap"><svg viewBox="0 0 700 150" role="img">
+<rect x="35.6" y="20" width="60" height="64" rx="8" fill="#fff" stroke="#1f6f8b" stroke-width="2.5"/>
+<text class="hx-lab" x="65.6" y="46" text-anchor="middle">1600</text>
+<text class="hx-big" x="65.6" y="74" text-anchor="middle" fill="#1f6f8b">Leap</text>
+<rect x="106.7" y="20" width="60" height="64" rx="8" fill="#fff" stroke="#b23b32" stroke-width="2.5"/>
+<text class="hx-lab" x="136.7" y="46" text-anchor="middle">1700</text>
+<text class="hx-big" x="136.7" y="74" text-anchor="middle" fill="#b23b32">No</text>
+<rect x="177.8" y="20" width="60" height="64" rx="8" fill="#fff" stroke="#b23b32" stroke-width="2.5"/>
+<text class="hx-lab" x="207.8" y="46" text-anchor="middle">1800</text>
+<text class="hx-big" x="207.8" y="74" text-anchor="middle" fill="#b23b32">No</text>
+<rect x="248.9" y="20" width="60" height="64" rx="8" fill="#fff" stroke="#b23b32" stroke-width="2.5"/>
+<text class="hx-lab" x="278.9" y="46" text-anchor="middle">1900</text>
+<text class="hx-big" x="278.9" y="74" text-anchor="middle" fill="#b23b32">No</text>
+<text class="hx-sub" x="278.9" y="104" text-anchor="middle">divisible by 4,</text><text class="hx-sub" x="278.9" y="118" text-anchor="middle">still skipped</text>
+<rect x="320.0" y="20" width="60" height="64" rx="8" fill="#fff" stroke="#1f6f8b" stroke-width="2.5"/>
+<text class="hx-lab" x="350.0" y="46" text-anchor="middle">2000</text>
+<text class="hx-big" x="350.0" y="74" text-anchor="middle" fill="#1f6f8b">Leap</text>
+<text class="hx-sub" x="350.0" y="104" text-anchor="middle">you lived</text><text class="hx-sub" x="350.0" y="118" text-anchor="middle">through this</text>
+<rect x="391.1" y="20" width="60" height="64" rx="8" fill="#fff" stroke="#b23b32" stroke-width="2.5"/>
+<text class="hx-lab" x="421.1" y="46" text-anchor="middle">2100</text>
+<text class="hx-big" x="421.1" y="74" text-anchor="middle" fill="#b23b32">No</text>
+<text class="hx-sub" x="421.1" y="104" text-anchor="middle">divisible by 4,</text><text class="hx-sub" x="421.1" y="118" text-anchor="middle">still skipped</text>
+<rect x="462.2" y="20" width="60" height="64" rx="8" fill="#fff" stroke="#b23b32" stroke-width="2.5"/>
+<text class="hx-lab" x="492.2" y="46" text-anchor="middle">2200</text>
+<text class="hx-big" x="492.2" y="74" text-anchor="middle" fill="#b23b32">No</text>
+<rect x="533.3" y="20" width="60" height="64" rx="8" fill="#fff" stroke="#b23b32" stroke-width="2.5"/>
+<text class="hx-lab" x="563.3" y="46" text-anchor="middle">2300</text>
+<text class="hx-big" x="563.3" y="74" text-anchor="middle" fill="#b23b32">No</text>
+<rect x="604.4" y="20" width="60" height="64" rx="8" fill="#fff" stroke="#1f6f8b" stroke-width="2.5"/>
+<text class="hx-lab" x="634.4" y="46" text-anchor="middle">2400</text>
+<text class="hx-big" x="634.4" y="74" text-anchor="middle" fill="#1f6f8b">Leap</text>
+<text class="hx-sub" x="350.0" y="142" text-anchor="middle">Century years are leap years only when divisible by 400</text>
+</svg></div>
+</div>
+            </div>
+
+            <div class="hx-aha hanten-aha">
+                <p><span class="hanten-aha-lead">A leap day every four years overshoots, so the calendar quietly skips three of them every 400 years.</span> A year is about 365.2422 days, not 365.25. Adding a day every four years makes the calendar run about 11 minutes long each year, and those minutes pile up to a full day roughly every 128 years. The fix: century years are leap years only if they divide evenly by 400. So 2000 was a leap year, but 1700, 1800, 1900, and 2100 are not.</p>
+                <p>Simple rules people repeat are often the first step of a longer rule. Before relying on one, ask whether it has exceptions that only show up rarely, like once a century.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">Your phone, your bank, and your calendar app all have to decide whether February 29, 2100 exists.</p>
+                    <p class="hanten-transfer-question">If a program used the simple "every four years" rule, what would go wrong, and when?</p>
+                </div>
+            </section>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Why the calendar had to be fixed in 1582</summary>
+                <p>The older Julian calendar used the simple every-four-years rule. By the 1500s it had drifted about 10 days away from the seasons, pushing the spring equinox, and the date of Easter that depends on it, earlier and earlier. Pope Gregory XIII's 1582 reform jumped the calendar ahead 10 days (October 4 was followed by October 15) and added the century rule. Britain and its colonies did not switch until 1752, when they had to skip 11 days.</p>
+            </details>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H042/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H042</span>How can two islands 2.4 miles apart be a day apart?</a></li>
+                    <li><a href="../H068/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H068</span>Which country has the most time zones?</a></li>
+                    <li><a href="../H004/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H004</span>Is Earth’s spin carrying you at 1,000 mph?</a></li>
+                    <li><a href="../H011/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H011</span>Could all the other planets fit between Earth and the Moon?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Length of the tropical year and the Gregorian leap-year rule: U.S. Naval Observatory; Royal Museums Greenwich. Calendar reform of 1582 and Britain's 1752 change: Encyclopaedia Britannica.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H033/index.html">&larr; H033</a><a class="hanten-pager-next" href="../H035/index.html">H035 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-leap-year-rule.png", title = "Is Every Fourth Year a Leap Year?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+        const clone = main.cloneNode(true);
+        clone.querySelectorAll(".hanten-utility, .hanten-pager, .hanten-site-footer, details").forEach(el => el.remove());
+        card.appendChild(clone);
+        document.body.appendChild(card);
+        // html2canvas draws an SVG at its attribute size, so pin each one to the size it renders at
+        card.querySelectorAll("svg").forEach(svg => { const r = svg.getBoundingClientRect(); if (r.width) { svg.setAttribute("width", r.width); svg.setAttribute("height", r.height); } });
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>

@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Why Does the Shortest Flight Curve Over the Arctic?</title>
+<title>H046 — Why Does the Shortest Flight Curve Over the Arctic?</title>
 <meta name="description" content="The shortest flight path from New York to Beijing runs up near the North Pole, not straight across the Pacific — because a flat map bends the truth about distance.">
 
 <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (clay) */ body { --hanten-paper: #F5E6DF !important; }</style>
 
 <style>
     :root {
@@ -119,6 +120,7 @@
 
     <main class="hanten-exhibit">
 
+        <p class="hanten-hnum">H046</p>
         <h1 class="hanten-question">
             Why does the shortest flight from New York to Beijing curve over the Arctic?
         </h1>
@@ -167,14 +169,18 @@
                     </div>
                 </div>
 
-                <div class="h046-discovery hanten-body">
-                    <p><strong>Great-circle distance beats "straight" on a flat map, every time.</strong> New York and Beijing sit at nearly the same latitude (about 40°N), so a flat map suggests flying due west, straight across the Pacific — roughly 7,270 miles (11,700 km). The actual shortest path, the great circle, runs up over Canada, the Arctic, and Siberia, peaking around 84°N, and covers only about <strong>6,835 miles (11,000 km)</strong>.</p>
+                <div class="h046-discovery hanten-body hanten-aha">
+                    <p><span class="hanten-aha-lead">Great-circle distance beats "straight" on a flat map, every time.</span> New York and Beijing sit at nearly the same latitude (about 40°N), so a flat map suggests flying due west, straight across the Pacific — roughly 8,900 miles (14,400 km). The actual shortest path, the great circle, runs up over Canada, the Arctic, and Siberia, peaking around 84°N, and covers only about <strong>6,835 miles (11,000 km)</strong>.</p>
                     <p>Any map projected onto a flat rectangle distorts something — common world-map projections distort it in exactly the way that makes polar shortcuts look like detours. It's the same underlying dishonesty that makes <a href="../H007/index.html" target="_blank" rel="noopener noreferrer">Africa look smaller than Greenland on a Mercator map</a>: one projection quietly trades away accurate area, this one trades away accurate distance, and both hide the swap behind a map that otherwise looks perfectly normal.</p>
                 </div>
 
-                <p class="hanten-reflection">
-                Which route looks direct only because of the map you’re looking at?
-            </p>
+                <section class="hanten-transfer" aria-label="Try it somewhere else">
+                    <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                    <div class="hanten-transfer-text">
+                        <p class="hanten-transfer-scenario">A ship sails from Seattle to Tokyo. On a flat map, the straight line runs across the open Pacific.</p>
+                        <p class="hanten-transfer-question">Is that straight-looking line the shortest route, or does the real one bend somewhere?</p>
+                    </div>
+                </section>
 
                 <details class="h046-explore" data-html2canvas-ignore="true">
                     <summary>Why a straight line on paper isn't the shortest line in reality</summary>
@@ -185,9 +191,9 @@
                 <details class="h046-explore" data-html2canvas-ignore="true">
                 <summary>Related exhibits</summary>
                 <ul class="hanten-related">
-                    <li><a href="../H087/index.html" target="_blank" rel="noopener noreferrer">The Gall-Peters map shows every country at its true size. Is it the more accurate map?</a></li>
-                    <li><a href="../H066/index.html" target="_blank" rel="noopener noreferrer">Is South America east of Florida?</a></li>
-                    <li><a href="../H045/index.html" target="_blank" rel="noopener noreferrer">Does Alaska cross into the Eastern Hemisphere?</a></li>
+                    <li><a href="../H087/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H087</span>The Gall-Peters map shows every country at its true size. Is it the more accurate map?</a></li>
+                    <li><a href="../H007/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H007</span>How Big Is Africa... Really?</a></li>
+                    <li><a href="../H043/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H043</span>Is Reno, Nevada west of Los Angeles?</a></li>
                 </ul>
             </details>
 
@@ -206,8 +212,9 @@
         <div class="hanten-utility">
             <div id="save-image-slot"></div>
         </div>
-
-    </main>
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H045/index.html">&larr; H045</a><a class="hanten-pager-next" href="../H047/index.html">H047 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
 
     <script src="../../assets/js/d3.v7.min.js"></script>
     <script src="../../assets/geodata/countries.js"></script>
@@ -282,6 +289,7 @@
     </script>
 
     <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
 
     <script>
     (() => {
@@ -335,7 +343,7 @@
 
         const reflection = document.createElement("div");
         reflection.className = "hanten-export-reflection";
-        reflection.textContent = (document.querySelector(".hanten-reflection") || {textContent: ""}).textContent.trim();
+        reflection.textContent = (document.querySelector(".hanten-transfer-text") || {textContent: ""}).textContent.trim();
         card.appendChild(reflection);
 
         if (source) {

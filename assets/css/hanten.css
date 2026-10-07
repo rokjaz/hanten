@@ -1,6 +1,26 @@
 /* ==========================================================
    HANTEN CSS FRAMEWORK
-   Version 0.8
+   Version 1.0
+
+   v1.2: previous / next exhibit links (.hanten-pager); saved images
+   place the transfer question in the Sources text column.
+
+   v1.1.1: aha headline a step smaller than the title, centered.
+
+   v1.1: aha headline uses the title's type; transfer question lines
+   balanced; map labels get a light halo so lines and borders don't
+   run through them; hanten.app footer on every page and on every
+   saved image (js/hanten-brand.js).
+
+   v1.0.1: each exhibit picks its own canvas from the palette;
+   aha text is one size and color in every exhibit.
+
+   v1.0: theme canvases return (each theme's page color, with panels
+   and charts on white); aha headline line (.hanten-aha-lead);
+   "Try it somewhere else" transfer question (.hanten-transfer)
+   replaces the closing reflection; related exhibits show H numbers.
+
+   v0.9: exhibit number (.hanten-hnum) shown above the question.
 
    v0.8: theme colors removed from exhibit pages (all exhibits share
    one neutral background); the body theme class stays as a label.
@@ -372,3 +392,216 @@ canvas {
    (--hanten-paper); theme colors appear on homepage and Browse
    cards, not behind exhibit content.
    ========================================================== */
+
+
+/* ==========================================================
+   11. EXHIBIT NUMBER (v0.9)
+   A small H### label above the question (Decision Log D017).
+   ========================================================== */
+.hanten-hnum {
+    max-width: 900px;
+    margin: 0 auto 0.2rem;
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--hanten-muted);
+}
+
+/* ==========================================================
+   12. THEME CANVASES, AHA, TRANSFER, RELATED (v1.0)
+   ========================================================== */
+
+/* Theme canvases: the default page color for each theme. Each
+   exhibit also sets its own canvas (a <style id="hanten-canvas"> in
+   its head), picked from this same palette to suit that exhibit's
+   chart colors, which overrides the theme default. */
+.hanten-theme-perspective  { --hanten-paper: #EDE7F4; }
+.hanten-theme-time         { --hanten-paper: #F4ECDF; }
+.hanten-theme-scale        { --hanten-paper: #E2EEF5; }
+.hanten-theme-measurement  { --hanten-paper: #E6EFE2; }
+.hanten-theme-distribution { --hanten-paper: #F5E6DF; }
+.hanten-theme-statistics   { --hanten-paper: #E4E8F0; }
+.hanten-theme-probability  { --hanten-paper: #DFF0EB; }
+.hanten-theme-optimization { --hanten-paper: #F1EFD8; }
+.hanten-theme-systems      { --hanten-paper: #F3E4EA; }
+body[class*="hanten-theme-"] { background: var(--hanten-paper); }
+
+/* Aha: the discovery right under the graphic. Every exhibit's aha
+   block carries .hanten-aha so its text is the same size and color
+   everywhere; the first line (.hanten-aha-lead) is the headline. */
+.hanten-exhibit .hanten-aha,
+.hanten-exhibit .hanten-aha p,
+.hanten-exhibit .hanten-aha li {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+    color: var(--hanten-text) !important;
+}
+.hanten-aha-lead {
+    /* Same font, weight and color as the exhibit title, a step smaller,
+       centered. */
+    display: block !important;
+    margin: 0 0 0.6rem !important;
+    text-align: center !important;
+    font-family: var(--hanten-font) !important;
+    font-size: clamp(1.25rem, 2vw, 1.65rem) !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.018em !important;
+    color: var(--hanten-text) !important;
+    text-wrap: balance;
+}
+.hanten-exhibit .hanten-aha p { margin: 0 0 0.55rem; }
+.hanten-exhibit .hanten-aha p:last-child { margin-bottom: 0; }
+
+/* Inside the saved/shared image the aha and transfer sit on the card. */
+.hanten-export-card .hanten-transfer { margin-top: 18px; }
+
+/* Transfer question: a new situation where the same idea applies
+   (like the Transfer step in the classroom APRUTs). */
+.hanten-transfer {
+    max-width: var(--hanten-text-width);
+    margin: 1.4rem auto 0;
+    padding: 1rem 0 1.05rem;
+    border-top: 1px solid rgba(26, 62, 110, 0.18);
+    border-bottom: 1px solid rgba(26, 62, 110, 0.18);
+    text-align: center;
+}
+.hanten-transfer-kicker {
+    margin: 0 0 0.45rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8F5E00;
+}
+/* Scenario and question: one size, regular weight, same as the aha
+   paragraphs above them. */
+.hanten-transfer-scenario,
+.hanten-transfer-question {
+    max-width: 640px;
+    margin: 0 auto 0.3rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    font-weight: 400;
+    color: var(--hanten-text);
+    text-wrap: balance;
+}
+.hanten-transfer-question { margin-bottom: 0; }
+.hanten-exhibit .hanten-transfer + details { margin-top: 0.9rem; border-top: 0 !important; }
+
+/* Related exhibits show their H number. */
+.hanten-exhibit .hanten-related .hanten-rel-num {
+    display: inline-block;
+    min-width: 2.9rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--hanten-muted);
+}
+
+/* Balanced lines: a two-line transfer question splits about evenly.
+   (Needs this specificity to beat the "pretty" wrap on all <p>.) */
+.hanten-exhibit p.hanten-transfer-question,
+.hanten-exhibit p.hanten-transfer-scenario {
+    text-wrap: balance;
+}
+
+/* Map and chart labels: a thin light halo keeps graticule lines,
+   borders and rings from running through the text. :where() keeps
+   this at zero specificity, so any exhibit's own label styling wins. */
+:where(.hanten-exhibit svg text:not([stroke])) {
+    paint-order: stroke fill;
+    stroke: rgba(255, 255, 255, 0.9);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+}
+
+/* hanten.app on every exhibit page. */
+.hanten-site-footer {
+    max-width: var(--hanten-text-width);
+    margin: 1.4rem auto 0;
+    padding: 0.8rem 0 1.4rem;
+    border-top: 1px solid rgba(26, 62, 110, 0.14);
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+.hanten-site-footer a {
+    color: #1A3E6E !important;
+    text-decoration: none !important;
+}
+.hanten-site-footer a:hover,
+.hanten-site-footer a:focus-visible {
+    text-decoration: underline !important;
+}
+
+/* On phones the aha headline stays a step below the title. */
+@media (max-width: 600px) {
+    .hanten-aha-lead {
+        font-size: clamp(1.15rem, 5vw, 1.4rem) !important;
+        line-height: 1.18 !important;
+    }
+}
+
+/* Previous / next exhibit links, in H-number order. */
+.hanten-pager {
+    max-width: var(--hanten-text-width);
+    margin: 1.6rem auto 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+.hanten-pager a {
+    color: #1A3E6E !important;
+    text-decoration: none !important;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid rgba(26, 62, 110, 0.22);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.55);
+}
+.hanten-pager a:hover,
+.hanten-pager a:focus-visible {
+    background: #ffffff;
+    border-color: #1A3E6E;
+}
+.hanten-pager + .hanten-site-footer { margin-top: 1rem; }
+
+
+/* Dropdowns (v1.3): larger headings and text, the same on every exhibit. */
+.hanten-exhibit details > summary {
+    font-size: 0.95rem !important;
+    line-height: 1.4 !important;
+}
+.hanten-exhibit details p,
+.hanten-exhibit details li {
+    font-size: 0.9rem !important;
+    line-height: 1.55 !important;
+}
+
+/* Previous/next arrows on the same row as Save/Share (joined by
+   hanten-brand.js): arrows left, image buttons right. */
+.hanten-actionbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    width: 100%;
+}
+.hanten-actionbar .hanten-pager {
+    margin: 0;
+    max-width: none;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    font-size: 0.76rem;
+}
+.hanten-actionbar .hanten-pager a {
+    opacity: 1;
+    font-size: 0.76rem;
+    padding: 0.5rem 0.75rem;
+}
+.hanten-actionbar > :last-child { margin-left: auto; }

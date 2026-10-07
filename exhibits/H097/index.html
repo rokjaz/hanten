@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>H097 — Is a 2-Point Lead Outside a 3-Point Margin of Error?</title>
+
+    <meta
+        name="description"
+        content="A poll shows 48% to 46% with a margin of error of ±3 points. That margin applies to each number, so the margin on the lead itself is about ±6: the race could be tied or reversed."
+    >
+
+    <link rel="stylesheet" href="../../assets/css/hanten.css">
+<style id="hanten-canvas">/* Canvas chosen for this exhibit (sage) */ body { --hanten-paper: #E6EFE2 !important; }</style>
+
+    <style>
+        /*
+           H097-SPECIFIC STYLES
+           Built Oct 2026 to the v1.2 exhibit standard (hx- classes are
+           the shared backfill-exhibit pattern).
+        */
+
+        .hx-stats-cap { text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); margin: 0 0 0.5rem; }
+        .hx-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 0.8rem; }
+        .hx-stats-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .hx-stats-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .hx-stat { padding: 0.95rem 0.9rem; text-align: center; }
+        .hx-stat-k { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-stat-n { font-family: var(--hanten-font); font-weight: 800; font-size: 1.45rem; line-height: 1.15; margin-top: 0.3rem; }
+        .hx-stat-l { font-size: 0.75rem; color: var(--hanten-muted); margin-top: 0.3rem; line-height: 1.4; }
+        .hx-panel { padding: 1.1rem 1.1rem 0.9rem; margin-bottom: 0.8rem; }
+        .hx-panel-title { font-family: var(--hanten-font); font-weight: 700; font-size: 0.95rem; text-align: center; margin: 0 0 0.3rem; }
+        .hx-panel-sub { text-align: center; font-size: 0.8rem; color: var(--hanten-muted); margin: 0 0 0.6rem; }
+        .hx-svgwrap { max-width: 700px; margin: 0 auto; }
+        .hx-panel svg { display: block; width: 100%; height: auto; margin: 0; }
+        .hx-panel svg text { font-family: var(--hanten-font); }
+        .hx-axis { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-lab { font-size: 13px; font-weight: 700; fill: var(--hanten-text); }
+        .hx-sub { font-size: 11px; fill: var(--hanten-muted); }
+        .hx-val { font-size: 15px; font-weight: 800; }
+        .hx-big { font-size: 18px; font-weight: 800; }
+        .hx-note { max-width: var(--hanten-text-width); margin: 0.2rem auto 0; text-align: center; font-size: 0.78rem; font-style: italic; color: var(--hanten-muted); }
+        .hx-explore { max-width: 760px; margin: .7rem auto 0; padding: .55rem 0; border-top: 1px solid var(--hanten-border); border-bottom: 1px solid var(--hanten-border); color: var(--hanten-muted); font-size: .8rem; line-height: 1.45; }
+        .hx-explore summary { cursor: pointer; font-weight: 700; color: var(--hanten-text); }
+        .hx-explore p { margin: .55rem 0 0; }
+        .hx-explore strong { color: var(--hanten-text); }
+        .hx-explore + .hx-explore { margin-top: 0; border-top: none; }
+        .hx-table-panel { padding: 0.4rem 1.1rem; overflow-x: auto; margin: .7rem 0 .2rem; }
+        .hx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--hanten-text); }
+        .hx-table th, .hx-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--hanten-border); }
+        .hx-table th { text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--hanten-muted); }
+        .hx-table td { text-align: left; font-variant-numeric: tabular-nums; }
+        .hx-table td:not(:first-child) { text-align: center; }
+        .hx-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 600px) {
+            .hx-stats, .hx-stats-2, .hx-stats-4 { grid-template-columns: minmax(0, 1fr); }
+            .hx-panel { padding: 0.9rem 0.6rem 0.8rem; }
+            .hx-table { font-size: 0.76rem; }
+        }
+
+    </style>
+
+    <style>
+    .hanten-image-actions{display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap}
+    .hanten-image-actions button{appearance:none;border:1px solid var(--hanten-border,rgba(28,39,51,.16));background:#ffffff;color:var(--hanten-text,#1c2733);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);font-size:.76rem;font-weight:700;padding:.55rem .8rem;cursor:pointer}
+    .hanten-image-actions button:hover,.hanten-image-actions button:focus-visible{background:#ffffff;border-color:var(--hanten-accent,#0e7c86);color:var(--hanten-accent,#0e7c86)}
+    .hanten-image-actions button:disabled{opacity:.55;cursor:wait}
+    .hanten-export-card{position:fixed;left:-10000px;top:0;width:960px;padding:40px 0 60px;box-sizing:border-box;background:var(--hanten-paper,#eef1ec);color:var(--hanten-text,#1f1f1f);font-family:var(--hanten-font,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);}
+    </style>
+</head>
+
+<body class="hanten-theme-statistics">
+
+    <main class="hanten-exhibit">
+
+        <p class="hanten-hnum">H097</p>
+        <h1 class="hanten-question">Is a 2-point lead in a poll with a ±3 margin of error a real lead?</h1>
+
+        <p class="hanten-subtitle">A poll reports 48% to 46%, "with a margin of error of plus or minus 3 points." It sounds like a lead that is inside the error but close to real.</p>
+
+        <div id="h097-capture">
+
+            <div class="hanten-graphic">
+<div class="hx-stats hx-stats-3">
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Candidate A</div>
+    <div class="hx-stat-n" style="color:#1A3E6E">48% ± 3</div>
+    <div class="hx-stat-l">could be anywhere from 45% to 51%</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Candidate B</div>
+    <div class="hx-stat-n" style="color:#c98a12">46% ± 3</div>
+    <div class="hx-stat-l">could be anywhere from 43% to 49%</div>
+  </div>
+  <div class="hanten-panel hx-stat">
+    <div class="hx-stat-k">Margin on the lead</div>
+    <div class="hx-stat-n" style="color:#b23b32">≈ ± 6</div>
+    <div class="hx-stat-l">the 2-point lead could be −4 to +8</div>
+  </div>
+</div>
+<div class="hanten-panel hx-panel ">
+  <p class="hx-panel-title">Two numbers, two margins</p>
+  <p class="hx-panel-sub">A poll of about 1,000 likely voters</p>
+  <div class="hx-svgwrap"><svg viewBox="0 0 700 230" role="img">
+<line x1="215.6" y1="20" x2="215.6" y2="150" stroke="#d8d3c7"/><text class="hx-axis" x="215.6" y="166" text-anchor="middle">40%</text>
+<line x1="326.7" y1="20" x2="326.7" y2="150" stroke="#d8d3c7"/><text class="hx-axis" x="326.7" y="166" text-anchor="middle">44%</text>
+<line x1="437.8" y1="20" x2="437.8" y2="150" stroke="#d8d3c7"/><text class="hx-axis" x="437.8" y="166" text-anchor="middle">48%</text>
+<line x1="548.9" y1="20" x2="548.9" y2="150" stroke="#d8d3c7"/><text class="hx-axis" x="548.9" y="166" text-anchor="middle">52%</text>
+<line x1="660.0" y1="20" x2="660.0" y2="150" stroke="#d8d3c7"/><text class="hx-axis" x="660.0" y="166" text-anchor="middle">56%</text>
+<text class="hx-lab" x="146" y="55" text-anchor="end">Candidate A</text>
+<rect x="354.4" y="38" width="166.7" height="24" rx="12" fill="#1A3E6E" opacity="0.22"/>
+<line x1="354.4" y1="50" x2="521.1" y2="50" stroke="#1A3E6E" stroke-width="2"/>
+<circle cx="437.8" cy="50" r="7" fill="#1A3E6E"/>
+<text class="hx-val" x="531.1" y="55" fill="#1A3E6E">48% ± 3</text>
+<text class="hx-lab" x="146" y="115" text-anchor="end">Candidate B</text>
+<rect x="298.9" y="98" width="166.7" height="24" rx="12" fill="#c98a12" opacity="0.22"/>
+<line x1="298.9" y1="110" x2="465.6" y2="110" stroke="#c98a12" stroke-width="2"/>
+<circle cx="382.2" cy="110" r="7" fill="#c98a12"/>
+<text class="hx-val" x="475.6" y="115" fill="#c98a12">46% ± 3</text>
+<rect x="354.4" y="28" width="111.1" height="104" fill="none" stroke="#b23b32" stroke-width="1.8" stroke-dasharray="5 4"/>
+<text class="hx-sub" x="410.0" y="190" text-anchor="middle" fill="#b23b32">The ranges overlap from 45% to 49%: either candidate could be ahead</text>
+<text class="hx-sub" x="350.0" y="214" text-anchor="middle">Shaded bands show each number's 95% margin of error for a poll of about 1,000 people</text>
+</svg></div>
+</div>
+            </div>
+
+            <div class="hx-aha hanten-aha">
+                <p><span class="hanten-aha-lead">The reported margin of error applies to each candidate's number, so the margin on the gap between them is about twice as big.</span> If A could be 3 points too high while B is 3 points too low, the true lead could be very different from what the poll shows. In a two-person race, the margin of error on the lead is roughly double the reported margin: about ±6 points here. A 2-point lead in this poll is a statistical tie, not a near-lead.</p>
+                <p>Uncertainty adds up when you subtract. Whenever a headline compares two estimates, the uncertainty of the difference is bigger than the uncertainty of either one.</p>
+            </div>
+
+            <section class="hanten-transfer" aria-label="Try it somewhere else">
+                <p class="hanten-transfer-kicker">Try it somewhere else</p>
+                <div class="hanten-transfer-text">
+                    <p class="hanten-transfer-scenario">A survey says 52% of customers prefer the new menu this year, up from 49% last year, each with a ±3 margin of error.</p>
+                    <p class="hanten-transfer-question">Can the restaurant say that more customers prefer the new menu now?</p>
+                </div>
+            </section>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>What the margin doesn't cover</summary>
+                <p>The margin of error only counts the randomness of who happened to be sampled. It does not include people who refuse to answer, voters who change their minds, or questions worded in a way that nudges answers. Pew Research Center notes that real-world poll errors are often larger than the stated margin for these reasons.</p>
+            </details>
+
+            <details class="hx-explore" data-html2canvas-ignore="true">
+                <summary>Related exhibits</summary>
+                <ul class="hanten-related">
+                    <li><a href="../H099/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H099</span>"Deadly shark attacks doubled." Did the oceans get twice as dangerous?</a></li>
+                    <li><a href="../H018/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H018</span>How can the same two numbers tell two completely different stories?</a></li>
+                    <li><a href="../H094/index.html" target="_blank" rel="noopener noreferrer"><span class="hanten-rel-num">H094</span>If 94% of published studies say a drug works, is the question settled?</a></li>
+                </ul>
+            </details>
+
+            <p class="hanten-source">
+                Sources: Andrew Mercer, "5 key things to know about the margin of error in election polls," Pew Research Center, 2016. Margin of error for n ≈ 1,000 at 95% confidence: about ±3 points. Illustrative poll numbers.
+            </p>
+
+        </div>
+
+        <div class="hanten-utility">
+            <div id="save-image-slot"></div>
+        </div>
+
+  <nav class="hanten-pager" aria-label="Previous and next exhibits"><a class="hanten-pager-prev" href="../H096/index.html">&larr; H096</a><a class="hanten-pager-next" href="../H098/index.html">H098 &rarr;</a></nav>
+      <footer class="hanten-site-footer"><a href="https://hanten.app">hanten.app</a></footer>
+</main>
+
+    <script src="../../assets/js/html2canvas.min.js"></script>
+<script src="../../assets/js/hanten-brand.js"></script>
+
+
+    <script>
+    (() => {
+      const slot = document.getElementById("save-image-slot");
+      if (!slot || typeof html2canvas !== "function") return;
+      slot.classList.add("hanten-image-actions"); slot.innerHTML = "";
+      const save = document.createElement("button"), share = document.createElement("button");
+      save.type = share.type = "button"; save.textContent = "Save Image"; share.textContent = "Share Image";
+      slot.append(save, share);
+      const filename = "hanten-poll-margin-of-error.png", title = "Is a 2-Point Lead Outside a 3-Point Margin of Error?";
+
+      async function blob() {
+        const main = document.querySelector("main.hanten-exhibit");
+        if (!main) throw new Error("Export content not found.");
+        const card = document.createElement("div");
+        card.className = "hanten-export-card";
+        const clone = main.cloneNode(true);
+        clone.querySelectorAll(".hanten-utility, .hanten-pager, .hanten-site-footer, details").forEach(el => el.remove());
+        card.appendChild(clone);
+        document.body.appendChild(card);
+        // html2canvas draws an SVG at its attribute size, so pin each one to the size it renders at
+        card.querySelectorAll("svg").forEach(svg => { const r = svg.getBoundingClientRect(); if (r.width) { svg.setAttribute("width", r.width); svg.setAttribute("height", r.height); } });
+        try {
+          const canvas = await html2canvas(card, { backgroundColor: getComputedStyle(document.body).backgroundColor, scale: 2, useCORS: true, width: card.scrollWidth, height: card.scrollHeight });
+          return await new Promise((ok, no) => canvas.toBlob(b => b ? ok(b) : no(new Error("Could not create image")), "image/png"));
+        } finally { card.remove(); }
+      }
+      function download(b) { const u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000) }
+      save.onclick = async () => { save.disabled = true; try { download(await blob()) } finally { save.disabled = false } };
+      share.onclick = async () => { share.disabled = true; try { const b = await blob(), f = new File([b], filename, { type: "image/png" }); if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [f] }))) await navigator.share({ title, files: [f] }); else { download(b); alert("Direct sharing is not available in this browser. The image was saved instead.") } } catch (e) { if (!e || e.name !== "AbortError") console.error(e) } finally { share.disabled = false } };
+    })();
+    </script>
+
+</body>
+</html>
