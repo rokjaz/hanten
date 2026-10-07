@@ -36,69 +36,54 @@
     <img src="Media/branding/hanten-logo.svg" alt="Hanten — Truth deserves clarity" width="486" height="128">
   </a>
 
-  <h1>See familiar things differently</h1>
+  <h1>Look again.</h1>
 
   <p class="intro">
     Maps, graphics, and experiences that change how you see familiar things.
   </p>
 
-  <img
-    class="header-world"
-    src="Media/branding/hanten-south-up-world.svg"
-    alt=""
-    aria-hidden="true"
-  >
 </header>
       <main class="homepage-v2">
 
   <section class="home-section home-spotlight">
 
-  <div class="spotlight-card daily-flip-card">
-    <p class="spotlight-label">Daily Flip</p>
-
-    <h2>How many names does this sea have?</h2>
-
-    <div class="spotlight-preview">
-      <img
-        src="Media/spotlight/daily-sea-names.png"
-        alt="Map of Northeast Asia showing the sea between Japan and the Korean Peninsula"
-      >
-    </div>
+  <div class="spotlight-card daily-flip-card weekly-flip" id="weekly-flip">
+    <p class="spotlight-label">Weekly Flip</p>
+    <p class="spotlight-idea" data-flip="theme">Perspective</p>
+    <h2 data-flip="question">Is Reno, Nevada east or west of Los Angeles?</h2>
 
     <div class="daily-response">
       <p class="daily-guess-label">Make your guess:</p>
-
-      <div class="daily-choices" aria-label="Guess how many names the sea has">
-        <button type="button">1</button>
-        <button type="button">2</button>
-        <button type="button">3</button>
-        <button type="button">4+</button>
+      <div class="daily-choices" data-flip="choices" aria-label="Your guess">
+        <button type="button">East</button>
+        <button type="button">West</button>
       </div>
-
-      <a class="daily-reveal" href="exhibits/H033/" hidden target="_blank" rel="noopener noreferrer">
-        See the answer →
-      </a>
+      <div class="flip-answer" hidden>
+        <p data-flip="reveal"></p>
+        <a class="daily-reveal" data-flip="link" href="exhibits/H043/" target="_blank" rel="noopener noreferrer">See the exhibit →</a>
+      </div>
+      <p class="flip-note">A new question every Monday.</p>
     </div>
   </div>
 
 
-  <a class="spotlight-card featured-equal-card theme-measurement" href="exhibits/H014/" target="_blank" rel="noopener noreferrer">
-    <p class="spotlight-label">Featured</p>
+  <a class="spotlight-card featured-equal-card classroom-card theme-statistics" href="use/classroom/">
+    <p class="spotlight-label">For classrooms</p>
 
-    <p class="spotlight-idea">Measurement</p>
+    <p class="spotlight-idea">Hanten Classroom</p>
 
-    <h2>How much of America holds 40% of its people?</h2>
+    <h2>Five minutes. One discovery.</h2>
 
     <div class="spotlight-preview featured-equal-preview">
       <img
-        src="Media/spotlight/featured-dense-counties.png"
-        alt="Map showing U.S. counties with at least 1,000 people per square mile"
+        src="Media/thumbnails/H001_thumbnail.png"
+        alt="Mean vs. median at a backyard BBQ, the free sample lesson"
       >
     </div>
 
     <div class="featured-equal-bottom">
-      <strong>Just 1.8% of the land.</strong>
-      <span>Explore the exhibit →</span>
+      <strong>Ready-to-use activities built from Hanten exhibits. Mean vs. Median is free.</strong>
+      <span>See the classroom lessons →</span>
     </div>
   </a>
 
@@ -307,61 +292,23 @@
         familiar can reveal a very different story.
       </p>
 
-      <p class="why-hanten-principle">
-        Understanding is discovered, not delivered.
-      </p>
     </div>
 
   </div>
+
+  <p class="why-hanten-principle why-hanten-principle-center">
+    Understanding is discovered, not delivered.
+  </p>
 </section>
-  
+
 </main>
 
     <footer>
+      <a class="footer-classroom" href="use/classroom/">Classroom lessons</a>
       <a class="footer-contact" href="contact/" target="_blank" rel="noopener">Contact</a>
     </footer>
   </div>
-<script src="JS/d3.v7.min.js"></script>
-<script>
-(async () => {
-  const svg = d3.select("#header-world-map");
-  if (svg.empty()) return;
-
-  const world = await d3.json(
-  "Media/geodata/world-land-110m.geojson"
-);
-
-  const projection = d3.geoNaturalEarth1()
-    .reflectY(true)
-    .fitExtent([[10, 10], [510, 270]], world);
-
-  const path = d3.geoPath(projection);
-
-  svg
-    .append("path")
-    .datum(world)
-    .attr("class", "header-world-land")
-    .attr("d", path);
-})();
-</script>
-
-<script>
-(() => {
-  const choices = [...document.querySelectorAll(".daily-choices button")];
-  const reveal = document.querySelector(".daily-reveal");
-
-  choices.forEach(button => {
-    button.addEventListener("click", () => {
-      choices.forEach(b => {
-        b.classList.toggle("selected", b === button);
-        b.setAttribute("aria-pressed", b === button ? "true" : "false");
-      });
-
-      if (reveal) reveal.hidden = false;
-    });
-  });
-})();
-</script>
+<script src="JS/weekly-flip.js"></script>
 
 </body>
 </html>
