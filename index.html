@@ -32,13 +32,30 @@
 <body>
   <div class="site">
    <header class="home-hero">
+  <div class="hero-copy">
+    <p class="hero-kicker">反転 · <em>hanten</em> · to turn over</p>
+    <h1>Look again.</h1>
+    <p class="intro">
+      The things you're sure about, seen from an angle you haven't tried.
+    </p>
+    <div class="hero-actions">
+      <a class="hero-btn hero-btn-main" href="#weekly-flip">Take this week's flip</a>
+      <a class="hero-btn" href="start/">Start here</a>
+    </div>
+  </div>
 
-  <h1>Look again.</h1>
-
-  <p class="intro">
-    The things you're sure about, seen from an angle you haven't tried.
-  </p>
-
+  <a class="hero-flip" href="exhibits/H023/" aria-label="Greenland and Africa: the map you know, then their true sizes. Open the exhibit.">
+    <div class="hero-flip-inner">
+      <figure class="hero-face hero-front">
+        <figcaption><span>The map you know</span>Greenland looks as big as Africa</figcaption>
+        <img src="Media/hero/hero-map.png" alt="On a Mercator world map, Greenland is drawn about the same size as Africa">
+      </figure>
+      <figure class="hero-face hero-back">
+        <figcaption><span>Look again</span>Africa is 14 times bigger</figcaption>
+        <img src="Media/hero/hero-true.png" alt="At true size, Greenland is about one-fourteenth of Africa">
+      </figure>
+    </div>
+  </a>
 </header>
       <main class="homepage-v2">
 
@@ -322,6 +339,17 @@
 
   </div>
 <script src="JS/weekly-flip.js"></script>
+<script>
+(() => {
+  // Hero card: turns over every few seconds; pauses while hovered.
+  const card = document.querySelector(".hero-flip");
+  if (!card || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let paused = false;
+  card.addEventListener("mouseenter", () => { paused = true; card.classList.add("is-flipped"); });
+  card.addEventListener("mouseleave", () => { paused = false; });
+  setInterval(() => { if (!paused) card.classList.toggle("is-flipped"); }, 3800);
+})();
+</script>
 <script>
 (() => {
   // Surprise me: any of the 102 exhibits, H001 to H102.
