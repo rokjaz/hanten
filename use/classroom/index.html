@@ -46,10 +46,53 @@ footer.hanten-shell-footer{min-height:70px;background:var(--navy);color:#fff;dis
 .theme-nav{max-width:940px;margin:0 auto 34px;display:flex;justify-content:center;gap:9px;flex-wrap:wrap}.theme-nav a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 13px;color:var(--navy);font-size:13px;font-weight:900}.theme-nav a:hover{border-color:var(--navy)}
 .shop-layout{display:block;max-width:1120px}.theme-section{scroll-margin-top:20px;margin:0 0 42px}.theme-heading{display:flex;align-items:end;justify-content:space-between;gap:18px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:15px}.theme-heading h2{margin:0;color:var(--navy);font-size:27px}.theme-count{color:var(--muted);font-size:13px;font-weight:800}.theme-content{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:16px;align-items:start}.featured-card{min-height:230px}.featured-label{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:5px}.aprut-list{background:#fff;border:1px solid var(--line);border-radius:17px;overflow:hidden}.aprut-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:16px;padding:13px 15px;border-bottom:1px solid var(--line)}.aprut-row:last-child{border-bottom:0}.aprut-row:hover{background:rgba(255,255,255,.55)}.aprut-row.selected{background:#f7fbfb;box-shadow:inset 3px 0 0 var(--navy)}.row-title{display:flex;gap:10px;align-items:baseline;min-width:0}.row-id{color:var(--accent);font-size:12px;font-weight:900;flex:0 0 auto}.row-name{color:var(--navy);font-size:15px;font-weight:850;line-height:1.25}.aprut-row .select-btn{padding:7px 10px;font-size:11px}.selection-bar{position:sticky;bottom:12px;top:auto;z-index:20;max-width:940px;margin:0 auto 24px}.aprut-explain{max-width:760px;margin:10px auto 0;color:var(--muted);font-size:15px;line-height:1.5}.aprut-explain strong{color:var(--navy)}
 @media(max-width:760px){.theme-content{grid-template-columns:1fr}.theme-heading{align-items:start}.aprut-row{gap:8px;padding:12px}.row-title{display:block}.row-id{display:block;margin-bottom:3px}.aprut-row .select-btn{white-space:nowrap}.theme-nav{gap:7px}}
+
+/* In-flow right-hand checkout: never covers APRUT content. */
+.shop-layout{display:grid!important;grid-template-columns:minmax(0,1fr) 252px!important;gap:18px!important;max-width:1200px!important;align-items:start!important}
+.shop-layout > #aprutCollection{min-width:0}
+.theme-content{grid-template-columns:minmax(190px, 35%) minmax(0,1fr)!important;gap:12px!important}
+.theme-section{margin-bottom:34px}
+.featured-card{padding:15px!important;min-width:0}
+.featured-card h3{font-size:18px!important}
+.featured-card p{font-size:13px!important}
+.featured-card .select-row{flex-wrap:wrap;gap:8px}
+.aprut-row{gap:8px;padding:11px 10px}
+.row-title{gap:7px}
+.row-name{font-size:13px}
+.aprut-row .select-btn{font-size:10px;padding:7px 8px;white-space:nowrap}
+.selection-bar,.selection-bar.show{position:sticky!important;top:18px!important;bottom:auto!important;left:auto!important;transform:none!important;width:100%!important;max-width:none!important;margin:0!important;padding:16px!important;border-radius:14px!important;z-index:5!important;grid-template-columns:minmax(0,1fr)!important;gap:12px!important;max-height:calc(100vh - 36px);overflow-y:auto;text-align:left!important;display:none}
+.selection-bar.show{display:grid!important}
+.selection-kicker{display:block!important}
+.selection-main{font-size:18px!important;white-space:normal!important}
+.selection-sub{font-size:13px!important;text-align:left!important;opacity:.85}
+.selection-list{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;max-height:none!important;overflow:visible!important;margin:0!important;gap:5px!important}
+.selection-item{padding:6px 5px!important;font-size:10px!important;gap:2px!important}
+.selection-item span{min-width:0;white-space:nowrap}
+.selection-remove{font-size:13px!important;padding:0 2px!important}
+.selection-item{font-size:12px}
+.selection-actions{display:grid!important;grid-template-columns:1fr auto!important;gap:8px!important;align-items:center!important}
+.selection-review{display:none!important}
+.selection-continue{white-space:nowrap}
+body.selection-active{height:auto!important;overflow:auto!important;display:block!important}
+body.selection-active main{overflow:visible!important}
+body.selection-active footer.hanten-shell-footer{display:flex!important}
+body.has-aprut-selection{padding-bottom:0!important}
+@media(max-width:900px){
+ .shop-layout{grid-template-columns:minmax(0,1fr) 220px!important;gap:12px!important;padding:0 12px!important}
+ .theme-content{grid-template-columns:1fr!important}
+ .featured-card{min-height:0!important}
+}
+@media(max-width:650px){
+ .shop-layout{display:flex!important;flex-direction:column!important;padding:0 14px!important}
+ .shop-layout > #aprutCollection{width:100%}
+ .selection-bar,.selection-bar.show{position:static!important;max-height:none!important;width:100%!important;order:2}
+ .theme-content{grid-template-columns:1fr!important}
+ .selection-list{max-height:none!important}
+}
 </style>
 </head>
 <body>
-<header class="hanten-shell"><a class="shell-brand" href="/"><span class="shell-mark">H</span><span>HANTEN</span></a><span class="shell-brandtag">Truth deserves clarity.</span><nav class="shell-nav" aria-label="Main navigation"><a href="/exhibits/">Explore</a><a class="active" href="/use/">Use Hanten</a></nav></header>
+<header class="hanten-shell"><a class="shell-brand" href="/"><span class="shell-mark">H</span><span>HANTEN</span></a><span class="shell-brandtag">Truth deserves clarity.</span><nav class="shell-nav" aria-label="Main navigation"><a href="/exhibits/">Explore</a><a class="active" href="/use/"><a class="active" href="/use/classroom/">Use Hanten</a> Hanten</a></nav></header>
 <main class="wrap">
 <section class="hero"><div class="eyebrow">Hanten Classroom</div><h1>Five minutes. One discovery.</h1><p>Ready-to-use classroom activities that ask students to commit to an idea before they see what happens—and then apply what they discovered somewhere new.</p></section>
 <section class="aprut"><h2>What is an APRUT?</h2><p class="aprut-explain">An <strong>APRUT</strong> is a short, interactive classroom activity built around five steps. Students commit to a prediction before seeing what happens, discover the idea, understand why it works, and then apply it somewhere new.</p><div class="steps" style="margin-top:14px"><span class="step">ASK</span><span class="arrow">→</span><span class="step">PREDICT</span><span class="arrow">→</span><span class="step">REVEAL</span><span class="arrow">→</span><span class="step">UNDERSTAND</span><span class="arrow">→</span><span class="step">TRANSFER</span></div><p class="aprut-explain"><strong>No prep. About five minutes. Built for discussion.</strong></p></section>
@@ -64,7 +107,7 @@ footer.hanten-shell-footer{min-height:70px;background:var(--navy);color:#fff;dis
 <div class="selection-main" id="selectionMain">0 selected</div>
 <div class="selection-sub" id="selectionSub"></div>
 <div class="selection-list" id="selectionList"></div>
-<div class="selection-actions"><button class="selection-clear" id="selectionClear" type="button">Clear</button><button class="selection-continue" id="selectionContinue" type="button">Purchase</button></div>
+<div class="selection-actions"><button class="selection-review" id="selectionReview" type="button" aria-expanded="false" aria-controls="selectionList">Review</button><button class="selection-clear" id="selectionClear" type="button">Clear</button><button class="selection-continue" id="selectionContinue" type="button">Purchase</button></div>
 </aside></div>
 <section class="teacher-note"><h2>Discovery before explanation.</h2><p>Students notice, predict, test, and transfer the idea before the lesson is named for them. The structure stays familiar; the discovery changes each time.</p></section>
 </main>
@@ -76,6 +119,7 @@ footer.hanten-shell-footer{min-height:70px;background:var(--navy);color:#fff;dis
   const main=document.getElementById('selectionMain');
   const sub=document.getElementById('selectionSub');
   const clear=document.getElementById('selectionClear');
+  const review=document.getElementById('selectionReview');
   const go=document.getElementById('selectionContinue');
   const checkoutNotice=document.getElementById('checkoutNotice');
   const list=document.getElementById('selectionList');
@@ -171,7 +215,9 @@ footer.hanten-shell-footer{min-height:70px;background:var(--navy);color:#fff;dis
   function render(){
     cards.forEach(card=>{const on=selected.has(card.dataset.aprut);card.classList.toggle('selected',on);const b=card.querySelector('.select-btn');b.textContent=on?'✓ Selected':'+ Select APRUT';b.setAttribute('aria-pressed',on?'true':'false')});
     const n=selected.size;
-    bar.classList.add('show');
+    bar.classList.toggle('show',n>0);
+    document.body.classList.toggle('has-aprut-selection',n>0);
+    if(!n){bar.classList.remove('expanded');review.setAttribute('aria-expanded','false');review.textContent='Review';}
     document.body.classList.toggle('selection-active',n>0);
     const [a,b]=offer(n);main.textContent=a;sub.textContent=b;go.disabled=n===0;
     list.innerHTML='';
@@ -179,6 +225,7 @@ footer.hanten-shell-footer{min-height:70px;background:var(--navy);color:#fff;dis
   }
     cards.forEach(card=>card.querySelector('.select-btn').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const k=card.dataset.aprut;selected.has(k)?selected.delete(k):selected.add(k);render()}));
   clear.addEventListener('click',()=>{selected.clear();render()});
+  review.addEventListener('click',()=>{const expanded=bar.classList.toggle('expanded');review.setAttribute('aria-expanded',String(expanded));review.textContent=expanded?'Hide list':'Review';});
 
 async function handleCheckoutReturn(){
   const params=new URLSearchParams(window.location.search);
