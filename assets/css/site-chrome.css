@@ -86,3 +86,30 @@
   .hx-foot-line, .hx-foot-nav, .hx-foot-copy { grid-column: 1; grid-row: auto; }
 }
 @media (max-width: 480px) { .hx-bar-logo img { width: 120px; } }
+
+/* Footer refinement: left-aligned motto; separate Contact and Back to top. */
+.hx-foot .hx-inner {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  column-gap: clamp(20px, 5vw, 80px);
+}
+.hx-foot-line {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: left;
+}
+.hx-foot-nav {
+  grid-column: 2 / 4;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: clamp(32px, 7vw, 110px);
+  align-items: center;
+  justify-content: end;
+}
+.hx-foot-copy { grid-column: 1 / -1; grid-row: 2; }
+@media (max-width: 640px) {
+  .hx-foot .hx-inner { grid-template-columns: 1fr; row-gap: 16px; }
+  .hx-foot-line { grid-column: 1; grid-row: 1; text-align: left; }
+  .hx-foot-nav { grid-column: 1; grid-row: 2; justify-content: space-between; }
+  .hx-foot-copy { grid-column: 1; grid-row: 3; }
+}
