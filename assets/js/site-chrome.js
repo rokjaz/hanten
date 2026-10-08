@@ -15,11 +15,11 @@
   const here = p => path.startsWith(p) ? ' aria-current="page"' : "";
   const logo = "/Media/branding/hanten-logo-white.svg";
   const links =
-    `<a class="hx-bar-explore" href="/browse.html"${here("/browse")}>Explore</a>` +
-    <a href="/use/classroom/"${here("/use/classroom/")}>Use Hanten</a>
-    `<a class="hx-bar-contact" href="/contact/"${here("/contact/")}>Contact</a>`;
+  `<a class="hx-bar-explore" href="/browse.html"${here("/browse")}>Explore</a>` +
+  `<a href="/use/classroom/"${here("/use/classroom/")}>Use<span class="hx-long"> Hanten</span></a>` +
+  `<a class="hx-bar-contact" href="/contact/"${here("/contact/")}>Contact</a>`;
 
-  // Old per-page brand blocks give way to the shared header.
+// Old per-page brand blocks give way to the shared header.
   document.querySelectorAll("header.hanten-shell, .brand-logo, .see-brand, .experience-brand, body > header > .brand, body > header > .brandtag, body > header > .nav, body > header > .wordmark, body > header > .home-link")
     .forEach(el => {
       if (el.matches("header.hanten-shell")) el.remove();
