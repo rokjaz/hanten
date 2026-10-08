@@ -16,7 +16,7 @@
   const logo = "/Media/branding/hanten-logo-white.svg";
   const links =
     `<a class="hx-bar-explore" href="/browse.html"${here("/browse")}>Explore</a>` +
-    `<a href="/use/"${here("/use/")}>Use<span class="hx-long"> Hanten</span></a>` +
+    <a href="/use/classroom/"${here("/use/classroom/")}>Use Hanten</a>
     `<a class="hx-bar-contact" href="/contact/"${here("/contact/")}>Contact</a>`;
 
   // Old per-page brand blocks give way to the shared header.
