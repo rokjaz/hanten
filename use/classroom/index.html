@@ -41,17 +41,23 @@ footer.hanten-shell-footer{min-height:70px;background:var(--navy);color:#fff;dis
 
 @media(max-width:1050px){.shop-layout{grid-template-columns:1fr}.shop-layout .collection{grid-template-columns:repeat(3,minmax(0,1fr))}.selection-bar{position:sticky;bottom:12px;top:auto;z-index:20;width:100%;grid-template-columns:120px 1fr auto;align-items:center}.selection-kicker,.selection-list{display:none}.selection-sub{text-align:center;font-size:18px}.selection-actions{display:flex}}
 @media(max-width:760px){.shop-layout .collection{grid-template-columns:1fr}.selection-bar{grid-template-columns:1fr;text-align:center}.selection-main,.selection-sub{text-align:center}.selection-actions{justify-content:center}}
+
+/* Theme-based APRUT library */
+.theme-nav{max-width:940px;margin:0 auto 34px;display:flex;justify-content:center;gap:9px;flex-wrap:wrap}.theme-nav a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 13px;color:var(--navy);font-size:13px;font-weight:900}.theme-nav a:hover{border-color:var(--navy)}
+.shop-layout{display:block;max-width:1120px}.theme-section{scroll-margin-top:20px;margin:0 0 42px}.theme-heading{display:flex;align-items:end;justify-content:space-between;gap:18px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:15px}.theme-heading h2{margin:0;color:var(--navy);font-size:27px}.theme-count{color:var(--muted);font-size:13px;font-weight:800}.theme-content{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:16px;align-items:start}.featured-card{min-height:230px}.featured-label{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:5px}.aprut-list{background:#fff;border:1px solid var(--line);border-radius:17px;overflow:hidden}.aprut-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:16px;padding:13px 15px;border-bottom:1px solid var(--line)}.aprut-row:last-child{border-bottom:0}.aprut-row:hover{background:rgba(255,255,255,.55)}.aprut-row.selected{background:#f7fbfb;box-shadow:inset 3px 0 0 var(--navy)}.row-title{display:flex;gap:10px;align-items:baseline;min-width:0}.row-id{color:var(--accent);font-size:12px;font-weight:900;flex:0 0 auto}.row-name{color:var(--navy);font-size:15px;font-weight:850;line-height:1.25}.aprut-row .select-btn{padding:7px 10px;font-size:11px}.selection-bar{position:sticky;bottom:12px;top:auto;z-index:20;max-width:940px;margin:0 auto 24px}.aprut-explain{max-width:760px;margin:10px auto 0;color:var(--muted);font-size:15px;line-height:1.5}.aprut-explain strong{color:var(--navy)}
+@media(max-width:760px){.theme-content{grid-template-columns:1fr}.theme-heading{align-items:start}.aprut-row{gap:8px;padding:12px}.row-title{display:block}.row-id{display:block;margin-bottom:3px}.aprut-row .select-btn{white-space:nowrap}.theme-nav{gap:7px}}
 </style>
 </head>
 <body>
 <header class="hanten-shell"><a class="shell-brand" href="/"><span class="shell-mark">H</span><span>HANTEN</span></a><span class="shell-brandtag">Truth deserves clarity.</span><nav class="shell-nav" aria-label="Main navigation"><a href="/exhibits/">Explore</a><a class="active" href="/use/">Use Hanten</a></nav></header>
 <main class="wrap">
 <section class="hero"><div class="eyebrow">Hanten Classroom</div><h1>Five minutes. One discovery.</h1><p>Ready-to-use classroom activities that ask students to commit to an idea before they see what happens—and then apply what they discovered somewhere new.</p></section>
-<section class="aprut"><h2>Every activity follows the same discovery path.</h2><div class="steps"><span class="step">ASK</span><span class="arrow">→</span><span class="step">PREDICT</span><span class="arrow">→</span><span class="step">REVEAL</span><span class="arrow">→</span><span class="step">UNDERSTAND</span><span class="arrow">→</span><span class="step">TRANSFER</span></div></section>
+<section class="aprut"><h2>What is an APRUT?</h2><p class="aprut-explain">An <strong>APRUT</strong> is a short, interactive classroom activity built around five steps. Students commit to a prediction before seeing what happens, discover the idea, understand why it works, and then apply it somewhere new.</p><div class="steps" style="margin-top:14px"><span class="step">ASK</span><span class="arrow">→</span><span class="step">PREDICT</span><span class="arrow">→</span><span class="step">REVEAL</span><span class="arrow">→</span><span class="step">UNDERSTAND</span><span class="arrow">→</span><span class="step">TRANSFER</span></div><p class="aprut-explain"><strong>No prep. About five minutes. Built for discussion.</strong></p></section>
 <section class="free-sample" aria-label="Free APRUT example"><div><div class="eyebrow">Try a free APRUT</div><h2>Mean vs. Median</h2><p>See the complete five-minute format in action. Predict what happens when a $50 million guest joins a backyard BBQ, then follow the discovery through Ask, Predict, Reveal, Understand, and Transfer. No sign-up required.</p></div><a class="free-action" href="A001/" target="_blank" rel="noopener">Try the free APRUT →</a></section>
 <div id="checkoutNotice" style="display:none;margin:18px auto 22px;max-width:980px;background:#fff;border:1px solid #d8d4ca;border-radius:12px;padding:18px 20px;text-align:center;font-weight:800"></div>
-<section class="library-head"><div class="eyebrow">Build your collection</div><h2>Choose your APRUTs</h2><p>Mean vs. Median is free. Use the <strong>+ Select APRUT</strong> buttons below to build your own pack. Your price updates automatically as you choose.</p></section>
-<div class="shop-layout"><section class="collection" aria-label="Classroom activities" id="aprutCollection"></section>
+<section class="library-head"><div class="eyebrow">Explore the collection</div><h2>Choose APRUTs by theme</h2><p>Start with a featured APRUT from each theme, or browse the complete list below it. Mean vs. Median is free. Your price updates automatically as you choose.</p></section>
+<nav class="theme-nav" id="themeNav" aria-label="APRUT themes"></nav>
+<div class="shop-layout"><section aria-label="Classroom activities" id="aprutCollection"></section>
 
 <aside class="selection-bar" id="selectionBar" aria-live="polite">
 <div class="selection-kicker">Your selection</div>
@@ -75,6 +81,7 @@ footer.hanten-shell-footer{min-height:70px;background:var(--navy);color:#fff;dis
   const list=document.getElementById('selectionList');
   const selected=new Set();
   const collection=document.getElementById('aprutCollection');
+   const themeNav=document.getElementById('themeNav');
 
   function escapeHtml(value){
     return String(value)
@@ -104,21 +111,37 @@ footer.hanten-shell-footer{min-height:70px;background:var(--navy);color:#fff;dis
       /^A\d{3}$/.test(String(item.id||''))
     );
 
-    collection.innerHTML=paid.map(item=>`
-      <article class="card selectable" data-aprut="${escapeHtml(item.id)}">
-        <div class="card-link">
-          <div class="eyebrow">${escapeHtml(item.id)} · ${escapeHtml(item.theme)}</div>
-          <h3>${escapeHtml(item.title)}</h3>
-          <p>${escapeHtml(item.description)}</p>
-        </div>
-        <div class="select-row">
-          <span class="meta">~5 minutes · Teacher notes</span>
-          <button class="select-btn" type="button" aria-pressed="false">+ Select APRUT</button>
-        </div>
-      </article>
-    `).join('');
+    const themes=[...new Set(paid.map(item=>item.theme).filter(Boolean))];
 
-    cards=[...collection.querySelectorAll('.card.selectable')];
+    themeNav.innerHTML=themes.map(theme=>{
+      const slug='theme-'+String(theme).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+      return `<a href="#${slug}">${escapeHtml(theme)}</a>`;
+    }).join('');
+
+    collection.innerHTML=themes.map(theme=>{
+      const items=paid.filter(item=>item.theme===theme);
+      const featured=items.find(item=>item.featured===true) || items[0];
+      const rest=items.filter(item=>item!==featured);
+      const slug='theme-'+String(theme).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+      const featuredHtml=`
+        <article class="card featured-card selectable" data-aprut="${escapeHtml(featured.id)}">
+          <div class="featured-label">Featured ${escapeHtml(theme)} APRUT</div>
+          <div class="card-link">
+            <div class="eyebrow">${escapeHtml(featured.id)}</div>
+            <h3>${escapeHtml(featured.title)}</h3>
+            <p>${escapeHtml(featured.description)}</p>
+          </div>
+          <div class="select-row"><span class="meta">~5 minutes · Teacher notes</span><button class="select-btn" type="button" aria-pressed="false">+ Select APRUT</button></div>
+        </article>`;
+      const listHtml=rest.length ? `<div class="aprut-list">${rest.map(item=>`
+        <article class="aprut-row selectable" data-aprut="${escapeHtml(item.id)}">
+          <div class="row-title"><span class="row-id">${escapeHtml(item.id)}</span><span class="row-name">${escapeHtml(item.title)}</span></div>
+          <button class="select-btn" type="button" aria-pressed="false">+ Select</button>
+        </article>`).join('')}</div>` : '<div class="aprut-list"><div class="aprut-row"><span class="meta">More APRUTs coming soon.</span></div></div>';
+      return `<section class="theme-section" id="${slug}"><div class="theme-heading"><h2>${escapeHtml(theme)}</h2><span class="theme-count">${items.length} APRUT${items.length===1?'':'s'}</span></div><div class="theme-content">${featuredHtml}${listHtml}</div></section>`;
+    }).join('');
+
+    cards=[...collection.querySelectorAll('.selectable')];
 
   }catch(error){
     console.error(error);
